@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.glamey.framework.utils.PropertiesUtil;
 
+@Deprecated
 @Repository
 public class DBFactory {
 	
