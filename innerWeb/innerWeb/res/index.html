@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>XML</title>
+</head>
+<body>
+<script type="text/javascript">
+	if(window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+  		xmlhttp=new XMLHttpRequest();
+  	}
+  	else{// code for IE6, IE5
+    	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+	xmlhttp.open("GET","persons.xml",false);
+	xmlhttp.send();
+	xmlDoc=xmlhttp.responseXML;
+	var root = xmlDoc.getElementsByTagName("person");
+	var len = root.length ;
+	var result = "" ;
+	var name = "" ;
+	var birdthday = "" ;
+	var mydate = new Date();
+	var currentDate = (mydate.getMonth()+1) + "-" + mydate.getDate() ;
+	for(var i = 0 ; i < len ; i ++ ){
+		birdthday = xmlDoc.getElementsByTagName("person")[i].getAttribute("birdthday").replace(/(^\s*)|(\s*$)/g, "");
+		if(birdthday.length > 5 && birdthday.substring(5) == currentDate ){
+			result += xmlDoc.getElementsByTagName("person")[i].getAttribute("name") + "  " ;
+		}
+	}
+	if(result.replace(/(^\s*)|(\s*$)/g, "").length > 0 ){
+		document.write("<marquee>今天是：" + currentDate + "，庆祝 " + result + "生日快乐！</marquee>");
+	}
+</script>
+</body>
+</html>
