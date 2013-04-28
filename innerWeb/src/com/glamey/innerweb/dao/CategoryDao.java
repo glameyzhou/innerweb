@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.glamey.framework.utils.StringTools;
 import com.glamey.innerweb.model.domain.Category;
 
 /**
@@ -24,23 +25,24 @@ import com.glamey.innerweb.model.domain.Category;
  */
 @Repository
 public class CategoryDao extends BaseDao {
-	private static final Logger logger = Logger.getLogger(Category.class);
+	private static final Logger logger = Logger.getLogger(CategoryDao.class);
 	/**
 	 * @param category
 	 * @return
 	 */
 	public boolean create(final Category category){
-		logger.info("[CategoryDao] #create#" + category);
+		logger.info("[CategoryDao] #create# " + category);
 		try{
 			jdbcTemplate.update(
-					"insert into tbl_category(id,name,describe,showtype,showindex,parentid,categorytype),values(?,?,?,?,?,?,?)", 
+					"insert into tbl_category(id,name,shortname,alias,describe,showtype,showindex,parentid,categorytype,categoryimage),values(?,?,?,?,?,?,?,?,?,?,?)", 
 					new PreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement pstmt)throws SQLException {
 					int i = 0 ;
-					pstmt.setString(++i,category.getId());
+					pstmt.setString(++i,StringTools.getUniqueId());
 					pstmt.setString(++i,category.getName());
 					pstmt.setString(++i, category.getShortName());
+					pstmt.setString(++i, category.getAlias());
 					pstmt.setString(++i,category.getDescribe());
 					pstmt.setInt(++i,category.getShowType());
 					pstmt.setInt(++i,category.getShowIndex());
@@ -65,17 +67,20 @@ public class CategoryDao extends BaseDao {
 		logger.info("[CategoryDao] #update# " + category);
 		try{
 			jdbcTemplate.update(
-					"update tbl_category set name=?,describe=?,showtype=?,showindex=?,parentid=?,categorytype=? where id = ?", 
+					"update tbl_category set name=?,shortname=?,alias=?,describe=?,showtype=?,showindex=?,parentid=?,categorytype=? ,categoryimage = ? where id = ?", 
 					new PreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement pstmt)throws SQLException {
 					int i = 0 ;
 					pstmt.setString(++i,category.getName());
+					pstmt.setString(++i, category.getShortName());
+					pstmt.setString(++i, category.getAlias());
 					pstmt.setString(++i,category.getDescribe());
 					pstmt.setInt(++i,category.getShowType());
 					pstmt.setInt(++i,category.getShowIndex());
 					pstmt.setString(++i,category.getParentId());
 					pstmt.setString(++i,category.getCategoryType());
+					pstmt.setString(++i, category.getCategoryImage());
 					pstmt.setString(++i,category.getId());
 				}
 			});
@@ -184,11 +189,14 @@ public class CategoryDao extends BaseDao {
 			Category category = new Category();
 			category.setId(rs.getString("id"));
 			category.setName(rs.getString("name"));
+			category.setShortName(rs.getString("shortname"));
+			category.setAlias(rs.getString("alias"));
 			category.setDescribe(rs.getString("describe"));
 			category.setShowType(rs.getInt("showtype"));
 			category.setShowIndex(rs.getInt("showindex"));
 			category.setParentId(rs.getString("parentid"));
 			category.setCategoryType(rs.getString("categorytype"));
+			category.setCategoryImage(rs.getString("categoryimage"));
 			return category;		
 		}
 	}

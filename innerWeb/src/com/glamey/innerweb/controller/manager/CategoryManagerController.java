@@ -146,7 +146,6 @@ public class CategoryManagerController extends BaseController {
 		pageBean.setPageNoList();
 		List<Category> categoryList = categoryDao.getByParentId(parentId, categoryType,pageBean.getStart(),pageBean.getRowsPerPage());
 		
-		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("manager/category/category-list");
 		mav.addObject("pageBean", pageBean);
