@@ -35,29 +35,42 @@
             <thead class="pn-lthead">
             <tr>
                 <th>序列</th>
-                <th>语种</th>
                 <th>名称</th>
-                <th>显示顺序</th>
-                <th>描述</th>
+                <th>短名字</th>
+                <th>名字引用</th>
+                <th>是否首页显示</th>
+                <th>是否列表显示</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody class="pn-ltbody">
             <c:forEach items="${categoryList}" var="cate" varStatus="status">
                 <tr>
-                    <td align="center"><input type="checkbox" id="cateId" name="cateId" value="${cate.cateId}"/></td>
-                    <td align="center">${cate.languageInfo.name}</td>
+                    <td align="center"><input type="checkbox" id="categoryId" name="categoryId" value="${cate.id}"/>
+                    </td>
                     <td align="center">${cate.name}</td>
-                    <td align=center>${cate.order}</td>
-                    <td>${cate.desc}</td>
+                    <td align=center>${cate.shortName}</td>
+                    <td align=center>${cate.aliasName}</td>
                     <td align=center>
-                        <a href="javascript:edit('${cate.cateId}');">编辑</a>&nbsp;&nbsp;
-                        <a href="javascript:del('${cate.cateId}');">删除</a>&nbsp;&nbsp;
+                        <c:choose>
+                            <c:when test="${cate.showIndex == 0}">否</c:when><c:otherwise>是</c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${cate.showIndex == 0}">否</c:when><c:otherwise>是</c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td align=center>
+                        <a href="javascript:edit('${cate.id}');">编辑</a>&nbsp;&nbsp;
+                        <a href="javascript:del('${cate.id}');">删除</a>&nbsp;&nbsp;
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
+        <c:set var="pageURL" value="${basePath}mg/${category.alias}/category-list.htm?"/>
+        <%@include file="../../common/pages.jsp" %>
     </form>
 </div>
 </body>
