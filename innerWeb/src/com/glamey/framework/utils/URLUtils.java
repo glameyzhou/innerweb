@@ -77,8 +77,13 @@ public class URLUtils {
         }
         return hexString.toString();
     }
+
+    /**
+     * 获取短连接地址
+     * @param source
+     * @return
+     */
     public static String getShort(String source){
-    	String result [] = shortUrl(source);
-    	return result [1] ;
+    	return shortUrl(source) [1];
     }
 }

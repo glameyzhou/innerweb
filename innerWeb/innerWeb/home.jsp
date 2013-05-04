@@ -8,7 +8,8 @@
 </head>
 <body>
 <%
-response.sendRedirect(request.getContextPath() + "/login.htm");
+    response.sendRedirect(request.getContextPath() + "/login.htm");
+
 %>
 </body>
 </html>

@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.glamey.innerweb.controller.BaseController;
 
 /**
- * 后台管理系统
+ * 后台管理系统--首页内容
  * @author zy
  *
  */
 @Controller
 @RequestMapping(value="/manager")
-public class IndexManagerController extends BaseController {
+public class HomeManagerController extends BaseController {
 	/**后台管理系统首页*/
-	@RequestMapping(value="/index.htm")
+	@RequestMapping(value="/home.htm")
 	public String managerIndex(HttpServletRequest request,HttpServletResponse response, ModelMap modelMap) throws Exception {
 		return "manager/index";
 	}

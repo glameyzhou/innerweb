@@ -15,16 +15,15 @@
 </head>
 <body>
 	<c:if test="${not empty message}">
-			<li><font color='red'>${message}</font>
-			</li>
-		</c:if>
+			<li><font color='red'>${message}</font></li>
+    </c:if>
 	<form action="${basePath}manager.htm" method="post">
 		用户&nbsp;<input type="text" name="username" id="username" /><br/>
 		密码&nbsp;<input type="password" name="password" id="password" /><br/>
 		验证码&nbsp;<input type="text" name="verifyCode" id="verifyCode" />
-		<img src="${basePath}verifyCode.htm" width="69" height="20" onclick="this.src='${basePath}verifyCode.htm?time='+new Date().getTime()" title="点击刷新验证码" /><br/>
-		<input type="submit" value="登陆"/>
-		<input type="reset" value="重置"/>
+		<img src="${basePath}verifyCode.htm" width="69" height="20" onclick="this.src='${basePath}verifyCode.htm?time='+new Date().getTime()"
+             title="点击刷新验证码" /><br/>
+		<input type="submit" value="登陆"/> &nbsp;&nbsp;<input type="reset" value="重置"/>
 	</form>
 </body>
 </html>

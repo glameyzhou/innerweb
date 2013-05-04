@@ -9,6 +9,6 @@
 <body>
 用户${sessionScope.SESSION_USERID}登陆</br>
 <br/>
-<a href="manager/index.htm">后台管理</a>
+<a href="manager/home.htm">后台管理</a>
 </body>
 </html>

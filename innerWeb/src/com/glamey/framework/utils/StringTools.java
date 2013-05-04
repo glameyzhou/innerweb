@@ -108,11 +108,11 @@ public class StringTools {
 		return URLUtils.getShort(getUUID());
 	}
 	public static void main(String[] args) {
-		String str = "<a>aa</a>";
-		System.out.println(substring(str, 2, ".."));
+		/*String str = "<a>aa</a>";
+		System.out.println(substring(str, 2, ".."));*/
 		System.out.println(getUUID());
 		System.out.println(getUUID().length());
-		System.out.println("a3,");
+		/*System.out.println("a3,");*/
 		System.out.println(substring("2011-05-11 14:42:03", 16, ""));
 		System.out.println(getUniqueId());
 	}

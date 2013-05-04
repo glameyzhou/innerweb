@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.innerweb.controller.BaseController;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ import com.glamey.innerweb.constants.Constants;
  *
  */
 @Controller
-public class LoginFrontController {
+public class LoginFrontController extends BaseController{
 	protected static final Logger logger = Logger.getLogger(LoginFrontController.class);
 	
 	/**显示登陆界面*/

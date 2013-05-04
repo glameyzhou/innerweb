@@ -1,13 +1,19 @@
 package com.glamey.framework.utils.tld;
 
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-
 import com.glamey.framework.utils.StringTools;
+
+
 public class StringTld {
-	public static String substringAppend(String source, Integer end,
-			String append) {
+    /**
+     *
+     * @param source
+     * @param end
+     * @param append
+     * @return
+     */
+	public static String substringAppend(String source, Integer end,String append) {
 		return StringTools.substring(source, end.intValue(), append);
 	}
 
