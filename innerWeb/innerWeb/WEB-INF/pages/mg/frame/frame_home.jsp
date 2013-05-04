@@ -7,8 +7,8 @@
 <title>后台管理系统</title>
 </head>
 <frameset cols="240,*" frameborder="0" border="0" framespacing="0" id="fullFrame">
-	<frame src="${basePath}manager/index/left.htm" name="leftFrame" noresize="noresize" id="leftFrame" />
-	<frame src="${basePath}manager/index/webInfo.htm" name="rightFrame" id="rightFrame" />
+	<frame src="${basePath}mg/home/left.htm" name="leftFrame" noresize="noresize" id="leftFrame" />
+	<frame src="${basePath}mg/home/webInfo.htm" name="rightFrame" id="rightFrame" />
 </frameset>
 <noframes><body></body></noframes>
 </html>

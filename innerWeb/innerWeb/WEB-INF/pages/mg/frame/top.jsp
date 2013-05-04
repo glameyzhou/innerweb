@@ -95,7 +95,7 @@ body{height:100%;}
           <tr>
             <td width="500px" height="30">
 				<img src="${basePath}res/jeecms/img/admin/welconlogin-icon.png"><span id="welcome">用户名字&nbsp;&nbsp;[角色]</span>
-				<img src="${basePath}res/jeecms/img/admin/loginout-icon.png"><a id="logout" href="${basePath}manager/logout.htm" target="_top" >注销</a>&nbsp;&nbsp;
+				<img src="${basePath}res/jeecms/img/admin/loginout-icon.png"><a id="logout" href="${basePath}mg/logout.htm" target="_top" >注销</a>&nbsp;&nbsp;
 				<span id="welcome">首页[<a href="${basePath}cn/" id="logout" target="_blank">中文</a>&nbsp;<a href="${basePath}en/" id="logout" target="_blank">英文</a>]</span>
 			</td>
             <td align="right">&nbsp;
@@ -108,8 +108,8 @@ body{height:100%;}
         <td><img src="${basePath}res/jeecms/img/admin/top_07.jpg"></td>
         <td background="${basePath}res/jeecms/img/admin/nav_bg.jpg">
 		   <ul class="menu">			
-			<li class="current" id="tb_11" onclick="HoverLi(1,1,2);"><a href="${basePath}manager/frame/index.htm" target="mainFrame">首页</a></li>
-			<li class="sep"></li><li id="tb_12" onclick="HoverLi(1,2,2);"><a href="${basePath}manager/news/index.htm" target="mainFrame">新闻动态</a></li>
+			<li class="current" id="tb_11" onclick="HoverLi(1,1,2);"><a href="${basePath}mg/frame/home.htm" target="mainFrame">首页</a></li>
+			<li class="sep"></li><li id="tb_12" onclick="HoverLi(1,2,2);"><a href="${basePath}mg/post/news/index.htm" target="mainFrame">新闻</a></li>
 			</ul>
 		</td>
       </tr>

@@ -8,8 +8,8 @@
 <title>内网管理系统</title>
 </head>
 <frameset rows="95,*" border="0" framespacing="0">
-	<frame src="${basePath}manager/frame/top.htm" name="topFrame" noresize="noresize" id="leftFrame" />
-	<frame src="${basePath}manager/frame/index.htm" name="mainFrame" id="rightFrame" />
+	<frame src="${basePath}mg/frame/top.htm" name="topFrame" noresize="noresize" id="leftFrame" />
+	<frame src="${basePath}mg/frame/home.htm" name="mainFrame" id="rightFrame" />
 </frameset>
 <noframes><body></body></noframes>
 </html>

@@ -179,7 +179,7 @@ public class CategoryDao extends BaseDao {
         int count = 0;
         try {
             count = jdbcTemplate.queryForInt(
-                    "select count(1) as total from tbl_category where categorytype = ? and parentid = ? ",
+                    "select count(1) as total from tbl_category where category = ? and parentid = ? ",
                     new Object[]{categoryType, parentId});
         } catch (Exception e) {
             logger.error("[CategoryDao] #getCountByParentId# error parendId=" + parentId + " categoryType=" + categoryType);
@@ -197,14 +197,13 @@ public class CategoryDao extends BaseDao {
             category.setId(rs.getString("id"));
             category.setName(rs.getString("name"));
             category.setShortName(rs.getString("shortname"));
-            category.setAliasName(rs.getString("aliasname"));
+            category.setAliasName(rs.getString("alias"));
             category.setDescribe(rs.getString("describe"));
             category.setShowType(rs.getInt("showtype"));
             category.setShowIndex(rs.getInt("showindex"));
             category.setParentId(rs.getString("parentid"));
             category.setCategoryType(rs.getString("categorytype"));
             category.setCategoryImage(rs.getString("categoryimage"));
-            category.setCategoryTime(rs.getString("categorytime"));
             return category;
         }
     }

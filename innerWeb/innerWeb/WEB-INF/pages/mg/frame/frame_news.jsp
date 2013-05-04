@@ -7,8 +7,8 @@
 <title>新闻默认首页</title>
 </head>
 <frameset cols="240,*" frameborder="0" border="0" framespacing="0" id="fullFrame">
-	<frame src="${basePath}manager/news/left.htm" name="leftFrame" noresize="noresize" id="leftFrame" />
-	<frame src="${basePath}manager/index/webInfo.htm" name="rightFrame" id="rightFrame" />
+	<frame src="${basePath}mg/${category}/left.htm" name="leftFrame" noresize="noresize" id="leftFrame" />
+	<frame src="${basePath}mg/${category}/category-list.htm" name="rightFrame" id="rightFrame" />
 </frameset>
 <noframes><body></body></noframes>
 </html>
