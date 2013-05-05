@@ -11,52 +11,29 @@
        
 	<function>  
 		<name>substring</name>  
-		<function-class>cn.com.checne.util.tld.StringTld</function-class>  
+		<function-class>com.glamey.framework.utils.tld.StringTld</function-class>
 		<function-signature>java.lang.String substring(java.lang.String,java.lang.Integer)</function-signature>
 		<example>${fmtString.substring('',)}</example>
 	</function>
 	
 	<function>  
 		<name>substringAppend</name>  
-		<function-class>cn.com.checne.util.tld.StringTld</function-class>  
+		<function-class>com.glamey.framework.utils.tld.StringTld</function-class>
 		<function-signature>java.lang.String substringAppend(java.lang.String,java.lang.Integer,java.lang.String)</function-signature>
 		<example>${fmtString.substringAppend('',,'')}</example>
 	</function>
 	
 	<function>  
 		<name>encoder</name>  
-		<function-class>cn.com.checne.util.tld.StringTld</function-class>  
+		<function-class>com.glamey.framework.utils.tld.StringTld</function-class>
 		<function-signature>java.lang.String encoder(java.lang.String)</function-signature>
 		<example>${fmtString.encoder('')}</example>
 	</function>	
 	
 	<function>  
 		<name>decoder</name>  
-		<function-class>cn.com.checne.util.tld.StringTld</function-class>  
+		<function-class>com.glamey.framework.utils.tld.StringTld</function-class>
 		<function-signature>java.lang.String decoder(java.lang.String)</function-signature>
 		<example>${fmtString.decoder('')}</example>
-	</function>
-	
-	<function>  
-		<name>isContainsInList</name>  
-		<function-class>cn.com.checne.util.tld.StringTld</function-class>  
-		<function-signature>java.lang.Boolean isContainsInList(java.lang.String,java.util.List)</function-signature>
-		<example>${fmtString.isContainsList('',)}</example>
-	</function>
-	
-	<!-- 是否可以操作页面 -->
-	<function>  
-		<name>isCanOprBusiness</name>  
-		<function-class>cn.com.checne.util.tld.StringTld</function-class>  
-		<function-signature>java.lang.Boolean isCanOprBusiness(java.util.List,java.lang.String)</function-signature>
-		<example>${fmtString.isCanOprBusiness(,'')}</example>
-	</function>
-	
-	<!-- 是否可以操作页面 -->
-	<function>  
-		<name>isCanOprNews</name>  
-		<function-class>cn.com.checne.util.tld.StringTld</function-class>  
-		<function-signature>java.lang.Boolean isCanOprNews(java.util.List,java.lang.String)</function-signature>
-		<example>${fmtString.isCanOprNews(,'')}</example>
 	</function>
 </taglib>

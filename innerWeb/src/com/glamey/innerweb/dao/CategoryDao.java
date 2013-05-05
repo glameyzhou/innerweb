@@ -140,6 +140,30 @@ public class CategoryDao extends BaseDao {
     }
 
     /**
+     * 通过引用名字获取对应的分类信息
+     * @param aliasName
+     * @return
+     */
+    public Category getByAliasName(final String aliasName){
+        logger.info("[CategoryDao] #getByAliasName#" + aliasName);
+        final Category category = new Category();
+        try {
+            jdbcTemplate.query("select * from tbl_category where aliasname = ? ",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedstatement)
+                                throws SQLException {
+                            preparedstatement.setString(1, aliasName);
+                        }
+                    },
+                    new CategoryRowMapper());
+        } catch (Exception e) {
+            logger.error("[CategoryDao] #getById# error " + aliasName);
+        }
+        return category;
+    }
+
+    /**
      * 获取分类(指定的分类)下的所有子分类。
      *
      * @param parentId
@@ -204,6 +228,7 @@ public class CategoryDao extends BaseDao {
             category.setParentId(rs.getString("parentid"));
             category.setCategoryType(rs.getString("categorytype"));
             category.setCategoryImage(rs.getString("categoryimage"));
+            category.setCategoryTime(rs.getString("categorytime"));
             return category;
         }
     }
