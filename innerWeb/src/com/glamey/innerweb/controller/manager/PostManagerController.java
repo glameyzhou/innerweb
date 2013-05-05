@@ -113,13 +113,13 @@ public class PostManagerController extends BaseController {
     }
 
     /*分类新增、更新页面（指定分类）*/
-    @RequestMapping(value = "/${category}/category-show.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/{aliasName}/category-show.htm", method = RequestMethod.GET)
     public ModelAndView categoryShow(
-            @PathVariable String category,
+            @PathVariable String aliasName,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-category-show]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
-        if (StringUtils.isBlank(category)) {
+        if (StringUtils.isBlank(aliasName)) {
             mav.setViewName("common/message");
             mav.addObject("message", "无对应的分类列表-categoryShow");
             return mav;
@@ -133,13 +133,13 @@ public class PostManagerController extends BaseController {
         }
         mav.addObject("opt", opt);
         mav.addObject("categoryDomain", categoryDomain);
-        mav.addObject("category", category);
-        mav.setViewName("mg/" + category + "/category-show");
+        mav.addObject("category", aliasName);
+        mav.setViewName("mg/" + aliasName + "/category-show");
         return mav;
     }
 
     /*分类新增（指定分类）*/
-    @RequestMapping(value = "/${category}/category-create.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/{aliasName}/category-create.htm", method = RequestMethod.POST)
     public ModelAndView categoryCreate(
             @PathVariable String category,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -196,13 +196,13 @@ public class PostManagerController extends BaseController {
         return mav;
     }/*分类修改（指定分类）*/
 
-    @RequestMapping(value = "/${category}/category-update.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/{aliasName}/category-update.htm", method = RequestMethod.POST)
     public ModelAndView categoryUpdate(
-            @PathVariable String category,
+            @PathVariable String aliasName,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-category-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
-        if (StringUtils.isBlank(category)) {
+        if (StringUtils.isBlank(aliasName)) {
             mav.setViewName("common/message");
             mav.addObject("message", "无对应的分类列表-categoyUpdate");
             return mav;
@@ -247,7 +247,7 @@ public class PostManagerController extends BaseController {
                 message = "分类更新成功.";
             }
             mav.addObject("message", message);
-            mav.addObject("category", category);
+            mav.addObject("aliasName", aliasName);
         } catch (IOException e) {
             e.printStackTrace();
         }
