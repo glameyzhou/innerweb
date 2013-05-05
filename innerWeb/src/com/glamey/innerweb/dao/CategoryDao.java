@@ -56,7 +56,7 @@ public class CategoryDao extends BaseDao {
                     });
             return true;
         } catch (Exception e) {
-            logger.error("[CategoryDao] #create# error " + category);
+            logger.error("[CategoryDao] #create# error " + category,e);
             return false;
         }
     }
@@ -88,7 +88,7 @@ public class CategoryDao extends BaseDao {
                     });
             return true;
         } catch (Exception e) {
-            logger.error("[CategoryDao] #create# error " + category);
+            logger.error("[CategoryDao] #create# error " + category,e);
             return false;
         }
     }
@@ -111,7 +111,7 @@ public class CategoryDao extends BaseDao {
             });
             return true;
         } catch (Exception e) {
-            logger.error("[CategoryDao] #delete# error " + id);
+            logger.error("[CategoryDao] #delete# error " + id,e);
         }
         return false;
     }
@@ -134,7 +134,7 @@ public class CategoryDao extends BaseDao {
                     },
                     new CategoryRowMapper());
         } catch (Exception e) {
-            logger.error("[CategoryDao] #getById# error " + id);
+            logger.error("[CategoryDao] #getById# error " + id,e);
         }
         return category;
     }
@@ -158,7 +158,7 @@ public class CategoryDao extends BaseDao {
                     },
                     new CategoryRowMapper());
         } catch (Exception e) {
-            logger.error("[CategoryDao] #getById# error " + aliasName);
+            logger.error("[CategoryDao] #getByAliasName# error " + aliasName,e);
         }
         return category;
     }
@@ -188,6 +188,7 @@ public class CategoryDao extends BaseDao {
                     new CategoryRowMapper());
             return list;
         } catch (Exception e) {
+            logger.error("[CategoryDao] #getByParentId# error",e);
         }
         return null;
     }
@@ -206,7 +207,7 @@ public class CategoryDao extends BaseDao {
                     "select count(1) as total from tbl_category where category = ? and parentid = ? ",
                     new Object[]{categoryType, parentId});
         } catch (Exception e) {
-            logger.error("[CategoryDao] #getCountByParentId# error parendId=" + parentId + " categoryType=" + categoryType);
+            logger.error("[CategoryDao] #getCountByParentId# error parendId=" + parentId + " categoryType=" + categoryType,e);
         }
         return count;
     }
@@ -221,7 +222,7 @@ public class CategoryDao extends BaseDao {
             category.setId(rs.getString("id"));
             category.setName(rs.getString("name"));
             category.setShortName(rs.getString("shortname"));
-            category.setAliasName(rs.getString("alias"));
+            category.setAliasName(rs.getString("aliasname"));
             category.setDescribe(rs.getString("describe"));
             category.setShowType(rs.getInt("showtype"));
             category.setShowIndex(rs.getInt("showindex"));

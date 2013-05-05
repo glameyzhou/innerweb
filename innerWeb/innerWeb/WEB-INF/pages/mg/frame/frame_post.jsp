@@ -7,8 +7,8 @@
 <title>内容POST默认首页</title>
 </head>
 <frameset cols="240,*" frameborder="0" border="0" framespacing="0" id="fullFrame">
-	<frame src="${basePath}mg/${aliasName}/left.htm" name="leftFrame" noresize="noresize" id="leftFrame" />
-	<frame src="${basePath}mg/${aliasName}/category-list.htm" name="rightFrame" id="rightFrame" />
+	<frame src="${basePath}mg/post/${aliasName}/left.htm" name="leftFrame" noresize="noresize" id="leftFrame" />
+	<frame src="${basePath}mg/post/${aliasName}/category-list.htm" name="rightFrame" id="rightFrame" />
 </frameset>
 <noframes><body></body></noframes>
 </html>

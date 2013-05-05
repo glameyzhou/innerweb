@@ -1,8 +1,6 @@
 package com.glamey.innerweb.controller.manager;
 
 import com.glamey.framework.utils.FileUtils;
-import com.glamey.framework.utils.PageBean;
-import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
@@ -20,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -39,13 +38,13 @@ import java.util.List;
 public class PostManagerController extends BaseController {
     private static final Logger logger = Logger.getLogger(PostManagerController.class);
 
-    @Autowired
+    @Resource
     private CategoryDao categoryDao;
-    @Autowired
+    @Resource
     private List<String> allowedUploadImages;
 
     /*直接跳转到对应的分类模块首页*/
-    @RequestMapping(value = "/${aliasName}/index.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/{aliasName}/index.htm", method = RequestMethod.GET)
     public ModelAndView index(
             @PathVariable String aliasName,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -62,7 +61,7 @@ public class PostManagerController extends BaseController {
     }
 
     /*显示分类栏目下左侧菜单*/
-    @RequestMapping(value = "/${aliasName}/left.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/{aliasName}/left.htm", method = RequestMethod.GET)
     public ModelAndView left(
             @PathVariable String aliasName,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -81,7 +80,7 @@ public class PostManagerController extends BaseController {
     /*分类列表（指定分类）
     * 默认的都是第一级分类，例如：新闻动态、通告等等
     * */
-    @RequestMapping(value = "/${aliasName}/category-list.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/{aliasName}/category-list.htm", method = RequestMethod.GET)
     public ModelAndView categoryList(
             @PathVariable String aliasName,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
