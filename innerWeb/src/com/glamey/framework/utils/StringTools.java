@@ -101,7 +101,7 @@ public class StringTools {
 		return "";
 	}
 	/**
-	 * 当前的系统时间
+	 * 根据当前UUID获取一个唯一的短连接
 	 * @return
 	 */
 	public static String getUniqueId(){
