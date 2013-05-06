@@ -58,15 +58,15 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否首页显示:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="showIndex" id="showIndex" value="0" <c:if test="${category.showIndex == 0}">checked="checked"</c:if>>否&nbsp;
-                    <input type="radio" name="showIndex" id="showIndex" value="1" <c:if test="${category.showIndex == 1}">checked="checked"</c:if>>是&nbsp;
+                    <input type="radio" name="showIndex" id="showIndex" value="0" <c:if test="${category.showIndex == 0}">checked="checked"</c:if> />否&nbsp;
+                    <input type="radio" name="showIndex" id="showIndex" value="1" <c:if test="${category.showIndex == 1}">checked="checked"</c:if> />是&nbsp;
                 </td>
             </tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>分类模式:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="showType" id="showType" value="0" <c:if test="${category.showType == 0}">checked="checked"</c:if>>列表形式&nbsp;
-                    <input type="radio" name="showType" id="showType" value="1" <c:if test="${category.showType == 1}">checked="checked"</c:if>>内容形式&nbsp;
+                    <input type="radio" name="showType" id="showType" value="0" <c:if test="${category.showType == 0}">checked="checked"</c:if> />列表形式&nbsp;
+                    <input type="radio" name="showType" id="showType" value="1" <c:if test="${category.showType == 1}">checked="checked"</c:if> />内容形式&nbsp;
                 </td>
             </tr>
             <tr>

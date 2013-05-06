@@ -96,7 +96,7 @@ body{height:100%;}
             <td width="500px" height="30">
 				<img src="${basePath}res/jeecms/img/admin/welconlogin-icon.png"><span id="welcome">用户名字&nbsp;&nbsp;[角色]</span>
 				<img src="${basePath}res/jeecms/img/admin/loginout-icon.png"><a id="logout" href="${basePath}mg/logout.htm" target="_top" >注销</a>&nbsp;&nbsp;
-				<span id="welcome">首页[<a href="${basePath}cn/" id="logout" target="_blank">中文</a>&nbsp;<a href="${basePath}en/" id="logout" target="_blank">英文</a>]</span>
+				<%--<span id="welcome">首页[<a href="${basePath}cn/" id="logout" target="_blank">中文</a>&nbsp;<a href="${basePath}en/" id="logout" target="_blank">英文</a>]</span>--%>
 			</td>
             <td align="right">&nbsp;
             </td>

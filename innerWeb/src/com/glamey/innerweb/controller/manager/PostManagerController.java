@@ -181,7 +181,7 @@ public class PostManagerController extends BaseController {
             category.setParentId(WebUtils.getRequestParameterAsString(request, "parentId"));
             category.setCategoryTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
             
-            if (categoryDao.create(category)) {
+            if (!categoryDao.create(category)) {
                 message = "分类新建失败,请稍后重试!";
             } else {
                 message = "分类新建成功.";
@@ -205,14 +205,14 @@ public class PostManagerController extends BaseController {
             mav.addObject("message", "无对应的分类列表-categoyUpdate");
             return mav;
         }
-        Category categoryDomain = new Category();
+        Category category = new Category();
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
         if (StringUtils.isBlank(categoryId)) {
             mav.setViewName("common/message");
             mav.addObject("message", "获取不到要更新的内容");
             return mav;
         }
-        categoryDomain = categoryDao.getById(categoryId);
+        category = categoryDao.getById(categoryId);
         try {
             /*图片上传*/
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -228,28 +228,75 @@ public class PostManagerController extends BaseController {
                 String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
                 FileUtils.mkdirs(basePath + relativePath);
                 multipartFile.transferTo(new File(basePath + relativePath + fileName));
-                categoryDomain.setCategoryImage(relativePath + fileName);
+                category.setCategoryImage(relativePath + fileName);
             }
 
-            categoryDomain.setName(WebUtils.getRequestParameterAsString(request, "name"));
-            categoryDomain.setShortName(WebUtils.getRequestParameterAsString(request, "shortName"));
-            categoryDomain.setAliasName(WebUtils.getRequestParameterAsString(request, "aliasName"));
-            categoryDomain.setDescribe(WebUtils.getRequestParameterAsString(request, "describe"));
-            categoryDomain.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
-            categoryDomain.setShowType(WebUtils.getRequestParameterAsInt(request, "showType", 0));
-            categoryDomain.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
+            category.setName(WebUtils.getRequestParameterAsString(request, "name"));
+            category.setShortName(WebUtils.getRequestParameterAsString(request, "shortName"));
+            category.setAliasName(WebUtils.getRequestParameterAsString(request, "aliasName"));
+            category.setDescribe(WebUtils.getRequestParameterAsString(request, "describe"));
+            category.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
+            category.setShowType(WebUtils.getRequestParameterAsInt(request, "showType", 0));
+            category.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
 
-            if (categoryDao.update(categoryDomain)) {
+            if (!categoryDao.update(category)) {
                 message = "分类更新失败,请稍后重试!";
             } else {
                 message = "分类更新成功.";
             }
             mav.addObject("message", message);
-            mav.addObject("aliasName", aliasName);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return mav;
+    }
+
+    /*删除分类中的图片信息*/
+    @RequestMapping(value = "/{aliasName}/category-delImage.htm",method = RequestMethod.GET)
+    public ModelAndView delImage(
+            @PathVariable String aliasName,HttpServletRequest request,HttpServletResponse response,HttpSession session){
+        logger.info("[manager-post-category-delete-images]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("common/message");
+        if (StringUtils.isBlank(aliasName)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "无对应的分类列表-category-deleteImage");
+            return mav;
+        }
+        String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
+        if (StringUtils.isBlank(categoryId)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "获取不到要操作的内容");
+            return mav;
+        }
+
+        if(!categoryDao.deleteImage(categoryId)){
+            message = "分类图片删除失败,请稍后重试!";
+        } else {
+            message = "分类图片删除成功.";
+        }
+        mav.addObject("message", message);
+        return mav ;
+    }
+
+    /*删除分类*/
+    @RequestMapping(value = "/{aliasName}/category-del.htm",method = RequestMethod.GET)
+    public ModelAndView categorDelete(
+            @PathVariable String aliasName,HttpServletRequest request,HttpServletResponse response,HttpSession session){
+        logger.info("[manager-post-category-delete]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("common/message");
+        if (StringUtils.isBlank(aliasName)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "无对应的分类列表-category-delete");
+            return mav;
+        }
+        String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
+        if (StringUtils.isBlank(categoryId)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "获取不到要操作的内容");
+            return mav;
+        }
+
+        return mav ;
     }
 
     /**
