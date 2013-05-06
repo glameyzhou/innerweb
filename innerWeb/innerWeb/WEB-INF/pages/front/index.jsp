@@ -28,8 +28,9 @@
                 <li>|</li>
                 <li><img src="${basePath}res/front/images/header_mail.png"/></li>
                 <li>站内信</li>
-                <li style="background-image:url(${basePath}res/front/images/botton_logout.png); margin-left:20px; margin-top:3px;"><input
-                        type="button" value="退出" class="botton_logout"/></li>
+                <li style="background-image:url(${basePath}res/front/images/botton_logout.png); margin-left:20px; margin-top:3px;">
+                    <input type="button" value="退出" class="botton_logout"/>
+                </li>
             </ul>
             </p>
         </div>
