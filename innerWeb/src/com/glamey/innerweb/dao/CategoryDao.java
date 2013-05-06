@@ -36,7 +36,7 @@ public class CategoryDao extends BaseDao {
         logger.info("[CategoryDao] #create# " + category);
         try {
             int count = jdbcTemplate.update(
-	                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,parentid,categorytype,categoryimage,categorytime) values(?,?,?,?,?,?,?,?,?,?,?)",
+	                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,categoryorder,parentid,categorytype,categoryimage,categorytime) values(?,?,?,?,?,?,?,?,?,?,?)",
 	                    new PreparedStatementSetter() {
 	                        @Override
 	                        public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -48,6 +48,7 @@ public class CategoryDao extends BaseDao {
 	                            pstmt.setString(++i, category.getDescribe());
 	                            pstmt.setInt(++i, category.getShowType());
 	                            pstmt.setInt(++i, category.getShowIndex());
+	                            pstmt.setInt(++i, category.getCategoryOrder());
 	                            pstmt.setString(++i, category.getParentId());
 	                            pstmt.setString(++i, category.getCategoryType());
 	                            pstmt.setString(++i, category.getCategoryImage());
@@ -69,7 +70,7 @@ public class CategoryDao extends BaseDao {
         logger.info("[CategoryDao] #update# " + category);
         try {
             int count = jdbcTemplate.update(
-	                    "update tbl_category set name=?,shortname=?,aliasname=?,categorydescribe=?,showtype=?,showindex=?,parentid=?,categorytype=? ,categoryimage = ? where id = ?",
+	                    "update tbl_category set name=?,shortname=?,aliasname=?,categorydescribe=?,showtype=?,showindex=?,categoryorder=?,parentid=?,categorytype=? ,categoryimage = ? where id = ?",
 	                    new PreparedStatementSetter() {
 	                        @Override
 	                        public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -80,6 +81,7 @@ public class CategoryDao extends BaseDao {
 	                            pstmt.setString(++i, category.getDescribe());
 	                            pstmt.setInt(++i, category.getShowType());
 	                            pstmt.setInt(++i, category.getShowIndex());
+	                            pstmt.setInt(++i, category.getCategoryOrder());
 	                            pstmt.setString(++i, category.getParentId());
 	                            pstmt.setString(++i, category.getCategoryType());
 	                            pstmt.setString(++i, category.getCategoryImage());
@@ -231,6 +233,7 @@ public class CategoryDao extends BaseDao {
             category.setDescribe(rs.getString("categorydescribe"));
             category.setShowType(rs.getInt("showtype"));
             category.setShowIndex(rs.getInt("showindex"));
+            category.setCategoryOrder(rs.getInt("categoryorder"));
             category.setParentId(rs.getString("parentid"));
             category.setCategoryType(rs.getString("categorytype"));
             category.setCategoryImage(rs.getString("categoryimage"));
