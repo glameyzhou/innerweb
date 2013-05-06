@@ -1,64 +1,82 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<%@include file="../../common/tagInclude.jsp" %>
-<%@include file="../../common/headerInclude.jsp" %>
-<title>新闻栏目<c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></title>
-<script type="text/javascript">
-	$(function() {
-		$("#jvForm").validate();
-	});
-</script>
-<script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
+    <%@include file="../../common/tagInclude.jsp" %>
+    <%@include file="../../common/headerInclude.jsp" %>
+    <title>${categoryParent.name}栏目<c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></title>
+    <script type="text/javascript">
+        $(function () {
+            $("#jvForm").validate();
+        });
+    </script>
+    <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 <div class="body-box">
-	<div class="rhead">
-		<div class="rpos">当前位置: 首页 - 新闻 - 栏目<c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
-		<div class="clear"></div>
-	</div>
-	<form method="post" action="${basePath}super/news/category-${opt}.do" id="jvForm">
-		<input type="hidden" id="cateId" name="cateId" value="${cate.cateId}"/>
-		<table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
-			<tbody>
-			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>语种:</td>
-				<td width="85%" class="pn-fcontent">
-					<select id="languageId" name="languageId" class="required"  onfocus="this.languageId=this.selectedIndex;" onchange="this.selectedIndex=this.languageId;">
-						<option value="">请选择来源</option>
-						<option value="1" <c:if test="${cate.languageId == 1}">selected</c:if> >中文</option>
-						<option value="2" <c:if test="${cate.languageId == 2}">selected</c:if> >英文</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>名称:</td>
-				<td width="85%" class="pn-fcontent">
-					<input type="text" maxlength="100" name="name" id="name" class="required" size="80" value="${cate.name}">
-				</td>
-			</tr>
-			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>排列顺序:</td>
-				<td width="85%" class="pn-fcontent">
-					<input type="text" maxlength="100" name="order" id="order" class="required" size="80" value="${cate.order}">
-					&nbsp;<font color="red">数字越小越靠前</font>
-				</td>
-			</tr>
-			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>描述:</td>
-				<td width="85%" class="pn-fcontent">
-					<textarea rows="10" cols="50" name="desc">${cate.desc}</textarea>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" class="pn-fbutton">
-					<input type="submit" value="提交"> &nbsp; <input type="reset" value="重置">
-				</td>
-			</tr>
-			</tbody>
-		</table>
-	</form>
+    <div class="rhead">
+        <div class="rpos">当前位置: 首页 - ${categoryParent.name} - 栏目<c:choose><c:when
+                test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
+        <div class="clear"></div>
+    </div>
+    <form method="post" action="${basePath}mg/post/${categoryParent.name}/category-${opt}.do" id="jvForm">
+        <input type="hidden" id="categoryId" name="categoryId" value="${category.id}"/>
+        <input type="hidden" id="categoryType" name="categoryType" value="${categoryParent.categoryType}"/>
+        <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
+            <tbody>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>名称:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="text" maxlength="100" name="name" id="name" class="required" size="80" value="${category.name}">
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>短名称:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="text" maxlength="100" name="shortName" id="shortName" class="required" size="80" value="${category.shortName}">
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>引用名称:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="text" maxlength="100" name="aliasName" id="aliasName" class="required" size="80" value="${category.aliasName}">
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否首页显示:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="radio" name="showIndex" id="showIndex" value="0" <c:if test="${category.showIndex == 0}">checked="checked"</c:if>>否&nbsp;
+                    <input type="radio" name="showIndex" id="showIndex" value="1" <c:if test="${category.showIndex == 1}">checked="checked"</c:if>>是&nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>分类模式:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="radio" name="showType" id="showType" value="0" <c:if test="${category.showType == 0}">checked="checked"</c:if>>列表形式&nbsp;
+                    <input type="radio" name="showType" id="showType" value="1" <c:if test="${category.showType == 1}">checked="checked"</c:if>>内容形式&nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>排列顺序:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="text" maxlength="100" name="categoryOrder" id="categoryOrder" class="required" size="80" value="${category.categoryOrder}">
+                    &nbsp;<font color="red">数字越小越靠前</font>
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>描述:</td>
+                <td width="85%" class="pn-fcontent">
+                    <textarea rows="10" cols="50" name="describe" id="describe">${category.describe}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="pn-fbutton">
+                    <input type="submit" value="提交"> &nbsp; <input type="reset" value="重置">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
 </div>
 </body>
 </html>

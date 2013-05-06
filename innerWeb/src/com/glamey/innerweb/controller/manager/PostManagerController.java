@@ -91,7 +91,6 @@ public class PostManagerController extends BaseController {
             mav.addObject("message", "无对应的分类列表-categoryList");
             return mav;
         }
-        String parentId = WebUtils.getRequestParameterAsString(request, "parentId", "0");
         /*
         String parentId = WebUtils.getRequestParameterAsString(request, "parentId", "0");
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
@@ -101,10 +100,11 @@ public class PostManagerController extends BaseController {
         pageBean.setMaxRowCount(categoryDao.getCountByParentId(parentId, aliasName));
         pageBean.setMaxPage();
         pageBean.setPageNoList();*/
+        System.out.println("asdfasdfasdfsadf" + aliasName);
         Category categoryParent = categoryDao.getByAliasName(aliasName);
-
+        String parentId = categoryParent.getId() ;
+        System.out.println(categoryParent);
         List<Category> categoryList = categoryDao.getByParentId(parentId,aliasName,0,Integer.MAX_VALUE);
-        mav.addObject("parentId", parentId);
         mav.addObject("categoryList", categoryList);
         mav.addObject("aliasName", aliasName);
         mav.addObject("categoryParent", categoryParent);
@@ -124,17 +124,22 @@ public class PostManagerController extends BaseController {
             mav.addObject("message", "无对应的分类列表-categoryShow");
             return mav;
         }
+        /*获取指定分类的对象*/
+        Category categoryParent = categoryDao.getByAliasName(aliasName);
+        String parentId = categoryParent.getId() ;
+
         String opt = "create";
-        Category categoryDomain = new Category();
+        Category category = new Category();
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId", "");
         if (StringUtils.isNotBlank(categoryId)) {
-            categoryDomain = categoryDao.getById(categoryId);
+            category = categoryDao.getById(categoryId);
             opt = "update";
         }
         mav.addObject("opt", opt);
-        mav.addObject("categoryDomain", categoryDomain);
+        mav.addObject("category", category);
+        mav.addObject("categoryParent", categoryParent);
         mav.addObject("category", aliasName);
-        mav.setViewName("mg/" + aliasName + "/category-show");
+        mav.setViewName("mg/post/category-show");
         return mav;
     }
 
