@@ -100,7 +100,6 @@ public class PostManagerController extends BaseController {
         pageBean.setMaxRowCount(categoryDao.getCountByParentId(parentId, aliasName));
         pageBean.setMaxPage();
         pageBean.setPageNoList();*/
-        System.out.println("asdfasdfasdfsadf" + aliasName);
         Category categoryParent = categoryDao.getByAliasName(aliasName);
         String parentId = categoryParent.getId() ;
         System.out.println(categoryParent);
