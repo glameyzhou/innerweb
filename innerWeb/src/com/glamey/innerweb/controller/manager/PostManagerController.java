@@ -1,15 +1,19 @@
 package com.glamey.innerweb.controller.manager;
 
-import com.glamey.framework.utils.FileUtils;
-import com.glamey.framework.utils.WebUtils;
-import com.glamey.innerweb.controller.BaseController;
-import com.glamey.innerweb.dao.CategoryDao;
-import com.glamey.innerweb.model.domain.Category;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,14 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
+import com.glamey.framework.utils.FileUtils;
+import com.glamey.framework.utils.WebUtils;
+import com.glamey.innerweb.controller.BaseController;
+import com.glamey.innerweb.dao.CategoryDao;
+import com.glamey.innerweb.model.domain.Category;
 
 /**
  * 内容管理
@@ -100,10 +101,8 @@ public class PostManagerController extends BaseController {
         pageBean.setMaxRowCount(categoryDao.getCountByParentId(parentId, aliasName));
         pageBean.setMaxPage();
         pageBean.setPageNoList();*/
-        System.out.println("aliasName=" + aliasName);
         Category categoryParent = categoryDao.getByAliasName(aliasName);
         String parentId = categoryParent.getId() ;
-        System.out.println("categoryParent=" + aliasName);
         List<Category> categoryList = categoryDao.getByParentId(parentId,aliasName,0,Integer.MAX_VALUE);
         mav.addObject("categoryList", categoryList);
         mav.addObject("aliasName", aliasName);
@@ -126,8 +125,6 @@ public class PostManagerController extends BaseController {
         }
         /*获取指定分类的对象*/
         Category categoryParent = categoryDao.getByAliasName(aliasName);
-        String parentId = categoryParent.getId() ;
-
         String opt = "create";
         Category category = new Category();
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId", "");
@@ -138,7 +135,6 @@ public class PostManagerController extends BaseController {
         mav.addObject("opt", opt);
         mav.addObject("category", category);
         mav.addObject("categoryParent", categoryParent);
-        mav.addObject("category", aliasName);
         mav.setViewName("mg/post/category-show");
         return mav;
     }
@@ -146,16 +142,16 @@ public class PostManagerController extends BaseController {
     /*分类新增（指定分类）*/
     @RequestMapping(value = "/{aliasName}/category-create.htm", method = RequestMethod.POST)
     public ModelAndView categoryCreate(
-            @PathVariable String category,
+            @PathVariable String aliasName,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-category-create]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
-        if (StringUtils.isBlank(category)) {
+        if (StringUtils.isBlank(aliasName)) {
             mav.setViewName("common/message");
             mav.addObject("message", "无对应的分类列表-categoryCreate");
             return mav;
         }
-        Category categoryDomain = new Category();
+        Category category = new Category();
         try {
             /*图片上传*/
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -167,28 +163,25 @@ public class PostManagerController extends BaseController {
                     return mav;
                 }
                 String fileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + "." + FilenameUtils.getExtension(originalFilename);
-                String basePath = request.getRealPath("/") + "/";
+                @SuppressWarnings("deprecation")
+				String basePath = request.getRealPath("/") + "/";
                 String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
                 FileUtils.mkdirs(basePath + relativePath);
                 multipartFile.transferTo(new File(basePath + relativePath + fileName));
-                categoryDomain.setCategoryImage(relativePath + fileName);
+                category.setCategoryImage(relativePath + fileName);
             }
 
-            String name = WebUtils.getRequestParameterAsString(request, "name");
-            String shortName = WebUtils.getRequestParameterAsString(request, "shortName");
-            String aliasName = WebUtils.getRequestParameterAsString(request, "aliasName");
-            String description = WebUtils.getRequestParameterAsString(request, "description");
-            String showIndex = WebUtils.getRequestParameterAsString(request, "name");
-
-            categoryDomain.setName(WebUtils.getRequestParameterAsString(request, "name"));
-            categoryDomain.setShortName(WebUtils.getRequestParameterAsString(request, "shortName"));
-            categoryDomain.setAliasName(WebUtils.getRequestParameterAsString(request, "aliasName"));
-            categoryDomain.setDescribe(WebUtils.getRequestParameterAsString(request, "describe"));
-            categoryDomain.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
-            categoryDomain.setShowType(WebUtils.getRequestParameterAsInt(request, "showType", 0));
-            categoryDomain.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
-
-            if (categoryDao.create(categoryDomain)) {
+            category.setName(WebUtils.getRequestParameterAsString(request, "name"));
+            category.setShortName(WebUtils.getRequestParameterAsString(request, "shortName"));
+            category.setAliasName(WebUtils.getRequestParameterAsString(request, "aliasName"));
+            category.setDescribe(WebUtils.getRequestParameterAsString(request, "describe"));
+            category.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
+            category.setShowType(WebUtils.getRequestParameterAsInt(request, "showType", 0));
+            category.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
+            category.setParentId(WebUtils.getRequestParameterAsString(request, "parentId"));
+            category.setCategoryTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+            
+            if (categoryDao.create(category)) {
                 message = "分类新建失败,请稍后重试!";
             } else {
                 message = "分类新建成功.";

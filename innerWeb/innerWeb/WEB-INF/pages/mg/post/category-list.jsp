@@ -10,13 +10,13 @@
             $("#jvForm").validate();
         });
         function edit(categoryId) {
-            window.location = '${basePath}mg/${aliasName}/category-show.htm?categoryId=' + categoryId;
+            window.location = '${basePath}mg/post/${aliasName}/category-show.htm?categoryId=' + categoryId;
         }
         function del(categoryId) {
             if (!confirm("确定要删除此栏目?")) {
                 return;
             }
-            window.location = '${basePath}mg/${aliasName}/category-del.htm?cateId=' + categoryId;
+            window.location = '${basePath}mg/post/${aliasName}/category-del.htm?cateId=' + categoryId;
         }
     </script>
 </head>
@@ -25,7 +25,7 @@
     <div class="rhead">
         <div class="rpos">当前位置: 首页 - ${categoryParent.name} - 栏目列表</div>
         <form class="ropt">
-            <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/${aliasName}/category-show.htm';">
+            <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/post/${aliasName}/category-show.htm';">
         </form>
         <div class="clear"></div>
     </div>

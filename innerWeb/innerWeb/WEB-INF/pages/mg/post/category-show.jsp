@@ -9,6 +9,18 @@
         $(function () {
             $("#jvForm").validate();
         });
+        function delImage(categoryId){
+    		if(!confirm('确认要删除指定图片?'))return;
+    		var url = '${basePath}mg/post/${categoryParent.aliasName}/category-delImage.htm';
+            var pars = 'categoryId=' + categoryId ;
+            var myAjax = new Ajax.Request(
+                        url,
+                        {method: 'get', parameters: pars, onComplete: showResponse}
+            );
+        }
+        function showResponse(originalRequest){
+            $('imageOpr').innerHTML =  '<input type="file" maxlength="100" name="image" id="image" size="80" value="">' ;
+        }
     </script>
     <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
 </head>
@@ -19,9 +31,10 @@
                 test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
         <div class="clear"></div>
     </div>
-    <form method="post" action="${basePath}mg/post/${categoryParent.name}/category-${opt}.do" id="jvForm">
+    <form method="post" action="${basePath}mg/post/${categoryParent.aliasName}/category-${opt}.htm" id="jvForm"	enctype="multipart/form-data">
         <input type="hidden" id="categoryId" name="categoryId" value="${category.id}"/>
         <input type="hidden" id="categoryType" name="categoryType" value="${categoryParent.categoryType}"/>
+        <input type="hidden" id="parentId" name="parentId" value="${categoryParent.id}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
             <tr>
@@ -63,6 +76,26 @@
                     &nbsp;<font color="red">数字越小越靠前</font>
                 </td>
             </tr>
+            <tr>
+				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>分类图片:</td>
+				<td width="85%" class="pn-fcontent" id="imageOpr">
+					<c:choose>
+					<c:when test="${opt == 'update'}">
+						<c:choose>
+							<c:when test="${!empty category.categoryImage}">
+								<img src="${basePath}${category.categoryImage}" width="104" height="100" />&nbsp;<a href="javascript:delImage(${category.id});">删除</a>
+							</c:when>
+							<c:otherwise>
+								<input type="file" maxlength="100" name="image" id="image" size="80" value="">
+							</c:otherwise>
+						</c:choose>
+					</c:when>
+					<c:otherwise>
+						<input type="file" maxlength="100" name="image" id="image" size="80" value="">
+					</c:otherwise>
+					</c:choose>
+				</td>
+			</tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>描述:</td>
                 <td width="85%" class="pn-fcontent">

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.util.StringUtils;
 
 public class TimeUtils {
@@ -42,6 +43,10 @@ public class TimeUtils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static String getLongDate(){
+		return DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
 	}
 	
 	public static void main(String[] args) {
