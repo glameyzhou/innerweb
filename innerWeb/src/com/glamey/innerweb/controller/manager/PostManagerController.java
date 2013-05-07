@@ -23,10 +23,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.glamey.framework.utils.FileUtils;
+import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
+import com.glamey.innerweb.dao.PostDao;
 import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.Post;
 
 /**
  * 内容管理
@@ -41,6 +44,8 @@ public class PostManagerController extends BaseController {
 
     @Resource
     private CategoryDao categoryDao;
+    @Resource
+    private PostDao postDao ;
     @Resource
     private List<String> allowedUploadImages;
 
@@ -192,8 +197,8 @@ public class PostManagerController extends BaseController {
             e.printStackTrace();
         }
         return mav;
-    }/*分类修改（指定分类）*/
-
+    }
+    /*分类修改（指定分类）*/
     @RequestMapping(value = "/{aliasName}/category-update.htm", method = RequestMethod.POST)
     public ModelAndView categoryUpdate(
             @PathVariable String aliasName,
@@ -299,6 +304,48 @@ public class PostManagerController extends BaseController {
         return mav ;
     }
 
+    
+    /*获取指定分类下的所有文章*/
+    @RequestMapping(value = "/{aliasName}/post-list.htm", method = RequestMethod.GET)
+    public ModelAndView postList(
+             @PathVariable String aliasName,
+             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+         logger.info("[manager-post-post-list]" + request.getRequestURI());
+         ModelAndView mav = new ModelAndView();
+         if (StringUtils.isBlank(aliasName)) {
+             mav.setViewName("common/message");
+             mav.addObject("message", "无对应的分类列表-categoryList");
+             return mav;
+         }
+         
+         //获取所有分类
+         Category categoryParent = categoryDao.getByAliasName(aliasName);
+         String parentId = categoryParent.getId() ;
+         List<Category> categoryList = categoryDao.getByParentId(parentId, aliasName, 0, Integer.MAX_VALUE);
+         
+         //获取指定分类下的所有文章
+         String categoryType = aliasName ;
+         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
+         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
+         pageBean = new PageBean();
+         pageBean.setCurPage(curPage);
+         List<Post> postList = postDao.getByCategoryId(categoryType, categoryId, pageBean.getStart(), pageBean.getRowsPerPage());
+         pageBean.setMaxRowCount(postDao.getCountByCategoryId(categoryType, categoryId));
+         pageBean.setMaxPage();
+         pageBean.setPageNoList();
+         
+         
+         mav.addObject("categoryList", categoryList);
+         mav.addObject("aliasName", aliasName);
+         mav.addObject("categoryParent", categoryParent);
+         
+         mav.addObject("postList", postList);
+         mav.addObject("pageBean", pageBean);
+         
+         mav.setViewName("mg/post/post-list");
+         return mav;
+     }
+    
     /**
      * 检测上传的图片是否为指定格式
      *
