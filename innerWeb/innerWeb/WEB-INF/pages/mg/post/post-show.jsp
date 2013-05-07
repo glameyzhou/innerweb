@@ -74,12 +74,6 @@
 				</td>
 			</tr>
 			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>标题:</td>
-				<td width="85%" class="pn-fcontent">
-					<input type="text" maxlength="100" name="title" id="title" class="required" size="80" value="${post.title}">
-				</td>
-			</tr>
-			<tr>
 				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>来源:</td>
 				<td width="85%" class="pn-fcontent">
 					<input type="text" maxlength="100" name="source" id="source" class="required" size="80" value="${post.source}">
