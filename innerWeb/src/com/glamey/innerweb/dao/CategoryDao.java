@@ -35,7 +35,7 @@ public class CategoryDao extends BaseDao {
         logger.info("[CategoryDao] #create# " + category);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,categoryorder,parentid,categorytype,categoryimage,categorytime) values(?,?,?,?,?,?,?,?,?,?,?)",
+                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,categoryorder,parentid,categorytype,categoryimage,categorytime) values(?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
