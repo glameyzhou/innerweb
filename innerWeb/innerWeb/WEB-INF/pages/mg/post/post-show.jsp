@@ -52,8 +52,8 @@
 		<div class="clear"></div>
 	</div>
 	<form method="post" action="${basePath}mg/post/${categoryParent.aliasName}/post-${opt}.htm" id="jvForm" enctype="multipart/form-data">
-		<input type="text" id="postId" name="postId" value="${post.id}"/>
-		<input type="text" id="categoryType" name="categoryType" value="${categoryParent.categoryType}"/>
+		<input type="hidden" id="postId" name="postId" value="${post.id}"/>
+		<input type="hidden" id="categoryType" name="categoryType" value="${categoryParent.categoryType}"/>
 		<table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
 			<tbody>
 			<tr>
