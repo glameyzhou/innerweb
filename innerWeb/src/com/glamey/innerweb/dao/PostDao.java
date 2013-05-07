@@ -37,8 +37,8 @@ public class PostDao extends BaseDao {
         try {
             int count = jdbcTemplate.update(
                     "insert into tbl_post(id,post_category_type,post_category_id,post_title,post_author,post_source,post_time,post_showindex,post_showlist," +
-                    "post_apply,post_focusimage,post_hot,post_summary,post_content)" +
-                    " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    "post_apply,post_focusimage,post_hot,post_summary,post_image,post_content)" +
+                    " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -48,7 +48,7 @@ public class PostDao extends BaseDao {
                             pstmt.setString(++i, post.getCategoryId());
                             pstmt.setString(++i, post.getTitle());
                             pstmt.setString(++i, post.getAuthor());
-                            pstmt.setString(++i, post.getSouce());
+                            pstmt.setString(++i, post.getSource());
                             pstmt.setString(++i, post.getTime());
                             pstmt.setInt(++i, post.getShowIndex());
                             pstmt.setInt(++i, post.getShowList());
@@ -56,6 +56,7 @@ public class PostDao extends BaseDao {
                             pstmt.setInt(++i, post.getFocusImage());
                             pstmt.setInt(++i, post.getHot());
                             pstmt.setString(++i, post.getSummary());
+                            pstmt.setString(++i, post.getImage());
                             pstmt.setString(++i, post.getContent());
                         }
                     });
@@ -75,7 +76,7 @@ public class PostDao extends BaseDao {
         try {
             int count = jdbcTemplate.update(
             		"update tbl_post set post_category_type=?,post_category_id=?,post_title=?,post_author=?,post_source=?,post_time=?," +
-            		"post_showindex=?,post_showlist=?,post_apply=?,post_focusimage=?,post_hot=?,post_summary=?,post_content=? where id=?",
+            		"post_showindex=?,post_showlist=?,post_apply=?,post_focusimage=?,post_hot=?,post_summary=?,post_image=?,post_content=? where id=?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -84,7 +85,7 @@ public class PostDao extends BaseDao {
                             pstmt.setString(++i, post.getCategoryId());
                             pstmt.setString(++i, post.getTitle());
                             pstmt.setString(++i, post.getAuthor());
-                            pstmt.setString(++i, post.getSouce());
+                            pstmt.setString(++i, post.getSource());
                             pstmt.setString(++i, post.getTime());
                             pstmt.setInt(++i, post.getShowIndex());
                             pstmt.setInt(++i, post.getShowList());
@@ -92,6 +93,7 @@ public class PostDao extends BaseDao {
                             pstmt.setInt(++i, post.getFocusImage());
                             pstmt.setInt(++i, post.getHot());
                             pstmt.setString(++i, post.getSummary());
+                            pstmt.setString(++i, post.getImage());
                             pstmt.setString(++i, post.getContent());
                             pstmt.setString(++i, post.getId());
                         }
@@ -127,7 +129,31 @@ public class PostDao extends BaseDao {
     }
 
 
-
+    /**
+     * 通过ID获取对应的文章内容
+     * @param postId
+     * @return
+     */
+    public Post getByPostId(final String postId) {
+        logger.info("[PostDao] #getByPostId# postId=" + postId );
+        try {
+        	List<Post> list = jdbcTemplate.query("select * from tbl_post where id = ?",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedstatement)
+                                throws SQLException {
+                            preparedstatement.setString(1, postId);
+                        }
+                    },
+                    new PostRowMapper());
+            if(list != null && list.size() > 0){
+            	return list.get(0);
+            }
+        } catch (Exception e) {
+            logger.error("[PostDao] #getByPostId# postId=" + postId + " error!", e);
+        }
+        return null;
+    }
 
     /**
      * 获取指定分类下的所有文章
@@ -191,7 +217,7 @@ public class PostDao extends BaseDao {
         	post.setTitle(rs.getString("post_title"));
         	//TODO 针对author设置对象填充
         	post.setAuthor(rs.getString("post_author"));
-        	post.setSouce(rs.getString("post_source"));
+        	post.setSource(rs.getString("post_source"));
         	post.setTime(rs.getString("post_time"));
         	post.setShowIndex(rs.getInt("post_showindex"));
         	post.setShowList(rs.getInt("post_showlist"));
@@ -199,6 +225,7 @@ public class PostDao extends BaseDao {
         	post.setFocusImage(rs.getInt("post_focusimage"));
         	post.setHot(rs.getInt("post_hot"));
         	post.setSummary(rs.getString("post_summary"));
+        	post.setImage(rs.getString("post_image"));
         	post.setContent(rs.getString("post_content"));
         	
             return post;

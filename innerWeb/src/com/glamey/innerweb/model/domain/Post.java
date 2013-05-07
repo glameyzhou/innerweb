@@ -24,7 +24,7 @@ public class Post implements Serializable {
 	
 	private String title ;
 	private String author ;
-	private String souce ;
+	private String source ;
 	private String time ;
 	/*是否首页显示*/
 	private int showIndex ;
@@ -38,6 +38,8 @@ public class Post implements Serializable {
 	private int hot ;
 	/*摘要*/
 	private String summary ;
+	/*图片*/
+	private String image ;
 	/*正文*/
 	private String content ;
 	
@@ -102,13 +104,15 @@ public class Post implements Serializable {
 	}
 
 
-	public String getSouce() {
-		return souce;
+
+
+	public String getSource() {
+		return source;
 	}
 
 
-	public void setSouce(String souce) {
-		this.souce = souce;
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 
@@ -179,6 +183,16 @@ public class Post implements Serializable {
 
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+
+
+	public String getImage() {
+		return image;
+	}
+
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 

@@ -97,15 +97,6 @@ public class PostManagerController extends BaseController {
             mav.addObject("message", "无对应的分类列表-categoryList");
             return mav;
         }
-        /*
-        String parentId = WebUtils.getRequestParameterAsString(request, "parentId", "0");
-        int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
-        pageBean = new PageBean();
-        pageBean.setCurPage(curPage);
-        List<Category> categoryList = categoryDao.getByParentId(parentId, aliasName, pageBean.getStart(), pageBean.getRowsPerPage());
-        pageBean.setMaxRowCount(categoryDao.getCountByParentId(parentId, aliasName));
-        pageBean.setMaxPage();
-        pageBean.setPageNoList();*/
         Category categoryParent = categoryDao.getByAliasName(aliasName);
         String parentId = categoryParent.getId() ;
         List<Category> categoryList = categoryDao.getByParentId(parentId,aliasName,0,Integer.MAX_VALUE);
@@ -229,7 +220,8 @@ public class PostManagerController extends BaseController {
                     return mav;
                 }
                 String fileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + "." + FilenameUtils.getExtension(originalFilename);
-                String basePath = request.getRealPath("/") + "/";
+                @SuppressWarnings("deprecation")
+				String basePath = request.getRealPath("/") + "/";
                 String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
                 FileUtils.mkdirs(basePath + relativePath);
                 multipartFile.transferTo(new File(basePath + relativePath + fileName));
@@ -304,6 +296,162 @@ public class PostManagerController extends BaseController {
         return mav ;
     }
 
+    /*文章新增、更新页面-指定分类*/
+    @RequestMapping(value = "/{aliasName}/post-show.htm", method = RequestMethod.GET)
+    public ModelAndView postShow(
+            @PathVariable String aliasName,
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[manager-post-post-show]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView();
+        if (StringUtils.isBlank(aliasName)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "无对应的分类列表-categoryShow");
+            return mav;
+        }
+        /*获取指定分类的对象*/
+        Category categoryParent = categoryDao.getByAliasName(aliasName);
+        List<Category> categoryList = categoryDao.getByParentId(categoryParent.getParentId(), aliasName, 0, Integer.MAX_VALUE);
+        
+        String opt = "create";
+        Post post = new Post();
+        String postId = WebUtils.getRequestParameterAsString(request, "postId", "");
+        if (StringUtils.isNotBlank(postId)) {
+            post = postDao.getByPostId(postId);
+            opt = "update";
+        }
+        mav.addObject("opt", opt);
+        mav.addObject("categoryParent", categoryParent);
+        mav.addObject("categoryList", categoryList);
+        mav.addObject("aliasName", aliasName);
+        mav.addObject("post",post);
+        mav.setViewName("mg/post/post-show");
+        return mav;
+    }
+
+    /*文章创建*/
+    @RequestMapping(value = "/{aliasName}/post-create.htm", method = RequestMethod.POST)
+    public ModelAndView postCreate(
+            @PathVariable String aliasName,
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    	logger.info("[manager-post-post-create]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("common/message");
+        if (StringUtils.isBlank(aliasName)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "无对应的分类列表-categoryCreate");
+            return mav;
+        }
+        Post post = new Post();
+        try {
+            /*图片上传*/
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            MultipartFile multipartFile = multipartRequest.getFile("image");
+            String originalFilename = multipartFile.getOriginalFilename();
+            if (StringUtils.isNotBlank(originalFilename)) {
+                if (!isAllowed(originalFilename)) {
+                    mav.addObject("message", "上传文件类型不符合,必须是以下几种<br/>" + this.allowedUploadImages.toString());
+                    return mav;
+                }
+                String fileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + "." + FilenameUtils.getExtension(originalFilename);
+                @SuppressWarnings("deprecation")
+				String basePath = request.getRealPath("/") + "/";
+                String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
+                FileUtils.mkdirs(basePath + relativePath);
+                multipartFile.transferTo(new File(basePath + relativePath + fileName));
+                post.setImage(relativePath + fileName);
+            }
+            post.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
+            post.setCategoryId(WebUtils.getRequestParameterAsString(request, "categoryId"));
+            post.setTitle(WebUtils.getRequestParameterAsString(request, "title"));
+            post.setAuthor(WebUtils.getRequestParameterAsString(request, "author"));
+            post.setSource(WebUtils.getRequestParameterAsString(request, "source"));
+            //TODO 调整时间为用户设置时间
+            post.setTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+            post.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
+            post.setShowList(WebUtils.getRequestParameterAsInt(request, "showList", 0));
+            post.setApply(WebUtils.getRequestParameterAsInt(request, "apply", 0));
+            post.setHot(WebUtils.getRequestParameterAsInt(request, "hot", 0));
+            post.setFocusImage(WebUtils.getRequestParameterAsInt(request, "focusImage", 0));
+            post.setSummary(WebUtils.getRequestParameterAsString(request, "summary"));
+            post.setContent(WebUtils.getRequestParameterAsString(request, "content"));
+            
+            if (!postDao.create(post)) {
+                message = "文章新建失败,请稍后重试!";
+            } else {
+                message = "文章新建成功.";
+            }
+            mav.addObject("message", message);
+            mav.addObject("post", post);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mav;
+    }
+    
+    /*文章更新*/
+    @RequestMapping(value = "/{aliasName}/post-update.htm", method = RequestMethod.POST)
+    public ModelAndView postUpdate(
+            @PathVariable String aliasName,
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    	logger.info("[manager-post-post-update]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("common/message");
+        if (StringUtils.isBlank(aliasName)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "无对应的分类列表-categoyUpdate");
+            return mav;
+        }
+        Post post = new Post();
+        String postId = WebUtils.getRequestParameterAsString(request, "postId");
+        if (StringUtils.isBlank(postId)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "获取不到要更新的内容");
+            return mav;
+        }
+        post = postDao.getByPostId(postId);
+        try {
+            /*图片上传*/
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            MultipartFile multipartFile = multipartRequest.getFile("image");
+            String originalFilename = multipartFile.getOriginalFilename();
+            if (StringUtils.isNotBlank(originalFilename)) {
+                if (!isAllowed(originalFilename)) {
+                    mav.addObject("message", "上传文件类型不符合,必须是以下几种<br/>" + this.allowedUploadImages.toString());
+                    return mav;
+                }
+                String fileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + "." + FilenameUtils.getExtension(originalFilename);
+                @SuppressWarnings("deprecation")
+				String basePath = request.getRealPath("/") + "/";
+                String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
+                FileUtils.mkdirs(basePath + relativePath);
+                multipartFile.transferTo(new File(basePath + relativePath + fileName));
+                post.setImage(relativePath + fileName);
+            }
+
+            post.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
+            post.setCategoryId(WebUtils.getRequestParameterAsString(request, "categoryId"));
+            post.setTitle(WebUtils.getRequestParameterAsString(request, "title"));
+            post.setAuthor(WebUtils.getRequestParameterAsString(request, "author"));
+            post.setSource(WebUtils.getRequestParameterAsString(request, "source"));
+            //TODO 调整时间为用户设置时间
+            post.setTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+            post.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
+            post.setShowList(WebUtils.getRequestParameterAsInt(request, "showList", 0));
+            post.setApply(WebUtils.getRequestParameterAsInt(request, "apply", 0));
+            post.setHot(WebUtils.getRequestParameterAsInt(request, "hot", 0));
+            post.setFocusImage(WebUtils.getRequestParameterAsInt(request, "focusImage", 0));
+            post.setSummary(WebUtils.getRequestParameterAsString(request, "summary"));
+            post.setContent(WebUtils.getRequestParameterAsString(request, "content"));
+
+            if (!postDao.update(post)) {
+                message = "文章更新失败,请稍后重试!";
+            } else {
+                message = "文章更新成功.";
+            }
+            mav.addObject("message", message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mav;
+    }
     
     /*获取指定分类下的所有文章*/
     @RequestMapping(value = "/{aliasName}/post-list.htm", method = RequestMethod.GET)
