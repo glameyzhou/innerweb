@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
@@ -167,15 +168,29 @@ public class PostDao extends BaseDao {
         logger.info("[PostDao] #getByCategoryId# categoryType=" + categoryType + " categoryId=" + categoryId);
         List<Post> list = new ArrayList<Post>();
         try {
-            list = jdbcTemplate.query("select * from tbl_post where post_category_type = ? and post_category_id = ? order by post_time desc limit ?,? ",
+        	
+        	StringBuffer sql = new StringBuffer("select * from tbl_post where 1=1 ") ;
+        	if(StringUtils.isNotBlank(categoryType))
+        		sql.append(" and post_category_type = ? ");
+        	
+        	if(StringUtils.isNotBlank(categoryId))
+        		sql.append(" and post_category_id = ? ");
+        	
+        	sql.append(" order by post_time desc limit ?,? ");
+        	
+            list = jdbcTemplate.query(sql.toString(),
                     new PreparedStatementSetter() {
                         @Override
-                        public void setValues(PreparedStatement preparedstatement)
-                                throws SQLException {
-                            preparedstatement.setString(1, categoryType);
-                            preparedstatement.setString(2, categoryId);
-                            preparedstatement.setInt(3, start);
-                            preparedstatement.setInt(4, num);
+                        public void setValues(PreparedStatement preparedstatement) throws SQLException {
+                        	int i = 0 ;
+                        	if(StringUtils.isNotBlank(categoryType))
+                                preparedstatement.setString(++i, categoryType);
+                        	
+                        	if(StringUtils.isNotBlank(categoryId))
+                                preparedstatement.setString(++i, categoryId);
+                        	
+                            preparedstatement.setInt(++i, start);
+                            preparedstatement.setInt(++i, num);
                         }
                     },
                     new PostRowMapper());
@@ -196,8 +211,18 @@ public class PostDao extends BaseDao {
         logger.info("[PostDao] #getCountByCategoryId# categoryType=" + categoryType + " categoryId=" + categoryId);
         int count = 0;
         try {
-            count = jdbcTemplate.queryForInt("select count(1) as total from tbl_post where post_category_type = ? and post_category_id = ? ",
-                    new Object[]{categoryType, categoryId});
+        	List<Object> params = new ArrayList<Object>();
+        	StringBuffer sql = new StringBuffer("select count(1) as total from tbl_post where 1=1 ") ;
+        	if(StringUtils.isNotBlank(categoryType)){
+        		sql.append(" and post_category_type = ? ");
+        		params.add(categoryType);
+        	}
+        	
+        	if(StringUtils.isNotBlank(categoryId)){
+        		sql.append(" and post_category_id = ? ");
+        		params.add(categoryId);
+        	}
+            count = jdbcTemplate.queryForInt(sql.toString(),params.toArray());
         } catch (Exception e) {
             logger.error("[PostDao] #getCountByCategoryId# categoryType=" + categoryType + " categoryId=" + categoryId + " error!", e);
         }

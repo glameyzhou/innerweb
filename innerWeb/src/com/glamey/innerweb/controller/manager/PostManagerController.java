@@ -152,21 +152,22 @@ public class PostManagerController extends BaseController {
             /*图片上传*/
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             MultipartFile multipartFile = multipartRequest.getFile("image");
-            String originalFilename = multipartFile.getOriginalFilename();
-            if (StringUtils.isNotBlank(originalFilename)) {
-                if (!isAllowed(originalFilename)) {
-                    mav.addObject("message", "上传文件类型不符合,必须是以下几种<br/>" + this.allowedUploadImages.toString());
-                    return mav;
-                }
-                String fileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + "." + FilenameUtils.getExtension(originalFilename);
-                @SuppressWarnings("deprecation")
-				String basePath = request.getRealPath("/") + "/";
-                String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
-                FileUtils.mkdirs(basePath + relativePath);
-                multipartFile.transferTo(new File(basePath + relativePath + fileName));
-                category.setCategoryImage(relativePath + fileName);
+            if(multipartFile != null){
+	            String originalFilename = multipartFile.getOriginalFilename();
+	            if (StringUtils.isNotBlank(originalFilename)) {
+	                if (!isAllowed(originalFilename)) {
+	                    mav.addObject("message", "上传文件类型不符合,必须是以下几种<br/>" + this.allowedUploadImages.toString());
+	                    return mav;
+	                }
+	                String fileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + "." + FilenameUtils.getExtension(originalFilename);
+	                @SuppressWarnings("deprecation")
+					String basePath = request.getRealPath("/") + "/";
+	                String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
+	                FileUtils.mkdirs(basePath + relativePath);
+	                multipartFile.transferTo(new File(basePath + relativePath + fileName));
+	                category.setCategoryImage(relativePath + fileName);
+	            }
             }
-
             category.setName(WebUtils.getRequestParameterAsString(request, "name"));
             category.setShortName(WebUtils.getRequestParameterAsString(request, "shortName"));
             category.setAliasName(WebUtils.getRequestParameterAsString(request, "aliasName"));
@@ -310,7 +311,7 @@ public class PostManagerController extends BaseController {
         }
         /*获取指定分类的对象*/
         Category categoryParent = categoryDao.getByAliasName(aliasName);
-        List<Category> categoryList = categoryDao.getByParentId(categoryParent.getParentId(), aliasName, 0, Integer.MAX_VALUE);
+        List<Category> categoryList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
         
         String opt = "create";
         Post post = new Post();
@@ -345,19 +346,21 @@ public class PostManagerController extends BaseController {
             /*图片上传*/
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             MultipartFile multipartFile = multipartRequest.getFile("image");
-            String originalFilename = multipartFile.getOriginalFilename();
-            if (StringUtils.isNotBlank(originalFilename)) {
-                if (!isAllowed(originalFilename)) {
-                    mav.addObject("message", "上传文件类型不符合,必须是以下几种<br/>" + this.allowedUploadImages.toString());
-                    return mav;
-                }
-                String fileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + "." + FilenameUtils.getExtension(originalFilename);
-                @SuppressWarnings("deprecation")
-				String basePath = request.getRealPath("/") + "/";
-                String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
-                FileUtils.mkdirs(basePath + relativePath);
-                multipartFile.transferTo(new File(basePath + relativePath + fileName));
-                post.setImage(relativePath + fileName);
+            if(multipartFile != null){
+	            String originalFilename = multipartFile.getOriginalFilename();
+	            if (StringUtils.isNotBlank(originalFilename)) {
+	                if (!isAllowed(originalFilename)) {
+	                    mav.addObject("message", "上传文件类型不符合,必须是以下几种<br/>" + this.allowedUploadImages.toString());
+	                    return mav;
+	                }
+	                String fileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + "." + FilenameUtils.getExtension(originalFilename);
+	                @SuppressWarnings("deprecation")
+					String basePath = request.getRealPath("/") + "/";
+	                String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
+	                FileUtils.mkdirs(basePath + relativePath);
+	                multipartFile.transferTo(new File(basePath + relativePath + fileName));
+	                post.setImage(relativePath + fileName);
+	            }
             }
             post.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
             post.setCategoryId(WebUtils.getRequestParameterAsString(request, "categoryId"));
@@ -411,19 +414,21 @@ public class PostManagerController extends BaseController {
             /*图片上传*/
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             MultipartFile multipartFile = multipartRequest.getFile("image");
-            String originalFilename = multipartFile.getOriginalFilename();
-            if (StringUtils.isNotBlank(originalFilename)) {
-                if (!isAllowed(originalFilename)) {
-                    mav.addObject("message", "上传文件类型不符合,必须是以下几种<br/>" + this.allowedUploadImages.toString());
-                    return mav;
-                }
-                String fileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + "." + FilenameUtils.getExtension(originalFilename);
-                @SuppressWarnings("deprecation")
-				String basePath = request.getRealPath("/") + "/";
-                String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
-                FileUtils.mkdirs(basePath + relativePath);
-                multipartFile.transferTo(new File(basePath + relativePath + fileName));
-                post.setImage(relativePath + fileName);
+            if(multipartFile != null){
+            	String originalFilename = multipartFile.getOriginalFilename();
+	            if (StringUtils.isNotBlank(originalFilename)) {
+	                if (!isAllowed(originalFilename)) {
+	                    mav.addObject("message", "上传文件类型不符合,必须是以下几种<br/>" + this.allowedUploadImages.toString());
+	                    return mav;
+	                }
+	                String fileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + "." + FilenameUtils.getExtension(originalFilename);
+	                @SuppressWarnings("deprecation")
+					String basePath = request.getRealPath("/") + "/";
+	                String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
+	                FileUtils.mkdirs(basePath + relativePath);
+	                multipartFile.transferTo(new File(basePath + relativePath + fileName));
+	                post.setImage(relativePath + fileName);
+	            }
             }
 
             post.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
@@ -468,11 +473,10 @@ public class PostManagerController extends BaseController {
          
          //获取所有分类
          Category categoryParent = categoryDao.getByAliasName(aliasName);
-         String parentId = categoryParent.getId() ;
-         List<Category> categoryList = categoryDao.getByParentId(parentId, aliasName, 0, Integer.MAX_VALUE);
+         List<Category> categoryList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
          
          //获取指定分类下的所有文章
-         String categoryType = aliasName ;
+         String categoryType = categoryParent.getCategoryType() ;
          String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
          int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
          pageBean = new PageBean();

@@ -51,10 +51,9 @@
 		<div class="rpos">当前位置: 首页 - ${categoryParent.name } - ${categoryParent.name }内容<c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
 		<div class="clear"></div>
 	</div>
-	<form method="post" action="${basePath}post/${categoryParent.aliasName}/post-${opt}.htm" id="jvForm">
-		<input type="hidden" id="postId" name="postId" value="${post.id}"/>
-		<input type="hidden" id="categoryId" name="categoryId" value="${post.categoryId}"/>
-		<input type="hidden" id="categoryType" name="categoryType" value="${ctegoryParent.aliasName}"/>
+	<form method="post" action="${basePath}mg/post/${categoryParent.aliasName}/post-${opt}.htm" id="jvForm" enctype="multipart/form-data">
+		<input type="text" id="postId" name="postId" value="${post.id}"/>
+		<input type="text" id="categoryType" name="categoryType" value="${categoryParent.categoryType}"/>
 		<table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
 			<tbody>
 			<tr>
@@ -146,16 +145,16 @@
 					<c:choose>
 					<c:when test="${opt == 'update'}">
 						<c:choose>
-							<c:when test="${!empty post.categoryImage}">
-								<img src="${basePath}${post.categoryImage}" width="104" height="100" />&nbsp;<a href="javascript:delImage(${post.id});">删除</a>
+							<c:when test="${!empty post.image}">
+								<img src="${basePath}${post.image}" width="104" height="100" />&nbsp;<a href="javascript:delImage(${post.id});">删除</a>
 							</c:when>
 							<c:otherwise>
-								<input type="file" maxlength="100" name="image" id="image" size="80" value="">
+								<input type="file" maxlength="100" name="image" id="image" size="80" value="" />
 							</c:otherwise>
 						</c:choose>
 					</c:when>
 					<c:otherwise>
-						<input type="file" maxlength="100" name="image" id="image" size="80" value="">
+						<input type="file" maxlength="100" name="image" id="image" size="80" value="" />
 					</c:otherwise>
 					</c:choose>
 				</td>
