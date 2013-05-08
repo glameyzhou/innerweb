@@ -198,7 +198,6 @@ public class PostManagerController extends BaseController {
             return ui.getModelAndView();
         if(StringUtils.isNotBlank(ui.getFilePath()))
             category.setCategoryImage(ui.getFilePath());
-        category.setCategoryImage(ui.getFilePath());
 
         category.setName(WebUtils.getRequestParameterAsString(request, "name"));
         category.setShortName(WebUtils.getRequestParameterAsString(request, "shortName"));
