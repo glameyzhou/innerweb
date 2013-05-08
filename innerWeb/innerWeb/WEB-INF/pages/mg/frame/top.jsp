@@ -19,7 +19,8 @@ body{height:100%;}
 .menu li{float:left;}
 .menu li.sep{float:left;height:35px;width:10px;background:url(${basePath}res/jeecms/img/admin/sep.jpg) left 3px no-repeat;}
 .menu li a{display:block;height:35px;float:left;line-height:35px;padding:0 14px;color:#000;outline:none;hide-focus:expression(this.hideFocus=true);}
-.menu li.current{background:url(${basePath}res/jeecms/img/admin/nav_current.jpg) left top no-repeat;}
+.menu li.current{background-color: blue;}
+/*.menu li.current{background:url(${basePath}res/jeecms/img/admin/nav_current.jpg) left top no-repeat;} */
 .menu li.current a{color:#fff;}
 .undis{display:none;}
 .dis{display:block;}

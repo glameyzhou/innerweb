@@ -29,10 +29,10 @@
 	$(function() {
 		$("#jvForm").validate();
 	});
-	function delImage(postId){
+	function delImage(linksId){
 		if(!confirm('确认要删除指定图片?'))return;
-		var url = '${basePath}mg/post/${categoryParent.aliasName}/post-delImage.htm';
-        var pars = 'postId=' + postId ;
+		var url = '${basePath}mg/links/${categoryParent.categoryType}/${categoryParent.id}/links-delImage.htm';
+        var pars = 'linksId=' + linksId ;
         var myAjax = new Ajax.Request(
                     url,
                     {method: 'get', parameters: pars, onComplete: showResponse}
@@ -48,99 +48,33 @@
 <body>
 <div class="body-box">
 	<div class="rhead">
-		<div class="rpos">当前位置: 首页 - ${categoryParent.name } - ${categoryParent.name }内容<c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
+		<div class="rpos">当前位置: 首页 - 入口链接管理  - ${categoryParent.name } - 内容<c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
 		<div class="clear"></div>
 	</div>
-	<form method="post" action="${basePath}mg/post/${categoryParent.aliasName}/post-${opt}.htm" id="jvForm" enctype="multipart/form-data">
-		<input type="hidden" id="postId" name="postId" value="${post.id}"/>
-		<input type="hidden" id="categoryType" name="categoryType" value="${categoryParent.categoryType}"/>
+	<form method="POST" action="${basePath}mg/links/${categoryParent.categoryType}/${categoryParent.id}/links-${opt}.htm" id="jvForm" enctype="multipart/form-data">
+		<input type="hidden" id="linksId" name="linksId" value="${links.id}"/>
 		<table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
 			<tbody>
 			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>栏目:</td>
+				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>名称:</td>
 				<td width="85%" class="pn-fcontent">
-					<select id="categoryId" name="categoryId" class="required">
-						<option value="">请选择栏目</option>
-						<c:forEach items="${categoryList}" var="cate">
-							<option value="${cate.id}"  <c:if test="${post.categoryId == cate.id}">selected</c:if>>${cate.name} - ${cate.aliasName}</option>
-						</c:forEach>
-					</select>
+					<input type="text" maxlength="100" name="name" id="name" class="required" size="80" value="${links.name}">
 				</td>
 			</tr>
 			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>标题:</td>
+				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>URL:</td>
 				<td width="85%" class="pn-fcontent">
-					<input type="text" maxlength="100" name="title" id="title" class="required" size="80" value="${post.title}">
+					<input type="text" maxlength="100" name="url" id="url" class="required" size="80" value="${links.url}">
 				</td>
 			</tr>
 			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>来源:</td>
-				<td width="85%" class="pn-fcontent">
-					<input type="text" maxlength="100" name="source" id="source" class="required" size="80" value="${post.source}">
-				</td>
-			</tr>
-			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>发布人:</td>
-				<td width="85%" class="pn-fcontent">
-					<input type="text" maxlength="100" name="author" id="author" class="required" size="80" value="${post.author}">
-				</td>
-			</tr>
-			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>发布时间:</td>
-				<td width="85%" class="pn-fcontent">
-					<input type="text" maxlength="100" name="time" id="time" class="required" size="35" value="${post.time}"
-					onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">
-				</td>
-			</tr>
-			<tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否首页显示:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="showIndex" id="showIndex" value="0" <c:if test="${post.showIndex == 0}">checked="checked"</c:if> />否&nbsp;
-                    <input type="radio" name="showIndex" id="showIndex" value="1" <c:if test="${post.showIndex == 1}">checked="checked"</c:if> />是&nbsp;
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否列表显示:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="showList" id="showList" value="0" <c:if test="${post.showList == 0}">checked="checked"</c:if> />否&nbsp;
-                    <input type="radio" name="showList" id="showList" value="1" <c:if test="${post.showList == 1}">checked="checked"</c:if> />是&nbsp;
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否通过审核:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="apply" id="apply" value="0" <c:if test="${post.apply == 0}">checked="checked"</c:if> />否&nbsp;
-                    <input type="radio" name="apply" id="apply" value="1" <c:if test="${post.apply == 1}">checked="checked"</c:if> />是&nbsp;
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否最新:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="hot" id="hot" value="0" <c:if test="${post.hot == 0}">checked="checked"</c:if> />否&nbsp;
-                    <input type="radio" name="hot" id="hot" value="1" <c:if test="${post.hot == 1}">checked="checked"</c:if> />是&nbsp;
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否为焦点图片:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="focusImage" id="focusImage" value="0" <c:if test="${post.focusImage == 0}">checked="checked"</c:if> />否&nbsp;
-                    <input type="radio" name="focusImage" id="focusImage" value="1" <c:if test="${post.focusImage == 1}">checked="checked"</c:if> />是&nbsp;
-                </td>
-            </tr>
-			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>摘要描述:</td>
-				<td width="85%" class="pn-fcontent">
-					<textarea rows="5" cols="50" name="summary" id="summary" >${post.summary}</textarea>
-				</td>
-			</tr>
-			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>分类图片:</td>
+				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>链接图片:</td>
 				<td width="85%" class="pn-fcontent" id="imageOpr">
 					<c:choose>
 					<c:when test="${opt == 'update'}">
 						<c:choose>
-							<c:when test="${!empty post.image}">
-								<img src="${basePath}${post.image}" width="104" height="100" />&nbsp;<a href="javascript:delImage(${post.id});">删除</a>
+							<c:when test="${!empty links.image}">
+								<img src="${basePath}${links.image}" width="104" height="100" />&nbsp;<a href="javascript:delImage(${links.id});">删除</a>
 							</c:when>
 							<c:otherwise>
 								<input type="file" maxlength="100" name="image" id="image" size="80" value="" />
@@ -151,15 +85,6 @@
 						<input type="file" maxlength="100" name="image" id="image" size="80" value="" />
 					</c:otherwise>
 					</c:choose>
-				</td>
-			</tr>
-			<tr>
-				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>内容:</td>
-				<td width="85%" class="pn-fcontent"><span class="pn-frequired">内容不能为空!</span></td>
-			</tr>
-			<tr>
-				<td width="100%" class="pn-fcontent" colspan="2" align="center">
-					<textarea name="content" cols="100" rows="8" style="width:95%;height:300px;visibility:hidden;">${post.content}</textarea>
 				</td>
 			</tr>
 			<tr>

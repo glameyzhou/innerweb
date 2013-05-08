@@ -1,10 +1,10 @@
 package com.glamey.innerweb.model.domain;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,7 +14,8 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class Links implements Serializable {
-    private String id;
+	private static final long serialVersionUID = 923284796005722626L;
+	private String id;
     private String name;
     private String url;
     private String categoryId;
@@ -22,6 +23,7 @@ public class Links implements Serializable {
     private String image;
     private int order;
     private Date latestDate;
+    private Category category ;
 
     public String getId() {
         return id;
@@ -87,7 +89,15 @@ public class Links implements Serializable {
         this.latestDate = latestDate;
     }
 
-    @Override
+    public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
     }

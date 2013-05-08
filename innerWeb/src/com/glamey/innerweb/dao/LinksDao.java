@@ -3,13 +3,6 @@
  */
 package com.glamey.innerweb.dao;
 
-import com.glamey.framework.utils.StringTools;
-import com.glamey.innerweb.model.domain.Links;
-import org.apache.log4j.Logger;
-import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +10,19 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import com.glamey.framework.utils.StringTools;
+import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.Links;
+import com.glamey.innerweb.model.dto.LinksQuery;
 
 /**
  * 分类数据库操作
@@ -27,6 +33,8 @@ import java.util.List;
 public class LinksDao extends BaseDao {
     private static final Logger logger = Logger.getLogger(LinksDao.class);
 
+    @Resource
+    private CategoryDao categoryDao ;
     /**
      * @param links
      * @return
@@ -136,41 +144,105 @@ public class LinksDao extends BaseDao {
         return null;
     }
 
-    public List<Links> getByParentId(final String categoryId, final String categoryType, final int start, final int num) {
-        logger.info("[LinksDao] #getLinksByParentId# categoryId=" + categoryId + " categoryType=" + categoryType);
+    public List<Links> getByParentId(final LinksQuery query) {
+        logger.info("[LinksDao] #getLinksByParentId# query=" + query);
         List<Links> list = new ArrayList<Links>();
         try {
-            list = jdbcTemplate.query("select * from tbl_links where links_category_id = ? and links_category_type = ? order by links_latestdate desc limit ?,? ",
+        	StringBuffer sql = new StringBuffer("select * from tbl_links where 1=1 ");
+        	if(StringUtils.isNotBlank(query.getCategoryType()))
+        		sql.append(" and links_category_type = ? ");
+        	
+        	if(StringUtils.isNotBlank(query.getCategoryId()))
+        		sql.append(" and links_category_id = ? ");
+        	
+        	if(StringUtils.isNotBlank(query.getKeyword()))
+        		sql.append(" and (links_name like ? or links_url like ? ) ");
+        	
+        	sql.append(" order by links_latestdate desc limit ?,? ");
+        	
+            list = jdbcTemplate.query(sql.toString(),
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement preparedstatement)
                                 throws SQLException {
-                            preparedstatement.setString(1, categoryId);
-                            preparedstatement.setString(2, categoryType);
-                            preparedstatement.setInt(3, start);
-                            preparedstatement.setInt(4, num);
+                        	int i = 0 ;
+                        	if(StringUtils.isNotBlank(query.getCategoryType()))
+                                preparedstatement.setString(++i, query.getCategoryType());
+                        	
+                        	if(StringUtils.isNotBlank(query.getCategoryId()))
+                                preparedstatement.setString(++i, query.getCategoryId());
+                        	
+                        	if(StringUtils.isNotBlank(query.getKeyword())){
+                                preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
+                                preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
+                        	}
+                        	
+                            preparedstatement.setInt(++i, query.getStart());
+                            preparedstatement.setInt(++i, query.getNum());
                         }
                     },
                     new LinksRowMapper());
             return list;
         } catch (Exception e) {
-            logger.error("[LinksDao] #getByParentId# error", e);
+            logger.error("[LinksDao] #getByParentId# error! query=" + query, e);
         }
         return null;
     }
 
-    public int getCountByParentId(String categoryId, String categoryType) {
-        logger.info("[LinksDao] #getCountByParentId# categoryId=" + categoryId + " categoryType=" + categoryType);
+    public int getCountByParentId(final LinksQuery query) {
+        logger.info("[LinksDao] #getCountByParentId# query=" + query);
         int count = 0;
         try {
-            count = jdbcTemplate.queryForInt("select count(1) as total from tbl_links where links_category_id = ? and links_category_type = ?  ",
-                    new Object[]{categoryId, categoryType});
+        	List<Object> params = new ArrayList<Object>();
+        	StringBuffer sql = new StringBuffer("select count(1) as total from tbl_links where 1=1 ");
+        	if(StringUtils.isNotBlank(query.getCategoryType())){
+        		sql.append(" and links_category_type = ? ");
+        		params.add(query.getCategoryType());
+        	}
+        	
+        	if(StringUtils.isNotBlank(query.getCategoryId())){
+        		sql.append(" and links_category_id = ? ");
+        		params.add(query.getCategoryId());
+        	}
+        	
+        	if(StringUtils.isNotBlank(query.getKeyword())){
+        		sql.append(" and (links_name like ? or links_url like ? ) ");
+        		params.add("%" + query.getKeyword() + "%");
+        		params.add("%" + query.getKeyword() + "%");
+        	}
+        	
+            count = jdbcTemplate.queryForInt(sql.toString(),params.toArray());
         } catch (Exception e) {
-            logger.error("[LinksDao] #getCountByParentId# error categoryId=" + categoryId + " categoryType=" + categoryType, e);
+            logger.error("[LinksDao] #getCountByParentId# error! query=" + query , e);
         }
         return count;
     }
 
+    /**
+     * 删除指定分类的图片信息
+     *
+     * @param linksId
+     * @return
+     */
+    public boolean deleteImage(final String linksId) {
+        logger.info("[LinksDao] #delete-image#" + linksId);
+        try {
+            int count = jdbcTemplate.update("update tbl_links set links_image = ?  where id = ?",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedstatement)
+                                throws SQLException {
+                            preparedstatement.setString(1, "");
+                            preparedstatement.setString(2, linksId);
+                        }
+                    });
+            return count > 0;
+        } catch (Exception e) {
+            logger.error("[LinksDao] #delete-image# error!" + linksId, e);
+        }
+        return false;
+    }
+    
     /**
      * @return
      */
@@ -179,13 +251,18 @@ public class LinksDao extends BaseDao {
         public Links mapRow(ResultSet rs, int i) throws SQLException {
             Links links = new Links();
             links.setId(rs.getString("id"));
-            links.setName(rs.getString("name"));
+            links.setName(rs.getString("links_name"));
             links.setUrl(rs.getString("links_url"));
-            links.setCategoryId(rs.getString("links_category_id"));
-            links.setCategoryType(rs.getString("links_category_type"));
             links.setImage(rs.getString("links_image"));
             links.setOrder(rs.getInt("links_order"));
             links.setLatestDate(rs.getTimestamp("links_latestdate"));
+            
+            links.setCategoryId(rs.getString("links_category_id"));
+            links.setCategoryType(rs.getString("links_category_type"));
+            
+            Category category = categoryDao.getById(links.getCategoryId());
+            links.setCategory(category);
+            
             return links;
         }
     }

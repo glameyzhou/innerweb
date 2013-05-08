@@ -3,14 +3,14 @@ Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
 Source Server Version : 50022
-Source Host           : localhost:3306
+Source Host           : 127.0.0.1:3306
 Source Database       : innerweb
 
 Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-05-08 19:02:09
+Date: 2013-05-08 23:31:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS `tbl_links`;
 CREATE TABLE `tbl_links` (
   `id` varchar(32) NOT NULL COMMENT '唯一标识',
   `links_name` varchar(500) NOT NULL,
-  `links_ulr` varchar(500) NOT NULL,
+  `links_url` varchar(500) NOT NULL,
   `links_category_id` varchar(32) NOT NULL,
   `links_category_type` varchar(32) NOT NULL,
   `links_image` varchar(500) default NULL,
@@ -68,6 +68,7 @@ CREATE TABLE `tbl_links` (
 -- ----------------------------
 -- Records of tbl_links
 -- ----------------------------
+INSERT INTO `tbl_links` VALUES ('MfENVj', '换点工程', 'http://www.checne.comcn', 'euEBf2', 'links', null, '0', '2013-05-08 23:27:45');
 
 -- ----------------------------
 -- Table structure for `tbl_meta`

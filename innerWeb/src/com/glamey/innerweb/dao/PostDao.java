@@ -278,8 +278,8 @@ public class PostDao extends BaseDao {
             }
             if (StringUtils.isNotBlank(query.getKeyword())) {
                 sql.append(" and (post_content = ? or post_summary like ?)");
-                params.add(query.getKeyword());
-                params.add(query.getKeyword());
+                params.add("%" + query.getKeyword() + "%");
+                params.add("%" + query.getKeyword() + "%");
             }
             if(StringUtils.isNotBlank(query.getStartTime())){
                 sql.append(" and (post_time >= ? and post_time <= ?) ") ;
