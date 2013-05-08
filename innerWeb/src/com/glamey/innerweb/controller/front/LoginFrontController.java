@@ -52,7 +52,8 @@ public class LoginFrontController extends BaseController{
 		}
 		
 		session.setAttribute(Constants.SESSIN_USERID, username);
-		mav.setViewName("front/index");
+        //首页
+		mav.setViewName("redirect:/index.htm");
 		return mav;
 	}
 }
