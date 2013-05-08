@@ -296,6 +296,11 @@ public class PostDao extends BaseDao {
     public boolean pageOperate(final String postId, final String type, final String flag) {
         logger.info("[PostDao] #pageOperate# postId=" + postId + " type=" + type + " flag=" + flag);
         try {
+        	 //删除使用
+            if (StringUtils.equals(type, "1")) {
+                return deleteById(postId);
+            }
+        	
             StringBuilder sql = new StringBuilder("update tbl_post ");
             if (StringUtils.equals(type, "2")) {
                 sql.append(" set post_showindex = ? ");
@@ -319,12 +324,6 @@ public class PostDao extends BaseDao {
                             preparedstatement.setString(2, postId);
                         }
                     });
-
-            //删除使用
-            if (StringUtils.equals(type, "1")) {
-                return deleteById(postId);
-            }
-
             return count > 0;
         } catch (Exception e) {
             logger.error("[PostDao] #pageOperate# postId=" + postId + " type=" + type + " flag=" + flag + " error!", e);

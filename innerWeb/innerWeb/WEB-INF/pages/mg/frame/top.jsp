@@ -16,7 +16,7 @@ body{height:100%;}
 #logout{color:#FFF;padding:0 10px 0 5px;}
 #view_index{color:#FFF;}
 .menu{padding-left:1em;font-size:12px;font-weight:700;float:left;margin:4px 4px 0 0;list-style:none;}
-.menu li{float:left;width:60px;}
+.menu li{float:left;}
 .menu li.sep{float:left;height:35px;width:10px;background:url(${basePath}res/jeecms/img/admin/sep.jpg) left 3px no-repeat;}
 .menu li a{display:block;height:35px;float:left;line-height:35px;padding:0 14px;color:#000;outline:none;hide-focus:expression(this.hideFocus=true);}
 .menu li.current{background:url(${basePath}res/jeecms/img/admin/nav_current.jpg) left top no-repeat;}
@@ -34,13 +34,6 @@ body{height:100%;}
 			g('tb_'+m+i).className='';
 		}
 		g('tb_'+m+n).className='current';
-	}
-	function changeLanguage(languageObj) {
-		var languageId = languageObj.value ;
-		if(languageId == '0'){
-			 return ;
-		}
-		document.changeLanguageForm.submit();
 	}
 </script>
 </head>
@@ -108,9 +101,10 @@ body{height:100%;}
         <td><img src="${basePath}res/jeecms/img/admin/top_07.jpg"></td>
         <td background="${basePath}res/jeecms/img/admin/nav_bg.jpg">
 		   <ul class="menu">			
-			<li class="current" id="tb_11" onclick="HoverLi(1,1,2);"><a href="${basePath}mg/frame/home.htm" target="mainFrame">首页</a></li>
-			<li class="sep"></li><li id="tb_12" onclick="HoverLi(1,2,2);"><a href="${basePath}mg/post/news/index.htm" target="mainFrame">新闻</a></li>
-			<li class="sep"></li><li id="tb_13" onclick="HoverLi(1,3,3);"><a href="${basePath}mg/post/notices/index.htm" target="mainFrame">通告</a></li>
+			<li class="current" id="tb_11" onclick="HoverLi(1,1,4);"><a href="${basePath}mg/frame/home.htm" target="mainFrame">首页</a></li>
+			<li class="sep"></li><li id="tb_12" onclick="HoverLi(1,2,4);"><a href="${basePath}mg/post/news/index.htm" target="mainFrame">新闻</a></li>
+			<li class="sep"></li><li id="tb_13" onclick="HoverLi(1,3,4);"><a href="${basePath}mg/post/notices/index.htm" target="mainFrame">通知公告</a></li>
+			<li class="sep"></li><li id="tb_14" onclick="HoverLi(1,4,4);"><a href="${basePath}mg/links/index.htm" target="mainFrame">链接管理</a></li>
 			</ul>
 		</td>
       </tr>
