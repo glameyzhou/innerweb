@@ -5,8 +5,10 @@ import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
+import com.glamey.innerweb.dao.LinksDao;
 import com.glamey.innerweb.dao.PostDao;
 import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.Links;
 import com.glamey.innerweb.model.domain.Post;
 import com.glamey.innerweb.model.domain.UploadInfo;
 import com.glamey.innerweb.model.dto.PostQuery;
@@ -43,6 +45,8 @@ public class LinksManagerController extends BaseController {
     @Resource
     private PostDao postDao ;
     @Resource
+    private LinksDao linksDao ;
+    @Resource
     private WebUploadUtils uploadUtils;
 
     /*首页*/
@@ -75,23 +79,31 @@ public class LinksManagerController extends BaseController {
         return mav;
     }
     
-    /*分类列表（指定分类）*/
-    @RequestMapping(value = "/{aliasName}/category-list.htm", method = RequestMethod.GET)
+    /*获取指定分来下的所有链接*/
+    @RequestMapping(value = "/{categoryType}/{categoryId}/links-list.htm", method = RequestMethod.GET)
     public ModelAndView categoryList(
-    		@PathVariable String aliasName,
+    		@PathVariable String categoryType,
+    		@PathVariable String categoryId,
     		HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-links-category-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
-        if(StringUtils.isBlank(aliasName)){
+        if(StringUtils.isBlank(categoryType) || StringUtils.isBlank(categoryId)){
         	mav.setViewName("common/message");
-        	mav.addObject("message", "can't find the category!");
+        	mav.addObject("message", "can't find the links category!");
         	return mav ;
         }
-        Category categoryParent = categoryDao.getByAliasName(aliasName);
-        List<Category> categoryList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
-        mav.addObject("categoryList", categoryList);
+        Category categoryParent = categoryDao.getById(categoryId);
+        int curPage = WebUtils.getRequestParameterAsInt(request,"curPage",1);
+        pageBean =  new PageBean();
+        pageBean.setCurPage(curPage);
+        List<Links> linksList = linksDao.getByParentId(categoryId,categoryType,pageBean.getStart(),pageBean.getRowsPerPage());
+        pageBean.setMaxRowCount(linksDao.getCountByParentId(categoryId,categoryType));
+        pageBean.setMaxPage();
+        pageBean.setPageNoList();
         mav.addObject("categoryParent", categoryParent);
-        mav.setViewName("mg/links/category-list");
+        mav.addObject("linksList", linksList);
+        mav.addObject("pageBean", pageBean);
+        mav.setViewName("mg/links/links-list");
         return mav;
     }
     

@@ -104,7 +104,7 @@ body{height:100%;}
 			<li class="current" id="tb_11" onclick="HoverLi(1,1,4);"><a href="${basePath}mg/frame/home.htm" target="mainFrame">首页</a></li>
 			<li class="sep"></li><li id="tb_12" onclick="HoverLi(1,2,4);"><a href="${basePath}mg/post/news/index.htm" target="mainFrame">新闻</a></li>
 			<li class="sep"></li><li id="tb_13" onclick="HoverLi(1,3,4);"><a href="${basePath}mg/post/notices/index.htm" target="mainFrame">通知公告</a></li>
-			<li class="sep"></li><li id="tb_14" onclick="HoverLi(1,4,4);"><a href="${basePath}mg/links/index.htm" target="mainFrame">链接管理</a></li>
+			<li class="sep"></li><li id="tb_14" onclick="HoverLi(1,4,4);"><a href="${basePath}mg/links/index.htm" target="mainFrame">快捷入口管理</a></li>
 			</ul>
 		</td>
       </tr>

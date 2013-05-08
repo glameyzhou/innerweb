@@ -9,12 +9,6 @@
         $(function () {
             $("#jvForm").validate();
         });
-        function del(categoryId) {
-            if (!confirm("确定要删除此栏目?")) {
-                return;
-            }
-            window.location = '${basePath}mg/post/${aliasName}/category-del.htm?cateId=' + categoryId;
-        }
     </script>
 </head>
 <body>

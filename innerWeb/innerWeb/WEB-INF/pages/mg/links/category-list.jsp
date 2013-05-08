@@ -10,26 +10,26 @@
             $("#jvForm").validate();
         });
         function edit(categoryId) {
-            window.location = '${basePath}mg/post/${categoryParent.aliasName}/category-show.htm?categoryId=' + categoryId;
+            window.location = '${basePath}mg/post/${aliasName}/category-show.htm?categoryId=' + categoryId;
         }
         function del(categoryId) {
             if (!confirm("确定要删除此栏目?")) {
                 return;
             }
-            window.location = '${basePath}mg/post/${categoryParent.aliasName}/category-del.htm?categoryId=' + categoryId;
+            window.location = '${basePath}mg/post/${aliasName}/category-del.htm?cateId=' + categoryId;
         }
     </script>
 </head>
 <body>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - ${categoryParent.name} - 栏目列表</div>
+        <div class="rpos">当前位置: 首页 - 链接管理  - ${categoryParent.name} - 栏目列表</div>
         <form class="ropt">
-            <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/post/${categoryParent.aliasName}/category-show.htm';">
+            <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/post/${aliasName}/category-show.htm';">
         </form>
         <div class="clear"></div>
     </div>
-    <form action="${basePath}mg/post/${categoryParent.aliasName}/category-list.htm" method="get" style="padding-top:5px;">
+    <form action="${basePath}mg/${aliasName}/category-list.htm" method="get" style="padding-top:5px;">
         <div></div>
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
@@ -71,6 +71,8 @@
             </c:forEach>
             </tbody>
         </table>
+        <%--<c:set var="pageURL" value="${basePath}mg/${category.alias}/category-list.htm?"/>
+        <%@include file="../../common/pages.jsp" %>--%>
     </form>
 </div>
 </body>
