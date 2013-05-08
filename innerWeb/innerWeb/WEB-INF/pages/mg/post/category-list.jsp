@@ -23,7 +23,7 @@
 <body>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - ${categoryParent.name} - 栏目列表</div>
+        <div class="rpos">当前位置: 首页 - 链接管理  - ${categoryParent.name} - 栏目列表</div>
         <form class="ropt">
             <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/post/${aliasName}/category-show.htm';">
         </form>
