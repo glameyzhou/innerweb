@@ -11,7 +11,9 @@ import java.io.Serializable;
  * To change this template use File | Settings | File Templates.
  */
 public class MetaInfo implements Serializable {
-    private String name ;
+
+	private static final long serialVersionUID = 5280120721851184908L;
+	private String name ;
     private String value ;
 
     public String getName() {
