@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.innerweb.constants.CategoryConstants;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -59,7 +60,7 @@ public class LinksManagerController extends BaseController {
     public ModelAndView left(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-links-left]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("mg/links/left");
-        List<Category> categoryList = categoryDao.getByParentId("0", "links", 0, Integer.MAX_VALUE);
+        List<Category> categoryList = categoryDao.getByParentId(CategoryConstants.PARENTID, CategoryConstants.CATEGORY_LINKS, 0, Integer.MAX_VALUE);
         mav.addObject("categoryList", categoryList);
         return mav;
     }
@@ -69,7 +70,7 @@ public class LinksManagerController extends BaseController {
     public ModelAndView allroot(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-links-category-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
-        List<Category> categoryList = categoryDao.getByParentId("0", "links", 0, Integer.MAX_VALUE);
+        List<Category> categoryList = categoryDao.getByParentId(CategoryConstants.PARENTID, CategoryConstants.CATEGORY_LINKS, 0, Integer.MAX_VALUE);
         mav.addObject("categoryList", categoryList);
         mav.setViewName("mg/links/allroot");
         return mav;
