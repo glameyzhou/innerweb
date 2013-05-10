@@ -8,11 +8,11 @@ public class DBTest {
 
 	public static void main(String[] args) {
 		
-		ApplicationContext context = new ClassPathXmlApplicationContext("cn/com/checne/conf/dataSource.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext("/com/glamey/innerweb/conf/dataSource.xml");
 		
 		JdbcTemplate template = (JdbcTemplate) context.getBean("jdbcTemplate");
 		
-		int a = template.queryForInt("select count(1) from tbl_news");
+		int a = template.queryForInt("select count(1) from tbl_category");
 		System.out.println(a);
 	}
 }
