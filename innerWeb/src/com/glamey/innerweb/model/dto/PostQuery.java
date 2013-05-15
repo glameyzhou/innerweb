@@ -29,7 +29,6 @@ public class PostQuery {
     private int apply = -1;
     /*是否为焦点图*/
     private int focusImage = -1;
-    /*是否为热点*/
     private int hot = -1;
     private String keyword;
     private String image;

@@ -52,7 +52,7 @@ public class PostManagerController extends BaseController {
     @RequestMapping(value = "/{aliasName}/category-list.htm", method = RequestMethod.GET)
     public ModelAndView categoryList(
             @PathVariable String aliasName,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+            HttpServletRequest request) {
         logger.info("[manager-post-category-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
         if (StringUtils.isBlank(aliasName)) {
@@ -72,7 +72,7 @@ public class PostManagerController extends BaseController {
     @RequestMapping(value = "/{aliasName}/category-show.htm", method = RequestMethod.GET)
     public ModelAndView categoryShow(
             @PathVariable String aliasName,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+            HttpServletRequest request) {
         logger.info("[manager-post-category-show]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
         if (StringUtils.isBlank(aliasName)) {
@@ -98,7 +98,7 @@ public class PostManagerController extends BaseController {
     @RequestMapping(value = "/{aliasName}/category-create.htm", method = RequestMethod.POST)
     public ModelAndView categoryCreate(
             @PathVariable String aliasName,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+            HttpServletRequest request,HttpServletResponse response) {
         logger.info("[manager-post-category-create]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
@@ -119,7 +119,7 @@ public class PostManagerController extends BaseController {
         category.setDescribe(WebUtils.getRequestParameterAsString(request, "describe"));
         category.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
         category.setShowType(WebUtils.getRequestParameterAsInt(request, "showType", 0));
-        category.setCategoryOrder(WebUtils.getRequestParameterAsInt(request,"categoryOrder",0));
+        category.setCategoryOrder(WebUtils.getRequestParameterAsInt(request, "categoryOrder", 0));
         category.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
         category.setParentId(WebUtils.getRequestParameterAsString(request, "parentId"));
         category.setCategoryTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
@@ -138,7 +138,7 @@ public class PostManagerController extends BaseController {
     @RequestMapping(value = "/{aliasName}/category-update.htm", method = RequestMethod.POST)
     public ModelAndView categoryUpdate(
             @PathVariable String aliasName,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+            HttpServletRequest request,HttpServletResponse response) {
         logger.info("[manager-post-category-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
@@ -165,7 +165,7 @@ public class PostManagerController extends BaseController {
         category.setDescribe(WebUtils.getRequestParameterAsString(request, "describe"));
         category.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
         category.setShowType(WebUtils.getRequestParameterAsInt(request, "showType", 0));
-        category.setCategoryOrder(WebUtils.getRequestParameterAsInt(request,"categoryOrder",0));
+        category.setCategoryOrder(WebUtils.getRequestParameterAsInt(request, "categoryOrder", 0));
         category.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
 
         if (!categoryDao.update(category)) {
@@ -180,7 +180,7 @@ public class PostManagerController extends BaseController {
     /*删除分类中的图片信息*/
     @RequestMapping(value = "/{aliasName}/category-delImage.htm", method = RequestMethod.GET)
     public ModelAndView delImage(
-            @PathVariable String aliasName, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+            @PathVariable String aliasName, HttpServletRequest request) {
         logger.info("[manager-post-category-delete-images]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
@@ -205,7 +205,7 @@ public class PostManagerController extends BaseController {
     /*删除分类*/
     @RequestMapping(value = "/{aliasName}/category-del.htm", method = RequestMethod.GET)
     public ModelAndView categorDelete(
-            @PathVariable String aliasName, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+            @PathVariable String aliasName, HttpServletRequest request) {
         logger.info("[manager-post-category-delete]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
@@ -225,7 +225,7 @@ public class PostManagerController extends BaseController {
     @RequestMapping(value = "/{aliasName}/post-show.htm", method = RequestMethod.GET)
     public ModelAndView postShow(
             @PathVariable String aliasName,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+            HttpServletRequest request) {
         logger.info("[manager-post-post-show]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
         if (StringUtils.isBlank(aliasName)) {
@@ -257,7 +257,7 @@ public class PostManagerController extends BaseController {
     @RequestMapping(value = "/{aliasName}/post-create.htm", method = RequestMethod.POST)
     public ModelAndView postCreate(
             @PathVariable String aliasName,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+            HttpServletRequest request,HttpServletResponse response) {
         logger.info("[manager-post-post-create]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
@@ -301,7 +301,7 @@ public class PostManagerController extends BaseController {
     @RequestMapping(value = "/{aliasName}/post-update.htm", method = RequestMethod.POST)
     public ModelAndView postUpdate(
             @PathVariable String aliasName,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+            HttpServletRequest request,HttpServletResponse response) {
         logger.info("[manager-post-post-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
@@ -350,11 +350,10 @@ public class PostManagerController extends BaseController {
     }
 
     /*获取指定分类下的所有文章*/
-    @RequestMapping(value = "/{parentAliasName}/{aliasName}/post-list.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/{aliasName}/post-list.htm", method = RequestMethod.GET)
     public ModelAndView postList(
-            @PathVariable String parentAliasName,
             @PathVariable String aliasName,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+            HttpServletRequest request) {
         logger.info("[manager-post-post-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
         if (StringUtils.isBlank(aliasName)) {
@@ -364,7 +363,7 @@ public class PostManagerController extends BaseController {
         }
 
         //获取所有分类
-        Category categoryParent = categoryDao.getByAliasName(parentAliasName);
+        Category categoryParent = categoryDao.getByAliasName(aliasName);
         List<Category> categoryList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
 
         //请求参数获取
@@ -410,7 +409,7 @@ public class PostManagerController extends BaseController {
     /*页面列表数据的属性设置：删除；设置、取消首页显示、列表显示 、审核、显示焦点图*/
     @RequestMapping(value = "/{aliasName}/post-pageOperate.htm", method = RequestMethod.GET)
     public ModelAndView pageOperate(@PathVariable String aliasName,
-                                    HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+                                    HttpServletRequest request) {
         logger.info("[manager-post-post-pageOperate]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {

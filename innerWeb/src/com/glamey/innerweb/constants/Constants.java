@@ -12,6 +12,6 @@ public class Constants {
 	 */
 	public static final String SESSIN_USERID = "SESSION_USERID" ;
 	
-	/**验证码*/
+	/**验证码**/
 	public static final String VERIFYCODE = "VERIFYCODE" ;
 }
