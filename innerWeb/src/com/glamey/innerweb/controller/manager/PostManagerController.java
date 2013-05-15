@@ -3,6 +3,7 @@ package com.glamey.innerweb.controller.manager;
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
+import com.glamey.innerweb.constants.CategoryConstants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.PostDao;
@@ -45,40 +46,6 @@ public class PostManagerController extends BaseController {
     @Resource
     private WebUploadUtils uploadUtils;
 
-    /*直接跳转到对应的分类模块首页*/
-    @RequestMapping(value = "/{aliasName}/index.htm", method = RequestMethod.GET)
-    public ModelAndView index(
-            @PathVariable String aliasName,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        logger.info("[manager-post-index]" + request.getRequestURI());
-        ModelAndView mav = new ModelAndView();
-        if (StringUtils.isBlank(aliasName)) {
-            mav.setViewName("common/message");
-            mav.addObject("message", "无对应的视图信息-categoryIndex");
-            return mav;
-        }
-        mav.setViewName("mg/frame/frame_post");
-        mav.addObject("aliasName", aliasName);
-        return mav;
-    }
-
-    /*显示分类栏目下左侧菜单*/
-    @RequestMapping(value = "/{aliasName}/left.htm", method = RequestMethod.GET)
-    public ModelAndView left(
-            @PathVariable String aliasName,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        logger.info("[manager-post-left]" + request.getRequestURI());
-        ModelAndView mav = new ModelAndView();
-        if (StringUtils.isBlank(aliasName)) {
-            mav.setViewName("common/message");
-            mav.addObject("message", "无对应的视图信息-categoryLeft");
-            return mav;
-        }
-        mav.setViewName("mg/post/left");
-        mav.addObject("aliasName", aliasName);
-        return mav;
-    }
-
     /*分类列表（指定分类）
     * 默认的都是第一级分类，例如：新闻动态、通告等等
     * */
@@ -89,13 +56,11 @@ public class PostManagerController extends BaseController {
         logger.info("[manager-post-category-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
         if (StringUtils.isBlank(aliasName)) {
-            mav.setViewName("common/message");
-            mav.addObject("message", "无对应的分类列表-categoryList");
-            return mav;
+            aliasName = CategoryConstants.CATEGORY_NEWS;
         }
         Category categoryParent = categoryDao.getByAliasName(aliasName);
         String parentId = categoryParent.getId();
-        List<Category> categoryList = categoryDao.getByParentId(parentId, aliasName, 0, Integer.MAX_VALUE);
+        List<Category> categoryList = categoryDao.getByParentId(parentId, categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
         mav.addObject("categoryList", categoryList);
         mav.addObject("aliasName", aliasName);
         mav.addObject("categoryParent", categoryParent);
@@ -111,9 +76,7 @@ public class PostManagerController extends BaseController {
         logger.info("[manager-post-category-show]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
         if (StringUtils.isBlank(aliasName)) {
-            mav.setViewName("common/message");
-            mav.addObject("message", "无对应的分类列表-categoryShow");
-            return mav;
+            aliasName = CategoryConstants.CATEGORY_NEWS;
         }
         /*获取指定分类的对象*/
         Category categoryParent = categoryDao.getByAliasName(aliasName);
@@ -139,16 +102,14 @@ public class PostManagerController extends BaseController {
         logger.info("[manager-post-category-create]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
-            mav.setViewName("common/message");
-            mav.addObject("message", "无对应的分类列表-categoryCreate");
-            return mav;
+            aliasName = CategoryConstants.CATEGORY_NEWS;
         }
         Category category = new Category();
         /*图片上传*/
         UploadInfo ui = uploadUtils.doUpload(request, response);
         if (ui.getResultCode() != 0)
             return ui.getModelAndView();
-        if(StringUtils.isNotBlank(ui.getFilePath()))
+        if (StringUtils.isNotBlank(ui.getFilePath()))
             category.setCategoryImage(ui.getFilePath());
 
         category.setCategoryImage(ui.getFilePath());
@@ -158,6 +119,7 @@ public class PostManagerController extends BaseController {
         category.setDescribe(WebUtils.getRequestParameterAsString(request, "describe"));
         category.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
         category.setShowType(WebUtils.getRequestParameterAsInt(request, "showType", 0));
+        category.setCategoryOrder(WebUtils.getRequestParameterAsInt(request,"categoryOrder",0));
         category.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
         category.setParentId(WebUtils.getRequestParameterAsString(request, "parentId"));
         category.setCategoryTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
@@ -180,9 +142,7 @@ public class PostManagerController extends BaseController {
         logger.info("[manager-post-category-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
-            mav.setViewName("common/message");
-            mav.addObject("message", "无对应的分类列表-categoyUpdate");
-            return mav;
+            aliasName = CategoryConstants.CATEGORY_NEWS;
         }
         Category category = new Category();
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
@@ -196,7 +156,7 @@ public class PostManagerController extends BaseController {
         UploadInfo ui = uploadUtils.doUpload(request, response);
         if (ui.getResultCode() != 0)
             return ui.getModelAndView();
-        if(StringUtils.isNotBlank(ui.getFilePath()))
+        if (StringUtils.isNotBlank(ui.getFilePath()))
             category.setCategoryImage(ui.getFilePath());
 
         category.setName(WebUtils.getRequestParameterAsString(request, "name"));
@@ -205,6 +165,7 @@ public class PostManagerController extends BaseController {
         category.setDescribe(WebUtils.getRequestParameterAsString(request, "describe"));
         category.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
         category.setShowType(WebUtils.getRequestParameterAsInt(request, "showType", 0));
+        category.setCategoryOrder(WebUtils.getRequestParameterAsInt(request,"categoryOrder",0));
         category.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
 
         if (!categoryDao.update(category)) {
@@ -223,9 +184,7 @@ public class PostManagerController extends BaseController {
         logger.info("[manager-post-category-delete-images]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
-            mav.setViewName("common/message");
-            mav.addObject("message", "无对应的分类列表-category-deleteImage");
-            return mav;
+            aliasName = CategoryConstants.CATEGORY_NEWS;
         }
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
         if (StringUtils.isBlank(categoryId)) {
@@ -250,9 +209,7 @@ public class PostManagerController extends BaseController {
         logger.info("[manager-post-category-delete]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
-            mav.setViewName("common/message");
-            mav.addObject("message", "无对应的分类列表-category-delete");
-            return mav;
+            aliasName = CategoryConstants.CATEGORY_NEWS;
         }
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
         if (StringUtils.isBlank(categoryId)) {
@@ -273,7 +230,7 @@ public class PostManagerController extends BaseController {
         ModelAndView mav = new ModelAndView();
         if (StringUtils.isBlank(aliasName)) {
             mav.setViewName("common/message");
-            mav.addObject("message", "无对应的分类列表-categoryShow");
+            mav.addObject("message", "There is no category for post ! ");
             return mav;
         }
         /*获取指定分类的对象*/
@@ -305,7 +262,7 @@ public class PostManagerController extends BaseController {
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
             mav.setViewName("common/message");
-            mav.addObject("message", "无对应的分类列表-categoryCreate");
+            mav.addObject("message", "There is no category for post ! ");
             return mav;
         }
         Post post = new Post();
@@ -313,7 +270,7 @@ public class PostManagerController extends BaseController {
         UploadInfo ui = uploadUtils.doUpload(request, response);
         if (ui.getResultCode() != 0)
             return ui.getModelAndView();
-        if(StringUtils.isNotBlank(ui.getFilePath()))
+        if (StringUtils.isNotBlank(ui.getFilePath()))
             post.setImage(ui.getFilePath());
         post.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
         post.setCategoryId(WebUtils.getRequestParameterAsString(request, "categoryId"));
@@ -321,7 +278,7 @@ public class PostManagerController extends BaseController {
         post.setAuthor(WebUtils.getRequestParameterAsString(request, "author"));
         post.setSource(WebUtils.getRequestParameterAsString(request, "source"));
         //post.setTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-        post.setTime(WebUtils.getRequestParameterAsString(request,"time",DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss")));
+        post.setTime(WebUtils.getRequestParameterAsString(request, "time", DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss")));
         post.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
         post.setShowList(WebUtils.getRequestParameterAsInt(request, "showList", 0));
         post.setApply(WebUtils.getRequestParameterAsInt(request, "apply", 0));
@@ -349,7 +306,7 @@ public class PostManagerController extends BaseController {
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
             mav.setViewName("common/message");
-            mav.addObject("message", "无对应的分类列表-categoyUpdate");
+            mav.addObject("message", "There is no category for post ! ");
             return mav;
         }
         Post post = new Post();
@@ -364,7 +321,7 @@ public class PostManagerController extends BaseController {
         UploadInfo ui = uploadUtils.doUpload(request, response);
         if (ui.getResultCode() != 0)
             return ui.getModelAndView();
-        if(StringUtils.isNotBlank(ui.getFilePath()))
+        if (StringUtils.isNotBlank(ui.getFilePath()))
             post.setImage(ui.getFilePath());
 
         post.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
@@ -393,20 +350,21 @@ public class PostManagerController extends BaseController {
     }
 
     /*获取指定分类下的所有文章*/
-    @RequestMapping(value = "/{aliasName}/post-list.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/{parentAliasName}/{aliasName}/post-list.htm", method = RequestMethod.GET)
     public ModelAndView postList(
+            @PathVariable String parentAliasName,
             @PathVariable String aliasName,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-post-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
         if (StringUtils.isBlank(aliasName)) {
             mav.setViewName("common/message");
-            mav.addObject("message", "无对应的分类列表-categoryList");
+            mav.addObject("message", "There is no category for post ! ");
             return mav;
         }
 
         //获取所有分类
-        Category categoryParent = categoryDao.getByAliasName(aliasName);
+        Category categoryParent = categoryDao.getByAliasName(parentAliasName);
         List<Category> categoryList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
 
         //请求参数获取
@@ -416,17 +374,17 @@ public class PostManagerController extends BaseController {
 
         String categoryType = categoryParent.getCategoryType();
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
-        String keyword = WebUtils.getRequestParameterAsString(request,"keyword");
+        String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
         keyword = StringTools.converISO2UTF8(keyword);
 
         PostQuery query = new PostQuery();
         query.setKeyword(keyword);
-        query.setShowIndex(WebUtils.getRequestParameterAsInt(request,"showIndex",-1));
-        query.setShowList(WebUtils.getRequestParameterAsInt(request,"showList",-1));
-        query.setApply(WebUtils.getRequestParameterAsInt(request,"apply",-1));
-        query.setFocusImage(WebUtils.getRequestParameterAsInt(request,"focusImage",-1));
-        query.setStartTime(WebUtils.getRequestParameterAsString(request,"startTime"));
-        query.setEndTime(WebUtils.getRequestParameterAsString(request,"endTime"));
+        query.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", -1));
+        query.setShowList(WebUtils.getRequestParameterAsInt(request, "showList", -1));
+        query.setApply(WebUtils.getRequestParameterAsInt(request, "apply", -1));
+        query.setFocusImage(WebUtils.getRequestParameterAsInt(request, "focusImage", -1));
+        query.setStartTime(WebUtils.getRequestParameterAsString(request, "startTime"));
+        query.setEndTime(WebUtils.getRequestParameterAsString(request, "endTime"));
         query.setCategoryType(categoryType);
         query.setCategoryId(categoryId);
         query.setStart(pageBean.getStart());
@@ -450,39 +408,39 @@ public class PostManagerController extends BaseController {
     }
 
     /*页面列表数据的属性设置：删除；设置、取消首页显示、列表显示 、审核、显示焦点图*/
-    @RequestMapping(value = "/{aliasName}/post-pageOperate.htm",method = RequestMethod.GET)
+    @RequestMapping(value = "/{aliasName}/post-pageOperate.htm", method = RequestMethod.GET)
     public ModelAndView pageOperate(@PathVariable String aliasName,
                                     HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-post-pageOperate]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
             mav.setViewName("common/message");
-            mav.addObject("message", "无对应的分类列表-categoryList");
+            mav.addObject("message", "There is no category for post ! ");
             return mav;
         }
         //操作符合 1=设置 0=取消
-        String flag = WebUtils.getRequestParameterAsString(request,"flag");
+        String flag = WebUtils.getRequestParameterAsString(request, "flag");
         //操作分类 1=删除 2=首页显示 3=列表页显示 4=审核 5=焦点图设置
-        String type = WebUtils.getRequestParameterAsString(request,"type");
+        String type = WebUtils.getRequestParameterAsString(request, "type");
         //postID集合，中间以","分割
-        String postIds = WebUtils.getRequestParameterAsString(request,"postId");
+        String postIds = WebUtils.getRequestParameterAsString(request, "postId");
 
-        if(StringUtils.isBlank(flag) || StringUtils.isBlank(type) || StringUtils.isBlank(postIds)){
+        if (StringUtils.isBlank(flag) || StringUtils.isBlank(type) || StringUtils.isBlank(postIds)) {
             mav.setViewName("common/message");
             mav.addObject("message", "无对应的操作标识");
             return mav;
         }
-        String postIdArray [] = StringUtils.split(postIds,",");
+        String postIdArray[] = StringUtils.split(postIds, ",");
         try {
             for (String s : postIdArray) {
-                logger.info("[manager-post-post-pageOperate] postId=" + s + " type=" + type + " flag=" + flag + " operateResult=" + postDao.pageOperate(s,type,flag));
+                logger.info("[manager-post-post-pageOperate] postId=" + s + " type=" + type + " flag=" + flag + " operateResult=" + postDao.pageOperate(s, type, flag));
             }
-            mav.addObject("message","操作成功!");
+            mav.addObject("message", "操作成功!");
         } catch (Exception e) {
-            mav.addObject("message","操作失败,请稍后重试!");
-            logger.info("[manager-post-post-pageOperate] error!",e);
+            mav.addObject("message", "操作失败,请稍后重试!");
+            logger.info("[manager-post-post-pageOperate] error!", e);
         }
-        return mav ;
+        return mav;
     }
 
 }

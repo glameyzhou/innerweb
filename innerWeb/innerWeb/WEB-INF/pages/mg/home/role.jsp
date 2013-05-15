@@ -10,15 +10,28 @@
         $(function () {
             Cms.lmenu('lmenu');
         });
+        function changeRole(){
+
+        }
     </script>
 </head>
 <body class="lbody">
+<p>&nbsp;角色选择&nbsp;
+    <select id="roleId" name="roleId">
+        <option value="1">超级管理员</option>
+    </select>
+</p>
 <ul id="lmenu">
     <li><a href="${basePath}mg/home/webInfo.htm" target="mainFrame">欢迎界面</a></li>
     <li><a href="${basePath}mg/home/webInfo.htm" target="mainFrame">个人信息管理</a></li>
-    <li><a href="${basePath}mg/home/webInfo.htm" target="mainFrame">新闻分类管理</a></li>
-    <c:forEach var="cate" items="${newsCategoryList}">
-        <li><a href="${basePath}mg/post/${cate.aliasName}/list.htm" target="mainFrame">${cate.name}管理</a></li>
+    <li><a href="${basePath}mg/post/${categoryNews.aliasName}/category-list.htm" target="mainFrame">分类管理--${categoryNews.name}</a></li>
+    <c:forEach var="cate" items="${categoryNewsList}">
+        <li><a href="${basePath}mg/post/${categoryNews.aliasName}/${cate.aliasName}/post-list.htm" target="mainFrame">内容管理--${cate.name}</a></li>
+    </c:forEach>
+
+    <li><a href="${basePath}mg/home/webInfo.htm" target="mainFrame">分类管理--${categoryNotices.name}</a></li>
+    <c:forEach var="cate" items="${categoryNoticesList}">
+        <li><a href="${basePath}mg/post/${cate.aliasName}/links-list.htm" target="mainFrame">内容管理--${cate.name}</a></li>
     </c:forEach>
 </ul>
 </body>

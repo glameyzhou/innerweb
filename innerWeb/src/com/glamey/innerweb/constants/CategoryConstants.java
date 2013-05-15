@@ -18,4 +18,5 @@ public class CategoryConstants {
     public static final String CATEGORY_LINKS = "links";
     /*部门分类*/
     public static final String CATEGORY_DEPT = "dept";
+
 }

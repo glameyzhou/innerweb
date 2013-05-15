@@ -59,10 +59,19 @@ public class HomeManagerController extends BaseController {
     @RequestMapping(value = "/home/role.htm")
     public ModelAndView top(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         ModelAndView mav = new ModelAndView("mg/home/role");
-        List<Category> newsCategoryList = categoryDao.getByParentId("0", CategoryConstants.CATEGORY_NEWS,0,Integer.MAX_VALUE);
+
+        Category categoryNews = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NEWS);
+        List<Category> categoryNewsList = categoryDao.getByParentId(categoryNews.getId(), categoryNews.getCategoryType(),0,Integer.MAX_VALUE);
+
+        Category categoryNotices = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NOTICES);
+        List<Category> categoryNoticesList = categoryDao.getByParentId(categoryNotices.getId(),categoryNotices.getCategoryType(),0,Integer.MAX_VALUE);
+
+        mav.addObject("categoryNews",categoryNews);
+        mav.addObject("categoryNewsList",categoryNewsList);
+        mav.addObject("categoryNotices",categoryNotices);
+        mav.addObject("categoryNoticesList",categoryNoticesList);
 
 
-        mav.addObject("newsCategoryList",newsCategoryList);
         return mav ;
     }
 

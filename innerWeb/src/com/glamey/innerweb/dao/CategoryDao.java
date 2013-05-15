@@ -207,7 +207,7 @@ public class CategoryDao extends BaseDao {
         logger.info("[CategoryDao] #getCategoryByParentId# parendId=" + parentId + " categoryType=" + categoryType);
         List<Category> list = new ArrayList<Category>();
         try {
-            list = jdbcTemplate.query("select * from tbl_category where categorytype = ? and parentid = ? limit ?,? ",
+            list = jdbcTemplate.query("select * from tbl_category where categorytype = ? and parentid = ? order by categoryorder asc limit ?,? ",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement preparedstatement)
