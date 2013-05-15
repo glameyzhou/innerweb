@@ -30,10 +30,12 @@
         <li><a href="${basePath}mg/post/${categoryNews.aliasName}/post-list.htm?categoryId=${cate.id}" target="mainFrame">内容管理--${cate.name}</a></li>
     </c:forEach>
 
-    <li><a href="${basePath}mg/home/webInfo.htm" target="mainFrame">分类管理--${categoryNotices.name}</a></li>
+    <%--通知公告管理--%>
+    <li><a href="${basePath}mg/post/${categoryNotices.aliasName}/category-list.htm" target="mainFrame">分类管理--${categoryNotices.name}</a></li>
     <c:forEach var="cate" items="${categoryNoticesList}">
-        <li><a href="${basePath}mg/post/${cate.aliasName}/links-list.htm" target="mainFrame">内容管理--${cate.name}</a></li>
+        <li><a href="${basePath}mg/post/${categoryNotices.aliasName}/post-list.htm?categoryId=${cate.id}" target="mainFrame">内容管理--${cate.name}</a></li>
     </c:forEach>
+
 </ul>
 </body>
 </html>

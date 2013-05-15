@@ -61,12 +61,12 @@
 	<form action="${basePath}mg/post/${categoryParent.aliasName}/post-list.htm" method="get" style="padding-top:5px;">
 		<div>
 			关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
-			分类&nbsp;<select name="categoryId" id="categoryId">
+			<%--分类&nbsp;<select name="categoryId" id="categoryId">
 					<option value="">请选择</option>
 					<c:forEach var="cate" items="${categoryList}">
 						<option value="${cate.id}" <c:if test="${query.categoryId == cate.id}">selected="selected" </c:if>>${cate.name}</option>
 					</c:forEach>				
-				</select>&nbsp;&nbsp;
+				</select>&nbsp;&nbsp;--%>
 			首页显示&nbsp;<select name="showIndex" id="showIndex">
 					<option value="">请选择</option>
 					<option value="0" <c:if test="${query.showIndex == 0}">selected="selected" </c:if>>否</option>
