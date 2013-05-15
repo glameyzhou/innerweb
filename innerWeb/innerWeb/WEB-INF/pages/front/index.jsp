@@ -23,7 +23,7 @@
             <ul>
                 <li><img src="${basePath}res/front/images/header_login.png"/></li>
                 <li>
-                    <span>欢迎您：${sessionScope.SESSION_USERID}&nbsp;<a href="mg/home.htm">后台管理</a></span>
+                    <span>欢迎您：${sessionScope.SESSION_USERID}</span>
                 </li>
                 <li>|</li>
                 <li><img src="${basePath}res/front/images/header_mail.png"/></li>
@@ -37,7 +37,7 @@
     </div>
     <div class="menu">
         <ul>
-            <li><a href="#">个人中心</a></li>
+            <li><a href="mg/home.htm" target="_blank">个人中心</a></li>
             <li>|</li>
             <li><a href="#">员工生活</a></li>
             <li>|</li>

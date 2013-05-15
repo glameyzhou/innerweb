@@ -32,8 +32,8 @@ import java.util.List;
  * User: zy
  * Date: 13-5-4 上午12:08
  */
-@Controller
-@RequestMapping(value = "/mg/links")
+//@Controller
+//@RequestMapping(value = "/mg/links")
 public class DeptManagerController extends BaseController {
     private static final Logger logger = Logger.getLogger(DeptManagerController.class);
 
@@ -45,7 +45,7 @@ public class DeptManagerController extends BaseController {
     private WebUploadUtils uploadUtils;
 
     /*首页*/
-    @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
+    //@RequestMapping(value = "/index.htm", method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-links-index]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
@@ -54,7 +54,7 @@ public class DeptManagerController extends BaseController {
     }
 
     /*显示分类栏目下左侧菜单*/
-    @RequestMapping(value = "/left.htm", method = RequestMethod.GET)
+    //@RequestMapping(value = "/left.htm", method = RequestMethod.GET)
     public ModelAndView left(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-links-left]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("mg/links/left");
@@ -64,7 +64,7 @@ public class DeptManagerController extends BaseController {
     }
 
     /*分类列表（指定分类）*/
-    @RequestMapping(value = "/allroot.htm", method = RequestMethod.GET)
+    //@RequestMapping(value = "/allroot.htm", method = RequestMethod.GET)
     public ModelAndView allroot(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-links-category-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
@@ -75,7 +75,7 @@ public class DeptManagerController extends BaseController {
     }
 
     /*链接修改、新增显示页面*/
-    @RequestMapping(value = "/{categoryType}/{categoryId}/links-show.htm", method = RequestMethod.GET)
+    //@RequestMapping(value = "/{categoryType}/{categoryId}/links-show.htm", method = RequestMethod.GET)
     public ModelAndView linksShow(
             @PathVariable String categoryType,
             @PathVariable String categoryId,
@@ -104,7 +104,7 @@ public class DeptManagerController extends BaseController {
     }
 
     /*链接新增*/
-    @RequestMapping(value = "/{categoryType}/{categoryId}/links-create.htm", method = RequestMethod.POST)
+    //@RequestMapping(value = "/{categoryType}/{categoryId}/links-create.htm", method = RequestMethod.POST)
     public ModelAndView linksCreate(
             @PathVariable String categoryType,
             @PathVariable String categoryId,
@@ -140,7 +140,7 @@ public class DeptManagerController extends BaseController {
     }
 
     /*链接更新*/
-    @RequestMapping(value = "/{categoryType}/{categoryId}/links-update.htm", method = RequestMethod.POST)
+    //@RequestMapping(value = "/{categoryType}/{categoryId}/links-update.htm", method = RequestMethod.POST)
     public ModelAndView linksUpdate(
             @PathVariable String categoryType,
             @PathVariable String categoryId,
@@ -181,7 +181,7 @@ public class DeptManagerController extends BaseController {
     }
 
     /*链接删除*/
-    @RequestMapping(value = "/{categoryType}/{categoryId}/links-del.htm", method = RequestMethod.GET)
+    //@RequestMapping(value = "/{categoryType}/{categoryId}/links-del.htm", method = RequestMethod.GET)
     public ModelAndView linksDel(
             @PathVariable String categoryType,
             @PathVariable String categoryId,
@@ -213,7 +213,7 @@ public class DeptManagerController extends BaseController {
     }
 
     /*获取指定分来下的所有链接*/
-    @RequestMapping(value = "/{categoryType}/{categoryId}/links-list.htm", method = RequestMethod.GET)
+    //@RequestMapping(value = "/{categoryType}/{categoryId}/links-list.htm", method = RequestMethod.GET)
     public ModelAndView linksList(
             @PathVariable String categoryType,
             @PathVariable String categoryId,
@@ -254,7 +254,7 @@ public class DeptManagerController extends BaseController {
     }
     
     /*删除链接中的图片信息*/
-    @RequestMapping(value = "/{categoryType}/{categoryId}/links-delImage.htm", method = RequestMethod.GET)
+    //@RequestMapping(value = "/{categoryType}/{categoryId}/links-delImage.htm", method = RequestMethod.GET)
     public ModelAndView delImage(
             @PathVariable String aliasName, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-links-delete-images]" + request.getRequestURI());
