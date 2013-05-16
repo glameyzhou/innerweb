@@ -6,7 +6,10 @@ import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.LinksDao;
 import com.glamey.innerweb.dao.PostDao;
 import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.Links;
 import com.glamey.innerweb.model.domain.Post;
+import com.glamey.innerweb.model.dto.CategoryQuery;
+import com.glamey.innerweb.model.dto.LinksQuery;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,7 +21,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class IndexFrontController extends BaseController {
@@ -48,6 +53,31 @@ public class IndexFrontController extends BaseController {
         for (Category category : categoryList) {
             System.out.println(category);
         }
+
+
+        /*友情链接内容显示*/
+        Map<Category,List<Links>> friendlyLinksMap = new HashMap<Category, List<Links>>();
+        Category friendlyLink = categoryDao.getByAliasName(CategoryConstants.CATEOGRY_FRIENDLYLINKS);
+        if(friendlyLink != null){
+            //父类为友情链接、首页显示的所有链接
+            CategoryQuery query = new CategoryQuery();
+            query.setCategoryType(CategoryConstants.CATEOGRY_FRIENDLYLINKS);
+            query.setParentId(friendlyLink.getId());
+            query.setShowIndex(1);
+            List<Category> categoryFriendlyLinksList = categoryDao.getByQuery(query,0,Integer.MAX_VALUE) ;
+            System.out.println("<>" + categoryFriendlyLinksList);
+            for (Category category : categoryFriendlyLinksList) {
+                LinksQuery linksQuery = new LinksQuery();
+                linksQuery.setCategoryType(category.getCategoryType());
+                linksQuery.setCategoryId(category.getId());
+                linksQuery.setStart(0);
+                linksQuery.setNum(10);
+                List<Links> linksList = linksDao.getByParentId(linksQuery);
+                friendlyLinksMap.put(category,linksList);
+            }
+            System.out.println(friendlyLinksMap);
+        }
+
         return mav;
     }
 }

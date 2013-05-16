@@ -5,6 +5,8 @@ package com.glamey.innerweb.dao;
 
 import com.glamey.framework.utils.StringTools;
 import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.dto.CategoryQuery;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
@@ -243,6 +245,71 @@ public class CategoryDao extends BaseDao {
             logger.error("[CategoryDao] #getCountByParentId# error parendId=" + parentId + " categoryType=" + categoryType, e);
         }
         return count;
+    }
+
+    public List<Category> getByQuery(final CategoryQuery query, final int start, final int num) {
+        logger.info("[CategoryDao] #getByQuery# query=" + query);
+        List<Category> list = new ArrayList<Category>();
+        try {
+            StringBuffer sql = new StringBuffer("select * from tbl_category where 1=1 ");
+            if (StringUtils.isNotBlank(query.getCategoryType()))
+                sql.append(" and categorytype = ? ");
+
+            if (StringUtils.isNotBlank(query.getParentId()))
+                sql.append(" and parentid = ? ");
+
+            if (query.getShowIndex() > -1)
+                sql.append(" and showindex = ? ");
+
+            if (query.getShowType() > -1)
+                sql.append(" and showtype = ? ");
+
+            if (StringUtils.isNotBlank(query.getCategoryImage()))
+                sql.append(" and categoryimage <> '' ");
+
+            if (StringUtils.isNotBlank(query.getKeyword()))
+                sql.append(" and (name = ? or shortname like ? or aliasname like ? or categorydescribe like ?)");
+
+            sql.append(" order by categoryorder desc limit ?,? ");
+
+            list = jdbcTemplate.query(sql.toString(),
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedstatement)
+                                throws SQLException {
+                            int i = 0;
+                            if (StringUtils.isNotBlank(query.getCategoryType()))
+                                preparedstatement.setString(++i, query.getCategoryType());
+
+                            if (StringUtils.isNotBlank(query.getParentId()))
+                                preparedstatement.setString(++i, query.getParentId());
+
+
+                            if (query.getShowIndex() > -1)
+                                preparedstatement.setInt(++i, query.getShowIndex());
+
+                            if (query.getShowType() > -1)
+                                preparedstatement.setInt(++i, query.getShowType());
+
+                            if (StringUtils.isNotBlank(query.getCategoryImage()))
+                                preparedstatement.setString(++i, query.getCategoryImage());
+
+                            if (StringUtils.isNotBlank(query.getKeyword())) {
+                                preparedstatement.setString(++i, query.getKeyword());
+                                preparedstatement.setString(++i, query.getKeyword());
+                                preparedstatement.setString(++i, query.getKeyword());
+                                preparedstatement.setString(++i, query.getKeyword());
+                            }
+                            preparedstatement.setInt(++i, start);
+                            preparedstatement.setInt(++i, num);
+                        }
+                    },
+                    new CategoryRowMapper());
+            return list;
+        } catch (Exception e) {
+            logger.error("[CategoryDao] #getByParentId# error", e);
+        }
+        return null;
     }
 
     /**

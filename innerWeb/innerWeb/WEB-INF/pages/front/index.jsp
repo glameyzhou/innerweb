@@ -18,7 +18,12 @@
     <div class="header_top">
         <div class="header_top_logo"><img src="${basePath}res/front/images/logo.png"/></div>
         <div class="header_top_login">
-            <p>今天是2013-3-16（星期六）北京多云转晴 15℃~8℃ 北风5到4级转4到3级</p>
+            <p>
+                <iframe name="sinaWeatherTool"
+                        src="http://weather.news.sina.com.cn/chajian/iframe/weatherStyle1.html?city=%E5%8C%97%E4%BA%AC"
+                        width="200" height="20" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0"
+                        scrolling="no"></iframe>
+            </p>
 
             <p style="margin-top:10px;">
             <ul>
