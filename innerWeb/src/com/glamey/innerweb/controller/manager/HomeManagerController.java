@@ -70,7 +70,7 @@ public class HomeManagerController extends BaseController {
         /*友情链接分类管理*/
         Category categoryFriendlyLinks = categoryDao.getByAliasName(CategoryConstants.CATEOGRY_FRIENDLYLINKS);
         List<Category> categoryFriendlyLinksList = categoryDao.getByParentId(categoryFriendlyLinks.getId(),categoryFriendlyLinks.getCategoryType(),0,Integer.MAX_VALUE);
-        
+
         mav.addObject("categoryNews",categoryNews);
         mav.addObject("categoryNewsList",categoryNewsList);
         mav.addObject("categoryNotices",categoryNotices);

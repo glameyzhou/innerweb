@@ -43,8 +43,8 @@ public class LinksDao extends BaseDao {
         logger.info("[LinksDao] #create# " + links);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_links(id,links_name,links_url,links_category_id,links_category_type,links_image,links_order,links_latestdate) " +
-                            " values(?,?,?,?,?,?,?,?)",
+                    "insert into tbl_links(id,links_name,links_url,links_category_id,links_category_type,links_image,links_order,links_showindex,links_latestdate) " +
+                            " values(?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -56,6 +56,7 @@ public class LinksDao extends BaseDao {
                             pstmt.setString(++i, links.getCategoryType());
                             pstmt.setString(++i, links.getImage());
                             pstmt.setInt(++i, links.getOrder());
+                            pstmt.setInt(++i,links.getShowIndex());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
                         }
                     });
@@ -74,7 +75,7 @@ public class LinksDao extends BaseDao {
         logger.info("[LinksDao] #update# " + links);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_links set links_name=?,links_url=?,links_category_id=?,links_category_type=?,links_image=?,links_order=? where id = ?",
+                    "update tbl_links set links_name=?,links_url=?,links_category_id=?,links_category_type=?,links_image=?,links_order=?,links_showindex=? where id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -85,6 +86,7 @@ public class LinksDao extends BaseDao {
                             pstmt.setString(++i, links.getCategoryType());
                             pstmt.setString(++i, links.getImage());
                             pstmt.setInt(++i, links.getOrder());
+                            pstmt.setInt(++i,links.getShowIndex());
                             pstmt.setString(++i, links.getId());
                         }
                     });
@@ -157,8 +159,11 @@ public class LinksDao extends BaseDao {
         	
         	if(StringUtils.isNotBlank(query.getKeyword()))
         		sql.append(" and (links_name like ? or links_url like ? ) ");
+
+            if(query.getShowIndex() > -1)
+        		sql.append(" and links_showindex = ? ");
         	
-        	sql.append(" order by links_latestdate desc limit ?,? ");
+        	sql.append(" order by links_order desc limit ?,? ");
         	
             list = jdbcTemplate.query(sql.toString(),
                     new PreparedStatementSetter() {
@@ -176,7 +181,9 @@ public class LinksDao extends BaseDao {
                                 preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
                                 preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
                         	}
-                        	
+                            if(query.getShowIndex() > -1)
+                                preparedstatement.setInt(++i,query.getShowIndex());
+
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
                         }
@@ -210,6 +217,11 @@ public class LinksDao extends BaseDao {
         		params.add("%" + query.getKeyword() + "%");
         		params.add("%" + query.getKeyword() + "%");
         	}
+
+            if(query.getShowIndex() > -1){
+                sql.append(" and links_showindex = ? ");
+                params.add(query.getShowIndex());
+            }
         	
             count = jdbcTemplate.queryForInt(sql.toString(),params.toArray());
         } catch (Exception e) {
@@ -255,6 +267,7 @@ public class LinksDao extends BaseDao {
             links.setUrl(rs.getString("links_url"));
             links.setImage(rs.getString("links_image"));
             links.setOrder(rs.getInt("links_order"));
+            links.setShowIndex(rs.getInt("links_showindex"));
             links.setLatestDate(rs.getTimestamp("links_latestdate"));
             
             links.setCategoryId(rs.getString("links_category_id"));

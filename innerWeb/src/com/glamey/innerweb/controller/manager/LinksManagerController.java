@@ -251,10 +251,12 @@ public class LinksManagerController extends BaseController {
             mav.addObject("message", "cant's find the links category!");
             return mav;
         }
-        //获取一级分类信息.
+        //获取根结点
         Category categoryParent = categoryDao.getByAliasName(aliasName);
+        //当前结点
         String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
         categoryId = StringUtils.isNotBlank(categoryId) ? categoryId : categoryParent.getId();
+        Category category = categoryDao.getById(categoryId);
 
         String opt = "create";
         String linksId = WebUtils.getRequestParameterAsString(request, "linksId");
@@ -267,6 +269,7 @@ public class LinksManagerController extends BaseController {
         links.setCategoryId(categoryId);
         mav.addObject("opt", opt);
         mav.addObject("categoryParent", categoryParent);
+        mav.addObject("category",category);
         mav.addObject("links", links);
         mav.setViewName("mg/links/links-show");
         return mav;
@@ -283,7 +286,13 @@ public class LinksManagerController extends BaseController {
             mav.addObject("message", "cant's find the links category!");
             return mav;
         }
+        //获取根结点
         Category categoryParent = categoryDao.getByAliasName(aliasName);
+        //当前结点
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        categoryId = StringUtils.isNotBlank(categoryId) ? categoryId : categoryParent.getId();
+        Category category = categoryDao.getById(categoryId);
+
         Links links = new Links();
         //处理图片
         UploadInfo ui = uploadUtils.doUpload(request, response);
@@ -292,20 +301,18 @@ public class LinksManagerController extends BaseController {
         if (StringUtils.isNotBlank(ui.getFilePath()))
             links.setImage(ui.getFilePath());
 
-        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
-        categoryId = StringUtils.isBlank(categoryId) ? categoryParent.getId() : categoryId ;
         links.setCategoryType(categoryParent.getCategoryType());
         links.setCategoryId(categoryId);
         links.setName(WebUtils.getRequestParameterAsString(request, "name"));
         links.setUrl(WebUtils.getRequestParameterAsString(request, "url"));
         links.setOrder(WebUtils.getRequestParameterAsInt(request, "order", 0));
+        links.setShowIndex(WebUtils.getRequestParameterAsInt(request,"showIndex",1));
 
         if (linksDao.create(links)) {
             mav.addObject("message", "links create success!");
         } else {
             mav.addObject("message", "links create failure!");
         }
-        mav.addObject("categoryParent", categoryParent);
         return mav;
     }
 
@@ -325,7 +332,14 @@ public class LinksManagerController extends BaseController {
             mav.addObject("message", "cant's find the linksId!");
             return mav;
         }
+
+        //获取根结点
         Category categoryParent = categoryDao.getByAliasName(aliasName);
+        //当前结点
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        categoryId = StringUtils.isNotBlank(categoryId) ? categoryId : categoryParent.getId();
+        Category category = categoryDao.getById(categoryId);
+
         Links links = linksDao.getById(linksId);
         //处理图片
         UploadInfo ui = uploadUtils.doUpload(request, response);
@@ -334,21 +348,18 @@ public class LinksManagerController extends BaseController {
         if (StringUtils.isNotBlank(ui.getFilePath()))
             links.setImage(ui.getFilePath());
 
-        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
-        categoryId = StringUtils.isBlank(categoryId) ? categoryParent.getId() : categoryId ;
-
         links.setCategoryType(categoryParent.getCategoryType());
         links.setCategoryId(categoryId);
         links.setName(WebUtils.getRequestParameterAsString(request, "name"));
         links.setUrl(WebUtils.getRequestParameterAsString(request, "url"));
         links.setOrder(WebUtils.getRequestParameterAsInt(request, "order", 0));
+        links.setShowIndex(WebUtils.getRequestParameterAsInt(request,"showIndex",1));
 
         if (linksDao.update(links)) {
             mav.addObject("message", "links update success!");
         } else {
             mav.addObject("message", "links update failure!");
         }
-        mav.addObject("categoryParent", categoryParent);
         return mav;
     }
 
@@ -395,21 +406,25 @@ public class LinksManagerController extends BaseController {
             mav.addObject("message", "can't find the links category!");
             return mav;
         }
+        //根结点
         Category categoryParent = categoryDao.getByAliasName(aliasName);
-
-        String keyword = WebUtils.getRequestParameterAsString(request,"keyword");
-        keyword = StringTools.converISO2UTF8(keyword);
-
+        //当前结点
         String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
         categoryId = StringUtils.isNotBlank(categoryId) ? categoryId : categoryParent.getId();
-       
+        Category category = categoryDao.getById(categoryId);
+
+        //当前节点下的内容列表
+        String keyword = WebUtils.getRequestParameterAsString(request,"keyword");
+        keyword = StringTools.converISO2UTF8(keyword);
+        int showIndex = WebUtils.getRequestParameterAsInt(request,"showIndex",-1);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean = new PageBean();
         pageBean.setCurPage(curPage);
-        
+
         LinksQuery query = new LinksQuery();
         query.setCategoryType(categoryParent.getCategoryType());
         query.setCategoryId(categoryId);
+        query.setShowIndex(showIndex);
         query.setKeyword(keyword);
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
@@ -419,6 +434,7 @@ public class LinksManagerController extends BaseController {
         pageBean.setMaxPage();
         pageBean.setPageNoList();
         mav.addObject("categoryParent", categoryParent);
+        mav.addObject("category", category);
         mav.addObject("linksList", linksList);
         mav.addObject("pageBean", pageBean);
         mav.addObject("query", query);

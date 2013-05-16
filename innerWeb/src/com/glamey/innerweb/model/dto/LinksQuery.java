@@ -16,6 +16,7 @@ public class LinksQuery implements Serializable {
 	private String keyword;
 	private String categoryType;
 	private String categoryId;
+    private int showIndex = -1 ;
 	private int start;
 	private int num;
 
@@ -59,7 +60,15 @@ public class LinksQuery implements Serializable {
 		this.num = num;
 	}
 
-	@Override
+    public int getShowIndex() {
+        return showIndex;
+    }
+
+    public void setShowIndex(int showIndex) {
+        this.showIndex = showIndex;
+    }
+
+    @Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this,
 				ToStringStyle.SHORT_PREFIX_STYLE);
