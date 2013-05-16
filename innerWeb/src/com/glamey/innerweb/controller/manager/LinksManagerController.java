@@ -220,7 +220,7 @@ public class LinksManagerController extends BaseController {
 
     /*删除分类*/
     @RequestMapping(value = "/{aliasName}/category-del.htm", method = RequestMethod.GET)
-    public ModelAndView categorDelete(
+    public ModelAndView categoryDelete(
             @PathVariable String aliasName, HttpServletRequest request) {
         logger.info("[manager-post-category-delete]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
@@ -251,7 +251,11 @@ public class LinksManagerController extends BaseController {
             mav.addObject("message", "cant's find the links category!");
             return mav;
         }
+        //获取一级分类信息.
         Category categoryParent = categoryDao.getByAliasName(aliasName);
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        categoryId = StringUtils.isNotBlank(categoryId) ? categoryId : categoryParent.getId();
+
         String opt = "create";
         String linksId = WebUtils.getRequestParameterAsString(request, "linksId");
         Links links = new Links();
@@ -260,7 +264,7 @@ public class LinksManagerController extends BaseController {
             links = linksDao.getById(linksId);
         }
         links.setCategoryType(categoryParent.getCategoryType());
-        links.setCategoryId(categoryParent.getId());
+        links.setCategoryId(categoryId);
         mav.addObject("opt", opt);
         mav.addObject("categoryParent", categoryParent);
         mav.addObject("links", links);
@@ -288,8 +292,10 @@ public class LinksManagerController extends BaseController {
         if (StringUtils.isNotBlank(ui.getFilePath()))
             links.setImage(ui.getFilePath());
 
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        categoryId = StringUtils.isBlank(categoryId) ? categoryParent.getId() : categoryId ;
         links.setCategoryType(categoryParent.getCategoryType());
-        links.setCategoryId(categoryParent.getId());
+        links.setCategoryId(categoryId);
         links.setName(WebUtils.getRequestParameterAsString(request, "name"));
         links.setUrl(WebUtils.getRequestParameterAsString(request, "url"));
         links.setOrder(WebUtils.getRequestParameterAsInt(request, "order", 0));
@@ -328,8 +334,11 @@ public class LinksManagerController extends BaseController {
         if (StringUtils.isNotBlank(ui.getFilePath()))
             links.setImage(ui.getFilePath());
 
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        categoryId = StringUtils.isBlank(categoryId) ? categoryParent.getId() : categoryId ;
+
         links.setCategoryType(categoryParent.getCategoryType());
-        links.setCategoryId(categoryParent.getId());
+        links.setCategoryId(categoryId);
         links.setName(WebUtils.getRequestParameterAsString(request, "name"));
         links.setUrl(WebUtils.getRequestParameterAsString(request, "url"));
         links.setOrder(WebUtils.getRequestParameterAsInt(request, "order", 0));
@@ -390,6 +399,9 @@ public class LinksManagerController extends BaseController {
 
         String keyword = WebUtils.getRequestParameterAsString(request,"keyword");
         keyword = StringTools.converISO2UTF8(keyword);
+
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        categoryId = StringUtils.isNotBlank(categoryId) ? categoryId : categoryParent.getId();
        
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean = new PageBean();
@@ -397,7 +409,7 @@ public class LinksManagerController extends BaseController {
         
         LinksQuery query = new LinksQuery();
         query.setCategoryType(categoryParent.getCategoryType());
-        query.setCategoryId(categoryParent.getId());
+        query.setCategoryId(categoryId);
         query.setKeyword(keyword);
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());

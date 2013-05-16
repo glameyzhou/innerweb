@@ -22,6 +22,7 @@ public class Links implements Serializable {
     private String categoryType;
     private String image;
     private int order;
+    private int showIndex = 1 ;
     private Date latestDate;
     private Category category ;
 
@@ -79,6 +80,14 @@ public class Links implements Serializable {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public int getShowIndex() {
+        return showIndex;
+    }
+
+    public void setShowIndex(int showIndex) {
+        this.showIndex = showIndex;
     }
 
     public Date getLatestDate() {

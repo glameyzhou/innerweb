@@ -53,6 +53,7 @@
 	</div>
 	<form method="POST" action="${basePath}mg/links/${categoryParent.categoryType}/links-${opt}.htm" id="jvForm" enctype="multipart/form-data">
 		<input type="hidden" id="linksId" name="linksId" value="${links.id}"/>
+		<input type="hidden" id="categoryId" name="linksId" value="${categoryParent.id}"/>
 		<table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
 			<tbody>
 			<tr>

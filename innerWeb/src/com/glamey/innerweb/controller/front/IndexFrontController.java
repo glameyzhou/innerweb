@@ -42,9 +42,6 @@ public class IndexFrontController extends BaseController {
         logger.info("[front] #index#");
         ModelAndView mav = new ModelAndView("front/index");
 
-        
-        
-
         /*友情链接内容显示*/
         Map<Category,List<Links>> friendlyLinksMap = new HashMap<Category, List<Links>>();
         Category friendlyLink = categoryDao.getByAliasName(CategoryConstants.CATEOGRY_FRIENDLYLINKS);
