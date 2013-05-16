@@ -1,5 +1,6 @@
 package com.glamey.innerweb.controller.manager;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.glamey.innerweb.constants.CategoryConstants;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
+import com.glamey.innerweb.constants.CategoryConstants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.LinksDao;
@@ -46,25 +48,6 @@ public class LinksManagerController extends BaseController {
     @Resource
     private WebUploadUtils uploadUtils;
 
-    /*首页*/
-    @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
-    public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        logger.info("[manager-links-index]" + request.getRequestURI());
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("mg/frame/frame_links");
-        return mav;
-    }
-
-    /*显示分类栏目下左侧菜单*/
-    @RequestMapping(value = "/left.htm", method = RequestMethod.GET)
-    public ModelAndView left(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        logger.info("[manager-links-left]" + request.getRequestURI());
-        ModelAndView mav = new ModelAndView("mg/links/left");
-        List<Category> categoryList = categoryDao.getByParentId(CategoryConstants.PARENTID, CategoryConstants.CATEGORY_LINKS, 0, Integer.MAX_VALUE);
-        mav.addObject("categoryList", categoryList);
-        return mav;
-    }
-
     /*分类列表（指定分类）*/
     @RequestMapping(value = "/allroot.htm", method = RequestMethod.GET)
     public ModelAndView allroot(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -75,20 +58,200 @@ public class LinksManagerController extends BaseController {
         mav.setViewName("mg/links/allroot");
         return mav;
     }
+    /*链接分类管理*/
+    @RequestMapping(value = "/{aliasName}/category-list.htm", method = RequestMethod.GET)
+    public ModelAndView categoryList(
+    		@PathVariable String aliasName ,
+    		HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[manager-links-category-list]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView();
+        if(StringUtils.isBlank(aliasName)){
+        	mav.setViewName("common/message");
+        	mav.addObject("message", "cant's find the links category!");
+            return mav;
+        }
+        Category categoryParent = categoryDao.getByAliasName(aliasName);
+        List<Category> categoryList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
+        mav.addObject("categoryList", categoryList);
+        mav.addObject("categoryParent", categoryParent);
+        mav.setViewName("mg/links/category-list");
+        return mav;
+    }
+    
+    /*链接分类展示页面*/
+    @RequestMapping(value = "/{aliasName}/category-show.htm", method = RequestMethod.GET)
+    public ModelAndView categoryShow(
+    		@PathVariable String aliasName ,
+    		HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[manager-links-category-show]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView();
+        if(StringUtils.isBlank(aliasName)){
+        	mav.setViewName("common/message");
+        	mav.addObject("message", "cant's find the links category!");
+            return mav;
+        }
+        Category categoryParent = categoryDao.getByAliasName(aliasName);
+        String opt = "create";
+        Category category = new Category();
+        String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId", "");
+        if (StringUtils.isNotBlank(categoryId)) {
+            category = categoryDao.getById(categoryId);
+            opt = "update";
+        }
+        mav.addObject("opt", opt);
+        mav.addObject("category", category);
+        mav.addObject("categoryParent", categoryParent);
+        mav.setViewName("mg/links/category-show");
+        return mav;
+    }
+    /*分类新增（指定分类）*/
+    @RequestMapping(value = "/{aliasName}/category-create.htm", method = RequestMethod.POST)
+    public ModelAndView categoryCreate(
+            @PathVariable String aliasName,
+            HttpServletRequest request,HttpServletResponse response) {
+        logger.info("[manager-post-category-create]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("common/message");
+        if(StringUtils.isBlank(aliasName)){
+        	mav.setViewName("common/message");
+        	mav.addObject("message", "cant's find the links category!");
+            return mav;
+        }
+        Category category = new Category();
+        /*图片上传*/
+        UploadInfo ui = uploadUtils.doUpload(request, response);
+        if (ui.getResultCode() != 0)
+            return ui.getModelAndView();
+        if (StringUtils.isNotBlank(ui.getFilePath()))
+            category.setCategoryImage(ui.getFilePath());
 
+        category.setCategoryImage(ui.getFilePath());
+        category.setName(WebUtils.getRequestParameterAsString(request, "name"));
+        category.setShortName(WebUtils.getRequestParameterAsString(request, "shortName"));
+        category.setAliasName(WebUtils.getRequestParameterAsString(request, "aliasName"));
+        category.setDescribe(WebUtils.getRequestParameterAsString(request, "describe"));
+        category.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
+        category.setShowType(WebUtils.getRequestParameterAsInt(request, "showType", 0));
+        category.setCategoryOrder(WebUtils.getRequestParameterAsInt(request, "categoryOrder", 0));
+        category.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
+        category.setParentId(WebUtils.getRequestParameterAsString(request, "parentId"));
+        category.setCategoryTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+
+        if (!categoryDao.create(category)) {
+            message = "分类新建失败,请稍后重试!";
+        } else {
+            message = "分类新建成功.";
+        }
+        mav.addObject("message", message);
+        mav.addObject("category", category);
+        return mav;
+    }
+
+    /*分类修改（指定分类）*/
+    @RequestMapping(value = "/{aliasName}/category-update.htm", method = RequestMethod.POST)
+    public ModelAndView categoryUpdate(
+            @PathVariable String aliasName,
+            HttpServletRequest request,HttpServletResponse response) {
+        logger.info("[manager-post-category-update]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("common/message");
+        if(StringUtils.isBlank(aliasName)){
+        	mav.setViewName("common/message");
+        	mav.addObject("message", "cant's find the links category!");
+            return mav;
+        }
+        Category category = new Category();
+        String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
+        if (StringUtils.isBlank(categoryId)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "获取不到要更新的内容");
+            return mav;
+        }
+        category = categoryDao.getById(categoryId);
+        /*图片上传*/
+        UploadInfo ui = uploadUtils.doUpload(request, response);
+        if (ui.getResultCode() != 0)
+            return ui.getModelAndView();
+        if (StringUtils.isNotBlank(ui.getFilePath()))
+            category.setCategoryImage(ui.getFilePath());
+
+        category.setName(WebUtils.getRequestParameterAsString(request, "name"));
+        category.setShortName(WebUtils.getRequestParameterAsString(request, "shortName"));
+        category.setAliasName(WebUtils.getRequestParameterAsString(request, "aliasName"));
+        category.setDescribe(WebUtils.getRequestParameterAsString(request, "describe"));
+        category.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
+        category.setShowType(WebUtils.getRequestParameterAsInt(request, "showType", 0));
+        category.setCategoryOrder(WebUtils.getRequestParameterAsInt(request, "categoryOrder", 0));
+        category.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
+
+        if (!categoryDao.update(category)) {
+            message = "分类更新失败,请稍后重试!";
+        } else {
+            message = "分类更新成功.";
+        }
+        mav.addObject("message", message);
+        return mav;
+    }
+
+    /*删除分类中的图片信息*/
+    @RequestMapping(value = "/{aliasName}/category-delImage.htm", method = RequestMethod.GET)
+    public ModelAndView delImage(
+            @PathVariable String aliasName, HttpServletRequest request) {
+        logger.info("[manager-post-category-delete-images]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("common/message");
+        if(StringUtils.isBlank(aliasName)){
+        	mav.setViewName("common/message");
+        	mav.addObject("message", "cant's find the links category!");
+            return mav;
+        }
+        String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
+        if (StringUtils.isBlank(categoryId)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "获取不到要操作的内容");
+            return mav;
+        }
+
+        if (!categoryDao.deleteImage(categoryId)) {
+            message = "分类图片删除失败,请稍后重试!";
+        } else {
+            message = "分类图片删除成功.";
+        }
+        mav.addObject("message", message);
+        return mav;
+    }
+
+    /*删除分类*/
+    @RequestMapping(value = "/{aliasName}/category-del.htm", method = RequestMethod.GET)
+    public ModelAndView categorDelete(
+            @PathVariable String aliasName, HttpServletRequest request) {
+        logger.info("[manager-post-category-delete]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("common/message");
+        if(StringUtils.isBlank(aliasName)){
+        	mav.setViewName("common/message");
+        	mav.addObject("message", "cant's find the links category!");
+            return mav;
+        }
+        String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
+        if (StringUtils.isBlank(categoryId)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "获取不到要操作的内容");
+            return mav;
+        }
+
+        return mav;
+    }
+    
+    
     /*链接修改、新增显示页面*/
-    @RequestMapping(value = "/{categoryType}/{categoryId}/links-show.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/{aliasName}/links-show.htm", method = RequestMethod.GET)
     public ModelAndView linksShow(
-            @PathVariable String categoryType,
-            @PathVariable String categoryId,
+            @PathVariable String aliasName,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
         ModelAndView mav = new ModelAndView("common/message");
-        if (StringUtils.isBlank(categoryId) || StringUtils.isBlank(categoryType)) {
+        if (StringUtils.isBlank(aliasName)) {
             mav.addObject("message", "cant's find the links category!");
             return mav;
         }
-        Category categoryParent = categoryDao.getById(categoryId);
+        Category categoryParent = categoryDao.getByAliasName(aliasName);
         String opt = "create";
         String linksId = WebUtils.getRequestParameterAsString(request, "linksId");
         Links links = new Links();
@@ -106,18 +269,17 @@ public class LinksManagerController extends BaseController {
     }
 
     /*链接新增*/
-    @RequestMapping(value = "/{categoryType}/{categoryId}/links-create.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/{aliasName}/links-create.htm", method = RequestMethod.POST)
     public ModelAndView linksCreate(
-            @PathVariable String categoryType,
-            @PathVariable String categoryId,
+            @PathVariable String aliasName,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
         ModelAndView mav = new ModelAndView("common/message");
-        if (StringUtils.isBlank(categoryId) || StringUtils.isBlank(categoryType)) {
+        if (StringUtils.isBlank(aliasName)) {
             mav.addObject("message", "cant's find the links category!");
             return mav;
         }
-        Category categoryParent = categoryDao.getById(categoryId);
+        Category categoryParent = categoryDao.getByAliasName(aliasName);
         Links links = new Links();
         //处理图片
         UploadInfo ui = uploadUtils.doUpload(request, response);
@@ -127,7 +289,7 @@ public class LinksManagerController extends BaseController {
             links.setImage(ui.getFilePath());
 
         links.setCategoryType(categoryParent.getCategoryType());
-        links.setCategoryId(categoryId);
+        links.setCategoryId(categoryParent.getId());
         links.setName(WebUtils.getRequestParameterAsString(request, "name"));
         links.setUrl(WebUtils.getRequestParameterAsString(request, "url"));
         links.setOrder(WebUtils.getRequestParameterAsInt(request, "order", 0));
@@ -142,14 +304,13 @@ public class LinksManagerController extends BaseController {
     }
 
     /*链接更新*/
-    @RequestMapping(value = "/{categoryType}/{categoryId}/links-update.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/{aliasName}/links-update.htm", method = RequestMethod.POST)
     public ModelAndView linksUpdate(
-            @PathVariable String categoryType,
-            @PathVariable String categoryId,
+            @PathVariable String aliasName,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
         ModelAndView mav = new ModelAndView("common/message");
-        if (StringUtils.isBlank(categoryId) || StringUtils.isBlank(categoryType)) {
+        if (StringUtils.isBlank(aliasName)) {
             mav.addObject("message", "cant's find the links category!");
             return mav;
         }
@@ -158,7 +319,7 @@ public class LinksManagerController extends BaseController {
             mav.addObject("message", "cant's find the linksId!");
             return mav;
         }
-        Category categoryParent = categoryDao.getById(categoryId);
+        Category categoryParent = categoryDao.getByAliasName(aliasName);
         Links links = linksDao.getById(linksId);
         //处理图片
         UploadInfo ui = uploadUtils.doUpload(request, response);
@@ -168,7 +329,7 @@ public class LinksManagerController extends BaseController {
             links.setImage(ui.getFilePath());
 
         links.setCategoryType(categoryParent.getCategoryType());
-        links.setCategoryId(categoryId);
+        links.setCategoryId(categoryParent.getId());
         links.setName(WebUtils.getRequestParameterAsString(request, "name"));
         links.setUrl(WebUtils.getRequestParameterAsString(request, "url"));
         links.setOrder(WebUtils.getRequestParameterAsInt(request, "order", 0));
@@ -183,14 +344,13 @@ public class LinksManagerController extends BaseController {
     }
 
     /*链接删除*/
-    @RequestMapping(value = "/{categoryType}/{categoryId}/links-del.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/{aliasName}/links-del.htm", method = RequestMethod.GET)
     public ModelAndView linksDel(
-            @PathVariable String categoryType,
-            @PathVariable String categoryId,
+            @PathVariable String aliasName,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
         ModelAndView mav = new ModelAndView("common/message");
-        if (StringUtils.isBlank(categoryId) || StringUtils.isBlank(categoryType)) {
+        if (StringUtils.isBlank(aliasName)) {
             mav.addObject("message", "cant's find the links category!");
             return mav;
         }
@@ -199,7 +359,7 @@ public class LinksManagerController extends BaseController {
             mav.addObject("message", "cant's find the linksId!");
             return mav;
         }
-        Category categoryParent = categoryDao.getById(categoryId);
+        Category categoryParent = categoryDao.getByAliasName(aliasName);
         try {
             String linksIdArray[] = StringUtils.split(linksId, ",");
             for (String s : linksIdArray) {
@@ -215,20 +375,19 @@ public class LinksManagerController extends BaseController {
     }
 
     /*获取指定分来下的所有链接*/
-    @RequestMapping(value = "/{categoryType}/{categoryId}/links-list.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/{aliasName}/links-list.htm", method = RequestMethod.GET)
     public ModelAndView linksList(
-            @PathVariable String categoryType,
-            @PathVariable String categoryId,
+            @PathVariable String aliasName,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-links-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
-        if (StringUtils.isBlank(categoryType) || StringUtils.isBlank(categoryId)) {
+        if (StringUtils.isBlank(aliasName)) {
             mav.setViewName("common/message");
             mav.addObject("message", "can't find the links category!");
             return mav;
         }
-        Category categoryParent = categoryDao.getById(categoryId);
-        
+        Category categoryParent = categoryDao.getByAliasName(aliasName);
+
         String keyword = WebUtils.getRequestParameterAsString(request,"keyword");
         keyword = StringTools.converISO2UTF8(keyword);
        
@@ -237,8 +396,8 @@ public class LinksManagerController extends BaseController {
         pageBean.setCurPage(curPage);
         
         LinksQuery query = new LinksQuery();
-        query.setCategoryType(categoryType);
-        query.setCategoryId(categoryId);
+        query.setCategoryType(categoryParent.getCategoryType());
+        query.setCategoryId(categoryParent.getId());
         query.setKeyword(keyword);
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
@@ -256,7 +415,7 @@ public class LinksManagerController extends BaseController {
     }
     
     /*删除链接中的图片信息*/
-    @RequestMapping(value = "/{categoryType}/{categoryId}/links-delImage.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/{aliasName}/links-delImage.htm", method = RequestMethod.GET)
     public ModelAndView delImage(
             @PathVariable String aliasName, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-links-delete-images]" + request.getRequestURI());

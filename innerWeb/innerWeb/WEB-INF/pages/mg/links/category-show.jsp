@@ -11,7 +11,7 @@
         });
         function delImage(categoryId){
     		if(!confirm('确认要删除指定图片?'))return;
-    		var url = '${basePath}mg/post/${categoryParent.aliasName}/category-delImage.htm';
+    		var url = '${basePath}mg/links/${categoryParent.aliasName}/category-delImage.htm';
             var pars = 'categoryId=' + categoryId ;
             var myAjax = new Ajax.Request(
                         url,
@@ -27,11 +27,11 @@
 <body>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - ${categoryParent.name} - 栏目<c:choose><c:when
+        <div class="rpos">当前位置: 首页 - ${categoryParent.name} - 分类<c:choose><c:when
                 test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
         <div class="clear"></div>
     </div>
-    <form method="post" action="${basePath}mg/post/${categoryParent.aliasName}/category-${opt}.htm" id="jvForm"	enctype="multipart/form-data">
+    <form method="post" action="${basePath}mg/links/${categoryParent.aliasName}/category-${opt}.htm" id="jvForm"	enctype="multipart/form-data">
         <input type="hidden" id="categoryId" name="categoryId" value="${category.id}"/>
         <input type="hidden" id="categoryType" name="categoryType" value="${categoryParent.categoryType}"/>
         <input type="hidden" id="parentId" name="parentId" value="${categoryParent.id}"/>

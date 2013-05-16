@@ -31,7 +31,7 @@
 	});
 	function delImage(linksId){
 		if(!confirm('确认要删除指定图片?'))return;
-		var url = '${basePath}mg/links/${categoryParent.categoryType}/${categoryParent.id}/links-delImage.htm';
+		var url = '${basePath}mg/links/${categoryParent.categoryType}/links-delImage.htm';
         var pars = 'linksId=' + linksId ;
         var myAjax = new Ajax.Request(
                     url,
@@ -51,7 +51,7 @@
 		<div class="rpos">当前位置: 首页 - 入口链接管理  - ${categoryParent.name } - 内容<c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
 		<div class="clear"></div>
 	</div>
-	<form method="POST" action="${basePath}mg/links/${categoryParent.categoryType}/${categoryParent.id}/links-${opt}.htm" id="jvForm" enctype="multipart/form-data">
+	<form method="POST" action="${basePath}mg/links/${categoryParent.categoryType}/links-${opt}.htm" id="jvForm" enctype="multipart/form-data">
 		<input type="hidden" id="linksId" name="linksId" value="${links.id}"/>
 		<table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
 			<tbody>
@@ -67,6 +67,13 @@
 					<input type="text" maxlength="100" name="url" id="url" class="required" size="80" value="${links.url}">
 				</td>
 			</tr>
+			<tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>排列顺序:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="text" maxlength="100" name="order" id="order" class="required" size="80" value="${links.order}">
+                    &nbsp;<font color="red">数字越小越靠前</font>
+                </td>
+            </tr>
 			<tr>
 				<td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>链接图片:</td>
 				<td width="85%" class="pn-fcontent" id="imageOpr">

@@ -3,23 +3,23 @@
  */
 package com.glamey.innerweb.controller.manager;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.glamey.innerweb.constants.CategoryConstants;
-import com.glamey.innerweb.dao.CategoryDao;
-import com.glamey.innerweb.model.domain.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.glamey.innerweb.controller.BaseController;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import com.glamey.innerweb.constants.CategoryConstants;
+import com.glamey.innerweb.controller.BaseController;
+import com.glamey.innerweb.dao.CategoryDao;
+import com.glamey.innerweb.model.domain.Category;
 
 /**
  * 后台管理系统--首页内容
@@ -59,17 +59,24 @@ public class HomeManagerController extends BaseController {
     @RequestMapping(value = "/home/role.htm")
     public ModelAndView top(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         ModelAndView mav = new ModelAndView("mg/home/role");
-
+        /*新闻分类管理*/
         Category categoryNews = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NEWS);
         List<Category> categoryNewsList = categoryDao.getByParentId(categoryNews.getId(), categoryNews.getCategoryType(),0,Integer.MAX_VALUE);
 
+        /*通知通告分类管理*/
         Category categoryNotices = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NOTICES);
         List<Category> categoryNoticesList = categoryDao.getByParentId(categoryNotices.getId(),categoryNotices.getCategoryType(),0,Integer.MAX_VALUE);
 
+        /*友情链接分类管理*/
+        Category categoryFriendlyLinks = categoryDao.getByAliasName(CategoryConstants.CATEOGRY_FRIENDLYLINKS);
+        List<Category> categoryFriendlyLinksList = categoryDao.getByParentId(categoryFriendlyLinks.getId(),categoryFriendlyLinks.getCategoryType(),0,Integer.MAX_VALUE);
+        
         mav.addObject("categoryNews",categoryNews);
         mav.addObject("categoryNewsList",categoryNewsList);
         mav.addObject("categoryNotices",categoryNotices);
         mav.addObject("categoryNoticesList",categoryNoticesList);
+        mav.addObject("categoryFriendlyLinks",categoryFriendlyLinks);
+        mav.addObject("categoryFriendlyLinksList",categoryFriendlyLinksList);
 
 
         return mav ;

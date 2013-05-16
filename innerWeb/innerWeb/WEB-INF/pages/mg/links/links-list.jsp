@@ -11,13 +11,13 @@
 		$("#jvForm").validate();
 	});
 	function edit(linksId){
-		window.location = '${basePath}mg/links/${categoryParent.categoryType}/${categoryParent.id}/links-show.htm?linksId='+linksId;
+		window.location = '${basePath}mg/links/${categoryParent.categoryType}/links-show.htm?linksId='+linksId;
 	}
 	function del(linksId){
 		if(!confirm("确定要删除?")){
 			return ;
 		}
-        var locationURL = "${basePath}mg/links/${categoryParent.categoryType}/${categoryParent.id}/links-del.htm?linksId=" + linksId;
+        var locationURL = "${basePath}mg/links/${categoryParent.categoryType}/links-del.htm?linksId=" + linksId;
         alert(locationURL);
 		window.location = locationURL ;
 	}
@@ -35,7 +35,7 @@
 			}
 			if(values.length > 1)
 				values = values.substring(1);
-            var opURL = "${basePath}mg/links/${categoryParent.categoryType}/${categoryParent.id}/links-del.htm?linksId=" + values ;
+            var opURL = "${basePath}mg/links/${categoryParent.categoryType}/links-del.htm?linksId=" + values ;
             alert(opURL);
             window.location = opURL ;
 		}
@@ -46,13 +46,13 @@
 <body>
 <div class="body-box">
 	<div class="rhead">
-		<div class="rpos">当前位置: 首页  - 入口链接管理  - ${categoryParent.name} - 列表</div>
+		<div class="rpos">当前位置: 首页   - ${categoryParent.name} - 列表</div>
 		<form class="ropt">
-			<input type="submit" value="添加" onclick="this.form.action='${basePath}mg/links/${categoryParent.categoryType}/${categoryParent.id}/links-show.htm';">
+			<input type="submit" value="添加" onclick="this.form.action='${basePath}mg/links/${categoryParent.categoryType}/links-show.htm';">
 		</form>
 		<div class="clear"></div>
 	</div>
-	<form action="${basePath}mg/links/${categoryParent.categoryType}/${categoryParent.id}/links-list.htm" method="get" style="padding-top:5px;">
+	<form action="${basePath}mg/links/${categoryParent.categoryType}/links-list.htm" method="get" style="padding-top:5px;">
 		<div>
 			名称、URL&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
 			<input type="submit" value="查询">
@@ -66,7 +66,7 @@
 				<th width="3%">序列</th>
 				<th>名称</th>
 				<th>URL</th>
-				<th>栏目</th>
+				<th width="5%">排序</th>
 				<th width="10%">发布时间</th>
 				<th width="10%">操作</th>
 			</tr>
@@ -76,8 +76,8 @@
 			<tr>
 				<td align="center"><input type="checkbox" id="linksId" name="linksId" value="${links.id}"/></td>
 				<td title="${links.name}">${links.name}</td>
-				<td align="center">${links.url}</td>
-				<td align=center>${links.category.name}</td>
+				<td align="left">${links.url}</td>
+				<td align="center">${links.order}</td>
 				<td align=center>
 					<%-- <fmt:formatDate value="${links.latestDate}" type="both"/> --%>
 					<fmt:formatDate value="${links.latestDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -89,7 +89,7 @@
 			</c:forEach>
 			</tbody>
 		</table>
-		<c:set var="pageURL" value="${basePath}mg/links/${categoryParent.categoryType}/${categoryParent.id}/links-list.htm?keyword=${fmtString:encoder(query.keyword)}&"/>
+		<c:set var="pageURL" value="${basePath}mg/links/${categoryParent.categoryType}/links-list.htm?keyword=${fmtString:encoder(query.keyword)}&"/>
 		<%@include file="../../common/pages.jsp"%>
 	</form>
 </div>

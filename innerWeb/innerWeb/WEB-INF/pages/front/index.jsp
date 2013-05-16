@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+    <link rel="Shortcut Icon" href="${basePath}res/ico/favicon.ico" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="${basePath}res/front/css/index.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/css/style.css" rel="stylesheet" type="text/css"/>
@@ -41,7 +42,7 @@
             <li>|</li>
             <li><a href="#">员工生活</a></li>
             <li>|</li>
-            <li><a href="#">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+            <li><a href="${basePath}/index.htm">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
         </ul>
     </div>
 </div>
@@ -625,50 +626,12 @@
 </div>
 </div>
 <!--右半边代码结束-->
-<!--友情链接部分代码开始-->
-<div class="youlian">
-    <div class="body_left_tit1">
-        <ul class="tit_biao">
-            <li><img src="${basePath}res/front/images/youlian.png"/></li>
-            <li style="padding-left:15px;">友情链接</li>
-        </ul>
-    </div>
-    <div style="padding-left:20px; width:1200px; float:left;">
-        <p>政府部门：******** **************</p>
-
-        <p>行业协会：******** **************</p>
-
-        <p>能源企业：******** **************</p>
-
-        <p>新闻媒体：******** **************</p>
-
-        <p>行业网站：******** **************</p>
-
-        <p>链接N：******** **************</p>
-    </div>
-</div>
-<!--友情链接部分代码结束-->
+	<!-- 友情链接 -->
+	<%@include file="include/friendlyLinks.jsp" %>
 </div>
 <!--中间内容部分代码结束-->
-
-<!--底部代码开始-->
-<div class="footer">
-    <center>
-        <table width="650" border="0" cellspacing="0" align="center">
-            <tr>
-                <td rowspan="3" width="75"><img src="${basePath}res/front/images/footer.jpg"/></td>
-                <td>中国华电集团科学技术研究总院 版权所有 京ICP备05084797号 邮编：100077 传真：010-52392444</td>
-            </tr>
-            <tr>
-                <td>地址：北京市东城区永定门西滨河路8号院7号楼中海地产广场东塔11层 电话：010-51966891</td>
-            </tr>
-            <tr>
-                <td>建议使用IE6.0以上版本浏览器1024*768分辨率浏览本网站</td>
-            </tr>
-        </table>
-    </center>
-</div>
-<!--底部代码结束-->
+	<!-- 底部 -->
+    <%@include file="include/footer.jsp" %>
 </div>
 </body>
 </html>

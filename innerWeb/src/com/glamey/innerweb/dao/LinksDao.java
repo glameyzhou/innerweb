@@ -55,7 +55,7 @@ public class LinksDao extends BaseDao {
                             pstmt.setString(++i, links.getCategoryId());
                             pstmt.setString(++i, links.getCategoryType());
                             pstmt.setString(++i, links.getImage());
-                            pstmt.setInt(++i, 0);
+                            pstmt.setInt(++i, links.getOrder());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
                         }
                     });
@@ -84,7 +84,7 @@ public class LinksDao extends BaseDao {
                             pstmt.setString(++i, links.getCategoryId());
                             pstmt.setString(++i, links.getCategoryType());
                             pstmt.setString(++i, links.getImage());
-                            pstmt.setInt(++i, 0);
+                            pstmt.setInt(++i, links.getOrder());
                             pstmt.setString(++i, links.getId());
                         }
                     });

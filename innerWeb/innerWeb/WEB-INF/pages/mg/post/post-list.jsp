@@ -87,7 +87,7 @@
 					<option value="0" <c:if test="${query.focusImage == 0}">selected="selected" </c:if>>否</option>
 					<option value="1" <c:if test="${query.focusImage == 1}">selected="selected" </c:if>>是</option>
 				</select><br/>
-			开始&nbsp;<input type="text" maxlength="100" name="startTime" id="startTime" class="required" size="18" value="${query.startTime}"
+			&nbsp;&nbsp;开始&nbsp;<input type="text" maxlength="100" name="startTime" id="startTime" class="required" size="18" value="${query.startTime}"
 					onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;
 			结束&nbsp;<input type="text" maxlength="100" name="endTime" id="endTime" class="required" size="18" value="${query.endTime}"
 					onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;		

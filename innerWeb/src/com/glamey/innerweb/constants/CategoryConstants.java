@@ -18,5 +18,11 @@ public class CategoryConstants {
     public static final String CATEGORY_LINKS = "links";
     /*部门分类*/
     public static final String CATEGORY_DEPT = "dept";
+    /*外部快捷入口*/
+    public static final String CATEGORY_OUTFASTENTRANCE = "outfastentrance" ;
+    /*内部快捷入口*/
+    public static final String CATEGORY_INFASTENTRANCE = "infastentrance" ;
+    /*友情链接*/
+    public static final String CATEOGRY_FRIENDLYLINKS = "friendlyLinks";
 
 }

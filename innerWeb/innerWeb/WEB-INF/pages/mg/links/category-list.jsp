@@ -10,26 +10,26 @@
             $("#jvForm").validate();
         });
         function edit(categoryId) {
-            window.location = '${basePath}mg/post/${aliasName}/category-show.htm?categoryId=' + categoryId;
+            window.location = '${basePath}mg/links/${categoryParent.aliasName}/category-show.htm?categoryId=' + categoryId;
         }
         function del(categoryId) {
             if (!confirm("确定要删除此栏目?")) {
                 return;
             }
-            window.location = '${basePath}mg/post/${aliasName}/category-del.htm?cateId=' + categoryId;
+            window.location = '${basePath}mg/links/${categoryParent.aliasName}/category-del.htm?cateId=' + categoryId;
         }
     </script>
 </head>
 <body>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - 链接管理  - ${categoryParent.name} - 栏目列表</div>
+        <div class="rpos">当前位置: 首页 - ${categoryParent.name} - 分类列表</div>
         <form class="ropt">
-            <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/post/${aliasName}/category-show.htm';">
+            <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/links/${categoryParent.aliasName}/category-show.htm';">
         </form>
         <div class="clear"></div>
     </div>
-    <form action="${basePath}mg/${aliasName}/category-list.htm" method="get" style="padding-top:5px;">
+    <form action="${basePath}mg/links/${categoryParent.aliasName}/category-list.htm" method="get" style="padding-top:5px;">
         <div></div>
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
@@ -39,7 +39,8 @@
                 <th>短名字</th>
                 <th>名字引用</th>
                 <th>是否首页显示</th>
-                <th>是否列表显示</th>
+                <!-- <th>是否列表显示</th> -->
+                <th>排序</th>
                 <th>创建时间</th>
                 <th>操作</th>
             </tr>
@@ -57,12 +58,13 @@
                             <c:when test="${cate.showIndex == 0}">否</c:when><c:otherwise>是</c:otherwise>
                         </c:choose>
                     </td>
-                    <td>
+                    <%-- <td>
                         <c:choose>
-                            <c:when test="${cate.showIndex == 0}">否</c:when><c:otherwise>是</c:otherwise>
+                            <c:when test="${cate.showType == 0}">否</c:when><c:otherwise>是</c:otherwise>
                         </c:choose>
-                    </td>
-                    <td>${fmtString:substring(cate.categoryTime,16)}</td>
+                    </td> --%>
+                    <td>${category.categoryOrder}</td>
+                    <td align="center">${fmtString:substring(cate.categoryTime,16)}</td>
                     <td align=center>
                         <a href="javascript:edit('${cate.id}');">编辑</a>&nbsp;&nbsp;
                         <a href="javascript:del('${cate.id}');">删除</a>&nbsp;&nbsp;
