@@ -24,6 +24,7 @@
 <ul id="lmenu">
     <li><a href="${basePath}mg/home/webInfo.htm" target="mainFrame">欢迎界面</a></li>
     <li><a href="${basePath}mg/home/webInfo.htm" target="mainFrame">个人信息管理</a></li>
+
     <%--新闻分类--%>
     <li><a href="${basePath}mg/post/${categoryNews.aliasName}/category-list.htm" target="mainFrame">分类管理--${categoryNews.name}</a></li>
     <c:forEach var="cate" items="${categoryNewsList}">
