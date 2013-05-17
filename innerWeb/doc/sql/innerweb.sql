@@ -3,14 +3,14 @@ Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
 Source Server Version : 50022
-Source Host           : localhost:3306
+Source Host           : 127.0.0.1:3306
 Source Database       : innerweb
 
 Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-05-16 19:54:21
+Date: 2013-05-17 08:48:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -69,13 +69,34 @@ CREATE TABLE `tbl_links` (
 -- Records of tbl_links
 -- ----------------------------
 INSERT INTO `tbl_links` VALUES ('AvMZNj', '通讯录', 'http://www.a.com', 'QZbM7n', 'infastentrance', null, '1', '1', '2013-05-16 16:29:02');
+INSERT INTO `tbl_links` VALUES ('eI7z6f', '哥弟神剪', 'http://www.checne.comcn12', 'NJNzQ3', 'friendlyLinks', null, '3', '0', '2013-05-17 08:18:39');
 INSERT INTO `tbl_links` VALUES ('FB7N7r', 'zfbm1', 'http://emial.com', '2meuyy', 'friendlyLinks', null, '1', '1', '2013-05-16 19:14:02');
 INSERT INTO `tbl_links` VALUES ('feUn6b', 'qqq', 'qqq', '7B7rIb', 'friendlyLinks', null, '1', '1', '2013-05-16 19:50:17');
-INSERT INTO `tbl_links` VALUES ('jeYfQ3', 'adadf', 'http://emial.com', '7B7rIb', 'friendlyLinks', null, '1', '1', '2013-05-16 19:50:15');
+INSERT INTO `tbl_links` VALUES ('iAbYve', '政府部门连接', 'http://www.checne.comcn1', '7B7rIb', 'friendlyLinks', null, '45', '1', '2013-05-17 08:13:41');
 INSERT INTO `tbl_links` VALUES ('Nruqmy', '集团邮箱', 'http://emial.com', 'NnEvIb', 'outfastentrance', null, '2', '0', '2013-05-16 19:13:39');
 INSERT INTO `tbl_links` VALUES ('uymUVr', '集团OA', 'http://oa.com', 'NnEvIb', 'outfastentrance', null, '1', '1', '2013-05-16 16:28:15');
 INSERT INTO `tbl_links` VALUES ('zMzIFf', '人事系统', 'http://www.r.com', 'QZbM7n', 'infastentrance', null, '2', '1', '2013-05-16 16:29:30');
+INSERT INTO `tbl_links` VALUES ('Zr6bUr', '流程系统', 'http://emial.comqqqq', 'QZbM7n', 'infastentrance', null, '66', '0', '2013-05-17 08:26:23');
+INSERT INTO `tbl_links` VALUES ('zyqEru', '兄弟部门1', 'http://www.google.com.hk1', '2meuyy', 'friendlyLinks', null, '41', '0', '2013-05-17 08:19:00');
 INSERT INTO `tbl_links` VALUES ('ZZFZNn', '集团KS', 'http://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack', 'NnEvIb', 'outfastentrance', null, '12', '1', '2013-05-16 19:13:33');
+
+-- ----------------------------
+-- Table structure for `tbl_message`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_message`;
+CREATE TABLE `tbl_message` (
+  `msg_id` varchar(32) NOT NULL default '',
+  `msg_content` text,
+  `msg_time` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
+  `msg_from` varchar(100) default NULL,
+  `msg_to` varchar(100) default NULL,
+  `msg_flag` tinyint(4) default '0' COMMENT '是否已经阅读 1=是 0=否',
+  PRIMARY KEY  (`msg_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tbl_message
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `tbl_meta`

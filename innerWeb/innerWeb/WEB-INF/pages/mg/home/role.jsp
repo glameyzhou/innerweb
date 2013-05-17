@@ -46,6 +46,10 @@
     <c:forEach var="cate" items="${categoryFriendlyLinksList}">
         <li><a href="${basePath}mg/links/${categoryFriendlyLinks.aliasName}/links-list.htm?categoryId=${cate.id}" target="mainFrame">友情链接--${cate.name}</a></li>
     </c:forEach>
+    
+    <!-- 站内信管理 -->
+    <li><a href="${basePath}mg/message/message-list.htm" target="mainFrame">站内信</a></li>
+    
 
 
 

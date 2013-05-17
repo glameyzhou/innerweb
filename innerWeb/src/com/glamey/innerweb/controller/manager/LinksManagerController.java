@@ -412,7 +412,9 @@ public class LinksManagerController extends BaseController {
         String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
         categoryId = StringUtils.isNotBlank(categoryId) ? categoryId : categoryParent.getId();
         Category category = categoryDao.getById(categoryId);
-
+        //根结点下所有的分类信息
+        List<Category> categoryList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
+        
         //当前节点下的内容列表
         String keyword = WebUtils.getRequestParameterAsString(request,"keyword");
         keyword = StringTools.converISO2UTF8(keyword);
@@ -438,6 +440,7 @@ public class LinksManagerController extends BaseController {
         mav.addObject("linksList", linksList);
         mav.addObject("pageBean", pageBean);
         mav.addObject("query", query);
+        mav.addObject("categoryList", categoryList);
         mav.setViewName("mg/links/links-list");
         return mav;
     }

@@ -10,14 +10,14 @@
         $(function () {
             $("#jvForm").validate();
         });
-        function edit(linksId) {
-            window.location = '${basePath}mg/links/${categoryParent.categoryType}/links-show.htm?linksId=' + linksId;
+        function edit(linksId,categoryId) {
+            window.location = '${basePath}mg/links/${categoryParent.categoryType}/links-show.htm?linksId=' + linksId + "&categoryId=" + categoryId;
         }
-        function del(linksId) {
+        function del(linksId,categoryId) {
             if (!confirm("确定要删除?")) {
                 return;
             }
-            var locationURL = "${basePath}mg/links/${categoryParent.categoryType}/links-del.htm?linksId=" + linksId;
+            var locationURL = "${basePath}mg/links/${categoryParent.categoryType}/links-del.htm?linksId=" + linksId + "&categoryId=" + categoryId;
             alert(locationURL);
             window.location = locationURL;
         }
@@ -50,20 +50,32 @@
                 test="${categoryParent.id eq category.parentId}">- ${category.name}</c:if> - 列表
         </div>
         <form class="ropt">
-            <input type="submit" value="添加"
-                   onclick="this.form.action='${basePath}mg/links/${categoryParent.categoryType}/links-show.htm?categoryId=${category.id}';">
+            <input type="button" value="添加"
+                   onclick="javascript:window.location='${basePath}mg/links/${categoryParent.categoryType}/links-show.htm?categoryId=${category.id}';">
         </form>
         <div class="clear"></div>
     </div>
-    <form action="${basePath}mg/links/${categoryParent.categoryType}/links-list.htm" method="get"
-          style="padding-top:5px;">
+    <form action="${basePath}mg/links/${categoryParent.categoryType}/links-list.htm" method="get" style="padding-top:5px;">
         <div>
             名称、URL&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
             是否显示&nbsp;<select id="showIndex" name="showIndex">
             <option value="-1">请选择</option>
             <option value="1" <c:if test="${query.showIndex ==1}">selected="selected" </c:if>>显示</option>
             <option value="0" <c:if test="${query.showIndex ==0}">selected="selected" </c:if>>不显示</option>
+        </select>&nbsp;&nbsp;
+        <c:choose>
+        <c:when test="${categoryParent.id eq category.parentId}">
+        分类&nbsp;<select id="categoryId" name="categoryId">
+            <option value="-1">请选择</option>
+            <c:forEach var="cate" items="${categoryList}">
+	            <option value="${cate.id}" <c:if test="${query.categoryId eq cate.id}">selected="selected" </c:if>>${cate.name}</option>
+            </c:forEach>
         </select>
+        </c:when>
+        <c:otherwise>
+        <input type="hidden" name="categoryId" id="categoryId" value="${query.categoryId}"/>
+        </c:otherwise>
+        </c:choose>
             <input type="submit" value="查询">
             <br/><br/>
             <a href="javascript:checkAll('linksId',true);">全选</a>&nbsp;&nbsp;<a
@@ -98,7 +110,7 @@
                         <fmt:formatDate value="${links.latestDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                     </td>
                     <td align=center>
-                        <a href="javascript:edit('${links.id}');">编辑</a>&nbsp;<a href="javascript:del('${links.id}');">删除</a>
+                        <a href="javascript:edit('${links.id}','${links.category.id}');">编辑</a>&nbsp;<a href="javascript:del('${links.id}','${links.category.id}');">删除</a>
                     </td>
                 </tr>
             </c:forEach>
