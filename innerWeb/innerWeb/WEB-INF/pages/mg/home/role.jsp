@@ -55,6 +55,9 @@
     <%--部门管理--%>
     <li><a href="${basePath}mg/dept/dept-list.htm" target="mainFrame">部门管理</a></li>
 
+    <%--全局配置--%>
+    <li><a href="${basePath}mg/sys/sys-list.htm" target="mainFrame">全局配置</a></li>
+
 </ul>
 </body>
 </html>

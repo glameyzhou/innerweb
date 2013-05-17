@@ -3,14 +3,14 @@ Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
 Source Server Version : 50022
-Source Host           : 127.0.0.1:3306
+Source Host           : localhost:3306
 Source Database       : innerweb
 
 Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-05-17 08:48:12
+Date: 2013-05-17 19:15:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -39,14 +39,17 @@ CREATE TABLE `tbl_category` (
 -- Records of tbl_category
 -- ----------------------------
 INSERT INTO `tbl_category` VALUES ('2meuyy', '友情链接', '友情链接', 'friendlyLinks', '友情链接', '0', '1', '0', '0', 'friendlyLinks', null, '2013-05-07 08:14:55');
+INSERT INTO `tbl_category` VALUES ('6JJVnm', '集团部门', '集团部门', 'dept', '集团部门', '0', '0', '0', '0', 'dept', null, '2013-05-07 08:14:55');
 INSERT INTO `tbl_category` VALUES ('7B7rIb', '政府部门', '政府部门', 'gv', '政府部门', '0', '0', '1', '2meuyy', 'friendlyLinks', null, '2013-05-16 16:30:25');
 INSERT INTO `tbl_category` VALUES ('E7FFN3', '通知公告', '通知公告', 'notices', '通知公告', '0', '1', '0', '0', 'notices', null, null);
 INSERT INTO `tbl_category` VALUES ('j6rmu2', '行政动态', '行政动态', 'xingzhengdongtai', '行政动态', '0', '1', '1', 'm226Ff', 'news', null, '2013-05-16 16:19:43');
 INSERT INTO `tbl_category` VALUES ('m226Ff', '新闻动态', '新闻动态', 'news', '新闻动态', '0', '1', '0', '0', 'news', null, null);
 INSERT INTO `tbl_category` VALUES ('NJNzQ3', '兄弟部门', '兄弟部门', 'br', '', '0', '0', '3', '2meuyy', 'friendlyLinks', null, '2013-05-16 16:30:56');
+INSERT INTO `tbl_category` VALUES ('NjQrmi', '人事部门', null, '', null, '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-17 14:04:10');
 INSERT INTO `tbl_category` VALUES ('NnEvIb', '集团快捷入口', '集团快捷入口', 'outfastentrance', '集团快捷入口', '0', '1', '0', '0', 'outfastentrance', null, '2013-05-07 08:14:55');
 INSERT INTO `tbl_category` VALUES ('QZbM7n', '华电快捷入口', '华电快捷入口', 'infastentrance', '华电快捷入口', '0', '1', '0', '0', 'infastentrance', null, '2013-05-07 08:14:55');
 INSERT INTO `tbl_category` VALUES ('uiMbIb', '行业动态', '行业动态', 'hangyedongtai', '行业动态', '0', '1', '2', 'm226Ff', 'news', null, '2013-05-16 16:20:05');
+INSERT INTO `tbl_category` VALUES ('zeMvu2', '集团KS', null, '', null, '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-17 14:05:29');
 
 -- ----------------------------
 -- Table structure for `tbl_links`
@@ -86,6 +89,7 @@ INSERT INTO `tbl_links` VALUES ('ZZFZNn', '集团KS', 'http://weibo.com/ajaxlogi
 DROP TABLE IF EXISTS `tbl_message`;
 CREATE TABLE `tbl_message` (
   `msg_id` varchar(32) NOT NULL default '',
+  `msg_title` text,
   `msg_content` text,
   `msg_time` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
   `msg_from` varchar(100) default NULL,
