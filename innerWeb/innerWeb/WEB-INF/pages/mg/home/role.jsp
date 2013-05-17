@@ -49,6 +49,7 @@
     
     <!-- 站内信管理 -->
     <li><a href="${basePath}mg/message/message-list.htm" target="mainFrame">站内信</a></li>
+    <li><a href="${basePath}mg/message/message-show.htm" target="mainFrame">发送站内信</a></li>
     
 
 
