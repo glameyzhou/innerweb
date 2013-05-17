@@ -19,6 +19,7 @@ public class Message implements Serializable {
     private String to;
     private String[] tos;
     private Date time;
+    private String title;
     private String content;
     /* 是否已读 1=是 0=否 */
     private int flag;
@@ -77,6 +78,14 @@ public class Message implements Serializable {
 
     public void setTos(String[] tos) {
         this.tos = tos;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override

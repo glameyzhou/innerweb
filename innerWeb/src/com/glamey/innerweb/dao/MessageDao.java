@@ -4,9 +4,7 @@
 package com.glamey.innerweb.dao;
 
 import com.glamey.framework.utils.StringTools;
-import com.glamey.innerweb.model.domain.Links;
 import com.glamey.innerweb.model.domain.Message;
-import com.glamey.innerweb.model.dto.LinksQuery;
 import com.glamey.innerweb.model.dto.MessageQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -14,7 +12,6 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import sun.plugin2.message.PrintAppletMessage;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,7 +54,7 @@ public class MessageDao extends BaseDao {
 
 
             int count[] = jdbcTemplate.batchUpdate(
-                    "insert into tbl_message(id,msg_from,msg_to,msg_content,msg_time,msg_flag) values(?,?,?,?,?,?)",
+                    "insert into tbl_message(id,msg_from,msg_to,msg_title,msg_content,msg_time,msg_flag) values(?,?,?,?,?,?,?)",
                     new BatchPreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt, int j) throws SQLException {
@@ -66,6 +63,7 @@ public class MessageDao extends BaseDao {
                             pstmt.setString(++i, StringTools.getUniqueId());
                             pstmt.setString(++i, msg.getFrom());
                             pstmt.setString(++i, to);
+                            pstmt.setString(++i, msg.getTitle());
                             pstmt.setString(++i, msg.getContent());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
                             pstmt.setInt(++i, msg.getFlag());
@@ -92,7 +90,7 @@ public class MessageDao extends BaseDao {
 
             //关键字
             if (StringUtils.isNotBlank(query.getKeyword()))
-                sql.append(" and msg_content like ? ");
+                sql.append(" and (msg_title like ? or msg_content like ?) ");
 
             //是否已读
             if (query.getFlag() > -1)
@@ -117,6 +115,7 @@ public class MessageDao extends BaseDao {
                             //关键字
                             if (StringUtils.isNotBlank(query.getKeyword()))
                                 preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
+                            preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
 
                             //是否已读
                             if (query.getFlag() > -1)
@@ -150,7 +149,8 @@ public class MessageDao extends BaseDao {
             StringBuffer sql = new StringBuffer("select count(1) as total from tbl_message where 1=1 ");
             //关键字
             if (StringUtils.isNotBlank(query.getKeyword())) {
-                sql.append(" and msg_content like ? ");
+                sql.append(" and (msg_title like ? or msg_content like ?) ");
+                params.add(query.getKeyword());
                 params.add(query.getKeyword());
             }
             //是否已读
@@ -184,6 +184,7 @@ public class MessageDao extends BaseDao {
             msg.setId(rs.getString("msg_id"));
             msg.setFrom(rs.getString("msg_from"));
             msg.setTo(rs.getString("msg_to"));
+            msg.setTitle(rs.getString("msg_title"));
             msg.setContent(rs.getString("msg_content"));
             msg.setTime(rs.getTimestamp("msg_content"));
             msg.setFlag(rs.getInt("msg_flag"));

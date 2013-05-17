@@ -52,7 +52,7 @@
     <li><a href="${basePath}mg/message/message-show.htm" target="mainFrame">发送站内信</a></li>
 
     <%--部门管理--%>
-    <li><a href="${basePath}mg/dept/dept-list.htm" target="mainFrame">通讯录</a></li>
+    <li><a href="${basePath}mg/dept/dept-list.htm" target="mainFrame">部门管理</a></li>
 
 </ul>
 </body>
