@@ -61,8 +61,8 @@ public class MetaInfoDao extends BaseDao {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
-                            pstmt.setString(++i, meta.getName());
                             pstmt.setString(++i, meta.getValue());
+                            pstmt.setString(++i, meta.getName());
                         }
                     });
             return count > 0;

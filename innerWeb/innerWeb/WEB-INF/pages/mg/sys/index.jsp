@@ -9,8 +9,12 @@
         $(function () {
             $("#jvForm").validate();
         });
-        function jump(){
-
+        function jump(id){
+            var url = "";
+            if(id == '1'){
+                url = "${basePath}mg/sys/permit-notices-show.htm";
+            }
+            window.location = url ;
         }
     </script>
 </head>
@@ -18,9 +22,9 @@
 <div class="body-box">
     <div class="rhead">
         <div class="rpos">当前位置: 首页 - 全局设置</div>
-        <form class="ropt">
+        <%--<form class="ropt">
             <input type="button" value="添加" onclick="javascript:window.location='${basePath}mg/dept/dept-show.htm';">
-        </form>
+        </form>--%>
         <div class="clear"></div>
     </div>
     <form action="${basePath}mg/dept/dept-list.htm" method="get" style="padding-top:5px;">
@@ -36,15 +40,15 @@
             <tbody class="pn-ltbody">
             <tr>
                 <td align="left">通告是否需要审核</td>
-                <td align=center><a href="javascript:jump('${cate.id}');">设置</a></td>
+                <td align=center><a href="javascript:void(0);" onclick="jump('1')">设置</a></td>
             </tr>
             <tr>
                 <td align="left">首页结构设置</td>
-                <td align=center><a href="javascript:jump('${cate.id}');">设置</a></td>
+                <td align=center><a href="javascript:void(0);" onclick="jump('1')">设置</a></td>
             </tr>
             <tr>
                 <td align="left">图片是否使用水印</td>
-                <td align=center><a href="javascript:jump('${cate.id}');">设置</a></td>
+                <td align=center><a href="javascript:void(0);" onclick="jump('1')">设置</a></td>
             </tr>
             </tbody>
         </table>

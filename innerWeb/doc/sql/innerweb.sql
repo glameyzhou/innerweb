@@ -3,14 +3,14 @@ Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
 Source Server Version : 50022
-Source Host           : localhost:3306
+Source Host           : 127.0.0.1:3306
 Source Database       : innerweb
 
 Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-05-17 19:15:30
+Date: 2013-05-18 17:47:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -72,7 +72,7 @@ CREATE TABLE `tbl_links` (
 -- Records of tbl_links
 -- ----------------------------
 INSERT INTO `tbl_links` VALUES ('AvMZNj', '通讯录', 'http://www.a.com', 'QZbM7n', 'infastentrance', null, '1', '1', '2013-05-16 16:29:02');
-INSERT INTO `tbl_links` VALUES ('eI7z6f', '哥弟神剪', 'http://www.checne.comcn12', 'NJNzQ3', 'friendlyLinks', null, '3', '0', '2013-05-17 08:18:39');
+INSERT INTO `tbl_links` VALUES ('eI7z6f', '哥弟神剪', 'http://www.checne.comcn12', 'NJNzQ3', 'friendlyLinks', null, '3', '1', '2013-05-18 08:33:56');
 INSERT INTO `tbl_links` VALUES ('FB7N7r', 'zfbm1', 'http://emial.com', '2meuyy', 'friendlyLinks', null, '1', '1', '2013-05-16 19:14:02');
 INSERT INTO `tbl_links` VALUES ('feUn6b', 'qqq', 'qqq', '7B7rIb', 'friendlyLinks', null, '1', '1', '2013-05-16 19:50:17');
 INSERT INTO `tbl_links` VALUES ('iAbYve', '政府部门连接', 'http://www.checne.comcn1', '7B7rIb', 'friendlyLinks', null, '45', '1', '2013-05-17 08:13:41');
@@ -114,9 +114,7 @@ CREATE TABLE `tbl_meta` (
 -- ----------------------------
 -- Records of tbl_meta
 -- ----------------------------
-INSERT INTO `tbl_meta` VALUES ('news', '1');
-INSERT INTO `tbl_meta` VALUES ('notice', '2');
-INSERT INTO `tbl_meta` VALUES ('links', '3');
+INSERT INTO `tbl_meta` VALUES ('permit_notices', '1');
 
 -- ----------------------------
 -- Table structure for `tbl_post`
@@ -147,22 +145,68 @@ CREATE TABLE `tbl_post` (
 INSERT INTO `tbl_post` VALUES ('6JNNve', 'news', 'j6rmu2', '新闻1', '周杨', '新闻1', '2013-05-16 16:27:47', '0', '0', '0', '0', '0', '暗室逢灯', null, '爱上对方');
 
 -- ----------------------------
+-- Table structure for `tbl_rights`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_rights`;
+CREATE TABLE `tbl_rights` (
+  `rights_id` varchar(100) default NULL,
+  `rights_name` varchar(100) default NULL,
+  `rights_desc` text,
+  `rights_value` text,
+  `rights_time` timestamp NULL default NULL on update CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统权限表';
+
+-- ----------------------------
+-- Records of tbl_rights
+-- ----------------------------
+INSERT INTO `tbl_rights` VALUES ('U3AvE3', '新闻管理', '新闻管理', 'mg/news/news-list.htm', '2013-05-18 14:07:54');
+INSERT INTO `tbl_rights` VALUES ('QFNJby', '公司新闻管理1', '公司新闻管理1', 'mg/news/news-list.htm1', '2013-05-18 14:22:28');
+INSERT INTO `tbl_rights` VALUES ('fYnQRz', '新闻管理--行业动态', '新闻管理--行业动态', 'mg/news/news-list.htm', '2013-05-18 14:08:37');
+INSERT INTO `tbl_rights` VALUES ('uaqIZb', 'sdfasdf', 'sdfasdf', 'mg/news/news-list.htm1', '2013-05-18 14:22:47');
+INSERT INTO `tbl_rights` VALUES ('f6RZR3', '1111', '1111', 'mg/news/news-list.htm1', '2013-05-18 14:22:51');
+INSERT INTO `tbl_rights` VALUES ('imyQZn', '2222222', '2222222', 'mg/news/news-list.htm1', '2013-05-18 14:22:55');
+
+-- ----------------------------
+-- Table structure for `tbl_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_role`;
+CREATE TABLE `tbl_role` (
+  `role_id` varchar(50) default NULL,
+  `role_name` varchar(100) default NULL,
+  `role_desc` text,
+  `role_rights_id` text COMMENT '功能权限集合，中间通过'',''分割',
+  `role_time` time default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户角色管理';
+
+-- ----------------------------
+-- Records of tbl_role
+-- ----------------------------
+INSERT INTO `tbl_role` VALUES ('ZNfm2y', '普通用户', '普通用户', 'imyQZn,f6RZR3,uaqIZb,QFNJby,fYnQRz,U3AvE3', '17:11:21');
+INSERT INTO `tbl_role` VALUES ('aeaami', '超级管理员', '超级管理员', 'imyQZn,f6RZR3,uaqIZb,QFNJby,fYnQRz,U3AvE3', '17:11:43');
+
+-- ----------------------------
 -- Table structure for `tbl_user`
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_user`;
 CREATE TABLE `tbl_user` (
   `user_id` varchar(100) NOT NULL,
   `user_name` varchar(100) NOT NULL,
-  `user_passwd` varchar(100) NOT NULL,
+  `user_passwd` varchar(500) NOT NULL,
   `user_nickname` varchar(100) default NULL,
   `user_phone` varchar(100) default NULL,
   `user_mobile` varchar(100) default NULL,
   `user_email` varchar(100) default NULL,
   `user_address` text,
   `user_dept_id` varchar(100) default NULL,
+  `user_role_id` varchar(100) default NULL,
+  `user_islive` tinyint(4) default '0' COMMENT '是否激活 1=是 0=否',
+  `user_time` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
+INSERT INTO `tbl_user` VALUES ('biymau', 'zhouyang', 'ca0df71d277599f8e02683e4ec7f66417663c81e7f9aa179', '周杨111', '12311', '12123123211', '12311', '123111', 'NjQrmi', 'ZNfm2y', '1', '2013-05-18 17:26:35');
+INSERT INTO `tbl_user` VALUES ('jINfuy', 'zhou', 'c68d87081a9c644b0a1cbc4f9b475e956b1bfc800d6ae799', '121212', '1212', '121212', '1212', '1212', 'zeMvu2', 'aeaami', '0', '2013-05-18 17:39:22');
+INSERT INTO `tbl_user` VALUES ('Jrm2ea', 'zhou', '41be17fd020623ca7fdf942d027e13e5a578d67d6cd742e6', '111111', '11111111111', '1111111', '1111111111111', '1111111111111111', 'zeMvu2', 'aeaami', '1', '2013-05-18 17:39:49');

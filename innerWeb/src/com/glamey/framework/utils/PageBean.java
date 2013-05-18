@@ -7,7 +7,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 public class PageBean {
-	private final int ROWSPERPAGE = 10;
+	private final int ROWSPERPAGE = 2;
 	private final int INDEXCOUNTPERPAGE = 5;
 	private int curPage;
 	private int maxPage;

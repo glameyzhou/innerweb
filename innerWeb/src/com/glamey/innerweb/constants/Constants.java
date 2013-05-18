@@ -14,4 +14,8 @@ public class Constants {
 	
 	/**验证码**/
 	public static final String VERIFYCODE = "VERIFYCODE" ;
+    /**
+     * 密钥
+     */
+    public static final String SECRET_KEY = "<glameyzhou>" ;
 }

@@ -5,10 +5,13 @@ package com.glamey.innerweb.controller.manager;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.innerweb.dao.UserInfoDao;
+import com.glamey.innerweb.model.domain.RoleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,6 +35,8 @@ public class HomeManagerController extends BaseController {
 
     @Autowired
     private CategoryDao categoryDao ;
+    @Resource
+    private UserInfoDao userInfoDao;
     /**
      * 后台管理系统首页
      */
@@ -59,6 +64,11 @@ public class HomeManagerController extends BaseController {
     @RequestMapping(value = "/home/role.htm")
     public ModelAndView top(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         ModelAndView mav = new ModelAndView("mg/home/role");
+
+        //系统角色
+        List<RoleInfo>  roleInfoList = userInfoDao.getRoleList(null,0,Integer.MAX_VALUE);
+        mav.addObject("roleInfoList",roleInfoList);
+
         /*新闻分类管理*/
         Category categoryNews = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NEWS);
         List<Category> categoryNewsList = categoryDao.getByParentId(categoryNews.getId(), categoryNews.getCategoryType(),0,Integer.MAX_VALUE);

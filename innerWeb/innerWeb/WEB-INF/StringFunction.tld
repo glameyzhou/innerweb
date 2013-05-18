@@ -36,4 +36,18 @@
 		<function-signature>java.lang.String decoder(java.lang.String)</function-signature>
 		<example>${fmtString.decoder('')}</example>
 	</function>
+
+    <function>
+		<name>containsInArrays</name>
+		<function-class>com.glamey.framework.utils.tld.StringTld</function-class>
+		<function-signature>boolean containsInArrays(java.lang.String,java.lang.String[])</function-signature>
+		<example>${fmtString.containsInArrays('',[])}</example>
+	</function>
+
+    <function>
+		<name>aContantsb</name>
+		<function-class>com.glamey.framework.utils.tld.StringTld</function-class>
+		<function-signature>boolean aContantsb(java.lang.String,java.lang.String)</function-signature>
+		<example>${fmtString.aContantsb(a,b)}</example>
+	</function>
 </taglib>

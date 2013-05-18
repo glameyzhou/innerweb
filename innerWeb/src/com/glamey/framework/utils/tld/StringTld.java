@@ -1,5 +1,6 @@
 package com.glamey.framework.utils.tld;
 
+import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import com.glamey.framework.utils.StringTools;
@@ -36,4 +37,20 @@ public class StringTld {
 		}
 		return list.contains(source);
 	}
+
+    public static boolean containsInArrays(String source ,String arrays[]){
+        if(StringUtils.isBlank(source) || arrays == null || arrays.length == 0){
+            return false ;
+        }
+        List<String> list = Arrays.asList(arrays);
+        return list.contains(source);
+    }
+
+    public static boolean aContantsb(String src,String dest){
+        boolean result = false;
+        if(StringUtils.isBlank(src) || StringUtils.isBlank(dest)){
+            return false ;
+        }
+        return src.contains(dest);
+    }
 }

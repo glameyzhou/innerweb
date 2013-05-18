@@ -18,7 +18,9 @@
 <body class="lbody">
 <p>&nbsp;角色选择&nbsp;
     <select id="roleId" name="roleId">
-        <option value="1">超级管理员</option>
+        <c:forEach var="role"  items="${roleInfoList}">
+            <option value="${role.roleId}">${role.roleName}</option>
+        </c:forEach>
     </select>
 </p>
 <ul id="lmenu">
@@ -52,11 +54,19 @@
     <li><a href="${basePath}mg/message/message-list.htm" target="mainFrame">站内信</a></li>
     <li><a href="${basePath}mg/message/message-show.htm" target="mainFrame">发送站内信</a></li>
 
-    <%--部门管理--%>
-    <li><a href="${basePath}mg/dept/dept-list.htm" target="mainFrame">部门管理</a></li>
+
 
     <%--全局配置--%>
     <li><a href="${basePath}mg/sys/sys-list.htm" target="mainFrame">全局配置</a></li>
+
+    <%--部门管理--%>
+    <li><a href="${basePath}mg/dept/dept-list.htm" target="mainFrame">部门管理</a></li>
+    <%--系统功能权限配置--%>
+    <li><a href="${basePath}mg/user/rights-list.htm" target="mainFrame">功能权限配置</a></li>
+    <%--系统角色配置--%>
+    <li><a href="${basePath}mg/user/role-list.htm" target="mainFrame">系统角色配置</a></li>
+    <%--用户角色配置--%>
+    <li><a href="${basePath}mg/user/user-list.htm" target="mainFrame">系统用户配置</a></li>
 
 </ul>
 </body>

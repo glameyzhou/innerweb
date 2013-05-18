@@ -3,10 +3,15 @@
  */
 package com.glamey.innerweb.controller.manager;
 
+import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.constants.CategoryConstants;
+import com.glamey.innerweb.constants.SystemConstants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
+import com.glamey.innerweb.dao.MetaInfoDao;
 import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.MetaInfo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,16 +35,42 @@ public class SysManagerController extends BaseController {
 
     @Autowired
     private CategoryDao categoryDao ;
+    @Autowired
+    private MetaInfoDao metaInfoDao ;
 
     @RequestMapping(value = "/sys-list.htm", method = RequestMethod.GET)
     public String managerHome(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         return "mg/sys/index";
     }
 
-    /*头部信息*/
-    @RequestMapping(value = "/home/top.htm", method = RequestMethod.GET)
-    public String manageTop(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
-        return "mg/home/top";
+    /*是否需要审核*/
+    @RequestMapping(value = "/permit-notices-show.htm", method = RequestMethod.GET)
+    public ModelAndView permitNoticesShow(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.permit_notices);
+        ModelAndView mav = new ModelAndView("mg/sys/permit-notices-show");
+        mav.addObject("metaInfo",metaInfo);
+        return mav ;
+    }
+    /*是否需要审核处理*/
+    @RequestMapping(value = "/permit-notices-update.htm", method = RequestMethod.POST)
+    public ModelAndView permitNoticesUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("mg/sys/permit-notices-show");
+        MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.permit_notices);
+        String value = WebUtils.getRequestParameterAsString(request,"value");
+        if(StringUtils.isBlank(value)){
+            mav.addObject("message","不能为空");
+            return mav ;
+        }
+        metaInfo.setValue(value);
+        if(metaInfoDao.update(metaInfo)){
+            mav.addObject("message","设置成功");
+        }
+        else{
+            mav.addObject("message","设置失败");
+        }
+        mav.addObject("metaInfo",metaInfo);
+        mav.addObject("message",message);
+        return mav ;
     }
 
     /**

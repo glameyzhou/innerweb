@@ -47,7 +47,7 @@
             <c:forEach items="${deptList}" var="cate" varStatus="status">
                 <tr>
                     <td align="center">${cate.name}</td>
-                    <td align="center"><a href="">详情</a></td>
+                    <td align="center"><a href="${basePath}mg/user/user-list.htm?deptId=${cate.id}">详情</a></td>
                     <td align="center">${fmtString:substring(cate.categoryTime,16)}</td>
                     <td align=center>
                         <a href="javascript:edit('${cate.id}');">编辑</a>&nbsp;&nbsp;

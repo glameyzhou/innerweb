@@ -42,29 +42,25 @@ public class IndexFrontController extends BaseController {
         logger.info("[front] #index#");
         ModelAndView mav = new ModelAndView("front/index");
 
+        
         /*友情链接内容显示*/
         Map<Category,List<Links>> friendlyLinksMap = new HashMap<Category, List<Links>>();
-        Category friendlyLink = categoryDao.getByAliasName(CategoryConstants.CATEOGRY_FRIENDLYLINKS);
-        if(friendlyLink != null){
-            //父类为友情链接、首页显示的所有链接
-            CategoryQuery query = new CategoryQuery();
-            query.setCategoryType(CategoryConstants.CATEOGRY_FRIENDLYLINKS);
-            query.setParentId(friendlyLink.getId());
-            query.setShowIndex(1);
-            List<Category> categoryFriendlyLinksList = categoryDao.getByQuery(query,0,Integer.MAX_VALUE) ;
-            System.out.println("<>" + categoryFriendlyLinksList);
-            for (Category category : categoryFriendlyLinksList) {
-                LinksQuery linksQuery = new LinksQuery();
-                linksQuery.setCategoryType(category.getCategoryType());
-                linksQuery.setCategoryId(category.getId());
-                linksQuery.setStart(0);
-                linksQuery.setNum(10);
-                List<Links> linksList = linksDao.getByParentId(linksQuery);
-                friendlyLinksMap.put(category,linksList);
-            }
-            System.out.println("<>" + friendlyLinksMap);
-        }
+        Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEOGRY_FRIENDLYLINKS);
+        List<Category> friendlyLinksCategory = categoryDao.getByParentId(categoryParent.getId() , categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
+        for (Category category : friendlyLinksCategory) {
+			LinksQuery query = new LinksQuery();
+			query.setCategoryId(category.getId());
+			query.setCategoryType(category.getCategoryType());
+			query.setShowIndex(1);
+			query.setStart(0);
+			query.setNum(10);
+        	List<Links> linksList = linksDao.getByParentId(query);
+        	
+        	friendlyLinksMap.put(category, linksList);
+		}
+        System.out.println(friendlyLinksMap);
 
+        mav.addObject("friendlyLinksMap",friendlyLinksMap);
         return mav;
     }
 }

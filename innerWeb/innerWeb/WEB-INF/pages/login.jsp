@@ -99,9 +99,6 @@
     </script>
 </head>
 <body>
-<c:if test="${not empty message}">
-    <li><font color='red'>${message}</font></li>
-</c:if>
 <form action="${basePath}manager.htm" method="post">
     <div class="login">
         <div class="login_l"><img src="${basePath}res/consoleLogin/images/tit_02.jpg" width="118" height="40"/></div>
