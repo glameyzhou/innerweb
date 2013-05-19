@@ -2,6 +2,8 @@ package com.glamey.framework.utils.tld;
 
 import java.util.Arrays;
 import java.util.List;
+
+import com.glamey.innerweb.model.domain.Category;
 import org.apache.commons.lang.StringUtils;
 import com.glamey.framework.utils.StringTools;
 
@@ -38,12 +40,16 @@ public class StringTld {
 		return list.contains(source);
 	}
 
-    public static boolean containsInArrays(String source ,String arrays[]){
-        if(StringUtils.isBlank(source) || arrays == null || arrays.length == 0){
+    public static boolean containsInList(String source ,List<Category> list){
+        if(StringUtils.isBlank(source) || list == null || list.size() == 0){
             return false ;
         }
-        List<String> list = Arrays.asList(arrays);
-        return list.contains(source);
+        for(Category c : list){
+            if(StringUtils.isNotBlank(c.getId()) && StringUtils.equals(c.getId(),source)){
+                return true ;
+            }
+        }
+        return false ;
     }
 
     public static boolean aContantsb(String src,String dest){

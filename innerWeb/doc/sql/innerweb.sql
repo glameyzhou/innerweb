@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-05-18 17:47:58
+Date: 2013-05-19 19:23:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -108,13 +108,17 @@ CREATE TABLE `tbl_message` (
 DROP TABLE IF EXISTS `tbl_meta`;
 CREATE TABLE `tbl_meta` (
   `meta_name` varchar(250) NOT NULL COMMENT '标识位名字',
-  `meta_value` varchar(250) NOT NULL COMMENT '标识位名字对应的值'
+  `meta_value` varchar(250) default NULL COMMENT '标识位名字对应的值'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统所有变量的标识Map(key-value)';
 
 -- ----------------------------
 -- Records of tbl_meta
 -- ----------------------------
 INSERT INTO `tbl_meta` VALUES ('permit_notices', '1');
+INSERT INTO `tbl_meta` VALUES ('area_1', 'j6rmu2,uiMbIb');
+INSERT INTO `tbl_meta` VALUES ('area_2', 'j6rmu2,uiMbIb,uiMbIb,uiMbIb');
+INSERT INTO `tbl_meta` VALUES ('area_3', 'j6rmu2,uiMbIb,j6rmu2,j6rmu2');
+INSERT INTO `tbl_meta` VALUES ('area_4', 'j6rmu2,uiMbIb,j6rmu2,j6rmu2');
 
 -- ----------------------------
 -- Table structure for `tbl_post`
@@ -142,7 +146,14 @@ CREATE TABLE `tbl_post` (
 -- ----------------------------
 -- Records of tbl_post
 -- ----------------------------
-INSERT INTO `tbl_post` VALUES ('6JNNve', 'news', 'j6rmu2', '新闻1', '周杨', '新闻1', '2013-05-16 16:27:47', '0', '0', '0', '0', '0', '暗室逢灯', null, '爱上对方');
+INSERT INTO `tbl_post` VALUES ('6JNNve', 'news', 'j6rmu2', '新闻1', '周杨', '新闻1', '2013-05-16 16:27:47', '1', '0', '0', '0', '0', '暗室逢灯', null, '爱上对方');
+INSERT INTO `tbl_post` VALUES ('73mAvq', 'news', 'uiMbIb', '21123123123sadfasdf', '1233123123123asdf', '12312312asdf', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '1231233123123asdf', null, '123123123123123asdf');
+INSERT INTO `tbl_post` VALUES ('BfieAr', 'news', 'uiMbIb', '21123123123sadfasdf', '1233123123123asdf', '12312312asdf', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '1231233123123asdf', null, '123123123123123asdf');
+INSERT INTO `tbl_post` VALUES ('ENBjYz', 'news', 'uiMbIb', '21123123123', '1233123123123', '12312312', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '1231233123123', null, '123123123123123');
+INSERT INTO `tbl_post` VALUES ('iERnEb', 'news', 'uiMbIb', '21123123', '123', '123', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '123123', null, '123123');
+INSERT INTO `tbl_post` VALUES ('jYRbQr', 'news', 'uiMbIb', '21123123123sadfasdf', '1233123123123asdf', '12312312asdf', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '1231233123123asdf', null, '123123123123123asdf');
+INSERT INTO `tbl_post` VALUES ('z2yeAn', 'news', 'uiMbIb', '21123123123sadfasdf', '1233123123123asdf', '12312312asdf', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '1231233123123asdf', null, '123123123123123asdf');
+INSERT INTO `tbl_post` VALUES ('zuYbeu', 'news', 'uiMbIb', '21123123123sadfasdf', '1233123123123asdf', '12312312asdf', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '1231233123123asdf', null, '123123123123123asdf');
 
 -- ----------------------------
 -- Table structure for `tbl_rights`

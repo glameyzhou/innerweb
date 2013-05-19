@@ -13,41 +13,41 @@
 		<name>substring</name>  
 		<function-class>com.glamey.framework.utils.tld.StringTld</function-class>
 		<function-signature>java.lang.String substring(java.lang.String,java.lang.Integer)</function-signature>
-		<example>${fmtString.substring('',)}</example>
+		<example>${fmtString:substring('',)}</example>
 	</function>
 	
 	<function>  
 		<name>substringAppend</name>  
 		<function-class>com.glamey.framework.utils.tld.StringTld</function-class>
 		<function-signature>java.lang.String substringAppend(java.lang.String,java.lang.Integer,java.lang.String)</function-signature>
-		<example>${fmtString.substringAppend('',,'')}</example>
+		<example>${fmtString:substringAppend('',,'')}</example>
 	</function>
 	
 	<function>  
 		<name>encoder</name>  
 		<function-class>com.glamey.framework.utils.tld.StringTld</function-class>
 		<function-signature>java.lang.String encoder(java.lang.String)</function-signature>
-		<example>${fmtString.encoder('')}</example>
+		<example>${fmtString:encoder('')}</example>
 	</function>	
 	
 	<function>  
 		<name>decoder</name>  
 		<function-class>com.glamey.framework.utils.tld.StringTld</function-class>
 		<function-signature>java.lang.String decoder(java.lang.String)</function-signature>
-		<example>${fmtString.decoder('')}</example>
+		<example>${fmtString:decoder('')}</example>
 	</function>
 
     <function>
-		<name>containsInArrays</name>
+		<name>containsInList</name>
 		<function-class>com.glamey.framework.utils.tld.StringTld</function-class>
-		<function-signature>boolean containsInArrays(java.lang.String,java.lang.String[])</function-signature>
-		<example>${fmtString.containsInArrays('',[])}</example>
+		<function-signature>boolean containsInList(java.lang.String,java.util.List)</function-signature>
+		<example>${fmtString:containsInList(String,List[Cateogory])}</example>
 	</function>
 
     <function>
 		<name>aContantsb</name>
 		<function-class>com.glamey.framework.utils.tld.StringTld</function-class>
 		<function-signature>boolean aContantsb(java.lang.String,java.lang.String)</function-signature>
-		<example>${fmtString.aContantsb(a,b)}</example>
+		<example>${fmtString:aContantsb(a,b)}</example>
 	</function>
 </taglib>

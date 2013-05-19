@@ -18,4 +18,9 @@ public class Constants {
      * 密钥
      */
     public static final String SECRET_KEY = "<glameyzhou>" ;
+
+    /**
+     * 每页显示的条数（针对前台）
+     */
+    public static final int rowsPerPageFront = 20 ;
 }

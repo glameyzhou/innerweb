@@ -6,23 +6,21 @@
     <link rel="Shortcut Icon" href="${basePath}res/ico/favicon.ico"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="${basePath}res/front/css/index.css" rel="stylesheet" type="text/css"/>
+    <link href="${basePath}res/front/css/neiye.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/css/style.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/css/header.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/css/footer.css" rel="stylesheet" type="text/css"/>
-    <title>内网管理系统</title>
+    <title>内网管理系统 - ${post.title}</title>
 </head>
 <body>
 <div class="box">
-    <%--头部信息--%>
     <%@include file="include/header.jsp" %>
-
     <!--中间内容部分代码开始-->
     <div class="body">
         <!--左半边代码开始-->
         <div class="body_left">
             <%@include file="include/links-out.jsp"%>
             <%@include file="include/links-in.jsp"%>
-
             <div class="body_left_1" style="margin-top:10px;">
                 <div class="body_left_tit">
                     <ul class="tit_biao">
@@ -60,28 +58,45 @@
             <div class="left_guanggao"><img src="${basePath}res/front/images/guanggao1.jpg"/></div>
         </div>
         <!--左半边代码结束-->
-        <!--右半边代码开始-->
-        <div class="body_right">
-            <%--第一板块--%>
-            <%@include file="include/index/index-area-1.jsp" %>
-
-            <%--第二板块--%>
-            <%@include file="include/index/index-area-2.jsp" %>
-
-            <%--第三板块--%>
-            <%@include file="include/index/index-area-3.jsp" %>
-
-            <%--第四板块--%>
-            <%@include file="include/index/index-area-4.jsp" %>
+        <%--右半边代码开始--%>
+        <div class="right_neiye">
+            <div class="body_right_tit" style="width:962px;">
+                <ul class="tit_biao">
+                    <li><img src="${basePath}res/front/images/right_tit_biao.png"/></li>
+                    <li style="padding-left:15px;">
+                        <c:if test="${not empty categoryParent}">${categoryParent.name} - </c:if>
+                        <c:if test="${not empty category}">${category.name}</c:if>
+                    </li>
+                </ul>
+                <ul class="tit_biao_right">
+                    <li><img src="${basePath}res/front/images/right_tit_biao2.png"/></li>
+                    <li><a href="#">更&nbsp;多</a></li>
+                </ul>
+            </div>
+            <%--float:left;
+            width:440px;
+            height:122px;
+            padding-right:10px;
+            padding-left:20px;
+            padding-top:5px;--%>
+            <div style="width:932px;float: left;padding-right: 10px;padding-left: 20px;padding-top: 5px;">
+                <c:forEach var="post" items="${postList}" varStatus="status">
+                    <ul class="con_neiye">
+                        <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
+                        <li><a href="${basePath}p-${post.id}.htm">${post.title}</a></li>
+                        <li style="float:right;">${fmtString:substring(post.time,10 )}</li>
+                    </ul>
+                </c:forEach>
+                <c:set var="pageURL" value="${basePath}pl-${categoryType}-${categoryId}.htm?"/>
+                <%@include file="../common/pages-front.jsp"%>
+            </div>
         </div>
-        <!--右半边代码结束-->
-        <!-- 友情链接 -->
+        <%--右半边代码结束--%>
+        <%--友情链接--%>
         <%@include file="include/friendlyLinks.jsp" %>
     </div>
     <!--中间内容部分代码结束-->
-    <!-- 底部 -->
     <%@include file="include/footer.jsp" %>
 </div>
-
 </body>
 </html>

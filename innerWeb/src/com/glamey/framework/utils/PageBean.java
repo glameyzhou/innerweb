@@ -35,6 +35,12 @@ public class PageBean {
 		this.rowsPerPage = ROWSPERPAGE;
 	}
 
+    public PageBean(int rowsPerPage) {
+        this.curPage = 1;
+        this.start = 0;
+        this.rowsPerPage = rowsPerPage;
+    }
+
 	public void setCurPage(int curPage) {
 		this.curPage = curPage;
 	}
