@@ -30,6 +30,16 @@ public class LoginFrontController extends BaseController{
 		mav.setViewName("login");
 		return mav;
 	}
+
+    /**登出操作*/
+    @RequestMapping(value = "/mg/logout.htm", method = RequestMethod.GET)
+    public String logout(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws Exception {
+        System.out.println("sessionId=" + session.getAttribute(Constants.SESSIN_USERID));
+        session.removeAttribute(Constants.SESSIN_USERID);
+        session.invalidate();
+        return "front/index" ;
+    }
+
 	
 	/**用户登陆*/
 	@RequestMapping(value = "/manager.htm", method = RequestMethod.POST)

@@ -70,7 +70,7 @@
                 </ul>
                 <ul class="tit_biao_right">
                     <li><img src="${basePath}res/front/images/right_tit_biao2.png"/></li>
-                    <li><a href="#">更&nbsp;多</a></li>
+                    <%--<li><a href="#">更&nbsp;多</a></li>--%>
                 </ul>
             </div>
             <%--float:left;

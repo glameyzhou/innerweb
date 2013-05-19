@@ -38,6 +38,8 @@ public class PostFrontController extends BaseController {
     private LinksDao linksDao;
     @Resource
     private MetaInfoDao metaInfoDao;
+    @Resource
+    private IncludeFront includeFront;
 
     /**
      * 文章内容详情
@@ -63,6 +65,10 @@ public class PostFrontController extends BaseController {
         }
         Post post = postDao.getByPostId(postId);
         mav.addObject("post", post);
+
+
+        mav.addAllObjects(includeFront.linksEntrance(request, response, session));
+        mav.addAllObjects(includeFront.friendlyLinks(request, response, session));
         return mav;
     }
 
@@ -111,6 +117,9 @@ public class PostFrontController extends BaseController {
         mav.addObject("categoryParent", categoryParent);
         mav.addObject("category", category);
 
+        mav.addAllObjects(includeFront.linksEntrance(request, response, session));
+        mav.addAllObjects(includeFront.friendlyLinks(request, response, session));
+
         return mav;
     }
 
@@ -153,6 +162,9 @@ public class PostFrontController extends BaseController {
         mav.addObject("postList", postList);
         mav.addObject("pageBean", pageBean);
         mav.addObject("categoryParent", categoryParent);
+
+        mav.addAllObjects(includeFront.linksEntrance(request, response, session));
+        mav.addAllObjects(includeFront.friendlyLinks(request, response, session));
 
         return mav;
     }

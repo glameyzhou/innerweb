@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+    <base href="${basePath}">
     <link rel="Shortcut Icon" href="${basePath}res/ico/favicon.ico"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="${basePath}res/front/css/index.css" rel="stylesheet" type="text/css"/>
@@ -55,9 +56,8 @@
                     </ul>
                 </div>
             </div>
-            <div class="left_guanggao">
-                <img src="${basePath}res/front/images/guanggao1.jpg"/></div>
-            <div class="left_guanggao"><img src="${basePath}res/front/images/guanggao1.jpg"/></div>
+            <div class="left_guanggao"><img src="${basePath}res/front/images/guanggao1.jpg" onclick="javascript:window.location='${basePath}rl-news.htm'"/></div>
+            <%--<div class="left_guanggao"><img src="${basePath}res/front/images/guanggao1.jpg"/></div>--%>
         </div>
         <!--左半边代码结束-->
         <!--右半边代码开始-->

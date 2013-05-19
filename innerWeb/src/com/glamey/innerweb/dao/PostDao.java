@@ -4,8 +4,11 @@
 package com.glamey.innerweb.dao;
 
 import com.glamey.framework.utils.StringTools;
+import com.glamey.innerweb.constants.SystemConstants;
 import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.MetaInfo;
 import com.glamey.innerweb.model.domain.Post;
+import com.glamey.innerweb.model.dto.PostDTO;
 import com.glamey.innerweb.model.dto.PostQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -31,6 +34,8 @@ public class PostDao extends BaseDao {
 
     @Resource
     private CategoryDao categoryDao;
+    @Resource
+    private MetaInfoDao metaInfoDao;
 
     public boolean create(final Post post) {
         logger.info("[PostDao] #create# " + post);
@@ -191,8 +196,8 @@ public class PostDao extends BaseDao {
             if (StringUtils.isNotBlank(query.getKeyword()))
                 sql.append(" and (post_content = ? or post_summary like ?)");
 
-            if(StringUtils.isNotBlank(query.getStartTime()))
-                sql.append(" and (post_time >= ? and post_time <= ?) ") ;
+            if (StringUtils.isNotBlank(query.getStartTime()))
+                sql.append(" and (post_time >= ? and post_time <= ?) ");
 
             sql.append(" order by post_time desc limit ?,? ");
 
@@ -223,9 +228,9 @@ public class PostDao extends BaseDao {
                                 preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
                                 preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
                             }
-                            if(StringUtils.isNotBlank(query.getStartTime())){
-                                preparedstatement.setString(++i,query.getStartTime());
-                                preparedstatement.setString(++i,query.getEndTime());
+                            if (StringUtils.isNotBlank(query.getStartTime())) {
+                                preparedstatement.setString(++i, query.getStartTime());
+                                preparedstatement.setString(++i, query.getEndTime());
                             }
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
@@ -281,8 +286,8 @@ public class PostDao extends BaseDao {
                 params.add("%" + query.getKeyword() + "%");
                 params.add("%" + query.getKeyword() + "%");
             }
-            if(StringUtils.isNotBlank(query.getStartTime())){
-                sql.append(" and (post_time >= ? and post_time <= ?) ") ;
+            if (StringUtils.isNotBlank(query.getStartTime())) {
+                sql.append(" and (post_time >= ? and post_time <= ?) ");
                 params.add(query.getStartTime());
                 params.add(query.getEndTime());
             }
@@ -296,11 +301,11 @@ public class PostDao extends BaseDao {
     public boolean pageOperate(final String postId, final String type, final String flag) {
         logger.info("[PostDao] #pageOperate# postId=" + postId + " type=" + type + " flag=" + flag);
         try {
-        	 //删除使用
+            //删除使用
             if (StringUtils.equals(type, "1")) {
                 return deleteById(postId);
             }
-        	
+
             StringBuilder sql = new StringBuilder("update tbl_post ");
             if (StringUtils.equals(type, "2")) {
                 sql.append(" set post_showindex = ? ");
@@ -329,6 +334,38 @@ public class PostDao extends BaseDao {
             logger.error("[PostDao] #pageOperate# postId=" + postId + " type=" + type + " flag=" + flag + " error!", e);
         }
         return false;
+    }
+
+    /**
+     * 首页板块内容获取
+     *
+     * @param metaName
+     * @return
+     */
+    public List<PostDTO> getDtoByMetaName(final String metaName) {
+        List<PostDTO> areaPostDTOList = new ArrayList<PostDTO>();
+        MetaInfo metaInfo4 = metaInfoDao.getByName(SystemConstants.AREA_4);
+        if (metaInfo4 != null && StringUtils.isNotBlank(metaInfo4.getValue())) {
+            String arrays[] = StringUtils.split(metaInfo4.getValue(), ",");
+            PostDTO dto = null;
+            for (String array : arrays) {
+                dto = new PostDTO();
+                Category cate = categoryDao.getById(array);
+                dto.setCategory(cate);
+
+                PostQuery query = new PostQuery();
+                query.setCategoryId(cate.getId());
+                query.setCategoryType(cate.getCategoryType());
+                query.setShowIndex(1);
+                query.setStart(0);
+                query.setNum(5);
+                List<Post> postList = getByCategoryId(query);
+                dto.setPostList(postList);
+
+                areaPostDTOList.add(dto);
+            }
+        }
+        return areaPostDTOList;
     }
 
     class PostRowMapper implements RowMapper<Post> {

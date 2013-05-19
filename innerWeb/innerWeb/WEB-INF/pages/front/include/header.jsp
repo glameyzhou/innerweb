@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../../common/tagInclude.jsp" %>
+<script type="text/javascript">
+    function sysLogout(){
+        window.location = "${basePath}mg/logout.htm";
+    }
+</script>
 <div class="header">
     <div class="header_top">
         <div class="header_top_logo"><img src="${basePath}res/front/images/logo.png"/></div>
@@ -23,7 +28,7 @@
                 <li><img src="${basePath}res/front/images/header_mail.png"/></li>
                 <li>站内信</li>
                 <li style="background-image:url(${basePath}res/front/images/botton_logout.png); margin-left:20px; margin-top:3px;">
-                    <input type="button" value="退出" class="botton_logout"/>
+                    <input type="button" value="退出" class="botton_logout" onclick="javascript:sysLogout();"/>
                 </li>
             </ul>
             </p>

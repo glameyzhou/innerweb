@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,6 +25,8 @@ import java.util.Map;
 @Repository
 public class MetaInfoDao extends BaseDao {
     private static final Logger logger = Logger.getLogger(MetaInfoDao.class);
+    @Resource
+    private CategoryDao categoryDao;
 
     /**
      * @param meta
@@ -125,6 +128,7 @@ public class MetaInfoDao extends BaseDao {
         }
         return null;
     }
+
 
     /**
      * @return

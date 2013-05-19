@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="../../common/tagInclude.jsp" %>
 <div class="youlian">
     <div class="body_left_tit1">
         <ul class="tit_biao">
