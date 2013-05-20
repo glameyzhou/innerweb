@@ -10,7 +10,7 @@
         <c:forEach var="outLinks" items="${outLinksList}" varStatus="instatus">
             <ul>
                 <li><img src="${basePath}res/front/images/left_con_biao.png"/></li>
-                <li><a href="${outLinks.url}">${outLinks.name}</a></li>
+                <li><a href="${outLinks.url}" target="_blank">${outLinks.name}</a></li>
             </ul>
         </c:forEach>
     </div>

@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div class="left_guanggao"><img src="${basePath}res/front/images/guanggao1.jpg" onclick="javascript:window.location='${basePath}rl-news.htm'"/></div>
-            <%--<div class="left_guanggao"><img src="${basePath}res/front/images/guanggao1.jpg"/></div>--%>
+            <div class="left_guanggao"><img src="${basePath}res/front/images/guanggao1.jpg"/></div>
         </div>
         <!--左半边代码结束-->
         <!--右半边代码开始-->

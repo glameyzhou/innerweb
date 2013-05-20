@@ -9,6 +9,7 @@ import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.UserQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
@@ -389,10 +390,11 @@ public class UserInfoDao extends BaseDao {
 
     /**
      * 用户是否存在
+     *
      * @param username
      * @return
      */
-    public boolean isUserExist(final String username){
+    public boolean isUserExist(final String username) {
         logger.info("[UserInfoDao] #isUserExist# " + username);
         try {
             int count = jdbcTemplate.update(
@@ -400,15 +402,16 @@ public class UserInfoDao extends BaseDao {
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
-                            pstmt.setString(1,username);
+                            pstmt.setString(1, username);
                         }
                     });
-            return count > 0 ;
+            return count > 0;
         } catch (Exception e) {
             logger.error("[UserInfoDao] #isUserExist# error " + username, e);
             return false;
         }
     }
+
     /**
      * 创建用户
      *
@@ -627,6 +630,33 @@ public class UserInfoDao extends BaseDao {
             logger.error("[UserInfoDao] #getUserById# error " + userId, e);
             return new UserInfo();
         }
+    }
+
+    /**
+     * 登陆校验
+     * @param username
+     * @param passwd
+     * @return
+     */
+    public UserInfo checkUserByLogin(final String username, final String passwd) {
+        logger.info("[UserInfoDao] #checkUserByLogin# error " + String.format("username=%s,passwd=$s",username,passwd));
+        String sql = "select * from tbl_user where user_name = ? and user_passwd = ? limit 1";
+        try {
+            List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+            userInfoList = jdbcTemplate.query(sql,
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                            preparedStatement.setString(1,username);
+                            preparedStatement.setString(1,passwd);
+                        }
+                    },
+                    new UserInfoRowMapper());
+            return userInfoList != null && userInfoList.size() > 0 ? userInfoList.get(0) : null ;
+        } catch (DataAccessException e) {
+            logger.error("[UserInfoDao] #checkUserByLogin# error " + String.format("username=%s,passwd=$s",username,passwd));
+        }
+        return null;
     }
 
 

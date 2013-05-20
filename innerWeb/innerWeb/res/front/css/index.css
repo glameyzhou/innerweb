@@ -141,14 +141,6 @@
 .body_right_con li{
 	float:left;
 }
-.body_right_con_post_list{
-    float:left;
-    width:440px;
-    /*height:122px;*/
-    padding-right:10px;
-    padding-left:20px;
-    padding-top:5px;
-}
 .con_right{
 	float:left;
 	width:440px;

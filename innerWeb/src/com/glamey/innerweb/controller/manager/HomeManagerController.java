@@ -72,19 +72,24 @@ public class HomeManagerController extends BaseController {
         /*新闻分类管理*/
         Category categoryNews = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NEWS);
         List<Category> categoryNewsList = categoryDao.getByParentId(categoryNews.getId(), categoryNews.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryNews",categoryNews);
+        mav.addObject("categoryNewsList",categoryNewsList);
 
         /*通知通告分类管理*/
         Category categoryNotices = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NOTICES);
         List<Category> categoryNoticesList = categoryDao.getByParentId(categoryNotices.getId(),categoryNotices.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryNotices",categoryNotices);
+        mav.addObject("categoryNoticesList",categoryNoticesList);
+
+        //快捷入口管理
+        Category outLinksCategory = categoryDao.getByAliasName(CategoryConstants.CATEGORY_OUTFASTENTRANCE);
+        Category inLinksCategory = categoryDao.getByAliasName(CategoryConstants.CATEGORY_INFASTENTRANCE);
+        mav.addObject("outLinksCategory",outLinksCategory);
+        mav.addObject("inLinksCategory",inLinksCategory);
 
         /*友情链接分类管理*/
         Category categoryFriendlyLinks = categoryDao.getByAliasName(CategoryConstants.CATEOGRY_FRIENDLYLINKS);
         List<Category> categoryFriendlyLinksList = categoryDao.getByParentId(categoryFriendlyLinks.getId(),categoryFriendlyLinks.getCategoryType(),0,Integer.MAX_VALUE);
-
-        mav.addObject("categoryNews",categoryNews);
-        mav.addObject("categoryNewsList",categoryNewsList);
-        mav.addObject("categoryNotices",categoryNotices);
-        mav.addObject("categoryNoticesList",categoryNoticesList);
         mav.addObject("categoryFriendlyLinks",categoryFriendlyLinks);
         mav.addObject("categoryFriendlyLinksList",categoryFriendlyLinksList);
 

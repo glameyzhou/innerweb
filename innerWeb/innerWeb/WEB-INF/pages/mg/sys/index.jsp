@@ -9,16 +9,6 @@
         $(function () {
             $("#jvForm").validate();
         });
-        function jump(id){
-            var url = "";
-            if(id == '1'){
-                url = "${basePath}mg/sys/permit-notices-show.htm";
-            }
-            if(id == '2'){
-                url = "${basePath}mg/sys/area-show.htm" ;
-            }
-            window.location = url ;
-        }
     </script>
 </head>
 <body>
@@ -43,15 +33,19 @@
             <tbody class="pn-ltbody">
             <tr>
                 <td align="left">通告是否需要审核</td>
-                <td align=center><a href="javascript:void(0);" onclick="jump('1')">设置</a></td>
+                <td align=center><a href="${basePath}mg/sys/permit-notices-show.htm">设置</a></td>
             </tr>
             <tr>
                 <td align="left">首页结构设置</td>
-                <td align=center><a href="javascript:void(0);" onclick="jump('2')">设置</a></td>
+                <td align=center><a href="${basePath}mg/sys/area-show.htm">设置</a></td>
             </tr>
             <tr>
                 <td align="left">图片是否使用水印</td>
                 <td align=center><a href="javascript:void(0);" onclick="jump('1')">设置</a></td>
+            </tr>
+            <tr>
+                <td align="left">页尾内容</td>
+                <td align=center><a href="${basePath}mg/sys/meta-show.htm?metaId=foot">设置</a></td>
             </tr>
             </tbody>
         </table>

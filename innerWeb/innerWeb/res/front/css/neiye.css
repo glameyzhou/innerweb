@@ -15,3 +15,23 @@
 	padding-right:5px;
 	padding-top:1px;
 }
+.neiye_right_con{
+	float:left;
+	width:440px;
+	height:auto;
+	padding-right:10px;
+	padding-left:20px;
+	padding-top:5px;
+}
+.neiye_right_con li{
+	float:left;
+}
+.neirong_con{
+	float:left;
+	width:925px;
+	height:auto;
+	text-indent:2em;
+	line-height:20px;
+}
+
+/*//以下是内容页专用的的样式*/

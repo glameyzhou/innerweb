@@ -31,7 +31,7 @@ a:hover{
 	margin:0px auto;
 }
 .body{
-	margin-top:20px;
+	margin-top:15px;
 	width:1258px;
 	height:auto;
 	padding-left:4px;
@@ -52,4 +52,15 @@ a:hover{
 td{
 	height:22px;
 	line-height:22px;
+}
+h2{
+	font-size:16px;
+	padding:0px;
+	margin:0px;
+	text-align:center;
+}
+h3{
+	color:#999;
+	text-align:center;
+	font-weight:normal;
 }

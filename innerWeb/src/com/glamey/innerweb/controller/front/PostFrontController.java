@@ -4,12 +4,11 @@ import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.controller.BaseController;
-import com.glamey.innerweb.dao.CategoryDao;
-import com.glamey.innerweb.dao.LinksDao;
-import com.glamey.innerweb.dao.MetaInfoDao;
-import com.glamey.innerweb.dao.PostDao;
+import com.glamey.innerweb.dao.*;
 import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.Post;
+import com.glamey.innerweb.model.domain.PostReadInfo;
+import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.PostQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -25,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Controller
 public class PostFrontController extends BaseController {
@@ -40,6 +41,12 @@ public class PostFrontController extends BaseController {
     private MetaInfoDao metaInfoDao;
     @Resource
     private IncludeFront includeFront;
+    @Resource
+    private PostReadInfoDao postReadInfoDao;
+    @Resource
+    private UserInfoDao userInfoDao;
+    //新建一个静态的线程池
+    private static ExecutorService executor = Executors.newFixedThreadPool(5);
 
     /**
      * 文章内容详情
@@ -65,10 +72,36 @@ public class PostFrontController extends BaseController {
         }
         Post post = postDao.getByPostId(postId);
         mav.addObject("post", post);
-
-
         mav.addAllObjects(includeFront.linksEntrance(request, response, session));
         mav.addAllObjects(includeFront.friendlyLinks(request, response, session));
+
+        //读过文章的人数
+        List<UserInfo> postReadUserList = postReadInfoDao.getUserListByPostId(postId);
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        String userId = null;
+        if (obj != null) {
+            userId = ((UserInfo) obj).getUserId();
+            postReadUserList.add(userInfoDao.getUserById(userId));
+        }
+        mav.addObject("postReadUserList", postReadUserList);
+
+
+        //异步设置此内容已经被某人读过
+        if (StringUtils.isNotBlank(userId)) {
+            final PostReadInfo postReadInfo = new PostReadInfo();
+            postReadInfo.setPostId(postId);
+            postReadInfo.setUserId(userId);
+            postReadInfo.setUserId(null);
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    postReadInfoDao.create(postReadInfo);
+                }
+            });
+        } else {
+            logger.info("[front] #postDetail#" + request.getRequestURI() + " 未获取到用户信息");
+        }
+
         return mav;
     }
 
