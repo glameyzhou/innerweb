@@ -200,7 +200,7 @@ public class MessageDao extends BaseDao {
             } else if (StringUtils.equals(opFlag, "3")) {
                 sql = "update tbl_message set msg_flag = 0 where msg_id = " + messageId;
             } else {
-                //....
+                logger.error("[MessageDao] #messageOperation# 其他操作暂时不支持!" + String.format("opFlag=$s,messagId=%s", opFlag, messageId));
             }
             if (StringUtils.isNotBlank(sql)) {
                 count = jdbcTemplate.update(sql);

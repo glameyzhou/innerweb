@@ -51,7 +51,7 @@ public class MessageManagerController extends BaseController {
     @Resource
     private WebUploadUtils uploadUtils;
 
-    /*获取指定分来下的所有链接*/
+    //获取指定分来下的所有链接
     @RequestMapping(value = "/message-list.htm", method = RequestMethod.GET)
     public ModelAndView messageList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-message-list]" + request.getRequestURI());
@@ -108,8 +108,8 @@ public class MessageManagerController extends BaseController {
         }
         return mav;
     }
-
-    @RequestMapping(value = "/message-detail.htm", method = RequestMethod.POST)
+    //显示消息详情
+    @RequestMapping(value = "/message-detail.htm", method = RequestMethod.GET)
     public ModelAndView messageDetail(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView mav = new ModelAndView("common/message");
         String messageId = WebUtils.getRequestParameterAsString(request,"messageId");
@@ -119,37 +119,6 @@ public class MessageManagerController extends BaseController {
         }
         Message messageInfo = messageDao.getMessageById(messageId);
         mav.addObject("messageInfo",messageInfo);
-        return mav;
-    }
-
-    /*链接删除*/
-    @RequestMapping(value = "/{aliasName}/links-del.htm", method = RequestMethod.GET)
-    public ModelAndView linksDel(
-            @PathVariable String aliasName,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-
-        ModelAndView mav = new ModelAndView("common/message");
-        if (StringUtils.isBlank(aliasName)) {
-            mav.addObject("message", "cant's find the links category!");
-            return mav;
-        }
-        String linksId = WebUtils.getRequestParameterAsString(request, "linksId");
-        if (StringUtils.isBlank(linksId)) {
-            mav.addObject("message", "cant's find the linksId!");
-            return mav;
-        }
-        Category categoryParent = categoryDao.getByAliasName(aliasName);
-        try {
-            String linksIdArray[] = StringUtils.split(linksId, ",");
-            for (String s : linksIdArray) {
-                logger.info("[links-del] linksId=" + s + linksDao.deleteById(s));
-            }
-            mav.addObject("message", "delete the links success!");
-        } catch (Exception e) {
-            logger.info("[links-del] error " + e);
-            mav.addObject("message", "delete the links failure!");
-        }
-        mav.addObject("categoryParent", categoryParent);
         return mav;
     }
 
