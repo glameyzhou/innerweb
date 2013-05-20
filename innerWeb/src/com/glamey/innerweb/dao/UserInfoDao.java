@@ -705,6 +705,7 @@ public class UserInfoDao extends BaseDao {
             String deptId = rs.getString("user_dept_id");
             Category category = categoryDao.getById(deptId);
             userInfo.setCategory(category);
+            userInfo.setDeptId(deptId);
 
             String roleId = userInfo.getRoleId();
             RoleInfo roleInfo = getRoleById(roleId);

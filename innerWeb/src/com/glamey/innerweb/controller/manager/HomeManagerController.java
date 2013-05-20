@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.dao.UserInfoDao;
 import com.glamey.innerweb.model.domain.RoleInfo;
+import com.glamey.innerweb.model.domain.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -62,8 +64,15 @@ public class HomeManagerController extends BaseController {
      * 用户角色权限
      */
     @RequestMapping(value = "/home/role.htm")
-    public ModelAndView top(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+    public ModelAndView role(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         ModelAndView mav = new ModelAndView("mg/home/role");
+        //用户内容
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        UserInfo userInfo = new UserInfo() ;
+        if(obj != null){
+            userInfo = (UserInfo)obj ;
+        }
+        mav.addObject("userInfo",userInfo);
 
         //系统角色
         List<RoleInfo>  roleInfoList = userInfoDao.getRoleList(null,0,Integer.MAX_VALUE);

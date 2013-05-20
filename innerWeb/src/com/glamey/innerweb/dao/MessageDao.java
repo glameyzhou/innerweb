@@ -98,9 +98,10 @@ public class MessageDao extends BaseDao {
                                 throws SQLException {
                             int i = 0;
                             //关键字
-                            if (StringUtils.isNotBlank(query.getKeyword()))
+                            if (StringUtils.isNotBlank(query.getKeyword())) {
                                 preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
-                            preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
+                                preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
+                            }
 
                             //是否已读
                             if (query.getFlag() > -1)

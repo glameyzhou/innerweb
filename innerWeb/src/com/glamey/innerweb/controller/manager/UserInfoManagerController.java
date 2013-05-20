@@ -570,6 +570,30 @@ public class UserInfoManagerController extends BaseController {
 
         return mav;
     }
+    //查看个人信息
+    @RequestMapping(value = "/user-psersonal-show.htm", method = RequestMethod.GET)
+    public ModelAndView personalShow(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[manager-user-personalShow]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("common/message");
+        String userId = WebUtils.getRequestParameterAsString(request, "userId");
+        if (StringUtils.isBlank(userId)) {
+            mav.addObject("message", "操作无效");
+            return mav;
+        }
+        UserInfo userInfo = userInfoDao.getUserById(userId);
+        //获取所有角色
+        List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
+        //获取所有部门
+        Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEGORY_DEPT);
+        List<Category> deptInfoList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
+
+        mav.addObject("roleInfoList", roleInfoList);
+        mav.addObject("deptInfoList", deptInfoList);
+        mav.addObject("userInfo",userInfo);
+        mav.addObject("opt","update");
+        mav.setViewName("mg/user/user-personal-show");
+        return mav;
+    }
     /****************************************************************【结束】系统用户操作*************************************************************************/
 
 }

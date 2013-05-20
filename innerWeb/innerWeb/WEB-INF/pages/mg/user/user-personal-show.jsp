@@ -14,8 +14,7 @@
 <body>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - 用户管理 - <c:choose><c:when
-                test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
+        <div class="rpos">当前位置: 首页 - 用户管理 - 个人信息修改</div>
         <div class="clear"></div>
     </div>
     <form method="post" action="${basePath}mg/user/user-${opt}.htm" id="jvForm">
@@ -23,25 +22,12 @@
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>角色:</td>
-                <td width="85%" class="pn-fcontent">
-                    <select id="roleId" name="roleId" class="required">
-                        <option value="">请选择</option>
-                        <c:forEach items="${roleInfoList}" var="role">
-                            <option value="${role.roleId}"
-                                    <c:if test="${userInfo.roleId eq role.roleId}">selected</c:if>>${role.roleName}</option>
-                        </c:forEach>
-                    </select>
-                </td>
-            </tr>
-            <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>部门:</td>
                 <td width="85%" class="pn-fcontent">
                     <select id="deptId" name="deptId" class="required">
                         <option value="">请选择</option>
                         <c:forEach items="${deptInfoList}" var="dept">
-                            <option value="${dept.id}"
-                                    <c:if test="${userInfo.category.id eq dept.id}">selected</c:if>>${dept.name}</option>
+                            <option value="${dept.id}" <c:if test="${userInfo.category.id eq dept.id}">selected</c:if>>${dept.name}</option>
                         </c:forEach>
                     </select>
                 </td>
@@ -51,38 +37,16 @@
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="username" id="username" class="required" size="80"
                            value="${userInfo.username}"
-                           <c:if test="${opt eq 'update'}">readonly="readonly" </c:if> />&nbsp;<font color="red">唯一标识</font>
+                    <c:if test="${opt eq 'update'}">readonly="readonly" </c:if> />&nbsp;<font color="red">唯一标识</font>
                 </td>
             </tr>
-            <c:choose>
-                <c:when test="${opt eq 'update'}">
-                    <tr>
-                        <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>密码:</td>
-                        <td width="85%" class="pn-fcontent">
-                            <input type="text" maxlength="100" name="passwd" id="passwd" size="80"
-                                   value="">&nbsp;<font color="red">留空不更新密码</font>
-                        </td>
-                    </tr>
-                </c:when>
-                <c:otherwise>
-                    <tr>
-                        <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>密码:</td>
-                        <td width="85%" class="pn-fcontent">
-                            <input type="password" maxlength="100" name="passwd" id="passwd" class="required" size="80"
-                                   value="">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>确认密码:</td>
-                        <td width="85%" class="pn-fcontent">
-                            <input type="password" maxlength="100" name="passwdRp" id="passwdRp" class="required"
-                                   size="80"
-                                   value="">
-                        </td>
-                    </tr>
-                </c:otherwise>
-            </c:choose>
-
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>密码:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="text" maxlength="100" name="passwd" id="passwd" size="80"
+                           value="">&nbsp;<font color="red">留空不更新密码</font>
+                </td>
+            </tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>姓名:</td>
                 <td width="85%" class="pn-fcontent">
@@ -120,9 +84,9 @@
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>用户状态:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="radio" name="isLive" id="isLive" value="0"
-                           <c:if test="${userInfo.isLive == 0}">checked="checked"</c:if> />禁用&nbsp;
+                    <c:if test="${userInfo.isLive == 0}">checked="checked"</c:if> />禁用&nbsp;
                     <input type="radio" name="isLive" id="isLive" value="1"
-                           <c:if test="${userInfo.isLive == 1}">checked="checked"</c:if> />启用&nbsp;
+                    <c:if test="${userInfo.isLive == 1}">checked="checked"</c:if> />启用&nbsp;
                 </td>
             </tr>
             <tr>

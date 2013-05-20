@@ -9,12 +9,12 @@ import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.LinksDao;
 import com.glamey.innerweb.dao.MessageDao;
-import com.glamey.innerweb.model.domain.Category;
-import com.glamey.innerweb.model.domain.Links;
-import com.glamey.innerweb.model.domain.Message;
-import com.glamey.innerweb.model.domain.UploadInfo;
+import com.glamey.innerweb.dao.UserInfoDao;
+import com.glamey.innerweb.model.domain.*;
 import com.glamey.innerweb.model.dto.LinksQuery;
+import com.glamey.innerweb.model.dto.MessageDTO;
 import com.glamey.innerweb.model.dto.MessageQuery;
+import com.glamey.innerweb.model.dto.UserQuery;
 import com.glamey.innerweb.util.WebUploadUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
@@ -29,6 +29,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +51,9 @@ public class MessageManagerController extends BaseController {
     private MessageDao messageDao;
     @Resource
     private WebUploadUtils uploadUtils;
+    @Resource
+    private UserInfoDao userInfoDao;
+
 
     //获取指定分来下的所有链接
     @RequestMapping(value = "/message-list.htm", method = RequestMethod.GET)
@@ -88,11 +92,21 @@ public class MessageManagerController extends BaseController {
     @RequestMapping(value = "/message-show.htm", method = RequestMethod.GET)
     public ModelAndView messageShow(
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-
         ModelAndView mav = new ModelAndView("common/message");
-        //TODO 获取到所有的部门及其下边的人数
-        //session.getAttribute(Constants.SESSIN_USERID);
-        mav.addObject("", "");
+        List<MessageDTO> messageDTOs = new ArrayList<MessageDTO>();
+        Category deptCategory = categoryDao.getByAliasName(CategoryConstants.CATEGORY_DEPT);
+        List<Category> deptList = categoryDao.getByParentId(deptCategory.getId(), deptCategory.getCategoryType(), 0, Integer.MAX_VALUE);
+        MessageDTO dto = null;
+        for (Category category : deptList) {
+            UserQuery query = new UserQuery();
+            query.setDeptId(category.getId());
+            List<UserInfo> userInfoList = userInfoDao.getUserList(query);
+
+            dto = new MessageDTO();
+            dto.setCategory(category);
+            dto.setUserInfoList(userInfoList);
+        }
+        mav.addObject("messageDTOs", messageDTOs);
         mav.setViewName("mg/message/message-show");
         return mav;
     }
@@ -108,21 +122,23 @@ public class MessageManagerController extends BaseController {
         }
         return mav;
     }
+
     //显示消息详情
     @RequestMapping(value = "/message-detail.htm", method = RequestMethod.GET)
     public ModelAndView messageDetail(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView mav = new ModelAndView("common/message");
-        String messageId = WebUtils.getRequestParameterAsString(request,"messageId");
-        if(StringUtils.isBlank(messageId)){
-            mav.addObject("message","操作无效");
-            return mav ;
+        String messageId = WebUtils.getRequestParameterAsString(request, "messageId");
+        if (StringUtils.isBlank(messageId)) {
+            mav.addObject("message", "操作无效");
+            return mav;
         }
         Message messageInfo = messageDao.getMessageById(messageId);
-        mav.addObject("messageInfo",messageInfo);
+        mav.addObject("messageInfo", messageInfo);
+        mav.setViewName("mg/message/message-detail");
         return mav;
     }
 
-    @RequestMapping(value = "/message-pageOperate.htm",method = RequestMethod.GET)
+    @RequestMapping(value = "/message-pageOperate.htm", method = RequestMethod.GET)
     public ModelAndView messageOperation(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView mav = new ModelAndView("common/message");
         String opFlag = WebUtils.getRequestParameterAsString(request, "opFlag");
