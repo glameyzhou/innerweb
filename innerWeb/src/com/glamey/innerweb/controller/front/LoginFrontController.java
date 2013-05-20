@@ -56,31 +56,32 @@ public class LoginFrontController extends BaseController {
      */
     @RequestMapping(value = "/manager.htm", method = RequestMethod.POST)
     public ModelAndView manager(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-        ModelAndView mav = new ModelAndView();
+        ModelAndView mav = new ModelAndView("login");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String verifyCode = request.getParameter("verifyCode");
 
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password) || StringUtils.isBlank(verifyCode)) {
-            mav.setViewName("login");
             mav.addObject("message", "不能为空!");
             return mav;
         }
 
         if (!StringUtils.equals(verifyCode, session.getAttribute(Constants.VERIFYCODE) + "")) {
-            mav.setViewName("login");
             mav.addObject("message", "验证码错误!");
             return mav;
         }
-        BlowFish bf = new BlowFish(Constants.SECRET_KEY);
-        password = bf.encryptString(password);
-        UserInfo userInfo = userInfoDao.checkUserByLogin(username, password);
-        if (userInfo == null) {
-            mav.addObject("message", "登陆校验失败,请重试!");
-            return mav;
+
+        UserInfo userInfo = userInfoDao.getUserByName(username);
+        if (userInfo != null && StringUtils.isNotBlank(userInfo.getUsername()) && StringUtils.isNotBlank(userInfo.getPasswd())) {
+            BlowFish bf = new BlowFish(Constants.SECRET_KEY);
+            String dbPasswd = bf.decryptString(userInfo.getPasswd());
+            if (StringUtils.equals(password, dbPasswd)) {
+                session.setAttribute(Constants.SESSIN_USERID, userInfo);
+                mav.setViewName("redirect:/index.htm");
+                return mav;
+            }
         }
-        session.setAttribute(Constants.SESSIN_USERID, userInfo);
-        mav.setViewName("redirect:/index.htm");
+        mav.addObject("message", "登陆校验失败,请重试!");
         return mav;
     }
 }

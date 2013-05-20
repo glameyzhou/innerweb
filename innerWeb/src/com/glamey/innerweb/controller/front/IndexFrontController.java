@@ -1,11 +1,13 @@
 package com.glamey.innerweb.controller.front;
 
+import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.constants.SystemConstants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.LinksDao;
 import com.glamey.innerweb.dao.MetaInfoDao;
 import com.glamey.innerweb.dao.PostDao;
+import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.PostDTO;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -64,6 +66,12 @@ public class IndexFrontController extends BaseController {
         //友情链接
         mav.addAllObjects(includeFront.friendlyLinks(request, response, session));
 
+        UserInfo userInfo = null ;
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        if(obj != null){
+            userInfo = (UserInfo) obj;
+        }
+        mav.addObject("userInfo",userInfo);
         return mav;
     }
 }

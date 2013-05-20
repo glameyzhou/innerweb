@@ -633,11 +633,37 @@ public class UserInfoDao extends BaseDao {
     }
 
     /**
+     * 通过登录名获取对应的用户信息
+     * @param username
+     * @return
+     */
+    public UserInfo getUserByName(final String username) {
+        logger.info("[UserInfoDao] #getUserById# username=" + username);
+        List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+        StringBuffer sql = new StringBuffer("select * from tbl_user where user_name = ?");
+        try {
+            userInfoList = jdbcTemplate.query(sql.toString(),
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                            preparedStatement.setString(1, username);
+                        }
+                    },
+                    new UserInfoRowMapper());
+            return userInfoList != null && userInfoList.size() > 0 ? userInfoList.get(0) : null;
+        } catch (Exception e) {
+            logger.error("[UserInfoDao] #getUserById# error " + username, e);
+            return null ;
+        }
+    }
+
+    /**
      * 登陆校验
      * @param username
      * @param passwd
      * @return
      */
+    @Deprecated
     public UserInfo checkUserByLogin(final String username, final String passwd) {
         logger.info("[UserInfoDao] #checkUserByLogin# error " + String.format("username=%s,passwd=$s",username,passwd));
         String sql = "select * from tbl_user where user_name = ? and user_passwd = ? limit 1";

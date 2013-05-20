@@ -16,7 +16,6 @@
 <div class="box">
     <%--头部信息--%>
     <%@include file="include/header.jsp" %>
-
     <!--中间内容部分代码开始-->
     <div class="body">
         <!--左半边代码开始-->

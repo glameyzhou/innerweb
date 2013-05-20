@@ -161,32 +161,57 @@ public class MessageDao extends BaseDao {
         }
         return count;
     }
-    public boolean messageOperation(final String opFlag,final String messageId){
+
+    /**
+     * 通过ID获取具体的详情
+     *
+     * @param messageId
+     * @return
+     */
+    public Message getMessageById(final String messageId) {
+        logger.info(String.format("[MessageDao] #getMessageById# messageId=%s", messageId));
         try {
-            String sql = "" ;
-            int count = 0 ;
-            if(StringUtils.equals(opFlag,"1")){
-                sql = "delete from tbl_message where msg_id = " + messageId ;
+            String sql = "select * from tbl_message where msg_id = ?";
+            List<Message> messageList = jdbcTemplate.query(sql,
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                            preparedStatement.setString(1, messageId);
+                        }
+                    },
+                    new MessageRowMapper());
+            return messageList != null && messageList.size() > 0 ? messageList.get(0) : null;
+        } catch (DataAccessException e) {
+            logger.error(String.format("[MessageDao] #getMessageById# error, messageId=%s", messageId));
+        }
+        return null;
+    }
+
+    public boolean messageOperation(final String opFlag, final String messageId) {
+        try {
+            String sql = "";
+            int count = 0;
+            if (StringUtils.equals(opFlag, "1")) {
+                sql = "delete from tbl_message where msg_id = " + messageId;
             }
             //设置已读
-            else if (StringUtils.equals(opFlag,"2")){
-                sql = "update tbl_message set msg_flag = 1 where msg_id = " + messageId ;
-            }
-            else if (StringUtils.equals(opFlag,"3")){
-                sql = "update tbl_message set msg_flag = 0 where msg_id = " + messageId ;
-            }
-            else    {
+            else if (StringUtils.equals(opFlag, "2")) {
+                sql = "update tbl_message set msg_flag = 1 where msg_id = " + messageId;
+            } else if (StringUtils.equals(opFlag, "3")) {
+                sql = "update tbl_message set msg_flag = 0 where msg_id = " + messageId;
+            } else {
                 //....
             }
-            if(StringUtils.isNotBlank(sql)){
+            if (StringUtils.isNotBlank(sql)) {
                 count = jdbcTemplate.update(sql);
             }
-            return count > 0  ;
+            return count > 0;
         } catch (DataAccessException e) {
-            logger.error("[MessageDao] #messageOperation# error!" + String.format("opFlag=$s,messagId=%s",opFlag,messageId));
-            return false ;
+            logger.error("[MessageDao] #messageOperation# error!" + String.format("opFlag=$s,messagId=%s", opFlag, messageId));
+            return false;
         }
     }
+
     class MessageRowMapper implements RowMapper {
         @Override
         public Message mapRow(ResultSet rs, int i) throws SQLException {

@@ -890,6 +890,10 @@ public class BlowFish {
 
     public static void main(String[] args) {
         BlowFish bf = new BlowFish(Constants.SECRET_KEY);
-        System.out.println(bf.encryptString("zasdfdsfsdfasdf").length());
+        String en = bf.encryptString("admin") ;
+        System.out.println(bf.decryptString(en));
+        System.out.println(bf.decryptString(bf.encryptString("admin")));
+        System.out.println(bf.decryptString(bf.encryptString("admin")));
+        System.out.println(en.length());
     }
 }

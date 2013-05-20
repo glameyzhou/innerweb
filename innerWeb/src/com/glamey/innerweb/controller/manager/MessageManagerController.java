@@ -53,7 +53,7 @@ public class MessageManagerController extends BaseController {
 
     /*获取指定分来下的所有链接*/
     @RequestMapping(value = "/message-list.htm", method = RequestMethod.GET)
-    public ModelAndView linksList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public ModelAndView messageList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-message-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
 
@@ -86,7 +86,7 @@ public class MessageManagerController extends BaseController {
     }
 
     @RequestMapping(value = "/message-show.htm", method = RequestMethod.GET)
-    public ModelAndView linksShow(
+    public ModelAndView messageShow(
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
         ModelAndView mav = new ModelAndView("common/message");
@@ -98,7 +98,7 @@ public class MessageManagerController extends BaseController {
     }
 
     @RequestMapping(value = "/message-create.htm", method = RequestMethod.POST)
-    public ModelAndView linksCreate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public ModelAndView messageCreate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView mav = new ModelAndView("common/message");
 
         if (true) {
@@ -106,6 +106,19 @@ public class MessageManagerController extends BaseController {
         } else {
             mav.addObject("message", "links create failure!");
         }
+        return mav;
+    }
+
+    @RequestMapping(value = "/message-detail.htm", method = RequestMethod.POST)
+    public ModelAndView messageDetail(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        ModelAndView mav = new ModelAndView("common/message");
+        String messageId = WebUtils.getRequestParameterAsString(request,"messageId");
+        if(StringUtils.isBlank(messageId)){
+            mav.addObject("message","操作无效");
+            return mav ;
+        }
+        Message messageInfo = messageDao.getMessageById(messageId);
+        mav.addObject("messageInfo",messageInfo);
         return mav;
     }
 
@@ -140,6 +153,7 @@ public class MessageManagerController extends BaseController {
         return mav;
     }
 
+    @RequestMapping(value = "/message-pageOperate.htm",method = RequestMethod.GET)
     public ModelAndView messageOperation(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView mav = new ModelAndView("common/message");
         String opFlag = WebUtils.getRequestParameterAsString(request, "opFlag");

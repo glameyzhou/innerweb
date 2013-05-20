@@ -22,7 +22,7 @@
             <ul>
                 <li><img src="${basePath}res/front/images/header_login.png"/></li>
                 <li>
-                    <span>欢迎您：${sessionScope.SESSION_USERID}</span>
+                    <span>欢迎您：${userInfo.nickname}</span>
                 </li>
                 <li>|</li>
                 <li><img src="${basePath}res/front/images/header_mail.png"/></li>
