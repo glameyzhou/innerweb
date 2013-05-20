@@ -36,7 +36,6 @@ import java.util.List;
  * 站内信管理
  * Created with IntelliJ IDEA.
  * User: zy
- * Date: 13-5-4 上午12:08
  */
 @Controller
 @RequestMapping(value = "/mg/message")
@@ -48,7 +47,7 @@ public class MessageManagerController extends BaseController {
     @Resource
     private LinksDao linksDao;
     @Resource
-    private MessageDao messageDao ;
+    private MessageDao messageDao;
     @Resource
     private WebUploadUtils uploadUtils;
 
@@ -58,13 +57,13 @@ public class MessageManagerController extends BaseController {
         logger.info("[manager-message-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
 
-        int curPage = WebUtils.getRequestParameterAsInt(request,"curPage",1);
+        int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean = new PageBean();
         pageBean.setCurPage(curPage);
 
-        int flag = WebUtils.getRequestParameterAsInt(request,"flag",-1);
-        String from = WebUtils.getRequestParameterAsString(request,"from");
-        String to = WebUtils.getRequestParameterAsString(request,"to");
+        int flag = WebUtils.getRequestParameterAsInt(request, "flag", -1);
+        String from = WebUtils.getRequestParameterAsString(request, "from");
+        String to = WebUtils.getRequestParameterAsString(request, "to");
         String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
         keyword = StringTools.converISO2UTF8(keyword);
 
@@ -93,7 +92,7 @@ public class MessageManagerController extends BaseController {
         ModelAndView mav = new ModelAndView("common/message");
         //TODO 获取到所有的部门及其下边的人数
         //session.getAttribute(Constants.SESSIN_USERID);
-        mav.addObject("","");
+        mav.addObject("", "");
         mav.setViewName("mg/message/message-show");
         return mav;
     }
@@ -141,4 +140,34 @@ public class MessageManagerController extends BaseController {
         return mav;
     }
 
+    public ModelAndView messageOperation(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        ModelAndView mav = new ModelAndView("common/message");
+        String opFlag = WebUtils.getRequestParameterAsString(request, "opFlag");
+        String messagId = WebUtils.getRequestParameterAsString(request, "messageId");
+        if (StringUtils.isNotBlank(opFlag) || StringUtils.isBlank(messagId)) {
+            mav.addObject("messge", "操作无效");
+            return mav;
+        }
+        try {
+            String arrays[] = StringUtils.split(messagId, ",");
+            for (String array : arrays) {
+                //删除
+                if (StringUtils.equals(opFlag, "1")) {
+                    messageDao.messageOperation(opFlag, messagId);
+                }
+                //设置已读
+                if (StringUtils.equals(opFlag, "2")) {
+                    messageDao.messageOperation(opFlag, messagId);
+                }
+                //设置未读
+                if (StringUtils.equals(opFlag, "3")) {
+                    messageDao.messageOperation(opFlag, messagId);
+                }
+            }
+            mav.addObject("message", "操作成功");
+        } catch (Exception e) {
+            mav.addObject("message", "操作失败");
+        }
+        return mav;
+    }
 }

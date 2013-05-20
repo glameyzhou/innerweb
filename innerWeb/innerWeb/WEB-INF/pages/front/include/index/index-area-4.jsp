@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <c:forEach var="dto4" items="${area4PostDTOList}" varStatus="status4">
     <c:choose>
-        <c:when test="${status.index % 2 == 0}"><c:set var="cssIndex" value="1"/></c:when>
+        <c:when test="${status4.index % 2 == 0}"><c:set var="cssIndex" value="1"/></c:when>
         <c:otherwise><c:set var="cssIndex" value="2"/></c:otherwise>
     </c:choose>
     <div class="body_right_${cssIndex}">

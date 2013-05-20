@@ -3,7 +3,9 @@
  */
 package com.glamey.innerweb.dao;
 
+import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.MetaInfo;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,6 +15,7 @@ import javax.annotation.Resource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,6 +132,20 @@ public class MetaInfoDao extends BaseDao {
         return null;
     }
 
+    /**
+     * 根据配置对象，获取旗下的所有分类信息
+     * @param metaInfo
+     * @return
+     */
+    public List<Category> getCategoryListByMetaName(final MetaInfo metaInfo){
+        List<Category> categoryList = new ArrayList<Category>();
+        if (metaInfo != null && StringUtils.isNotBlank(metaInfo.getValue())) {
+            for (String a : StringUtils.split(metaInfo.getValue(), ",")) {
+                categoryList.add(categoryDao.getById(a));
+            }
+        }
+        return categoryList ;
+    }
 
     /**
      * @return

@@ -8,6 +8,7 @@ import com.glamey.innerweb.model.domain.Message;
 import com.glamey.innerweb.model.dto.MessageQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
@@ -37,22 +38,6 @@ public class MessageDao extends BaseDao {
     public boolean create(final Message msg) {
         logger.info("[MessageDao] #create# " + msg);
         try {
-            /*int count = jdbcTemplate.update(
-                    "insert into tbl_message(id,msg_from,msg_to,msg_content,msg_time,msg_flag) values(?,?,?,?,?,?)",
-                    new PreparedStatementSetter() {
-                        @Override
-                        public void setValues(PreparedStatement pstmt) throws SQLException {
-                            int i = 0;
-                            pstmt.setString(++i, StringTools.getUniqueId());
-                            pstmt.setString(++i, msg.getFrom());
-                            pstmt.setString(++i, msg.getTo());
-                            pstmt.setString(++i, msg.getContent());
-                            pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
-                            pstmt.setInt(++i, msg.getFlag());
-                        }
-                    });*/
-
-
             int count[] = jdbcTemplate.batchUpdate(
                     "insert into tbl_message(id,msg_from,msg_to,msg_title,msg_content,msg_time,msg_flag) values(?,?,?,?,?,?,?)",
                     new BatchPreparedStatementSetter() {
@@ -176,7 +161,32 @@ public class MessageDao extends BaseDao {
         }
         return count;
     }
-
+    public boolean messageOperation(final String opFlag,final String messageId){
+        try {
+            String sql = "" ;
+            int count = 0 ;
+            if(StringUtils.equals(opFlag,"1")){
+                sql = "delete from tbl_message where msg_id = " + messageId ;
+            }
+            //设置已读
+            else if (StringUtils.equals(opFlag,"2")){
+                sql = "update tbl_message set msg_flag = 1 where msg_id = " + messageId ;
+            }
+            else if (StringUtils.equals(opFlag,"3")){
+                sql = "update tbl_message set msg_flag = 0 where msg_id = " + messageId ;
+            }
+            else    {
+                //....
+            }
+            if(StringUtils.isNotBlank(sql)){
+                count = jdbcTemplate.update(sql);
+            }
+            return count > 0  ;
+        } catch (DataAccessException e) {
+            logger.error("[MessageDao] #messageOperation# error!" + String.format("opFlag=$s,messagId=%s",opFlag,messageId));
+            return false ;
+        }
+    }
     class MessageRowMapper implements RowMapper {
         @Override
         public Message mapRow(ResultSet rs, int i) throws SQLException {

@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -344,13 +345,14 @@ public class PostDao extends BaseDao {
      */
     public List<PostDTO> getDtoByMetaName(final String metaName) {
         List<PostDTO> areaPostDTOList = new ArrayList<PostDTO>();
-        MetaInfo metaInfo4 = metaInfoDao.getByName(SystemConstants.AREA_4);
-        if (metaInfo4 != null && StringUtils.isNotBlank(metaInfo4.getValue())) {
-            String arrays[] = StringUtils.split(metaInfo4.getValue(), ",");
+        MetaInfo metaInfo = metaInfoDao.getByName(metaName);
+        if (metaInfo != null && StringUtils.isNotBlank(metaInfo.getValue())) {
+            String arrays[] = StringUtils.split(metaInfo.getValue(), ",");
             PostDTO dto = null;
+            Category cate = null;
             for (String array : arrays) {
                 dto = new PostDTO();
-                Category cate = categoryDao.getById(array);
+                cate = categoryDao.getById(array);
                 dto.setCategory(cate);
 
                 PostQuery query = new PostQuery();
@@ -360,6 +362,9 @@ public class PostDao extends BaseDao {
                 query.setStart(0);
                 query.setNum(5);
                 List<Post> postList = getByCategoryId(query);
+                if (postList == null || postList.size() == 0) {
+                    postList = Collections.emptyList();
+                }
                 dto.setPostList(postList);
 
                 areaPostDTOList.add(dto);

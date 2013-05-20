@@ -66,12 +66,11 @@ public class SysManagerController extends BaseController {
         }
         metaInfo.setValue(value);
         if (metaInfoDao.update(metaInfo)) {
-            mav.addObject("message", "设置成功");
+            mav.addObject("message","设置成功");
         } else {
-            mav.addObject("message", "设置失败");
+            mav.addObject("message","设置失败");
         }
         mav.addObject("metaInfo", metaInfo);
-        mav.addObject("message", message);
         return mav;
     }
 
@@ -81,38 +80,15 @@ public class SysManagerController extends BaseController {
     @RequestMapping(value = "/area-show.htm", method = RequestMethod.GET)
     public ModelAndView area(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         ModelAndView mav = new ModelAndView("mg/sys/area-show");
-        MetaInfo meatArea1 = metaInfoDao.getByName(SystemConstants.AREA_1);
+        MetaInfo metaArea1 = metaInfoDao.getByName(SystemConstants.AREA_1);
         MetaInfo meatArea2 = metaInfoDao.getByName(SystemConstants.AREA_2);
         MetaInfo meatArea3 = metaInfoDao.getByName(SystemConstants.AREA_3);
         MetaInfo meatArea4 = metaInfoDao.getByName(SystemConstants.AREA_4);
 
-        List<Category> categoryArea1List = new ArrayList<Category>();
-        if (meatArea1 != null && StringUtils.isNotBlank(meatArea1.getValue())) {
-            for (String a : StringUtils.split(meatArea1.getValue(), ",")) {
-                categoryArea1List.add(categoryDao.getById(a));
-            }
-        }
-
-        List<Category> categoryArea2List = new ArrayList<Category>();
-        if (meatArea2 != null && StringUtils.isNotBlank(meatArea2.getValue())) {
-            for (String a : StringUtils.split(meatArea2.getValue(), ",")) {
-                categoryArea2List.add(categoryDao.getById(a));
-            }
-        }
-
-        List<Category> categoryArea3List = new ArrayList<Category>();
-        if (meatArea3 != null && StringUtils.isNotBlank(meatArea3.getValue())) {
-            for (String a : StringUtils.split(meatArea3.getValue(), ",")) {
-                categoryArea3List.add(categoryDao.getById(a));
-            }
-        }
-
-        List<Category> categoryArea4List = new ArrayList<Category>();
-        if (meatArea4 != null && StringUtils.isNotBlank(meatArea4.getValue())) {
-            for (String a : StringUtils.split(meatArea4.getValue(), ",")) {
-                categoryArea4List.add(categoryDao.getById(a));
-            }
-        }
+        List<Category> categoryArea1List = metaInfoDao.getCategoryListByMetaName(metaArea1);
+        List<Category> categoryArea2List = metaInfoDao.getCategoryListByMetaName(meatArea2);
+        List<Category> categoryArea3List = metaInfoDao.getCategoryListByMetaName(meatArea3);
+        List<Category> categoryArea4List = metaInfoDao.getCategoryListByMetaName(meatArea4);
 
         //所有的新闻、通告模块
         Category cateParentNews = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NEWS);
@@ -137,7 +113,6 @@ public class SysManagerController extends BaseController {
         mav.addObject("categoryArea4List", categoryArea4List);
         mav.addObject("isEmptyArea4", categoryArea4List.size() == 0);
 
-
         mav.addObject("categoryList", categoryList);
 
         return mav;
@@ -153,47 +128,83 @@ public class SysManagerController extends BaseController {
         try {
             for (int i = 1; i <= 4; i++) {
                 String areas[] = WebUtils.getRequestParameterAsStringArrs(request, "area" + i);
-                if(areas == null || areas.length == 0){
-                    mav.addObject("message",message);
-                    return mav ;
+                if (areas == null || areas.length == 0) {
+                    mav.addObject("message", message);
+                    return mav;
                 }
                 StringBuffer areaArrays = new StringBuffer();
                 for (String area : areas) {
                     areaArrays.append(",").append(area);
                 }
-                String areaResutl = areaArrays.length() > 0 ? areaArrays.substring(1) : "";
+                String areaResut = areaArrays.length() > 0 ? areaArrays.substring(1) : "";
 
                 MetaInfo metaInfo = new MetaInfo();
                 switch (i) {
                     case 1:
                         metaInfo.setName(SystemConstants.AREA_1);
-                        metaInfo.setValue(areaResutl);
+                        metaInfo.setValue(areaResut);
                         metaInfoDao.update(metaInfo);
                         break;
 
                     case 2:
                         metaInfo.setName(SystemConstants.AREA_2);
-                        metaInfo.setValue(areaResutl);
+                        metaInfo.setValue(areaResut);
                         metaInfoDao.update(metaInfo);
                         break;
 
                     case 3:
                         metaInfo.setName(SystemConstants.AREA_3);
-                        metaInfo.setValue(areaResutl);
+                        metaInfo.setValue(areaResut);
                         metaInfoDao.update(metaInfo);
                         break;
 
                     case 4:
                         metaInfo.setName(SystemConstants.AREA_4);
-                        metaInfo.setValue(areaResutl);
+                        metaInfo.setValue(areaResut);
                         metaInfoDao.update(metaInfo);
                         break;
                 }
             }
-            mav.addObject("message","操作成功");
+            mav.addObject("message", "操作成功");
+
+            MetaInfo metaArea1 = metaInfoDao.getByName(SystemConstants.AREA_1);
+            MetaInfo meatArea2 = metaInfoDao.getByName(SystemConstants.AREA_2);
+            MetaInfo meatArea3 = metaInfoDao.getByName(SystemConstants.AREA_3);
+            MetaInfo meatArea4 = metaInfoDao.getByName(SystemConstants.AREA_4);
+
+            List<Category> categoryArea1List = metaInfoDao.getCategoryListByMetaName(metaArea1);
+            List<Category> categoryArea2List = metaInfoDao.getCategoryListByMetaName(meatArea2);
+            List<Category> categoryArea3List = metaInfoDao.getCategoryListByMetaName(meatArea3);
+            List<Category> categoryArea4List = metaInfoDao.getCategoryListByMetaName(meatArea4);
+
+            //所有的新闻、通告模块
+            Category cateParentNews = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NEWS);
+            List<Category> newsCategoryList = categoryDao.getByParentId(cateParentNews.getId(), cateParentNews.getCategoryType(), 0, Integer.MAX_VALUE);
+
+            Category cateParentNotices = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NOTICES);
+            List<Category> noticesCategoryList = categoryDao.getByParentId(cateParentNotices.getId(), cateParentNotices.getCategoryType(), 0, Integer.MAX_VALUE);
+
+            List<Category> categoryList = new ArrayList<Category>();
+            categoryList.addAll(newsCategoryList);
+            categoryList.addAll(noticesCategoryList);
+
+            mav.addObject("categoryArea1List", categoryArea1List);
+            mav.addObject("isEmptyArea1", categoryArea1List.size() == 0);
+
+            mav.addObject("categoryArea2List", categoryArea2List);
+            mav.addObject("isEmptyArea2", categoryArea2List.size() == 0);
+
+            mav.addObject("categoryArea3List", categoryArea3List);
+            mav.addObject("isEmptyArea3", categoryArea3List.size() == 0);
+
+            mav.addObject("categoryArea4List", categoryArea4List);
+            mav.addObject("isEmptyArea4", categoryArea4List.size() == 0);
+
+            mav.addObject("categoryList", categoryList);
+
         } catch (Exception e) {
             e.printStackTrace();
-            mav.addObject("message","操作失败");
+            mav.addObject("message", "操作失败");
         }
         return mav;
     }

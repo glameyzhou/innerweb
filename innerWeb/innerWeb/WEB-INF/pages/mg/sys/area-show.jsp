@@ -55,7 +55,7 @@
             <input type="button" value="添加" onclick="javascript:window.location='${basePath}mg/dept/dept-show.htm';">
         </form>--%>
         <form class="ropt">
-            <font color="red">
+            <font color="red" size="3">
                 <c:if test="${not empty message}">
                     ${message}
                 </c:if>
