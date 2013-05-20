@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-05-19 19:23:29
+Date: 2013-05-20 07:57:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -39,6 +39,7 @@ CREATE TABLE `tbl_category` (
 -- Records of tbl_category
 -- ----------------------------
 INSERT INTO `tbl_category` VALUES ('2meuyy', '友情链接', '友情链接', 'friendlyLinks', '友情链接', '0', '1', '0', '0', 'friendlyLinks', null, '2013-05-07 08:14:55');
+INSERT INTO `tbl_category` VALUES ('3qUFZz', '科技部通告', '科技部', 'it', '科技部通告', '0', '1', '1', 'E7FFN3', 'notices', null, '2013-05-19 22:47:54');
 INSERT INTO `tbl_category` VALUES ('6JJVnm', '集团部门', '集团部门', 'dept', '集团部门', '0', '0', '0', '0', 'dept', null, '2013-05-07 08:14:55');
 INSERT INTO `tbl_category` VALUES ('7B7rIb', '政府部门', '政府部门', 'gv', '政府部门', '0', '0', '1', '2meuyy', 'friendlyLinks', null, '2013-05-16 16:30:25');
 INSERT INTO `tbl_category` VALUES ('E7FFN3', '通知公告', '通知公告', 'notices', '通知公告', '0', '1', '0', '0', 'notices', null, null);
@@ -116,9 +117,9 @@ CREATE TABLE `tbl_meta` (
 -- ----------------------------
 INSERT INTO `tbl_meta` VALUES ('permit_notices', '1');
 INSERT INTO `tbl_meta` VALUES ('area_1', 'j6rmu2,uiMbIb');
-INSERT INTO `tbl_meta` VALUES ('area_2', 'j6rmu2,uiMbIb,uiMbIb,uiMbIb');
+INSERT INTO `tbl_meta` VALUES ('area_2', '3qUFZz,uiMbIb,uiMbIb,uiMbIb');
 INSERT INTO `tbl_meta` VALUES ('area_3', 'j6rmu2,uiMbIb,j6rmu2,j6rmu2');
-INSERT INTO `tbl_meta` VALUES ('area_4', 'j6rmu2,uiMbIb,j6rmu2,j6rmu2');
+INSERT INTO `tbl_meta` VALUES ('area_4', 'j6rmu2,uiMbIb,3qUFZz,3qUFZz');
 
 -- ----------------------------
 -- Table structure for `tbl_post`
