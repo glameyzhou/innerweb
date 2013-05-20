@@ -90,7 +90,12 @@
                         ${post.content}
                     </div>
                     <div class="neirong_con">
-                        已经被XXX阅读过
+                        <c:if test="${not empty postReadUserList}"><br/>已读人：
+                            <c:forEach var="u" items="${postReadUserList}" varStatus="prStatus">
+                                ${u.nickname}&nbsp;
+                                <c:if test="${prStatus % 8 == 0}"><br/></c:if>
+                            </c:forEach>
+                        </c:if>
                     </div>
                 </div>
             </div>
