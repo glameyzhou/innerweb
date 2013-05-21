@@ -1,12 +1,19 @@
 package com.glamey.innerweb.controller.manager;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.glamey.framework.utils.PageBean;
+import com.glamey.framework.utils.StringTools;
+import com.glamey.framework.utils.WebUtils;
+import com.glamey.innerweb.constants.CategoryConstants;
+import com.glamey.innerweb.constants.Constants;
+import com.glamey.innerweb.controller.BaseController;
+import com.glamey.innerweb.dao.CategoryDao;
+import com.glamey.innerweb.dao.PostDao;
+import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.Post;
+import com.glamey.innerweb.model.domain.UploadInfo;
+import com.glamey.innerweb.model.domain.UserInfo;
+import com.glamey.innerweb.model.dto.PostQuery;
+import com.glamey.innerweb.util.WebUploadUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
@@ -16,18 +23,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.glamey.framework.utils.PageBean;
-import com.glamey.framework.utils.StringTools;
-import com.glamey.framework.utils.WebUtils;
-import com.glamey.innerweb.constants.CategoryConstants;
-import com.glamey.innerweb.controller.BaseController;
-import com.glamey.innerweb.dao.CategoryDao;
-import com.glamey.innerweb.dao.PostDao;
-import com.glamey.innerweb.model.domain.Category;
-import com.glamey.innerweb.model.domain.Post;
-import com.glamey.innerweb.model.domain.UploadInfo;
-import com.glamey.innerweb.model.dto.PostQuery;
-import com.glamey.innerweb.util.WebUploadUtils;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 内容管理
@@ -99,7 +100,7 @@ public class PostManagerController extends BaseController {
     @RequestMapping(value = "/{aliasName}/category-create.htm", method = RequestMethod.POST)
     public ModelAndView categoryCreate(
             @PathVariable String aliasName,
-            HttpServletRequest request,HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response) {
         logger.info("[manager-post-category-create]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
@@ -139,7 +140,7 @@ public class PostManagerController extends BaseController {
     @RequestMapping(value = "/{aliasName}/category-update.htm", method = RequestMethod.POST)
     public ModelAndView categoryUpdate(
             @PathVariable String aliasName,
-            HttpServletRequest request,HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response) {
         logger.info("[manager-post-category-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
@@ -226,7 +227,7 @@ public class PostManagerController extends BaseController {
     @RequestMapping(value = "/{aliasName}/post-show.htm", method = RequestMethod.GET)
     public ModelAndView postShow(
             @PathVariable String aliasName,
-            HttpServletRequest request) {
+            HttpServletRequest request, HttpSession session) {
         logger.info("[manager-post-post-show]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
         if (StringUtils.isBlank(aliasName)) {
@@ -245,6 +246,10 @@ public class PostManagerController extends BaseController {
             post = postDao.getByPostId(postId);
             opt = "update";
         }
+        //设置发布人
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        post.setAuthor(userInfo.getUserId());
+        post.setUserInfo(userInfo);
         mav.addObject("opt", opt);
         mav.addObject("categoryParent", categoryParent);
         mav.addObject("categoryList", categoryList);
@@ -258,7 +263,7 @@ public class PostManagerController extends BaseController {
     @RequestMapping(value = "/{aliasName}/post-create.htm", method = RequestMethod.POST)
     public ModelAndView postCreate(
             @PathVariable String aliasName,
-            HttpServletRequest request,HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-post-create]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
@@ -276,10 +281,15 @@ public class PostManagerController extends BaseController {
         post.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
         post.setCategoryId(WebUtils.getRequestParameterAsString(request, "categoryId"));
         post.setTitle(WebUtils.getRequestParameterAsString(request, "title"));
-        post.setAuthor(WebUtils.getRequestParameterAsString(request, "author"));
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        post.setAuthor(userInfo.getUserId());
         post.setSource(WebUtils.getRequestParameterAsString(request, "source"));
-        //post.setTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-        post.setTime(WebUtils.getRequestParameterAsString(request, "time", DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss")));
+        String time = WebUtils.getRequestParameterAsString(request, "time");
+        if (StringUtils.isBlank(time)) {
+            post.setTime(WebUtils.getRequestParameterAsString(request, "time", DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss")));
+        } else {
+            post.setTime(time);
+        }
         post.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
         post.setShowList(WebUtils.getRequestParameterAsInt(request, "showList", 0));
         post.setApply(WebUtils.getRequestParameterAsInt(request, "apply", 0));
@@ -302,7 +312,7 @@ public class PostManagerController extends BaseController {
     @RequestMapping(value = "/{aliasName}/post-update.htm", method = RequestMethod.POST)
     public ModelAndView postUpdate(
             @PathVariable String aliasName,
-            HttpServletRequest request,HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-post-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         if (StringUtils.isBlank(aliasName)) {
@@ -328,10 +338,15 @@ public class PostManagerController extends BaseController {
         post.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
         post.setCategoryId(WebUtils.getRequestParameterAsString(request, "categoryId"));
         post.setTitle(WebUtils.getRequestParameterAsString(request, "title"));
-        post.setAuthor(WebUtils.getRequestParameterAsString(request, "author"));
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        post.setAuthor(userInfo.getUserId());
         post.setSource(WebUtils.getRequestParameterAsString(request, "source"));
-        //TODO 调整时间为用户设置时间
-        post.setTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        String time = WebUtils.getRequestParameterAsString(request, "time");
+        if (StringUtils.isBlank(time)) {
+            post.setTime(WebUtils.getRequestParameterAsString(request, "time", DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss")));
+        } else {
+            post.setTime(time);
+        }
         post.setShowIndex(WebUtils.getRequestParameterAsInt(request, "showIndex", 0));
         post.setShowList(WebUtils.getRequestParameterAsInt(request, "showList", 0));
         post.setApply(WebUtils.getRequestParameterAsInt(request, "apply", 0));

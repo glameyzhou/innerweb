@@ -163,7 +163,7 @@ public class LinksDao extends BaseDao {
             if(query.getShowIndex() > -1)
         		sql.append(" and links_showindex = ? ");
         	
-        	sql.append(" order by links_order desc limit ?,? ");
+        	sql.append(" order by links_order asc limit ?,? ");
         	
             list = jdbcTemplate.query(sql.toString(),
                     new PreparedStatementSetter() {

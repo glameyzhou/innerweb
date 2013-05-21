@@ -4,10 +4,10 @@
 package com.glamey.innerweb.dao;
 
 import com.glamey.framework.utils.StringTools;
-import com.glamey.innerweb.constants.SystemConstants;
 import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.MetaInfo;
 import com.glamey.innerweb.model.domain.Post;
+import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.PostDTO;
 import com.glamey.innerweb.model.dto.PostQuery;
 import org.apache.commons.lang.StringUtils;
@@ -37,6 +37,8 @@ public class PostDao extends BaseDao {
     private CategoryDao categoryDao;
     @Resource
     private MetaInfoDao metaInfoDao;
+    @Resource
+    private UserInfoDao userInfoDao;
 
     public boolean create(final Post post) {
         logger.info("[PostDao] #create# " + post);
@@ -384,8 +386,11 @@ public class PostDao extends BaseDao {
             post.setCategory(category);
 
             post.setTitle(rs.getString("post_title"));
-            //TODO 针对author设置对象填充
             post.setAuthor(rs.getString("post_author"));
+
+            UserInfo userInfo = userInfoDao.getUserById(post.getAuthor());
+            post.setUserInfo(userInfo);
+
             post.setSource(rs.getString("post_source"));
             post.setTime(rs.getString("post_time"));
             post.setShowIndex(rs.getInt("post_showindex"));

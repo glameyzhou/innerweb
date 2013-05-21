@@ -47,7 +47,7 @@ public class LoginFrontController extends BaseController {
         System.out.println("sessionId=" + session.getAttribute(Constants.SESSIN_USERID));
         session.removeAttribute(Constants.SESSIN_USERID);
         session.invalidate();
-        return "front/index";
+        return "redirect:/home.jsp";
     }
 
 

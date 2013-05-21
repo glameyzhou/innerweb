@@ -16,7 +16,7 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-    
+
     <context-param>
         <param-name>webAppRootKey</param-name>
         <param-value>webName.root</param-value>
@@ -67,16 +67,18 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- UserLogin filter
     <filter>
         <filter-name>userLoginFilter</filter-name>
-        <filter-class>cn.com.checne.util.UserLoginFilter</filter-class>
+        <filter-class>com.glamey.innerweb.util.UserLoginFilter</filter-class>
+        <init-param>
+            <param-name>allowed</param-name>
+            <param-value>/login.htm,/verifyCode.htm,/manager.htm</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>userLoginFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.htm</url-pattern>
     </filter-mapping>
-    -->
     <session-config>
         <session-timeout>1024</session-timeout>
     </session-config>

@@ -42,6 +42,8 @@ public class Post implements Serializable {
 	private String image ;
 	/*正文*/
 	private String content ;
+
+    private UserInfo userInfo ;
 	
 	
 	public String getId() {
@@ -205,8 +207,15 @@ public class Post implements Serializable {
 		this.content = content;
 	}
 
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
 
-	@Override
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    @Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this,
 				ToStringStyle.SHORT_PREFIX_STYLE);

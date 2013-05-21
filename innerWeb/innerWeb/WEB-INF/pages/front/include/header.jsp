@@ -1,9 +1,17 @@
+<%@ page import="com.glamey.innerweb.model.domain.UserInfo" %>
+<%@ page import="com.glamey.innerweb.constants.Constants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../../common/tagInclude.jsp" %>
+<%
+    UserInfo sessionUserInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+%>
 <script type="text/javascript">
     function sysLogout(){
         window.location = "${basePath}mg/logout.htm";
     }
+    /*function loadMessage(){
+        window.location = "${basePath}mg/message/message-list.htm?to=<%=sessionUserInfo.getUserId()%>" ;
+    }*/
 </script>
 <div class="header">
     <div class="header_top">
@@ -22,10 +30,10 @@
             <ul>
                 <li><img src="${basePath}res/front/images/header_login.png"/></li>
                 <li>
-                    <span>欢迎您：${userInfo.nickname}</span>
+                    <span>欢迎您：<%=sessionUserInfo.getNickname()%></span>
                 </li>
                 <li>|</li>
-                <li><img src="${basePath}res/front/images/header_mail.png"/></li>
+                <li><img src="${basePath}res/front/images/header_mail.png""/></li>
                 <li>站内信</li>
                 <li style="background-image:url(${basePath}res/front/images/botton_logout.png); margin-left:20px; margin-top:3px;">
                     <input type="button" value="退出" class="botton_logout" onclick="javascript:sysLogout();"/>

@@ -67,10 +67,10 @@
                         <c:if test="${not empty categoryParent}">${categoryParent.name}</c:if>
                     </li>
                 </ul>
-                <ul class="tit_biao_right">
+                <%--<ul class="tit_biao_right">
                     <li><img src="res/front/images/right_tit_biao2.png" /></li>
                     <li><a href="#">更&nbsp;多</a></li>
-                </ul>
+                </ul>--%>
             </div>
             <div class="neiye_right_con" style="width:932px;">
                 <c:forEach var="post" items="${postList}" varStatus="status">

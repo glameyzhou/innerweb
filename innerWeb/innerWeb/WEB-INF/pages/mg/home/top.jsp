@@ -15,6 +15,7 @@
     if (obj != null) {
         userInfo = (UserInfo) obj;
     }
+    /*/home/chdiofficevcchldoidoufsfficcfe/logs/*/
 
 %>
 <body>
@@ -26,7 +27,7 @@
                     style="color: #FFF;padding: 0 10px 0 5px ;">用户名：<%=userInfo.getNickname()%> &nbsp;&nbsp;&nbsp;[<%=userInfo.getRoleInfo().getRoleName()%>]</span>
             <img src="${basePath}res/jeecms/img/admin/loginout-icon.png">
             <a style="color: #FFF;padding: 0 10px 0 5px ;" href="${basePath}mg/logout.htm" target="_top">注销</a>&nbsp;&nbsp;
-            <a style="color: #FFF;padding: 0 10px 0 5px ;" href="${basePath}home.jsp" id="logout"
+            <a style="color: #FFF;padding: 0 10px 0 5px ;" href="${basePath}index.htm" id="logout"
                target="_blank">回首页</a>&nbsp;</span>
         </td>
     </tr>

@@ -56,7 +56,7 @@
                 <div class="body_left_con1">
                     <ul>
                         <li><input name="" type="text" class="searchtext" value="请输入关键字"/></li>
-                        <li><a href="#"><img src="res/front/res/front/images/botton_search.jpg"/></a></li>
+                        <li><a href="#"><img src="res/front/images/botton_search.jpg"/></a></li>
                     </ul>
                 </div>
             </div>
@@ -73,17 +73,17 @@
                     <li><img src="res/front/images/right_tit_biao.png"/></li>
                     <li style="padding-left:15px;">${post.category.name}</li>
                 </ul>
-                <ul class="tit_biao_right">
+                <%--<ul class="tit_biao_right">
                     <li><img src="res/front/images/right_tit_biao2.png"/></li>
                     <li><a href="#">更&nbsp;多</a></li>
-                </ul>
+                </ul>--%>
             </div>
             <div class="neiye_right_con" style="width:932px;">
                 <div class="neirong_con" style="width:930px;">
                     <h2>${post.title}</h2>
                     <br/>
 
-                    <h3>作者：${post.author}&nbsp;&nbsp;&nbsp;时间：${post.time}&nbsp;&nbsp;&nbsp;来源：${post.source}</h3>
+                    <h3>作者：${post.userInfo.nickname}&nbsp;&nbsp;&nbsp;时间：${post.time}&nbsp;&nbsp;&nbsp;来源：${post.source}</h3>
                     <br/>
 
                     <div class="neirong_con">
@@ -93,7 +93,7 @@
                         <c:if test="${not empty postReadUserList}"><br/>已读人：
                             <c:forEach var="u" items="${postReadUserList}" varStatus="prStatus">
                                 ${u.nickname}&nbsp;
-                                <c:if test="${prStatus % 8 == 0}"><br/></c:if>
+                                <c:if test="${prStatus.index % 8 == 0}"><br/></c:if>
                             </c:forEach>
                         </c:if>
                     </div>

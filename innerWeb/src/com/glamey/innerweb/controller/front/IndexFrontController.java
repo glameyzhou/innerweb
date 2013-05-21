@@ -65,13 +65,6 @@ public class IndexFrontController extends BaseController {
 
         //友情链接
         mav.addAllObjects(includeFront.friendlyLinks(request, response, session));
-
-        UserInfo userInfo = null ;
-        Object obj = session.getAttribute(Constants.SESSIN_USERID);
-        if(obj != null){
-            userInfo = (UserInfo) obj;
-        }
-        mav.addObject("userInfo",userInfo);
         return mav;
     }
 }
