@@ -32,9 +32,9 @@
         <div class="clear"></div>
     </div>
     <form method="post" action="${basePath}mg/links/${categoryParent.aliasName}/category-${opt}.htm" id="jvForm"	enctype="multipart/form-data">
-        <input type="text" id="categoryId" name="categoryId" value="${category.id}"/>
-        <input type="text" id="categoryType" name="categoryType" value="${categoryParent.categoryType}"/>
-        <input type="text" id="parentId" name="parentId" value="${categoryParent.id}"/>
+        <input type="hidden" id="categoryId" name="categoryId" value="${category.id}"/>
+        <input type="hidden" id="categoryType" name="categoryType" value="${categoryParent.categoryType}"/>
+        <input type="hidden" id="parentId" name="parentId" value="${categoryParent.id}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
             <tr>
