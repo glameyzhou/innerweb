@@ -19,4 +19,10 @@ public class SystemConstants {
 
     /*通告是否需要审核*/
     public static final String permit_notices = "permit_notices";
+
+    //常用链接
+    public static final String popular_Links = "popular_Links";
+
+    //页尾内容
+    public static final String page_foot = "page_foot" ;
 }

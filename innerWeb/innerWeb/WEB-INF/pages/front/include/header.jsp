@@ -1,5 +1,7 @@
 <%@ page import="com.glamey.innerweb.model.domain.UserInfo" %>
 <%@ page import="com.glamey.innerweb.constants.Constants" %>
+<%@ page import="org.apache.commons.lang.time.DateFormatUtils" %>
+<%@ page import="java.util.Date" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../../common/tagInclude.jsp" %>
 <%
@@ -32,7 +34,7 @@
                     <span>欢迎您：<%=sessionUserInfo.getNickname()%></span>
                 </li>
                 <li>|</li>
-                <li><img src="${basePath}res/front/images/header_mail.png""/></li>
+                <li><img src="${basePath}res/front/images/header_mail.png"/></li>
                 <li>站内信</li>
                 <li style="background-image:url(${basePath}res/front/images/botton_logout.png); margin-left:20px; margin-top:3px;">
                     <input type="button" value="退出" class="botton_logout" onclick="javascript:sysLogout();"/>

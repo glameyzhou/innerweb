@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <td align="left">页尾内容</td>
-                <td align=center><a href="${basePath}mg/sys/meta-show.htm?metaId=foot">设置</a></td>
+                <td align=center><a href="${basePath}mg/sys/meta/page_foot/meta-show.htm">设置</a></td>
             </tr>
             </tbody>
         </table>

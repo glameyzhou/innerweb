@@ -7,6 +7,7 @@ import com.glamey.innerweb.dao.MetaInfoDao;
 import com.glamey.innerweb.dao.PostDao;
 import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.Links;
+import com.glamey.innerweb.model.domain.MetaInfo;
 import com.glamey.innerweb.model.dto.LinksQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
@@ -61,7 +62,7 @@ public class IncludeFront {
         modelMap.addAttribute("inLinksList", inLinksList);
         modelMap.addAttribute("inCategory", inCategory);
 
-        return modelMap ;
+        return modelMap;
     }
 
     public ModelMap friendlyLinks(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -84,6 +85,11 @@ public class IncludeFront {
         }
         modelMap.addAttribute("friendlyLinksMap", friendlyLinksMap);
 
-        return modelMap ;
+        return modelMap;
+    }
+
+    public String getMetaByName(String name) {
+        MetaInfo metaInfo = metaInfoDao.getByName(name);
+        return metaInfo != null ? metaInfo.getValue() : "";
     }
 }

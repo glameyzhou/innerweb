@@ -44,6 +44,8 @@ public class IndexFrontController extends BaseController {
 
         //集团、院系入口
         mav.addAllObjects(includeFront.linksEntrance(request, response, session));
+        //常用链接
+        mav.addObject(SystemConstants.popular_Links,includeFront.getMetaByName(SystemConstants.popular_Links));
 
         //四个板块
         //第一板块
@@ -65,6 +67,9 @@ public class IndexFrontController extends BaseController {
 
         //友情链接
         mav.addAllObjects(includeFront.friendlyLinks(request, response, session));
+
+        //常用链接
+        mav.addObject(SystemConstants.page_foot,includeFront.getMetaByName(SystemConstants.page_foot));
         return mav;
     }
 }

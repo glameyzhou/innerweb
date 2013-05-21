@@ -12,9 +12,11 @@ import com.glamey.innerweb.dao.MetaInfoDao;
 import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.MetaInfo;
 import org.apache.commons.lang.StringUtils;
+import org.apache.lucene.search.NumericRangeQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -66,9 +68,9 @@ public class SysManagerController extends BaseController {
         }
         metaInfo.setValue(value);
         if (metaInfoDao.update(metaInfo)) {
-            mav.addObject("message","设置成功");
+            mav.addObject("message", "设置成功");
         } else {
-            mav.addObject("message","设置失败");
+            mav.addObject("message", "设置失败");
         }
         mav.addObject("metaInfo", metaInfo);
         return mav;
@@ -210,10 +212,55 @@ public class SysManagerController extends BaseController {
     }
 
     /**
-     * 首页--网站信息
+     * 通用的全局配置显示页面
+     * mg/sys/meta/popular_Links/meta-show.htm
      */
-    @RequestMapping(value = "/home/webInfo.htm")
-    public String webInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
-        return "mg/home/webInfo";
+    @RequestMapping(value = "/meta/{name}/meta-show.htm", method = RequestMethod.GET)
+    public ModelAndView metaShow(
+            @PathVariable String name ,
+            HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("mg/sys/meta-show");
+        if (StringUtils.isBlank(name)) {
+            mav.addObject("message", "操作无效");
+            mav.setViewName("common/message");
+            return mav;
+        }
+        MetaInfo metaInfo = metaInfoDao.getByName(name);
+        mav.addObject("metaInfo", metaInfo);
+        String title = "" ;
+        if(StringUtils.equals(name,"popular_Links")){
+            title = "常用链接" ;
+        }
+        if(StringUtils.equals(name,"page_foot")){
+            title = "页尾内容" ;
+        }
+        mav.addObject("title",title);
+        return mav;
+    }
+
+    /**
+     * 系统配置修改
+     * mg/sys/meta/popular_Links/meta-show.htm
+     */
+    @RequestMapping(value = "/meta/{name}/meta-update.htm", method = RequestMethod.POST)
+    public ModelAndView metaUpdate(
+            @PathVariable String name ,
+            HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("mg/sys/meta-show");
+        String value = WebUtils.getRequestParameterAsString(request, "value");
+        if (StringUtils.isBlank(name)) {
+            mav.addObject("message", "操作无效");
+            return mav;
+        }
+        MetaInfo metaInfo = new MetaInfo();
+        metaInfo.setName(name);
+        metaInfo.setValue(value);
+        if (metaInfoDao.update(metaInfo)) {
+            mav.addObject("message", "修改成功");
+        } else {
+            mav.addObject("message", "修改失败");
+        }
+        mav.addObject("metaInfo",metaInfo);
+        return mav;
     }
 }
