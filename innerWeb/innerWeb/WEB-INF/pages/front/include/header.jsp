@@ -22,8 +22,7 @@
                         src="http://weather.news.sina.com.cn/chajian/iframe/weatherStyle1.html?city=%E5%8C%97%E4%BA%AC"
                         width="200" height="20" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0"
                         scrolling="no"></iframe>--%>
-                <iframe width="450" scrolling="no" height="20" frameborder="0" allowtransparency="true"
-                        src="http://www.tianqi.com/index.php?c=code&id=1&icon=1&wind=1&num=2"></iframe>
+                <iframe width="450" scrolling="no" height="20" frameborder="0" allowtransparency="true" src="http://www.tianqi.com/index.php?c=code&id=1&icon=1&wind=1&num=2"></iframe>
             </p>
 
             <p style="margin-top:10px;">

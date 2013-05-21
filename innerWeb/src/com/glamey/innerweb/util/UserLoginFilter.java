@@ -37,7 +37,7 @@ public class UserLoginFilter implements Filter {
         String requestURI = request.getRequestURI();
         String suffix = FilenameUtils.getExtension(requestURI);
         System.out.println("requestURI=" + requestURI + " requestURIExtension=" + suffix);
-        boolean isAllowed = false;
+        requestURI =  getLastString(requestURI);
         if (obj == null && !isAllowed(requestURI)) {
             response.sendRedirect(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath());
         } else {
@@ -49,7 +49,15 @@ public class UserLoginFilter implements Filter {
     public void destroy() {
     }
 
+    private String getLastString(String requestURI){
+    	int index = StringUtils.lastIndexOf(requestURI, "/");
+    	if(index > -1){
+    		return requestURI.substring(index);
+    	}
+    	return requestURI ;
+    }
     private boolean isAllowed(String requestURI) {
         return map.containsKey(requestURI) || map.containsValue(requestURI);
     }
+    
 }
