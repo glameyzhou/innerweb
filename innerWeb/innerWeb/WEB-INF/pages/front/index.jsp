@@ -23,7 +23,7 @@
             <%@include file="include/links-out.jsp" %>
             <%@include file="include/links-in.jsp" %>
             <%--常用链接--%>
-            ${popular_Links.value}
+            ${popular_Links}
             <div class="body_left_1" style="margin-top:10px;">
                 <div class="body_left_tit">
                     <ul class="tit_biao">

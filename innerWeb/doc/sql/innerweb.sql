@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-05-20 20:16:00
+Date: 2013-05-21 22:41:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -119,7 +119,7 @@ CREATE TABLE `tbl_message` (
 DROP TABLE IF EXISTS `tbl_meta`;
 CREATE TABLE `tbl_meta` (
   `meta_name` varchar(250) NOT NULL COMMENT '标识位名字',
-  `meta_value` varchar(250) default NULL COMMENT '标识位名字对应的值'
+  `meta_value` text COMMENT '标识位名字对应的值'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统所有变量的标识Map(key-value)';
 
 -- ----------------------------
@@ -130,6 +130,8 @@ INSERT INTO `tbl_meta` VALUES ('area_1', 'bY3Uju,mYre2a');
 INSERT INTO `tbl_meta` VALUES ('area_2', 'Bbq6n2,remuEb,IfM7Zz,Q7BJzm');
 INSERT INTO `tbl_meta` VALUES ('area_3', 'RBVBVf,aENvee,3u6rmu,I3meqq');
 INSERT INTO `tbl_meta` VALUES ('area_4', 'MJfmQz,rm6nQv');
+INSERT INTO `tbl_meta` VALUES ('page_foot', '<div class=\"footer\">\r\n    <center>\r\n        <table width=\"650\" border=\"0\" cellspacing=\"0\" align=\"center\">\r\n            <tr>\r\n                <td rowspan=\"3\" width=\"75\"><img src=\"${basePath}res/front/images/footer.jpg\"/></td>\r\n                <td>中国华电集团科学技术研究总院 版权所有 京ICP备05084797号 邮编：100077 传真：010-52392444</td>\r\n            </tr>\r\n            <tr>\r\n                <td>地址：北京市东城区永定门西滨河路8号院7号楼中海地产广场东塔11层 电话：010-51966891</td>\r\n            </tr>\r\n            <tr>\r\n                <td>建议使用IE6.0以上版本浏览器1024*768分辨率浏览本网站</td>\r\n            </tr>\r\n        </table>\r\n    </center>\r\n</div>');
+INSERT INTO `tbl_meta` VALUES ('popular_Links', '\r\n<div class=\"body_left_1\" style=\"margin-top:10px;\">\r\n                <div class=\"body_left_tit\">\r\n                    <ul class=\"tit_biao\">\r\n                        <li><img src=\"${basePath}res/front/images/left_tit_biao1.png\"/></li>\r\n                        <li style=\"padding-left:15px;\">常用链接</li>\r\n                    </ul>\r\n                </div>\r\n\r\n                <div class=\"body_left_con1\">\r\n<ul>\r\n                        <li><select name=\"\" class=\"xiala\">\r\n                            <option value=\"------集团系统网站链接------\" selected=\"selected\">------集团系统网站链接------</option>\r\n                        </select></li>\r\n                        <li><select name=\"\" class=\"xiala\">\r\n                            <option value=\"------常用网站链接------\" selected=\"selected\">------常用网站链接------</option>\r\n                        </select></li>\r\n                    </ul>\r\n                </div>\r\n            </div>');
 
 -- ----------------------------
 -- Table structure for `tbl_post`

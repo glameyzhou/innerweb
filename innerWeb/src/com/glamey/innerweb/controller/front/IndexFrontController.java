@@ -43,9 +43,9 @@ public class IndexFrontController extends BaseController {
         ModelAndView mav = new ModelAndView("front/index");
 
         //集团、院系入口
-        mav.addAllObjects(includeFront.linksEntrance(request, response, session));
+        mav.addAllObjects(includeFront.linksEntrance());
         //常用链接
-        mav.addObject(SystemConstants.popular_Links,includeFront.getMetaByName(SystemConstants.popular_Links));
+        mav.addObject(SystemConstants.popular_Links, includeFront.getMetaByName(SystemConstants.popular_Links));
 
         //四个板块
         //第一板块
@@ -66,10 +66,10 @@ public class IndexFrontController extends BaseController {
         mav.addObject("area4PostDTOList", area4PostDTOList);
 
         //友情链接
-        mav.addAllObjects(includeFront.friendlyLinks(request, response, session));
+        mav.addAllObjects(includeFront.friendlyLinks());
 
-        //常用链接
-        mav.addObject(SystemConstants.page_foot,includeFront.getMetaByName(SystemConstants.page_foot));
+        //尾部页面
+        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
         return mav;
     }
 }

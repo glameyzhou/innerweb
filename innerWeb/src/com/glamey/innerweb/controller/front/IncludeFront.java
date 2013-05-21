@@ -37,7 +37,7 @@ public class IncludeFront {
     @Resource
     private MetaInfoDao metaInfoDao;
 
-    public ModelMap linksEntrance(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public ModelMap linksEntrance() {
         ModelMap modelMap = new ModelMap();
         //外部快捷入口
         Category outCategory = categoryDao.getByAliasName(CategoryConstants.CATEGORY_OUTFASTENTRANCE);
@@ -65,7 +65,7 @@ public class IncludeFront {
         return modelMap;
     }
 
-    public ModelMap friendlyLinks(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public ModelMap friendlyLinks() {
         ModelMap modelMap = new ModelMap();
 
         //友情链接内容显示

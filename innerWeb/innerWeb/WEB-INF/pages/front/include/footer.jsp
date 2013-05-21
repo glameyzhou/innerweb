@@ -1,2 +1,2 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-${page_foot_metaInfo.value}
+${page_foot}

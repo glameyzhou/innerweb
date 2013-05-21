@@ -72,8 +72,8 @@ public class PostFrontController extends BaseController {
         }
         Post post = postDao.getByPostId(postId);
         mav.addObject("post", post);
-        mav.addAllObjects(includeFront.linksEntrance(request, response, session));
-        mav.addAllObjects(includeFront.friendlyLinks(request, response, session));
+        mav.addAllObjects(includeFront.linksEntrance());
+        mav.addAllObjects(includeFront.friendlyLinks());
 
         //读过文章的人数
         List<UserInfo> postReadUserList = postReadInfoDao.getUserListByPostId(postId);
@@ -150,8 +150,8 @@ public class PostFrontController extends BaseController {
         mav.addObject("categoryParent", categoryParent);
         mav.addObject("category", category);
 
-        mav.addAllObjects(includeFront.linksEntrance(request, response, session));
-        mav.addAllObjects(includeFront.friendlyLinks(request, response, session));
+        mav.addAllObjects(includeFront.linksEntrance());
+        mav.addAllObjects(includeFront.friendlyLinks());
 
         return mav;
     }
@@ -196,8 +196,8 @@ public class PostFrontController extends BaseController {
         mav.addObject("pageBean", pageBean);
         mav.addObject("categoryParent", categoryParent);
 
-        mav.addAllObjects(includeFront.linksEntrance(request, response, session));
-        mav.addAllObjects(includeFront.friendlyLinks(request, response, session));
+        mav.addAllObjects(includeFront.linksEntrance());
+        mav.addAllObjects(includeFront.friendlyLinks());
 
         return mav;
     }
