@@ -1,5 +1,6 @@
 package com.glamey.innerweb.controller.manager;
 
+import com.glamey.framework.utils.HttpConnection;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.model.dto.ChinaWeather;
@@ -14,7 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -26,7 +33,7 @@ import java.util.Date;
 @Controller
 public class WeatherMangerController extends BaseController {
 
-    @RequestMapping(value = "mg/weatcher.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "weather.htm", method = RequestMethod.GET)
     @ResponseBody
     public String getWeather(HttpServletRequest request, HttpServletResponse response) {
         String cityId = WebUtils.getRequestParameterAsString(request, "cityId");
@@ -36,26 +43,43 @@ public class WeatherMangerController extends BaseController {
             http://www.weather.com.cn/data/cityinfo/101010100.html
             http://m.weather.com.cn/data/101010100.html*/
         }
-        StringBuffer result = new StringBuffer();
-        if (result.length() > 0) {
+        StringBuffer source = new StringBuffer();
+        URL requestURL;
+        try {
+            requestURL = new URL("http://www.weather.com.cn/data/cityinfo/" + cityId +".html");
+            HttpURLConnection conn = (HttpURLConnection) requestURL.openConnection();
+            InputStream is = conn.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+            String line ;
+            while((line = br.readLine()) != null){
+                source.append(line).append(System.getProperty("line.separator"));
+            }
+            br.close();
+            is.close();
+            System.out.println(source);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        StringBuilder first = new StringBuilder();
+        if (source.length() > 0) {
             Gson gson = new Gson();
-            ChinaWeather cw = gson.fromJson(result.toString(), ChinaWeather.class);
+            ChinaWeather cw = gson.fromJson(source.toString(), ChinaWeather.class);
             if (cw != null) {
                 weatherinfo w = cw.getWeatherinfo();
                 w.setImg1("http://m.weather.com.cn/img/" + w.getImg1());
                 w.setImg2("http://m.weather.com.cn/img/" + w.getImg2());
 
-                result.append(cw.getWeatherinfo().getCity()).append("&nbsp;");
-                result.append(cw.getWeatherinfo().getTemp1()).append("-");
-                result.append(cw.getWeatherinfo().getTemp2()).append("&nbsp;");
-                result.append(cw.getWeatherinfo().getWeather()).append("&nbsp;");
-                result.append("<img src='").append(cw.getWeatherinfo().getImg1()).append("' />");
-                result.append("<img src='").append(cw.getWeatherinfo().getImg2()).append("' />");
+                first.append(cw.getWeatherinfo().getCity()).append("&nbsp;");
+                first.append("<img src='").append(cw.getWeatherinfo().getImg1()).append("' />&nbsp;");
+                first.append("<img src='").append(cw.getWeatherinfo().getImg2()).append("' />&nbsp;");
+                first.append(cw.getWeatherinfo().getWeather()).append("&nbsp;");
+                first.append(cw.getWeatherinfo().getTemp1()).append("~");
+                first.append(cw.getWeatherinfo().getTemp2());
             }
-
         }
-
-        String date = DateFormatUtils.format(new Date(), "yyyy年MM月dd日");
+        String date = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -64,11 +88,13 @@ public class WeatherMangerController extends BaseController {
             w = 0;
         String week = weekDays[w];
 
-        StringBuffer pageShow = new StringBuffer(date);
-        pageShow.append("&nbsp;&nbsp;");
+        StringBuffer pageShow = new StringBuffer();
+        pageShow.append("今天是:");
+        pageShow.append(date);
+        pageShow.append("&nbsp;&nbsp;(");
         pageShow.append(week);
-        pageShow.append("&nbsp;&nbsp;");
-        pageShow.append(result);
+        pageShow.append(")&nbsp;&nbsp;");
+        pageShow.append(first);
 
         try {
             response.setCharacterEncoding("UTF-8");

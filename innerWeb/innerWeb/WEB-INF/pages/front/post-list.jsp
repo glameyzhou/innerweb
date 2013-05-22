@@ -20,10 +20,11 @@
     <div class="body">
         <!--左半边代码开始-->
         <div class="body_left">
-            <%@include file="include/links-out.jsp"%>
-            <%@include file="include/links-in.jsp"%>
-                        <%--常用链接--%>
+            <%@include file="include/links-out.jsp" %>
+            <%@include file="include/links-in.jsp" %>
+            <%--常用链接--%>
             <%@include file="include/popular_Links.jsp" %>
+            <%--搜索框--%>
             <%@include file="include/searcher.jsp" %>
         </div>
         <!--左半边代码结束-->
@@ -31,7 +32,7 @@
         <div class="right_neiye">
             <div class="body_right_tit" style="width:962px;">
                 <ul class="tit_biao">
-                    <li><img src="res/front/images/right_tit_biao.png" /></li>
+                    <li><img src="res/front/images/right_tit_biao.png"/></li>
                     <li style="padding-left:15px;">
                         <c:if test="${not empty categoryParent}">${categoryParent.name} - </c:if>
                         <c:if test="${not empty category}">${category.name}</c:if>
@@ -44,14 +45,14 @@
             </div>
             <div class="neiye_right_con" style="width:932px;">
                 <c:forEach var="post" items="${postList}" varStatus="status">
-                <ul class="con_neiye">
-                    <li><img src="res/front/images/right_tit_biao3.png" /></li>
-                    <li><a href="p-${post.id}.htm">${post.title}</a></li>
-                    <li style="float:right;">${post.userInfo.category.name}&nbsp;&nbsp;&nbsp;${fmtString:substring(post.time,10)}</li>
-                </ul>
+                    <ul class="con_neiye">
+                        <li><img src="res/front/images/right_tit_biao3.png"/></li>
+                        <li><a href="p-${post.id}.htm">${post.title}</a></li>
+                        <li style="float:right;">${post.userInfo.category.name}&nbsp;&nbsp;&nbsp;${fmtString:substring(post.time,10)}</li>
+                    </ul>
                 </c:forEach>
                 <c:set var="pageURL" value="pl-${categoryType}-${categoryId}.htm?"/>
-                <%@include file="../common/pages-front.jsp"%>
+                <%@include file="../common/pages-front.jsp" %>
             </div>
         </div>
         <%--右半边代码结束--%>

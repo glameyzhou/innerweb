@@ -23,12 +23,11 @@
         <div class="seat">
             <a href="#">首页</a>&nbsp;>&nbsp;<a href="#">${post.category.name}</a>&nbsp;>&nbsp;<span>${post.title}</span>
         </div>--%>
-
         <!--左半边代码开始-->
         <div class="body_left">
             <%@include file="include/links-out.jsp" %>
             <%@include file="include/links-in.jsp" %>
-                        <%--常用链接--%>
+            <%--常用链接--%>
             <%@include file="include/popular_Links.jsp" %>
             <%@include file="include/searcher.jsp" %>
         </div>

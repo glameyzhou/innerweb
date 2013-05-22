@@ -6,10 +6,10 @@
     <base href="${basePath}">
     <link rel="Shortcut Icon" href="${basePath}res/ico/favicon.ico"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="${basePath}res/front/css/index.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/css/style.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/css/header.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/css/footer.css" rel="stylesheet" type="text/css"/>
+    <link href="res/front/css/index.css" rel="stylesheet" type="text/css"/>
+    <link href="res/front/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="res/front/css/header.css" rel="stylesheet" type="text/css"/>
+    <link href="res/front/css/footer.css" rel="stylesheet" type="text/css"/>
     <title>内网管理系统</title>
 </head>
 <body>

@@ -7,24 +7,34 @@
 <%
     UserInfo sessionUserInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
 %>
+<script type="text/javascript" src="${basePath}res/front/js/prototype-1.6.0.3.js"></script>
 <script type="text/javascript">
-    function sysLogout(){
+    var url = '${basePath}weather.htm';
+    new Ajax.Request(url, {
+                method: 'get',
+                onSuccess: function (transport) {
+                    var weather = $('weather');
+                    weather.innerHTML = transport.responseText;
+                }
+            }
+    );
+    function sysLogout() {
         window.location = "${basePath}mg/logout.htm";
     }
     /*function loadMessage(){
-        window.location = "${basePath}mg/message/message-list.htm?to=<%=sessionUserInfo.getUserId()%>" ;
-    }*/
+     window.location = "${basePath}mg/message/message-list.htm?to=<%=sessionUserInfo.getUserId()%>" ;
+     }*/
 </script>
 <div class="header">
     <div class="header_top">
         <div class="header_top_logo"><img src="${basePath}res/front/images/logo.png"/></div>
         <div class="header_top_login">
-            <p>
+            <p id="weather">
                 <%--<iframe name="sinaWeatherTool"
                         src="http://weather.news.sina.com.cn/chajian/iframe/weatherStyle1.html?city=%E5%8C%97%E4%BA%AC"
                         width="200" height="20" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0"
                         scrolling="no"></iframe>--%>
-                <iframe width="450" scrolling="no" height="20" frameborder="0" allowtransparency="true" src="http://www.tianqi.com/index.php?c=code&id=1&icon=1&wind=1&num=2"></iframe>
+                <%--<iframe width="450" scrolling="no" height="20" frameborder="0" allowtransparency="true" src="http://www.tianqi.com/index.php?c=code&id=1&icon=1&wind=1&num=2"></iframe>--%>
             </p>
 
             <p style="margin-top:10px;">
