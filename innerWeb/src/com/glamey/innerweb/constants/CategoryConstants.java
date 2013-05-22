@@ -24,5 +24,7 @@ public class CategoryConstants {
     public static final String CATEGORY_INFASTENTRANCE = "infastentrance" ;
     /*友情链接*/
     public static final String CATEOGRY_FRIENDLYLINKS = "friendlyLinks";
+    /*所有通知(公司内部通告)*/
+    public static final String  CATEGORY_ALLNOTICES = "deptInnerNotices" ;
 
 }

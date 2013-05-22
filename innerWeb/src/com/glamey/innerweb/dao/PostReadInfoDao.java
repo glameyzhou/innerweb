@@ -37,8 +37,11 @@ public class PostReadInfoDao extends BaseDao {
      * @return
      */
     public boolean create(final PostReadInfo readInfo) {
-        logger.error("[PostReadInfoDao] #create# " + readInfo);
+        logger.info("[PostReadInfoDao] #create# " + readInfo);
         try {
+            if(hasRead(readInfo.getPostId(),readInfo.getUserId())){
+                return true ;
+            }
             String sql = "insert into tbl_post_read(post_id,post_user_id,post_read_time) values(?,?,?)";
             int count = jdbcTemplate.update(sql,
                     new PreparedStatementSetter() {
@@ -52,12 +55,23 @@ public class PostReadInfoDao extends BaseDao {
                     });
             return count > 0;
         } catch (DataAccessException e) {
-            logger.error("[PostReadInfoDao] #create# error! " + readInfo);
+            logger.error("[PostReadInfoDao] #create# error! " + readInfo,e);
             return false;
         }
     }
 
 
+    public boolean hasRead(final String postId,final String userId){
+        logger.info("[PostReadInfoDao] #hasRead# postId=" + postId + " userId=" + userId);
+        try {
+            String sql = "select count(1) from tbl_post_read where post_id=? and post_user_id = ?";
+            int count = jdbcTemplate.queryForInt(sql,postId,userId);
+            return count > 0;
+        } catch (DataAccessException e) {
+            logger.error("[PostReadInfoDao] #hasRead# error postId=" + postId + " userId=" + userId,e);
+            return false;
+        }
+    }
     /**
      * 通过内容ID查询那些用户阅读过此文章
      *
@@ -87,7 +101,7 @@ public class PostReadInfoDao extends BaseDao {
             );
             return userInfoList ;
         } catch (DataAccessException e) {
-            logger.error("[PostReadInfoDao] #getUserListByPostId# error " + postId);
+            logger.error("[PostReadInfoDao] #getUserListByPostId# error " + postId,e);
             return Collections.emptyList();
         }
     }

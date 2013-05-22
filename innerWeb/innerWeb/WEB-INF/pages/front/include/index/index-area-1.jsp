@@ -20,7 +20,7 @@
                 <ul class="con_right">
                     <li><img src="res/front/images/right_tit_biao3.png"/></li>
                     <li>
-                        <a href="p-${post.id}.htm" target="_blank">${post.title}</a>
+                        <a href="p-${post.id}.htm" target="_blank"><c:if test="${post.category.aliasName eq 'deptInnerNotices'}">[${post.userInfo.category.name}]</c:if>${post.title}</a>
                     </li>
                     <li style="float:right;">${fmtString:substring(post.time,10)}</li>
                 </ul>

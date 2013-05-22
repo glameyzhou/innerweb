@@ -25,8 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Controller
 public class PostFrontController extends BaseController {
@@ -47,7 +45,7 @@ public class PostFrontController extends BaseController {
     @Resource
     private UserInfoDao userInfoDao;
     //新建一个静态的线程池
-    private static ExecutorService executor = Executors.newFixedThreadPool(5);
+//    private static ExecutorService executor = Executors.newFixedThreadPool(5);
 
     /**
      * 文章内容详情
@@ -75,37 +73,21 @@ public class PostFrontController extends BaseController {
         mav.addObject("post", post);
         mav.addAllObjects(includeFront.linksEntrance());
         mav.addAllObjects(includeFront.friendlyLinks());
-        
+
         mav.addObject(SystemConstants.popular_Links, includeFront.getMetaByName(SystemConstants.popular_Links));
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
-        
+
+        //插入已读
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        String userId = ((UserInfo) obj).getUserId();
+        final PostReadInfo postReadInfo = new PostReadInfo();
+        postReadInfo.setPostId(postId);
+        postReadInfo.setUserId(userId);
+        postReadInfoDao.create(postReadInfo);
 
         //读过文章的人数
         List<UserInfo> postReadUserList = postReadInfoDao.getUserListByPostId(postId);
-        Object obj = session.getAttribute(Constants.SESSIN_USERID);
-        String userId = null;
-        if (obj != null) {
-            userId = ((UserInfo) obj).getUserId();
-            postReadUserList.add(userInfoDao.getUserById(userId));
-        }
         mav.addObject("postReadUserList", postReadUserList);
-
-
-        //异步设置此内容已经被某人读过
-        if (StringUtils.isNotBlank(userId)) {
-            final PostReadInfo postReadInfo = new PostReadInfo();
-            postReadInfo.setPostId(postId);
-            postReadInfo.setUserId(userId);
-            postReadInfo.setUserId(null);
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    postReadInfoDao.create(postReadInfo);
-                }
-            });
-        } else {
-            logger.info("[front] #postDetail#" + request.getRequestURI() + " 未获取到用户信息");
-        }
 
         return mav;
     }
