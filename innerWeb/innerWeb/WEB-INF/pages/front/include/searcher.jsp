@@ -1,4 +1,11 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<script type="text/javascript">
+    function search(){
+        var kw = document.getElementById("kw").value ;
+        window.location = "${basePath}search.htm?kw=" + encodeURI(kw) ;
+    }
+
+</script>
 <div class="body_left_1" style="margin-top: 10px;">
 	<div class="body_left_tit">
 		<ul class="tit_biao">
@@ -9,9 +16,9 @@
 	</div>
 	<div class="body_left_con1">
 		<ul>
-			<li><input name="" type="text" class="searchtext" value="请输入关键字" />
+			<li><input name="kw" id="kw" type="text" class="searchtext" value="${kw}" />
 			</li>
-			<li><a href="#"><img
+			<li><a href="javascript:search();"><img
 					src="${basePath}res/front/images/botton_search.jpg" />
 			</a>
 			</li>
