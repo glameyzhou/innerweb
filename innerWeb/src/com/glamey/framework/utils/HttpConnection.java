@@ -13,6 +13,10 @@ import java.net.URL;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.glamey.innerweb.model.dto.ChinaWeather;
+import com.glamey.innerweb.model.dto.weatherinfo;
+import com.google.gson.Gson;
+
 public class HttpConnection {
 	public static String sendPost(String url, String body) {
 		if (StringUtils.isBlank(body)) {
@@ -24,7 +28,7 @@ public class HttpConnection {
 			HttpURLConnection conn = (HttpURLConnection) requestURL
 					.openConnection();
 			conn.setRequestMethod("POST");
-			conn.addRequestProperty("Server", "BadBoy");
+			conn.addRequestProperty("Server", "glamey");
 			conn.setReadTimeout(new Integer(50000).intValue());
 			conn.setDoInput(true);
 			byte[] bodyData = body.getBytes();
@@ -70,20 +74,31 @@ public class HttpConnection {
 		
 		URL requestURL;
 		try {
-			requestURL = new URL("http://yp.mo/zh/Macau-21051-SWEET%20HOME%20%E5%9B%9B%E7%B6%AD%E7%A9%BA%E6%B0%A3%E8%99%95%E7%90%86.html");
+            StringBuffer result = new StringBuffer();
+			requestURL = new URL("http://www.weather.com.cn/data/cityinfo/101010100.html");
 			HttpURLConnection conn = (HttpURLConnection) requestURL.openConnection();
 			InputStream is = conn.getInputStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			String line ;
 			while((line = br.readLine()) != null){
-				System.out.println(line);
+				result.append(line).append(System.getProperty("line.separator"));
 			}
 			br.close();
 			is.close();
+            System.out.println(result);
+            Gson gson = new Gson();
+			System.out.println(gson.fromJson(result.toString(), ChinaWeather.class));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+
+        ChinaWeather cw = new ChinaWeather();
+        weatherinfo w = new weatherinfo();
+        w.setCity("asdfasdf");
+        cw.setWeatherinfo(w);
+        Gson g = new Gson();
+        System.out.println(g.toJson(cw));
+    }
 }

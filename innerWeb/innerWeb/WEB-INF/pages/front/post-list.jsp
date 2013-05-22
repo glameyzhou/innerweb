@@ -22,41 +22,9 @@
         <div class="body_left">
             <%@include file="include/links-out.jsp"%>
             <%@include file="include/links-in.jsp"%>
-            <div class="body_left_1" style="margin-top:10px;">
-                <div class="body_left_tit">
-                    <ul class="tit_biao">
-                        <li><img src="res/front/images/left_tit_biao1.png"/></li>
-                        <li style="padding-left:15px;">常用链接</li>
-                    </ul>
-                </div>
-                <div class="body_left_con1">
-                    <ul>
-                        <li><select name="" class="xiala">
-                            <option value="------集团系统网站链接------" selected="selected">------集团系统网站链接------</option>
-                        </select></li>
-                        <li><select name="" class="xiala">
-                            <option value="------常用网站链接------" selected="selected">------常用网站链接------</option>
-                        </select></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="body_left_1" style="margin-top:10px;">
-                <div class="body_left_tit">
-                    <ul class="tit_biao">
-                        <li><img src="res/front/images/left_tit_biao2.png"/></li>
-                        <li style="padding-left:15px;">全文检索</li>
-                    </ul>
-                </div>
-                <div class="body_left_con1">
-                    <ul>
-                        <li><input name="" type="text" class="searchtext" value="请输入关键字"/></li>
-                        <li><a href="#"><img src="res/front/images/botton_search.jpg"/></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="left_guanggao">
-                <img src="res/front/images/guanggao1.jpg"/></div>
-            <div class="left_guanggao"><img src="res/front/images/guanggao1.jpg"/></div>
+                        <%--常用链接--%>
+            <%@include file="include/popular_Links.jsp" %>
+            <%@include file="include/searcher.jsp" %>
         </div>
         <!--左半边代码结束-->
         <%--右半边代码开始--%>
