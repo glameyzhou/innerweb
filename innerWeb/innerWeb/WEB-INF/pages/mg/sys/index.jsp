@@ -5,10 +5,28 @@
     <title>栏目-${categoryParent.name}</title>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
+    <script type="text/javascript" src="${basePath}res/front/js/prototype-1.6.0.3.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#jvForm").validate();
         });
+        function buildLucene(){
+            var url = '${basePath}lucene/build.htm';
+            new Ajax.Request(url, {
+                        method: 'get',
+                        onSuccess: function (transport) {
+                            var resultDiv = $('luceneDiv');
+                            //weather.innerHTML = transport.responseText;
+                            if(transport.responseText.indexOf("ok") > -1){
+                                resultDiv.innerHTML = "<font color='red'>建立完毕</font>&nbsp;&nbsp;<a href='javascript:buildLucene();'>建立</a>" ;
+                            }
+                            else{
+                                resultDiv.innerHTML = "<font color='red'>建立失败,请重新</font>&nbsp;&nbsp;<a href='javascript:buildLucene();'>建立</a>" ;
+                            }
+                        }
+                    }
+            );
+        }
     </script>
 </head>
 <body>
@@ -46,6 +64,10 @@
             <tr>
                 <td align="left">页尾内容</td>
                 <td align=center><a href="${basePath}mg/sys/meta/page_foot/meta-show.htm">设置</a></td>
+            </tr>
+            <tr>
+                <td align="left">全文索引建立</td>
+                <td align=center id="luceneDiv"><a href="javascript:buildLucene();">建立</a></td>
             </tr>
             </tbody>
         </table>

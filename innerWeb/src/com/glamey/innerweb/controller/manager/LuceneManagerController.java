@@ -3,8 +3,11 @@ package com.glamey.innerweb.controller.manager;
 import com.glamey.framework.utils.FileUtils;
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.StringTools;
+import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.constants.LuceneConstants;
+import com.glamey.innerweb.constants.SystemConstants;
 import com.glamey.innerweb.controller.BaseController;
+import com.glamey.innerweb.controller.front.IncludeFront;
 import com.glamey.innerweb.dao.PostDao;
 import com.glamey.innerweb.model.domain.Post;
 import com.glamey.innerweb.model.dto.LuceneEntry;
@@ -12,7 +15,10 @@ import com.glamey.innerweb.model.dto.PostQuery;
 import com.glamey.innerweb.util.LuceneUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.search.*;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
@@ -21,6 +27,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.wltea.analyzer.lucene.IKQueryParser;
 import org.wltea.analyzer.lucene.IKSimilarity;
@@ -30,9 +37,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 全文索引管理
  * Created with IntelliJ IDEA.
  * User: zy
  * To change this template use File | Settings | File Templates.
@@ -42,6 +51,8 @@ public class LuceneManagerController extends BaseController {
 
     @Resource
     private PostDao postDao;
+    @Resource
+    private IncludeFront includeFront;
 
     private LuceneUtils lu = new LuceneUtils();
     private static Directory directory = null;
@@ -50,9 +61,8 @@ public class LuceneManagerController extends BaseController {
 
     //创建索引
     @RequestMapping(value = "/lucene/build.htm", method = RequestMethod.GET)
-    public ModelAndView luceneBuild(
-            HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
-
+    @ResponseBody
+    public ModelAndView luceneBuild(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
         ModelAndView mav = new ModelAndView();
         String viewName = "common/message";
 
@@ -67,18 +77,22 @@ public class LuceneManagerController extends BaseController {
             entry.setId(obj.getId());
             entry.setModel(obj.getCategoryId());
             entry.setModelName(obj.getCategory().getShortName());
-            entry.setHref("p-" + entry.getId());
+            entry.setHref("p-" + entry.getId() + ".htm");
             entry.setTitle(obj.getTitle());
             entry.setContent(obj.getContent());
             entry.setTime(obj.getTime());
             entries.add(entry);
         }
-
-        lu.createIndex(true, entries);
-        modelMap.put("message", "全站索引生成成功!");
-        mav.setViewName(viewName);
-        mav.addAllObjects(modelMap);
-        return mav;
+        String result = "";
+        try {
+            lu.createIndex(true, entries);
+            result = "ok";
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            result = "failure";
+        }
+        response.getWriter().print(result);
+        return null;
     }
 
     //创建索引页面
@@ -93,7 +107,7 @@ public class LuceneManagerController extends BaseController {
 
     //全站搜索
     @RequestMapping(value = "/search.htm", method = RequestMethod.GET)
-    public ModelAndView dd(
+    public ModelAndView search(
             @RequestParam(value = "kw", required = false, defaultValue = "") String kw,
             @RequestParam(value = "curPage", required = false, defaultValue = "1") String pg,
             HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
@@ -103,7 +117,7 @@ public class LuceneManagerController extends BaseController {
         int curPage = Integer.parseInt(pg);
         kw = StringTools.converISO2UTF8(kw);
 
-        pageBean = new PageBean();
+        pageBean = new PageBean(Constants.rowsPerPageFront);
         pageBean.setCurPage(curPage);
         List<LuceneEntry> entries = new ArrayList<LuceneEntry>();
         FileUtils.mkdirs(LuceneConstants.INDEXDIR);
@@ -123,6 +137,7 @@ public class LuceneManagerController extends BaseController {
 
 
             ScoreDoc docs[] = topCollector.topDocs(pageBean.getStart(), pageBean.getRowsPerPage()).scoreDocs;
+            System.out.println("docs=" + Arrays.deepToString(docs));
             LuceneEntry entry = null;
             String title = "";
             for (ScoreDoc sDoc : docs) {
@@ -167,6 +182,11 @@ public class LuceneManagerController extends BaseController {
         modelMap.put("kw", kw);
         mav.setViewName(viewName);
         mav.addAllObjects(modelMap);
+
+        mav.addAllObjects(includeFront.linksEntrance());
+        mav.addAllObjects(includeFront.friendlyLinks());
+        mav.addObject(SystemConstants.popular_Links, includeFront.getMetaByName(SystemConstants.popular_Links));
+        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
         return mav;
     }
 

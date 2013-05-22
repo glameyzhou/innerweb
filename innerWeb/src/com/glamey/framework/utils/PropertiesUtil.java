@@ -120,6 +120,6 @@ public class PropertiesUtil {
 		System.out.println(getDBBasePath());
 		System.out.println(getChecDBDriver());
 		System.out.println(getChecENDBConnectionURL());
-		System.out.println(getProjectBaseURL());
+		System.out.println(getLuceneIndexDir());
 	}
 }

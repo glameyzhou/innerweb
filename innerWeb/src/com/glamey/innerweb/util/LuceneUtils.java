@@ -97,7 +97,6 @@ public class LuceneUtils extends LuceneConstants {
      * @param start
      * @param num
      * @author ZY
-     * @date 2010-11-6 下午04:15:57
      */
     public void search(String keyword, int start, int num) {
         try {

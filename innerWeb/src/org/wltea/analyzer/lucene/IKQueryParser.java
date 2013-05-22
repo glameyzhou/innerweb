@@ -538,7 +538,7 @@ public final class IKQueryParser {
 		
 		/**
 		 * 判断指定的lexeme能否被当前的branch接受
-		 * @param lexeme
+		 * @param _lexeme
 		 * @return 返回接受的形式
 		 */
 		private int checkAccept(Lexeme _lexeme){
