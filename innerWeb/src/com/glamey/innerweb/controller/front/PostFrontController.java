@@ -3,6 +3,7 @@ package com.glamey.innerweb.controller.front;
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.constants.Constants;
+import com.glamey.innerweb.constants.SystemConstants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.*;
 import com.glamey.innerweb.model.domain.Category;
@@ -74,6 +75,10 @@ public class PostFrontController extends BaseController {
         mav.addObject("post", post);
         mav.addAllObjects(includeFront.linksEntrance());
         mav.addAllObjects(includeFront.friendlyLinks());
+        
+        mav.addObject(SystemConstants.popular_Links, includeFront.getMetaByName(SystemConstants.popular_Links));
+        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
+        
 
         //读过文章的人数
         List<UserInfo> postReadUserList = postReadInfoDao.getUserListByPostId(postId);
@@ -152,6 +157,8 @@ public class PostFrontController extends BaseController {
 
         mav.addAllObjects(includeFront.linksEntrance());
         mav.addAllObjects(includeFront.friendlyLinks());
+        mav.addObject(SystemConstants.popular_Links, includeFront.getMetaByName(SystemConstants.popular_Links));
+        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
 
         return mav;
     }
@@ -198,6 +205,8 @@ public class PostFrontController extends BaseController {
 
         mav.addAllObjects(includeFront.linksEntrance());
         mav.addAllObjects(includeFront.friendlyLinks());
+        mav.addObject(SystemConstants.popular_Links, includeFront.getMetaByName(SystemConstants.popular_Links));
+        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
 
         return mav;
     }
