@@ -72,6 +72,11 @@ public class LoginFrontController extends BaseController {
         }
 
         UserInfo userInfo = userInfoDao.getUserByName(username);
+        if(userInfo != null && userInfo.getIsLive() == 0){
+            mav.addObject("message", "账户被冻结,请联系管理员!");
+            return  mav ;
+        }
+
         if (userInfo != null && StringUtils.isNotBlank(userInfo.getUsername()) && StringUtils.isNotBlank(userInfo.getPasswd())) {
             BlowFish bf = new BlowFish(Constants.SECRET_KEY);
             String dbPasswd = bf.decryptString(userInfo.getPasswd());
