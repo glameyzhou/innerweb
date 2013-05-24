@@ -1,5 +1,7 @@
 package com.glamey.innerweb.constants;
 
+import com.sun.org.apache.xerces.internal.dom.PSVIAttrNSImpl;
+
 /**
  * 大分类标识
  * Created with IntelliJ IDEA.
@@ -24,6 +26,9 @@ public class CategoryConstants {
     public static final String CATEGORY_INFASTENTRANCE = "infastentrance" ;
     /*友情链接*/
     public static final String CATEOGRY_FRIENDLYLINKS = "friendlyLinks";
+    /*常用链接*/
+    public static final String CATEGORY_OFENLINKS = "ofenLinks" ;
+
     /*所有通知(公司内部通告)*/
     public static final String  CATEGORY_ALLNOTICES = "deptInnerNotices" ;
 

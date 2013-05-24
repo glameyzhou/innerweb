@@ -2,10 +2,31 @@
 <script type="text/javascript">
     <!--
     function jumpLinks(url) {
-        if(url != ''){
-            window.open(url,"");
+        if (url != '') {
+            window.open(url, "");
         }
     }
     //-->
 </script>
-${popular_Links}
+<div class="body_left_1" style="margin-top:10px;">
+    <div class="body_left_tit">
+        <ul class="tit_biao">
+            <li><img src="res/front/images/left_tit_biao1.png"/></li>
+            <li style="padding-left:15px;">常用链接</li>
+        </ul>
+    </div>
+    <div class="body_left_con1">
+        <ul>
+            <c:forEach items="${ofenLinksMap}" var="olmap">
+                <li>
+                    <select name="" class="xiala" onchange="javascript:jumpLinks(this.value);">
+                        <c:forEach items="${olmap.value}" var="links">
+                            <option value="${links.url}">------${links.name}------</option>
+                        </c:forEach>
+                    </select>
+                </li>
+            </c:forEach>
+
+        </ul>
+    </div>
+</div>

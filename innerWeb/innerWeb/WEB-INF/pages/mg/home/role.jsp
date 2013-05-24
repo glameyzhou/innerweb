@@ -35,6 +35,7 @@
 <ul id="lmenu">
     <li><a href="${basePath}mg/home/webInfo.htm" target="mainFrame">欢迎界面</a></li>
     <li><a href="${basePath}mg/user/user-psersonal-show.htm?userId=${userInfo.userId}" target="mainFrame">个人信息管理</a></li>
+    <li><a href="${basePath}mg/user/contact.htm" target="mainFrame">通讯录</a></li>
 
     <%--新闻分类--%>
     <li><a href="${basePath}mg/post/${categoryNews.aliasName}/category-list.htm" target="mainFrame">${categoryNews.name} - 分类管理</a></li>
@@ -69,7 +70,18 @@
     </ul>
 
     <%--常用链接--%>
-    <li><a href="${basePath}mg/sys/meta/popular_Links/meta-show.htm" target="mainFrame">常用链接管理</a></li>
+    <%--<li><a href="${basePath}mg/sys/meta/popular_Links/meta-show.htm" target="mainFrame">常用链接管理</a></li>--%>
+
+
+    <%--常用链接管理--%>
+    <li><a href="${basePath}mg/links/${categoryOfenLinks.aliasName}/category-list.htm" target="mainFrame">常用链接 - 分类管理</a></li>
+    <li><a href="javascript:divDisplay('${categoryOfenLinks.id}_div');">${categoryOfenLinks.name} - 链接管理</a> </li>
+    <ul id="${categoryOfenLinks.id}_div" style="display: none">
+        <c:forEach var="cate" items="${categoryOfenLinksList}">
+            <li><a href="${basePath}mg/links/${categoryOfenLinks.aliasName}/links-list.htm?categoryId=${cate.id}" target="mainFrame">${cate.name}</a></li>
+        </c:forEach>
+    </ul>
+
 
     <%--站内信管理--%>
     <li><a href="${basePath}mg/message/message-list.htm" target="mainFrame">站内信</a></li>

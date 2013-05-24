@@ -45,7 +45,7 @@ public class IndexFrontController extends BaseController {
         //集团、院系入口
         mav.addAllObjects(includeFront.linksEntrance());
         //常用链接
-        mav.addObject(SystemConstants.popular_Links, includeFront.getMetaByName(SystemConstants.popular_Links));
+        mav.addAllObjects(includeFront.ofenLinks());
 
         //四个板块
         //第一板块

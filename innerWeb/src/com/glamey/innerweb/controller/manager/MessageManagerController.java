@@ -100,11 +100,15 @@ public class MessageManagerController extends BaseController {
         for (Category category : deptList) {
             UserQuery query = new UserQuery();
             query.setDeptId(category.getId());
+            query.setStart(0);
+            query.setNum(Integer.MAX_VALUE);
             List<UserInfo> userInfoList = userInfoDao.getUserList(query);
 
             dto = new MessageDTO();
             dto.setCategory(category);
             dto.setUserInfoList(userInfoList);
+
+            messageDTOs.add(dto);
         }
         mav.addObject("messageDTOs", messageDTOs);
         mav.setViewName("mg/message/message-show");

@@ -20,12 +20,15 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import sun.security.provider.certpath.OCSPResponse;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -593,6 +596,69 @@ public class UserInfoManagerController extends BaseController {
         mav.addObject("opt","update");
         mav.setViewName("mg/user/user-personal-show");
         return mav;
+    }
+
+    /*通讯录*/
+    @RequestMapping(value = "/contact.htm",method = RequestMethod.GET)
+    public ModelAndView userContact(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[manager-user-contact]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView();
+
+        int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
+        pageBean = new PageBean();
+        pageBean.setCurPage(curPage);
+
+        String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
+        keyword = StringTools.converISO2UTF8(keyword);
+        String deptId = WebUtils.getRequestParameterAsString(request, "deptId");
+        UserQuery query = new UserQuery();
+        query.setKeyword(keyword);
+        query.setDeptId(deptId);
+        query.setStart(pageBean.getStart());
+        query.setNum(pageBean.getRowsPerPage());
+
+        //获取符合条件的所有用户
+        List<UserInfo> userInfoList = userInfoDao.getUserList(query);
+        pageBean.setMaxRowCount(userInfoDao.getUserListCount(query));
+        pageBean.setMaxPage();
+        pageBean.setPageNoList();
+
+        //获取所有部门
+        Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEGORY_DEPT);
+        List<Category> deptInfoList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
+
+        mav.addObject("userInfoList", userInfoList);
+        mav.addObject("deptInfoList", deptInfoList);
+        mav.addObject("query", query);
+        mav.addObject("pageBean", pageBean);
+        mav.setViewName("mg/user/contact-list");
+        return mav;
+    }
+
+    /*通过部门查询所有的成员*/
+    @ResponseBody
+    @RequestMapping(value = "/getUserByDeptId.htm",method = RequestMethod.GET)
+    public void getUserByDeptId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[manager-user-getUserByDeptId]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView();
+        String deptId = WebUtils.getRequestParameterAsString(request, "deptId");
+        UserQuery query = new UserQuery();
+        query.setDeptId(deptId);
+        query.setStart(0);
+        query.setNum(Integer.MAX_VALUE);
+        //获取符合条件的所有用户
+        List<UserInfo> userInfoList = userInfoDao.getUserList(query);
+        StringBuilder source = new StringBuilder();
+        for (UserInfo userInfo : userInfoList) {
+            source.append("<option value='").append(userInfo.getUserId()).append("'>").append(userInfo.getNickname()).append("</option>");
+        }
+        try {
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html");
+            response.getWriter().print(source);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     /****************************************************************【结束】系统用户操作*************************************************************************/
 

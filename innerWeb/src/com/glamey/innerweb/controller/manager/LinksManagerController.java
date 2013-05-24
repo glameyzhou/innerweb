@@ -49,6 +49,7 @@ public class LinksManagerController extends BaseController {
     private WebUploadUtils uploadUtils;
 
     /*分类列表（指定分类）*/
+    @Deprecated
     @RequestMapping(value = "/allroot.htm", method = RequestMethod.GET)
     public ModelAndView allroot(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-links-category-list]" + request.getRequestURI());

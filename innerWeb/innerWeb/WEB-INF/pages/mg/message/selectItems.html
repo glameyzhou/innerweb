@@ -1,0 +1,72 @@
+<title>两个Select互换数据，简单实用</title>
+<script language="JavaScript">
+    var MainSel = null;
+    var SlaveSel = null;
+    var Item_org = new Array();
+    function DoAdd() {
+        var this_sel = null;
+        for (var i = 0; i < MainSel.options.length; i++) {
+            this_sel = MainSel.options[i];
+            if (this_sel.selected) {
+                SlaveSel.appendChild(this_sel);
+                i--;
+            }
+        }
+        sort_Main(SlaveSel);
+    }
+    function DoDel() {
+        var this_sel = null;
+        for (var i = 0; i < SlaveSel.options.length; i++) {
+            this_sel = SlaveSel.options[i];
+            if (this_sel.selected) {
+                MainSel.appendChild(this_sel);
+                i--;
+            }
+        }
+        sort_Main(MainSel);
+    }
+    function sort_Main(the_Sel) {
+        var this_sel = null;
+        for (var i = 0; i < Item_org.length; i++) {
+            for (var j = 0; j < the_Sel.options.length; j++) {
+                this_sel = the_Sel.options[j];
+                if (this_sel.value == Item_org[i][0] && this_sel.text == Item_org[i][1]) {
+                    the_Sel.appendChild(this_sel);
+                }
+            }
+        }
+    }
+    window.onload = function () {
+        MainSel = select1;
+        SlaveSel = select2;
+        MainSel.ondblclick = DoAdd;
+        SlaveSel.ondblclick = DoDel;
+        var this_sel = null;
+        for (var i = 0; i < MainSel.options.length; i++) {
+            this_sel = MainSel.options[i];
+            Item_org.push(new Array(this_sel.value, this_sel.text));
+        }
+    }
+</script>
+<table width="300" border="0" cellspacing="0" cellpDoAdding="0" align="center">
+    <tr>
+        <td width="45%" align="center">
+            <select id="select1" size="5" multiple style="width: 100px">
+                <option value="111">111</option>
+                <option value="222">222</option>
+                <option value="333">333</option>
+                <option value="444">444</option>
+                <option value="555">555</option>
+                <option value="666">666</option>
+            </select>
+        </td>
+        <td width="10%" align="center">
+            <input name="DoAdd" type="button" value=">>" onClick="DoAdd()"><br>
+            <input name="DoDel" type="button" value="<<" onClick="DoDel()">
+        </td>
+        <td width="45%" align="center">
+            <select id="select2" size="5" multiple style="width: 100px">
+            </select>
+        </td>
+    </tr>
+</table>

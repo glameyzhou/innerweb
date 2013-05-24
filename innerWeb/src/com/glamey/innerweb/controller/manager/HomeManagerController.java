@@ -102,6 +102,12 @@ public class HomeManagerController extends BaseController {
         mav.addObject("categoryFriendlyLinks",categoryFriendlyLinks);
         mav.addObject("categoryFriendlyLinksList",categoryFriendlyLinksList);
 
+        /*常用链接分类管理*/
+        Category categoryOfenLinks = categoryDao.getByAliasName(CategoryConstants.CATEGORY_OFENLINKS);
+        List<Category> categoryOfenLinksList = categoryDao.getByParentId(categoryOfenLinks.getId(),categoryOfenLinks.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryOfenLinks",categoryOfenLinks);
+        mav.addObject("categoryOfenLinksList",categoryOfenLinksList);
+
 
         return mav ;
     }
