@@ -128,6 +128,7 @@ public class UserInfoManagerController extends BaseController {
         rightsInfo.setRightsValue(WebUtils.getRequestParameterAsString(request, "rightsValue"));
         if (userInfoDao.createRights(rightsInfo)) {
             mav.addObject("message", "创建功能权限成功");
+            mav.addObject("href","mg/user/rights-list.htm");
         } else {
             mav.addObject("message", "创建用户失败");
         }
@@ -159,6 +160,7 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.updateRights(rightsInfo)) {
             mav.addObject("message", "更新功能权限成功");
+            mav.addObject("href","mg/user/rights-list.htm");
         } else {
             mav.addObject("message", "更新功能权限失败");
         }
@@ -250,22 +252,32 @@ public class UserInfoManagerController extends BaseController {
         if (StringUtils.isNotBlank(roleId)) {
             roleInfo = userInfoDao.getRoleById(roleId);
             opt = "update";
-            List<RightsInfo> rightsInfoList = new ArrayList<RightsInfo>();
+            List<String> rightsInfoList = new ArrayList<String>();
             if (StringUtils.isNotBlank(roleInfo.getRoleRightsIds())) {
                 String arrays[] = StringUtils.split(roleInfo.getRoleRightsIds(), ",");
                 for (String array : arrays) {
-                    rightsInfoList.add(userInfoDao.getRightsById(array));
+                    rightsInfoList.add(array);
                 }
             }
-            roleInfo.setRightsInfoList(rightsInfoList);
+            roleInfo.setRightsList(rightsInfoList);
         }
-        //所有权限
-        List<RightsInfo> rightsInfoList = userInfoDao.getRightsList(null, 0, Integer.MAX_VALUE);
 
         mav.addObject("roleInfo", roleInfo);
-        mav.addObject("rightsInfoList", rightsInfoList);
         mav.addObject("opt", opt);
         mav.setViewName("mg/user/role-show");
+        
+        //新闻分类
+        Category categoryNews = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NEWS);
+        List<Category> categoryNewsList = categoryDao.getByParentId(categoryNews.getId(), categoryNews.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryNews",categoryNews);
+        mav.addObject("categoryNewsList",categoryNewsList);
+        
+        /*通知通告分类管理*/
+        Category categoryNotices = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NOTICES);
+        List<Category> categoryNoticesList = categoryDao.getByParentId(categoryNotices.getId(),categoryNotices.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryNotices",categoryNotices);
+        mav.addObject("categoryNoticesList",categoryNoticesList);
+        
         return mav;
     }
 
@@ -286,6 +298,10 @@ public class UserInfoManagerController extends BaseController {
         roleInfo.setRoleName(WebUtils.getRequestParameterAsString(request, "roleName"));
         roleInfo.setRoleDesc(WebUtils.getRequestParameterAsString(request, "roleDesc"));
         String rights[] = WebUtils.getRequestParameterAsStringArrs(request, "rightsId");
+        if(rights == null || rights.length == 0){
+            mav.addObject("message","请选择功能点");
+            return mav ;
+        }
         StringBuffer sb = new StringBuffer();
         for (String right : rights) {
             sb.append(",").append(right);
@@ -294,6 +310,7 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.createRole(roleInfo)) {
             mav.addObject("message", "创建系统角色成功");
+            mav.addObject("href","mg/user/role-list.htm");
         } else {
             mav.addObject("message", "创建系统角色失败");
         }
@@ -321,6 +338,10 @@ public class UserInfoManagerController extends BaseController {
         roleInfo.setRoleName(WebUtils.getRequestParameterAsString(request, "roleName"));
         roleInfo.setRoleDesc(WebUtils.getRequestParameterAsString(request, "roleDesc"));
         String rights[] = WebUtils.getRequestParameterAsStringArrs(request, "rightsId");
+        if(rights == null || rights.length == 0){
+            mav.addObject("message","请选择功能点");
+            return mav ;
+        }
         StringBuffer sb = new StringBuffer();
         for (String right : rights) {
             sb.append(",").append(right);
@@ -329,6 +350,7 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.updateRole(roleInfo)) {
             mav.addObject("message", "更新系统角色成功");
+            mav.addObject("href","mg/user/role-list.htm");
         } else {
             mav.addObject("message", "更新系统角色失败");
         }
@@ -493,6 +515,7 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.createUser(userInfo)) {
             mav.addObject("message", "创建系统用户成功");
+            mav.addObject("href","mg/user/user-list.htm");
         } else {
             mav.addObject("message", "创建系统用户失败");
         }

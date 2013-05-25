@@ -1,11 +1,11 @@
 package com.glamey.innerweb.model.domain;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * 系统用户角色对象
@@ -14,12 +14,13 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class RoleInfo implements Serializable {
-    private String roleId;
+	private static final long serialVersionUID = 7068755647919955643L;
+	private String roleId;
     private String roleName;
     private String roleDesc;
     private String roleRightsIds;
     private Date roleTime;
-    private List<RightsInfo> rightsInfoList;
+    private List<String> rightsList ;
 
     public String getRoleId() {
         return roleId;
@@ -61,15 +62,15 @@ public class RoleInfo implements Serializable {
         this.roleTime = roleTime;
     }
 
-    public List<RightsInfo> getRightsInfoList() {
-        return rightsInfoList;
-    }
+    public List<String> getRightsList() {
+		return rightsList;
+	}
 
-    public void setRightsInfoList(List<RightsInfo> rightsInfoList) {
-        this.rightsInfoList = rightsInfoList;
-    }
+	public void setRightsList(List<String> rightsList) {
+		this.rightsList = rightsList;
+	}
 
-    @Override
+	@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }

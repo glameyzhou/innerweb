@@ -23,4 +23,13 @@ public class Constants {
      * 每页显示的条数（针对前台）
      */
     public static final int rowsPerPageFront = 20 ;
+
+
+    /*系统超级管理员角色ID*/
+    public static final String sysAdminRoleId = "zA3eem" ;
+    
+    /**
+     * 通告是否需要审核
+     */
+    public static int NOTICES_PERMIT = 1 ;
 }

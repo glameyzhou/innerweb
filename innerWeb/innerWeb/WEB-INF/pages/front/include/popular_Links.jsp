@@ -11,7 +11,7 @@
 <div class="body_left_1" style="margin-top:10px;">
     <div class="body_left_tit">
         <ul class="tit_biao">
-            <li><img src="res/front/images/left_tit_biao1.png"/></li>
+            <li><img src="${basePath}res/front/images/left_tit_biao1.png"/></li>
             <li style="padding-left:15px;">常用链接</li>
         </ul>
     </div>

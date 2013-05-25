@@ -148,9 +148,10 @@ public class MessageManagerController extends BaseController {
         //flag 1=delete 2=do not read 3=read
         message.setFlag(2);
         if (messageDao.create(message)) {
-            mav.addObject("message", "links create success!");
+            mav.addObject("message", "发送成功!");
+            mav.addObject("href", "mg/message/message-list.htm");
         } else {
-            mav.addObject("message", "links create failure!");
+            mav.addObject("message", "发送失败!");
         }
         return mav;
     }
@@ -199,6 +200,7 @@ public class MessageManagerController extends BaseController {
                 }
             }
             mav.addObject("message", "操作成功");
+            mav.addObject("href", "mg/message/message-list.htm");
         } catch (Exception e) {
             mav.addObject("message", "操作失败");
         }

@@ -33,7 +33,6 @@
                 if (values.length > 1)
                     values = values.substring(1);
                 var opURL = "${basePath}mg/user/rights-del.htm?rightsId=" + values;
-                alert(opURL);
                 window.location = opURL;
             }
         }

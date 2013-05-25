@@ -3,20 +3,24 @@
  */
 package com.glamey.innerweb.dao;
 
-import com.glamey.framework.utils.StringTools;
-import com.glamey.innerweb.model.domain.Category;
-import com.glamey.innerweb.model.dto.CategoryQuery;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import com.glamey.framework.utils.StringTools;
+import com.glamey.innerweb.constants.CategoryConstants;
+import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.dto.CategoryQuery;
 
 /**
  * 分类数据库操作
@@ -26,7 +30,9 @@ import java.util.List;
 @Repository
 public class CategoryDao extends BaseDao {
     private static final Logger logger = Logger.getLogger(CategoryDao.class);
-
+    
+    @Resource
+    private PostDao postDao ;
     /**
      * 创建分类信息
      *
@@ -115,6 +121,58 @@ public class CategoryDao extends BaseDao {
             return count > 0;
         } catch (Exception e) {
             logger.error("[CategoryDao] #delete# error " + id, e);
+        }
+        return false;
+    }
+    
+    /**
+     * 针对文章操作，删除分类的同时，会把旗下的文章、连接设置为无分类
+     * @param categoryId
+     * @param categoryType
+     * @return
+     */
+    public boolean deleteById(final String categoryId,final String categoryType) {
+        logger.info("[CategoryDao] #delete#" + String.format("categoryId=%s,categoryType=%s", categoryId,categoryType));
+        try {
+            int cateCount = jdbcTemplate.update("delete from tbl_category where id = ?", new PreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement preparedstatement)
+                        throws SQLException {
+                    preparedstatement.setString(1, categoryId);
+                }
+            });
+            int cateContentCount = 0 ;
+            //通告、新闻 tbl_post
+            if(StringUtils.equals(categoryType, CategoryConstants.CATEGORY_NEWS) || StringUtils.equals(categoryType, CategoryConstants.CATEGORY_NOTICES)){
+            	cateContentCount = jdbcTemplate.update("update tbl_post set post_category_id=? where post_category_id=? and post_category_type =?",
+                		new PreparedStatementSetter(){
+    						@Override
+    						public void setValues(PreparedStatement preparedstatement)
+    								throws SQLException {
+    							preparedstatement.setString(1, "");
+    							preparedstatement.setString(2, categoryId);
+    							preparedstatement.setString(3, categoryType);
+    						}
+                	
+                });
+            }
+            //友情链接 tbl_links
+            if(StringUtils.equals(categoryType, CategoryConstants.CATEOGRY_FRIENDLYLINKS)){
+            	cateContentCount = jdbcTemplate.update("update tbl_links set links_category_id=? where links_category_id=? and links_category_type =?",
+                		new PreparedStatementSetter(){
+    						@Override
+    						public void setValues(PreparedStatement preparedstatement)
+    								throws SQLException {
+    							preparedstatement.setString(1, "");
+    							preparedstatement.setString(2, categoryId);
+    							preparedstatement.setString(3, categoryType);
+    						}
+                	
+                });
+            }
+            return cateCount > 0 && cateContentCount >= 0 ;
+        } catch (Exception e) {
+            logger.info("[CategoryDao] #delete# error! " + String.format("categoryId=%s,categoryType=%s", categoryId,categoryType));
         }
         return false;
     }

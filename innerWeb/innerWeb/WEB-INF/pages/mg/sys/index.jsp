@@ -54,6 +54,10 @@
                 <td align=center><a href="${basePath}mg/sys/permit-notices-show.htm">设置</a></td>
             </tr>
             <tr>
+                <td align="left">各部门通知可见配置</td>
+                <td align=center><a href="${basePath}mg/sys/notices-what-can-see.htm">设置</a></td>
+            </tr>
+            <tr>
                 <td align="left">首页结构设置</td>
                 <td align=center><a href="${basePath}mg/sys/area-show.htm">设置</a></td>
             </tr>

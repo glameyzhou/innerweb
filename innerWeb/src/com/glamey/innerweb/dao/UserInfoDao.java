@@ -1,22 +1,6 @@
 package com.glamey.innerweb.dao;
 
 
-import com.glamey.framework.utils.StringTools;
-import com.glamey.innerweb.model.domain.Category;
-import com.glamey.innerweb.model.domain.RightsInfo;
-import com.glamey.innerweb.model.domain.RoleInfo;
-import com.glamey.innerweb.model.domain.UserInfo;
-import com.glamey.innerweb.model.dto.UserQuery;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
-
-import javax.annotation.Resource;
-import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +9,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import com.glamey.framework.utils.StringTools;
+import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.RightsInfo;
+import com.glamey.innerweb.model.domain.RoleInfo;
+import com.glamey.innerweb.model.domain.UserInfo;
+import com.glamey.innerweb.model.dto.UserQuery;
 
 /**
  * 用户管理
@@ -686,7 +686,7 @@ public class UserInfoDao extends BaseDao {
     }
 
 
-    class UserInfoRowMapper implements RowMapper {
+    class UserInfoRowMapper implements RowMapper<UserInfo> {
         @Override
         public UserInfo mapRow(ResultSet rs, int i) throws SQLException {
             UserInfo userInfo = new UserInfo();
@@ -716,7 +716,7 @@ public class UserInfoDao extends BaseDao {
         }
     }
 
-    class RoleInfoRowMapper implements RowMapper {
+    class RoleInfoRowMapper implements RowMapper<RoleInfo> {
         @Override
         public RoleInfo mapRow(ResultSet rs, int i) throws SQLException {
             RoleInfo r = new RoleInfo();
@@ -724,24 +724,22 @@ public class UserInfoDao extends BaseDao {
             r.setRoleName(rs.getString("role_name"));
             r.setRoleDesc(rs.getString("role_desc"));
             r.setRoleRightsIds(rs.getString("role_rights_id"));
-
-            //获取所有权限
-            List<RightsInfo> rightsInfoList = new ArrayList<RightsInfo>();
-            if (StringUtils.isNotBlank(r.getRoleRightsIds())) {
-                String arrys[] = StringUtils.split(r.getRoleRightsIds(), ",");
-                RightsInfo ri = null;
-                for (String arry : arrys) {
-                    ri = getRightsById(arry);
-                    rightsInfoList.add(ri);
-                }
+            r.setRoleTime(rs.getTimestamp("role_time"));
+            List<String> rightsList = new ArrayList<String>();
+            if(StringUtils.isNotBlank(r.getRoleRightsIds())){
+            	String arrays [] = StringUtils.split(r.getRoleRightsIds(), ",");
+            	for(String ar : arrays){
+            		rightsList.add(ar);
+            	}
+            	r.setRightsList(rightsList);
             }
-            r.setRightsInfoList(rightsInfoList);
 
             return r;
         }
     }
 
-    class RightsInfoRowMapper implements RowMapper {
+    @Deprecated
+    class RightsInfoRowMapper implements RowMapper<RightsInfo> {
         @Override
         public RightsInfo mapRow(ResultSet rs, int i) throws SQLException {
             RightsInfo r = new RightsInfo();

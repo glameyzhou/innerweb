@@ -16,7 +16,7 @@
             if (!confirm("确定要删除此栏目?")) {
                 return;
             }
-            window.location = '${basePath}mg/links/${categoryParent.aliasName}/category-del.htm?cateId=' + categoryId;
+            window.location = '${basePath}mg/links/${categoryParent.aliasName}/category-del.htm?categoryId=' + categoryId;
         }
     </script>
 </head>

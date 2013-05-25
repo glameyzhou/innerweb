@@ -141,6 +141,7 @@ public class LinksManagerController extends BaseController {
             message = "分类新建失败,请稍后重试!";
         } else {
             message = "分类新建成功.";
+            mav.addObject("href", "mg/links/" + aliasName + "/category-list.htm");
         }
         mav.addObject("message", message);
         mav.addObject("category", category);
@@ -187,6 +188,7 @@ public class LinksManagerController extends BaseController {
             message = "分类更新失败,请稍后重试!";
         } else {
             message = "分类更新成功.";
+            mav.addObject("href", "mg/links/" + aliasName + "/category-list.htm");
         }
         mav.addObject("message", message);
         return mav;
@@ -236,7 +238,14 @@ public class LinksManagerController extends BaseController {
             mav.addObject("message", "获取不到要操作的内容");
             return mav;
         }
-
+        //需要删除对下旗下的所有链接
+        if(categoryDao.deleteById(categoryId, aliasName)){
+        	mav.addObject("message", "分类删除成功,旗下所有链接将无归类!");
+        	mav.addObject("href", "mg/links/" + aliasName + "/category-list.htm");
+        }
+        else{
+        	mav.addObject("message", "分类删除失败，请稍后重试!");
+        }
         return mav;
     }
     
@@ -310,9 +319,10 @@ public class LinksManagerController extends BaseController {
         links.setShowIndex(WebUtils.getRequestParameterAsInt(request,"showIndex",1));
 
         if (linksDao.create(links)) {
-            mav.addObject("message", "links create success!");
+            mav.addObject("message", "创建成功!");
+            mav.addObject("href", "mg/links/" + aliasName+ "/links-list.htm?categoryId=" + category.getId());
         } else {
-            mav.addObject("message", "links create failure!");
+            mav.addObject("message", "创建失败!");
         }
         return mav;
     }
@@ -357,9 +367,10 @@ public class LinksManagerController extends BaseController {
         links.setShowIndex(WebUtils.getRequestParameterAsInt(request,"showIndex",1));
 
         if (linksDao.update(links)) {
-            mav.addObject("message", "links update success!");
+            mav.addObject("message", "更新成功!");
+            mav.addObject("href", "mg/links/" + aliasName+ "/links-list.htm?categoryId=" + category.getId());
         } else {
-            mav.addObject("message", "links update failure!");
+            mav.addObject("message", "更新失败!");
         }
         return mav;
     }
@@ -375,6 +386,7 @@ public class LinksManagerController extends BaseController {
             mav.addObject("message", "cant's find the links category!");
             return mav;
         }
+        String categoyId = WebUtils.getRequestParameterAsString(request, "categoryId");
         String linksId = WebUtils.getRequestParameterAsString(request, "linksId");
         if (StringUtils.isBlank(linksId)) {
             mav.addObject("message", "cant's find the linksId!");
@@ -386,7 +398,8 @@ public class LinksManagerController extends BaseController {
             for (String s : linksIdArray) {
                 logger.info("[links-del] linksId=" + s + linksDao.deleteById(s));
             }
-            mav.addObject("message", "delete the links success!");
+            mav.addObject("message", "删除成功!");
+            mav.addObject("href", "mg/links/" + aliasName+ "/links-list.htm?categoryId=" + categoyId);
         } catch (Exception e) {
             logger.info("[links-del] error " + e);
             mav.addObject("message", "delete the links failure!");

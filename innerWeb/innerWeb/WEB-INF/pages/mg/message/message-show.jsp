@@ -32,7 +32,7 @@
             new Ajax.Request(url, {
                         method: 'get',
                         onSuccess: function (transport) {
-                            var srcUserSelect = $('sltSrc');
+                            var srcUserSelect = document.getElementById("sltSrc");
                             srcUserSelect.innerHTML = transport.responseText;
                         }
                     }

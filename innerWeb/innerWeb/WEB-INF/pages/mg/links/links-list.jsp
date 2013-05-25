@@ -18,10 +18,9 @@
                 return;
             }
             var locationURL = "${basePath}mg/links/${categoryParent.categoryType}/links-del.htm?linksId=" + linksId + "&categoryId=" + categoryId;
-            alert(locationURL);
             window.location = locationURL;
         }
-        function delSelect(itemName) {
+        function delSelect(itemName,categoryId) {
             var all_checkbox = document.getElementsByName(itemName);
             var len = all_checkbox.length;
             if (isChecked(itemName) == false) {
@@ -35,7 +34,7 @@
                 }
                 if (values.length > 1)
                     values = values.substring(1);
-                var opURL = "${basePath}mg/links/${categoryParent.categoryType}/links-del.htm?linksId=" + values;
+                var opURL = "${basePath}mg/links/${categoryParent.categoryType}/links-del.htm?linksId=" + values + "&categoryId=" + categoryId;
                 alert(opURL);
                 window.location = opURL;
             }
@@ -80,7 +79,7 @@
             <br/><br/>
             <a href="javascript:checkAll('linksId',true);">全选</a>&nbsp;&nbsp;<a
                 href="javascript:checkAll('linksId',false);">取消</a>&nbsp;&nbsp;
-            <a href="javascript:delSelect('linksId');">删除所选</a>&nbsp;&nbsp;
+            <a href="javascript:delSelect('linksId','${category.id}');">删除所选</a>&nbsp;&nbsp;
         </div>
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">

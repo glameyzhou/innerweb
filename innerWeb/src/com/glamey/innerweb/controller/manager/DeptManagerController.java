@@ -102,7 +102,9 @@ public class DeptManagerController extends BaseController {
             message = "部门新建失败,请稍后重试!";
         } else {
             message = "部门新建成功.";
+            mav.addObject("href", "mg/dept/dept-list.htm");
         }
+        mav.addObject("message", message);
         return mav;
     }
 
@@ -131,7 +133,9 @@ public class DeptManagerController extends BaseController {
             message = "部门修改失败,请稍后重试!";
         } else {
             message = "部门修改成功.";
+            mav.addObject("href", "mg/dept/dept-list.htm");
         }
+        mav.addObject("message", message);
         return mav;
     }
 
@@ -148,7 +152,9 @@ public class DeptManagerController extends BaseController {
             message = "部门删除失败,请稍后重试!";
         } else {
             message = "部门删除成功.";
+            mav.addObject("href", "mg/dept/dept-list.htm");
         }
+        mav.addObject("message", message);
         return mav;
     }
 }

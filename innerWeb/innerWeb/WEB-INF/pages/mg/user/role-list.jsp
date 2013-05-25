@@ -43,13 +43,12 @@
                 <th>名称</th>
                 <th>描述</th>
                 <th width="10%">时间</th>
-                <th width="10%">操作</th>
+                <th width="15%">操作</th>
             </tr>
             </thead>
             <tbody class="pn-ltbody">
             <c:forEach items="${roleInfoList}" var="role" varStatus="status">
                 <tr>
-                    </td>
                     <td align="center">${role.roleName}</td>
                     <td>${role.roleDesc}</td>
                     <td align="center"><fmt:formatDate value="${role.roleTime}" type="both"></fmt:formatDate></td>

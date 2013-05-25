@@ -49,13 +49,13 @@
     </div>
     <div class="menu">
         <ul>
-            <li><a href="mg/home.htm" target="_blank">个人中心</a></li>
+            <li><a href="${basePath}mg/home.htm" target="_blank">个人中心</a></li>
             <%--<li>|</li>
             <li><a href="rl-notices.htm">通知公告</a></li>--%>
             <li>|</li>
-            <li><a href="pl-news-qQJvEz.htm">员工生活</a></li>
+            <li><a href="${basePath}pl-news-qQJvEz.htm">员工生活</a></li>
             <li>|</li>
-            <li><a href="index.htm">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+            <li><a href="${basePath}index.htm">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
         </ul>
     </div>
 </div>

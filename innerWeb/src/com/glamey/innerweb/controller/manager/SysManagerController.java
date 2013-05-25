@@ -3,16 +3,14 @@
  */
 package com.glamey.innerweb.controller.manager;
 
-import com.glamey.framework.utils.WebUtils;
-import com.glamey.innerweb.constants.CategoryConstants;
-import com.glamey.innerweb.constants.SystemConstants;
-import com.glamey.innerweb.controller.BaseController;
-import com.glamey.innerweb.dao.CategoryDao;
-import com.glamey.innerweb.dao.MetaInfoDao;
-import com.glamey.innerweb.model.domain.Category;
-import com.glamey.innerweb.model.domain.MetaInfo;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.lucene.search.NumericRangeQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,12 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.glamey.framework.utils.WebUtils;
+import com.glamey.innerweb.constants.CategoryConstants;
+import com.glamey.innerweb.constants.Constants;
+import com.glamey.innerweb.constants.SystemConstants;
+import com.glamey.innerweb.controller.BaseController;
+import com.glamey.innerweb.dao.CategoryDao;
+import com.glamey.innerweb.dao.MetaInfoDao;
+import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.MetaInfo;
 
 /**
  * 后台管理系统--系统设置
@@ -69,6 +70,8 @@ public class SysManagerController extends BaseController {
         metaInfo.setValue(value);
         if (metaInfoDao.update(metaInfo)) {
             mav.addObject("message", "设置成功");
+            //设置全局变量
+            Constants.NOTICES_PERMIT = Integer.valueOf(value);
         } else {
             mav.addObject("message", "设置失败");
         }

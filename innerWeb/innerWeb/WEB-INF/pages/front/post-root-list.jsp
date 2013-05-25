@@ -30,20 +30,20 @@
         <div class="right_neiye">
             <div class="body_right_tit" style="width:962px;">
                 <ul class="tit_biao">
-                    <li><img src="res/front/images/right_tit_biao.png" /></li>
+                    <li><img src="${basePath}res/front/images/right_tit_biao.png" /></li>
                     <li style="padding-left:15px;">
                         <c:if test="${not empty categoryParent}">${categoryParent.name}</c:if>
                     </li>
                 </ul>
                 <%--<ul class="tit_biao_right">
-                    <li><img src="res/front/images/right_tit_biao2.png" /></li>
+                    <li><img src="${basePath}res/front/images/right_tit_biao2.png" /></li>
                     <li><a href="#">更&nbsp;多</a></li>
                 </ul>--%>
             </div>
             <div class="neiye_right_con" style="width:932px;">
                 <c:forEach var="post" items="${postList}" varStatus="status">
                     <ul class="con_neiye">
-                        <li><img src="res/front/images/right_tit_biao3.png" /></li>
+                        <li><img src="${basePath}res/front/images/right_tit_biao3.png" /></li>
                         <li><a href="${basePath}p-${post.id}.htm">${post.title}</a></li>
                         <li style="float:right;">中宣部&nbsp;&nbsp;&nbsp;${fmtString:substring(post.time,10)}</li>
                     </ul>

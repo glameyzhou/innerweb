@@ -13,7 +13,7 @@
             window.location = '${basePath}mg/post/${categoryParent.aliasName}/category-show.htm?categoryId=' + categoryId;
         }
         function del(categoryId) {
-            if (!confirm("确定要删除此栏目?")) {
+            if (!confirm("删除栏目之后，旗下的所有文章将无归类,是否确定?")) {
                 return;
             }
             window.location = '${basePath}mg/post/${categoryParent.aliasName}/category-del.htm?categoryId=' + categoryId;

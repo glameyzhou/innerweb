@@ -10,12 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.glamey.framework.utils.WebUtils;
-import com.glamey.innerweb.constants.Constants;
-import com.glamey.innerweb.dao.UserInfoDao;
-import com.glamey.innerweb.model.domain.RoleInfo;
-import com.glamey.innerweb.model.domain.UserInfo;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,10 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.constants.CategoryConstants;
+import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
+import com.glamey.innerweb.dao.UserInfoDao;
 import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.UserInfo;
 
 /**
  * 后台管理系统--首页内容
@@ -85,15 +83,12 @@ public class HomeManagerController extends BaseController {
         ModelAndView mav = new ModelAndView("mg/home/role");
         //用户内容
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
-        UserInfo userInfo = new UserInfo() ;
-        if(obj != null){
-            userInfo = (UserInfo)obj ;
-        }
+        UserInfo userInfo = (UserInfo) obj;
         mav.addObject("userInfo",userInfo);
+        //权限List
+        List<String> rightsList = userInfo.getRoleInfo().getRightsList();
+        mav.addObject("rightsList",rightsList);
 
-        //系统角色
-        List<RoleInfo>  roleInfoList = userInfoDao.getRoleList(null,0,Integer.MAX_VALUE);
-        mav.addObject("roleInfoList",roleInfoList);
 
         /*新闻分类管理*/
         Category categoryNews = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NEWS);

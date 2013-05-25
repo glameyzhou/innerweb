@@ -52,7 +52,7 @@
 <body>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - ${categoryParent.name } - ${categoryParent.name }内容<c:choose><c:when
+        <div class="rpos">当前位置: 首页 - ${categoryParent.name } - ${category.name} - 内容<c:choose><c:when
                 test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
         <div class="clear"></div>
     </div>
@@ -65,14 +65,16 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>栏目:</td>
                 <td width="85%" class="pn-fcontent">
-                    <select id="categoryId" name="categoryId" class="required">
+                    <%-- <select id="categoryId" name="categoryId" class="required">
                         <option value="">请选择栏目</option>
                         <c:forEach items="${categoryList}" var="cate">
                             <option value="${cate.id}"
                                     <c:if test="${post.categoryId == cate.id}">selected</c:if>>${cate.name}
                                 - ${cate.aliasName}</option>
                         </c:forEach>
-                    </select>
+                    </select> --%>
+                    <input id="categoryId" name="categoryId" value="${category.id}" type="hidden"/>
+                    ${categoryParent.name} - ${category.name }
                 </td>
             </tr>
             <tr>
@@ -85,8 +87,10 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>来源:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="source" id="source" class="required" size="80"
-                           value="${post.source}">
+                    <input type="text" maxlength="100" name="sourceName" id="sourceName" class="required" size="80"
+                           value="${post.userInfo.category.name}" readonly="readonly"/>
+                    <input type="hidden" maxlength="100" name="source" id="source" class="required" size="80"
+                           value="${post.userInfo.category.id}" readonly="readonly"/>
                 </td>
             </tr>
             <tr>
@@ -124,15 +128,24 @@
                            <c:if test="${post.showList == 1}">checked="checked"</c:if> />是&nbsp;
                 </td>
             </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否通过审核:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="apply" id="apply" value="0"
-                           <c:if test="${post.apply == 0}">checked="checked"</c:if> />否&nbsp;
-                    <input type="radio" name="apply" id="apply" value="1"
-                           <c:if test="${post.apply == 1}">checked="checked"</c:if> />是&nbsp;
-                </td>
-            </tr>
+            <c:choose>
+            	<c:when test="${noticesPermit == 1 }"><%//需要审核，默认设置为0 %>
+	            	<tr style="display: none">
+		                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否通过审核:</td>
+		                <td width="85%" class="pn-fcontent">
+		                   <input type="radio" name="apply" id="apply" value="0"/>
+		                </td>
+	            	</tr>
+            	</c:when>
+            	<c:otherwise><%//需要不需要审核，默认设置为1，表名已经审核过 %>
+	            	<tr style="display: none">
+		                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否通过审核:</td>
+		                <td width="85%" class="pn-fcontent">
+		                    <input type="radio" name="apply" id="apply" value="1" />已通过审核
+		                </td>
+	            	</tr>
+            	</c:otherwise>
+            </c:choose>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否最新:</td>
                 <td width="85%" class="pn-fcontent">

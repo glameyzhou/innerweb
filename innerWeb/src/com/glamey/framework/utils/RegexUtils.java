@@ -25,8 +25,24 @@ public class RegexUtils {
 		return list;
 	}
 
-	public static void main(String[] args) {
+    public static boolean isMatch(String source, String reg) {
+        if (StringUtils.isBlank(reg))
+            throw new IllegalArgumentException(
+                    "regex must contain one ");
+        if (StringUtils.isBlank(source))
+            throw new IllegalArgumentException("source can`t be null.");
+        Pattern p = Pattern.compile(reg, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+        Matcher m = p.matcher(source);
+        if(m.find()){
+            return true ;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
 		String source = "AasdfAB123Dd";
 		System.out.println(getStringGoup1(source, "AB(.+?)DD"));
-	}
+        System.out.println("mg/message/message-list.htm".matches(".+?/message-list.htm"));
+        System.out.println(isMatch("mg/message/message-list.htm","mg/.+?list.htm"));
+    }
 }

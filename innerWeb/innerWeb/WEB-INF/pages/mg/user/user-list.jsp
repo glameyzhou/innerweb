@@ -57,6 +57,7 @@
             <thead class="pn-lthead">
             <tr>
                 <th>序列</th>
+                <th>角色</th>
                 <th>用户名</th>
                 <th>姓名</th>
                 <th>用户状态</th>
@@ -72,6 +73,7 @@
                 <tr>
                     <td align="center"><input type="checkbox" id="userId" name="userId" value="${user.userId}"/>
                     </td>
+                    <td align="center">${user.roleInfo.roleName}</td>
                     <td align="center">${user.username}</td>
                     <td align=center>${user.nickname}</td>
                     <td align=center>
