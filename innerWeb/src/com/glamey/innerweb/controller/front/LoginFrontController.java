@@ -44,7 +44,6 @@ public class LoginFrontController extends BaseController {
      */
     @RequestMapping(value = "/mg/logout.htm", method = RequestMethod.GET)
     public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-        System.out.println("sessionId=" + session.getAttribute(Constants.SESSIN_USERID));
         session.removeAttribute(Constants.SESSIN_USERID);
         session.invalidate();
         return "redirect:/home.jsp";

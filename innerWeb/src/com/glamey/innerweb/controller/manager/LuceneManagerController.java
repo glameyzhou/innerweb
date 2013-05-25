@@ -3,13 +3,17 @@ package com.glamey.innerweb.controller.manager;
 import com.glamey.framework.utils.FileUtils;
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.StringTools;
+import com.glamey.innerweb.constants.CategoryConstants;
 import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.constants.LuceneConstants;
 import com.glamey.innerweb.constants.SystemConstants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.controller.front.IncludeFront;
+import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.PostDao;
+import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.Post;
+import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.LuceneEntry;
 import com.glamey.innerweb.model.dto.PostQuery;
 import com.glamey.innerweb.util.LuceneUtils;
@@ -35,6 +39,8 @@ import org.wltea.analyzer.lucene.IKSimilarity;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +58,8 @@ public class LuceneManagerController extends BaseController {
     @Resource
     private PostDao postDao;
     @Resource
+    private CategoryDao categoryDao ;
+    @Resource
     private IncludeFront includeFront;
 
     private LuceneUtils lu = new LuceneUtils();
@@ -62,17 +70,36 @@ public class LuceneManagerController extends BaseController {
     //创建索引
     @RequestMapping(value = "/lucene/build.htm", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView luceneBuild(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
-        ModelAndView mav = new ModelAndView();
-        String viewName = "common/message";
+    public void luceneBuild(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
 
         List<LuceneEntry> entries = new ArrayList<LuceneEntry>();
         LuceneEntry entry = null;
 
-        //Post内容
-        PostQuery postQuery = new PostQuery();
-        List<Post> postList = postDao.getByCategoryId(postQuery);
-        for (Post obj : postList) {
+        //Post-news内容
+        PostQuery queryNews = new PostQuery();
+        queryNews.setCategoryType(CategoryConstants.CATEGORY_NEWS);
+        queryNews.setStart(0);
+        queryNews.setNum(Integer.MAX_VALUE);
+        List<Post> newsList = postDao.getByCategoryId(queryNews);
+        for (Post obj : newsList) {
+            entry = new LuceneEntry();
+            entry.setId(obj.getId());
+            entry.setModel(obj.getCategoryId());
+            entry.setModelName(obj.getCategory().getShortName());
+            entry.setHref("p-" + entry.getId() + ".htm");
+            entry.setTitle(obj.getTitle());
+            entry.setContent(obj.getContent());
+            entry.setTime(obj.getTime());
+            entries.add(entry);
+        }
+        
+      //Post-notices内容
+        PostQuery queryNotices = new PostQuery();
+        queryNews.setCategoryType(CategoryConstants.CATEGORY_NOTICES);
+        queryNotices.setStart(0);
+        queryNotices.setNum(Integer.MAX_VALUE);
+        List<Post> noticesList = postDao.getByCategoryId(queryNotices);
+        for (Post obj : noticesList) {
             entry = new LuceneEntry();
             entry.setId(obj.getId());
             entry.setModel(obj.getCategoryId());
@@ -92,7 +119,6 @@ public class LuceneManagerController extends BaseController {
             result = "failure";
         }
         response.getWriter().print(result);
-        return null;
     }
 
     //创建索引页面
@@ -110,7 +136,7 @@ public class LuceneManagerController extends BaseController {
     public ModelAndView search(
             @RequestParam(value = "kw", required = false, defaultValue = "") String kw,
             @RequestParam(value = "curPage", required = false, defaultValue = "1") String pg,
-            HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
+            HttpServletRequest request, HttpServletResponse response,HttpSession session, ModelMap modelMap) throws Exception {
 
         ModelAndView mav = new ModelAndView();
         String viewName = "front/post-search";
@@ -125,7 +151,7 @@ public class LuceneManagerController extends BaseController {
             directory = FSDirectory.open(LuceneConstants.INDEXDIR);
             isearcher = new IndexSearcher(directory);
             isearcher.setSimilarity(new IKSimilarity());
-            String fieldNames[] = {LuceneConstants.flTitle, LuceneConstants.flContent};
+            String fieldNames[] = {LuceneConstants.flTitle,LuceneConstants.flSummary, LuceneConstants.flContent};
             Query query = IKQueryParser.parseMultiField(fieldNames, kw);
             TopScoreDocCollector topCollector = TopScoreDocCollector.create(isearcher.maxDoc(), true);
             isearcher.search(query, topCollector);
@@ -137,7 +163,7 @@ public class LuceneManagerController extends BaseController {
 
 
             ScoreDoc docs[] = topCollector.topDocs(pageBean.getStart(), pageBean.getRowsPerPage()).scoreDocs;
-            System.out.println("docs=" + Arrays.deepToString(docs));
+//            System.out.println("docs=" + Arrays.deepToString(docs));
             LuceneEntry entry = null;
             String title = "";
             for (ScoreDoc sDoc : docs) {
@@ -183,10 +209,14 @@ public class LuceneManagerController extends BaseController {
         mav.setViewName(viewName);
         mav.addAllObjects(modelMap);
 
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        String userId = ((UserInfo) obj).getUserId();
         mav.addAllObjects(includeFront.linksEntrance());
         mav.addAllObjects(includeFront.friendlyLinks());
-        mav.addObject(SystemConstants.popular_Links, includeFront.getMetaByName(SystemConstants.popular_Links));
+        mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
+        mav.addAllObjects(includeFront.ofenLinks());
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
+        
         return mav;
     }
 

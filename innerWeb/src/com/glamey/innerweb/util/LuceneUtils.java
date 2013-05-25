@@ -68,12 +68,12 @@ public class LuceneUtils extends LuceneConstants {
                 doc.add(new Field(flHref, entry.getHref(), Field.Store.YES, Field.Index.NOT_ANALYZED));
                 doc.add(new Field(flTime, entry.getTime(), Field.Store.YES, Field.Index.NOT_ANALYZED));
                 doc.add(new Field(flTitle, StringUtils.isBlank(entry.getTitle()) ? "" : entry.getTitle(), Field.Store.YES, Field.Index.ANALYZED));
+                doc.add(new Field(flSummary, StringUtils.isBlank(entry.getSummary()) ? "" : entry.getSummary(), Field.Store.YES, Field.Index.ANALYZED));
                 doc.add(new Field(flContent, StringUtils.isBlank(entry.getContent()) ? "" : entry.getContent(), Field.Store.YES, Field.Index.ANALYZED));
                 iwriter.addDocument(doc);
             }
             iwriter.optimize();
             iwriter.close();
-            System.out.println(new Date().getTime() - startTime.getTime());
         } catch (CorruptIndexException e) {
             e.printStackTrace();
         } catch (LockObtainFailedException e) {
@@ -103,7 +103,7 @@ public class LuceneUtils extends LuceneConstants {
             directory = FSDirectory.open(INDEXDIR);
             isearcher = new IndexSearcher(directory);
             isearcher.setSimilarity(new IKSimilarity());
-            String fieldNames[] = {flTitle, flContent};
+            String fieldNames[] = {flTitle,flSummary, flContent};
             Query query = IKQueryParser.parseMultiField(fieldNames, keyword);
             Filter filter = null;
             TopScoreDocCollector topCollector = TopScoreDocCollector.create(isearcher.maxDoc(), true);

@@ -45,7 +45,7 @@
                 <c:forEach var="entry" items="${entries}" varStatus="status">
                     <ul class="con_neiye">
                         <li><img src="res/front/images/right_tit_biao3.png"/></li>
-                        <li><a href="${entry.href}"></a>${entry.title}</li>
+                        <li><a href="${entry.href}">${entry.title}</a></li>
                         <li style="float:right;">${entry.modelName}&nbsp;&nbsp;&nbsp;${fmtString:substring(entry.time,10)}</li>
                     </ul>
                 </c:forEach>

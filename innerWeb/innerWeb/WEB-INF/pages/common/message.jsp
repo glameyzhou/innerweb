@@ -63,7 +63,6 @@
 	</style>
 
 </HEAD>
-
 <div class="errMainArea">
 	<div class="title">系统提示</div>
 	<div class="errTxtArea">

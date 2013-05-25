@@ -10,10 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.dao.UserInfoDao;
 import com.glamey.innerweb.model.domain.RoleInfo;
 import com.glamey.innerweb.model.domain.UserInfo;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -43,8 +46,11 @@ public class HomeManagerController extends BaseController {
      * 后台管理系统首页
      */
     @RequestMapping(value = "/home.htm", method = RequestMethod.GET)
-    public String managerHome(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
-        return "mg/home";
+    public ModelAndView managerHome(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+    	String opt = WebUtils.getRequestParameterAsString(request, "opt");
+    	ModelAndView mav = new ModelAndView("mg/home");
+    	mav.addObject("opt", opt);
+        return mav ;
     }
     /*头部信息*/
     @RequestMapping(value = "/home/top.htm", method = RequestMethod.GET)
@@ -56,8 +62,19 @@ public class HomeManagerController extends BaseController {
      * 首页
      */
     @RequestMapping(value = "/home/content.htm", method = RequestMethod.GET)
-    public String homeContent(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
-        return "mg/home/content";
+    public ModelAndView homeContent(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+    	ModelAndView mav = new ModelAndView("mg/home/content");
+    	String opt = WebUtils.getRequestParameterAsString(request, "opt");
+    	//默认首页
+    	String defaultPage = "mg/home/webInfo.htm" ;
+    	if(StringUtils.equals(opt, "message")){
+    		defaultPage = "mg/message/message-list.htm" ;
+    	}
+    	if(StringUtils.equals(opt, "contact")){
+    		defaultPage = "mg/user/contact.htm" ;
+    	}
+    	mav.addObject("defaultPage", defaultPage);
+        return mav ;
     }
 
     /**

@@ -197,13 +197,12 @@ public class PostDao extends BaseDao {
                 sql.append(" and post_focusimag = ? ");
 
             if (StringUtils.isNotBlank(query.getKeyword()))
-                sql.append(" and (post_content = ? or post_summary like ?)");
+                sql.append(" and (post_title = ? or post_summary like ? or post_content = ? )");
 
             if (StringUtils.isNotBlank(query.getStartTime()))
                 sql.append(" and (post_time >= ? and post_time <= ?) ");
 
             sql.append(" order by post_time desc limit ?,? ");
-
             list = jdbcTemplate.query(sql.toString(),
                     new PreparedStatementSetter() {
                         @Override
@@ -228,6 +227,7 @@ public class PostDao extends BaseDao {
                                 preparedstatement.setInt(++i, query.getFocusImage());
 
                             if (StringUtils.isNotBlank(query.getKeyword())) {
+                                preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
                                 preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
                                 preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
                             }
@@ -285,7 +285,8 @@ public class PostDao extends BaseDao {
                 params.add(query.getFocusImage());
             }
             if (StringUtils.isNotBlank(query.getKeyword())) {
-                sql.append(" and (post_content = ? or post_summary like ?)");
+                sql.append(" and (post_title = ? or post_summary like ? or post_content = ? )");
+                params.add("%" + query.getKeyword() + "%");
                 params.add("%" + query.getKeyword() + "%");
                 params.add("%" + query.getKeyword() + "%");
             }

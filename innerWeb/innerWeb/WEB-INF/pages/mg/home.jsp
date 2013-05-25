@@ -9,7 +9,7 @@
 </head>
 <frameset rows="65,*" border="0" framespacing="0">
     <frame src="${basePath}mg/home/top.htm" name="topFrame" noresize="noresize" id="topFrame" />
-    <frame src="${basePath}mg/home/content.htm" name="contentFrame" id="contentFrame" />
+    <frame src="${basePath}mg/home/content.htm?opt=${opt}" name="contentFrame" id="contentFrame" />
 </frameset>
 <noframes><body></body></noframes>
 </html>

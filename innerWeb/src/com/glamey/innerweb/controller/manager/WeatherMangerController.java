@@ -56,7 +56,6 @@ public class WeatherMangerController extends BaseController {
             }
             br.close();
             is.close();
-            System.out.println(source);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

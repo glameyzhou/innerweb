@@ -8,7 +8,7 @@
 </head>
 <frameset cols="240,*" frameborder="0" border="0" framespacing="0" id="fullFrame">
 	<frame src="${basePath}mg/home/role.htm" name="leftFrame" noresize="noresize" id="leftFrame" />
-	<frame src="${basePath}mg/home/webInfo.htm" name="mainFrame" id="mainFrame" />
+	<frame src="${basePath}${defaultPage}" name="mainFrame" id="mainFrame" />
 </frameset>
 <noframes><body></body></noframes>
 </html>

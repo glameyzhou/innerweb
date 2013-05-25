@@ -64,16 +64,16 @@
 		<div>
 			关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
 			已读&nbsp;<select name="flag" id="flag">
-					<option value="">请选择</option>
-					<option value="0" <c:if test="${query.flag == 0}">selected="selected" </c:if>>未读</option>
-					<option value="1" <c:if test="${query.flag == 1}">selected="selected" </c:if>>已读</option>
+                    <option value="-1"<c:if test="${query.flag == -1}">selected="selected" </c:if> >请选择</option>
+					<option value="2" <c:if test="${query.flag == 2}">selected="selected" </c:if>>未读</option>
+					<option value="3" <c:if test="${query.flag == 3}">selected="selected" </c:if>>已读</option>
 				</select>&nbsp;&nbsp;
 			<input type="submit" value="查询">
 			<br/><br/>
 			<a href="javascript:checkAll('messageId',true);">全选</a>&nbsp;&nbsp;<a href="javascript:checkAll('messageId',false);">取消</a>&nbsp;&nbsp;
-			<a href="javascript:pageOperate('messageId','1','1');">删除所选</a>&nbsp;&nbsp;
-            <a href="javascript:pageOperate('messageId','1','2');">设置已读</a>&nbsp;&nbsp;
-            <a href="javascript:pageOperate('messageId','0','3');">取消未读</a>&nbsp;&nbsp;
+			<a href="javascript:pageOperate('messageId','1');">删除所选</a>&nbsp;&nbsp;
+            <a href="javascript:pageOperate('messageId','2');">标记未读</a>&nbsp;&nbsp;
+            <a href="javascript:pageOperate('messageId','3');">标记已读</a>&nbsp;&nbsp;
 		</div>
 		<table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
 			<thead class="pn-lthead">
@@ -91,10 +91,10 @@
 			<tr>
 				<td align="center"><input type="checkbox" id="messageId" name="messageId" value="${msg.id}"/></td>
 				<td title="${msg.title}">${fmtString:substringAppend(msg.title,35,'')}</td>
-				<td>${msg.from}</td>
+				<td>${msg.fromUserInfo.nickname}</td>
 				<td align="center">
-                    <c:if test="${msg.flag == 0}">未读</c:if>
-                    <c:if test="${msg.flag == 1}">已读</c:if>
+                    <c:if test="${msg.flag == 2}">未读</c:if>
+                    <c:if test="${msg.flag == 3}">已读</c:if>
 				</td>
 				<td align=center><fmt:formatDate value="${msg.time}" type="both" /></td>
 				<td align=center>

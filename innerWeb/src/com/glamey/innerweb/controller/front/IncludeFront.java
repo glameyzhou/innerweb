@@ -3,12 +3,15 @@ package com.glamey.innerweb.controller.front;
 import com.glamey.innerweb.constants.CategoryConstants;
 import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.LinksDao;
+import com.glamey.innerweb.dao.MessageDao;
 import com.glamey.innerweb.dao.MetaInfoDao;
 import com.glamey.innerweb.dao.PostDao;
 import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.Links;
 import com.glamey.innerweb.model.domain.MetaInfo;
 import com.glamey.innerweb.model.dto.LinksQuery;
+import com.glamey.innerweb.model.dto.MessageQuery;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 
@@ -36,6 +39,8 @@ public class IncludeFront {
     private LinksDao linksDao;
     @Resource
     private MetaInfoDao metaInfoDao;
+    @Resource
+    private MessageDao messageDao ;
 
     public ModelMap linksEntrance() {
         ModelMap modelMap = new ModelMap();
@@ -113,5 +118,13 @@ public class IncludeFront {
     public String getMetaByName(String name) {
         MetaInfo metaInfo = metaInfoDao.getByName(name);
         return metaInfo != null ? metaInfo.getValue() : "";
+    }
+    
+    public int unReadMessage(String userId){
+    	MessageQuery query = new MessageQuery();
+    	query.setFlag(2);
+    	query.setTo(userId);
+    	int count = messageDao.getCountMessageList(query);
+    	return count ;
     }
 }

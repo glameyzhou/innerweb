@@ -5,6 +5,7 @@ package com.glamey.innerweb.dao;
 
 import com.glamey.framework.utils.StringTools;
 import com.glamey.innerweb.model.domain.Message;
+import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.MessageQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,6 +33,8 @@ import java.util.List;
 public class MessageDao extends BaseDao {
     private static final Logger logger = Logger.getLogger(MessageDao.class);
 
+    @Resource
+    private UserInfoDao userInfoDao ;
     /**
      * @param msg
      * @return
@@ -39,7 +43,7 @@ public class MessageDao extends BaseDao {
         logger.info("[MessageDao] #create# " + msg);
         try {
             int count[] = jdbcTemplate.batchUpdate(
-                    "insert into tbl_message(id,msg_from,msg_to,msg_title,msg_content,msg_time,msg_flag) values(?,?,?,?,?,?,?)",
+                    "insert into tbl_message(msg_id,msg_from,msg_to,msg_title,msg_content,msg_time,msg_flag) values(?,?,?,?,?,?,?)",
                     new BatchPreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt, int j) throws SQLException {
@@ -56,7 +60,7 @@ public class MessageDao extends BaseDao {
 
                         @Override
                         public int getBatchSize() {
-                            return 0;
+                            return msg.getTos().length;
                         }
                     });
 
@@ -136,8 +140,8 @@ public class MessageDao extends BaseDao {
             //关键字
             if (StringUtils.isNotBlank(query.getKeyword())) {
                 sql.append(" and (msg_title like ? or msg_content like ?) ");
-                params.add(query.getKeyword());
-                params.add(query.getKeyword());
+                params.add("%" + query.getKeyword() + "%");
+                params.add("%" + query.getKeyword() + "%");
             }
             //是否已读
             if (query.getFlag() > -1) {
@@ -155,7 +159,6 @@ public class MessageDao extends BaseDao {
                 sql.append(" and msg_to = ? ");
                 params.add(query.getTo());
             }
-
             count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
         } catch (Exception e) {
             logger.error("[MessageDao] #getCountMessageList# error! query=" + query, e);
@@ -188,27 +191,53 @@ public class MessageDao extends BaseDao {
         return null;
     }
 
-    public boolean messageOperation(final String opFlag, final String messageId) {
+    public boolean del(final String messageId) {
         try {
-            String sql = "";
-            int count = 0;
-            if (StringUtils.equals(opFlag, "1")) {
-                sql = "delete from tbl_message where msg_id = " + messageId;
-            }
-            //设置已读
-            else if (StringUtils.equals(opFlag, "2")) {
-                sql = "update tbl_message set msg_flag = 1 where msg_id = " + messageId;
-            } else if (StringUtils.equals(opFlag, "3")) {
-                sql = "update tbl_message set msg_flag = 0 where msg_id = " + messageId;
-            } else {
-                logger.error("[MessageDao] #messageOperation# 其他操作暂时不支持!" + String.format("opFlag=$s,messagId=%s", opFlag, messageId));
-            }
-            if (StringUtils.isNotBlank(sql)) {
-                count = jdbcTemplate.update(sql);
-            }
+            int count = jdbcTemplate.update("delete from tbl_message where msg_id = ?",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                            preparedStatement.setString(1, messageId);
+                        }
+                    }
+            );
             return count > 0;
         } catch (DataAccessException e) {
-            logger.error("[MessageDao] #messageOperation# error!" + String.format("opFlag=$s,messagId=%s", opFlag, messageId));
+            logger.error("[MessageDao] #del# error! messageId=" + messageId);
+            return false;
+        }
+    }
+
+    public boolean setRead(final String messageId) {
+        try {
+            int count = jdbcTemplate.update("update tbl_message set msg_flag = 3 where msg_id = ?",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                            preparedStatement.setString(1, messageId);
+                        }
+                    }
+            );
+            return count > 0;
+        } catch (DataAccessException e) {
+            logger.error("[MessageDao] #setRead# error! messageId=" + messageId);
+            return false;
+        }
+    }
+
+    public boolean setNotRead(final String messageId) {
+        try {
+            int count = jdbcTemplate.update("update tbl_message set msg_flag = 2 where msg_id = ?",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                            preparedStatement.setString(1, messageId);
+                        }
+                    }
+            );
+            return count > 0;
+        } catch (DataAccessException e) {
+            logger.error("[MessageDao] #setNotRead# error! messageId=" + messageId);
             return false;
         }
     }
@@ -222,8 +251,11 @@ public class MessageDao extends BaseDao {
             msg.setTo(rs.getString("msg_to"));
             msg.setTitle(rs.getString("msg_title"));
             msg.setContent(rs.getString("msg_content"));
-            msg.setTime(rs.getTimestamp("msg_content"));
+            msg.setTime(rs.getTimestamp("msg_time"));
             msg.setFlag(rs.getInt("msg_flag"));
+
+            UserInfo userInfo = userInfoDao.getUserById(msg.getFrom());
+            msg.setFromUserInfo(userInfo);
             return msg;
         }
     }

@@ -21,7 +21,8 @@ public class Message implements Serializable {
     private Date time;
     private String title;
     private String content;
-    /* 是否已读 1=是 0=否 */
+    private UserInfo fromUserInfo ;
+    //flag 1=delete 2=do not read 3=read
     private int flag;
 
     public void setId(String id) {
@@ -86,6 +87,14 @@ public class Message implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public UserInfo getFromUserInfo() {
+        return fromUserInfo;
+    }
+
+    public void setFromUserInfo(UserInfo fromUserInfo) {
+        this.fromUserInfo = fromUserInfo;
     }
 
     @Override

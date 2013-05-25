@@ -1,16 +1,12 @@
 package com.glamey.innerweb.controller.front;
 
-import com.glamey.framework.utils.PageBean;
-import com.glamey.framework.utils.WebUtils;
-import com.glamey.innerweb.constants.Constants;
-import com.glamey.innerweb.constants.SystemConstants;
-import com.glamey.innerweb.controller.BaseController;
-import com.glamey.innerweb.dao.*;
-import com.glamey.innerweb.model.domain.Category;
-import com.glamey.innerweb.model.domain.Post;
-import com.glamey.innerweb.model.domain.PostReadInfo;
-import com.glamey.innerweb.model.domain.UserInfo;
-import com.glamey.innerweb.model.dto.PostQuery;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -20,11 +16,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.List;
+import com.glamey.framework.utils.PageBean;
+import com.glamey.framework.utils.WebUtils;
+import com.glamey.innerweb.constants.Constants;
+import com.glamey.innerweb.constants.SystemConstants;
+import com.glamey.innerweb.controller.BaseController;
+import com.glamey.innerweb.dao.CategoryDao;
+import com.glamey.innerweb.dao.LinksDao;
+import com.glamey.innerweb.dao.MetaInfoDao;
+import com.glamey.innerweb.dao.PostDao;
+import com.glamey.innerweb.dao.PostReadInfoDao;
+import com.glamey.innerweb.dao.UserInfoDao;
+import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.Post;
+import com.glamey.innerweb.model.domain.PostReadInfo;
+import com.glamey.innerweb.model.domain.UserInfo;
+import com.glamey.innerweb.model.dto.PostQuery;
 
 @Controller
 public class PostFrontController extends BaseController {
@@ -69,17 +76,19 @@ public class PostFrontController extends BaseController {
             mav.setViewName("front/404");
             return mav;
         }
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        String userId = ((UserInfo) obj).getUserId();
+        
         Post post = postDao.getByPostId(postId);
         mav.addObject("post", post);
+        
         mav.addAllObjects(includeFront.linksEntrance());
         mav.addAllObjects(includeFront.friendlyLinks());
-
-        mav.addObject(SystemConstants.popular_Links, includeFront.getMetaByName(SystemConstants.popular_Links));
+        mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
+        mav.addAllObjects(includeFront.ofenLinks());
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
 
         //插入已读
-        Object obj = session.getAttribute(Constants.SESSIN_USERID);
-        String userId = ((UserInfo) obj).getUserId();
         final PostReadInfo postReadInfo = new PostReadInfo();
         postReadInfo.setPostId(postId);
         postReadInfo.setUserId(userId);
@@ -114,6 +123,9 @@ public class PostFrontController extends BaseController {
             mav.setViewName("front/404");
             return mav;
         }
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        String userId = ((UserInfo) obj).getUserId();
+        
         pageBean = new PageBean(Constants.rowsPerPageFront);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);
@@ -139,7 +151,8 @@ public class PostFrontController extends BaseController {
 
         mav.addAllObjects(includeFront.linksEntrance());
         mav.addAllObjects(includeFront.friendlyLinks());
-        mav.addObject(SystemConstants.popular_Links, includeFront.getMetaByName(SystemConstants.popular_Links));
+        mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
+        mav.addAllObjects(includeFront.ofenLinks());
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
 
         return mav;
@@ -165,6 +178,11 @@ public class PostFrontController extends BaseController {
             mav.setViewName("front/404");
             return mav;
         }
+        
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        String userId = ((UserInfo) obj).getUserId();
+        
+        
         pageBean = new PageBean(Constants.rowsPerPageFront);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);
@@ -187,7 +205,8 @@ public class PostFrontController extends BaseController {
 
         mav.addAllObjects(includeFront.linksEntrance());
         mav.addAllObjects(includeFront.friendlyLinks());
-        mav.addObject(SystemConstants.popular_Links, includeFront.getMetaByName(SystemConstants.popular_Links));
+        mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
+        mav.addAllObjects(includeFront.ofenLinks());
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
 
         return mav;

@@ -37,6 +37,10 @@ public class LuceneEntry implements Serializable {
      */
     private String title;
     /**
+     * 摘要
+     */
+    private String summary ;
+    /**
      * 内容
      */
     private String content;
@@ -99,7 +103,15 @@ public class LuceneEntry implements Serializable {
         this.time = time;
     }
 
-    @Override
+    public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this,
                 ToStringStyle.SHORT_PREFIX_STYLE);

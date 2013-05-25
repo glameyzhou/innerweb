@@ -36,7 +36,6 @@ public class UserLoginFilter implements Filter {
         Object obj = request.getSession().getAttribute(Constants.SESSIN_USERID);
         String requestURI = request.getRequestURI();
         String suffix = FilenameUtils.getExtension(requestURI);
-        System.out.println("requestURI=" + requestURI + " requestURIExtension=" + suffix);
         requestURI =  getLastString(requestURI);
         if (obj == null && !isAllowed(requestURI)) {
             response.sendRedirect(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath());

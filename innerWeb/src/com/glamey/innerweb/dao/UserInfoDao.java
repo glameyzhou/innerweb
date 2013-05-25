@@ -542,8 +542,8 @@ public class UserInfoDao extends BaseDao {
                                 throws SQLException {
                             int i = 0;
                             if (StringUtils.isNotBlank(query.getKeyword())) {
-                                preparedstatement.setString(++i, query.getKeyword());
-                                preparedstatement.setString(++i, query.getKeyword());
+                                preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
+                                preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
                             }
 
                             if (StringUtils.isNotBlank(query.getRoleId()))
@@ -581,8 +581,8 @@ public class UserInfoDao extends BaseDao {
         try {
             if (StringUtils.isNotBlank(query.getKeyword())) {
                 sql.append(" and (user_name like ? or user_nickname like ?) ");
-                params.add(query.getKeyword());
-                params.add(query.getKeyword());
+                params.add("%" + query.getKeyword() + "%");
+                params.add("%" + query.getKeyword() + "%");
             }
 
             if (StringUtils.isNotBlank(query.getRoleId())) {

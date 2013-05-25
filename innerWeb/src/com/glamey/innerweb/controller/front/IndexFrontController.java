@@ -41,11 +41,16 @@ public class IndexFrontController extends BaseController {
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         logger.info("[front] #index#");
         ModelAndView mav = new ModelAndView("front/index");
-
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        UserInfo userInfo = (UserInfo) obj ;
+        
         //集团、院系入口
         mav.addAllObjects(includeFront.linksEntrance());
         //常用链接
         mav.addAllObjects(includeFront.ofenLinks());
+        
+        //未读站内信
+        mav.addObject("unReadMessage", includeFront.unReadMessage(userInfo.getUserId()));
 
         //四个板块
         //第一板块

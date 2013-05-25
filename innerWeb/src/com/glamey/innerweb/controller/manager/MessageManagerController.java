@@ -1,5 +1,20 @@
 package com.glamey.innerweb.controller.manager;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
@@ -10,28 +25,13 @@ import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.LinksDao;
 import com.glamey.innerweb.dao.MessageDao;
 import com.glamey.innerweb.dao.UserInfoDao;
-import com.glamey.innerweb.model.domain.*;
-import com.glamey.innerweb.model.dto.LinksQuery;
+import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.Message;
+import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.MessageDTO;
 import com.glamey.innerweb.model.dto.MessageQuery;
 import com.glamey.innerweb.model.dto.UserQuery;
 import com.glamey.innerweb.util.WebUploadUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 站内信管理
@@ -65,9 +65,12 @@ public class MessageManagerController extends BaseController {
         pageBean = new PageBean();
         pageBean.setCurPage(curPage);
 
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        UserInfo userInfo = (UserInfo) obj;
+
         int flag = WebUtils.getRequestParameterAsInt(request, "flag", -1);
         String from = WebUtils.getRequestParameterAsString(request, "from");
-        String to = WebUtils.getRequestParameterAsString(request, "to");
+        String to = userInfo.getUserId();
         String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
         keyword = StringTools.converISO2UTF8(keyword);
 
@@ -76,6 +79,8 @@ public class MessageManagerController extends BaseController {
         query.setFrom(from);
         query.setTo(to);
         query.setFlag(flag);
+        query.setStart(pageBean.getStart());
+        query.setNum(pageBean.getRowsPerPage());
 
         List<Message> messageList = messageDao.getMessageList(query);
         pageBean.setMaxRowCount(messageDao.getCountMessageList(query));
@@ -118,8 +123,31 @@ public class MessageManagerController extends BaseController {
     @RequestMapping(value = "/message-create.htm", method = RequestMethod.POST)
     public ModelAndView messageCreate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelAndView mav = new ModelAndView("common/message");
-
-        if (true) {
+        String items [] = WebUtils.getRequestParameterAsStringArrs(request, "sltTarget");
+        String title = WebUtils.getRequestParameterAsString(request,"title");
+        String content = WebUtils.getRequestParameterAsString(request,"content");
+        if(items == null || items.length == 0){
+            mav.addObject("message","接收人不能为空");
+            return mav ;
+        }
+        if(StringUtils.isBlank(title)){
+            mav.addObject("message","标题不能为空");
+            return mav ;
+        }
+        if(StringUtils.isBlank(content)){
+            mav.addObject("message","内容不能为空");
+            return mav ;
+        }
+        Message message = new Message();
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        UserInfo userInfo = (UserInfo) obj;
+        message.setFrom(userInfo.getUserId());
+        message.setTitle(title);
+        message.setContent(content);
+        message.setTos(items);
+        //flag 1=delete 2=do not read 3=read
+        message.setFlag(2);
+        if (messageDao.create(message)) {
             mav.addObject("message", "links create success!");
         } else {
             mav.addObject("message", "links create failure!");
@@ -136,6 +164,7 @@ public class MessageManagerController extends BaseController {
             mav.addObject("message", "操作无效");
             return mav;
         }
+        messageDao.setRead(messageId);
         Message messageInfo = messageDao.getMessageById(messageId);
         mav.addObject("messageInfo", messageInfo);
         mav.setViewName("mg/message/message-detail");
@@ -147,24 +176,26 @@ public class MessageManagerController extends BaseController {
         ModelAndView mav = new ModelAndView("common/message");
         String opFlag = WebUtils.getRequestParameterAsString(request, "opFlag");
         String messagId = WebUtils.getRequestParameterAsString(request, "messageId");
-        if (StringUtils.isNotBlank(opFlag) || StringUtils.isBlank(messagId)) {
-            mav.addObject("messge", "操作无效");
+        if (StringUtils.isBlank(opFlag) || StringUtils.isBlank(messagId)) {
+            mav.addObject("message", "操作无效");
             return mav;
         }
+
+        /*opFlag 1=删除 2=未读 3 已读*/
         try {
             String arrays[] = StringUtils.split(messagId, ",");
             for (String array : arrays) {
                 //删除
                 if (StringUtils.equals(opFlag, "1")) {
-                    messageDao.messageOperation(opFlag, messagId);
-                }
-                //设置已读
-                if (StringUtils.equals(opFlag, "2")) {
-                    messageDao.messageOperation(opFlag, messagId);
+                    messageDao.del(array);
                 }
                 //设置未读
+                if (StringUtils.equals(opFlag, "2")) {
+                    messageDao.setNotRead(array);
+                }
+                //设置已读
                 if (StringUtils.equals(opFlag, "3")) {
-                    messageDao.messageOperation(opFlag, messagId);
+                    messageDao.setRead(array);
                 }
             }
             mav.addObject("message", "操作成功");

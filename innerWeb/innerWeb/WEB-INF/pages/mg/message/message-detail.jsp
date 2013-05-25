@@ -23,7 +23,9 @@
             <tbody>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h">操作:</td>
-                <td width="85%" class="pn-fcontent"><a href="${basePath}mg/message/message-pageOperate.htm?messageId=${messageInfo.id}&opFlag=1">删除</a> </td>
+                <td width="85%" class="pn-fcontent"><a
+                        href="${basePath}mg/message/message-pageOperate.htm?messageId=${messageInfo.id}&opFlag=1">删除</a>
+                </td>
             </tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h">标题:</td>
@@ -31,18 +33,18 @@
             </tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>来源:</td>
-                <td width="85%" class="pn-fcontent">${messageInfo.from}</td>
+                <td width="85%" class="pn-fcontent">${messageInfo.fromUserInfo.nickname}</td>
             </tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否已读:</td>
                 <td width="85%" class="pn-fcontent">
-                    <c:if test="${messageInfo.flag == 1}">已读</c:if>
-                    <c:if test="${messageInfo.flag == 0}">未读</c:if>
+                    <c:if test="${messageInfo.flag == 2}">未读</c:if>
+                    <c:if test="${messageInfo.flag == 3}">已读</c:if>
                 </td>
             </tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>时间:</td>
-                <td width="85%" class="pn-fcontent"><fmt:formatDate value="${msg.time}" type="both"/></td>
+                <td width="85%" class="pn-fcontent"><fmt:formatDate value="${messageInfo.time}" type="both"/></td>
             </tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>内容:</td>

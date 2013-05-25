@@ -130,8 +130,10 @@ public class PostManagerController extends BaseController {
             message = "分类新建失败,请稍后重试!";
         } else {
             message = "分类新建成功.";
+            href = "mg/post/" + aliasName + "/category-list.htm" ;
         }
         mav.addObject("message", message);
+        mav.addObject("href", href);
         mav.addObject("category", category);
         return mav;
     }
@@ -174,8 +176,10 @@ public class PostManagerController extends BaseController {
             message = "分类更新失败,请稍后重试!";
         } else {
             message = "分类更新成功.";
+            href = "mg/post/" + aliasName + "/category-list.htm" ;
         }
         mav.addObject("message", message);
+        mav.addObject("href", href);
         return mav;
     }
 
@@ -219,6 +223,7 @@ public class PostManagerController extends BaseController {
             mav.addObject("message", "获取不到要操作的内容");
             return mav;
         }
+        postDao.deleteById("");
 
         return mav;
     }

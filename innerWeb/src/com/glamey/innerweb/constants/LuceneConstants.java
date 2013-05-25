@@ -13,6 +13,7 @@ public class LuceneConstants {
     public static final String flModelName = "MODELNAME" ;
     public static final String flHref = "HREF";
     public static final String flTitle = "TITLE";
+    public static final String flSummary = "SUMMARY";
     public static final String flContent = "CONTENT";
     public static final String flTime = "TIME";
 
