@@ -4,6 +4,7 @@
 package com.glamey.innerweb.dao;
 
 import com.glamey.framework.utils.StringTools;
+import com.glamey.innerweb.constants.CategoryConstants;
 import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.MetaInfo;
 import com.glamey.innerweb.model.domain.Post;
@@ -184,6 +185,11 @@ public class PostDao extends BaseDao {
             if (StringUtils.isNotBlank(query.getCategoryId()))
                 sql.append(" and post_category_id = ? ");
 
+            //发布部门
+            if (StringUtils.isNotBlank(query.getSource())) {
+                sql.append(" and post_source = ? ");
+            }
+
             if (query.getShowIndex() > -1)
                 sql.append(" and post_showindex = ? ");
 
@@ -213,6 +219,9 @@ public class PostDao extends BaseDao {
 
                             if (StringUtils.isNotBlank(query.getCategoryId()))
                                 preparedstatement.setString(++i, query.getCategoryId());
+
+                            if (StringUtils.isNotBlank(query.getSource()))
+                                preparedstatement.setString(++i, query.getSource());
 
                             if (query.getShowIndex() > -1)
                                 preparedstatement.setInt(++i, query.getShowIndex());
@@ -267,6 +276,11 @@ public class PostDao extends BaseDao {
             if (StringUtils.isNotBlank(query.getCategoryId())) {
                 sql.append(" and post_category_id = ? ");
                 params.add(query.getCategoryId());
+            }
+            //发布部门
+            if (StringUtils.isNotBlank(query.getSource())) {
+                sql.append(" and post_source = ? ");
+                params.add(query.getSource());
             }
             if (query.getShowIndex() > -1) {
                 sql.append(" and post_showindex = ? ");
@@ -344,9 +358,10 @@ public class PostDao extends BaseDao {
      * 首页板块内容获取
      *
      * @param metaName
+     * @param deptId   如果为空的话，显示本分类下的所有部门内容;如果不为空，显示当前部门下的文章
      * @return
      */
-    public List<PostDTO> getDtoByMetaName(final String metaName) {
+    public List<PostDTO> getDtoByMetaName(final String metaName, final String deptId) {
         List<PostDTO> areaPostDTOList = new ArrayList<PostDTO>();
         MetaInfo metaInfo = metaInfoDao.getByName(metaName);
         if (metaInfo != null && StringUtils.isNotBlank(metaInfo.getValue())) {
@@ -362,6 +377,10 @@ public class PostDao extends BaseDao {
                 query.setCategoryId(cate.getId());
                 query.setCategoryType(cate.getCategoryType());
                 query.setShowIndex(1);
+                //只有针对各部门通知才这么做
+                if(StringUtils.equalsIgnoreCase(cate.getAliasName(),CategoryConstants.CATEGORY_ALLNOTICES)){
+                    query.setSource(deptId);
+                }
                 query.setStart(0);
                 query.setNum(5);
                 List<Post> postList = getByCategoryId(query);
@@ -393,6 +412,9 @@ public class PostDao extends BaseDao {
             post.setUserInfo(userInfo);
 
             post.setSource(rs.getString("post_source"));
+            Category deptCategory = categoryDao.getById(post.getSource());
+            post.setDeptCategory(deptCategory);
+
             post.setTime(rs.getString("post_time"));
             post.setShowIndex(rs.getInt("post_showindex"));
             post.setShowList(rs.getInt("post_showlist"));

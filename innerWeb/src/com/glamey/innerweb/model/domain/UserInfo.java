@@ -24,7 +24,7 @@ public class UserInfo implements Serializable {
     private int isLive;
     private Date time;
     /*部门*/
-    private Category category;
+    private Category category = new Category();
     private String roleId;
     private RoleInfo roleInfo;
 

@@ -260,10 +260,14 @@ public class PostManagerController extends BaseController {
             post = postDao.getByPostId(postId);
             opt = "update";
         }
-        //设置发布人
+        //设置发布人和发布部门
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         post.setAuthor(userInfo.getUserId());
         post.setUserInfo(userInfo);
+        Category deptCategory = categoryDao.getById(userInfo.getDeptId());
+        post.setDeptCategory(deptCategory);
+        post.setSource(deptCategory.getId());
+
         mav.addObject("opt", opt);
         mav.addObject("categoryParent", categoryParent);
         mav.addObject("category", category);

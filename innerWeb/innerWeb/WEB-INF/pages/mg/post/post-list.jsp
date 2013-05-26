@@ -131,7 +131,7 @@
 			<tr>
 				<th width="3%">序列</th>
 				<th>标题</th>
-				<th>来源</th>
+				<th>发布部门</th>
 				<th>发布人</th>
 				<th>栏目</th>
 				<th width="5%">首页</th>
@@ -149,7 +149,7 @@
 			<tr>
 				<td align="center"><input type="checkbox" id="postId" name="postId" value="${post.id}"/></td>
 				<td title="${post.title}">${fmtString:substringAppend(post.title,35,'')}</td>
-				<td align="center">${post.userInfo.category.name}</td>
+				<td align="center">${post.deptCategory.name}</td>
 				<td align="center">${post.userInfo.nickname}</td>
 				<td align=center>${post.category.name}</td>
 				<td align=center><c:choose><c:when test="${post.showIndex == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>

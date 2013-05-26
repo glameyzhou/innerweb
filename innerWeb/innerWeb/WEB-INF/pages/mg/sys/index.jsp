@@ -61,10 +61,10 @@
                 <td align="left">首页结构设置</td>
                 <td align=center><a href="${basePath}mg/sys/area-show.htm">设置</a></td>
             </tr>
-            <tr>
+            <%--<tr>
                 <td align="left">图片是否使用水印</td>
                 <td align=center><a href="javascript:void(0);" onclick="jump('1')">设置</a></td>
-            </tr>
+            </tr>--%>
             <tr>
                 <td align="left">页尾内容</td>
                 <td align=center><a href="${basePath}mg/sys/meta/page_foot/meta-show.htm">设置</a></td>

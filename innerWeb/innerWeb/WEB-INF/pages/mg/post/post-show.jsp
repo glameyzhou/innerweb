@@ -85,12 +85,16 @@
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>来源:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>发布部门:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="sourceName" id="sourceName" class="required" size="80"
-                           value="${post.userInfo.category.name}" readonly="readonly"/>
-                    <input type="hidden" maxlength="100" name="source" id="source" class="required" size="80"
-                           value="${post.userInfo.category.id}" readonly="readonly"/>
+                    <%--<select id="source" name="source" class="required">
+                        <option value="">请选择栏目</option>
+                        <c:forEach items="${deptList}" var="dept">
+                            <option value="${dept.id}" <c:if test="${post.source eq dept.id}">selected</c:if>>${dept.name}</option>
+                        </c:forEach>
+                    </select>--%>
+                    <input type="hidden" id="source" name="source" value="${post.source}" />
+                    ${post.deptCategory.name}
                 </td>
             </tr>
             <tr>

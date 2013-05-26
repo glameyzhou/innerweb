@@ -1,5 +1,6 @@
 package com.glamey.innerweb.controller.front;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.framework.utils.tld.StringTld;
+import com.glamey.innerweb.constants.CategoryConstants;
+import com.glamey.innerweb.model.domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -27,10 +31,6 @@ import com.glamey.innerweb.dao.MetaInfoDao;
 import com.glamey.innerweb.dao.PostDao;
 import com.glamey.innerweb.dao.PostReadInfoDao;
 import com.glamey.innerweb.dao.UserInfoDao;
-import com.glamey.innerweb.model.domain.Category;
-import com.glamey.innerweb.model.domain.Post;
-import com.glamey.innerweb.model.domain.PostReadInfo;
-import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.PostQuery;
 
 @Controller
@@ -78,10 +78,10 @@ public class PostFrontController extends BaseController {
         }
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
         String userId = ((UserInfo) obj).getUserId();
-        
+
         Post post = postDao.getByPostId(postId);
         mav.addObject("post", post);
-        
+
         mav.addAllObjects(includeFront.linksEntrance());
         mav.addAllObjects(includeFront.friendlyLinks());
         mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
@@ -124,8 +124,9 @@ public class PostFrontController extends BaseController {
             return mav;
         }
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
-        String userId = ((UserInfo) obj).getUserId();
-        
+        UserInfo userInfo = (UserInfo) obj;
+        String userId = userInfo.getUserId();
+
         pageBean = new PageBean(Constants.rowsPerPageFront);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);
@@ -136,13 +137,36 @@ public class PostFrontController extends BaseController {
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
 
+        Category categoryParent = categoryDao.getByAliasName(categoryType);
+        Category category = categoryDao.getById(categoryId);
+
+        //如果是各部门通知的话，需要看下是否显示搜有的内容
+        if (StringUtils.equalsIgnoreCase(category.getAliasName(), CategoryConstants.CATEGORY_ALLNOTICES)) {
+            MetaInfo noticeCanSee = metaInfoDao.getByName(SystemConstants.notices_can_see);
+            MetaInfo noticesRoleInfo = metaInfoDao.getByName(SystemConstants.notices_who_can_see);
+            //部门ID
+            String whoCanSee = null;
+            if (StringUtils.equalsIgnoreCase(noticeCanSee.getValue(), "0")) {
+                whoCanSee = userInfo.getDeptId();
+            } else {
+                String roleIds = noticesRoleInfo.getValue();
+                if (StringUtils.isNotBlank(roleIds)) {
+                    String arrays[] = StringUtils.split(roleIds, ",");
+                    if (StringTld.hasRights(Arrays.asList(arrays), userInfo.getRoleId())) {
+                        whoCanSee = null; //查看所有的部门下文章
+                    }
+                    else{
+                        whoCanSee = userInfo.getDeptId() ;
+                    }
+                }
+            }
+            query.setSource(whoCanSee);
+        }
         List<Post> postList = postDao.getByCategoryId(query);
         pageBean.setMaxRowCount(postDao.getCountByCategoryId(query));
         pageBean.setMaxPage();
         pageBean.setPageNoList();
 
-        Category categoryParent = categoryDao.getByAliasName(categoryType);
-        Category category = categoryDao.getById(categoryId);
 
         mav.addObject("postList", postList);
         mav.addObject("pageBean", pageBean);
@@ -178,11 +202,11 @@ public class PostFrontController extends BaseController {
             mav.setViewName("front/404");
             return mav;
         }
-        
+
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
         String userId = ((UserInfo) obj).getUserId();
-        
-        
+
+
         pageBean = new PageBean(Constants.rowsPerPageFront);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);

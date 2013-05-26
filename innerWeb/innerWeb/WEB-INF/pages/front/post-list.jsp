@@ -46,8 +46,18 @@
                 <c:forEach var="post" items="${postList}" varStatus="status">
                     <ul class="con_neiye">
                         <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
-                        <li><a href="${basePath}p-${post.id}.htm"><c:if test="${post.category.aliasName eq 'deptInnerNotices'}">[${post.userInfo.category.name}]</c:if>${post.title}</a></li>
-                        <li style="float:right;">${post.userInfo.category.name}&nbsp;&nbsp;&nbsp;${fmtString:substring(post.time,10)}</li>
+                        <c:choose>
+                            <c:when test="${post.category.aliasName eq 'deptInnerNotices'}">
+                                <li><a href="${basePath}p-${post.id}.htm">[${post.deptCategory.name}]${post.title}</a>
+                                </li>
+                                <li style="float:right;">${fmtString:substring(post.time,10)}</li>
+                            </c:when>
+                            <c:otherwise>
+                                <li><a href="${basePath}p-${post.id}.htm">${post.title}</a></li>
+                                <li style="float:right;">
+                                    [${post.deptCategory.name}]&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substring(post.time,10)}</li>
+                            </c:otherwise>
+                        </c:choose>
                     </ul>
                 </c:forEach>
                 <c:set var="pageURL" value="${basePath}pl-${categoryType}-${categoryId}.htm?"/>

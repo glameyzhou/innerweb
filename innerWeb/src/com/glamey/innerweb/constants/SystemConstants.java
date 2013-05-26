@@ -25,4 +25,8 @@ public class SystemConstants {
 
     //页尾内容
     public static final String page_foot = "page_foot" ;
+
+    /*通告是否可见、如果可见的话，那些部门可见所有*/
+    public static final String notices_can_see = "notices_can_see" ;
+    public static final String notices_who_can_see = "notices_who_can_see" ;
 }

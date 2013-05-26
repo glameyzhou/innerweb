@@ -19,7 +19,9 @@
             <c:forEach var="post" items="${dto4.postList}">
                 <ul class="con_right">
                     <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
-                    <li><a href="${basePath}p-${post.id}.htm"><c:if test="${post.category.aliasName eq 'deptInnerNotices'}">[${post.userInfo.category.name}]</c:if>${post.title}</a></li>
+                    <li><a href="${basePath}p-${post.id}.htm"><c:if
+                            test="${post.category.aliasName eq 'deptInnerNotices'}">[${post.deptCategory.name}]</c:if>
+                            ${post.title}</a></li>
                     <li style="float:right;">${fmtString:substring(post.time, 10)}</li>
                 </ul>
             </c:forEach>

@@ -24,7 +24,9 @@ public class Post implements Serializable {
 	
 	private String title ;
 	private String author ;
+    //发布部门
 	private String source ;
+    private Category deptCategory = new Category(); ;
 	private String time ;
 	/*是否首页显示*/
 	private int showIndex ;
@@ -43,7 +45,7 @@ public class Post implements Serializable {
 	/*正文*/
 	private String content ;
 
-    private UserInfo userInfo ;
+    private UserInfo userInfo = new UserInfo();
 	
 	
 	public String getId() {
@@ -213,6 +215,14 @@ public class Post implements Serializable {
 
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
+    }
+
+    public Category getDeptCategory() {
+        return deptCategory;
+    }
+
+    public void setDeptCategory(Category deptCategory) {
+        this.deptCategory = deptCategory;
     }
 
     @Override

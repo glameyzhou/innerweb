@@ -3,14 +3,14 @@ Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
 Source Server Version : 50022
-Source Host           : localhost:3306
+Source Host           : 127.0.0.1:3306
 Source Database       : innerweb
 
 Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-05-21 22:41:43
+Date: 2013-05-27 07:39:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,15 +44,21 @@ INSERT INTO `tbl_category` VALUES ('6JJVnm', '集团部门', '集团部门', 'de
 INSERT INTO `tbl_category` VALUES ('7B7rIb', '政府部门', '政府部门', 'gv', '政府部门', '0', '0', '1', '2meuyy', 'friendlyLinks', null, '2013-05-16 16:30:25');
 INSERT INTO `tbl_category` VALUES ('aENvee', '页岩气研发中心', '页岩气', 'yyqyfzx', '页岩气研发中心', '0', '1', '7', 'm226Ff', 'news', null, '2013-05-20 11:08:32');
 INSERT INTO `tbl_category` VALUES ('Bbq6n2', '综合管理部', '综合管理部', 'zongheguanlibu', '综合管理部', '0', '1', '2', 'm226Ff', 'news', null, '2013-05-20 11:06:33');
+INSERT INTO `tbl_category` VALUES ('beu6Nv', '视频链接', '视频链接', 'ofenLinksVidos', '视频链接', '0', '1', '2', 'memAvy', 'ofenLinks', null, '2013-05-25 10:12:01');
+INSERT INTO `tbl_category` VALUES ('BfqeYz', '新闻媒体', '新闻媒体', 'xwmt', '', '0', '0', '8', '2meuyy', 'friendlyLinks', null, '2013-05-21 09:17:56');
 INSERT INTO `tbl_category` VALUES ('bY3Uju', '公司通知公告', '公司通知公告', 'gongsiNotices', '公司通知公告', '0', '1', '1', 'E7FFN3', 'notices', null, '2013-05-20 11:00:57');
 INSERT INTO `tbl_category` VALUES ('E7FFN3', '通知公告', '通知公告', 'notices', '通知公告', '0', '1', '0', '0', 'notices', null, null);
+INSERT INTO `tbl_category` VALUES ('fIBrmm', '能源企业', '能源企业', 'nyqy', '', '0', '0', '6', '2meuyy', 'friendlyLinks', null, '2013-05-21 09:17:35');
+INSERT INTO `tbl_category` VALUES ('i2ima2', '技经院', '技经院', '', '技经院', '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-23 07:32:46');
 INSERT INTO `tbl_category` VALUES ('I3meqq', '技经院', '技经院', 'jijingyuan', 'jijingyuan', '0', '1', '20', 'm226Ff', 'news', null, '2013-05-20 11:16:59');
 INSERT INTO `tbl_category` VALUES ('IfM7Zz', '人力资源', '人力资源', 'renliziyuan', '人力资源', '0', '1', '4', 'm226Ff', 'news', null, '2013-05-20 11:07:11');
 INSERT INTO `tbl_category` VALUES ('m226Ff', '新闻动态', '新闻动态', 'news', '新闻动态', '0', '1', '0', '0', 'news', null, null);
+INSERT INTO `tbl_category` VALUES ('memAvy', '常用链接', '常用链接', 'ofenLinks', '常用链接', '1', '1', '0', '0', 'ofenLinks', null, '2013-05-07 08:14:55');
 INSERT INTO `tbl_category` VALUES ('MJfmQz', '支部活动', '支部活动', 'zhibuhuodong', '支部活动', '0', '1', '10', 'm226Ff', 'news', null, '2013-05-20 11:09:45');
 INSERT INTO `tbl_category` VALUES ('mYre2a', '各部门内部通告', '各部门内部通告', 'deptInnerNotices', '各部门内部通告', '0', '1', '2', 'E7FFN3', 'notices', null, '2013-05-20 11:01:24');
-INSERT INTO `tbl_category` VALUES ('NJNzQ3', '兄弟部门', '兄弟部门', 'br', '', '0', '0', '3', '2meuyy', 'friendlyLinks', null, '2013-05-16 16:30:56');
-INSERT INTO `tbl_category` VALUES ('NjQrmi', '人事部门', null, '', null, '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-17 14:04:10');
+INSERT INTO `tbl_category` VALUES ('NJ7r2y', '新闻链接', '新闻链接', 'ofenLinksNews', '新闻链接', '0', '1', '1', 'memAvy', 'ofenLinks', null, '2013-05-25 10:11:45');
+INSERT INTO `tbl_category` VALUES ('NJNzQ3', '行业协会', '行业协会', 'hy', '', '0', '0', '3', '2meuyy', 'friendlyLinks', null, '2013-05-16 16:30:56');
+INSERT INTO `tbl_category` VALUES ('NjQrmi', '综合管理部1', '综合管理部1', '', '综合管理部1', '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-17 14:04:10');
 INSERT INTO `tbl_category` VALUES ('NnEvIb', '总院快捷入口', '总院快捷入口', 'outfastentrance', '总院快捷入口', '0', '1', '0', '0', 'outfastentrance', null, '2013-05-07 08:14:55');
 INSERT INTO `tbl_category` VALUES ('Q7BJzm', '财务信息', '财务信息', 'caiwuxinxi', '财务信息', '0', '1', '5', 'm226Ff', 'news', null, '2013-05-20 11:07:27');
 INSERT INTO `tbl_category` VALUES ('qQJvEz', '员工生活', '员工生活', 'yuangongshenghuo', '员工生活，显示与导航条上', '0', '1', '1', 'm226Ff', 'news', null, '2013-05-20 10:59:09');
@@ -60,7 +66,8 @@ INSERT INTO `tbl_category` VALUES ('QZbM7n', '集团系统快捷入口', '集团
 INSERT INTO `tbl_category` VALUES ('RBVBVf', '分布式能源实验室', '分布式能源', 'fbsnysys', '分布式能源实验室', '0', '1', '6', 'm226Ff', 'news', null, '2013-05-20 11:08:02');
 INSERT INTO `tbl_category` VALUES ('remuEb', '科研项目管理部', '科研项目管理部', 'keyanxiangmubu', '科研项目管理部', '0', '1', '3', 'm226Ff', 'news', null, '2013-05-20 11:06:55');
 INSERT INTO `tbl_category` VALUES ('rm6nQv', '专题活动', '专题活动', 'zhuantihuodong', '专题活动', '0', '1', '11', 'm226Ff', 'news', null, '2013-05-20 11:10:01');
-INSERT INTO `tbl_category` VALUES ('zeMvu2', '集团KS', null, '', null, '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-17 14:05:29');
+INSERT INTO `tbl_category` VALUES ('Uvuyqy', '科研项目管理部', '科研项目管理部', '', '科研项目管理部', '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-23 07:32:30');
+INSERT INTO `tbl_category` VALUES ('zeMvu2', '总办', '总办', '', '总办', '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-17 14:05:29');
 
 -- ----------------------------
 -- Table structure for `tbl_links`
@@ -82,17 +89,27 @@ CREATE TABLE `tbl_links` (
 -- ----------------------------
 -- Records of tbl_links
 -- ----------------------------
-INSERT INTO `tbl_links` VALUES ('AvMZNj', '通讯录', 'http://www.a.com', 'QZbM7n', 'infastentrance', null, '1', '1', '2013-05-16 16:29:02');
-INSERT INTO `tbl_links` VALUES ('eI7z6f', '哥弟神剪', 'http://www.checne.comcn12', 'NJNzQ3', 'friendlyLinks', null, '3', '1', '2013-05-18 08:33:56');
-INSERT INTO `tbl_links` VALUES ('FB7N7r', 'zfbm1', 'http://emial.com', '2meuyy', 'friendlyLinks', null, '1', '1', '2013-05-16 19:14:02');
-INSERT INTO `tbl_links` VALUES ('feUn6b', 'qqq', 'qqq', '7B7rIb', 'friendlyLinks', null, '1', '1', '2013-05-16 19:50:17');
-INSERT INTO `tbl_links` VALUES ('iAbYve', '政府部门连接', 'http://www.checne.comcn1', '7B7rIb', 'friendlyLinks', null, '45', '1', '2013-05-17 08:13:41');
-INSERT INTO `tbl_links` VALUES ('Nruqmy', '集团邮箱', 'http://emial.com', 'NnEvIb', 'outfastentrance', null, '2', '0', '2013-05-16 19:13:39');
-INSERT INTO `tbl_links` VALUES ('uymUVr', '集团OA', 'http://oa.com', 'NnEvIb', 'outfastentrance', null, '1', '1', '2013-05-16 16:28:15');
-INSERT INTO `tbl_links` VALUES ('zMzIFf', '人事系统', 'http://www.r.com', 'QZbM7n', 'infastentrance', null, '2', '1', '2013-05-16 16:29:30');
-INSERT INTO `tbl_links` VALUES ('Zr6bUr', '流程系统', 'http://emial.comqqqq', 'QZbM7n', 'infastentrance', null, '66', '0', '2013-05-17 08:26:23');
-INSERT INTO `tbl_links` VALUES ('zyqEru', '兄弟部门1', 'http://www.google.com.hk1', '2meuyy', 'friendlyLinks', null, '41', '0', '2013-05-17 08:19:00');
-INSERT INTO `tbl_links` VALUES ('ZZFZNn', '集团KS', 'http://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack', 'NnEvIb', 'outfastentrance', null, '12', '1', '2013-05-16 19:13:33');
+INSERT INTO `tbl_links` VALUES ('3aaMZz', '搜狐网', 'http://www.sohu.com', 'NJ7r2y', 'ofenLinks', null, '2', '1', '2013-05-25 02:12:29');
+INSERT INTO `tbl_links` VALUES ('ba6JBv', '999999', '999999999999', '', 'friendlyLinks', null, '999', '1', '2013-05-25 17:04:42');
+INSERT INTO `tbl_links` VALUES ('BbmYN3', '243234', '234234', '7B7rIb', 'friendlyLinks', null, '0', '1', '2013-05-25 16:53:54');
+INSERT INTO `tbl_links` VALUES ('BZnQNb', '新浪网', 'http://www.sina.com.cn', 'NJ7r2y', 'ofenLinks', null, '1', '1', '2013-05-25 02:12:18');
+INSERT INTO `tbl_links` VALUES ('EBNj6j', '网易网', 'http://www.163.com', 'NJ7r2y', 'ofenLinks', null, '3', '1', '2013-05-25 02:12:45');
+INSERT INTO `tbl_links` VALUES ('ENJFje', '邮件系统', '#', 'NnEvIb', 'outfastentrance', null, '1', '1', '2013-05-21 01:06:05');
+INSERT INTO `tbl_links` VALUES ('F3UZBn', '科技成果发布(在建)', '#', 'NnEvIb', 'outfastentrance', null, '7', '1', '2013-05-21 01:07:36');
+INSERT INTO `tbl_links` VALUES ('FB7N7r', 'zfbm1', 'http://emial.com', '2meuyy', 'friendlyLinks', null, '1', '1', '2013-05-16 11:14:02');
+INSERT INTO `tbl_links` VALUES ('fIBJBj', '视频会议系统(在建)', '#', 'NnEvIb', 'outfastentrance', null, '3', '1', '2013-05-21 01:06:42');
+INSERT INTO `tbl_links` VALUES ('FJJzYb', '乐视网', 'http://www.letv.com', 'beu6Nv', 'ofenLinks', null, '2', '1', '2013-05-25 02:13:09');
+INSERT INTO `tbl_links` VALUES ('FJnyUv', '优酷网', 'http://www.youku.com', 'beu6Nv', 'ofenLinks', null, '1', '1', '2013-05-25 02:13:00');
+INSERT INTO `tbl_links` VALUES ('iINvMf', '档案管理系统(在建)', '#', 'NnEvIb', 'outfastentrance', null, '5', '1', '2013-05-21 01:07:11');
+INSERT INTO `tbl_links` VALUES ('iIRRZv', '4545', '45454', '', 'friendlyLinks', null, '4545', '1', '2013-05-25 17:04:42');
+INSERT INTO `tbl_links` VALUES ('Ivq2Mr', '集团通讯录', '#', 'QZbM7n', 'infastentrance', null, '0', '1', '2013-05-21 01:09:19');
+INSERT INTO `tbl_links` VALUES ('jaqEvm', '后勤服务(在建)', '#', 'NnEvIb', 'outfastentrance', null, '6', '1', '2013-05-21 01:07:24');
+INSERT INTO `tbl_links` VALUES ('Qnmyma', '土豆网', 'http://www.tudou.com', 'beu6Nv', 'ofenLinks', null, '3', '1', '2013-05-25 02:13:21');
+INSERT INTO `tbl_links` VALUES ('qYV7Zv', '集团信息门户', '#', 'QZbM7n', 'infastentrance', null, '1', '1', '2013-05-21 01:09:35');
+INSERT INTO `tbl_links` VALUES ('RnYb6n', '通讯录', 'mg/home.htm?opt=contact', 'NnEvIb', 'outfastentrance', null, '0', '1', '2013-05-25 02:16:41');
+INSERT INTO `tbl_links` VALUES ('VbM7nm', '科研项目管理系统(在建)', '#', 'NnEvIb', 'outfastentrance', null, '4', '1', '2013-05-21 01:06:59');
+INSERT INTO `tbl_links` VALUES ('zIfaAr', 'OA系统', '#', 'NnEvIb', 'outfastentrance', null, '2', '1', '2013-05-21 01:06:13');
+INSERT INTO `tbl_links` VALUES ('zyqEru', '兄弟部门1', 'http://www.google.com.hk1', '2meuyy', 'friendlyLinks', null, '41', '0', '2013-05-17 00:19:00');
 
 -- ----------------------------
 -- Table structure for `tbl_message`
@@ -112,6 +129,8 @@ CREATE TABLE `tbl_message` (
 -- ----------------------------
 -- Records of tbl_message
 -- ----------------------------
+INSERT INTO `tbl_message` VALUES ('2i6Bz2', '123123', '123123', '2013-05-25 17:07:03', 'biymau', 'fUJRFr', '2');
+INSERT INTO `tbl_message` VALUES ('3i6FV3', '21123', '123123', '2013-05-25 17:08:43', 'biymau', 'fUJRFr', '2');
 
 -- ----------------------------
 -- Table structure for `tbl_meta`
@@ -125,13 +144,15 @@ CREATE TABLE `tbl_meta` (
 -- ----------------------------
 -- Records of tbl_meta
 -- ----------------------------
-INSERT INTO `tbl_meta` VALUES ('permit_notices', '1');
+INSERT INTO `tbl_meta` VALUES ('permit_notices', '0');
 INSERT INTO `tbl_meta` VALUES ('area_1', 'bY3Uju,mYre2a');
 INSERT INTO `tbl_meta` VALUES ('area_2', 'Bbq6n2,remuEb,IfM7Zz,Q7BJzm');
 INSERT INTO `tbl_meta` VALUES ('area_3', 'RBVBVf,aENvee,3u6rmu,I3meqq');
 INSERT INTO `tbl_meta` VALUES ('area_4', 'MJfmQz,rm6nQv');
-INSERT INTO `tbl_meta` VALUES ('page_foot', '<div class=\"footer\">\r\n    <center>\r\n        <table width=\"650\" border=\"0\" cellspacing=\"0\" align=\"center\">\r\n            <tr>\r\n                <td rowspan=\"3\" width=\"75\"><img src=\"${basePath}res/front/images/footer.jpg\"/></td>\r\n                <td>中国华电集团科学技术研究总院 版权所有 京ICP备05084797号 邮编：100077 传真：010-52392444</td>\r\n            </tr>\r\n            <tr>\r\n                <td>地址：北京市东城区永定门西滨河路8号院7号楼中海地产广场东塔11层 电话：010-51966891</td>\r\n            </tr>\r\n            <tr>\r\n                <td>建议使用IE6.0以上版本浏览器1024*768分辨率浏览本网站</td>\r\n            </tr>\r\n        </table>\r\n    </center>\r\n</div>');
-INSERT INTO `tbl_meta` VALUES ('popular_Links', '\r\n<div class=\"body_left_1\" style=\"margin-top:10px;\">\r\n                <div class=\"body_left_tit\">\r\n                    <ul class=\"tit_biao\">\r\n                        <li><img src=\"${basePath}res/front/images/left_tit_biao1.png\"/></li>\r\n                        <li style=\"padding-left:15px;\">常用链接</li>\r\n                    </ul>\r\n                </div>\r\n\r\n                <div class=\"body_left_con1\">\r\n<ul>\r\n                        <li><select name=\"\" class=\"xiala\">\r\n                            <option value=\"------集团系统网站链接------\" selected=\"selected\">------集团系统网站链接------</option>\r\n                        </select></li>\r\n                        <li><select name=\"\" class=\"xiala\">\r\n                            <option value=\"------常用网站链接------\" selected=\"selected\">------常用网站链接------</option>\r\n                        </select></li>\r\n                    </ul>\r\n                </div>\r\n            </div>');
+INSERT INTO `tbl_meta` VALUES ('page_foot', '<div class=\"footer\">\r\n    <center>\r\n        <table width=\"650\" border=\"0\" cellspacing=\"0\" align=\"center\">\r\n            <tr>\r\n                <td rowspan=\"3\" width=\"75\"><img src=\"res/front/images/footer.jpg\"/></td>\r\n                <td>中国华电集团科学技术研究总院 版权所有 京ICP备05084797号 邮编：100077 传真：010-52392444</td>\r\n            </tr>\r\n            <tr>\r\n                <td>地址：北京市东城区永定门西滨河路8号院7号楼中海地产广场东塔11层 电话：010-51966891</td>\r\n            </tr>\r\n            <tr>\r\n                <td>建议使用IE6.0以上版本浏览器1024*768分辨率浏览本网站</td>\r\n            </tr>\r\n        </table>\r\n    </center>\r\n</div>');
+INSERT INTO `tbl_meta` VALUES ('popular_Links', '<div class=\"body_left_1\" style=\"margin-top:10px;\">\r\n                <div class=\"body_left_tit\">\r\n                    <ul class=\"tit_biao\">\r\n                        <li><img src=\"res/front/images/left_tit_biao1.png\"/></li>\r\n                        <li style=\"padding-left:15px;\">常用链接</li>\r\n                    </ul>\r\n                </div>\r\n\r\n                <div class=\"body_left_con1\">\r\n<ul>\r\n                        <li><select name=\"\" class=\"xiala\" onclick=\"javascript:jumpLinks(this.value);\">\r\n                            <option value=\"http://www.sina.com.cn\" selected=\"selected\">------新浪------</option>\r\n                            <option value=\"http://www.163.com\" >------网易------</option>\r\n                            <option value=\"http://www.sohu.com.cn\" >------搜狐------</option>\r\n\r\n                        </select></li>\r\n                        <li><select name=\"\" class=\"xiala\" onclick=\"javascript:jumpLinks(this.value);\">\r\n                            <option value=\"http://www.sina.com.cn\" >------新浪------</option>\r\n                            <option value=\"http://www.163.com\" selected=\"selected\">------网易------</option>\r\n                            <option value=\"http://www.sohu.com.cn\" >------搜狐------</option>\r\n                        </select></li>\r\n                    </ul>\r\n                </div>\r\n            </div>');
+INSERT INTO `tbl_meta` VALUES ('notices_can_see', '1');
+INSERT INTO `tbl_meta` VALUES ('notices_who_can_see', 'zA3eem');
 
 -- ----------------------------
 -- Table structure for `tbl_post`
@@ -159,15 +180,12 @@ CREATE TABLE `tbl_post` (
 -- ----------------------------
 -- Records of tbl_post
 -- ----------------------------
-INSERT INTO `tbl_post` VALUES ('6JNNve', 'news', 'j6rmu2', '新闻1', '周杨', '新闻1', '2013-05-16 16:27:47', '1', '0', '0', '0', '0', '暗室逢灯', null, '爱上对方');
-INSERT INTO `tbl_post` VALUES ('73mAvq', 'news', 'uiMbIb', '21123123123sadfasdf', '1233123123123asdf', '12312312asdf', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '1231233123123asdf', null, '123123123123123asdf');
-INSERT INTO `tbl_post` VALUES ('BfieAr', 'news', 'uiMbIb', '21123123123sadfasdf', '1233123123123asdf', '12312312asdf', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '1231233123123asdf', null, '123123123123123asdf');
-INSERT INTO `tbl_post` VALUES ('Eb6ZRv', 'news', 'qQJvEz', '员工生活好又好', '周杨', '中新社', '2013-05-20 11:52:05', '1', '1', '1', '0', '1', '员工生活好又好', null, '员工生活好又好员工生活好又好员工生活好又好员工生活好又好员工生活好又好');
-INSERT INTO `tbl_post` VALUES ('ENBjYz', 'news', 'uiMbIb', '21123123123', '1233123123123', '12312312', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '1231233123123', null, '123123123123123');
-INSERT INTO `tbl_post` VALUES ('iERnEb', 'news', 'uiMbIb', '21123123', '123', '123', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '123123', null, '123123');
-INSERT INTO `tbl_post` VALUES ('jYRbQr', 'news', 'uiMbIb', '21123123123sadfasdf', '1233123123123asdf', '12312312asdf', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '1231233123123asdf', null, '123123123123123asdf');
-INSERT INTO `tbl_post` VALUES ('z2yeAn', 'news', 'uiMbIb', '21123123123sadfasdf', '1233123123123asdf', '12312312asdf', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '1231233123123asdf', null, '123123123123123asdf');
-INSERT INTO `tbl_post` VALUES ('zuYbeu', 'news', 'uiMbIb', '21123123123sadfasdf', '1233123123123asdf', '12312312asdf', '2013-05-18 23:20:44', '1', '1', '1', '1', '1', '1231233123123asdf', null, '123123123123123asdf');
+INSERT INTO `tbl_post` VALUES ('677jqu', 'notices', 'mYre2a', '及经办', 'biymau', 'zeMvu2', '2013-05-25 10:45:48', '1', '1', '0', '1', '0', '及经办', null, '及经办及经办及经办及经办及经办及经办');
+INSERT INTO `tbl_post` VALUES ('7bMJVf', 'news', 'qQJvEz', '员工生活1', 'biymau', '', '2013-05-25 16:02:43', '0', '0', '1', '0', '0', '员工生活', null, '<p>\r\n	员工生活\r\n</p>\r\n<p>\r\n	员工生活\r\n</p>\r\n<p>\r\n	员工生活\r\n</p>\r\n<p>\r\n	员工生活\r\n</p>');
+INSERT INTO `tbl_post` VALUES ('miyiAf', 'notices', 'mYre2a', '111', 'biymau', 'zeMvu2', '2013-05-26 09:23:58', '1', '1', '0', '1', '1', '1212', null, '121221');
+INSERT INTO `tbl_post` VALUES ('NrEJNb', 'notices', 'mYre2a', '科技部11111', 'biymau', 'zeMvu2', '2013-05-26 09:29:27', '1', '1', '0', '1', '1', '123123123', null, '123123123123123');
+INSERT INTO `tbl_post` VALUES ('Ub2Q3e', 'notices', 'mYre2a', '科研公告', 'UNb63y', 'Uvuyqy', '2013-05-26 14:57:52', '1', '1', '0', '1', '1', '科研公告', null, '科研公告');
+INSERT INTO `tbl_post` VALUES ('vIBNjq', 'notices', 'bY3Uju', '111111111', 'biymau', 'zeMvu2', '2013-05-25 20:01:12', '1', '0', '0', '0', '0', '1111111111111', null, '11111111111111111111111');
 
 -- ----------------------------
 -- Table structure for `tbl_post_read`
@@ -183,6 +201,16 @@ CREATE TABLE `tbl_post_read` (
 -- ----------------------------
 -- Records of tbl_post_read
 -- ----------------------------
+INSERT INTO `tbl_post_read` VALUES ('AFBJN3', 'biymau', '2013-05-22 23:50:35');
+INSERT INTO `tbl_post_read` VALUES ('AFBJN3', '2aEJ3e', '2013-05-22 23:51:05');
+INSERT INTO `tbl_post_read` VALUES ('qu6rUn', '2aEJ3e', '2013-05-22 23:55:35');
+INSERT INTO `tbl_post_read` VALUES ('ruUVVv', '2aEJ3e', '2013-05-22 23:56:32');
+INSERT INTO `tbl_post_read` VALUES ('73mAvq', 'biymau', '2013-05-23 00:45:20');
+INSERT INTO `tbl_post_read` VALUES ('ruUVVv', 'biymau', '2013-05-23 22:56:24');
+INSERT INTO `tbl_post_read` VALUES ('6JNNve', 'biymau', '2013-05-23 23:47:44');
+INSERT INTO `tbl_post_read` VALUES ('677jqu', 'biymau', '2013-05-25 10:51:55');
+INSERT INTO `tbl_post_read` VALUES ('677jqu', 'fUJRFr', '2013-05-25 11:23:14');
+INSERT INTO `tbl_post_read` VALUES ('NrEJNb', 'biymau', '2013-05-26 13:54:27');
 
 -- ----------------------------
 -- Table structure for `tbl_rights`
@@ -192,19 +220,29 @@ CREATE TABLE `tbl_rights` (
   `rights_id` varchar(100) default NULL,
   `rights_name` varchar(100) default NULL,
   `rights_desc` text,
-  `rights_value` text,
+  `rights_value` text COMMENT '功能入口',
+  `rights_resouce` text COMMENT '资源链接,通过","分割，允许正则表达式',
   `rights_time` timestamp NULL default NULL on update CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统权限表';
 
 -- ----------------------------
 -- Records of tbl_rights
 -- ----------------------------
-INSERT INTO `tbl_rights` VALUES ('U3AvE3', '新闻管理', '新闻管理', 'mg/news/news-list.htm', '2013-05-18 14:07:54');
-INSERT INTO `tbl_rights` VALUES ('QFNJby', '公司新闻管理1', '公司新闻管理1', 'mg/news/news-list.htm1', '2013-05-18 14:22:28');
-INSERT INTO `tbl_rights` VALUES ('fYnQRz', '新闻管理--行业动态', '新闻管理--行业动态', 'mg/news/news-list.htm', '2013-05-18 14:08:37');
-INSERT INTO `tbl_rights` VALUES ('uaqIZb', 'sdfasdf', 'sdfasdf', 'mg/news/news-list.htm1', '2013-05-18 14:22:47');
-INSERT INTO `tbl_rights` VALUES ('f6RZR3', '1111', '1111', 'mg/news/news-list.htm1', '2013-05-18 14:22:51');
-INSERT INTO `tbl_rights` VALUES ('imyQZn', '2222222', '2222222', 'mg/news/news-list.htm1', '2013-05-18 14:22:55');
+INSERT INTO `tbl_rights` VALUES ('EjUvEf', '个人信息管理', '个人信息管理', 'mg/user/user-psersonal-show.htm?userId=', null, '2013-05-25 13:19:26');
+INSERT INTO `tbl_rights` VALUES ('JRFBFb', '新闻分类管理', '新闻分类管理', 'mg/post/news/category-list.htm', null, '2013-05-25 13:19:02');
+INSERT INTO `tbl_rights` VALUES ('INRRz2', '通知公告分类管理', '通知公告分类管理', 'mg/post/notices/category-list.htm', null, '2013-05-25 13:19:05');
+INSERT INTO `tbl_rights` VALUES ('nA3eqy', '总院快捷入口管理', '总院快捷入口管理', 'mg/links/outfastentrance/links-list.htm', null, '2013-05-25 13:19:07');
+INSERT INTO `tbl_rights` VALUES ('meAb2q', '集团系统快捷入口管理', '集团系统快捷入口管理', 'mg/links/infastentrance/links-list.htm', null, '2013-05-25 13:19:09');
+INSERT INTO `tbl_rights` VALUES ('JJneEr', '友情链接分类管理', '友情链接分类管理', 'mg/links/friendlyLinks/category-list.htm', null, '2013-05-25 13:19:11');
+INSERT INTO `tbl_rights` VALUES ('U73mMj', '友情链接管理', '友情链接管理', 'mg/links/friendlyLinks/links-list.htm?categoryId=', null, '2013-05-25 13:19:29');
+INSERT INTO `tbl_rights` VALUES ('V7FZ32', '常用链接分类管理', '常用链接分类管理', 'mg/links/ofenLinks/category-list.htm', null, '2013-05-25 13:18:36');
+INSERT INTO `tbl_rights` VALUES ('Nz2aiu', '常用链接管理', '常用链接管理', 'mg/links/ofenLinks/links-list.htm?categoryId=', null, '2013-05-25 13:18:27');
+INSERT INTO `tbl_rights` VALUES ('BZ3qIr', '站内信列表', '站内信列表', 'mg/message/message-list.htm', null, '2013-05-25 13:18:42');
+INSERT INTO `tbl_rights` VALUES ('jIBbAj', '发站内信', '发站内信', 'mg/message/message-show.htm', null, '2013-05-25 11:07:04');
+INSERT INTO `tbl_rights` VALUES ('63amym', '全局配置', '全局配置', 'mg/sys/sys-list.htm', null, '2013-05-25 13:18:45');
+INSERT INTO `tbl_rights` VALUES ('aeYnqy', '功能权限管理', '功能权限管理', 'mg/user/rights-list.htm', null, '2013-05-25 13:18:52');
+INSERT INTO `tbl_rights` VALUES ('63m2iq', '角色配置管理', '角色配置管理', 'mg/user/role-list.htm', null, '2013-05-25 13:18:54');
+INSERT INTO `tbl_rights` VALUES ('ba6bIj', '系统用户配置管理', '系统用户配置管理', 'mg/user/user-list.htm', null, '2013-05-25 13:18:58');
 
 -- ----------------------------
 -- Table structure for `tbl_role`
@@ -215,14 +253,15 @@ CREATE TABLE `tbl_role` (
   `role_name` varchar(100) default NULL,
   `role_desc` text,
   `role_rights_id` text COMMENT '功能权限集合，中间通过'',''分割',
-  `role_time` time default NULL
+  `role_time` timestamp NULL default NULL on update CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户角色管理';
 
 -- ----------------------------
 -- Records of tbl_role
 -- ----------------------------
-INSERT INTO `tbl_role` VALUES ('ZNfm2y', '普通用户', '普通用户', 'imyQZn,f6RZR3,uaqIZb,QFNJby,fYnQRz,U3AvE3', '17:11:21');
-INSERT INTO `tbl_role` VALUES ('aeaami', '超级管理员', '超级管理员', 'imyQZn,f6RZR3,uaqIZb,QFNJby,fYnQRz,U3AvE3', '17:11:43');
+INSERT INTO `tbl_role` VALUES ('zA3eem', '超级系统管理员', '超级系统管理员', '01,01_news_qQJvEz_create,01_news_qQJvEz_delete,01_news_qQJvEz_update,01_news_Bbq6n2_create,01_news_Bbq6n2_delete,01_news_Bbq6n2_update,01_news_remuEb_create,01_news_remuEb_delete,01_news_remuEb_update,01_news_IfM7Zz_create,01_news_IfM7Zz_delete,01_news_IfM7Zz_update,01_news_Q7BJzm_create,01_news_Q7BJzm_delete,01_news_Q7BJzm_update,01_news_RBVBVf_create,01_news_RBVBVf_delete,01_news_RBVBVf_update,01_news_aENvee_create,01_news_aENvee_delete,01_news_aENvee_update,01_news_3u6rmu_create,01_news_3u6rmu_delete,01_news_3u6rmu_update,01_news_MJfmQz_create,01_news_MJfmQz_delete,01_news_MJfmQz_update,01_news_rm6nQv_create,01_news_rm6nQv_delete,01_news_rm6nQv_update,01_news_I3meqq_create,01_news_I3meqq_delete,01_news_I3meqq_update,02,02_notices_bY3Uju_create,02_notices_bY3Uju_delete,02_notices_bY3Uju_update,02_notices_bY3Uju_permit,02_notices_mYre2a_create,02_notices_mYre2a_delete,02_notices_mYre2a_update,02_notices_mYre2a_permit,03,04,05,06,07,08,09,10', '2013-05-25 19:33:38');
+INSERT INTO `tbl_role` VALUES ('JrMBRf', '管理员', '管理员（管理用户）', '01,01_news_qQJvEz_create,01_news_qQJvEz_delete,01_news_qQJvEz_update,01_news_Bbq6n2_create,01_news_Bbq6n2_delete,01_news_Bbq6n2_update,01_news_remuEb_create,01_news_remuEb_delete,01_news_remuEb_update,01_news_IfM7Zz_create,01_news_IfM7Zz_delete,01_news_IfM7Zz_update,01_news_Q7BJzm_create,01_news_Q7BJzm_delete,01_news_Q7BJzm_update,01_news_RBVBVf_create,01_news_RBVBVf_delete,01_news_RBVBVf_update,01_news_aENvee_create,01_news_aENvee_delete,01_news_aENvee_update,01_news_3u6rmu_create,01_news_3u6rmu_delete,01_news_3u6rmu_update,01_news_MJfmQz_create,01_news_MJfmQz_delete,01_news_MJfmQz_update,01_news_rm6nQv_create,01_news_rm6nQv_delete,01_news_rm6nQv_update,01_news_I3meqq_create,01_news_I3meqq_delete,01_news_I3meqq_update,02,02_notices_mYre2a_create,02_notices_mYre2a_delete,02_notices_mYre2a_update,02_notices_mYre2a_permit', '2013-05-26 14:56:24');
+INSERT INTO `tbl_role` VALUES ('rYBVfy', '国产', 'sfd', '01_qQJvEz_create,01_qQJvEz_delete,01_qQJvEz_update,01_Bbq6n2_delete,01_Bbq6n2_update,01_remuEb_delete,01_remuEb_update,01_IfM7Zz_delete,01_IfM7Zz_update,01_Q7BJzm_create,01_Q7BJzm_delete,01_Q7BJzm_update,01_RBVBVf_create,01_RBVBVf_delete,01_RBVBVf_update,01_aENvee_create,01_aENvee_delete,01_aENvee_update,01_3u6rmu_create,01_3u6rmu_delete,01_3u6rmu_update,01_MJfmQz_create,01_MJfmQz_delete,01_MJfmQz_update,01_rm6nQv_create,01_rm6nQv_delete,01_rm6nQv_update,01_I3meqq_create,01_I3meqq_delete,01_I3meqq_update,02,02_bY3Uju_create,02_bY3Uju_delete,02_bY3Uju_update,02_bY3Uju_permit,02_mYre2a_create,02_mYre2a_delete,02_mYre2a_update,02_mYre2a_permit,03,04,05,06,07,08,09', '2013-05-25 18:42:28');
 
 -- ----------------------------
 -- Table structure for `tbl_user`
@@ -247,4 +286,7 @@ CREATE TABLE `tbl_user` (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('biymau', 'admin', '3bac8cc87db33021623d0d88a287982a5845b3c1989b620c', '周杨111', '12311', '12123123211', '12311', '123111', 'NjQrmi', 'ZNfm2y', '1', '2013-05-20 14:12:33');
+INSERT INTO `tbl_user` VALUES ('2aEJ3e', 'testjjy', 'd3ee17c56c580eefcf0d8ee57bcfea24bdeb2c5719f1d0f7', 'test-技经院', '', '12123123211', '', '', 'i2ima2', 'zA3eem', '1', '2013-05-22 23:34:24');
+INSERT INTO `tbl_user` VALUES ('biymau', 'admin', '3bac8cc87db33021623d0d88a287982a5845b3c1989b620c', '测试超级系统管理员', '12311', '12123123211', '12311', '123111', 'zeMvu2', 'zA3eem', '1', '2013-05-25 11:24:16');
+INSERT INTO `tbl_user` VALUES ('fUJRFr', 'keji', 'cd3424bbc0ae5ec3157d5460e0a367298122f5d9cfdfd97d', '科技管理', '', '1234567', '', '', 'Uvuyqy', 'zA3eem', '1', '2013-05-25 11:13:48');
+INSERT INTO `tbl_user` VALUES ('UNb63y', 'zhouyang', 'dec6844dcb3d95770e74a8cfe9906c46da9726aff05388f012f855b6a39724d3', '周杨', '', '15011150369', '', '', 'Uvuyqy', 'JrMBRf', '1', '2013-05-26 14:50:21');

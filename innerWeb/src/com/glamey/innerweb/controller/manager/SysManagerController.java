@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.innerweb.dao.UserInfoDao;
+import com.glamey.innerweb.model.domain.RoleInfo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +44,8 @@ public class SysManagerController extends BaseController {
     private CategoryDao categoryDao;
     @Autowired
     private MetaInfoDao metaInfoDao;
+    @Autowired
+    private UserInfoDao userInfoDao;
 
     @RequestMapping(value = "/sys-list.htm", method = RequestMethod.GET)
     public String managerHome(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
@@ -76,6 +80,77 @@ public class SysManagerController extends BaseController {
             mav.addObject("message", "设置失败");
         }
         mav.addObject("metaInfo", metaInfo);
+        return mav;
+    }
+
+    /*那个部门能看到所有的通告*/
+    @RequestMapping(value = "/notices-what-can-see.htm", method = RequestMethod.GET)
+    public ModelAndView noticesWhoCanSee(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("mg/sys/notices-what-can-see");
+        MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.notices_can_see);
+        MetaInfo metaInfoRole = metaInfoDao.getByName(SystemConstants.notices_who_can_see);
+        List<String> allowedRoleList = new ArrayList<String>();
+        if (metaInfoRole != null && StringUtils.isNotBlank(metaInfoRole.getValue())) {
+            String arrays[] = StringUtils.split(metaInfoRole.getValue(), ",");
+            for (String array : arrays) {
+                allowedRoleList.add(array);
+            }
+        }
+        List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
+        mav.addObject("roleInfoList", roleInfoList);
+        mav.addObject("metaInfo", metaInfo);
+        mav.addObject("allowedRoleList", allowedRoleList);
+        return mav;
+    }
+
+    /*是否需要审核处理*/
+    @RequestMapping(value = "/notices-what-can-see-update.htm", method = RequestMethod.POST)
+    public ModelAndView noticesWhoCanSeeUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("mg/sys/notices-what-can-see");
+        MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.notices_can_see);
+        String value = WebUtils.getRequestParameterAsString(request, "value");
+        if (StringUtils.isBlank(value)) {
+            mav.addObject("message", "不能为空");
+            return mav;
+        }
+        try {
+            metaInfo.setValue(value);
+            metaInfoDao.update(metaInfo);
+
+            //那些部门可见
+            MetaInfo metaInfoRole = new MetaInfo();
+            String values[] = WebUtils.getRequestParameterAsStringArrs(request, "roleId");
+            if (values != null && values.length > 0 && StringUtils.equalsIgnoreCase(value, "1")) {
+                String roleIds = "";
+                StringBuffer sb = new StringBuffer();
+                for (String s : values) {
+                    sb.append(",").append(s);
+                }
+                if (sb.length() > 0) {
+                    roleIds = sb.substring(1);
+                }
+                metaInfoRole.setName(SystemConstants.notices_who_can_see);
+                metaInfoRole.setValue(roleIds);
+                metaInfoDao.update(metaInfoRole);
+            }
+            //DB中允许的角色
+            List<String> allowedRoleList = new ArrayList<String>();
+            if (metaInfoRole != null && StringUtils.isNotBlank(metaInfoRole.getValue())) {
+                String arrays[] = StringUtils.split(metaInfoRole.getValue(), ",");
+                for (String array : arrays) {
+                    allowedRoleList.add(array);
+                }
+            }
+            //所有juese
+            List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
+
+            mav.addObject("metaInfo", metaInfo);
+            mav.addObject("allowedRoleList", allowedRoleList);
+            mav.addObject("roleInfoList", roleInfoList);
+            mav.addObject("message", "设置成功");
+        } catch (Exception e) {
+            mav.addObject("message", "设置失败");
+        }
         return mav;
     }
 
@@ -220,7 +295,7 @@ public class SysManagerController extends BaseController {
      */
     @RequestMapping(value = "/meta/{name}/meta-show.htm", method = RequestMethod.GET)
     public ModelAndView metaShow(
-            @PathVariable String name ,
+            @PathVariable String name,
             HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         ModelAndView mav = new ModelAndView("mg/sys/meta-show");
         if (StringUtils.isBlank(name)) {
@@ -230,14 +305,14 @@ public class SysManagerController extends BaseController {
         }
         MetaInfo metaInfo = metaInfoDao.getByName(name);
         mav.addObject("metaInfo", metaInfo);
-        String title = "" ;
-        if(StringUtils.equals(name,"popular_Links")){
-            title = "常用链接" ;
+        String title = "";
+        if (StringUtils.equals(name, "popular_Links")) {
+            title = "常用链接";
         }
-        if(StringUtils.equals(name,"page_foot")){
-            title = "页尾内容" ;
+        if (StringUtils.equals(name, "page_foot")) {
+            title = "页尾内容";
         }
-        mav.addObject("title",title);
+        mav.addObject("title", title);
         return mav;
     }
 
@@ -247,7 +322,7 @@ public class SysManagerController extends BaseController {
      */
     @RequestMapping(value = "/meta/{name}/meta-update.htm", method = RequestMethod.POST)
     public ModelAndView metaUpdate(
-            @PathVariable String name ,
+            @PathVariable String name,
             HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         ModelAndView mav = new ModelAndView("mg/sys/meta-show");
         String value = WebUtils.getRequestParameterAsString(request, "value");
@@ -263,7 +338,7 @@ public class SysManagerController extends BaseController {
         } else {
             mav.addObject("message", "修改失败");
         }
-        mav.addObject("metaInfo",metaInfo);
+        mav.addObject("metaInfo", metaInfo);
         return mav;
     }
 }
