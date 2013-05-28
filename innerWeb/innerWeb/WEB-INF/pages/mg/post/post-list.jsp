@@ -97,11 +97,13 @@
 					<option value="1" <c:if test="${query.apply == 1}">selected="selected" </c:if>>是</option>
 				</select>&nbsp;&nbsp;
 				</c:if>
+            <c:if test="${categoryParent.categoryType eq 'notices' }">
             焦点图&nbsp;<select name="focusImage" id="focusImage">
 					<option value="">请选择</option>
 					<option value="0" <c:if test="${query.focusImage == 0}">selected="selected" </c:if>>否</option>
 					<option value="1" <c:if test="${query.focusImage == 1}">selected="selected" </c:if>>是</option>
 				</select><br/>
+             </c:if>
 			&nbsp;&nbsp;开始&nbsp;<input type="text" maxlength="100" name="startTime" id="startTime" class="required" size="18" value="${query.startTime}"
 					onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;
 			结束&nbsp;<input type="text" maxlength="100" name="endTime" id="endTime" class="required" size="18" value="${query.endTime}"
@@ -123,8 +125,10 @@
                     <a href="javascript:pageOperate('postId','0','4','${category.id}');">审核未过</a>&nbsp;&nbsp;
                 </c:if>
             </c:if>
+            <c:if test="${categoryParent.categoryType eq 'notices' }">
             <a href="javascript:pageOperate('postId','1','5','${category.id}');">设置焦点图</a>&nbsp;&nbsp;
             <a href="javascript:pageOperate('postId','0','5','${category.id}');">取消焦点图</a>&nbsp;&nbsp;
+            </c:if>
 		</div>
 		<table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
 			<thead class="pn-lthead">
@@ -139,7 +143,9 @@
 				<c:if test="${categoryParent.categoryType eq 'notices' }">
 				<th width="5%">审核</th>
 				</c:if>
+                <c:if test="${categoryParent.categoryType eq 'notices' }">
 				<th width="5%">焦点图</th>
+                </c:if>
 				<th width="10%">发布时间</th>
 				<th width="10%">操作</th>
 			</tr>
@@ -157,7 +163,9 @@
 				<c:if test="${categoryParent.categoryType eq 'notices' }">
 				<td align=center><c:choose><c:when test="${post.apply == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
 				</c:if>
+                <c:if test="${categoryParent.categoryType eq 'notices' }">
 				<td align=center><c:choose><c:when test="${post.focusImage == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
+                </c:if>
 				<td align=center>${post.time}</td>
 				<td align=center>
                     <c:if test="${fmtString:hasRightsList(rightsList,updateId )}">

@@ -68,6 +68,36 @@ public class CategoryDao extends BaseDao {
             return false;
         }
     }
+    public String createReturnId(final Category category) {
+        logger.info("[CategoryDao] #create# " + category);
+        try {
+            String id = StringTools.getUniqueId() ;
+            int count = jdbcTemplate.update(
+                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,categoryorder,parentid,categorytype,categoryimage,categorytime) values(?,?,?,?,?,?,?,?,?,?,?,?)",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement pstmt) throws SQLException {
+                            int i = 0;
+                            pstmt.setString(++i, StringTools.getUniqueId());
+                            pstmt.setString(++i, category.getName());
+                            pstmt.setString(++i, category.getShortName());
+                            pstmt.setString(++i, category.getAliasName());
+                            pstmt.setString(++i, category.getDescribe());
+                            pstmt.setInt(++i, category.getShowType());
+                            pstmt.setInt(++i, category.getShowIndex());
+                            pstmt.setInt(++i, category.getCategoryOrder());
+                            pstmt.setString(++i, category.getParentId());
+                            pstmt.setString(++i, category.getCategoryType());
+                            pstmt.setString(++i, category.getCategoryImage());
+                            pstmt.setString(++i, category.getCategoryTime());
+                        }
+                    });
+            return count > 0 ? id : null ;
+        } catch (Exception e) {
+            logger.error("[CategoryDao] #create# error " + category, e);
+            return null;
+        }
+    }
 
     /**
      * @param category

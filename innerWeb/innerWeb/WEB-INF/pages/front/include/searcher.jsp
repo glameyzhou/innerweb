@@ -26,7 +26,7 @@
 	</div>
 </div>
 <div class="left_guanggao">
-	<img src="${basePath}res/front/images/guanggao1.jpg" />
+	<img src="${basePath}res/front/images/guanggao1.jpg" onclick="javascript:window.location='${basePath}lib-0-0.htm'"/>
 </div>
 <div class="left_guanggao">
 	<img src="${basePath}res/front/images/kyzy.jpg" />

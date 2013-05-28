@@ -31,4 +31,9 @@ public class CategoryConstants {
 
     /*所有通知(公司内部通告)*/
     public static final String  CATEGORY_ALLNOTICES = "deptInnerNotices" ;
+
+    /**
+     * 图书馆分类类型
+     */
+    public static final String CATEGORY_LIBRARY = "library";
 }
