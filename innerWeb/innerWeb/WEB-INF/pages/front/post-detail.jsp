@@ -31,8 +31,6 @@
             <%@include file="include/searcher.jsp" %>
         </div>
 
-        <!--左半边代码结束-->
-        <!--右半边代码开始-->
         <div class="right_neiye">
             <div class="body_right_tit" style="width:962px;">
                 <ul class="tit_biao">
@@ -49,13 +47,14 @@
                     <h2>${post.title}</h2>
                     <br/>
 
-                    <h3>作者：${post.userInfo.nickname}&nbsp;&nbsp;&nbsp;时间：${post.time}&nbsp;&nbsp;&nbsp;来源：${post.source}</h3>
+                    <h3>作者：${post.userInfo.nickname}&nbsp;&nbsp;&nbsp;时间：${post.time}&nbsp;&nbsp;&nbsp;来源：${post.deptCategory.name}</h3>
                     <br/>
 
                     <div class="neirong_con">
                         ${post.content}
                     </div>
                     <div class="neirong_con">
+                        <p style="color:#9B9B9B">
                         <c:if test="${not empty postReadUserList}"><br/>已读人：
                             <c:forEach var="u" items="${postReadUserList}" varStatus="prStatus">
                                 ${u.nickname}&nbsp;
@@ -63,15 +62,12 @@
                             </c:forEach>
                         </c:if>
                     </div>
+                    </p>
                 </div>
             </div>
         </div>
-        <!--右半边代码结束-->
-        <%--友情链接--%>
         <%@include file="include/friendlyLinks.jsp" %>
     </div>
-    <!--中间内容部分代码结束-->
-
     <%@include file="include/footer.jsp" %>
 </div>
 </body>

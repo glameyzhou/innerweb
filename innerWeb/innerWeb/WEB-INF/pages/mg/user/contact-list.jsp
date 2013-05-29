@@ -32,8 +32,8 @@
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
             <tr>
-                <th>姓名</th>
                 <th>部门</th>
+                <th>姓名</th>
                 <th>手机号</th>
                 <th>固话</th>
                 <th>邮箱</th>
@@ -43,8 +43,8 @@
             <tbody class="pn-ltbody">
             <c:forEach items="${userInfoList}" var="user" varStatus="status">
                 <tr>
-                    <td align=center>${user.nickname}</td>
                     <td align=center>${user.category.name}</td>
+                    <td align=center>${user.nickname}</td>
                     <td align=center>${user.mobile}</td>
                     <td align=center>${user.phone}</td>
                     <td align=center>${user.email}</td>

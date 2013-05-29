@@ -457,6 +457,9 @@ public class UserInfoManagerController extends BaseController {
         if (StringUtils.isNotBlank(userId)) {
             userInfo = userInfoDao.getUserById(userId);
             opt = "update";
+        }else{
+            //默认为用户激活状态
+            userInfo.setIsLive(1);
         }
         //获取所有角色
         List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
@@ -635,7 +638,7 @@ public class UserInfoManagerController extends BaseController {
         ModelAndView mav = new ModelAndView();
 
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
-        pageBean = new PageBean();
+        pageBean = new PageBean(30);
         pageBean.setCurPage(curPage);
 
         String keyword = WebUtils.getRequestParameterAsString(request, "keyword");

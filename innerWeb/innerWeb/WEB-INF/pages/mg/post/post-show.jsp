@@ -150,7 +150,7 @@
 	            	</tr>
             	</c:otherwise>
             </c:choose>
-            <tr>
+            <%--<tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否最新:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="radio" name="hot" id="hot" value="0"
@@ -158,9 +158,8 @@
                     <input type="radio" name="hot" id="hot" value="1"
                            <c:if test="${post.hot == 1}">checked="checked"</c:if> />是&nbsp;
                 </td>
-            </tr>
-            <c:if test="${categoryParent.categoryType eq 'notices' }">
-            <tr>
+            </tr>--%>
+            <%--<tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否为焦点图片:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="radio" name="focusImage" id="focusImage" value="0"
@@ -168,8 +167,7 @@
                     <input type="radio" name="focusImage" id="focusImage" value="1"
                            <c:if test="${post.focusImage == 1}">checked="checked"</c:if> />是&nbsp;
                 </td>
-            </tr>
-            </c:if>
+            </tr>--%>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>摘要描述:</td>
                 <td width="85%" class="pn-fcontent">

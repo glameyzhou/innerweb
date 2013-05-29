@@ -9,6 +9,7 @@ import com.glamey.innerweb.dao.PostDao;
 import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.Links;
 import com.glamey.innerweb.model.domain.MetaInfo;
+import com.glamey.innerweb.model.dto.FriendlyLinksDTO;
 import com.glamey.innerweb.model.dto.LinksQuery;
 import com.glamey.innerweb.model.dto.MessageQuery;
 
@@ -19,6 +20,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,10 +76,14 @@ public class IncludeFront {
         ModelMap modelMap = new ModelMap();
 
         //友情链接内容显示
-        Map<Category, List<Links>> friendlyLinksMap = new HashMap<Category, List<Links>>();
+        List<FriendlyLinksDTO> friendlyLinksDTOs = new ArrayList<FriendlyLinksDTO>();
         Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEOGRY_FRIENDLYLINKS);
         List<Category> friendlyLinksCategory = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
+
+        FriendlyLinksDTO dto = null ;
         for (Category category : friendlyLinksCategory) {
+            dto = new FriendlyLinksDTO();
+
             LinksQuery query = new LinksQuery();
             query.setCategoryId(category.getId());
             query.setCategoryType(category.getCategoryType());
@@ -86,9 +92,12 @@ public class IncludeFront {
             query.setNum(10);
             List<Links> linksList = linksDao.getByParentId(query);
 
-            friendlyLinksMap.put(category, linksList);
+            dto.setCategory(category);
+            dto.setLinksList(linksList);
+
+            friendlyLinksDTOs.add(dto);
         }
-        modelMap.addAttribute("friendlyLinksMap", friendlyLinksMap);
+        modelMap.addAttribute("friendlyLinksDTOs", friendlyLinksDTOs);
 
         return modelMap;
     }

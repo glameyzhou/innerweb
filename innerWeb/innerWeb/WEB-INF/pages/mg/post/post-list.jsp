@@ -125,10 +125,8 @@
                     <a href="javascript:pageOperate('postId','0','4','${category.id}');">审核未过</a>&nbsp;&nbsp;
                 </c:if>
             </c:if>
-            <c:if test="${categoryParent.categoryType eq 'notices' }">
-            <a href="javascript:pageOperate('postId','1','5','${category.id}');">设置焦点图</a>&nbsp;&nbsp;
-            <a href="javascript:pageOperate('postId','0','5','${category.id}');">取消焦点图</a>&nbsp;&nbsp;
-            </c:if>
+            <%--<a href="javascript:pageOperate('postId','1','5','${category.id}');">设置焦点图</a>&nbsp;&nbsp;
+            <a href="javascript:pageOperate('postId','0','5','${category.id}');">取消焦点图</a>&nbsp;&nbsp;--%>
 		</div>
 		<table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
 			<thead class="pn-lthead">
@@ -143,9 +141,7 @@
 				<c:if test="${categoryParent.categoryType eq 'notices' }">
 				<th width="5%">审核</th>
 				</c:if>
-                <c:if test="${categoryParent.categoryType eq 'notices' }">
-				<th width="5%">焦点图</th>
-                </c:if>
+				<%--<th width="5%">焦点图</th>--%>
 				<th width="10%">发布时间</th>
 				<th width="10%">操作</th>
 			</tr>
@@ -163,9 +159,7 @@
 				<c:if test="${categoryParent.categoryType eq 'notices' }">
 				<td align=center><c:choose><c:when test="${post.apply == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
 				</c:if>
-                <c:if test="${categoryParent.categoryType eq 'notices' }">
-				<td align=center><c:choose><c:when test="${post.focusImage == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
-                </c:if>
+				<%--<td align=center><c:choose><c:when test="${post.focusImage == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>--%>
 				<td align=center>${post.time}</td>
 				<td align=center>
                     <c:if test="${fmtString:hasRightsList(rightsList,updateId )}">

@@ -259,6 +259,13 @@ public class PostManagerController extends BaseController {
         if (StringUtils.isNotBlank(postId)) {
             post = postDao.getByPostId(postId);
             opt = "update";
+        }else{
+            //默认都是“是”
+            post.setShowIndex(1);
+            post.setShowList(1);
+            post.setApply(1);
+            post.setFocusImage(1);
+            post.setHot(1);
         }
         //设置发布人和发布部门
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
@@ -267,6 +274,7 @@ public class PostManagerController extends BaseController {
         Category deptCategory = categoryDao.getById(userInfo.getDeptId());
         post.setDeptCategory(deptCategory);
         post.setSource(deptCategory.getId());
+
 
         mav.addObject("opt", opt);
         mav.addObject("categoryParent", categoryParent);

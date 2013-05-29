@@ -63,7 +63,7 @@
                             <c:when test="${cate.showType == 0}">否</c:when><c:otherwise>是</c:otherwise>
                         </c:choose>
                     </td> --%>
-                    <td>${category.categoryOrder}</td>
+                    <td>${cate.categoryOrder}</td>
                     <td align="center">${fmtString:substring(cate.categoryTime,16)}</td>
                     <td align=center>
                         <a href="javascript:edit('${cate.id}');">编辑</a>&nbsp;&nbsp;

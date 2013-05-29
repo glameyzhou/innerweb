@@ -7,9 +7,9 @@
         </ul>
     </div>
     <div style="padding-left:20px; width:1200px; float:left;">
-    	<c:forEach items="${friendlyLinksMap}" var="flmap">
-    		<p>${flmap.key.name}：
-    		<c:forEach items="${flmap.value}" var="links">
+    	<c:forEach items="${friendlyLinksDTOs}" var="fr">
+    		<p>${fr.category.name}：
+    		<c:forEach items="${fr.linksList}" var="links">
     			<a href="${links.url}" target="_blank"><c:out value="${links.name}" />&nbsp;</a>
     		</c:forEach>
     		</p>
