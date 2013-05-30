@@ -105,9 +105,10 @@ public class IncludeFront {
         ModelMap modelMap = new ModelMap();
 
         //常用链接管理
-        Map<Category, List<Links>> ofenLinksMap = new HashMap<Category, List<Links>>();
+        List<FriendlyLinksDTO> linksDTOs = new ArrayList<FriendlyLinksDTO>();
         Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEGORY_OFENLINKS);
         List<Category> ofenLinksCategory = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
+        FriendlyLinksDTO dto = null ;
         for (Category category : ofenLinksCategory) {
             LinksQuery query = new LinksQuery();
             query.setCategoryId(category.getId());
@@ -117,9 +118,13 @@ public class IncludeFront {
             query.setNum(Integer.MAX_VALUE);
             List<Links> linksList = linksDao.getByParentId(query);
 
-            ofenLinksMap.put(category, linksList);
+            dto = new FriendlyLinksDTO();
+            dto.setCategory(category);
+            dto.setLinksList(linksList);
+
+            linksDTOs.add(dto);
         }
-        modelMap.addAttribute("ofenLinksMap", ofenLinksMap);
+        modelMap.addAttribute("linksDTOs", linksDTOs);
 
         return modelMap;
     }

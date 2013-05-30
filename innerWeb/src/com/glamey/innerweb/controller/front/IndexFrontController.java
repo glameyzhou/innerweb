@@ -60,19 +60,17 @@ public class IndexFrontController extends BaseController {
         MetaInfo noticeCanSee = metaInfoDao.getByName(SystemConstants.notices_can_see);
         MetaInfo noticesRoleInfo = metaInfoDao.getByName(SystemConstants.notices_who_can_see);
         //部门ID
-        String whoCanSee = null ;
-        if(StringUtils.equalsIgnoreCase(noticeCanSee.getValue(),"0")){
-            whoCanSee = userInfo.getDeptId() ;
-        }
-        else{
+        String whoCanSee = null;
+        if (StringUtils.equalsIgnoreCase(noticeCanSee.getValue(), "0")) {
+            whoCanSee = userInfo.getDeptId();
+        } else {
             String roleIds = noticesRoleInfo.getValue();
-            if(StringUtils.isNotBlank(roleIds)){
-                String arrays [] = StringUtils.split(roleIds,",");
-                if(StringTld.hasRights(Arrays.asList(arrays),userInfo.getRoleId())){
-                    whoCanSee = null ; //查看所有的部门下文章
-                }
-                else{
-                    whoCanSee = userInfo.getDeptId() ;
+            if (StringUtils.isNotBlank(roleIds)) {
+                String arrays[] = StringUtils.split(roleIds, ",");
+                if (StringTld.hasRights(Arrays.asList(arrays), userInfo.getRoleId())) {
+                    whoCanSee = null; //查看所有的部门下文章
+                } else {
+                    whoCanSee = userInfo.getDeptId();
                 }
             }
         }

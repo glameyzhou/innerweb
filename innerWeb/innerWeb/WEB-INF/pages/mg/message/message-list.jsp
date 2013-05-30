@@ -20,8 +20,7 @@
 		if(!confirm("确定要删除?")){
 			return ;
 		}
-        var locationURL = "${basePath}mg/message/message-pageOperate.htm?messageId=" + messageId + "&opFlat=1";
-        alert(locationURL);
+        var locationURL = "${basePath}mg/message/message-pageOperate.htm?messageId=" + messageId + "&opFlag=1";
 		window.location = locationURL ;
 	}
     /**
@@ -44,12 +43,10 @@
 			if(values.length > 1)
 				values = values.substring(1);
             var opURL = "${basePath}mg/message/message-pageOperate.htm?messageId=" + values + "&opFlag=" + opFlag;
-            alert(opURL);
             window.location = opURL ;
 		}
 	}
 </script>
-<script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 <div class="body-box">

@@ -17,10 +17,10 @@
     </div>
     <div class="body_left_con1">
         <ul>
-            <c:forEach items="${ofenLinksMap}" var="olmap">
+            <c:forEach items="${linksDTOs}" var="ol">
                 <li>
                     <select name="" class="xiala" onchange="javascript:jumpLinks(this.value);">
-                        <c:forEach items="${olmap.value}" var="links">
+                        <c:forEach items="${ol.linksList}" var="links">
                             <option value="${links.url}">------${links.name}------</option>
                         </c:forEach>
                     </select>
