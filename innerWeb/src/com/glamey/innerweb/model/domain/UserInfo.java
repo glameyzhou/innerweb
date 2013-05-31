@@ -16,6 +16,7 @@ public class UserInfo implements Serializable {
     private String username;
     private String passwd;
     private String nickname;
+    private String nicknamePinyin;
     private String phone;
     private String mobile;
     private String email;
@@ -23,6 +24,10 @@ public class UserInfo implements Serializable {
     private String deptId;
     private int isLive;
     private Date time;
+    /*是否显示在通讯录中 1=是 0=否*/
+    private int showInContact;
+    /*用户排序*/
+    private int showOrder;
     /*部门*/
     private Category category = new Category();
     private String roleId;
@@ -139,6 +144,30 @@ public class UserInfo implements Serializable {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getNicknamePinyin() {
+        return nicknamePinyin;
+    }
+
+    public void setNicknamePinyin(String nicknamePinyin) {
+        this.nicknamePinyin = nicknamePinyin;
+    }
+
+    public int getShowInContact() {
+        return showInContact;
+    }
+
+    public void setShowInContact(int showInContact) {
+        this.showInContact = showInContact;
+    }
+
+    public int getShowOrder() {
+        return showOrder;
+    }
+
+    public void setShowOrder(int showOrder) {
+        this.showOrder = showOrder;
     }
 
     @Override

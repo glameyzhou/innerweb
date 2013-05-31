@@ -39,7 +39,7 @@
                         <c:if test="${query.roleId eq role.roleId}">selected="selected" </c:if>>${role.roleName}</option>
             </c:forEach>
         </select>&nbsp;&nbsp;
-            部门&nbsp;<select name="deptId" id="deptId">
+            部门&nbsp;<select name="deptId" id="deptId" <c:if test="${!isSuper}">disabled="disabled"</c:if> >
             <option value="">请选择</option>
             <c:forEach var="dept" items="${deptInfoList}">
                 <option value="${dept.id}"

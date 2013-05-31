@@ -1,26 +1,6 @@
 package com.glamey.innerweb.controller.manager;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.glamey.framework.utils.BlowFish;
-import com.glamey.framework.utils.PageBean;
-import com.glamey.framework.utils.StringTools;
-import com.glamey.framework.utils.WebUtils;
+import com.glamey.framework.utils.*;
 import com.glamey.innerweb.constants.CategoryConstants;
 import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.controller.BaseController;
@@ -32,6 +12,21 @@ import com.glamey.innerweb.model.domain.RoleInfo;
 import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.UserQuery;
 import com.glamey.innerweb.util.WebUploadUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户管理
@@ -128,7 +123,7 @@ public class UserInfoManagerController extends BaseController {
         rightsInfo.setRightsValue(WebUtils.getRequestParameterAsString(request, "rightsValue"));
         if (userInfoDao.createRights(rightsInfo)) {
             mav.addObject("message", "创建功能权限成功");
-            mav.addObject("href","mg/user/rights-list.htm");
+            mav.addObject("href", "mg/user/rights-list.htm");
         } else {
             mav.addObject("message", "创建用户失败");
         }
@@ -160,7 +155,7 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.updateRights(rightsInfo)) {
             mav.addObject("message", "更新功能权限成功");
-            mav.addObject("href","mg/user/rights-list.htm");
+            mav.addObject("href", "mg/user/rights-list.htm");
         } else {
             mav.addObject("message", "更新功能权限失败");
         }
@@ -265,19 +260,19 @@ public class UserInfoManagerController extends BaseController {
         mav.addObject("roleInfo", roleInfo);
         mav.addObject("opt", opt);
         mav.setViewName("mg/user/role-show");
-        
+
         //新闻分类
         Category categoryNews = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NEWS);
-        List<Category> categoryNewsList = categoryDao.getByParentId(categoryNews.getId(), categoryNews.getCategoryType(),0,Integer.MAX_VALUE);
-        mav.addObject("categoryNews",categoryNews);
-        mav.addObject("categoryNewsList",categoryNewsList);
+        List<Category> categoryNewsList = categoryDao.getByParentId(categoryNews.getId(), categoryNews.getCategoryType(), 0, Integer.MAX_VALUE);
+        mav.addObject("categoryNews", categoryNews);
+        mav.addObject("categoryNewsList", categoryNewsList);
         
         /*通知通告分类管理*/
         Category categoryNotices = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NOTICES);
-        List<Category> categoryNoticesList = categoryDao.getByParentId(categoryNotices.getId(),categoryNotices.getCategoryType(),0,Integer.MAX_VALUE);
-        mav.addObject("categoryNotices",categoryNotices);
-        mav.addObject("categoryNoticesList",categoryNoticesList);
-        
+        List<Category> categoryNoticesList = categoryDao.getByParentId(categoryNotices.getId(), categoryNotices.getCategoryType(), 0, Integer.MAX_VALUE);
+        mav.addObject("categoryNotices", categoryNotices);
+        mav.addObject("categoryNoticesList", categoryNoticesList);
+
         return mav;
     }
 
@@ -298,9 +293,9 @@ public class UserInfoManagerController extends BaseController {
         roleInfo.setRoleName(WebUtils.getRequestParameterAsString(request, "roleName"));
         roleInfo.setRoleDesc(WebUtils.getRequestParameterAsString(request, "roleDesc"));
         String rights[] = WebUtils.getRequestParameterAsStringArrs(request, "rightsId");
-        if(rights == null || rights.length == 0){
-            mav.addObject("message","请选择功能点");
-            return mav ;
+        if (rights == null || rights.length == 0) {
+            mav.addObject("message", "请选择功能点");
+            return mav;
         }
         StringBuffer sb = new StringBuffer();
         for (String right : rights) {
@@ -310,7 +305,7 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.createRole(roleInfo)) {
             mav.addObject("message", "创建系统角色成功");
-            mav.addObject("href","mg/user/role-list.htm");
+            mav.addObject("href", "mg/user/role-list.htm");
         } else {
             mav.addObject("message", "创建系统角色失败");
         }
@@ -338,9 +333,9 @@ public class UserInfoManagerController extends BaseController {
         roleInfo.setRoleName(WebUtils.getRequestParameterAsString(request, "roleName"));
         roleInfo.setRoleDesc(WebUtils.getRequestParameterAsString(request, "roleDesc"));
         String rights[] = WebUtils.getRequestParameterAsStringArrs(request, "rightsId");
-        if(rights == null || rights.length == 0){
-            mav.addObject("message","请选择功能点");
-            return mav ;
+        if (rights == null || rights.length == 0) {
+            mav.addObject("message", "请选择功能点");
+            return mav;
         }
         StringBuffer sb = new StringBuffer();
         for (String right : rights) {
@@ -350,7 +345,7 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.updateRole(roleInfo)) {
             mav.addObject("message", "更新系统角色成功");
-            mav.addObject("href","mg/user/role-list.htm");
+            mav.addObject("href", "mg/user/role-list.htm");
         } else {
             mav.addObject("message", "更新系统角色失败");
         }
@@ -400,8 +395,12 @@ public class UserInfoManagerController extends BaseController {
         logger.info("[manager-user-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
 
+        //如果是超级管理员的话，可以查看所有的用户，其他角色只能看本部门下的所有用户
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        boolean isSuper = StringUtils.equals(userInfo.getRoleId(), Constants.sysAdminRoleId);
+
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
-        pageBean = new PageBean();
+        pageBean = new PageBean(30);
         pageBean.setCurPage(curPage);
 
         String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
@@ -413,7 +412,9 @@ public class UserInfoManagerController extends BaseController {
         query.setKeyword(keyword);
         query.setRoleId(roleId);
         query.setIsLive(isLive);
-        query.setDeptId(deptId);
+        query.setOrderByColumnName(Constants.ORDERBYCOLUMNNAME_USER);
+        query.setOrderBy(Constants.ORDERBYASC);
+        query.setDeptId(isSuper ? deptId : userInfo.getDeptId());
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
 
@@ -434,6 +435,7 @@ public class UserInfoManagerController extends BaseController {
         mav.addObject("userInfoList", userInfoList);
         mav.addObject("deptInfoList", deptInfoList);
         mav.addObject("query", query);
+        mav.addObject("isSuper", isSuper);
         mav.addObject("pageBean", pageBean);
         mav.setViewName("mg/user/user-list");
         return mav;
@@ -451,15 +453,21 @@ public class UserInfoManagerController extends BaseController {
     public ModelAndView userShow(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-show]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
+
+        UserInfo userInfoSession = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        boolean isSuper = StringUtils.equals(userInfoSession.getRoleId(),Constants.sysAdminRoleId);
+
         UserInfo userInfo = new UserInfo();
         String opt = "create";
         String userId = WebUtils.getRequestParameterAsString(request, "userId");
         if (StringUtils.isNotBlank(userId)) {
             userInfo = userInfoDao.getUserById(userId);
             opt = "update";
-        }else{
+        } else {
             //默认为用户激活状态
             userInfo.setIsLive(1);
+            userInfo.setDeptId(userInfoSession.getDeptId());
+            userInfo.setShowInContact(1);
         }
         //获取所有角色
         List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
@@ -471,6 +479,7 @@ public class UserInfoManagerController extends BaseController {
         mav.addObject("deptInfoList", deptInfoList);
         mav.addObject("userInfo", userInfo);
         mav.addObject("opt", opt);
+        mav.addObject("isSuper", isSuper);
         mav.setViewName("mg/user/user-show");
         return mav;
     }
@@ -509,16 +518,24 @@ public class UserInfoManagerController extends BaseController {
         userInfo.setUsername(username);
         BlowFish bf = new BlowFish(Constants.SECRET_KEY);
         userInfo.setPasswd(bf.encryptString(passwd));
-        userInfo.setNickname(WebUtils.getRequestParameterAsString(request, "nickname"));
+        String nickName = WebUtils.getRequestParameterAsString(request, "nickname") ;
+        userInfo.setNickname(nickName);
+        userInfo.setNicknamePinyin(Pinyin4jUtils.getPinYin(nickName));
         userInfo.setPhone(WebUtils.getRequestParameterAsString(request, "phone"));
         userInfo.setMobile(WebUtils.getRequestParameterAsString(request, "mobile"));
         userInfo.setEmail(WebUtils.getRequestParameterAsString(request, "email"));
         userInfo.setAddress(WebUtils.getRequestParameterAsString(request, "address"));
         userInfo.setIsLive(WebUtils.getRequestParameterAsInt(request, "isLive", 0));
+        userInfo.setShowInContact(WebUtils.getRequestParameterAsInt(request,"showInContact",1));
+        userInfo.setShowOrder(WebUtils.getRequestParameterAsInt(request,"showOrder",0));
 
         if (userInfoDao.createUser(userInfo)) {
-            mav.addObject("message", "创建系统用户成功");
-            mav.addObject("href","mg/user/user-list.htm");
+            //比较变态的需求，新建用户之后，以该用户登陆系统
+            mav.addObject("message", "创建系统用户成功，确定后以该用户登陆");
+            mav.addObject("href", "mg/home.htm");
+            userInfo = userInfoDao.getUserByName(username);
+            session.setAttribute(Constants.SESSIN_USERID, userInfo);
+
         } else {
             mav.addObject("message", "创建系统用户失败");
         }
@@ -545,12 +562,12 @@ public class UserInfoManagerController extends BaseController {
 
         UserInfo userInfo = userInfoDao.getUserById(userId);
         String roleId = WebUtils.getRequestParameterAsString(request, "roleId");
-        if(StringUtils.isNotBlank(roleId)){
-        	userInfo.setRoleId(roleId);
+        if (StringUtils.isNotBlank(roleId)) {
+            userInfo.setRoleId(roleId);
         }
-        String deptId = WebUtils.getRequestParameterAsString(request, "deptId") ;
-        if(StringUtils.isNotBlank(deptId)){
-        	userInfo.setDeptId(deptId);
+        String deptId = WebUtils.getRequestParameterAsString(request, "deptId");
+        if (StringUtils.isNotBlank(deptId)) {
+            userInfo.setDeptId(deptId);
         }
         userInfo.setUsername(WebUtils.getRequestParameterAsString(request, "username"));
         String passwd = WebUtils.getRequestParameterAsString(request, "passwd");
@@ -558,12 +575,16 @@ public class UserInfoManagerController extends BaseController {
             BlowFish bf = new BlowFish(Constants.SECRET_KEY);
             userInfo.setPasswd(bf.encryptString(passwd));
         }
-        userInfo.setNickname(WebUtils.getRequestParameterAsString(request, "nickname"));
+        String nickName = WebUtils.getRequestParameterAsString(request, "nickname") ;
+        userInfo.setNickname(nickName);
+        userInfo.setNicknamePinyin(Pinyin4jUtils.getPinYin(nickName));
         userInfo.setPhone(WebUtils.getRequestParameterAsString(request, "phone"));
         userInfo.setMobile(WebUtils.getRequestParameterAsString(request, "mobile"));
         userInfo.setEmail(WebUtils.getRequestParameterAsString(request, "email"));
         userInfo.setAddress(WebUtils.getRequestParameterAsString(request, "address"));
         userInfo.setIsLive(WebUtils.getRequestParameterAsInt(request, "isLive", 0));
+        userInfo.setShowInContact(WebUtils.getRequestParameterAsInt(request,"showInContact",1));
+        userInfo.setShowOrder(WebUtils.getRequestParameterAsInt(request,"showOrder",0));
 
         if (userInfoDao.updateUser(userInfo)) {
             mav.addObject("message", "更新系统用户成功");
@@ -606,6 +627,7 @@ public class UserInfoManagerController extends BaseController {
 
         return mav;
     }
+
     //查看个人信息
     @RequestMapping(value = "/user-psersonal-show.htm", method = RequestMethod.GET)
     public ModelAndView personalShow(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -625,14 +647,14 @@ public class UserInfoManagerController extends BaseController {
 
         mav.addObject("roleInfoList", roleInfoList);
         mav.addObject("deptInfoList", deptInfoList);
-        mav.addObject("userInfo",userInfo);
-        mav.addObject("opt","update");
+        mav.addObject("userInfo", userInfo);
+        mav.addObject("opt", "update");
         mav.setViewName("mg/user/user-personal-show");
         return mav;
     }
 
     /*通讯录*/
-    @RequestMapping(value = "/contact.htm",method = RequestMethod.GET)
+    @RequestMapping(value = "/contact.htm", method = RequestMethod.GET)
     public ModelAndView userContact(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-contact]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
@@ -649,6 +671,9 @@ public class UserInfoManagerController extends BaseController {
         query.setDeptId(deptId);
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
+        query.setOrderBy(Constants.ORDERBYASC);
+        query.setOrderByColumnName(Constants.ORDERBYCOLUMNNAME_SHOWORDER);
+        query.setShowInContact(1);
 
         //获取符合条件的所有用户
         List<UserInfo> userInfoList = userInfoDao.getUserList(query);
@@ -670,7 +695,7 @@ public class UserInfoManagerController extends BaseController {
 
     /*通过部门查询所有的成员*/
     @ResponseBody
-    @RequestMapping(value = "/getUserByDeptId.htm",method = RequestMethod.GET)
+    @RequestMapping(value = "/getUserByDeptId.htm", method = RequestMethod.GET)
     public void getUserByDeptId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-getUserByDeptId]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();

@@ -32,6 +32,7 @@
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
             <tr>
+                <th width="10%">显示顺序</th>
                 <th>部门</th>
                 <th>姓名</th>
                 <th>手机号</th>
@@ -43,6 +44,7 @@
             <tbody class="pn-ltbody">
             <c:forEach items="${userInfoList}" var="user" varStatus="status">
                 <tr>
+                    <td align=center>${user.showOrder}</td>
                     <td align=center>${user.category.name}</td>
                     <td align=center>${user.nickname}</td>
                     <td align=center>${user.mobile}</td>

@@ -118,6 +118,9 @@
         <li><a href="${basePath}mg/sys/sys-list.htm" target="mainFrame">全局配置</a></li>
     </c:if>
 
+
+    <li><a href="${basePath}mg/library/category-list.htm?pid=0&id=0" target="mainFrame">微型图书馆分类管理</a></li>
+
 </ul>
 </body>
 </html>

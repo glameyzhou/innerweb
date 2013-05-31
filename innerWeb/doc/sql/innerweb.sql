@@ -3,14 +3,14 @@ Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
 Source Server Version : 50022
-Source Host           : 127.0.0.1:3306
+Source Host           : localhost:3306
 Source Database       : innerweb
 
 Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-05-27 07:39:01
+Date: 2013-06-01 06:18:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -41,7 +41,7 @@ CREATE TABLE `tbl_category` (
 INSERT INTO `tbl_category` VALUES ('2meuyy', '友情链接', '友情链接', 'friendlyLinks', '友情链接', '0', '1', '0', '0', 'friendlyLinks', null, '2013-05-07 08:14:55');
 INSERT INTO `tbl_category` VALUES ('3u6rmu', '煤炭清洁利用研发中心', '煤炭清洁利用', 'mtqjlyyfzx', '煤炭清洁利用研发中心', '0', '1', '8', 'm226Ff', 'news', null, '2013-05-20 11:09:00');
 INSERT INTO `tbl_category` VALUES ('6JJVnm', '集团部门', '集团部门', 'dept', '集团部门', '0', '0', '0', '0', 'dept', null, null);
-INSERT INTO `tbl_category` VALUES ('7B7rIb', '政府部门', '政府部门', 'gv', '政府部门', '0', '0', '1', '2meuyy', 'friendlyLinks', null, '2013-05-16 16:30:25');
+INSERT INTO `tbl_category` VALUES ('7B7rIb', '政府部门', '政府部门', 'gv', '政府部门', '0', '0', '11', '2meuyy', 'friendlyLinks', null, '2013-05-16 16:30:25');
 INSERT INTO `tbl_category` VALUES ('aENvee', '页岩气研发中心', '页岩气', 'yyqyfzx', '页岩气研发中心', '0', '1', '7', 'm226Ff', 'news', null, '2013-05-20 11:08:32');
 INSERT INTO `tbl_category` VALUES ('Bbq6n2', '综合管理部', '综合管理部', 'zongheguanlibu', '综合管理部', '0', '1', '2', 'm226Ff', 'news', null, '2013-05-20 11:06:33');
 INSERT INTO `tbl_category` VALUES ('beu6Nv', '视频链接', '视频链接', 'ofenLinksVidos', '视频链接', '0', '1', '2', 'memAvy', 'ofenLinks', null, '2013-05-25 10:12:01');
@@ -211,6 +211,7 @@ INSERT INTO `tbl_post_read` VALUES ('6JNNve', 'biymau', '2013-05-23 23:47:44');
 INSERT INTO `tbl_post_read` VALUES ('677jqu', 'biymau', '2013-05-25 10:51:55');
 INSERT INTO `tbl_post_read` VALUES ('677jqu', 'fUJRFr', '2013-05-25 11:23:14');
 INSERT INTO `tbl_post_read` VALUES ('NrEJNb', 'biymau', '2013-05-26 13:54:27');
+INSERT INTO `tbl_post_read` VALUES ('Ub2Q3e', 'biymau', '2013-05-29 17:26:04');
 
 -- ----------------------------
 -- Table structure for `tbl_rights`
@@ -260,7 +261,7 @@ CREATE TABLE `tbl_role` (
 -- Records of tbl_role
 -- ----------------------------
 INSERT INTO `tbl_role` VALUES ('zA3eem', '超级系统管理员', '超级系统管理员', '01,01_news_qQJvEz_create,01_news_qQJvEz_delete,01_news_qQJvEz_update,01_news_Bbq6n2_create,01_news_Bbq6n2_delete,01_news_Bbq6n2_update,01_news_remuEb_create,01_news_remuEb_delete,01_news_remuEb_update,01_news_IfM7Zz_create,01_news_IfM7Zz_delete,01_news_IfM7Zz_update,01_news_Q7BJzm_create,01_news_Q7BJzm_delete,01_news_Q7BJzm_update,01_news_RBVBVf_create,01_news_RBVBVf_delete,01_news_RBVBVf_update,01_news_aENvee_create,01_news_aENvee_delete,01_news_aENvee_update,01_news_3u6rmu_create,01_news_3u6rmu_delete,01_news_3u6rmu_update,01_news_MJfmQz_create,01_news_MJfmQz_delete,01_news_MJfmQz_update,01_news_rm6nQv_create,01_news_rm6nQv_delete,01_news_rm6nQv_update,01_news_I3meqq_create,01_news_I3meqq_delete,01_news_I3meqq_update,02,02_notices_bY3Uju_create,02_notices_bY3Uju_delete,02_notices_bY3Uju_update,02_notices_bY3Uju_permit,02_notices_mYre2a_create,02_notices_mYre2a_delete,02_notices_mYre2a_update,02_notices_mYre2a_permit,03,04,05,06,07,08,09,10', '2013-05-25 19:33:38');
-INSERT INTO `tbl_role` VALUES ('JrMBRf', '管理员', '管理员（管理用户）', '01,01_news_qQJvEz_create,01_news_qQJvEz_delete,01_news_qQJvEz_update,01_news_Bbq6n2_create,01_news_Bbq6n2_delete,01_news_Bbq6n2_update,01_news_remuEb_create,01_news_remuEb_delete,01_news_remuEb_update,01_news_IfM7Zz_create,01_news_IfM7Zz_delete,01_news_IfM7Zz_update,01_news_Q7BJzm_create,01_news_Q7BJzm_delete,01_news_Q7BJzm_update,01_news_RBVBVf_create,01_news_RBVBVf_delete,01_news_RBVBVf_update,01_news_aENvee_create,01_news_aENvee_delete,01_news_aENvee_update,01_news_3u6rmu_create,01_news_3u6rmu_delete,01_news_3u6rmu_update,01_news_MJfmQz_create,01_news_MJfmQz_delete,01_news_MJfmQz_update,01_news_rm6nQv_create,01_news_rm6nQv_delete,01_news_rm6nQv_update,01_news_I3meqq_create,01_news_I3meqq_delete,01_news_I3meqq_update,02,02_notices_mYre2a_create,02_notices_mYre2a_delete,02_notices_mYre2a_update,02_notices_mYre2a_permit', '2013-05-26 14:56:24');
+INSERT INTO `tbl_role` VALUES ('JrMBRf', '管理员', '管理员（管理用户）', '01,01_news_qQJvEz_create,01_news_qQJvEz_delete,01_news_qQJvEz_update,01_news_Bbq6n2_create,01_news_Bbq6n2_delete,01_news_Bbq6n2_update,01_news_remuEb_create,01_news_remuEb_delete,01_news_remuEb_update,01_news_IfM7Zz_create,01_news_IfM7Zz_delete,01_news_IfM7Zz_update,01_news_Q7BJzm_create,01_news_Q7BJzm_delete,01_news_Q7BJzm_update,01_news_RBVBVf_create,01_news_RBVBVf_delete,01_news_RBVBVf_update,01_news_aENvee_create,01_news_aENvee_delete,01_news_aENvee_update,01_news_3u6rmu_create,01_news_3u6rmu_delete,01_news_3u6rmu_update,01_news_MJfmQz_create,01_news_MJfmQz_delete,01_news_MJfmQz_update,01_news_rm6nQv_create,01_news_rm6nQv_delete,01_news_rm6nQv_update,01_news_I3meqq_create,01_news_I3meqq_delete,01_news_I3meqq_update,02,02_notices_mYre2a_create,02_notices_mYre2a_delete,02_notices_mYre2a_update,02_notices_mYre2a_permit,08,09', '2013-05-31 11:56:42');
 INSERT INTO `tbl_role` VALUES ('rYBVfy', '国产', 'sfd', '01_qQJvEz_create,01_qQJvEz_delete,01_qQJvEz_update,01_Bbq6n2_delete,01_Bbq6n2_update,01_remuEb_delete,01_remuEb_update,01_IfM7Zz_delete,01_IfM7Zz_update,01_Q7BJzm_create,01_Q7BJzm_delete,01_Q7BJzm_update,01_RBVBVf_create,01_RBVBVf_delete,01_RBVBVf_update,01_aENvee_create,01_aENvee_delete,01_aENvee_update,01_3u6rmu_create,01_3u6rmu_delete,01_3u6rmu_update,01_MJfmQz_create,01_MJfmQz_delete,01_MJfmQz_update,01_rm6nQv_create,01_rm6nQv_delete,01_rm6nQv_update,01_I3meqq_create,01_I3meqq_delete,01_I3meqq_update,02,02_bY3Uju_create,02_bY3Uju_delete,02_bY3Uju_update,02_bY3Uju_permit,02_mYre2a_create,02_mYre2a_delete,02_mYre2a_update,02_mYre2a_permit,03,04,05,06,07,08,09', '2013-05-25 18:42:28');
 
 -- ----------------------------
@@ -280,13 +281,17 @@ CREATE TABLE `tbl_user` (
   `user_role_id` varchar(100) default NULL,
   `user_islive` tinyint(4) default '0' COMMENT '是否激活 1=是 0=否',
   `user_time` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
+  `user_nicknamepinyin` varchar(500) default NULL COMMENT '昵称拼音',
+  `user_showorder` int(11) default '0' COMMENT '用户显示顺序',
+  `user_isincontact` tinyint(4) default '1' COMMENT '是否显示在通讯录中1=是 0=否',
   PRIMARY KEY  (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('2aEJ3e', 'testjjy', 'd3ee17c56c580eefcf0d8ee57bcfea24bdeb2c5719f1d0f7', 'test-技经院', '', '12123123211', '', '', 'i2ima2', 'zA3eem', '1', '2013-05-22 23:34:24');
-INSERT INTO `tbl_user` VALUES ('biymau', 'admin', '3bac8cc87db33021623d0d88a287982a5845b3c1989b620c', '测试超级系统管理员', '12311', '12123123211', '12311', '123111', 'zeMvu2', 'zA3eem', '1', '2013-05-25 11:24:16');
-INSERT INTO `tbl_user` VALUES ('fUJRFr', 'keji', 'cd3424bbc0ae5ec3157d5460e0a367298122f5d9cfdfd97d', '科技管理', '', '1234567', '', '', 'Uvuyqy', 'zA3eem', '1', '2013-05-25 11:13:48');
-INSERT INTO `tbl_user` VALUES ('UNb63y', 'zhouyang', 'dec6844dcb3d95770e74a8cfe9906c46da9726aff05388f012f855b6a39724d3', '周杨', '', '15011150369', '', '', 'Uvuyqy', 'JrMBRf', '1', '2013-05-26 14:50:21');
+INSERT INTO `tbl_user` VALUES ('2aEJ3e', 'testjjy', 'd3ee17c56c580eefcf0d8ee57bcfea24bdeb2c5719f1d0f7', 'test-技经院', '', '12123123211', '', '', 'i2ima2', 'zA3eem', '1', '2013-05-31 14:12:56', 'TEST-jijingyuan', '0', '1');
+INSERT INTO `tbl_user` VALUES ('biymau', 'admin', '3bac8cc87db33021623d0d88a287982a5845b3c1989b620c', '测试超级系统管理员', '12311', '12123123211', '12311', '123111', 'zeMvu2', 'zA3eem', '1', '2013-05-31 14:08:12', null, '0', null);
+INSERT INTO `tbl_user` VALUES ('fUJRFr', 'keji', 'cd3424bbc0ae5ec3157d5460e0a367298122f5d9cfdfd97d', '科技管理', '', '1234567', '', '', 'Uvuyqy', 'zA3eem', '1', '2013-05-25 11:13:48', null, '0', null);
+INSERT INTO `tbl_user` VALUES ('jMziim', 'glamey', '996dda8f380d3e66ef16d22828dca4d79a9d21fefcb271b0', 'glamey', 'asdf', 'asdfasdfasdfadfasdf', 'asdf', 'asdfasdf', 'zeMvu2', 'JrMBRf', '1', '2013-05-31 13:36:03', null, '0', null);
+INSERT INTO `tbl_user` VALUES ('UNb63y', 'zhouyang', 'dec6844dcb3d95770e74a8cfe9906c46da9726aff05388f012f855b6a39724d3', '周杨', '', '15011150369', '', '', 'Uvuyqy', 'JrMBRf', '1', '2013-05-31 14:14:15', 'zhouyang', '0', '1');

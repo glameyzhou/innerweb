@@ -37,11 +37,11 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>部门:</td>
                 <td width="85%" class="pn-fcontent">
-                    <select id="deptId" name="deptId" class="required">
+                    <select id="deptId" name="deptId" class="required"  <c:if test="${!isSuper}">disabled="disabled"</c:if> >
                         <option value="">请选择</option>
                         <c:forEach items="${deptInfoList}" var="dept">
                             <option value="${dept.id}"
-                                    <c:if test="${userInfo.category.id eq dept.id}">selected</c:if>>${dept.name}</option>
+                                    <c:if test="${userInfo.deptId eq dept.id}">selected</c:if>>${dept.name}</option>
                         </c:forEach>
                     </select>
                 </td>
@@ -114,6 +114,15 @@
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="address" id="address" size="100"
                            value="${userInfo.address}">
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否显示在通讯录中:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="radio" name="showInContact" id="showInContact" value="0"
+                           <c:if test="${userInfo.showInContact == 0}">checked="checked"</c:if> />不显示&nbsp;
+                    <input type="radio" name="showInContact" id="showInContact" value="1"
+                           <c:if test="${userInfo.showInContact == 1}">checked="checked"</c:if> />显示&nbsp;
                 </td>
             </tr>
             <tr>

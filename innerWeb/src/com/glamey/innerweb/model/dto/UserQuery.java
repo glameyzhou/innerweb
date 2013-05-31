@@ -11,10 +11,14 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class UserQuery {
     private String keyword;
     private String roleId;
-    private String deptId ;
-    private int isLive = -1 ;
+    private String deptId;
+    private int isLive = -1;
     private int start;
     private int num;
+    private String orderByColumnName;
+    private String orderBy;
+    /*是否显示在通讯录中 1=是 0=否*/
+    private int showInContact = -1 ;
 
     public String getKeyword() {
         return keyword;
@@ -62,6 +66,30 @@ public class UserQuery {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public String getOrderByColumnName() {
+        return orderByColumnName;
+    }
+
+    public void setOrderByColumnName(String orderByColumnName) {
+        this.orderByColumnName = orderByColumnName;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public int getShowInContact() {
+        return showInContact;
+    }
+
+    public void setShowInContact(int showInContact) {
+        this.showInContact = showInContact;
     }
 
     @Override

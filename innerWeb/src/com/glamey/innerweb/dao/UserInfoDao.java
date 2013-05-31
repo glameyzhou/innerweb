@@ -422,8 +422,9 @@ public class UserInfoDao extends BaseDao {
         logger.info("[UserInfoDao] #createUser# " + userInfo);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_user(user_id,user_name,user_passwd,user_nickname,user_phone,user_mobile,user_email,user_address,user_dept_id,user_role_id,user_islive,user_time)" +
-                            " values(?,?,?,?,?,?,?,?,?,?,?,?)",
+                    "insert into tbl_user(user_id,user_name,user_passwd,user_nickname,user_phone,user_mobile,user_email,user_address,user_dept_id,user_role_id,user_islive,user_time," +
+                            "user_nicknamepinyin,user_showorder,user_isincontact)" +
+                            " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -440,6 +441,9 @@ public class UserInfoDao extends BaseDao {
                             pstmt.setString(++i, userInfo.getRoleId());
                             pstmt.setInt(++i, userInfo.getIsLive());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
+                            pstmt.setString(++i,userInfo.getNicknamePinyin());
+                            pstmt.setInt(++i,userInfo.getShowOrder());
+                            pstmt.setInt(++i,userInfo.getShowInContact());
                         }
                     });
             return count > 0;
@@ -459,7 +463,8 @@ public class UserInfoDao extends BaseDao {
         logger.info("[UserInfoDao] #updateUser# " + userInfo);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_user set user_passwd=?,user_nickname=?,user_phone=?,user_mobile=?,user_email=?,user_address=?,user_dept_id=?,user_role_id=?,user_islive=? ,user_time=? where user_id = ? ",
+                    "update tbl_user set user_passwd=?,user_nickname=?,user_phone=?,user_mobile=?,user_email=?,user_address=?,user_dept_id=?,user_role_id=?,user_islive=? ,user_time=?" +
+                            ",user_nicknamepinyin=?,user_showorder=?,user_isincontact=? where user_id = ? ",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -474,6 +479,9 @@ public class UserInfoDao extends BaseDao {
                             pstmt.setString(++i, userInfo.getRoleId());
                             pstmt.setInt(++i, userInfo.getIsLive());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
+                            pstmt.setString(++i,userInfo.getNicknamePinyin());
+                            pstmt.setInt(++i,userInfo.getShowOrder());
+                            pstmt.setInt(++i,userInfo.getShowInContact());
                             pstmt.setString(++i, userInfo.getUserId());
 
                         }
@@ -533,7 +541,15 @@ public class UserInfoDao extends BaseDao {
             if (StringUtils.isNotBlank(query.getDeptId()))
                 sql.append(" and user_dept_id = ? ");
 
-            sql.append(" order by user_time desc limit ?,? ");
+            if (query.getShowInContact() > -1)
+                sql.append(" and user_isincontact = ? ");
+
+            if (StringUtils.isNotBlank(query.getOrderByColumnName()) && StringUtils.isNotBlank(query.getOrderBy()))
+                sql.append(" order by ? ? ");
+            else
+                sql.append(" order by user_time desc ");
+
+            sql.append(" limit ?,? ");
 
             list = jdbcTemplate.query(sql.toString(),
                     new PreparedStatementSetter() {
@@ -554,6 +570,14 @@ public class UserInfoDao extends BaseDao {
 
                             if (StringUtils.isNotBlank(query.getDeptId()))
                                 preparedstatement.setString(++i, query.getDeptId());
+
+                            if (query.getShowInContact() > -1)
+                                preparedstatement.setInt(++i, query.getShowInContact());
+
+                            if (StringUtils.isNotBlank(query.getOrderByColumnName()) && StringUtils.isNotBlank(query.getOrderBy())) {
+                                preparedstatement.setString(++i, query.getOrderByColumnName());
+                                preparedstatement.setString(++i, query.getOrderBy());
+                            }
 
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
@@ -598,6 +622,11 @@ public class UserInfoDao extends BaseDao {
                 sql.append(" and user_dept_id = ? ");
                 params.add(query.getDeptId());
             }
+            if (query.getShowInContact() > -1) {
+                sql.append(" and user_isincontact = ? ");
+                params.add(query.getShowInContact());
+            }
+
             count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
             return count;
         } catch (Exception e) {
@@ -634,6 +663,7 @@ public class UserInfoDao extends BaseDao {
 
     /**
      * 通过登录名获取对应的用户信息
+     *
      * @param username
      * @return
      */
@@ -653,19 +683,20 @@ public class UserInfoDao extends BaseDao {
             return userInfoList != null && userInfoList.size() > 0 ? userInfoList.get(0) : null;
         } catch (Exception e) {
             logger.error("[UserInfoDao] #getUserById# error " + username, e);
-            return null ;
+            return null;
         }
     }
 
     /**
      * 登陆校验
+     *
      * @param username
      * @param passwd
      * @return
      */
     @Deprecated
     public UserInfo checkUserByLogin(final String username, final String passwd) {
-        logger.info("[UserInfoDao] #checkUserByLogin# error " + String.format("username=%s,passwd=$s",username,passwd));
+        logger.info("[UserInfoDao] #checkUserByLogin# error " + String.format("username=%s,passwd=$s", username, passwd));
         String sql = "select * from tbl_user where user_name = ? and user_passwd = ? limit 1";
         try {
             List<UserInfo> userInfoList = new ArrayList<UserInfo>();
@@ -673,14 +704,14 @@ public class UserInfoDao extends BaseDao {
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement preparedStatement) throws SQLException {
-                            preparedStatement.setString(1,username);
-                            preparedStatement.setString(1,passwd);
+                            preparedStatement.setString(1, username);
+                            preparedStatement.setString(1, passwd);
                         }
                     },
                     new UserInfoRowMapper());
-            return userInfoList != null && userInfoList.size() > 0 ? userInfoList.get(0) : null ;
+            return userInfoList != null && userInfoList.size() > 0 ? userInfoList.get(0) : null;
         } catch (DataAccessException e) {
-            logger.error("[UserInfoDao] #checkUserByLogin# error " + String.format("username=%s,passwd=$s",username,passwd));
+            logger.error("[UserInfoDao] #checkUserByLogin# error " + String.format("username=%s,passwd=$s", username, passwd));
         }
         return null;
     }
@@ -694,6 +725,7 @@ public class UserInfoDao extends BaseDao {
             userInfo.setUsername(rs.getString("user_name"));
             userInfo.setPasswd(rs.getString("user_passwd"));
             userInfo.setNickname(rs.getString("user_nickname"));
+            userInfo.setNicknamePinyin(rs.getString("user_nicknamepinyin"));
             userInfo.setPhone(rs.getString("user_phone"));
             userInfo.setMobile(rs.getString("user_mobile"));
             userInfo.setEmail(rs.getString("user_email"));
@@ -701,6 +733,8 @@ public class UserInfoDao extends BaseDao {
             userInfo.setRoleId(rs.getString("user_role_id"));
             userInfo.setIsLive(rs.getInt("user_islive"));
             userInfo.setTime(rs.getTimestamp("user_time"));
+            userInfo.setShowInContact(rs.getInt("user_isincontact"));
+            userInfo.setShowOrder(rs.getInt("user_showorder"));
 
             String deptId = rs.getString("user_dept_id");
             Category category = categoryDao.getById(deptId);
@@ -726,12 +760,12 @@ public class UserInfoDao extends BaseDao {
             r.setRoleRightsIds(rs.getString("role_rights_id"));
             r.setRoleTime(rs.getTimestamp("role_time"));
             List<String> rightsList = new ArrayList<String>();
-            if(StringUtils.isNotBlank(r.getRoleRightsIds())){
-            	String arrays [] = StringUtils.split(r.getRoleRightsIds(), ",");
-            	for(String ar : arrays){
-            		rightsList.add(ar);
-            	}
-            	r.setRightsList(rightsList);
+            if (StringUtils.isNotBlank(r.getRoleRightsIds())) {
+                String arrays[] = StringUtils.split(r.getRoleRightsIds(), ",");
+                for (String ar : arrays) {
+                    rightsList.add(ar);
+                }
+                r.setRightsList(rightsList);
             }
 
             return r;

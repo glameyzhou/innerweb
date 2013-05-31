@@ -32,4 +32,10 @@ public class Constants {
      * 通告是否需要审核
      */
     public static int NOTICES_PERMIT = 1 ;
+
+    public static final String ORDERBYDESC = " desc " ;
+    public static final String ORDERBYASC = " asc " ;
+    /*用户信息表-昵称拼音*/
+    public static final String ORDERBYCOLUMNNAME_USER = " user_nicknamepinyin ";
+    public static final String ORDERBYCOLUMNNAME_SHOWORDER = " user_showorder ";
 }

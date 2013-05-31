@@ -1,10 +1,12 @@
 package com.glamey.innerweb.controller.manager;
 
+import com.glamey.framework.utils.Pinyin4jUtils;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.constants.CategoryConstants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.dto.CategoryQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -34,17 +36,16 @@ public class LibraryManagerController extends BaseController {
 
     @RequestMapping(value = "/category-list.htm", method = RequestMethod.GET)
     public ModelAndView categoryList(HttpServletRequest request, HttpServletResponse response) {
-        String pid = WebUtils.getRequestParameterAsString(request, "pid", "0");
+        String pid = WebUtils.getRequestParameterAsString(request, "pid","0");
         String id = WebUtils.getRequestParameterAsString(request, "id");
 
         Category pCategory = new Category();
         Category category = new Category();
-        if (!StringUtils.equals(pid, "0")) {
-            pCategory = categoryDao.getById(pid);
-        }
-        if (StringUtils.isNotBlank(id)) {
-            category = categoryDao.getById(id);
-        }
+
+        CategoryQuery query = new CategoryQuery();
+        query.setCategoryType(CategoryConstants.CATEGORY_LIBRARY);
+        query.setParentId(pid);
+
         List<Category> categoryList = categoryDao.getByParentId(pid, CategoryConstants.CATEGORY_LIBRARY, 0, Integer.MAX_VALUE);
 
         ModelAndView mav = new ModelAndView("mg/library/category-list");
@@ -58,6 +59,7 @@ public class LibraryManagerController extends BaseController {
 
     @RequestMapping(value = "/category-show.htm", method = RequestMethod.GET)
     public ModelAndView categoryShow(HttpServletRequest request, HttpServletResponse response) {
+        String pid = WebUtils.getRequestParameterAsString(request, "pid");
         String id = WebUtils.getRequestParameterAsString(request, "id");
         String opt = "create";
         Category category = new Category();
@@ -65,8 +67,14 @@ public class LibraryManagerController extends BaseController {
             category = categoryDao.getById(id);
         }
         Category pCategory = new Category();
+        if (StringUtils.equals(pid, "0") && StringUtils.isNotBlank(pid)) {
+            pCategory = categoryDao.getByAliasName(CategoryConstants.CATEGORY_LIBRARY);
+        } else {
+            pCategory = categoryDao.getById(pid);
+        }
         ModelAndView mav = new ModelAndView("mg/library/category-show");
         mav.addObject("category", category);
+        mav.addObject("pCategory", pCategory);
         return mav;
     }
 
@@ -76,14 +84,19 @@ public class LibraryManagerController extends BaseController {
         String id = WebUtils.getRequestParameterAsString(request, "id");
         String pid = WebUtils.getRequestParameterAsString(request, "pid");
         String name = WebUtils.getRequestParameterAsString(request, "name");
+        String aliasName = Pinyin4jUtils.getPinYin(name);
         String shortName = WebUtils.getRequestParameterAsString(request, "shortName");
-        String desc = WebUtils.getRequestParameterAsString(request, "desc");
+        String desc = WebUtils.getRequestParameterAsString(request, "describe");
+        int showIndex = WebUtils.getRequestParameterAsInt(request, "showIndex", 1);
+        int categoryOrder = WebUtils.getRequestParameterAsInt(request, "categoryOrder", 0);
         Category category = new Category();
+        category.setParentId(pid);
         category.setName(name);
         category.setShortName(shortName);
+        category.setAliasName(aliasName);
         category.setDescribe(desc);
-        category.setShowIndex(1);
-        category.setShowType(1);
+        category.setShowIndex(showIndex);
+        category.setCategoryOrder(categoryOrder);
         category.setCategoryType(CategoryConstants.CATEGORY_LIBRARY);
         String uniqueId = categoryDao.createReturnId(category);
         if (StringUtils.isNotBlank(uniqueId)) {
@@ -106,14 +119,19 @@ public class LibraryManagerController extends BaseController {
         }
         String pid = WebUtils.getRequestParameterAsString(request, "pid");
         String name = WebUtils.getRequestParameterAsString(request, "name");
+        String aliasName = Pinyin4jUtils.getPinYin(name);
         String shortName = WebUtils.getRequestParameterAsString(request, "shortName");
-        String desc = WebUtils.getRequestParameterAsString(request, "desc");
+        String desc = WebUtils.getRequestParameterAsString(request, "describe");
+        int showIndex = WebUtils.getRequestParameterAsInt(request, "showIndex", 1);
+        int categoryOrder = WebUtils.getRequestParameterAsInt(request, "categoryOrder", 0);
         Category category = categoryDao.getById(id);
+        category.setParentId(pid);
         category.setName(name);
         category.setShortName(shortName);
+        category.setAliasName(aliasName);
         category.setDescribe(desc);
-        category.setShowIndex(1);
-        category.setShowType(1);
+        category.setShowIndex(showIndex);
+        category.setCategoryOrder(categoryOrder);
         category.setCategoryType(CategoryConstants.CATEGORY_LIBRARY);
         boolean result = categoryDao.update(category);
         if (result) {

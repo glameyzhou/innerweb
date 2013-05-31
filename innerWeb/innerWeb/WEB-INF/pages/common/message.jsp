@@ -80,8 +80,3 @@
 	</div>
 </div>
 </html>
-
-<!-- 
-		<input type="button" class="btnFn1" value="返回" onclick="location.href='<%//=request.getHeader("referer")%>'" />
-
- -->
