@@ -65,6 +65,5 @@
     </div>
     <%@include file="include/footer.jsp" %>
 </div>
-${libraryInfos }
 </body>
 </html>
