@@ -24,13 +24,13 @@
             li1.id = liId1;
             ulObj.appendChild(li1);
 
-            len = ulObj.children.length;
+            /* len = ulObj.children.length;
             var li2 = document.createElement("li");
             var liId2 = divName + "_li_" + (len + 1);
             var content2 = "<a href=\"javascript:delArea('" + divName + "','" + liId2 + "');\">删除此板块</a>" + selectContent;
             li2.innerHTML = content2;
             li2.id = liId2;
-            ulObj.appendChild(li2);
+            ulObj.appendChild(li2); */
             ulObj.appendHtml("<br/>")
 
         }
