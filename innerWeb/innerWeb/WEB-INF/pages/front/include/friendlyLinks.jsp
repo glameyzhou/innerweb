@@ -7,12 +7,19 @@
         </ul>
     </div>
     <div style="padding-left:20px; width:1200px; float:left;">
-    	<c:forEach items="${friendlyLinksDTOs}" var="fr">
-    		<p>${fr.category.name}：
-    		<c:forEach items="${fr.linksList}" var="links">
-    			<a href="${links.url}" target="_blank"><c:out value="${links.name}" />&nbsp;</a>
-    		</c:forEach>
-    		</p>
-    	</c:forEach>
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <c:forEach items="${friendlyLinksDTOs}" var="fr">
+                    <tr align="left">
+                        <td width="10%">${fr.category.name}</td>
+                        <c:forEach items="${fr.linksList}" var="links">
+						<td width="10%">
+							<c:if test="${!empty links.url}">
+								<a href="${links.url}" target="_blank">${links.name}</a>
+							</c:if>
+						</td>
+					</c:forEach>
+                    </tr>
+                </c:forEach>
+            </table>
     </div>
 </div>

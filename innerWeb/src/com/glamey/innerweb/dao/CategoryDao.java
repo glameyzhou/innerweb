@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -31,8 +29,6 @@ import com.glamey.innerweb.model.dto.CategoryQuery;
 public class CategoryDao extends BaseDao {
     private static final Logger logger = Logger.getLogger(CategoryDao.class);
     
-    @Resource
-    private PostDao postDao ;
     /**
      * 创建分类信息
      *
@@ -71,14 +67,14 @@ public class CategoryDao extends BaseDao {
     public String createReturnId(final Category category) {
         logger.info("[CategoryDao] #create# " + category);
         try {
-            String id = StringTools.getUniqueId() ;
+            final String id = StringTools.getUniqueId() ;
             int count = jdbcTemplate.update(
                     "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,categoryorder,parentid,categorytype,categoryimage,categorytime) values(?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
-                            pstmt.setString(++i, StringTools.getUniqueId());
+                            pstmt.setString(++i, id);
                             pstmt.setString(++i, category.getName());
                             pstmt.setString(++i, category.getShortName());
                             pstmt.setString(++i, category.getAliasName());
@@ -196,6 +192,19 @@ public class CategoryDao extends BaseDao {
     							preparedstatement.setString(1, "");
     							preparedstatement.setString(2, categoryId);
     							preparedstatement.setString(3, categoryType);
+    						}
+                	
+                });
+            }
+           //TODO 微型图书馆
+            if(StringUtils.equals(categoryType, CategoryConstants.CATEGORY_LIBRARY)){
+            	cateContentCount = jdbcTemplate.update("update tbl_library set lib_category_id = ? where lib_category_id = ? ",
+                		new PreparedStatementSetter(){
+    						@Override
+    						public void setValues(PreparedStatement preparedstatement)
+    								throws SQLException {
+    							preparedstatement.setString(1, "");
+    							preparedstatement.setString(2, categoryId);
     						}
                 	
                 });

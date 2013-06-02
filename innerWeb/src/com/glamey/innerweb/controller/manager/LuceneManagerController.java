@@ -212,7 +212,7 @@ public class LuceneManagerController extends BaseController {
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
         String userId = ((UserInfo) obj).getUserId();
         mav.addAllObjects(includeFront.linksEntrance());
-        mav.addAllObjects(includeFront.friendlyLinks());
+        mav.addAllObjects(includeFront.friendlyLinks(request));
         mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
         mav.addAllObjects(includeFront.ofenLinks());
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));

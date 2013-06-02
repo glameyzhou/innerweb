@@ -4,35 +4,22 @@
 <head>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
-    <title>${pCategory.name}栏目<c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></title>
     <script type="text/javascript">
         $(function () {
             $("#jvForm").validate();
         });
-        function delImage(categoryId){
-    		if(!confirm('确认要删除指定图片?'))return;
-    		var url = '${basePath}mg/library/${categoryParent.aliasName}/category-delImage.htm';
-            var pars = 'categoryId=' + categoryId ;
-            var myAjax = new Ajax.Request(
-                        url,
-                        {method: 'get', parameters: pars, onComplete: showResponse}
-            );
-        }
-        function showResponse(originalRequest){
-            $('imageOpr').innerHTML =  '<input type="file" maxlength="100" name="image" id="image" size="80" value="">' ;
-        }
     </script>
 </head>
 <body>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - ${pCategory.name} <c:choose><c:when
-                test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
+        <div class="rpos">当前位置: 首页 - 微型图书馆
+            <c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
         <div class="clear"></div>
     </div>
     <form method="post" action="${basePath}mg/library/category-${opt}.htm" id="jvForm">
-        <input type="text" id="id" name="id" value="${category.id}"/>
-        <input type="text" id="pid" name="pid" value="${pCategory.id}"/>
+        <input type="hidden" id="id" name="id" value="${category.id}"/>
+        <input type="hidden" id="pid" name="pid" value="${pid}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
             <tr>
@@ -50,7 +37,8 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否首页显示:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="showIndex" id="showIndex" value="0" <c:if test="${category.showIndex == 0}">checked="checked"</c:if> />否&nbsp;
+                    <input type="radio" name="showIndex" id="showIndex" value="0"
+                           <c:if test="${category.showIndex == 0}">checked="checked"</c:if> />否&nbsp;
                     <input type="radio" name="showIndex" id="showIndex" value="1" <c:if test="${category.showIndex == 1}">checked="checked"</c:if> />是&nbsp;
                 </td>
             </tr>

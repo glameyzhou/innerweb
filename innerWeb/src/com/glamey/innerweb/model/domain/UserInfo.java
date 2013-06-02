@@ -12,7 +12,8 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class UserInfo implements Serializable {
-    private String userId;
+	private static final long serialVersionUID = 1L;
+	private String userId;
     private String username;
     private String passwd;
     private String nickname;

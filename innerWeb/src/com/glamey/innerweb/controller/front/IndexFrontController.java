@@ -1,16 +1,13 @@
 package com.glamey.innerweb.controller.front;
 
-import com.glamey.framework.utils.tld.StringTld;
-import com.glamey.innerweb.constants.Constants;
-import com.glamey.innerweb.constants.SystemConstants;
-import com.glamey.innerweb.controller.BaseController;
-import com.glamey.innerweb.dao.CategoryDao;
-import com.glamey.innerweb.dao.LinksDao;
-import com.glamey.innerweb.dao.MetaInfoDao;
-import com.glamey.innerweb.dao.PostDao;
-import com.glamey.innerweb.model.domain.MetaInfo;
-import com.glamey.innerweb.model.domain.UserInfo;
-import com.glamey.innerweb.model.dto.PostDTO;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -19,23 +16,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.List;
+import com.glamey.framework.utils.tld.StringTld;
+import com.glamey.innerweb.constants.Constants;
+import com.glamey.innerweb.constants.SystemConstants;
+import com.glamey.innerweb.controller.BaseController;
+import com.glamey.innerweb.dao.MetaInfoDao;
+import com.glamey.innerweb.dao.PostDao;
+import com.glamey.innerweb.model.domain.MetaInfo;
+import com.glamey.innerweb.model.domain.UserInfo;
+import com.glamey.innerweb.model.dto.PostDTO;
 
 @Controller
 public class IndexFrontController extends BaseController {
     private static final Logger logger = Logger.getLogger(IndexFrontController.class);
 
     @Resource
-    private CategoryDao categoryDao;
-    @Resource
     private PostDao postDao;
-    @Resource
-    private LinksDao linksDao;
     @Resource
     private MetaInfoDao metaInfoDao;
     @Resource
@@ -93,7 +89,7 @@ public class IndexFrontController extends BaseController {
         mav.addObject("area4PostDTOList", area4PostDTOList);
 
         //友情链接
-        mav.addAllObjects(includeFront.friendlyLinks());
+        mav.addAllObjects(includeFront.friendlyLinks(request));
 
         //尾部页面
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));

@@ -33,6 +33,8 @@
                         method: 'get',
                         onSuccess: function (transport) {
                             var srcUserSelect = document.getElementById("sltSrc");
+                            alert(transport.responseText);
+                            ${'abc'}.innerHTML = transport.responseText;
                             srcUserSelect.innerHTML = transport.responseText;
                         }
                     }
@@ -67,6 +69,7 @@
     <title>站内信添加</title>
 </head>
 <body>
+<p id="abc"></p>
 <div class="body-box">
     <div class="rhead">
         <div class="rpos">当前位置: 首页 - 站内信 - 添加</div>

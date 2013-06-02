@@ -83,7 +83,7 @@ public class PostFrontController extends BaseController {
         mav.addObject("post", post);
 
         mav.addAllObjects(includeFront.linksEntrance());
-        mav.addAllObjects(includeFront.friendlyLinks());
+        mav.addAllObjects(includeFront.friendlyLinks(request));
         mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
         mav.addAllObjects(includeFront.ofenLinks());
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
@@ -174,7 +174,7 @@ public class PostFrontController extends BaseController {
         mav.addObject("category", category);
 
         mav.addAllObjects(includeFront.linksEntrance());
-        mav.addAllObjects(includeFront.friendlyLinks());
+        mav.addAllObjects(includeFront.friendlyLinks(request));
         mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
         mav.addAllObjects(includeFront.ofenLinks());
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
@@ -228,7 +228,7 @@ public class PostFrontController extends BaseController {
         mav.addObject("categoryParent", categoryParent);
 
         mav.addAllObjects(includeFront.linksEntrance());
-        mav.addAllObjects(includeFront.friendlyLinks());
+        mav.addAllObjects(includeFront.friendlyLinks(request));
         mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
         mav.addAllObjects(includeFront.ofenLinks());
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));

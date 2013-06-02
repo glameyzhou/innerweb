@@ -1,6 +1,27 @@
 package com.glamey.innerweb.controller.manager;
 
-import com.glamey.framework.utils.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.glamey.framework.utils.BlowFish;
+import com.glamey.framework.utils.PageBean;
+import com.glamey.framework.utils.Pinyin4jUtils;
+import com.glamey.framework.utils.StringTools;
+import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.constants.CategoryConstants;
 import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.controller.BaseController;
@@ -11,22 +32,6 @@ import com.glamey.innerweb.model.domain.RightsInfo;
 import com.glamey.innerweb.model.domain.RoleInfo;
 import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.UserQuery;
-import com.glamey.innerweb.util.WebUploadUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 用户管理
@@ -40,8 +45,6 @@ public class UserInfoManagerController extends BaseController {
 
     @Resource
     private CategoryDao categoryDao;
-    @Resource
-    private WebUploadUtils uploadUtils;
     @Resource
     private UserInfoDao userInfoDao;
 
@@ -455,7 +458,7 @@ public class UserInfoManagerController extends BaseController {
         ModelAndView mav = new ModelAndView();
 
         UserInfo userInfoSession = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        boolean isSuper = StringUtils.equals(userInfoSession.getRoleId(),Constants.sysAdminRoleId);
+        boolean isSuper = StringUtils.equals(userInfoSession.getRoleId(), Constants.sysAdminRoleId);
 
         UserInfo userInfo = new UserInfo();
         String opt = "create";
@@ -518,7 +521,7 @@ public class UserInfoManagerController extends BaseController {
         userInfo.setUsername(username);
         BlowFish bf = new BlowFish(Constants.SECRET_KEY);
         userInfo.setPasswd(bf.encryptString(passwd));
-        String nickName = WebUtils.getRequestParameterAsString(request, "nickname") ;
+        String nickName = WebUtils.getRequestParameterAsString(request, "nickname");
         userInfo.setNickname(nickName);
         userInfo.setNicknamePinyin(Pinyin4jUtils.getPinYin(nickName));
         userInfo.setPhone(WebUtils.getRequestParameterAsString(request, "phone"));
@@ -526,8 +529,8 @@ public class UserInfoManagerController extends BaseController {
         userInfo.setEmail(WebUtils.getRequestParameterAsString(request, "email"));
         userInfo.setAddress(WebUtils.getRequestParameterAsString(request, "address"));
         userInfo.setIsLive(WebUtils.getRequestParameterAsInt(request, "isLive", 0));
-        userInfo.setShowInContact(WebUtils.getRequestParameterAsInt(request,"showInContact",1));
-        userInfo.setShowOrder(WebUtils.getRequestParameterAsInt(request,"showOrder",0));
+        userInfo.setShowInContact(WebUtils.getRequestParameterAsInt(request, "showInContact", 1));
+        userInfo.setShowOrder(WebUtils.getRequestParameterAsInt(request, "showOrder", 0));
 
         if (userInfoDao.createUser(userInfo)) {
             //比较变态的需求，新建用户之后，以该用户登陆系统
@@ -575,7 +578,7 @@ public class UserInfoManagerController extends BaseController {
             BlowFish bf = new BlowFish(Constants.SECRET_KEY);
             userInfo.setPasswd(bf.encryptString(passwd));
         }
-        String nickName = WebUtils.getRequestParameterAsString(request, "nickname") ;
+        String nickName = WebUtils.getRequestParameterAsString(request, "nickname");
         userInfo.setNickname(nickName);
         userInfo.setNicknamePinyin(Pinyin4jUtils.getPinYin(nickName));
         userInfo.setPhone(WebUtils.getRequestParameterAsString(request, "phone"));
@@ -583,8 +586,8 @@ public class UserInfoManagerController extends BaseController {
         userInfo.setEmail(WebUtils.getRequestParameterAsString(request, "email"));
         userInfo.setAddress(WebUtils.getRequestParameterAsString(request, "address"));
         userInfo.setIsLive(WebUtils.getRequestParameterAsInt(request, "isLive", 0));
-        userInfo.setShowInContact(WebUtils.getRequestParameterAsInt(request,"showInContact",1));
-        userInfo.setShowOrder(WebUtils.getRequestParameterAsInt(request,"showOrder",0));
+        userInfo.setShowInContact(WebUtils.getRequestParameterAsInt(request, "showInContact", 1));
+        userInfo.setShowOrder(WebUtils.getRequestParameterAsInt(request, "showOrder", 0));
 
         if (userInfoDao.updateUser(userInfo)) {
             mav.addObject("message", "更新系统用户成功");
@@ -659,6 +662,10 @@ public class UserInfoManagerController extends BaseController {
         logger.info("[manager-user-contact]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
 
+        //如果是超级管理员，可以进行通讯录的排序设置
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        boolean isSuper = StringUtils.equals(userInfo.getRoleId(), Constants.sysAdminRoleId);
+
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean = new PageBean(30);
         pageBean.setCurPage(curPage);
@@ -688,8 +695,24 @@ public class UserInfoManagerController extends BaseController {
         mav.addObject("userInfoList", userInfoList);
         mav.addObject("deptInfoList", deptInfoList);
         mav.addObject("query", query);
+        mav.addObject("isSuper", isSuper);
         mav.addObject("pageBean", pageBean);
         mav.setViewName("mg/user/contact-list");
+        return mav;
+    }
+
+    @RequestMapping(value = "/setContactOrder.htm", method = RequestMethod.GET)
+    public ModelAndView setContactOrder(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        ModelAndView mav = new ModelAndView("common/message");
+        String userId = WebUtils.getRequestParameterAsString(request, "userId");
+        int orderId = WebUtils.getRequestParameterAsInt(request, "orderId", 0);
+
+        if (userInfoDao.setContactOrder(userId, orderId)) {
+            mav.addObject("message", "排序成功");
+            mav.addObject("href", "mg/user/contact.htm");
+        } else {
+            mav.addObject("message", "排序失败，请稍后重试");
+        }
         return mav;
     }
 
@@ -698,7 +721,6 @@ public class UserInfoManagerController extends BaseController {
     @RequestMapping(value = "/getUserByDeptId.htm", method = RequestMethod.GET)
     public void getUserByDeptId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-getUserByDeptId]" + request.getRequestURI());
-        ModelAndView mav = new ModelAndView();
         String deptId = WebUtils.getRequestParameterAsString(request, "deptId");
         UserQuery query = new UserQuery();
         query.setDeptId(deptId);

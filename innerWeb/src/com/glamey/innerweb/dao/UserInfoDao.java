@@ -132,7 +132,6 @@ public class UserInfoDao extends BaseDao {
      */
     public RightsInfo getRightsById(final String rightsId) {
         logger.info("[UserInfoDao] #getRightsById# " + rightsId);
-        RightsInfo rightsInfo = new RightsInfo();
         try {
             List<RightsInfo> rightsInfoList = jdbcTemplate.query("select * from tbl_rights where rights_id = ?",
                     new PreparedStatementSetter() {
@@ -441,9 +440,9 @@ public class UserInfoDao extends BaseDao {
                             pstmt.setString(++i, userInfo.getRoleId());
                             pstmt.setInt(++i, userInfo.getIsLive());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
-                            pstmt.setString(++i,userInfo.getNicknamePinyin());
-                            pstmt.setInt(++i,userInfo.getShowOrder());
-                            pstmt.setInt(++i,userInfo.getShowInContact());
+                            pstmt.setString(++i, userInfo.getNicknamePinyin());
+                            pstmt.setInt(++i, userInfo.getShowOrder());
+                            pstmt.setInt(++i, userInfo.getShowInContact());
                         }
                     });
             return count > 0;
@@ -479,9 +478,9 @@ public class UserInfoDao extends BaseDao {
                             pstmt.setString(++i, userInfo.getRoleId());
                             pstmt.setInt(++i, userInfo.getIsLive());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
-                            pstmt.setString(++i,userInfo.getNicknamePinyin());
-                            pstmt.setInt(++i,userInfo.getShowOrder());
-                            pstmt.setInt(++i,userInfo.getShowInContact());
+                            pstmt.setString(++i, userInfo.getNicknamePinyin());
+                            pstmt.setInt(++i, userInfo.getShowOrder());
+                            pstmt.setInt(++i, userInfo.getShowInContact());
                             pstmt.setString(++i, userInfo.getUserId());
 
                         }
@@ -545,7 +544,7 @@ public class UserInfoDao extends BaseDao {
                 sql.append(" and user_isincontact = ? ");
 
             if (StringUtils.isNotBlank(query.getOrderByColumnName()) && StringUtils.isNotBlank(query.getOrderBy()))
-                sql.append(" order by ? ? ");
+                sql.append(" order by ").append(query.getOrderByColumnName()).append(" ").append(query.getOrderBy());
             else
                 sql.append(" order by user_time desc ");
 
@@ -574,10 +573,6 @@ public class UserInfoDao extends BaseDao {
                             if (query.getShowInContact() > -1)
                                 preparedstatement.setInt(++i, query.getShowInContact());
 
-                            if (StringUtils.isNotBlank(query.getOrderByColumnName()) && StringUtils.isNotBlank(query.getOrderBy())) {
-                                preparedstatement.setString(++i, query.getOrderByColumnName());
-                                preparedstatement.setString(++i, query.getOrderBy());
-                            }
 
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
@@ -696,7 +691,7 @@ public class UserInfoDao extends BaseDao {
      */
     @Deprecated
     public UserInfo checkUserByLogin(final String username, final String passwd) {
-        logger.info("[UserInfoDao] #checkUserByLogin# error " + String.format("username=%s,passwd=$s", username, passwd));
+        logger.info("[UserInfoDao] #checkUserByLogin# " + String.format("username=%s,passwd=%s", username, passwd));
         String sql = "select * from tbl_user where user_name = ? and user_passwd = ? limit 1";
         try {
             List<UserInfo> userInfoList = new ArrayList<UserInfo>();
@@ -716,6 +711,32 @@ public class UserInfoDao extends BaseDao {
         return null;
     }
 
+    /**
+     * 重新排序
+     *
+     * @param userId
+     * @param orderId
+     * @return
+     */
+    public boolean setContactOrder(final String userId, final int orderId) {
+        logger.info("[UserInfoDao] #setContactOrder# " + String.format("userId=%s,orderId=%d", userId, orderId));
+        String sql = "update tbl_user set user_showorder = ? where user_id = ?";
+        try {
+            List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+            int count = jdbcTemplate.update(sql,
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                            preparedStatement.setInt(1, orderId);
+                            preparedStatement.setString(2, userId);
+                        }
+                    });
+            return count > 0;
+        } catch (DataAccessException e) {
+            logger.info("[UserInfoDao] #setContactOrder# error " + String.format("userId=%s,orderId=%d", userId, orderId), e);
+        }
+        return false;
+    }
 
     class UserInfoRowMapper implements RowMapper<UserInfo> {
         @Override

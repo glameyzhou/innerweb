@@ -163,10 +163,24 @@
                         </tr>
                         <tr>
                             <td width="20%">
+                                <input type="checkbox" id="rightsId" name="rightsId" value="09"
+                                       <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'09')}">checked="checked"</c:if>/>
+                            </td>
+                            <td>用户角色权限管理</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">
                                 <input type="checkbox" id="rightsId" name="rightsId" value="10"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'10')}">checked="checked"</c:if>/>
                             </td>
                             <td>全局设置</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">
+                                <input type="checkbox" id="rightsId" name="rightsId" value="11"
+                                       <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'11')}">checked="checked"</c:if>/>
+                            </td>
+                            <td>微型图书馆配置管理</td>
                         </tr>
                     </table>
                 </td>

@@ -15,6 +15,7 @@ import java.util.List;
 public class FriendlyLinksDTO {
     private Category category;
     private List<Links> linksList;
+    private boolean hasMore ;
 
     public Category getCategory() {
         return category;
@@ -30,6 +31,14 @@ public class FriendlyLinksDTO {
 
     public void setLinksList(List<Links> linksList) {
         this.linksList = linksList;
+    }
+
+    public boolean getHasMore() {
+        return hasMore;
+    }
+
+    public void setHasMore(boolean hasMore) {
+        this.hasMore = hasMore;
     }
 
     @Override

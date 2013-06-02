@@ -118,8 +118,11 @@
         <li><a href="${basePath}mg/sys/sys-list.htm" target="mainFrame">全局配置</a></li>
     </c:if>
 
-
-    <li><a href="${basePath}mg/library/category-list.htm?pid=0&id=0" target="mainFrame">微型图书馆分类管理</a></li>
+    <%--微型图书馆管理--%>
+    <c:if test="${fmtString:hasRightsList(rightsList,'11')}">
+        <li><a href="${basePath}mg/library/category-list.htm?pid=0" target="mainFrame">微型图书馆&nbsp;-&nbsp;分类管理</a></li>
+    	<li><a href="${basePath}mg/library/library-list.htm" target="mainFrame">微型图书馆&nbsp;-&nbsp;内容管理</a></li>
+    </c:if>
 
 </ul>
 </body>

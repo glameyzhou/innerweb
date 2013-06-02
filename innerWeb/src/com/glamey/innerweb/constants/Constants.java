@@ -1,5 +1,6 @@
 package com.glamey.innerweb.constants;
 
+
 /**
  * 
  * @author zy
@@ -38,4 +39,7 @@ public class Constants {
     /*用户信息表-昵称拼音*/
     public static final String ORDERBYCOLUMNNAME_USER = " user_nicknamepinyin ";
     public static final String ORDERBYCOLUMNNAME_SHOWORDER = " user_showorder ";
+
+    /*尾部友情链接显示的条数*/
+    public static final int FRIENDLYLINKSCOUNT = 8 ;
 }
