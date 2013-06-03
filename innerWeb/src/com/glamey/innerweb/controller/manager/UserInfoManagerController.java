@@ -534,8 +534,8 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.createUser(userInfo)) {
             //比较变态的需求，新建用户之后，以该用户登陆系统
-            mav.addObject("message", "创建系统用户成功，确定后以该用户登陆");
-            mav.addObject("href", "mg/home.htm");
+            mav.addObject("message", "创建系统用户成功");
+            mav.addObject("href", "mg/user/user-list.htm");
             /*userInfo = userInfoDao.getUserByName(username);
             session.setAttribute(Constants.SESSIN_USERID, userInfo);*/
         } else {
@@ -622,6 +622,7 @@ public class UserInfoManagerController extends BaseController {
                 logger.info("[manager-rights-delete]" + request.getRequestURI() + " roleId=" + array + " result=" + userInfoDao.delUser(array));
             }
             mav.addObject("message", "删除系统用户成功");
+            mav.addObject("href", "mg/user/user-list.htm");
         } catch (Exception e) {
             logger.error("[manager-rights-delete] error " + request.getRequestURI() + " " + userId);
             mav.addObject("message", "删除系统用户失败");

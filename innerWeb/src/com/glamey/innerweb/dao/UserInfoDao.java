@@ -396,14 +396,7 @@ public class UserInfoDao extends BaseDao {
     public boolean isUserExist(final String username) {
         logger.info("[UserInfoDao] #isUserExist# " + username);
         try {
-            int count = jdbcTemplate.update(
-                    "select count(1) from tbl_user where user_name = ?",
-                    new PreparedStatementSetter() {
-                        @Override
-                        public void setValues(PreparedStatement pstmt) throws SQLException {
-                            pstmt.setString(1, username);
-                        }
-                    });
+            int count = jdbcTemplate.queryForInt("select count(1) as total from tbl_user where user_name = ?",username);
             return count > 0;
         } catch (Exception e) {
             logger.error("[UserInfoDao] #isUserExist# error " + username, e);
