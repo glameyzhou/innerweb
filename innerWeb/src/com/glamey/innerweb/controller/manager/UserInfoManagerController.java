@@ -536,9 +536,8 @@ public class UserInfoManagerController extends BaseController {
             //比较变态的需求，新建用户之后，以该用户登陆系统
             mav.addObject("message", "创建系统用户成功，确定后以该用户登陆");
             mav.addObject("href", "mg/home.htm");
-            userInfo = userInfoDao.getUserByName(username);
-            session.setAttribute(Constants.SESSIN_USERID, userInfo);
-
+            /*userInfo = userInfoDao.getUserByName(username);
+            session.setAttribute(Constants.SESSIN_USERID, userInfo);*/
         } else {
             mav.addObject("message", "创建系统用户失败");
         }
@@ -591,9 +590,9 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.updateUser(userInfo)) {
             mav.addObject("message", "更新系统用户成功");
-            userInfo = userInfoDao.getUserById(userId);
+            /*userInfo = userInfoDao.getUserById(userId);
             session.removeAttribute(Constants.SESSIN_USERID);
-            session.setAttribute(Constants.SESSIN_USERID, userInfo);
+            session.setAttribute(Constants.SESSIN_USERID, userInfo);*/
         } else {
             mav.addObject("message", "更新系统用户失败");
         }

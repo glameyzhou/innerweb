@@ -85,6 +85,8 @@ public class PostFrontController extends BaseController {
             HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         logger.info("[front] #postDetail#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("front/post-detail");
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
         if (StringUtils.isBlank(postId)) {
             mav.addObject("message", "操作无效");
             mav.setViewName("front/404");
@@ -95,12 +97,6 @@ public class PostFrontController extends BaseController {
 
         Post post = postDao.getByPostId(postId);
         mav.addObject("post", post);
-
-        mav.addAllObjects(includeFront.linksEntrance());
-        mav.addAllObjects(includeFront.friendlyLinks(request));
-        mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
-        mav.addAllObjects(includeFront.ofenLinks());
-        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
 
         //插入已读
         final PostReadInfo postReadInfo = new PostReadInfo();
@@ -132,6 +128,8 @@ public class PostFrontController extends BaseController {
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #postList#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("front/post-list");
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
         if (StringUtils.isBlank(categoryType) || StringUtils.isBlank(categoryId)) {
             mav.addObject("message", "操作无效");
             mav.setViewName("front/404");
@@ -187,12 +185,6 @@ public class PostFrontController extends BaseController {
         mav.addObject("categoryParent", categoryParent);
         mav.addObject("category", category);
 
-        mav.addAllObjects(includeFront.linksEntrance());
-        mav.addAllObjects(includeFront.friendlyLinks(request));
-        mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
-        mav.addAllObjects(includeFront.ofenLinks());
-        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
-
         return mav;
     }
 
@@ -211,6 +203,8 @@ public class PostFrontController extends BaseController {
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #rootPostList#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("front/post-root-list");
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
         if (StringUtils.isBlank(categoryType)) {
             mav.addObject("message", "操作无效");
             mav.setViewName("front/404");
@@ -241,12 +235,6 @@ public class PostFrontController extends BaseController {
         mav.addObject("pageBean", pageBean);
         mav.addObject("categoryParent", categoryParent);
 
-        mav.addAllObjects(includeFront.linksEntrance());
-        mav.addAllObjects(includeFront.friendlyLinks(request));
-        mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
-        mav.addAllObjects(includeFront.ofenLinks());
-        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
-
         return mav;
     }
     
@@ -257,6 +245,8 @@ public class PostFrontController extends BaseController {
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #rootPostList#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("front/post-rules-list");
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
         if (StringUtils.isBlank(categoryId)) {
             mav.addObject("message", "操作无效");
             mav.setViewName("front/404");
@@ -288,16 +278,9 @@ public class PostFrontController extends BaseController {
         mav.addObject("pageBean", pageBean);
         mav.addObject("category", category);
 
-        //固定内容
-        mav.addAllObjects(includeFront.linksEntrance());
-        mav.addAllObjects(includeFront.friendlyLinks(request));
-        mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
-        mav.addAllObjects(includeFront.ofenLinks());
-        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
-
         return mav;
     }
-    //规章制度
+    //规章制度下载
     @ResponseBody
     @RequestMapping(value = "/rules-download-{id}.htm", method = RequestMethod.GET)
     public ModelAndView rulesDownload(
@@ -305,6 +288,8 @@ public class PostFrontController extends BaseController {
     		HttpServletRequest request, HttpServletResponse response, HttpSession session) {
     	logger.info("[front] #rootPostList#" + request.getRequestURI());
     	ModelAndView mav = new ModelAndView("front/post-rules-download");
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
     	Object obj = session.getAttribute(Constants.SESSIN_USERID);
     	String userId = ((UserInfo) obj).getUserId();
     	if (StringUtils.isBlank(id)) {

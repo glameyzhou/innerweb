@@ -84,13 +84,8 @@ public class LibraryFrontController extends BaseController {
         mav.addObject("pCategoryId", StringUtils.isBlank(pCategoryId) ? "0" : pCategoryId);
         mav.addObject("categoryId", StringUtils.isBlank(categoryId) ? "0" : categoryId);
 
-        //固定内容
-        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        mav.addAllObjects(includeFront.linksEntrance());
-        mav.addAllObjects(includeFront.friendlyLinks(request));
-        mav.addObject("unReadMessage", includeFront.unReadMessage(userInfo.getUserId()));
-        mav.addAllObjects(includeFront.ofenLinks());
-        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
 
         mav.setViewName("front/lib-list" + showImage);
         return mav;
@@ -111,13 +106,9 @@ public class LibraryFrontController extends BaseController {
         LibraryInfo info = libraryInfoDao.getById(id);
         mav.addObject("info", info);
 
-        //固定内容
-        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        mav.addAllObjects(includeFront.linksEntrance());
-        mav.addAllObjects(includeFront.friendlyLinks(request));
-        mav.addObject("unReadMessage", includeFront.unReadMessage(userInfo.getUserId()));
-        mav.addAllObjects(includeFront.ofenLinks());
-        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
+
         mav.setViewName("front/lib-detail");
         return mav;
     }

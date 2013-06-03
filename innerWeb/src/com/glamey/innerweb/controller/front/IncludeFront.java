@@ -5,7 +5,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.glamey.innerweb.constants.Constants;
+import com.glamey.innerweb.constants.SystemConstants;
+import com.glamey.innerweb.model.domain.UserInfo;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 
@@ -20,6 +25,7 @@ import com.glamey.innerweb.model.domain.MetaInfo;
 import com.glamey.innerweb.model.dto.FriendlyLinksDTO;
 import com.glamey.innerweb.model.dto.LinksQuery;
 import com.glamey.innerweb.model.dto.MessageQuery;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 前端页面的包含内容
@@ -68,7 +74,7 @@ public class IncludeFront {
 
     public ModelMap friendlyLinks(HttpServletRequest request) {
         int port = request.getServerPort();
-        String basePath = request.getScheme() + "://" + request.getServerName() + (port == 80 ? "" : ":" + port ) +  request.getContextPath() + "/" ;
+        String basePath = request.getScheme() + "://" + request.getServerName() + (port == 80 ? "" : ":" + port) + request.getContextPath() + "/";
         ModelMap modelMap = new ModelMap();
 
         //友情链接内容显示
@@ -88,18 +94,18 @@ public class IncludeFront {
             query.setStart(0);
             query.setNum(count);
             List<Links> linksList = linksDao.getByParentId(query);
-            int currentSize  = linksList != null ? linksList.size() : 0 ;
+            int currentSize = linksList != null ? linksList.size() : 0;
             int max = linksDao.getCountByParentId(query);
-            boolean hasMore = max > count ;
+            boolean hasMore = max > count;
             for (int i = currentSize; i < count; i++) {
                 linksList.add(new Links());
             }
-            if(hasMore){
+            if (hasMore) {
                 Links links = new Links();
                 links.setUrl(basePath + "linksFront-" + category.getCategoryType() + "-" + category.getId() + ".htm");
                 links.setName("更多");
                 linksList.add(links);
-            }else{
+            } else {
                 linksList.add(new Links());
             }
             dto.setHasMore(hasMore);
@@ -151,5 +157,24 @@ public class IncludeFront {
         query.setTo(userId);
         int count = messageDao.getCountMessageList(query);
         return count;
+    }
+
+    /**
+     * 页面包含的所有内容
+     * @param request
+     * @param response
+     * @return
+     */
+    public ModelMap allInclude(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        String userId = ((UserInfo) obj).getUserId();
+
+        ModelMap map = new ModelMap();
+        map.putAll(linksEntrance());
+        map.putAll(friendlyLinks(request));
+        map.put("unReadMessage", unReadMessage(userId));
+        map.putAll(ofenLinks());
+        map.put(SystemConstants.page_foot, getMetaByName(SystemConstants.page_foot));
+        return map;
     }
 }
