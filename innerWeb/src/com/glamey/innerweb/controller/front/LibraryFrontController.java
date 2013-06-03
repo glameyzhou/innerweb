@@ -40,7 +40,20 @@ public class LibraryFrontController extends BaseController {
     @Resource
     private LibraryInfoDao libraryInfoDao;
 
+    /*分类首页*/
+    @RequestMapping(value = "/library.htm", method = RequestMethod.GET)
+    public ModelAndView library(
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[front] #postList#" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView();
 
+        List<Category> rootList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
+
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
+        mav.setViewName("front/lib-list");
+        return mav;
+    }
     /*library-0-0-0.htm*/
     @RequestMapping(value = "/library-{pCategoryId}-{categoryId}-{showImage}.htm", method = RequestMethod.GET)
     public ModelAndView libList(
