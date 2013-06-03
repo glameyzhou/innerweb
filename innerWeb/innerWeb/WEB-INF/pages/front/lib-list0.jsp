@@ -29,7 +29,7 @@
                     <li style="padding-left:15px;">
                         <table width="150px">
                             <tr align="center">
-                                <td width="50%">
+                                <td width="50%" onmouseover="this.bgColor='#26B7E8';" onmouseout="this.bgColor='';">
                                     <a href="${basePath}library-${pCategoryId}-${categoryId}-1.htm">图片链接</a>
                                 </td>
                                 <td width="50%" bgcolor="#26B7E8">

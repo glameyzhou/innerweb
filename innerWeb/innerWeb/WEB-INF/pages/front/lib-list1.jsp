@@ -16,6 +16,10 @@
 <div class="box">
     <%@include file="include/header.jsp" %>
     <div class="body">
+        <%--面包屑--%>
+        <%--<div class="seat">
+            <span><a href="#">分类1</a>&nbsp;&nbsp;<a href="#">分类2</a>&nbsp;asdf</span>
+        </div>--%>
         <div class="body_left">
             <%@include file="include/links-out.jsp" %>
             <%@include file="include/links-in.jsp" %>
@@ -32,7 +36,7 @@
                                 <td width="50%" bgcolor="#26B7E8">
                                     <a href="${basePath}library-${pCategoryId}-${categoryId}-1.htm">图片链接</a>
                                 </td>
-                                <td width="50%">
+                                <td width="50%" onmouseover="this.bgColor='#26B7E8';" onmouseout="this.bgColor='';">
                                     <a href="${basePath}library-${pCategoryId}-${categoryId}-0.htm">文字链接</a>
                                 </td>
                             </tr>

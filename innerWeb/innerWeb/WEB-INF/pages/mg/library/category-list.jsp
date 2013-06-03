@@ -22,7 +22,7 @@
 <body>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - 微型图书馆 - ${pCategory.name} - 分类列表
+        <div class="rpos">当前位置: 首页 - 微型图书馆 <c:if test="${!pid eq '0'}">-${pCategory.name}</c:if> - 分类列表
         </div>
         <form class="ropt">
             <input type="button" value="添加"
