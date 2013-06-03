@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-06-03 07:11:10
+Date: 2013-06-03 08:42:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -71,6 +71,7 @@ INSERT INTO `tbl_category` VALUES ('UJNFZf', '34', '34', '34', '34', '0', '0', '
 INSERT INTO `tbl_category` VALUES ('Uvuyqy', '科研项目管理部', '科研项目管理部', '', '科研项目管理部', '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-23 07:32:30');
 INSERT INTO `tbl_category` VALUES ('yMfAvi', '12', '12', '12', '12', '0', '1', '12', 'NNFz6b', 'library', null, '2013-06-01 17:27:35');
 INSERT INTO `tbl_category` VALUES ('zeMvu2', '总办', '总办', '', '总办', '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-17 14:05:29');
+INSERT INTO `tbl_category` VALUES ('ZnyyUn', '规章制度', '规章制度', 'guizhangzhidu', '规章制度', '0', '1', '1', 'm226Ff', 'news', null, '2013-06-03 07:15:20');
 
 -- ----------------------------
 -- Table structure for `tbl_library`
@@ -250,6 +251,7 @@ INSERT INTO `tbl_post` VALUES ('677jqu', 'notices', 'mYre2a', '及经办', 'biym
 INSERT INTO `tbl_post` VALUES ('7bMJVf', 'news', 'qQJvEz', '员工生活1', 'biymau', '', '2013-05-25 16:02:43', '0', '0', '1', '0', '0', '员工生活', null, '<p>\r\n	员工生活\r\n</p>\r\n<p>\r\n	员工生活\r\n</p>\r\n<p>\r\n	员工生活\r\n</p>\r\n<p>\r\n	员工生活\r\n</p>');
 INSERT INTO `tbl_post` VALUES ('miyiAf', 'notices', 'mYre2a', '111', 'biymau', 'zeMvu2', '2013-05-26 09:23:58', '1', '1', '0', '1', '1', '1212', null, '121221');
 INSERT INTO `tbl_post` VALUES ('NrEJNb', 'notices', 'mYre2a', '科技部11111', 'biymau', 'zeMvu2', '2013-05-26 09:29:27', '1', '1', '0', '1', '1', '123123123', null, '123123123123123');
+INSERT INTO `tbl_post` VALUES ('QzEZfy', 'news', 'ZnyyUn', 'werwqer', 'biymau', 'zeMvu2', '2013-06-03 08:28:27', '1', '1', '0', '0', '0', 'qwerwqer', null, '<a href=\"/userfiles/file/20130603/20130603082841_117.docx\" target=\"_blank\">/userfiles/file/20130603/20130603082841_117.docx</a>\r\n<p>\r\n	&nbsp;\r\n</p>');
 INSERT INTO `tbl_post` VALUES ('Ub2Q3e', 'notices', 'mYre2a', '科研公告', 'UNb63y', 'Uvuyqy', '2013-05-26 14:57:52', '1', '1', '0', '1', '1', '科研公告', null, '科研公告');
 INSERT INTO `tbl_post` VALUES ('vIBNjq', 'notices', 'bY3Uju', '111111111', 'biymau', 'zeMvu2', '2013-05-25 20:01:12', '1', '0', '0', '0', '0', '1111111111111', null, '11111111111111111111111');
 
@@ -279,6 +281,7 @@ INSERT INTO `tbl_post_read` VALUES ('677jqu', 'fUJRFr', '2013-05-25 11:23:14');
 INSERT INTO `tbl_post_read` VALUES ('NrEJNb', 'biymau', '2013-05-26 13:54:27');
 INSERT INTO `tbl_post_read` VALUES ('Ub2Q3e', 'biymau', '2013-05-29 17:26:04');
 INSERT INTO `tbl_post_read` VALUES ('vIBNjq', 'biymau', '2013-06-01 15:31:19');
+INSERT INTO `tbl_post_read` VALUES ('QvY77f', 'biymau', '2013-06-03 07:18:39');
 
 -- ----------------------------
 -- Table structure for `tbl_rights`
@@ -327,7 +330,7 @@ CREATE TABLE `tbl_role` (
 -- ----------------------------
 -- Records of tbl_role
 -- ----------------------------
-INSERT INTO `tbl_role` VALUES ('zA3eem', '超级系统管理员', '超级系统管理员', '01,01_news_qQJvEz_create,01_news_qQJvEz_delete,01_news_qQJvEz_update,01_news_Bbq6n2_create,01_news_Bbq6n2_delete,01_news_Bbq6n2_update,01_news_remuEb_create,01_news_remuEb_delete,01_news_remuEb_update,01_news_IfM7Zz_create,01_news_IfM7Zz_delete,01_news_IfM7Zz_update,01_news_Q7BJzm_create,01_news_Q7BJzm_delete,01_news_Q7BJzm_update,01_news_RBVBVf_create,01_news_RBVBVf_delete,01_news_RBVBVf_update,01_news_aENvee_create,01_news_aENvee_delete,01_news_aENvee_update,01_news_3u6rmu_create,01_news_3u6rmu_delete,01_news_3u6rmu_update,01_news_MJfmQz_create,01_news_MJfmQz_delete,01_news_MJfmQz_update,01_news_rm6nQv_create,01_news_rm6nQv_delete,01_news_rm6nQv_update,01_news_I3meqq_create,01_news_I3meqq_delete,01_news_I3meqq_update,02,02_notices_bY3Uju_create,02_notices_bY3Uju_delete,02_notices_bY3Uju_update,02_notices_bY3Uju_permit,02_notices_mYre2a_create,02_notices_mYre2a_delete,02_notices_mYre2a_update,02_notices_mYre2a_permit,03,04,05,06,07,08,09,09,10,11', '2013-06-02 19:31:56');
+INSERT INTO `tbl_role` VALUES ('zA3eem', '超级系统管理员', '超级系统管理员', '01,01_news_ZnyyUn_create,01_news_ZnyyUn_delete,01_news_ZnyyUn_update,01_news_qQJvEz_create,01_news_qQJvEz_delete,01_news_qQJvEz_update,01_news_Bbq6n2_create,01_news_Bbq6n2_delete,01_news_Bbq6n2_update,01_news_remuEb_create,01_news_remuEb_delete,01_news_remuEb_update,01_news_IfM7Zz_create,01_news_IfM7Zz_delete,01_news_IfM7Zz_update,01_news_Q7BJzm_create,01_news_Q7BJzm_delete,01_news_Q7BJzm_update,01_news_RBVBVf_create,01_news_RBVBVf_delete,01_news_RBVBVf_update,01_news_aENvee_create,01_news_aENvee_delete,01_news_aENvee_update,01_news_3u6rmu_create,01_news_3u6rmu_delete,01_news_3u6rmu_update,01_news_MJfmQz_create,01_news_MJfmQz_delete,01_news_MJfmQz_update,01_news_rm6nQv_create,01_news_rm6nQv_delete,01_news_rm6nQv_update,01_news_I3meqq_create,01_news_I3meqq_delete,01_news_I3meqq_update,02,02_notices_bY3Uju_create,02_notices_bY3Uju_delete,02_notices_bY3Uju_update,02_notices_bY3Uju_permit,02_notices_mYre2a_create,02_notices_mYre2a_delete,02_notices_mYre2a_update,02_notices_mYre2a_permit,03,04,05,06,07,08,09,09,10,11', '2013-06-03 08:27:58');
 INSERT INTO `tbl_role` VALUES ('JrMBRf', '管理员', '管理员（管理用户）', '01,01_news_qQJvEz_create,01_news_qQJvEz_delete,01_news_qQJvEz_update,01_news_Bbq6n2_create,01_news_Bbq6n2_delete,01_news_Bbq6n2_update,01_news_remuEb_create,01_news_remuEb_delete,01_news_remuEb_update,01_news_IfM7Zz_create,01_news_IfM7Zz_delete,01_news_IfM7Zz_update,01_news_Q7BJzm_create,01_news_Q7BJzm_delete,01_news_Q7BJzm_update,01_news_RBVBVf_create,01_news_RBVBVf_delete,01_news_RBVBVf_update,01_news_aENvee_create,01_news_aENvee_delete,01_news_aENvee_update,01_news_3u6rmu_create,01_news_3u6rmu_delete,01_news_3u6rmu_update,01_news_MJfmQz_create,01_news_MJfmQz_delete,01_news_MJfmQz_update,01_news_rm6nQv_create,01_news_rm6nQv_delete,01_news_rm6nQv_update,01_news_I3meqq_create,01_news_I3meqq_delete,01_news_I3meqq_update,02,02_notices_mYre2a_create,02_notices_mYre2a_delete,02_notices_mYre2a_update,02_notices_mYre2a_permit,08,09', '2013-05-31 11:56:42');
 INSERT INTO `tbl_role` VALUES ('rYBVfy', '国产', 'sfd', '01_qQJvEz_create,01_qQJvEz_delete,01_qQJvEz_update,01_Bbq6n2_delete,01_Bbq6n2_update,01_remuEb_delete,01_remuEb_update,01_IfM7Zz_delete,01_IfM7Zz_update,01_Q7BJzm_create,01_Q7BJzm_delete,01_Q7BJzm_update,01_RBVBVf_create,01_RBVBVf_delete,01_RBVBVf_update,01_aENvee_create,01_aENvee_delete,01_aENvee_update,01_3u6rmu_create,01_3u6rmu_delete,01_3u6rmu_update,01_MJfmQz_create,01_MJfmQz_delete,01_MJfmQz_update,01_rm6nQv_create,01_rm6nQv_delete,01_rm6nQv_update,01_I3meqq_create,01_I3meqq_delete,01_I3meqq_update,02,02_bY3Uju_create,02_bY3Uju_delete,02_bY3Uju_update,02_bY3Uju_permit,02_mYre2a_create,02_mYre2a_delete,02_mYre2a_update,02_mYre2a_permit,03,04,05,06,07,08,09', '2013-05-25 18:42:28');
 

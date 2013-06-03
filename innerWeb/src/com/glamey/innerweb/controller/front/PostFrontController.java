@@ -1,16 +1,21 @@
 package com.glamey.innerweb.controller.front;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.glamey.framework.utils.tld.StringTld;
-import com.glamey.innerweb.constants.CategoryConstants;
-import com.glamey.innerweb.model.domain.*;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -18,10 +23,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.glamey.framework.utils.PageBean;
+import com.glamey.framework.utils.RegexUtils;
 import com.glamey.framework.utils.WebUtils;
+import com.glamey.framework.utils.tld.StringTld;
+import com.glamey.innerweb.constants.CategoryConstants;
 import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.constants.SystemConstants;
 import com.glamey.innerweb.controller.BaseController;
@@ -31,6 +40,11 @@ import com.glamey.innerweb.dao.MetaInfoDao;
 import com.glamey.innerweb.dao.PostDao;
 import com.glamey.innerweb.dao.PostReadInfoDao;
 import com.glamey.innerweb.dao.UserInfoDao;
+import com.glamey.innerweb.model.domain.Category;
+import com.glamey.innerweb.model.domain.MetaInfo;
+import com.glamey.innerweb.model.domain.Post;
+import com.glamey.innerweb.model.domain.PostReadInfo;
+import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.PostQuery;
 
 @Controller
@@ -234,5 +248,119 @@ public class PostFrontController extends BaseController {
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
 
         return mav;
+    }
+    
+    //规章制度
+    @RequestMapping(value = "/rules-news-{categoryId}.htm", method = RequestMethod.GET)
+    public ModelAndView rulesList(
+            @PathVariable String categoryId,
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[front] #rootPostList#" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("front/post-rules-list");
+        if (StringUtils.isBlank(categoryId)) {
+            mav.addObject("message", "操作无效");
+            mav.setViewName("front/404");
+            return mav;
+        }
+
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        String userId = ((UserInfo) obj).getUserId();
+
+        pageBean = new PageBean(Constants.rowsPerPageFront);
+        int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
+        pageBean.setCurPage(curPage);
+
+        PostQuery query = new PostQuery();
+        query.setCategoryType(CategoryConstants.CATEGORY_NEWS);
+        query.setCategoryId(categoryId);
+        query.setShowIndex(1);
+        query.setStart(pageBean.getStart());
+        query.setNum(pageBean.getRowsPerPage());
+
+        List<Post> postList = postDao.getByCategoryId(query);
+        pageBean.setMaxRowCount(postDao.getCountByCategoryId(query));
+        pageBean.setMaxPage();
+        pageBean.setPageNoList();
+
+        Category category = categoryDao.getById(categoryId);
+        
+        mav.addObject("postList", postList);
+        mav.addObject("pageBean", pageBean);
+        mav.addObject("category", category);
+
+        //固定内容
+        mav.addAllObjects(includeFront.linksEntrance());
+        mav.addAllObjects(includeFront.friendlyLinks(request));
+        mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
+        mav.addAllObjects(includeFront.ofenLinks());
+        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
+
+        return mav;
+    }
+    //规章制度
+    @ResponseBody
+    @RequestMapping(value = "/rules-download-{id}.htm", method = RequestMethod.GET)
+    public ModelAndView rulesDownload(
+    		@PathVariable String id,
+    		HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    	logger.info("[front] #rootPostList#" + request.getRequestURI());
+    	ModelAndView mav = new ModelAndView("front/post-rules-download");
+    	Object obj = session.getAttribute(Constants.SESSIN_USERID);
+    	String userId = ((UserInfo) obj).getUserId();
+    	if (StringUtils.isBlank(id)) {
+    		mav.addObject("message", "操作无效");
+    		mav.setViewName("front/404");
+    		//固定内容
+        	mav.addAllObjects(includeFront.linksEntrance());
+        	mav.addAllObjects(includeFront.friendlyLinks(request));
+        	mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
+        	mav.addAllObjects(includeFront.ofenLinks());
+        	mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
+    		return mav;
+    	}
+    	
+    	Post post = postDao.getByPostId(id);
+    	
+    	if(post != null && StringUtils.isNotBlank(post.getContent())){
+    		String content = post.getContent();
+    		List<String> rulesList = RegexUtils.getStringGoup1(content, "<a href=\"(.+?)\"\\s*target");
+    		if(rulesList != null && rulesList.size() > 0){
+    			String downLoadURL = rulesList.get(0);
+    			String basePath = request.getScheme() + "://" + request.getServerName() + "" + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort()) ;
+    			String realPath = basePath + downLoadURL ;
+                System.out.println(realPath);
+                try {
+                    response.sendRedirect(realPath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                /*try {
+    				String baseName = FilenameUtils.getBaseName(realPath);
+    				String extension = FilenameUtils.getExtension(realPath);
+    				String fileName = baseName + "." + extension ;
+    				response.reset();//可以加也可以不加  
+    				response.setHeader("Content-disposition","attachment; filename="+new String(fileName.getBytes("UTF-8"),"iso8859-1"));
+    				response.setHeader("Content-disposition","attachment; filename="+URLEncoder.encode(fileName, "UTF-8")); //
+    				
+					ServletOutputStream sos = response.getOutputStream();
+    				URL url = new URL(realPath);
+					URLConnection conn = url.openConnection();
+					InputStream is = conn.getInputStream();
+				    byte[] buff = new byte[2048]; 
+				    int len = 0; 
+				    while((is.read(buff, 0, buff.length)) > -1){
+				    	sos.write(buff, 0, len);
+				    	sos.flush();
+				    }
+				    is.close();
+				    sos.close();
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}*/
+    		}
+    	}
+    	return null;
     }
 }
