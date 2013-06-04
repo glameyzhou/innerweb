@@ -10,7 +10,7 @@
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                 <c:forEach items="${friendlyLinksDTOs}" var="fr">
                     <tr align="left">
-                        <td width="10%"><font style="font:bolder;color: #000000">${fr.category.name}</font></td>
+                        <td width="10%">${fr.category.name}</td>
                         <c:forEach items="${fr.linksList}" var="links">
 						<td width="10%">
 							<c:if test="${!empty links.url}">

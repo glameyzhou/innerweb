@@ -9,11 +9,10 @@
         $(function () {
             $("#jvForm").validate();
         });
-        function setOrder(userId, order) {
-            var orderDiv = document.getElementById("orderDiv");
-            orderDiv.innerHTML = '<input type="text" name="showOrder" id="showOrder" value="' + order + '"/><input type="hidden" name="userId" id="userId" value="' + userId + '"/>';
-            var orderOperationDiv = document.getElementById("orderOperationDiv");
-            orderOperationDiv.innerHTML = '<input type="button" name="orderOperation" id="orderOperation" value="保存" onclick="javascript:saveOrder();"/>';
+        function setOrder(userId, order,index) {
+            var orderInput = '<input type="text" name="showOrder" id="showOrder" value="' + order + '" size="2"/><input type="hidden" name="userId" id="userId" value="' + userId + '"/>';
+            var orderOperationDiv = document.getElementById("orderOperationDiv_" + index);
+            orderOperationDiv.innerHTML = orderInput + '&nbsp;<input type="button" name="orderOperation" id="orderOperation" value="保存" onclick="javascript:saveOrder();"/>';
         }
         function saveOrder() {
             var orderId = document.getElementById("showOrder").value;
@@ -49,7 +48,7 @@
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
             <tr>
-                <th width="10%">显示顺序</th>
+                <th width="5%">序号</th>
                 <th>部门</th>
                 <th>姓名</th>
                 <th>手机号</th>
@@ -64,16 +63,17 @@
             <tbody class="pn-ltbody">
             <c:forEach items="${userInfoList}" var="user" varStatus="status">
                 <tr>
-                    <td align=center id="orderDiv">${user.showOrder}</td>
-                    <td align=center>${user.category.name}</td>
+                    <td align=center>${(pageBean.curPage - 1) * pageBean.rowsPerPage +  status.count}</td>
+                    <td align=center>${user.category.name}${user.showOrder}</td>
                     <td align=center>${user.nickname}</td>
                     <td align=center>${user.mobile}</td>
                     <td align=center>${user.phone}</td>
                     <td align=center>${user.email}</td>
                     <td align=center>${user.address}</td>
                     <c:if test="${isSuper}">
-                        <td align="center" id="orderOperationDiv"><a
-                                href="javascript:setOrder('${user.userId}',${user.showOrder});">排序处理</a></td>
+                        <td align="center" id="orderOperationDiv_${status.count}">
+                            <a href="javascript:setOrder('${user.userId}',${user.showOrder},'${status.count}');">排序处理</a>
+                        </td>
                     </c:if>
                 </tr>
             </c:forEach>

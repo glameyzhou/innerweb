@@ -41,5 +41,5 @@ public class Constants {
     public static final String ORDERBYCOLUMNNAME_SHOWORDER = " user_showorder ";
 
     /*尾部友情链接显示的条数*/
-    public static final int FRIENDLYLINKSCOUNT = 8 ;
+    public static final int FRIENDLYLINKSCOUNT = 9 ;
 }

@@ -536,8 +536,6 @@ public class UserInfoManagerController extends BaseController {
             //比较变态的需求，新建用户之后，以该用户登陆系统
             mav.addObject("message", "创建系统用户成功");
             mav.addObject("href", "mg/user/user-list.htm");
-            /*userInfo = userInfoDao.getUserByName(username);
-            session.setAttribute(Constants.SESSIN_USERID, userInfo);*/
         } else {
             mav.addObject("message", "创建系统用户失败");
         }
@@ -586,7 +584,7 @@ public class UserInfoManagerController extends BaseController {
         userInfo.setAddress(WebUtils.getRequestParameterAsString(request, "address"));
         userInfo.setIsLive(WebUtils.getRequestParameterAsInt(request, "isLive", 0));
         userInfo.setShowInContact(WebUtils.getRequestParameterAsInt(request, "showInContact", 1));
-        userInfo.setShowOrder(WebUtils.getRequestParameterAsInt(request, "showOrder", 0));
+        /*userInfo.setShowOrder(WebUtils.getRequestParameterAsInt(request, "showOrder", 0));*/
 
         if (userInfoDao.updateUser(userInfo)) {
             mav.addObject("message", "更新系统用户成功");
@@ -622,7 +620,7 @@ public class UserInfoManagerController extends BaseController {
                 logger.info("[manager-rights-delete]" + request.getRequestURI() + " roleId=" + array + " result=" + userInfoDao.delUser(array));
             }
             mav.addObject("message", "删除系统用户成功");
-            mav.addObject("href", "mg/user/user-list.htm");
+            mav.addObject("href","mg/user/user-list.htm");
         } catch (Exception e) {
             logger.error("[manager-rights-delete] error " + request.getRequestURI() + " " + userId);
             mav.addObject("message", "删除系统用户失败");

@@ -35,8 +35,8 @@
                 <c:forEach var="post" items="${postList}" varStatus="status">
                     <ul class="con_neiye">
                         <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
-                        <li>[${post.deptCategory.name}]${post.title}</li>
-                        <li style="float:right;"><a href="${basePath}rules-download-${post.id}.htm">下载</a>&nbsp;&nbsp;${fmtString:substring(post.time,10)}</li>
+                        <li><a href="${basePath}p-${post.id}.htm">[${post.deptCategory.name}]${post.title}</a></li>
+                        <li style="float:right;">${fmtString:substring(post.time,10)}</li>
                     </ul>
                 </c:forEach>
                 <c:set var="pageURL" value="${basePath}rules-news-${category.id}.htm?"/>

@@ -319,31 +319,6 @@ public class PostFrontController extends BaseController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                /*try {
-    				String baseName = FilenameUtils.getBaseName(realPath);
-    				String extension = FilenameUtils.getExtension(realPath);
-    				String fileName = baseName + "." + extension ;
-    				response.reset();//可以加也可以不加  
-    				response.setHeader("Content-disposition","attachment; filename="+new String(fileName.getBytes("UTF-8"),"iso8859-1"));
-    				response.setHeader("Content-disposition","attachment; filename="+URLEncoder.encode(fileName, "UTF-8")); //
-    				
-					ServletOutputStream sos = response.getOutputStream();
-    				URL url = new URL(realPath);
-					URLConnection conn = url.openConnection();
-					InputStream is = conn.getInputStream();
-				    byte[] buff = new byte[2048]; 
-				    int len = 0; 
-				    while((is.read(buff, 0, buff.length)) > -1){
-				    	sos.write(buff, 0, len);
-				    	sos.flush();
-				    }
-				    is.close();
-				    sos.close();
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}*/
     		}
     	}
     	return null;
