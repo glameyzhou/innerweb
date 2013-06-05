@@ -64,7 +64,7 @@
             <c:forEach items="${userInfoList}" var="user" varStatus="status">
                 <tr>
                     <td align=center>${(pageBean.curPage - 1) * pageBean.rowsPerPage +  status.count}</td>
-                    <td align=center>${user.category.name}${user.showOrder}</td>
+                    <td align=center>${user.category.name}</td>
                     <td align=center>${user.nickname}</td>
                     <td align=center>${user.mobile}</td>
                     <td align=center>${user.phone}</td>
