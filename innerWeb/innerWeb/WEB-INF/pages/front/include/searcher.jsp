@@ -26,7 +26,7 @@
 	</div>
 </div>
 <div class="left_guanggao">
-	<a href="${basePath}library-0-0-1.htm"><img src="${basePath}res/front/images/guanggao1.jpg" border="0"/></a>
+	<a href="${basePath}library.htm"><img src="${basePath}res/front/images/guanggao1.jpg" border="0"/></a>
 </div>
 <div class="left_guanggao">
 	<img src="${basePath}res/front/images/kyzy.jpg" border="0"/>

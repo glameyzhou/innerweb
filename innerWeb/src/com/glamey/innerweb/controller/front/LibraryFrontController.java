@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.innerweb.model.dto.LibraryInfoDTO;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.LibraryInfo;
 import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.LibraryQuery;
+import sun.text.normalizer.NormalizerBase;
 
 @Controller
 public class LibraryFrontController extends BaseController {
@@ -47,11 +49,37 @@ public class LibraryFrontController extends BaseController {
         logger.info("[front] #postList#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
 
+        List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
         List<Category> rootList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
+        for (Category rootCategory : rootList) {
+            /*父类、子类、子类下内容*/
+            LibraryInfoDTO dto = new LibraryInfoDTO();
+            dto.setCategory(rootCategory);
 
+            List<LibraryInfoDTO> libDTOList = new ArrayList<LibraryInfoDTO>();
+            LibraryInfoDTO libDTO = null ;
+            /*获取对应的子分类信息以及子分类下的连接数量*/
+            List<Category> categoryList = categoryDao.getByParentId(rootCategory.getId(),CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
+            for (Category category : categoryList) {
+                libDTO = new LibraryInfoDTO();
+                libDTO.setCategory(category);
+
+                LibraryQuery query = new LibraryQuery();
+                query.setCategoryId(category.getId());
+                query.setStart(0);
+                query.setNum(Constants.LIBRARYDISCOUNT);
+                List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
+                libDTO.setLibraryInfoList(libraryInfoList);
+
+                libDTOList.add(libDTO);
+            }
+            dto.setLibraryInfoDTOList(libDTOList);
+            libraryInfoDTOList.add(dto);
+        }
+        mav.addObject("libraryInfoDTOList",libraryInfoDTOList);
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request,response,session));
-        mav.setViewName("front/lib-list");
+        mav.setViewName("front/lib-index");
         return mav;
     }
     /*library-0-0-0.htm*/
