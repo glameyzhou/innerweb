@@ -1,6 +1,8 @@
 package com.glamey.innerweb.test;
 
 
+import com.glamey.innerweb.test.thread.ThreadTest;
+
 /**
  * Created with IntelliJ IDEA. User: zy To change this template use File |
  * Settings | File Templates.
