@@ -54,11 +54,11 @@
                         ${post.content}
                     </div>
                     <div class="neirong_con">
-                        <p style="color:#9B9B9B">
+                        <p style="color:#9B9B9B;width:925px;">
                         <c:if test="${not empty postReadUserList}"><br/>已读人：
                             <c:forEach var="u" items="${postReadUserList}" varStatus="prStatus">
                                 ${u.nickname}&nbsp;
-                                <c:if test="${prStatus.count % 8 == 0}"><br/></c:if>
+                                <c:if test="${prStatus.count % 16 == 0}"><br/></c:if>
                             </c:forEach>
                         </c:if>
                         </p>
