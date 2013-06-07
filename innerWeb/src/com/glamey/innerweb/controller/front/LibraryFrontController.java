@@ -22,6 +22,7 @@ import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.constants.CategoryConstants;
 import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.constants.SystemConstants;
+import com.glamey.innerweb.constants.SystemConstants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.LibraryInfoDao;
@@ -42,7 +43,7 @@ public class LibraryFrontController extends BaseController {
     @Resource
     private LibraryInfoDao libraryInfoDao;
 
-    /*分类首页*/
+    /*微型图书馆首页*/
     @RequestMapping(value = "/library.htm", method = RequestMethod.GET)
     public ModelAndView library(
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {

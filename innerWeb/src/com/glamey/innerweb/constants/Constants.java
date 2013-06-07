@@ -44,5 +44,5 @@ public class Constants {
     public static final int FRIENDLYLINKSCOUNT = 9;
 
     /*图书馆首页默认显示内容条数*/
-    public static final int LIBRARYDISCOUNT = 3;
+    public static final int LIBRARYDISCOUNT = 9;
 }
