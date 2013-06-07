@@ -8,13 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.glamey.innerweb.constants.Constants;
-import com.glamey.innerweb.constants.SystemConstants;
-import com.glamey.innerweb.model.domain.UserInfo;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 
 import com.glamey.innerweb.constants.CategoryConstants;
+import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.LinksDao;
 import com.glamey.innerweb.dao.MessageDao;
@@ -22,10 +20,10 @@ import com.glamey.innerweb.dao.MetaInfoDao;
 import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.Links;
 import com.glamey.innerweb.model.domain.MetaInfo;
+import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.FriendlyLinksDTO;
 import com.glamey.innerweb.model.dto.LinksQuery;
 import com.glamey.innerweb.model.dto.MessageQuery;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 前端页面的包含内容
@@ -159,22 +157,24 @@ public class IncludeFront {
         return count;
     }
 
-    /**
-     * 页面包含的所有内容
-     * @param request
-     * @param response
-     * @return
-     */
     public ModelMap allInclude(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        Object obj = session.getAttribute(Constants.SESSIN_USERID);
-        String userId = ((UserInfo) obj).getUserId();
-
         ModelMap map = new ModelMap();
-        map.putAll(linksEntrance());
-        map.putAll(friendlyLinks(request));
+
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        String userId = userInfo.getUserId();
+
+        /*未读消息*/
         map.put("unReadMessage", unReadMessage(userId));
-        map.putAll(ofenLinks());
-        map.put(SystemConstants.page_foot, getMetaByName(SystemConstants.page_foot));
+
+        /*快捷链接入口*/
+        map.addAllAttributes(linksEntrance());
+
+        /*常用链接*/
+        map.addAllAttributes(ofenLinks());
+
+        /*友情链接*/
+        map.addAllAttributes(friendlyLinks(request));
+
         return map;
     }
 }
