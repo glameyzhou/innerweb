@@ -33,48 +33,61 @@
             <%@include file="include/popular_Links.jsp" %>
             <%@include file="include/searcher.jsp" %>
         </div>
-        <c:forEach var="dto" items="${libraryInfoDTOList}" varStatus="libStatus">
-            <c:if test="${libStatus.count % 2 == 0}"><c:set var="titleCSS" value="body_right_tit1" /></c:if>
-            <c:if test="${libStatus.count % 2 == 1}"><c:set var="titleCSS" value="body_right_tit2" /></c:if>
-            <div class="right_neiye">
-                <div class="${titleCSS}" style="width:962px;">
-                    <ul class="tit_biao">
-                        <li><img src="${basePath}res/front/images/right_tit_biao.png"/></li>
-                        <li style="padding-left:15px;">${dto.category.name}</li>
-                    </ul>
-                    <ul class="tit_biao_right">
-                        <li><img src="${basePath}res/front/images/right_tit_biao2.png"/></li>
-                        <li><a href="${basePath}library-${dto.category.id}-0--1.htm">更&nbsp;多</a></li>
-                    </ul>
+        <div class="body_right">
+            <c:forEach var="dto" items="${libraryInfoDTOList}" varStatus="libStatus">
+                <c:if test="${libStatus.count % 2 == 0}"><c:set var="titleCSS" value="body_right_tit1" /></c:if>
+                <c:if test="${libStatus.count % 2 == 1}"><c:set var="titleCSS" value="body_right_tit2" /></c:if>
+                <div class="right_neiye">
+                    <div class="${titleCSS}" style="width:962px;">
+                        <ul class="tit_biao">
+                            <li><img src="${basePath}res/front/images/right_tit_biao.png"/></li>
+                            <li style="padding-left:15px;">${dto.category.name}</li>
+                        </ul>
+                        <%--<ul class="tit_biao_right">
+                            <li><img src="${basePath}res/front/images/right_tit_biao2.png"/></li>
+                            <li><a href="${basePath}library-${dto.category.id}-0--1.htm">更&nbsp;多</a></li>
+                        </ul>--%>
+                    </div>
+                    <div class="neiye_right_con" style="width:932px;">
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <c:forEach var="cat_dto" items="${dto.libraryInfoDTOList}" varStatus="cate_status">
+                                <tr valign="top">
+                                    <td height="35px;" width="33%" style="font-weight: bolder">
+                                        <a href="${basePath}library_${dto.category.id}_${cat_dto.category.id}_-1.htm">${cat_dto.category.name}</a>
+                                    </td>
+                                    <td colspan="2" align="right">
+                                        <c:if  test="${fn:length(cat_dto.libraryInfoList) > 9}">
+                                            <a href="${basePath}library_${dto.category.id}_${cat_dto.category.id}_-1.htm">更多</a>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <c:forEach var="lib" items="${cat_dto.libraryInfoList}" varStatus="statusIndex">
+                                        <c:if test="${lib.type == 1}">
+                                            <td width="33%" height="30px;">
+                                                <a href="${lib.url}" target="_blank" title="${lib.name}">${fmtString:substringAppend(lib.name,23 ,'..' )}</a>
+                                            </td>
+                                        </c:if>
+                                        <c:if test="${lib.type == 2}">
+                                            <td width="33%" height="30px;">
+                                                <a href="${basePath}library-detail-${lib.id}.htm" target="_blank" title="${lib.name}">${fmtString:substringAppend(lib.name,23 ,'..' )}</a>
+                                            </td>
+                                        </c:if>
+                                        <c:if test="${lib.type == 3}">
+                                            <td width="33%" height="132px;"><a href="${lib.url}"><img width="130px;" height="130px" border="0" src="${basePath}${lib.image}"/></a></td>
+                                        </c:if>
+                                        <c:if test="${statusIndex.count % 3 == 0}">
+                                            </tr><tr>
+                                        </c:if>
+                                    </c:forEach>
+                                </tr>
+                                <tr><td colspan="3">&nbsp;</td></tr>
+                            </c:forEach>
+                        </table>
+                    </div>
                 </div>
-                <div class="neiye_right_con" style="width:932px;">
-                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
-                        <c:forEach var="cat_dto" items="${dto.libraryInfoDTOList}" varStatus="cate_status">
-                            <tr valign="top">
-                                <td colspan="3" height="35px;" style="font-weight: bolder">${cat_dto.category.name}</td>
-                            </tr>
-                            <tr>
-                                <c:forEach var="lib" items="${cat_dto.libraryInfoList}" varStatus="statusIndex">
-                                    <c:if test="${lib.type == 1}">
-                                        <td width="33%"><a href="${lib.url}" target="_blank">${lib.name}</a></td>
-                                    </c:if>
-                                    <c:if test="${lib.type == 2}">
-                                        <td width="33%"><a href="${basePath}library-detail-${lib.id}.htm" target="_blank">${lib.name}</a></td>
-                                    </c:if>
-                                    <c:if test="${lib.type == 3}">
-                                        <td width="33%"><a href="${lib.url}"><img width="130px;" height="130px" border="0" src="${basePath}${lib.image}"/></a></td>
-                                    </c:if>
-                                    <c:if test="${statusIndex.count % 3 == 0}">
-                                        </tr><tr>
-                                    </c:if>
-                                </c:forEach>
-                            </tr>
-                            <tr><td colspan="3">&nbsp;</td></tr>
-                        </c:forEach>
-                    </table>
-                </div>
-            </div>
-        </c:forEach>
+            </c:forEach>
+        </div>
         <%--<div class="right_neiye">
             <div class="body_right_tit1" style="width:962px;">
                 <ul class="tit_biao">

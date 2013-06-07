@@ -84,7 +84,7 @@ public class LibraryFrontController extends BaseController {
         return mav;
     }
     /*library-0-0-0.htm*/
-    @RequestMapping(value = "/library-{pCategoryId}-{categoryId}-{showImage}.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/library_{pCategoryId}_{categoryId}_{showImage}.htm", method = RequestMethod.GET)
     public ModelAndView libList(
             @PathVariable String pCategoryId,
             @PathVariable String categoryId,
@@ -92,6 +92,7 @@ public class LibraryFrontController extends BaseController {
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #postList#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
+        System.out.println(String.format("pid=%s,cid=%s,showImage=%d",pCategoryId,categoryId,showImage));
         if (StringUtils.equalsIgnoreCase(categoryId, "0")) {
             categoryId = null;
         }
@@ -103,8 +104,20 @@ public class LibraryFrontController extends BaseController {
             }
             categoryId = null;
         }
+        Category pCategory = categoryDao.getById(pCategoryId);
+        Category category = categoryDao.getById(categoryId);
+        if(pCategory == null){
+            pCategory = new Category();
+            pCategory.setId("0");
+        }
+        if(category == null){
+            category = new Category();
+            category.setId("0");
+        }
 
-        pageBean = new PageBean(50);
+
+
+        pageBean = new PageBean(60);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);
 
@@ -123,13 +136,13 @@ public class LibraryFrontController extends BaseController {
         mav.addObject("pageBean", pageBean);
         mav.addObject("libraryInfos", libraryInfos);
         mav.addObject("query", query);
-        mav.addObject("pCategoryId", StringUtils.isBlank(pCategoryId) ? "0" : pCategoryId);
-        mav.addObject("categoryId", StringUtils.isBlank(categoryId) ? "0" : categoryId);
+        mav.addObject("pCategory", pCategory);
+        mav.addObject("category", category);
 
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request,response,session));
 
-        mav.setViewName("front/lib-list" + showImage);
+        mav.setViewName("front/lib-list");
         return mav;
     }
 

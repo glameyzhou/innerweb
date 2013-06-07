@@ -35,7 +35,7 @@
                 <c:forEach var="post" items="${postList}" varStatus="status">
                     <ul class="con_neiye">
                         <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
-                        <li><a href="${basePath}p-${post.id}.htm">[${post.deptCategory.name}]${post.title}</a></li>
+                        <li><a href="${basePath}p-${post.id}.htm">[${post.deptCategory.name}]&nbsp;${post.title}</a></li>
                         <li style="float:right;">${fmtString:substring(post.time,10)}</li>
                     </ul>
                 </c:forEach>

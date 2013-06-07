@@ -12,11 +12,11 @@
                     <tr align="left">
                         <td width="10%">${fr.category.name}</td>
                         <c:forEach items="${fr.linksList}" var="links">
-						<td width="10%">
-							<c:if test="${!empty links.url}">
-								<a href="${links.url}" target="_blank">${links.name}</a>
-							</c:if>
-						</td>
+                            <td width="10%">
+                                <c:if test="${!empty links.url}">
+                                    <a href="${links.url}" target="_blank">${links.name}</a>
+                                </c:if>
+                            </td>
 					</c:forEach>
                     </tr>
                 </c:forEach>
