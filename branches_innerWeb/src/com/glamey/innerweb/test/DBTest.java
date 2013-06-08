@@ -13,5 +13,9 @@ public class DBTest {
 		JdbcTemplate template = (JdbcTemplate) context.getBean("jdbcTemplate");
 		
 		int a = template.queryForInt("select count(1) from tbl_category");
+		int b = template.queryForInt("select count(1) from tbl_category");
+		int c = template.queryForInt("select count(1) from tbl_category");
+		int e = template.queryForInt("select count(1) from tbl_category");
+		int f = template.queryForInt("select count(1) from tbl_category");
 	}
 }
