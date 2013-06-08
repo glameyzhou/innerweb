@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-06-03 19:03:45
+Date: 2013-06-09 07:28:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -38,13 +38,16 @@ CREATE TABLE `tbl_category` (
 -- ----------------------------
 -- Records of tbl_category
 -- ----------------------------
+INSERT INTO `tbl_category` VALUES ('2iA3Mj', '杂志', '杂志', 'zazhi', '', '0', '0', '0', 'RrEvqi', 'library', null, '2013-06-08 14:08:18');
 INSERT INTO `tbl_category` VALUES ('2meuyy', '友情链接', '友情链接', 'friendlyLinks', '友情链接', '0', '1', '0', '0', 'friendlyLinks', null, '2013-05-07 08:14:55');
 INSERT INTO `tbl_category` VALUES ('2UNv6v', '分布式能源', '分布式能源', 'fenbushinengyuan', '', '0', '1', '2', 'QRZrUb', 'library', '', '2013-06-03 15:58:32');
 INSERT INTO `tbl_category` VALUES ('3u6rmu', '煤炭清洁利用研发中心', '煤炭清洁利用', 'mtqjlyyfzx', '煤炭清洁利用研发中心', '0', '1', '8', 'm226Ff', 'news', null, '2013-05-20 11:09:00');
 INSERT INTO `tbl_category` VALUES ('6JJVnm', '集团部门', '集团部门', 'dept', '集团部门', '0', '0', '0', '0', 'dept', null, null);
 INSERT INTO `tbl_category` VALUES ('7B7rIb', '政府部门', '政府部门', 'gv', '政府部门', '0', '0', '11', '2meuyy', 'friendlyLinks', null, '2013-05-16 16:30:25');
+INSERT INTO `tbl_category` VALUES ('7bym6z', '应急管理', '应急管理', 'yingjiguanli', '应急管理', '0', '1', '2', 'YfQB7r', 'safe', null, '2013-06-08 16:29:46');
 INSERT INTO `tbl_category` VALUES ('7VNzE3', '煤炭煤化工', '煤炭煤化工', 'meitanmeihuagong', '', '0', '1', '6', 'QRZrUb', 'library', '', '2013-06-03 15:59:11');
 INSERT INTO `tbl_category` VALUES ('7ZRfUz', '储能', '储能', 'chuneng', '', '0', '1', '10', 'QRZrUb', 'library', '', '2013-06-03 16:32:33');
+INSERT INTO `tbl_category` VALUES ('ABfyUz', '系统经验', '系统经验', 'xitongjingyan', '系统经验', '0', '1', '4', 'YfQB7r', 'safe', null, '2013-06-08 16:30:13');
 INSERT INTO `tbl_category` VALUES ('aEbAva', '汽车', '汽车', 'qiche', '', '0', '1', '12', 'QRZrUb', 'library', '', '2013-06-03 16:32:48');
 INSERT INTO `tbl_category` VALUES ('aENvee', '页岩气研发中心', '页岩气', 'yyqyfzx', '页岩气研发中心', '0', '1', '7', 'm226Ff', 'news', null, '2013-05-20 11:08:32');
 INSERT INTO `tbl_category` VALUES ('bamMBf', '政策、规划', '政策、规划', 'zhengce、guihua', '', '0', '1', '4', '0', 'library', '', '2013-06-03 15:33:52');
@@ -52,19 +55,23 @@ INSERT INTO `tbl_category` VALUES ('BbeYfq', '图书选荐', '图书', 'tushuxua
 INSERT INTO `tbl_category` VALUES ('Bbq6n2', '综合管理部', '综合管理部', 'zongheguanlibu', '综合管理部', '0', '1', '2', 'm226Ff', 'news', null, '2013-05-20 11:06:33');
 INSERT INTO `tbl_category` VALUES ('beu6Nv', '视频链接', '视频链接', 'ofenLinksVidos', '视频链接', '0', '1', '2', 'memAvy', 'ofenLinks', null, '2013-05-25 10:12:01');
 INSERT INTO `tbl_category` VALUES ('BfqeYz', '新闻媒体', '新闻媒体', 'xwmt', '', '0', '0', '8', '2meuyy', 'friendlyLinks', null, '2013-05-21 09:17:56');
+INSERT INTO `tbl_category` VALUES ('BNZ7ze', '集团要求', '集团要求', 'jituanyaoqiu', '集团要求', '0', '1', '3', 'YfQB7r', 'safe', null, '2013-06-08 16:29:59');
 INSERT INTO `tbl_category` VALUES ('bY3Uju', '公司通知公告', '公司通知公告', 'gongsiNotices', '公司通知公告', '0', '1', '1', 'E7FFN3', 'notices', null, '2013-05-20 11:00:57');
 INSERT INTO `tbl_category` VALUES ('E7FFN3', '通知公告', '通知公告', 'notices', '通知公告', '0', '1', '0', '0', 'notices', null, null);
 INSERT INTO `tbl_category` VALUES ('ea6rQf', '新能源', '新能源', 'xinnengyuan', '', '0', '1', '8', 'QRZrUb', 'library', '', '2013-06-03 15:59:46');
 INSERT INTO `tbl_category` VALUES ('eaAr6j', '行业权威机构、网站', '行业机构、网站', 'xingyequanweijigou、wangzhan', '', '0', '1', '10', '0', 'library', '', '2013-06-03 15:36:18');
 INSERT INTO `tbl_category` VALUES ('FbIr6b', '国家“千人计划”专家', '“千人计划”', 'guojia“qianrenjihua”zhuanjia', '', '0', '1', '6', 'j2imAr', 'library', '', '2013-06-03 15:41:17');
 INSERT INTO `tbl_category` VALUES ('fIBrmm', '能源企业', '能源企业', 'nyqy', '', '0', '0', '6', '2meuyy', 'friendlyLinks', null, '2013-05-21 09:17:35');
+INSERT INTO `tbl_category` VALUES ('fUF7rm', '牛逼分类', '牛逼分类', 'niubifenlei', '牛逼分类', '0', '1', '111', '0', 'library', null, '2013-06-07 17:29:50');
 INSERT INTO `tbl_category` VALUES ('i2ima2', '技经院', '技经院', '', '技经院', '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-23 07:32:46');
 INSERT INTO `tbl_category` VALUES ('I3meqq', '技经院', '技经院', 'jijingyuan', 'jijingyuan', '0', '1', '20', 'm226Ff', 'news', null, '2013-05-20 11:16:59');
 INSERT INTO `tbl_category` VALUES ('IfM7Zz', '人力资源', '人力资源', 'renliziyuan', '人力资源', '0', '1', '4', 'm226Ff', 'news', null, '2013-05-20 11:07:11');
 INSERT INTO `tbl_category` VALUES ('j2imAr', '专家简介', '专家', 'zhuanjiajianjie', '', '0', '1', '20', '0', 'library', '', '2013-06-03 15:39:30');
+INSERT INTO `tbl_category` VALUES ('J3a6re', '后勤服务', '后勤服务', 'houqinfuwu', '后勤服务', '0', '1', '0', 'm226Ff', 'news', null, '2013-06-08 16:25:40');
 INSERT INTO `tbl_category` VALUES ('m226Ff', '信息动态', '信息动态', 'news', '信息动态', '0', '1', '0', '0', 'news', null, '2013-05-07 08:14:55');
 INSERT INTO `tbl_category` VALUES ('m2iYBn', '科技专家', '科技专家', 'kejizhuanjia', '', '0', '1', '4', 'j2imAr', 'library', '', '2013-06-03 15:40:40');
 INSERT INTO `tbl_category` VALUES ('memAvy', '常用链接', '常用链接', 'ofenLinks', '常用链接', '1', '1', '0', '0', 'ofenLinks', null, '2013-05-07 08:14:55');
+INSERT INTO `tbl_category` VALUES ('mEV3Ef', '安全规章', '安全规章', 'anquanguizhang', '安全规章', '0', '1', '5', 'YfQB7r', 'safe', null, '2013-06-08 16:30:27');
 INSERT INTO `tbl_category` VALUES ('MFnU7v', '经济专家', '经济专家', 'jingjizhuanjia', '', '0', '1', '2', 'j2imAr', 'library', '', '2013-06-03 15:40:19');
 INSERT INTO `tbl_category` VALUES ('MJfmQz', '支部活动', '支部活动', 'zhibuhuodong', '支部活动', '0', '1', '10', 'm226Ff', 'news', null, '2013-05-20 11:09:45');
 INSERT INTO `tbl_category` VALUES ('mQZv2u', '油气', '油气', 'youqi', '', '0', '1', '4', 'QRZrUb', 'library', '', '2013-06-03 15:58:48');
@@ -84,12 +91,14 @@ INSERT INTO `tbl_category` VALUES ('remuEb', '科研项目管理部', '科研项
 INSERT INTO `tbl_category` VALUES ('rm6nQv', '专题活动', '专题活动', 'zhuantihuodong', '专题活动', '0', '1', '11', 'm226Ff', 'news', null, '2013-05-20 11:10:01');
 INSERT INTO `tbl_category` VALUES ('RrEj2y', '华电系统资料', '华电资料', 'huadianxitongziliao', '', '0', '1', '14', '0', 'library', '', '2013-06-03 15:37:03');
 INSERT INTO `tbl_category` VALUES ('RrEvqi', '每月科技一讲', '每月一讲', 'meiyuekejiyijiang', '', '0', '1', '16', '0', 'library', '', '2013-06-03 15:37:44');
+INSERT INTO `tbl_category` VALUES ('RveU73', '总院活动', '总院活动', 'zongyuanhuodong', '总院活动', '0', '1', '1', 'YfQB7r', 'safe', null, '2013-06-08 16:29:30');
 INSERT INTO `tbl_category` VALUES ('UJNFZf', '34', '34', '34', '34', '0', '0', '34', 'NNFz6b', 'library', null, '2013-06-01 17:27:43');
 INSERT INTO `tbl_category` VALUES ('Uvuyqy', '科研项目管理部', '科研项目管理部', '', '科研项目管理部', '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-23 07:32:30');
+INSERT INTO `tbl_category` VALUES ('vqMn2i', '安全法规', '安全法规', 'anquanfazhang', '安全法规', '0', '1', '6', 'YfQB7r', 'safe', null, '2013-06-08 16:30:41');
+INSERT INTO `tbl_category` VALUES ('YfQB7r', '安全管理', '安全管理', 'safe', '安全管理', '0', '0', '0', '0', 'safe', null, '2013-06-08 12:12:12');
 INSERT INTO `tbl_category` VALUES ('yMfAvi', '12', '12', '12', '12', '0', '1', '12', 'NNFz6b', 'library', null, '2013-06-01 17:27:35');
 INSERT INTO `tbl_category` VALUES ('Z3M7Rz', '报纸', '报纸', 'baozhi', '', '0', '1', '8', '0', 'library', '', '2013-06-03 15:35:38');
 INSERT INTO `tbl_category` VALUES ('zeMvu2', '总办', '总办', '', '总办', '0', '0', '0', '6JJVnm', 'dept', null, '2013-05-17 14:05:29');
-INSERT INTO `tbl_category` VALUES ('ZjYZR3', '政研、科研', '政研、科研', 'zhengyan、keyan', '', '0', '1', '18', '0', 'library', '', '2013-06-03 15:38:38');
 INSERT INTO `tbl_category` VALUES ('ZnyyUn', '规章制度', '规章制度', 'guizhangzhidu', '规章制度', '0', '1', '1', 'm226Ff', 'news', null, '2013-06-03 07:15:20');
 
 -- ----------------------------
@@ -110,13 +119,24 @@ CREATE TABLE `tbl_library` (
 -- ----------------------------
 -- Records of tbl_library
 -- ----------------------------
-INSERT INTO `tbl_library` VALUES ('q2qIva', '2UNv6v', '3', null, 'http://www.baidu.com', null, 'userfiles/upload/user-images/2013/06/02/20130602195708.jpg', '2013-06-03 18:57:05');
 INSERT INTO `tbl_library` VALUES ('qmiiae', 'mQZv2u', '1', '中华人民共和国', 'http://www.baidu.com', null, null, '2013-06-03 18:57:50');
 INSERT INTO `tbl_library` VALUES ('IJFnie', 'mQZv2u', '1', '中华人民共和国', 'http://www.qq.com', null, null, '2013-06-03 18:57:44');
 INSERT INTO `tbl_library` VALUES ('QBjyeq', '2UNv6v', '1', '郑州生物中心', 'http://www.qq.com', null, null, '2013-06-03 18:57:38');
 INSERT INTO `tbl_library` VALUES ('MjAnM3', '7VNzE3', '1', '郑州生物中心', 'http://www.qq.com', null, null, '2013-06-03 18:57:29');
 INSERT INTO `tbl_library` VALUES ('mMfIvy', '2UNv6v', '1', '郑州生物中心', 'http://www.qq.com', null, null, '2013-06-03 18:57:21');
 INSERT INTO `tbl_library` VALUES ('ZR3Qre', '2UNv6v', '2', '自定义内容', null, '自定义内容自定义内容自定义内容自定义内容自定义内容自定义内容自定义内容自定义内容自定义内容', null, '2013-06-03 18:57:14');
+INSERT INTO `tbl_library` VALUES ('vANzaq', '2UNv6v', '1', '切切切切切切切切切切切切切切切切去', 'http://www.baidu.com', null, null, '2013-06-07 17:54:45');
+INSERT INTO `tbl_library` VALUES ('QNVZjy', '2UNv6v', '1', '网秦新闻1', 'asdfasdf', null, null, '2013-06-07 17:54:57');
+INSERT INTO `tbl_library` VALUES ('qmqM73', '2UNv6v', '1', '网秦新闻1', 'asdfasdfadsfadsf', null, null, '2013-06-07 17:55:05');
+INSERT INTO `tbl_library` VALUES ('R3Qv2u', '2UNv6v', '1', 'asdfasdfadsfasdfasdfasdf', 'asdfasdfasdfasdfasdf', null, null, '2013-06-07 17:55:14');
+INSERT INTO `tbl_library` VALUES ('aaeERb', '2UNv6v', '1', 'asdfasdfadsfasdfasdfasdf', 'asdfasdfadfadfadsfasdf', null, null, '2013-06-07 17:55:21');
+INSERT INTO `tbl_library` VALUES ('bmEfau', '2UNv6v', '1', '撒大大发的发生的范德萨发方大', 'asdfasdfasdfasdfadsfasdf', null, null, '2013-06-07 17:55:38');
+INSERT INTO `tbl_library` VALUES ('Qny2a2', '2UNv6v', '1', 'asdfa阿斯顿发撒旦法撒旦法撒旦法', 'afadsfadfadfadfasdf', null, null, '2013-06-07 17:55:49');
+INSERT INTO `tbl_library` VALUES ('jI3mim', '2UNv6v', '1', '阿斯顿发撒旦法撒旦法撒旦法阿斯顿发撒旦法撒旦法撒旦法阿斯顿发撒旦法撒旦法撒旦法阿斯顿发撒旦法撒旦法撒旦法', 'asdfasdfadfadfadf', null, null, '2013-06-07 18:12:24');
+INSERT INTO `tbl_library` VALUES ('7jy222', '2iA3Mj', '1', '杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志', 'http://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack', null, null, '2013-06-08 14:08:33');
+INSERT INTO `tbl_library` VALUES ('EJNBFb', '2iA3Mj', '1', '杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志', 'http://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack', null, null, '2013-06-08 14:08:43');
+INSERT INTO `tbl_library` VALUES ('Fbai2y', '2iA3Mj', '1', '杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志', 'http://www.qq.com', null, null, '2013-06-08 14:08:53');
+INSERT INTO `tbl_library` VALUES ('vyEVry', '2iA3Mj', '1', '杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志杂志', 'http://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack', null, null, '2013-06-08 14:09:01');
 
 -- ----------------------------
 -- Table structure for `tbl_links`
@@ -169,7 +189,7 @@ INSERT INTO `tbl_links` VALUES ('iIRRZv', '4545', '45454', '', 'friendlyLinks', 
 INSERT INTO `tbl_links` VALUES ('iQFzay', 'Google香港', 'http://www.qq.com', '7B7rIb', 'friendlyLinks', null, '0', '1', '2013-06-01 07:47:17');
 INSERT INTO `tbl_links` VALUES ('iUvyAr', '中国能源网', 'http://www.chec.com.cn', 'NJNzQ3', 'friendlyLinks', null, '1', '1', '2013-06-01 15:51:23');
 INSERT INTO `tbl_links` VALUES ('Ivq2Mr', '集团通讯录', '#', 'QZbM7n', 'infastentrance', null, '0', '1', '2013-05-21 01:09:19');
-INSERT INTO `tbl_links` VALUES ('jaqEvm', '后勤服务(在建)', '#', 'NnEvIb', 'outfastentrance', null, '6', '1', '2013-05-21 01:07:24');
+INSERT INTO `tbl_links` VALUES ('jaqEvm', '后勤服务(在建)', 'pl-news-j3a6re.htm', 'NnEvIb', 'outfastentrance', null, '6', '1', '2013-06-08 16:26:57');
 INSERT INTO `tbl_links` VALUES ('JB7fYr', 'Google香港', 'http://www.qq.com', '7B7rIb', 'friendlyLinks', null, '0', '1', '2013-06-01 06:52:30');
 INSERT INTO `tbl_links` VALUES ('JfQR3q', '中国能源网', 'http://www.chec.com.cn', 'NJNzQ3', 'friendlyLinks', null, '1', '1', '2013-06-01 15:51:24');
 INSERT INTO `tbl_links` VALUES ('jyMJJf', 'Google香港', 'http://www.qq.com', '7B7rIb', 'friendlyLinks', null, '0', '1', '2013-06-01 07:47:31');
@@ -187,6 +207,7 @@ INSERT INTO `tbl_links` VALUES ('qYV7Zv', '集团信息门户', '#', 'QZbM7n', '
 INSERT INTO `tbl_links` VALUES ('R3qMNj', '中国能源网', 'http://www.chec.com.cn', 'NJNzQ3', 'friendlyLinks', null, '1', '1', '2013-06-01 15:51:20');
 INSERT INTO `tbl_links` VALUES ('RnYb6n', '通讯录', 'mg/home.htm?opt=contact', 'NnEvIb', 'outfastentrance', null, '0', '1', '2013-05-25 02:16:41');
 INSERT INTO `tbl_links` VALUES ('RR7bae', '技经院', 'http://emial.comqqqq', '7B7rIb', 'friendlyLinks', null, '0', '1', '2013-06-01 06:52:56');
+INSERT INTO `tbl_links` VALUES ('U7Vzie', '安全管理', 'safe.htm', 'NnEvIb', 'outfastentrance', null, '0', '1', '2013-06-08 16:27:51');
 INSERT INTO `tbl_links` VALUES ('UbuMzu', 'Google香港', 'http://www.qq.com', '7B7rIb', 'friendlyLinks', null, '0', '1', '2013-06-01 07:47:21');
 INSERT INTO `tbl_links` VALUES ('uERjA3', '换点工程', 'http://www.baidu.com', '7B7rIb', 'friendlyLinks', null, '0', '1', '2013-06-01 06:52:41');
 INSERT INTO `tbl_links` VALUES ('UnMRZb', '中国能源网', 'http://www.chec.com.cn', 'NJNzQ3', 'friendlyLinks', null, '1', '1', '2013-06-01 15:51:26');
@@ -273,6 +294,7 @@ INSERT INTO `tbl_post` VALUES ('NrEJNb', 'notices', 'mYre2a', '科技部11111', 
 INSERT INTO `tbl_post` VALUES ('QzEZfy', 'news', 'ZnyyUn', 'werwqer', 'biymau', 'zeMvu2', '2013-06-03 08:28:27', '1', '1', '0', '0', '0', 'qwerwqer', null, '<a href=\"/userfiles/file/20130603/20130603082841_117.docx\" target=\"_blank\">/userfiles/file/20130603/20130603082841_117.docx</a>\r\n<p>\r\n	&nbsp;\r\n</p>');
 INSERT INTO `tbl_post` VALUES ('Ub2Q3e', 'notices', 'mYre2a', '科研公告', 'UNb63y', 'Uvuyqy', '2013-05-26 14:57:52', '1', '1', '0', '1', '1', '科研公告', null, '科研公告');
 INSERT INTO `tbl_post` VALUES ('vIBNjq', 'notices', 'bY3Uju', '111111111', 'biymau', 'zeMvu2', '2013-05-25 20:01:12', '1', '0', '0', '0', '0', '1111111111111', null, '11111111111111111111111');
+INSERT INTO `tbl_post` VALUES ('ZzUBV3', 'safe', 'RveU73', '1231231', 'biymau', 'zeMvu2', '2013-06-08 17:05:04', '1', '1', '0', '0', '0', '123123', null, '12313123123');
 
 -- ----------------------------
 -- Table structure for `tbl_post_read`
@@ -301,6 +323,8 @@ INSERT INTO `tbl_post_read` VALUES ('NrEJNb', 'biymau', '2013-05-26 13:54:27');
 INSERT INTO `tbl_post_read` VALUES ('Ub2Q3e', 'biymau', '2013-05-29 17:26:04');
 INSERT INTO `tbl_post_read` VALUES ('vIBNjq', 'biymau', '2013-06-01 15:31:19');
 INSERT INTO `tbl_post_read` VALUES ('QvY77f', 'biymau', '2013-06-03 07:18:39');
+INSERT INTO `tbl_post_read` VALUES ('7bMJVf', 'biymau', '2013-06-05 13:34:48');
+INSERT INTO `tbl_post_read` VALUES ('ZzUBV3', 'biymau', '2013-06-08 17:05:16');
 
 -- ----------------------------
 -- Table structure for `tbl_rights`
@@ -349,7 +373,7 @@ CREATE TABLE `tbl_role` (
 -- ----------------------------
 -- Records of tbl_role
 -- ----------------------------
-INSERT INTO `tbl_role` VALUES ('zA3eem', '超级系统管理员', '超级系统管理员', '01,01_news_ZnyyUn_create,01_news_ZnyyUn_delete,01_news_ZnyyUn_update,01_news_qQJvEz_create,01_news_qQJvEz_delete,01_news_qQJvEz_update,01_news_Bbq6n2_create,01_news_Bbq6n2_delete,01_news_Bbq6n2_update,01_news_remuEb_create,01_news_remuEb_delete,01_news_remuEb_update,01_news_IfM7Zz_create,01_news_IfM7Zz_delete,01_news_IfM7Zz_update,01_news_Q7BJzm_create,01_news_Q7BJzm_delete,01_news_Q7BJzm_update,01_news_RBVBVf_create,01_news_RBVBVf_delete,01_news_RBVBVf_update,01_news_aENvee_create,01_news_aENvee_delete,01_news_aENvee_update,01_news_3u6rmu_create,01_news_3u6rmu_delete,01_news_3u6rmu_update,01_news_MJfmQz_create,01_news_MJfmQz_delete,01_news_MJfmQz_update,01_news_rm6nQv_create,01_news_rm6nQv_delete,01_news_rm6nQv_update,01_news_I3meqq_create,01_news_I3meqq_delete,01_news_I3meqq_update,02,02_notices_bY3Uju_create,02_notices_bY3Uju_delete,02_notices_bY3Uju_update,02_notices_bY3Uju_permit,02_notices_mYre2a_create,02_notices_mYre2a_delete,02_notices_mYre2a_update,02_notices_mYre2a_permit,03,04,05,06,07,08,09,09,10,11', '2013-06-03 08:27:58');
+INSERT INTO `tbl_role` VALUES ('zA3eem', '超级系统管理员', '超级系统管理员', '01,01_news_J3a6re_create,01_news_J3a6re_delete,01_news_J3a6re_update,01_news_ZnyyUn_create,01_news_ZnyyUn_delete,01_news_ZnyyUn_update,01_news_qQJvEz_create,01_news_qQJvEz_delete,01_news_qQJvEz_update,01_news_Bbq6n2_create,01_news_Bbq6n2_delete,01_news_Bbq6n2_update,01_news_remuEb_create,01_news_remuEb_delete,01_news_remuEb_update,01_news_IfM7Zz_create,01_news_IfM7Zz_delete,01_news_IfM7Zz_update,01_news_Q7BJzm_create,01_news_Q7BJzm_delete,01_news_Q7BJzm_update,01_news_RBVBVf_create,01_news_RBVBVf_delete,01_news_RBVBVf_update,01_news_aENvee_create,01_news_aENvee_delete,01_news_aENvee_update,01_news_3u6rmu_create,01_news_3u6rmu_delete,01_news_3u6rmu_update,01_news_MJfmQz_create,01_news_MJfmQz_delete,01_news_MJfmQz_update,01_news_rm6nQv_create,01_news_rm6nQv_delete,01_news_rm6nQv_update,01_news_I3meqq_create,01_news_I3meqq_delete,01_news_I3meqq_update,02,02_notices_bY3Uju_create,02_notices_bY3Uju_delete,02_notices_bY3Uju_update,02_notices_bY3Uju_permit,02_notices_mYre2a_create,02_notices_mYre2a_delete,02_notices_mYre2a_update,02_notices_mYre2a_permit,12,12_safe_RveU73_create,12_safe_RveU73_delete,12_safe_RveU73_update,12_safe_7bym6z_create,12_safe_7bym6z_delete,12_safe_7bym6z_update,12_safe_BNZ7ze_create,12_safe_BNZ7ze_delete,12_safe_BNZ7ze_update,12_safe_ABfyUz_create,12_safe_ABfyUz_delete,12_safe_ABfyUz_update,12_safe_mEV3Ef_create,12_safe_mEV3Ef_delete,12_safe_mEV3Ef_update,12_safe_vqMn2i_create,12_safe_vqMn2i_delete,12_safe_vqMn2i_update,03,04,05,06,07,08,09,09,10,11', '2013-06-08 16:34:27');
 INSERT INTO `tbl_role` VALUES ('JrMBRf', '管理员', '管理员（管理用户）', '01,01_news_qQJvEz_create,01_news_qQJvEz_delete,01_news_qQJvEz_update,01_news_Bbq6n2_create,01_news_Bbq6n2_delete,01_news_Bbq6n2_update,01_news_remuEb_create,01_news_remuEb_delete,01_news_remuEb_update,01_news_IfM7Zz_create,01_news_IfM7Zz_delete,01_news_IfM7Zz_update,01_news_Q7BJzm_create,01_news_Q7BJzm_delete,01_news_Q7BJzm_update,01_news_RBVBVf_create,01_news_RBVBVf_delete,01_news_RBVBVf_update,01_news_aENvee_create,01_news_aENvee_delete,01_news_aENvee_update,01_news_3u6rmu_create,01_news_3u6rmu_delete,01_news_3u6rmu_update,01_news_MJfmQz_create,01_news_MJfmQz_delete,01_news_MJfmQz_update,01_news_rm6nQv_create,01_news_rm6nQv_delete,01_news_rm6nQv_update,01_news_I3meqq_create,01_news_I3meqq_delete,01_news_I3meqq_update,02,02_notices_mYre2a_create,02_notices_mYre2a_delete,02_notices_mYre2a_update,02_notices_mYre2a_permit,08,09', '2013-05-31 11:56:42');
 INSERT INTO `tbl_role` VALUES ('rYBVfy', '国产', 'sfd', '01_qQJvEz_create,01_qQJvEz_delete,01_qQJvEz_update,01_Bbq6n2_delete,01_Bbq6n2_update,01_remuEb_delete,01_remuEb_update,01_IfM7Zz_delete,01_IfM7Zz_update,01_Q7BJzm_create,01_Q7BJzm_delete,01_Q7BJzm_update,01_RBVBVf_create,01_RBVBVf_delete,01_RBVBVf_update,01_aENvee_create,01_aENvee_delete,01_aENvee_update,01_3u6rmu_create,01_3u6rmu_delete,01_3u6rmu_update,01_MJfmQz_create,01_MJfmQz_delete,01_MJfmQz_update,01_rm6nQv_create,01_rm6nQv_delete,01_rm6nQv_update,01_I3meqq_create,01_I3meqq_delete,01_I3meqq_update,02,02_bY3Uju_create,02_bY3Uju_delete,02_bY3Uju_update,02_bY3Uju_permit,02_mYre2a_create,02_mYre2a_delete,02_mYre2a_update,02_mYre2a_permit,03,04,05,06,07,08,09', '2013-05-25 18:42:28');
 
