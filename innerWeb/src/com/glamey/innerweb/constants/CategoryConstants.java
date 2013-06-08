@@ -36,4 +36,7 @@ public class CategoryConstants {
      * 图书馆分类类型
      */
     public static final String CATEGORY_LIBRARY = "library";
+
+    /*安全管理*/
+    public static final String CATEGORY_SAFE = "safe";
 }

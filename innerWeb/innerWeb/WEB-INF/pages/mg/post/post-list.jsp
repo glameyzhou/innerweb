@@ -56,6 +56,9 @@
 <c:if test="${categoryParent.aliasName eq 'notices'}">
     <c:set value="02_notices" var="typeId"/>
 </c:if>
+<c:if test="${categoryParent.aliasName eq 'safe'}">
+    <c:set value="12_safe" var="typeId"/>
+</c:if>
 <c:set var="createId" value="${typeId}_${category.id}_create"/>
 <c:set var="deleteId" value="${typeId}_${category.id}_delete"/>
 <c:set var="updateId" value="${typeId}_${category.id}_update"/>

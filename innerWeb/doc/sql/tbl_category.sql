@@ -38,7 +38,7 @@ CREATE TABLE `tbl_category` (
 -- ----------------------------
 -- Records of tbl_category
 -- ----------------------------
-INSERT INTO `tbl_category` VALUES ('m226Ff', '新闻动态', '新闻动态', 'news', '新闻动态', '0', '1', '0', '0', 'news', null, null);
+INSERT INTO `tbl_category` VALUES ('m226Ff', '信息动态', '信息动态', 'news', '信息动态', '0', '1', '0', '0', 'news', null, null);
 INSERT INTO `tbl_category` VALUES ('E7FFN3', '通知公告', '通知公告', 'notices', '通知公告', '0', '1', '0', '0', 'notices', null, null);
 INSERT INTO `tbl_category` VALUES ('NnEvIb', '集团快捷入口', '集团快捷入口', 'outfastentrance', '集团快捷入口', '0', '1', '0', '0', 'outfastentrance', null, '2013-05-07 08:14:55');
 INSERT INTO `tbl_category` VALUES ('QZbM7n', '华电快捷入口', '华电快捷入口', 'infastentrance', '华电快捷入口', '0', '1', '0', '0', 'infastentrance', null, '2013-05-07 08:14:55');

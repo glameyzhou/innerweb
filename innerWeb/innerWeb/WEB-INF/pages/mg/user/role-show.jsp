@@ -49,10 +49,10 @@
                                 <input type="checkbox" id="rightsId" name="rightsId" value="01"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'01')}">checked="checked"</c:if> />
                             </td>
-                            <td>新闻动态 - 分类管理</td>
+                            <td>信息动态 - 分类管理</td>
                         </tr>
                         <tr>
-                            <td width="20%" style="font:bold;color: red;">新闻动态 - 内容管理</td>
+                            <td width="20%" style="font:bold;color: red;">信息动态 - 内容管理</td>
                             <td align="left">
                               	<table width="300px" cellpadding="0" cellspacing="0">
                               	<tr><td colspan="4" height="5px"></td></tr>
@@ -105,6 +105,36 @@
                               	</c:forEach>
                               	<tr><td colspan="5" height="5px"></td></tr>
                               	</table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%">
+                                <input type="checkbox" id="rightsId" name="rightsId" value="12"
+                                       <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'12')}">checked="checked"</c:if> />
+                            </td>
+                            <td>安全管理 - 分类管理</td>
+                        </tr>
+                        <tr>
+                            <td width="20%" style="font:bold;color: red;">安全管理 - 内容管理</td>
+                            <td align="left">
+                                <table width="300px" cellpadding="0" cellspacing="0">
+                                    <tr><td colspan="5" height="5px"></td></tr>
+                                    <c:forEach var="safeCate" items="${categorySafeList}" varStatus="safeStatus">
+                                        <tr>
+                                            <td>${safeCate.name}</td>
+                                            <c:set var="safeCreateId" value="12_safe_${safeCate.id}_create" />
+                                            <c:set var="safeDeleteId" value="12_safe_${safeCate.id}_delete" />
+                                            <c:set var="safeUpdateId" value="12_safe_${safeCate.id}_update" />
+                                            <td><input type="checkbox" id="rightsId" name="rightsId" value="12_safe_${safeCate.id}_create"
+                                                       <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,safeCreateId)}">checked="checked"</c:if>/>增加</td>
+                                            <td><input type="checkbox" id="rightsId" name="rightsId" value="12_safe_${safeCate.id}_delete"
+                                                       <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,safeDeleteId)}">checked="checked"</c:if>/>删除</td>
+                                            <td><input type="checkbox" id="rightsId" name="rightsId" value="12_safe_${safeCate.id}_update"
+                                                       <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,safeUpdateId)}">checked="checked"</c:if>/>修改</td>
+                                        </tr>
+                                    </c:forEach>
+                                    <tr><td colspan="5" height="5px"></td></tr>
+                                </table>
                             </td>
                         </tr>
                         <tr>

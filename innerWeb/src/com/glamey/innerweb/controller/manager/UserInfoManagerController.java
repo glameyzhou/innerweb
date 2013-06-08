@@ -276,6 +276,12 @@ public class UserInfoManagerController extends BaseController {
         mav.addObject("categoryNotices", categoryNotices);
         mav.addObject("categoryNoticesList", categoryNoticesList);
 
+        //安全管理
+        Category categorySafe = categoryDao.getByAliasName(CategoryConstants.CATEGORY_SAFE);
+        List<Category> categorySafeList = categoryDao.getByParentId(categorySafe.getId(), categorySafe.getCategoryType(), 0, Integer.MAX_VALUE);
+        mav.addObject("categorySafe", categorySafe);
+        mav.addObject("categorySafeList", categorySafeList);
+
         return mav;
     }
 

@@ -49,7 +49,7 @@ public class PostManagerController extends BaseController {
     private WebUploadUtils uploadUtils;
 
     /*分类列表（指定分类）
-    * 默认的都是第一级分类，例如：新闻动态、通告等等
+    * 默认的都是第一级分类，例如：信息动态、通告等等
     * */
     @RequestMapping(value = "/{aliasName}/category-list.htm", method = RequestMethod.GET)
     public ModelAndView categoryList(

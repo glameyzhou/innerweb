@@ -62,6 +62,22 @@
         </ul>
     </c:if>
 
+    <%--安全管理--%>
+    <c:if test="${fmtString:hasRightsList(rightsList,'12')}">
+        <li><a href="${basePath}mg/post/${categorySafe.aliasName}/category-list.htm" target="mainFrame">${categorySafe.name} - 分类管理</a></li>
+    </c:if>
+    <c:if test="${fmtString:hasRightsRegex(rightsList, '12_safe*')}">
+        <li><a href="javascript:divDisplay('${categorySafe.id}_div');">${categorySafe.name} - 内容管理</a></li>
+        <ul id="${categorySafe.id}_div" style="display: none">
+            <c:forEach var="cate" items="${categorySafeList}">
+                <c:set value="12_safe_${cate.id}*" var="safeRi"/>
+                <c:if test="${fmtString:hasRightsRegex(rightsList, safeRi)}">
+                    <li><a href="${basePath}mg/post/${categorySafe.aliasName}/post-list.htm?categoryId=${cate.id}" target="mainFrame">${cate.name}</a></li>
+                </c:if>
+            </c:forEach>
+        </ul>
+    </c:if>
+
     <%--总院快捷入口--%>
     <c:if test="${fmtString:hasRightsList(rightsList,'03')}">
         <li><a href="${basePath}mg/links/${outLinksCategory.categoryType}/links-list.htm" target="mainFrame">${outLinksCategory.name} - 内容管理</a></li>

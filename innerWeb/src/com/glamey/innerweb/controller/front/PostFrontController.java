@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.innerweb.model.dto.PostDTO;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -322,5 +324,43 @@ public class PostFrontController extends BaseController {
     		}
     	}
     	return null;
+    }
+
+
+    /*安全管理首页显示*/
+    @RequestMapping(value = "/safe.htm", method = RequestMethod.GET)
+    public ModelAndView postIndex(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[front] #postList#" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("front/safe-index");
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        UserInfo userInfo = (UserInfo) obj;
+        String userId = userInfo.getUserId();
+
+        Category rootCategory = categoryDao.getByAliasName(CategoryConstants.CATEGORY_SAFE);
+        List<Category> categoryList = categoryDao.getByParentId(rootCategory.getId(),rootCategory.getCategoryType(),0,Integer.MAX_VALUE);
+
+        List<PostDTO> postDTOList = new ArrayList<PostDTO>();
+
+        for (Category category : categoryList) {
+            PostDTO dto = new PostDTO();
+
+            PostQuery query = new PostQuery();
+            query.setCategoryType(category.getCategoryType());
+            query.setCategoryId(category.getId());
+            query.setShowIndex(1);
+            query.setStart(0);
+            query.setNum(5);
+            List<Post> postList = postDao.getByCategoryId(query);
+
+            dto.setCategory(category);
+            dto.setPostList(postList);
+
+            postDTOList.add(dto);
+        }
+        mav.addObject("postDTOList",postDTOList);
+        mav.addObject("rootCategory",rootCategory);
+        return mav;
     }
 }

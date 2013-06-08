@@ -62,7 +62,7 @@ INSERT INTO `tbl_category` VALUES ('i2ima2', '技经院', '技经院', '', '技�
 INSERT INTO `tbl_category` VALUES ('I3meqq', '技经院', '技经院', 'jijingyuan', 'jijingyuan', '0', '1', '20', 'm226Ff', 'news', null, '2013-05-20 11:16:59');
 INSERT INTO `tbl_category` VALUES ('IfM7Zz', '人力资源', '人力资源', 'renliziyuan', '人力资源', '0', '1', '4', 'm226Ff', 'news', null, '2013-05-20 11:07:11');
 INSERT INTO `tbl_category` VALUES ('j2imAr', '专家简介', '专家', 'zhuanjiajianjie', '', '0', '1', '20', '0', 'library', '', '2013-06-03 15:39:30');
-INSERT INTO `tbl_category` VALUES ('m226Ff', '新闻动态', '新闻动态', 'news', '新闻动态', '0', '1', '0', '0', 'news', null, '2013-05-07 08:14:55');
+INSERT INTO `tbl_category` VALUES ('m226Ff', '信息动态', '信息动态', 'news', '信息动态', '0', '1', '0', '0', 'news', null, '2013-05-07 08:14:55');
 INSERT INTO `tbl_category` VALUES ('m2iYBn', '科技专家', '科技专家', 'kejizhuanjia', '', '0', '1', '4', 'j2imAr', 'library', '', '2013-06-03 15:40:40');
 INSERT INTO `tbl_category` VALUES ('memAvy', '常用链接', '常用链接', 'ofenLinks', '常用链接', '1', '1', '0', '0', 'ofenLinks', null, '2013-05-07 08:14:55');
 INSERT INTO `tbl_category` VALUES ('MFnU7v', '经济专家', '经济专家', 'jingjizhuanjia', '', '0', '1', '2', 'j2imAr', 'library', '', '2013-06-03 15:40:19');

@@ -102,6 +102,12 @@ public class HomeManagerController extends BaseController {
         mav.addObject("categoryNotices",categoryNotices);
         mav.addObject("categoryNoticesList",categoryNoticesList);
 
+        /*安全管理分类管理*/
+        Category categorySafe = categoryDao.getByAliasName(CategoryConstants.CATEGORY_SAFE);
+        List<Category> categorySafeList = categoryDao.getByParentId(categorySafe.getId(),categorySafe.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categorySafe",categorySafe);
+        mav.addObject("categorySafeList",categorySafeList);
+
         //快捷入口管理
         Category outLinksCategory = categoryDao.getByAliasName(CategoryConstants.CATEGORY_OUTFASTENTRANCE);
         Category inLinksCategory = categoryDao.getByAliasName(CategoryConstants.CATEGORY_INFASTENTRANCE);

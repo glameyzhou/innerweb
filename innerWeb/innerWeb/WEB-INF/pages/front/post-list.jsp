@@ -15,19 +15,13 @@
 <body>
 <div class="box">
     <%@include file="include/header.jsp" %>
-    <!--中间内容部分代码开始-->
     <div class="body">
-        <!--左半边代码开始-->
         <div class="body_left">
             <%@include file="include/links-out.jsp" %>
             <%@include file="include/links-in.jsp" %>
-            <%--常用链接--%>
             <%@include file="include/popular_Links.jsp" %>
-            <%--搜索框--%>
             <%@include file="include/searcher.jsp" %>
         </div>
-        <!--左半边代码结束-->
-        <%--右半边代码开始--%>
         <div class="right_neiye">
             <div class="body_right_tit" style="width:962px;">
                 <ul class="tit_biao">
@@ -64,11 +58,8 @@
                 <%@include file="../common/pages-front.jsp" %>
             </div>
         </div>
-        <%--右半边代码结束--%>
-        <%--友情链接--%>
         <%@include file="include/friendlyLinks.jsp" %>
     </div>
-    <!--中间内容部分代码结束-->
     <%@include file="include/footer.jsp" %>
 </div>
 </body>
