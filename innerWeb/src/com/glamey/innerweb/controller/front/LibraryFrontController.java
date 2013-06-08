@@ -68,7 +68,7 @@ public class LibraryFrontController extends BaseController {
                 LibraryQuery query = new LibraryQuery();
                 query.setCategoryId(category.getId());
                 query.setStart(0);
-                query.setNum(Constants.LIBRARYDISCOUNT);
+                query.setNum(StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_DAILY) ? Constants.CATEGORY_LIBRARY_DAILY_LEN : Constants.LIBRARYDISCOUNT);
                 List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
                 libDTO.setLibraryInfoList(libraryInfoList);
 
