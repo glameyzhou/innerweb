@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.glamey.innerweb.model.dto.LibraryInfoDTO;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -21,16 +20,13 @@ import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.innerweb.constants.CategoryConstants;
 import com.glamey.innerweb.constants.Constants;
-import com.glamey.innerweb.constants.SystemConstants;
-import com.glamey.innerweb.constants.SystemConstants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.LibraryInfoDao;
 import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.LibraryInfo;
-import com.glamey.innerweb.model.domain.UserInfo;
+import com.glamey.innerweb.model.dto.LibraryInfoDTO;
 import com.glamey.innerweb.model.dto.LibraryQuery;
-import sun.text.normalizer.NormalizerBase;
 
 @Controller
 public class LibraryFrontController extends BaseController {
@@ -68,7 +64,9 @@ public class LibraryFrontController extends BaseController {
                 LibraryQuery query = new LibraryQuery();
                 query.setCategoryId(category.getId());
                 query.setStart(0);
-                query.setNum(StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_DAILY) ? Constants.CATEGORY_LIBRARY_DAILY_LEN : Constants.LIBRARYDISCOUNT);
+				query.setNum(StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_DAILY) || StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_HANGYEYANJIU_REPORT)
+						? Constants.CATEGORY_LIBRARY_LENGTITLE_LEN
+						: Constants.LIBRARYDISCOUNT);
                 List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
                 libDTO.setLibraryInfoList(libraryInfoList);
 
