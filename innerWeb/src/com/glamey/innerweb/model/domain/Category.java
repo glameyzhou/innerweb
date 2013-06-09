@@ -6,6 +6,8 @@ package com.glamey.innerweb.model.domain;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import java.util.List;
+
 /**
  * 系统所有分类信息
  *
@@ -38,6 +40,7 @@ public class Category implements java.io.Serializable {
     /*分类建立时间*/
     private String categoryTime;
 
+    private List<Category> children ;
     public String getId() {
         return id;
     }
@@ -132,6 +135,14 @@ public class Category implements java.io.Serializable {
 
     public void setCategoryOrder(int categoryOrder) {
         this.categoryOrder = categoryOrder;
+    }
+
+    public List<Category> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Category> children) {
+        this.children = children;
     }
 
     @Override

@@ -40,8 +40,13 @@
                     }
             );
         }
-        function showCateList(pid) {
-            var url = '${basePath}mg/library/getCateListBypid.htm?pid=' + pid;
+        /**
+        *  通过父ID获取对应的子分类列表，同时选中对应的子分类
+        * @param pid
+        * @param cateId
+        */
+        function showCateList(pid,cateId) {
+            var url = '${basePath}mg/library/getCateListBypid.htm?pid=' + pid  + '&cateId=' + cateId;
             new Ajax.Request(url, {
                         method: 'get',
                         onSuccess: function (transport) {
@@ -83,8 +88,9 @@
             //alert("typeId=" + typeId);
             showTypeContent(typeId);
             var pid = '${lib.category.parentId}';
+            var cateId = '${lib.category.id}';
             //alert("pid=" + pid);
-            showCateList(pid);
+            showCateList(pid,cateId);
         }
     </script>
 </head>
@@ -101,7 +107,7 @@
 
         <p>
             <font color="red">分类&nbsp;&nbsp;&nbsp;&nbsp;</font>
-            根分类：<select id="pid" name="pid" onchange="javascript:showCateList(this.value);">
+            根分类：<select id="pid" name="pid" onchange="javascript:showCateList(this.value,'');">
                         <option value="">请选择</option>
                         <c:forEach var="pcate" items="${categoryParentList}">
                             <option value="${pcate.id}" <c:if test="${pcate.id eq lib.category.parentId}">selected="selected"</c:if>>${pcate.name}</option>
@@ -116,6 +122,9 @@
                 <option value="2" <c:if test="${lib.type == 2}">selected="selected"</c:if>>自定义内容(名称、内容)</option>
                 <option value="3" <c:if test="${lib.type == 3}">selected="selected"</c:if>>图片(图片、URL)</option>
             </select>
+            <br/><br/>
+            <font color="red">排序&nbsp;&nbsp;&nbsp;&nbsp;</font>
+            <input type="text" name="order" id="order" value="${lib.order}"/><font color="red">数字越大越靠前</font>
         </p>
         <p id="content1" style="display: none;">
             <font color="red">名称&nbsp;&nbsp;&nbsp;&nbsp;</font>

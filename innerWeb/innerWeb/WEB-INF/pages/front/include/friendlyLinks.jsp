@@ -12,10 +12,12 @@
                 <tr>
                     <td width="70px"><span style="font-weight: bold;">${fr.category.name}</span></td>
                     <c:forEach items="${fr.linksList}" var="links" varStatus="frStatus">
-                        <c:choose><c:when test="${frStatus.count == 10}"><c:set var="width"
-                                                                                value="witdh='30px'"/></c:when><c:otherwise><c:set
-                                var="width" value="witdh='120px'"/></c:otherwise></c:choose>
-                        <td ${width} align="right"><a href="${links.url}" target="_blank">${links.name}</a></td>
+                        <c:choose>
+                            <c:when test="${frStatus.count == 10}">
+                                <c:set var="width" value="witdh='30px' align='right'" /></c:when>
+                            <c:otherwise><c:set var="width" value="witdh='120px'" /></c:otherwise>
+                        </c:choose>
+                        <td ${width}><a href="${links.url}" target="_blank">${links.name}</a></td>
                     </c:forEach>
                 </tr>
             </c:forEach>

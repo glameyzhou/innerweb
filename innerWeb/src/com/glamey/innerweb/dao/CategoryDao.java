@@ -409,6 +409,29 @@ public class CategoryDao extends BaseDao {
         return null;
     }
 
+    public List<Category> getChildrenByPid(final String parentId, final String categoryType, final int start, final int num) {
+        logger.info("[CategoryDao] #getChildrenByPid# parendId=" + parentId + " categoryType=" + categoryType);
+        List<Category> list = new ArrayList<Category>();
+        try {
+            list = jdbcTemplate.query("select * from tbl_category where categorytype = ? and parentid = ? order by categoryorder asc limit ?,? ",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedstatement)
+                                throws SQLException {
+                            preparedstatement.setString(1, categoryType);
+                            preparedstatement.setString(2, parentId);
+                            preparedstatement.setInt(3, start);
+                            preparedstatement.setInt(4, num);
+                        }
+                    },
+                    new Category2RowMapper());
+            return list;
+        } catch (Exception e) {
+            logger.error("[CategoryDao] #getChildrenByPid# error", e);
+        }
+        return null;
+    }
+
     /**
      * @return
      */
@@ -428,6 +451,30 @@ public class CategoryDao extends BaseDao {
             category.setCategoryType(rs.getString("categorytype"));
             category.setCategoryImage(rs.getString("categoryimage"));
             category.setCategoryTime(rs.getString("categorytime"));
+            return category;
+        }
+    }
+
+    class Category2RowMapper implements RowMapper<Category> {
+        @Override
+        public Category mapRow(ResultSet rs, int i) throws SQLException {
+            Category category = new Category();
+            category.setId(rs.getString("id"));
+            category.setName(rs.getString("name"));
+            category.setShortName(rs.getString("shortname"));
+            category.setAliasName(rs.getString("aliasname"));
+            category.setDescribe(rs.getString("categorydescribe"));
+            category.setShowType(rs.getInt("showtype"));
+            category.setShowIndex(rs.getInt("showindex"));
+            category.setCategoryOrder(rs.getInt("categoryorder"));
+            category.setParentId(rs.getString("parentid"));
+            category.setCategoryType(rs.getString("categorytype"));
+            category.setCategoryImage(rs.getString("categoryimage"));
+            category.setCategoryTime(rs.getString("categorytime"));
+
+            List<Category> children = getByParentId(category.getId(),category.getCategoryType(),0,Integer.MAX_VALUE);
+            category.setChildren(children);
+
             return category;
         }
     }

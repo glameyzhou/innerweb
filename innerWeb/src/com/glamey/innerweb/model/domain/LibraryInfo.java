@@ -51,6 +51,8 @@ public class LibraryInfo implements Serializable {
 	 */
 	private Date time ;
 
+    private int order ;
+
 	public String getId() {
 		return id;
 	}
@@ -122,8 +124,16 @@ public class LibraryInfo implements Serializable {
 	public void setTime(Date time) {
 		this.time = time;
 	}
-	
-	@Override
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    @Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}

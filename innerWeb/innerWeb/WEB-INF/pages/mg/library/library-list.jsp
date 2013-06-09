@@ -12,6 +12,9 @@
         function edit(id) {
             window.location = '${basePath}mg/library/library-show.htm?id=' + id;
         }
+        function setOrder(id) {
+            window.location = '${basePath}mg/library/library-show.htm?id=' + id;
+        }
         function del(id) {
             if (!confirm("确定要删除?")) {
                 return;
@@ -57,8 +60,15 @@
         <option value="1" <c:if test="${query.type == 1}">selected="selected"</c:if>>正常(名称、URL)</option>
         <option value="2" <c:if test="${query.type == 2}">selected="selected"</c:if>>自定义内容(名称、内容)</option>
         <option value="3" <c:if test="${query.type == 3}">selected="selected"</c:if>>图片(图片、URL)</option>
-        </select>
-    
+        </select>&nbsp;&nbsp;
+        栏目分类&nbsp;<select id="categoryId" name="categoryId">
+        <option value="">请选择</option>
+        <c:forEach var="cate" items="${children}">
+            <c:forEach var="child" items="${cate.children}">
+                <option value="${child.id}" <c:if test="${query.categoryId == child.id}">selected="selected"</c:if>>${cate.name} - ${child.name}</option>
+            </c:forEach>
+        </c:forEach>
+        </select>&nbsp;&nbsp;
             <input type="submit" value="查询">
             <br/><br/>
             <a href="javascript:checkAll('id',true);">全选</a>&nbsp;&nbsp;<a
@@ -68,20 +78,22 @@
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
             <tr>
-                <th width="3%">序列</th>
-                <th>类型</th>
-                <th>分类</th>
+                <th width="5%">选择框</th>
+                <th width="3%">排序</th>
+                <th width="7%">类型</th>
+                <th width="15%">分类</th>
                 <th>名称</th>
                 <th>URL</th>
-                <th width="10%">发布时间</th>
-                <th width="10%">操作</th>
+                <th width="7%">发布时间</th>
+                <th width="12%">操作</th>
             </tr>
             </thead>
             <tbody class="pn-ltbody">
             <c:forEach items="${libraryList}" var="lib" varStatus="status">
                 <tr>
                     <td align="center"><input type="checkbox" id="id" name="id" value="${lib.id}"/></td>
-                    <td align="center" width="10%">
+                    <td align="center">${lib.order}</td>
+                    <td align="center">
                         <c:if test="${lib.type == 1}">正常</c:if>
                         <c:if test="${lib.type == 2}">自定义内容</c:if>
                         <c:if test="${lib.type == 3}">图片</c:if>
@@ -97,7 +109,8 @@
                     </td>
                     <td align="center">
                         <a href="javascript:edit('${lib.id}');">编辑</a>&nbsp;
-                        <a href="javascript:del('${lib.id}');">删除</a>
+                        <a href="javascript:del('${lib.id}');">删除</a>&nbsp;
+                        <a href="javascript:setOrder('${lib.id}');">排序处理</a>&nbsp;
                     </td>
                 </tr>
             </c:forEach>

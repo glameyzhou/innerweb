@@ -201,6 +201,9 @@ public class LibraryManagerController extends BaseController {
         mav.addObject("pageBean", pageBean);
         mav.addObject("query", query);
 
+        //所有分类
+        List<Category> categoryList = categoryDao.getChildrenByPid(CategoryConstants.PARENTID, CategoryConstants.CATEGORY_LIBRARY, 0, Integer.MAX_VALUE);
+        mav.addObject("children",categoryList);
         return mav;
     }
 
@@ -233,6 +236,7 @@ public class LibraryManagerController extends BaseController {
     @RequestMapping(value = "/getCateListBypid.htm", method = RequestMethod.GET)
     public void getCategoryListByPid(HttpServletRequest request, HttpServletResponse response) {
         String pid = WebUtils.getRequestParameterAsString(request, "pid");
+        String cateId = WebUtils.getRequestParameterAsString(request,"cateId");
         List<Category> categoryList = null;
         if (StringUtils.isNotBlank(pid)) {
             categoryList = categoryDao.getByParentId(pid, CategoryConstants.CATEGORY_LIBRARY, 0, Integer.MAX_VALUE);
@@ -240,8 +244,14 @@ public class LibraryManagerController extends BaseController {
             categoryList = new ArrayList<Category>();
         }
         StringBuffer source = new StringBuffer();
+        boolean isSelected = false;
         for (Category category : categoryList) {
-            source.append("<option value='").append(category.getId()).append("'>").append(category.getName()).append("</option>");
+            if(StringUtils.equals(cateId,category.getId())){
+                isSelected = true ;
+            }
+            source.append("<option value=\"").append(category.getId()).append("\"")
+                    .append(isSelected ? "selected=\"selected\"" : "")
+                    .append(">").append(category.getName()).append("</option>");
         }
         try {
             response.setCharacterEncoding("UTF-8");
@@ -267,6 +277,14 @@ public class LibraryManagerController extends BaseController {
             mav.addObject("message", "分类不能为空");
             return mav;
         }
+
+        String orderString = WebUtils.getRequestParameterAsString(request,"order");
+        if(StringUtils.isBlank(orderString) || !orderString.matches("\\d+")){
+            mav.addObject("message", "排序不能为空，且为数字");
+            return mav;
+        }
+        lib.setOrder(Integer.valueOf(orderString));
+
         if (type == 1) {
             String name = WebUtils.getRequestParameterAsString(request, "name");
             String url = WebUtils.getRequestParameterAsString(request, "url");
@@ -301,6 +319,7 @@ public class LibraryManagerController extends BaseController {
             }
             lib.setUrl(url);
         }
+
         if (libraryDao.create(lib)) {
             mav.addObject("message", "创建成功");
             mav.addObject("href", "mg/library/library-list.htm");
@@ -318,16 +337,25 @@ public class LibraryManagerController extends BaseController {
             mav.addObject("message", "操作无效");
             return mav;
         }
-        LibraryInfo lib = libraryDao.getById(id);
         int type = WebUtils.getRequestParameterAsInt(request, "type", 1);
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
         if (StringUtils.isBlank(categoryId)) {
             mav.addObject("message", "分类不能为空");
             return mav;
         }
+
+        String orderString = WebUtils.getRequestParameterAsString(request,"order");
+        if(StringUtils.isBlank(orderString) || !orderString.matches("\\d+")){
+            mav.addObject("message", "排序不能为空，且为数字");
+            return mav;
+        }
+
+        LibraryInfo lib = libraryDao.getById(id);
+        lib.setOrder(Integer.valueOf(orderString));
         lib.setType(type);
         lib.setCategoryId(categoryId);
         lib.setTime(new Date());
+
         if (type == 1) {
             String name = WebUtils.getRequestParameterAsString(request, "name");
             String url = WebUtils.getRequestParameterAsString(request, "url");
@@ -362,6 +390,8 @@ public class LibraryManagerController extends BaseController {
             }
             lib.setUrl(url);
         }
+        lib.setOrder(WebUtils.getRequestParameterAsInt(request,"order",0));
+
         if (libraryDao.update(lib)) {
             mav.addObject("message", "更新成功");
             mav.addObject("href", "mg/library/library-list.htm");

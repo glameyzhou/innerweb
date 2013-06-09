@@ -67,10 +67,10 @@
                                         <tr>
                                             <td colspan="3">
                                                 <c:if test="${lib.type == 1}">
-                                                    <a href="${lib.url}" target="_blank" title="${lib.name}">${lib.name}</a>
+                                                    <img src="${basePath}res/front/images/right_tit_biao3.png"/>&nbsp;<a href="${lib.url}" target="_blank" title="${lib.name}">${lib.name}</a>
                                                 </c:if>
                                                 <c:if test="${lib.type == 2}">
-                                                    <a href="${basePath}library-detail-${lib.id}.htm" target="_blank" title="${lib.name}">${lib.name}</a>
+                                                    <img src="${basePath}res/front/images/right_tit_biao3.png"/>&nbsp;<a href="${basePath}library-detail-${lib.id}.htm" target="_blank" title="${lib.name}">${lib.name}</a>
                                                 </c:if>
                                                 <c:if test="${lib.type == 3}">
                                                     <a href="${lib.url}"><img width="130px;" height="130px" border="0" src="${basePath}${lib.image}"/></a>
@@ -84,12 +84,12 @@
                                         <c:forEach var="lib" items="${cat_dto.libraryInfoList}" varStatus="statusIndex">
                                             <c:if test="${lib.type == 1}">
                                                 <td width="33%" height="30px;">
-                                                    <a href="${lib.url}" target="_blank" title="${lib.name}">${fmtString:substringAppend(lib.name,23 ,'..' )}</a>
+                                                    <img src="${basePath}res/front/images/right_tit_biao3.png"/>&nbsp;<a href="${lib.url}" target="_blank" title="${lib.name}">${fmtString:substringAppend(lib.name,23 ,'..' )}</a>
                                                 </td>
                                             </c:if>
                                             <c:if test="${lib.type == 2}">
                                                 <td width="33%" height="30px;">
-                                                    <a href="${basePath}library-detail-${lib.id}.htm" target="_blank" title="${lib.name}">${fmtString:substringAppend(lib.name,23 ,'..' )}</a>
+                                                    <img src="${basePath}res/front/images/right_tit_biao3.png"/>&nbsp;<a href="${basePath}library-detail-${lib.id}.htm" target="_blank" title="${lib.name}">${fmtString:substringAppend(lib.name,23 ,'..' )}</a>
                                                 </td>
                                             </c:if>
                                             <c:if test="${lib.type == 3}">
