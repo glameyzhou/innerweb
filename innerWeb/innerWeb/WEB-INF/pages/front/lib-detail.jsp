@@ -31,11 +31,12 @@
             <div class="body_right_tit" style="width:962px;">
                 <ul class="tit_biao">
                     <li><img src="${basePath}res/front/images/right_tit_biao.png"/></li>
-                    <li style="padding-left:15px;">
+                    <%--<li style="padding-left:15px;">
                     	<a href="${basePath}library-0-0-1.htm">微型图书馆</a> - 
                     	<a href="${basePath}library-0-${info.category.id}-1.htm">${info.category.name}</a> - 
                     	<a href="#">${info.name}</a>
-                    </li>
+                    </li>--%>
+                    <li style="padding-left:15px;">微型图书馆 - ${info.category.name} - ${info.name}</li>
                 </ul>
                 <%--<ul class="tit_biao_right">
                     <li><img src="${basePath}res/front/images/right_tit_biao2.png"/></li>
