@@ -84,15 +84,15 @@
     </session-config>
 
 
-    <!-- 	<error-page>
+     	<!--<error-page>
             <error-code>500</error-code>
-            <location>/error?code=500</location>
-        </error-page>
+            <location>/front/404.htm</location>
+        </error-page>-->
         <error-page>
             <error-code>404</error-code>
-            <location>/error?code=404</location>
+            <location>/front/404.htm</location>
         </error-page>
-         <error-page>
+         <!--<error-page>
             <error-code>405</error-code>
             <location>/logon</location>
         </error-page> -->

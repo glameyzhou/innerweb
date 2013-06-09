@@ -46,10 +46,8 @@
                 <div class="neirong_con" style="width:930px;">
                     <h2>${post.title}</h2>
                     <br/>
-
                     <h3>作者：${post.userInfo.nickname}&nbsp;&nbsp;&nbsp;时间：${post.time}&nbsp;&nbsp;&nbsp;来源：${post.deptCategory.name}</h3>
                     <br/>
-
                     <div class="neirong_con">
                         ${post.content}
                     </div>

@@ -34,5 +34,7 @@
 	text-indent:2em;
 	line-height:20px;
 }
-
+.neirong_con a:link{
+    text-decoration: underline;
+}
 /*//以下是内容页专用的的样式*/

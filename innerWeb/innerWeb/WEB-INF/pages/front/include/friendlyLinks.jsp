@@ -6,16 +6,16 @@
             <li style="padding-left:15px;">友情链接</li>
         </ul>
     </div>
-    <div style="padding-left:20px; width:1200px; float:left;">
-        <table cellpadding="0" cellspacing="0" border="0" width="1200px">
+    <div style="padding-left:20px; width:1200px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="1180px">
             <c:forEach items="${friendlyLinksDTOs}" var="fr">
-                <tr align="left">
-                    <td width="80px"><span style="font-weight: bold;">${fr.category.name}</span></td>
+                <tr>
+                    <td width="70px"><span style="font-weight: bold;">${fr.category.name}</span></td>
                     <c:forEach items="${fr.linksList}" var="links" varStatus="frStatus">
                         <c:choose><c:when test="${frStatus.count == 10}"><c:set var="width"
-                                                                                value="witdh='10px'"/></c:when><c:otherwise><c:set
+                                                                                value="witdh='30px'"/></c:when><c:otherwise><c:set
                                 var="width" value="witdh='120px'"/></c:otherwise></c:choose>
-                        <td ${width}><c:if test="${!empty links.url}"><a href="${links.url}" target="_blank">${links.name}</a></c:if></td>
+                        <td ${width} align="right"><a href="${links.url}" target="_blank">${links.name}</a></td>
                     </c:forEach>
                 </tr>
             </c:forEach>
