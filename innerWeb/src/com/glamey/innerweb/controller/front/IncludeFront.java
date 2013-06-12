@@ -101,7 +101,7 @@ public class IncludeFront {
             if (hasMore) {
                 Links links = new Links();
                 links.setUrl(basePath + "linksFront-" + category.getCategoryType() + "-" + category.getId() + ".htm");
-                links.setName("&nbsp;&nbsp;&nbsp;&nbsp;更多");
+                links.setName("&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"" + basePath + "res/front/images/right_tit_biao2.png\" border=\"0\" />");
                 linksList.add(links);
             } else {
                 linksList.add(new Links());

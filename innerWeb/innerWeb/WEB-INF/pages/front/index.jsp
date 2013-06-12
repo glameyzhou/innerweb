@@ -31,5 +31,6 @@
     </div>
     <%@include file="include/footer.jsp" %>
 </div>
+<br/>
 </body>
 </html>
