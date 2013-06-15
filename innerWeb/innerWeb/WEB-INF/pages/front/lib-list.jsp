@@ -35,26 +35,48 @@
                         <li style="padding-left:15px;">微型图书馆 - ${pCategory.name} - ${category.name}</li>
                     </ul>
                 </div>
-                <div class="neiye_right_con" style="width:932px;">
-                    <table cellpadding="0" cellspacing="0" width="100%">
-                        <tr height="30px">
+                <c:choose>
+                    <c:when test="${isImage}">
+                        <div class="neiye_right_con" style="width:932px;">
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <tr valign="top" style="height: 140px;">
+                                    <c:forEach var="lib" items="${libraryInfos}" varStatus="status">
+                                        <c:choose>
+                                            <c:when test="${ empty lib.image}"><td width="25%" align="left"></td></c:when>
+                                            <c:otherwise>
+                                                <td width="25%" align="left" height="130px;">
+                                                    <a href="${lib.url}"><img style="width: 130px;height: 130px; border: 0;" src="${lib.image}"/></a>
+                                                </td>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <c:if test="${status.count % 4 == 0 }"></tr><tr></c:if>
+                                    </c:forEach>
+                                <tr>
+                            </table>
+                            <br/>
+                            <c:set var="pageURL" value="${basePath}library_${pCategory.id}_${category.id}_-1.htm?"/>
+                            <%@include file="../common/pages-front.jsp" %>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="neiye_right_con" style="width:932px;">
                             <c:forEach var="lib" items="${libraryInfos}" varStatus="status">
-                                <td width="25%" align="left">
+                                <ul class="con_neiye">
+                                    <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
                                     <c:if test="${lib.type == 1}">
-                                        <a href="${lib.url}" target="_blank" title="${lib.name}">${fmtString:substringAppend(lib.name,18 ,'..' )}</a>
+                                        <li><a href="${lib.url}" target="_blank" title="${lib.name}">${lib.name}</a></li>
                                     </c:if>
                                     <c:if test="${lib.type == 2}">
-                                        <a href="${basePath}library-detail-${lib.id}.htm" target="_blank">${lib.name}</a>
+                                        <li><a href="${basePath}library-detail-${lib.id}.htm" target="_blank" title="${lib.name}">${lib.name}</a></li>
                                     </c:if>
-                                </td>
-                                <c:if test="${status.count % 4 == 0 }"></tr><tr></c:if>
+                                    <li style="float:right;"><fmt:formatDate value="${lib.time}" pattern="yyyy-MM-dd" /></li>
+                                </ul>
                             </c:forEach>
-                        <tr>
-                    </table>
-                    <br/>
-                    <c:set var="pageURL" value="${basePath}library_${pCategory.id}_${category.id}_-1.htm?"/>
-                    <%@include file="../common/pages-front.jsp" %>
-                </div>
+                            <c:set var="pageURL" value="${basePath}library_${pCategory.id}_${category.id}_-1.htm?"/>
+                            <%@include file="../common/pages-front.jsp" %>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
         <%@include file="include/friendlyLinks.jsp" %>

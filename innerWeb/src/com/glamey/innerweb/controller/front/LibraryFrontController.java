@@ -140,6 +140,23 @@ public class LibraryFrontController extends BaseController {
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request,response,session));
 
+        //查看分类是否为图片分类,如果是的话，列表显示需要使用图片类型;如果是图片类型，并且数量少于四个的话，需要进行补录空白
+        boolean isImage = false ;
+        int len = libraryInfos.size() ;
+        for(LibraryInfo info : libraryInfos){
+            if(info.getType() == 3){
+                isImage = true ;
+                break;
+            }
+        }
+        for(int i = 0 ; i < 4- len ; i ++ ){
+            LibraryInfo info = new LibraryInfo();
+            info.setImage("");
+            info.setUrl("");
+            libraryInfos.add(info);
+        }
+
+        mav.addObject("isImage",isImage);
         mav.setViewName("front/lib-list");
         return mav;
     }

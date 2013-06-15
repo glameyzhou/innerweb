@@ -89,7 +89,7 @@
             showTypeContent(typeId);
             var pid = '${lib.category.parentId}';
             var cateId = '${lib.category.id}';
-            //alert("pid=" + pid);
+//            alert("pid=" + pid + " cateId=" + cateId);
             showCateList(pid,cateId);
         }
     </script>

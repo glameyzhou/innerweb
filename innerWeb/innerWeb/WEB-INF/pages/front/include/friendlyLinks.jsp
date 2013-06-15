@@ -10,7 +10,7 @@
         <table cellpadding="0" cellspacing="0" border="0" width="1180px">
             <c:forEach items="${friendlyLinksDTOs}" var="fr">
                 <tr>
-                    <td width="70px"><span style="font-weight: bold;">${fr.category.name}</span></td>
+                    <td width="100px"><span style="font-weight: bold;">${fr.category.name}</span></td>
                     <c:forEach items="${fr.linksList}" var="links" varStatus="frStatus">
                         <c:choose>
                             <c:when test="${frStatus.count == 10}">

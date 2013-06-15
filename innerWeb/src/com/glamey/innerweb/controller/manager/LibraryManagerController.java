@@ -1,23 +1,5 @@
 package com.glamey.innerweb.controller.manager;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.Pinyin4jUtils;
 import com.glamey.framework.utils.StringTools;
@@ -31,6 +13,22 @@ import com.glamey.innerweb.model.domain.LibraryInfo;
 import com.glamey.innerweb.model.domain.UploadInfo;
 import com.glamey.innerweb.model.dto.LibraryQuery;
 import com.glamey.innerweb.util.WebUploadUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 微型图书馆后台控制管理
@@ -244,13 +242,9 @@ public class LibraryManagerController extends BaseController {
             categoryList = new ArrayList<Category>();
         }
         StringBuffer source = new StringBuffer();
-        boolean isSelected = false;
         for (Category category : categoryList) {
-            if(StringUtils.equals(cateId,category.getId())){
-                isSelected = true ;
-            }
             source.append("<option value=\"").append(category.getId()).append("\"")
-                    .append(isSelected ? "selected=\"selected\"" : "")
+                    .append(StringUtils.equals(cateId,category.getId()) ? " selected=\"selected\" " : "")
                     .append(">").append(category.getName()).append("</option>");
         }
         try {
@@ -322,7 +316,7 @@ public class LibraryManagerController extends BaseController {
 
         if (libraryDao.create(lib)) {
             mav.addObject("message", "创建成功");
-            mav.addObject("href", "mg/library/library-list.htm");
+            mav.addObject("href", "mg/library/library-list.htm?categoryId=" + categoryId);
         } else {
             mav.addObject("message", "创建失败");
         }
@@ -394,7 +388,7 @@ public class LibraryManagerController extends BaseController {
 
         if (libraryDao.update(lib)) {
             mav.addObject("message", "更新成功");
-            mav.addObject("href", "mg/library/library-list.htm");
+            mav.addObject("href", "mg/library/library-list.htm?categoryId=" + categoryId);
         } else {
             mav.addObject("message", "更新失败");
         }

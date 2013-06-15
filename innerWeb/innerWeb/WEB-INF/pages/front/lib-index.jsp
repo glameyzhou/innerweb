@@ -56,8 +56,8 @@
                                         <a href="${basePath}library_${dto.category.id}_${cat_dto.category.id}_-1.htm">${cat_dto.category.name}</a>
                                     </td>
                                     <td colspan="2" align="right">
-                                        <c:if  test="${fn:length(cat_dto.libraryInfoList) > 9}">
-                                            <a href="${basePath}library_${dto.category.id}_${cat_dto.category.id}_-1.htm">更多</a>
+                                        <c:if  test="${fn:length(cat_dto.libraryInfoList) > 0}">
+                                            <a href="${basePath}library_${dto.category.id}_${cat_dto.category.id}_-1.htm"><img src="${basePath}res/front/images/right_tit_biao2.png" border="0"/>&nbsp;更多</a>
                                         </c:if>
                                     </td>
                                 </tr>
@@ -93,7 +93,7 @@
                                                 </td>
                                             </c:if>
                                             <c:if test="${lib.type == 3}">
-                                                <td width="33%" height="132px;"><a href="${lib.url}"><img width="130px;" height="130px" border="0" src="${basePath}${lib.image}"/></a></td>
+                                                <td width="33%" height="132px;"><a href="${lib.url}" target="_blank"><img width="130px;" height="130px" border="0" src="${basePath}${lib.image}"/></a></td>
                                             </c:if>
                                             <c:if test="${statusIndex.count % 3 == 0}">
                                                 </tr><tr>
@@ -109,25 +109,6 @@
                 </div>
             </c:forEach>
         </div>
-        <%--<div class="right_neiye">
-            <div class="body_right_tit1" style="width:962px;">
-                <ul class="tit_biao">
-                    <li><img src="${basePath}res/front/images/right_tit_biao.png"/></li>
-                    <li style="padding-left:15px;">公司通知公告</li>
-                </ul>
-                <ul class="tit_biao_right">
-                    <li><img src="${basePath}res/front/images/right_tit_biao2.png"/></li>
-                    <li><a href="#">更&nbsp;多</a></li>
-                </ul>
-            </div>
-            <div class="neiye_right_con" style="width:932px;">
-                <ul class="con_neiye">
-                    <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
-                    <li><a href="#">关于西直门宾馆停车场恢复使用通知</a></li>
-                    <li style="float:right;">2013-3-21</li>
-                </ul>
-            </div>
-        </div>--%>
         <%@include file="include/friendlyLinks.jsp" %>
     </div>
     <%@include file="include/footer.jsp" %>

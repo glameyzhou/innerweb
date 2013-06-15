@@ -19,7 +19,7 @@
         <ul>
             <c:forEach items="${linksDTOs}" var="ol">
                 <li>
-                    <select name="" class="xiala" onchange="javascript:jumpLinks(this.value);">
+                    <select name="popularLinks" id="popularLinks" class="xiala">
                         <c:forEach items="${ol.linksList}" var="links">
                             <option value="${links.url}">------${links.name}------</option>
                         </c:forEach>

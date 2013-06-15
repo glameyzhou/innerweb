@@ -100,6 +100,9 @@ public class PostFrontController extends BaseController {
         Post post = postDao.getByPostId(postId);
         mav.addObject("post", post);
 
+        Category pCategory = categoryDao.getById(categoryDao.getById(post.getCategoryId()).getParentId());
+        mav.addObject("pCategory",pCategory);
+
         //插入已读
         final PostReadInfo postReadInfo = new PostReadInfo();
         postReadInfo.setPostId(postId);

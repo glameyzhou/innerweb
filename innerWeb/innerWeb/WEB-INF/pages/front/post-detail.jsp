@@ -35,7 +35,7 @@
             <div class="body_right_tit" style="width:962px;">
                 <ul class="tit_biao">
                     <li><img src="${basePath}res/front/images/right_tit_biao.png"/></li>
-                    <li style="padding-left:15px;">${post.category.name}</li>
+                    <li style="padding-left:15px;">${pCategory.name} - ${post.category.name}</li>
                 </ul>
                 <%--<ul class="tit_biao_right">
                     <li><img src="${basePath}res/front/images/right_tit_biao2.png"/></li>
