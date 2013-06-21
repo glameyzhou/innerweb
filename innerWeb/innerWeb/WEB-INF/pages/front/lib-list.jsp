@@ -62,14 +62,16 @@
                         <div class="neiye_right_con" style="width:932px;">
                             <c:forEach var="lib" items="${libraryInfos}" varStatus="status">
                                 <ul class="con_neiye">
-                                    <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
-                                    <c:if test="${lib.type == 1}">
-                                        <li><a href="${lib.url}" target="_blank" title="${lib.name}">${lib.name}</a></li>
+                                    <c:if test="${not empty lib.id}">
+                                        <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
+                                        <c:if test="${lib.type == 1}">
+                                            <li><a href="${lib.url}" target="_blank" title="${lib.name}">${lib.name}</a></li>
+                                        </c:if>
+                                        <c:if test="${lib.type == 2}">
+                                            <li><a href="${basePath}library-detail-${lib.id}.htm" target="_blank" title="${lib.name}">${lib.name}</a></li>
+                                        </c:if>
+                                        <li style="float:right;"><fmt:formatDate value="${lib.time}" pattern="yyyy-MM-dd" /></li>
                                     </c:if>
-                                    <c:if test="${lib.type == 2}">
-                                        <li><a href="${basePath}library-detail-${lib.id}.htm" target="_blank" title="${lib.name}">${lib.name}</a></li>
-                                    </c:if>
-                                    <li style="float:right;"><fmt:formatDate value="${lib.time}" pattern="yyyy-MM-dd" /></li>
                                 </ul>
                             </c:forEach>
                             <c:set var="pageURL" value="${basePath}library_${pCategory.id}_${category.id}_-1.htm?"/>
