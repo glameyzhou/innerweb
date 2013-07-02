@@ -307,11 +307,13 @@ public class LibraryManagerController extends BaseController {
                 lib.setImage(ui.getFilePath());
             
             String url = WebUtils.getRequestParameterAsString(request, "urlImage");
-            if (StringUtils.isBlank(url)) {
-                mav.addObject("message", "不能为空");
+            String imageName = WebUtils.getRequestParameterAsString(request,"imageName");
+            if (StringUtils.isBlank(url) || StringUtils.isBlank(imageName)) {
+                mav.addObject("message", "指定名称、URL不能为空");
                 return mav;
             }
             lib.setUrl(url);
+            lib.setName(imageName);
         }
 
         if (libraryDao.create(lib)) {
@@ -376,13 +378,15 @@ public class LibraryManagerController extends BaseController {
                 return ui.getModelAndView();
             if (StringUtils.isNotBlank(ui.getFilePath()))
                 lib.setImage(ui.getFilePath());
-            
+
             String url = WebUtils.getRequestParameterAsString(request, "urlImage");
-            if (StringUtils.isBlank(url)) {
+            String imageName = WebUtils.getRequestParameterAsString(request,"imageName");
+            if (StringUtils.isBlank(url) || StringUtils.isBlank(imageName)) {
                 mav.addObject("message", "URL不能为空");
                 return mav;
             }
             lib.setUrl(url);
+            lib.setName(imageName);
         }
         lib.setOrder(WebUtils.getRequestParameterAsInt(request,"order",0));
 

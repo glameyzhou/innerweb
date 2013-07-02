@@ -414,7 +414,7 @@ public class UserInfoDao extends BaseDao {
         logger.info("[UserInfoDao] #createUser# " + userInfo);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_user(user_id,user_name,user_passwd,user_nickname,user_phone,user_mobile,user_email,user_address,user_dept_id,user_role_id,user_islive,user_time," +
+                    "insert into tbl_user(user_id,user_name,user_passwd,user_nickname,user_phone,user_mobile,user_email,user_address,user_dept_id,user_duties,user_role_id,user_islive,user_time," +
                             "user_nicknamepinyin,user_showorder,user_isincontact)" +
                             " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
@@ -430,6 +430,7 @@ public class UserInfoDao extends BaseDao {
                             pstmt.setString(++i, userInfo.getEmail());
                             pstmt.setString(++i, userInfo.getAddress());
                             pstmt.setString(++i, userInfo.getDeptId());
+                            pstmt.setString(++i,userInfo.getDuties());
                             pstmt.setString(++i, userInfo.getRoleId());
                             pstmt.setInt(++i, userInfo.getIsLive());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
@@ -455,7 +456,7 @@ public class UserInfoDao extends BaseDao {
         logger.info("[UserInfoDao] #updateUser# " + userInfo);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_user set user_passwd=?,user_nickname=?,user_phone=?,user_mobile=?,user_email=?,user_address=?,user_dept_id=?,user_role_id=?,user_islive=? ,user_time=?" +
+                    "update tbl_user set user_passwd=?,user_nickname=?,user_phone=?,user_mobile=?,user_email=?,user_address=?,user_dept_id=?,user_duties=?,user_role_id=?,user_islive=? ,user_time=?" +
                             ",user_nicknamepinyin=?,user_showorder=?,user_isincontact=? where user_id = ? ",
                     new PreparedStatementSetter() {
                         @Override
@@ -468,6 +469,7 @@ public class UserInfoDao extends BaseDao {
                             pstmt.setString(++i, userInfo.getEmail());
                             pstmt.setString(++i, userInfo.getAddress());
                             pstmt.setString(++i, userInfo.getDeptId());
+                            pstmt.setString(++i,userInfo.getDuties());
                             pstmt.setString(++i, userInfo.getRoleId());
                             pstmt.setInt(++i, userInfo.getIsLive());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
@@ -749,7 +751,7 @@ public class UserInfoDao extends BaseDao {
             userInfo.setTime(rs.getTimestamp("user_time"));
             userInfo.setShowInContact(rs.getInt("user_isincontact"));
             userInfo.setShowOrder(rs.getInt("user_showorder"));
-
+            userInfo.setDuties(rs.getString("user_duties"));
             String deptId = rs.getString("user_dept_id");
             Category category = categoryDao.getById(deptId);
             userInfo.setCategory(category);

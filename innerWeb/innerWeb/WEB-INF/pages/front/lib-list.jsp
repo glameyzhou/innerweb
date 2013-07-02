@@ -46,6 +46,8 @@
                                             <c:otherwise>
                                                 <td width="25%" align="left" height="130px;">
                                                     <a href="${lib.url}"><img style="width: 130px;height: 130px; border: 0;" src="${lib.image}"/></a>
+                                                    <br/>
+                                                    <a href="${lib.url}">${lib.name}</a><br/>
                                                 </td>
                                             </c:otherwise>
                                         </c:choose>

@@ -29,5 +29,5 @@
 	<a href="${basePath}library.htm"><img src="${basePath}res/front/images/guanggao1.jpg" border="0"/></a>
 </div>
 <div class="left_guanggao">
-	<img src="${basePath}res/front/images/kyzy.jpg" border="0"/>
+	<a href="${basePath}pl-news-MjiEVv.htm"><img src="${basePath}res/front/images/kyzy.jpg" border="0"/></a>
 </div>

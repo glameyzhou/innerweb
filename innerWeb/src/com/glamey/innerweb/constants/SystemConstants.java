@@ -29,4 +29,6 @@ public class SystemConstants {
     /*通告是否可见、如果可见的话，那些部门可见所有*/
     public static final String notices_can_see = "notices_can_see" ;
     public static final String notices_who_can_see = "notices_who_can_see" ;
+    /*通讯录头部信息*/
+    public static final String contact_header = "contact_header" ;
 }

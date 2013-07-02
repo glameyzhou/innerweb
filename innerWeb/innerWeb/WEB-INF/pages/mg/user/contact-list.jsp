@@ -33,6 +33,9 @@
         <div class="rpos">当前位置: 首页 - 通讯录</div>
         <div class="clear"></div>
     </div>
+    <div class="rhead">
+        ${contactHeader.value}
+    </div>
     <form action="${basePath}mg/user/contact.htm" method="get" style="padding-top:5px;">
         <div>
             关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
@@ -48,13 +51,14 @@
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
             <tr>
-                <th width="5%">序号</th>
+                <th width="4%">序号</th>
+                <th width="8%">姓名</th>
                 <th>部门</th>
-                <th>姓名</th>
-                <th>手机号</th>
-                <th>固话</th>
-                <th>邮箱</th>
-                <th>地址</th>
+                <th width="8%">职务</th>
+                <th>电话</th>
+                <th width="10%">固话</th>
+                <th width="15%">邮箱</th>
+                <th width="15%">地址</th>
                 <c:if test="${isSuper}">
                     <th>操作</th>
                 </c:if>
@@ -64,15 +68,16 @@
             <c:forEach items="${userInfoList}" var="user" varStatus="status">
                 <tr>
                     <td align=center>${(pageBean.curPage - 1) * pageBean.rowsPerPage +  status.count}</td>
-                    <td align=center>${user.category.name}</td>
                     <td align=center>${user.nickname}</td>
+                    <td align=center>${user.category.name}</td>
+                    <td align=center>${user.duties}</td>
                     <td align=center>${user.mobile}</td>
                     <td align=center>${user.phone}</td>
                     <td align=center>${user.email}</td>
-                    <td align=center>${user.address}</td>
+                    <td>${user.address}</td>
                     <c:if test="${isSuper}">
                         <td align="center" id="orderOperationDiv_${status.count}">
-                            <a href="javascript:setOrder('${user.userId}',${user.showOrder},'${status.count}');">排序处理</a>
+                            <a href="javascript:setOrder('${user.userId}',${user.showOrder},'${status.count}');">排序</a>
                         </td>
                     </c:if>
                 </tr>

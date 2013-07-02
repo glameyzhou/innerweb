@@ -23,6 +23,10 @@ public class UserInfo implements Serializable {
     private String email;
     private String address;
     private String deptId;
+    /**
+     * 员工职务
+     */
+    private String duties;
     private int isLive;
     private Date time;
     /*是否显示在通讯录中 1=是 0=否*/
@@ -169,6 +173,14 @@ public class UserInfo implements Serializable {
 
     public void setShowOrder(int showOrder) {
         this.showOrder = showOrder;
+    }
+
+    public String getDuties() {
+        return duties;
+    }
+
+    public void setDuties(String duties) {
+        this.duties = duties;
     }
 
     @Override

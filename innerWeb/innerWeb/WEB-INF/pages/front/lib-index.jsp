@@ -62,7 +62,7 @@
                                     </td>
                                 </tr>
                                 <c:choose>
-                                <c:when test="${dto.category.id eq 'RrEvqi' or dto.category.id eq 'QRZrUb'}">
+                                <c:when test="${dto.category.id eq 'RrEvqi' or dto.category.id eq 'QRZrUb' or dto.category.id eq 'eaAr6j'}">
                                     <c:forEach var="lib" items="${cat_dto.libraryInfoList}" varStatus="statusIndex">
                                         <tr>
                                             <td colspan="3">
@@ -74,6 +74,8 @@
                                                 </c:if>
                                                 <c:if test="${lib.type == 3}">
                                                     <a href="${lib.url}"><img width="130px;" height="130px" border="0" src="${basePath}${lib.image}"/></a>
+                                                    <br/>
+                                                    <a href="${lib.url}">${lib.name}</a><br/>
                                                 </c:if>
                                             </td>
                                         </tr>
@@ -93,7 +95,11 @@
                                                 </td>
                                             </c:if>
                                             <c:if test="${lib.type == 3}">
-                                                <td width="33%" height="132px;"><a href="${lib.url}" target="_blank"><img width="130px;" height="130px" border="0" src="${basePath}${lib.image}"/></a></td>
+                                                <td width="33%" height="132px;">
+                                                    <a href="${lib.url}" target="_blank"><img width="130px;" height="130px" border="0" src="${basePath}${lib.image}"/></a>
+                                                    <br/>
+                                                    <a href="${lib.url}">${lib.name}</a><br/>
+                                                </td>
                                             </c:if>
                                             <c:if test="${statusIndex.count % 3 == 0}">
                                                 </tr><tr>

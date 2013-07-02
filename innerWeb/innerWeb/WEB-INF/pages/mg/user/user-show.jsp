@@ -47,6 +47,12 @@
                 </td>
             </tr>
             <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h">职务:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="text" maxlength="100" name="duties" id="duties" size="80" value="${userInfo.duties}"
+                </td>
+            </tr>
+            <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>用户名:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="username" id="username" class="required" size="80"
@@ -91,9 +97,9 @@
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>手机号:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h">手机号:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="mobile" id="mobile" class="required" size="80"
+                    <input type="text" maxlength="100" name="mobile" id="mobile" size="80"
                            value="${userInfo.mobile}">
                 </td>
             </tr>

@@ -312,6 +312,9 @@ public class SysManagerController extends BaseController {
         if (StringUtils.equals(name, "page_foot")) {
             title = "页尾内容";
         }
+        if (StringUtils.equals(name, "contact_header")) {
+            title = "通讯录头部" ;
+        }
         mav.addObject("title", title);
         return mav;
     }

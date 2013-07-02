@@ -140,6 +140,8 @@
         </p>
 
         <p id="content3" style="display: none;">
+            <font color="red">名称&nbsp;&nbsp;&nbsp;&nbsp;</font>
+            <input type="text" maxlength="100" name="imageName" id="imageName" size="80" value="${lib.name}"/><br/><br/>
             <font color="red">URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>
             <input type="text" maxlength="100" name="urlImage" id="urlImage" size="80" value="${lib.url}">
             <br/><br/>

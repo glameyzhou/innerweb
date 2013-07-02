@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.innerweb.constants.SystemConstants;
+import com.glamey.innerweb.dao.MetaInfoDao;
+import com.glamey.innerweb.model.domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -27,10 +30,6 @@ import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.UserInfoDao;
-import com.glamey.innerweb.model.domain.Category;
-import com.glamey.innerweb.model.domain.RightsInfo;
-import com.glamey.innerweb.model.domain.RoleInfo;
-import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.UserQuery;
 
 /**
@@ -47,6 +46,8 @@ public class UserInfoManagerController extends BaseController {
     private CategoryDao categoryDao;
     @Resource
     private UserInfoDao userInfoDao;
+    @Resource
+    private MetaInfoDao metaInfoDao ;
 
 
     /****************************************************************【开始】功能权限操作*************************************************************************/
@@ -524,6 +525,7 @@ public class UserInfoManagerController extends BaseController {
         UserInfo userInfo = new UserInfo();
         userInfo.setRoleId(WebUtils.getRequestParameterAsString(request, "roleId"));
         userInfo.setDeptId(WebUtils.getRequestParameterAsString(request, "deptId"));
+        userInfo.setDuties(WebUtils.getRequestParameterAsString(request,"duties"));
         userInfo.setUsername(username);
         BlowFish bf = new BlowFish(Constants.SECRET_KEY);
         userInfo.setPasswd(bf.encryptString(passwd));
@@ -575,6 +577,8 @@ public class UserInfoManagerController extends BaseController {
         if (StringUtils.isNotBlank(deptId)) {
             userInfo.setDeptId(deptId);
         }
+
+        userInfo.setDuties(WebUtils.getRequestParameterAsString(request,"duties"));
         userInfo.setUsername(WebUtils.getRequestParameterAsString(request, "username"));
         String passwd = WebUtils.getRequestParameterAsString(request, "passwd");
         if (StringUtils.isNotBlank(passwd)) {
@@ -696,11 +700,14 @@ public class UserInfoManagerController extends BaseController {
         Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEGORY_DEPT);
         List<Category> deptInfoList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
 
+        /*获取通讯录头部信息*/
+        MetaInfo contactHeader = metaInfoDao.getByName(SystemConstants.contact_header);
         mav.addObject("userInfoList", userInfoList);
         mav.addObject("deptInfoList", deptInfoList);
         mav.addObject("query", query);
         mav.addObject("isSuper", isSuper);
         mav.addObject("pageBean", pageBean);
+        mav.addObject("contactHeader",contactHeader);
         mav.setViewName("mg/user/contact-list");
         return mav;
     }
