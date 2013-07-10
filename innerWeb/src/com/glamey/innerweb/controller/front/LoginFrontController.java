@@ -1,23 +1,24 @@
 package com.glamey.innerweb.controller.front;
 
-import com.glamey.framework.utils.BlowFish;
-import com.glamey.innerweb.constants.Constants;
-import com.glamey.innerweb.controller.BaseController;
-import com.glamey.innerweb.dao.UserInfoDao;
-import com.glamey.innerweb.model.domain.UserInfo;
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import sun.java2d.pipe.DuctusRenderer;
 
-import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import com.glamey.framework.utils.BlowFish;
+import com.glamey.innerweb.constants.Constants;
+import com.glamey.innerweb.controller.BaseController;
+import com.glamey.innerweb.dao.UserInfoDao;
+import com.glamey.innerweb.model.domain.UserInfo;
+import com.glamey.innerweb.util.WebCookieUtils;
 
 /**
  * 内网系统登陆管理
@@ -30,7 +31,8 @@ public class LoginFrontController extends BaseController {
 
     @Resource
     private UserInfoDao userInfoDao;
-
+	@Resource
+	private WebCookieUtils webCookieUtils ;
     /**
      * 显示登陆界面
      */
@@ -38,6 +40,11 @@ public class LoginFrontController extends BaseController {
     public ModelAndView loginShow(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
+        
+        boolean isCookieLogin = webCookieUtils.isCookieLogin(request, response);
+        if(isCookieLogin){
+            mav.setViewName("redirect:/index.htm");
+        }
         return mav;
     }
 
@@ -48,6 +55,7 @@ public class LoginFrontController extends BaseController {
     public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         session.removeAttribute(Constants.SESSIN_USERID);
         session.invalidate();
+        webCookieUtils.cookieRemove(request, response);
         return "redirect:/home.jsp";
     }
 
@@ -65,29 +73,6 @@ public class LoginFrontController extends BaseController {
         /*是否记录用户Cookies，适用于下次免登陆*/
         String remeberUser = request.getParameter("remeberUser");
         BlowFish bf = new BlowFish(Constants.SECRET_KEY);
-        if(StringUtils.equals(remeberUser,"1")){
-            String value = null ;
-            Cookie cookies [] = request.getCookies();
-            for (Cookie cookie : cookies) {
-                if(cookie != null && StringUtils.equals(cookie.getName(),"OFFICEINNER_SESSION_ID")){
-                    value = cookie.getValue();
-                    break;
-                }
-            }
-            /*说明无cookie，返回重新登录*/
-            if(value == null){
-                mav.addObject("message", "不能为空!");
-                return mav;
-            }
-            value = bf.decryptString(value);
-            String values [] = StringUtils.split(value,"<>");
-            if(value == null || value.length() != 2){
-                mav.addObject("message", "不能为空!");
-                return mav;
-            }
-            username = values[0];
-            password = values[1];
-        }
 
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password) || StringUtils.isBlank(verifyCode)) {
             mav.addObject("message", "不能为空!");

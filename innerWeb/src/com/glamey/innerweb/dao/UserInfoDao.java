@@ -717,7 +717,6 @@ public class UserInfoDao extends BaseDao {
         logger.info("[UserInfoDao] #setContactOrder# " + String.format("userId=%s,orderId=%d", userId, orderId));
         String sql = "update tbl_user set user_showorder = ? where user_id = ?";
         try {
-            List<UserInfo> userInfoList = new ArrayList<UserInfo>();
             int count = jdbcTemplate.update(sql,
                     new PreparedStatementSetter() {
                         @Override

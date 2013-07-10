@@ -6,14 +6,10 @@ package com.glamey.innerweb.controller.manager;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.glamey.innerweb.model.domain.LibraryInfo;
-import com.glamey.innerweb.model.dto.LibraryInfoDTO;
-import com.glamey.innerweb.model.dto.LibraryQuery;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +23,9 @@ import com.glamey.innerweb.constants.CategoryConstants;
 import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
-import com.glamey.innerweb.dao.UserInfoDao;
 import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.UserInfo;
+import com.glamey.innerweb.model.dto.LibraryInfoDTO;
 
 /**
  * 后台管理系统--首页内容
@@ -42,8 +38,8 @@ public class HomeManagerController extends BaseController {
 
     @Autowired
     private CategoryDao categoryDao ;
-    @Resource
-    private UserInfoDao userInfoDao;
+//    @Resource
+//    private UserInfoDao userInfoDao;
     /**
      * 后台管理系统首页
      */

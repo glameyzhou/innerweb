@@ -52,13 +52,13 @@
             <thead class="pn-lthead">
             <tr>
                 <th width="4%">序号</th>
-                <th width="8%">姓名</th>
-                <th>部门</th>
-                <th width="8%">职务</th>
+                <th width="7%">姓名</th>
+                <th width="16%">部门</th>
+                <th width="18%">职务</th>
                 <th>电话</th>
                 <th width="10%">固话</th>
                 <th width="15%">邮箱</th>
-                <th width="15%">地址</th>
+                <th width="13%">地址</th>
                 <c:if test="${isSuper}">
                     <th>操作</th>
                 </c:if>
