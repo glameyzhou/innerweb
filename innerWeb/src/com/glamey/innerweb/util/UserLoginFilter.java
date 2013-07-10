@@ -37,6 +37,7 @@ public class UserLoginFilter implements Filter {
         String requestURI = request.getRequestURI();
         String suffix = FilenameUtils.getExtension(requestURI);
         requestURI =  getLastString(requestURI);
+
         if (obj == null && !isAllowed(requestURI)) {
             response.sendRedirect(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath());
         } else {

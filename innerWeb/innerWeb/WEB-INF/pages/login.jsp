@@ -110,6 +110,7 @@
                     <img src="${basePath}verifyCode.htm" width="69" height="20" align="absmiddle"
                          onclick="this.src='${basePath}verifyCode.htm?time='+new Date().getTime()" title="点击刷新验证码"/>
                 </li>
+                <li><input type="checkbox" id="remeberUser" name="remeberUser" value="1"/>&nbsp;保存登录Cookies</li>
                 <c:if test="${not empty message}">
                     <li><font color='red'>${message}</font></li>
                 </c:if>

@@ -28,8 +28,8 @@ extMap.put("flash", "swf,flv");
 extMap.put("media", "swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb");
 extMap.put("file", "doc,docx,xls,xlsx,ppt,htm,html,txt,zip,rar,gz,bz2,pdf,gw,wps");
 
-//最大文件大小
-long maxSize = 1024 * 1024 * 30;
+//最大文件大小为60M
+long maxSize = 1024 * 1024 * 60;
 
 response.setContentType("text/html; charset=UTF-8");
 
