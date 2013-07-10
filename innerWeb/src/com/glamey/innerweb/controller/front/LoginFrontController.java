@@ -79,16 +79,14 @@ public class LoginFrontController extends BaseController {
                 mav.addObject("message", "不能为空!");
                 return mav;
             }
-            else{
-                value = bf.decryptString(value);
-                String values [] = StringUtils.split(value,"<>");
-                if(value == null || value.length() != 2){
-                    mav.addObject("message", "不能为空!");
-                    return mav;
-                }
-                username = values[0];
-                password = values[1];
+            value = bf.decryptString(value);
+            String values [] = StringUtils.split(value,"<>");
+            if(value == null || value.length() != 2){
+                mav.addObject("message", "不能为空!");
+                return mav;
             }
+            username = values[0];
+            password = values[1];
         }
 
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password) || StringUtils.isBlank(verifyCode)) {
