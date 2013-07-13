@@ -60,7 +60,7 @@ public class LinksFrontController extends BaseController{
         }
         if(StringUtils.isBlank(categoryId)){
             mav.addObject("message","无效操作");
-            mav.setViewName("404");
+            mav.setViewName("common/errorPage");
             return mav ;
         }
         Category category = categoryDao.getById(categoryId);

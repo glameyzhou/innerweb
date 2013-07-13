@@ -1,23 +1,16 @@
 package com.glamey.innerweb.controller.front;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.glamey.innerweb.model.dto.PostDTO;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -91,7 +84,7 @@ public class PostFrontController extends BaseController {
         mav.addAllObjects(includeFront.allInclude(request,response,session));
         if (StringUtils.isBlank(postId)) {
             mav.addObject("message", "操作无效");
-            mav.setViewName("front/404");
+            mav.setViewName("common/errorPage");
             return mav;
         }
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
@@ -137,7 +130,7 @@ public class PostFrontController extends BaseController {
         mav.addAllObjects(includeFront.allInclude(request,response,session));
         if (StringUtils.isBlank(categoryType) || StringUtils.isBlank(categoryId)) {
             mav.addObject("message", "操作无效");
-            mav.setViewName("front/404");
+            mav.setViewName("common/errorPage");
             return mav;
         }
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
@@ -212,7 +205,7 @@ public class PostFrontController extends BaseController {
         mav.addAllObjects(includeFront.allInclude(request,response,session));
         if (StringUtils.isBlank(categoryType)) {
             mav.addObject("message", "操作无效");
-            mav.setViewName("front/404");
+            mav.setViewName("common/errorPage");
             return mav;
         }
 
@@ -254,7 +247,7 @@ public class PostFrontController extends BaseController {
         mav.addAllObjects(includeFront.allInclude(request,response,session));
         if (StringUtils.isBlank(categoryId)) {
             mav.addObject("message", "操作无效");
-            mav.setViewName("front/404");
+            mav.setViewName("common/errorPage");
             return mav;
         }
 
@@ -299,7 +292,7 @@ public class PostFrontController extends BaseController {
     	String userId = ((UserInfo) obj).getUserId();
     	if (StringUtils.isBlank(id)) {
     		mav.addObject("message", "操作无效");
-    		mav.setViewName("front/404");
+    		mav.setViewName("common/errorPage");
     		//固定内容
         	mav.addAllObjects(includeFront.linksEntrance());
         	mav.addAllObjects(includeFront.friendlyLinks(request));

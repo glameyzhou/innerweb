@@ -1,26 +1,5 @@
 package com.glamey.innerweb.controller.front;
 
-import java.io.PrintWriter;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.glamey.framework.utils.HttpConnection;
-import com.glamey.framework.utils.WebUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.glamey.framework.utils.tld.StringTld;
 import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.constants.SystemConstants;
@@ -30,6 +9,20 @@ import com.glamey.innerweb.dao.PostDao;
 import com.glamey.innerweb.model.domain.MetaInfo;
 import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.PostDTO;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class IndexFrontController extends BaseController {
@@ -99,5 +92,16 @@ public class IndexFrontController extends BaseController {
         //尾部页面
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
         return mav;
+    }
+
+    @RequestMapping(value = "/errorPage.htm", method = RequestMethod.GET)
+    public ModelAndView errorPage(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("common/message.jsp");
+        mav.addObject("message","请求的内容不存在，返回首页");
+//        value="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/"/>
+        String port = request.getServerPort() == 80 ? "" : ":" + request.getServerPort();
+        String basePath = request.getScheme() + "://" + request.getServerName() + port + request.getContextPath() + "/";
+        mav.addObject("href",basePath);
+        return mav ;
     }
 }

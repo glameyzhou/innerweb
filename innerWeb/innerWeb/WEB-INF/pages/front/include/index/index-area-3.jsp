@@ -19,9 +19,9 @@
             <c:forEach items="${dto3.postList}" var="post">
                 <ul class="con_right">
                     <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
-                    <li><a href="${basePath}p-${post.id}.htm"><c:if
+                    <li><a href="${basePath}p-${post.id}.htm" title="${post.title}"><c:if
                             test="${post.category.aliasName eq 'deptInnerNotices'}">[${post.deptCategory.name}]</c:if>
-                        ${post.title}</a></li>
+                            ${fmtString:substringAppend(post.title,24 ,'...' )}</a></li>
                     <li style="float:right;">${fmtString:substring(post.time, 10)}</li>
                 </ul>
             </c:forEach>

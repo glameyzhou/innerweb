@@ -48,7 +48,8 @@
                         <c:forEach var="post" items="${dto.postList}" varStatus="postStatus">
                             <ul class="con_right">
                                 <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
-                                <li><a href="${basePath}p-${post.id}.htm" target="_blank">${post.title}</a></li>
+                                <li><a href="${basePath}p-${post.id}.htm" target="_blank"
+                                       title="${post.title}">${fmtString:substringAppend(post.title,26,'...' )}</a></li>
                                 <li style="float:right;">${fmtString:substring(post.time,10)}</li>
                             </ul>
                         </c:forEach>

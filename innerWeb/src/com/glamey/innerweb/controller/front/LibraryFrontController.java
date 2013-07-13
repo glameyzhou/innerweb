@@ -171,7 +171,7 @@ public class LibraryFrontController extends BaseController {
         ModelAndView mav = new ModelAndView();
         if (StringUtils.isBlank(id)) {
             mav.addObject("message", "无效操作");
-            mav.setViewName("404");
+            mav.setViewName("common/errorPage");
             return mav;
         }
 

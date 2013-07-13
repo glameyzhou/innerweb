@@ -6,6 +6,19 @@
     <welcome-file-list>
         <welcome-file>home.jsp</welcome-file>
     </welcome-file-list>
+    <!--错误页面跳转-->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errorPage.htm</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errorPage.htm</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/errorPage.htm</location>
+    </error-page>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -82,18 +95,4 @@
     <session-config>
         <session-timeout>1024</session-timeout>
     </session-config>
-
-
-     	<!--<error-page>
-            <error-code>500</error-code>
-            <location>/front/404.htm</location>
-        </error-page>-->
-        <error-page>
-            <error-code>404</error-code>
-            <location>/front/404.htm</location>
-        </error-page>
-         <!--<error-page>
-            <error-code>405</error-code>
-            <location>/logon</location>
-        </error-page> -->
 </web-app>
