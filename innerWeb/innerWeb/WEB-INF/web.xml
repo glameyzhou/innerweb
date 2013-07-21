@@ -35,7 +35,7 @@
         <param-value>webName.root</param-value>
     </context-param>
     <context-param>
-        <param-name>logrjConfigLocation</param-name>
+        <param-name>log4jConfigLocation</param-name>
         <param-value>WEB-INF/classes/log4j.properties</param-value>
     </context-param>
     <context-param>
@@ -85,7 +85,7 @@
         <filter-class>com.glamey.innerweb.util.UserLoginFilter</filter-class>
         <init-param>
             <param-name>allowed</param-name>
-            <param-value>/login.htm,/verifyCode.htm,/manager.htm</param-value>
+            <param-value>/login.htm,/verifyCode.htm,/manager.htm,/monitor/console.htm</param-value>
         </init-param>
     </filter>
     <filter-mapping>

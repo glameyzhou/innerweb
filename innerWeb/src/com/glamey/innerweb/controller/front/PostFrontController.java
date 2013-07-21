@@ -3,6 +3,7 @@ package com.glamey.innerweb.controller.front;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -102,8 +103,14 @@ public class PostFrontController extends BaseController {
         postReadInfo.setUserId(userId);
         postReadInfoDao.create(postReadInfo);
 
-        //读过文章的人数
+        //读过文章的人数,排除自己
         List<UserInfo> postReadUserList = postReadInfoDao.getUserListByPostId(postId);
+        for (Iterator<UserInfo> it = postReadUserList.iterator() ; it.hasNext() ;) {
+            UserInfo userInfo = it.next() ;
+            if (StringUtils.equals(userInfo.getUserId(),userId)) {
+                it.remove();
+            }
+        }
         mav.addObject("postReadUserList", postReadUserList);
 
         return mav;
