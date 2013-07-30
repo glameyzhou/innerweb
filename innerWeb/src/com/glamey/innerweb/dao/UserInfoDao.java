@@ -416,7 +416,7 @@ public class UserInfoDao extends BaseDao {
             int count = jdbcTemplate.update(
                     "insert into tbl_user(user_id,user_name,user_passwd,user_nickname,user_phone,user_mobile,user_email,user_address,user_dept_id,user_duties,user_role_id,user_islive,user_time," +
                             "user_nicknamepinyin,user_showorder,user_isincontact)" +
-                            " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                            " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {

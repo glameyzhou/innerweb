@@ -20,6 +20,8 @@ import java.util.Random;
 
 /**
  * 随机验证码
+ *
+ * @author zy
  */
 @Controller
 public class VerifyCodeFrontController {
