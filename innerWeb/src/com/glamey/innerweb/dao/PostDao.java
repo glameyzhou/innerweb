@@ -371,6 +371,11 @@ public class PostDao extends BaseDao {
             for (String array : arrays) {
                 dto = new PostDTO();
                 cate = categoryDao.getById(array);
+                /*如果用户手工删除分类之后，并且忘记修改首页布局设置，那么在显示的时候，就会找不到对应的分类名称而报错。如果分类为空直接跳出继续下一个*/
+                if(cate == null){
+                    continue;
+                }
+
                 dto.setCategory(cate);
 
                 PostQuery query = new PostQuery();

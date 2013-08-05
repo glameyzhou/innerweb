@@ -47,6 +47,7 @@ public class PostManagerController extends BaseController {
     private PostDao postDao;
     @Resource
     private WebUploadUtils uploadUtils;
+    private String basePath;
 
     /*分类列表（指定分类）
     * 默认的都是第一级分类，例如：信息动态、通告等等
@@ -225,7 +226,8 @@ public class PostManagerController extends BaseController {
         }
         //删除分类的同事，会把旗下的所有文章分类设置为空
         if(categoryDao.deleteById(categoryId, aliasName)){
-        	mav.addObject("message", "分类删除成功,旗下所有文章均无分类!");
+            String basePath = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() == 80 ? "" :  request.getServerPort()) + request.getContextPath() + "/mg/sys/area-show.htm";
+        	mav.addObject("message", "分类删除成功,旗下所有文章均无分类!<br/>删除分类之后，会影响首页的布局，<a href=\"" + basePath + "\">请修改首页布局</a>");
         	mav.addObject("href", "mg/post/" + aliasName + "/category-list.htm");
         }
         else{

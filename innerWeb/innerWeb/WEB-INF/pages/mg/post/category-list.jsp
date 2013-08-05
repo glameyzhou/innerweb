@@ -13,7 +13,7 @@
             window.location = '${basePath}mg/post/${categoryParent.aliasName}/category-show.htm?categoryId=' + categoryId;
         }
         function del(categoryId) {
-            if (!confirm("删除栏目之后，旗下的所有文章将无归类,是否确定?")) {
+            if (!confirm("注意：删除栏目之后\r\n 分类下下的所有文章将无归类\r\n删除完毕，务必修改首页布局设置，以免影响首页布局显示\r\n是否确定?")) {
                 return;
             }
             window.location = '${basePath}mg/post/${categoryParent.aliasName}/category-del.htm?categoryId=' + categoryId;
