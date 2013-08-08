@@ -31,4 +31,10 @@ public class SystemConstants {
     public static final String notices_who_can_see = "notices_who_can_see" ;
     /*通讯录头部信息*/
     public static final String contact_header = "contact_header" ;
+
+
+    /*图书馆头部标题*/
+    public static final String meta_library_title = "library_title" ;
+    /*图书馆头部内容详情*/
+    public static final String meta_library_content = "library_content" ;
 }

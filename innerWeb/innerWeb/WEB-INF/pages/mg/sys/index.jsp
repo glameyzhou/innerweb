@@ -77,6 +77,10 @@
                 <td align="left">通讯录头部设置</td>
                 <td align=center><a href="${basePath}mg/sys/meta/contact_header/meta-show.htm">设置</a></td>
             </tr>
+            <tr>
+                <td align="left">图书馆头部设置</td>
+                <td align=center><a href="${basePath}mg/sys/meta/library_head/show.htm">设置</a></td>
+            </tr>
             </tbody>
         </table>
     </form>

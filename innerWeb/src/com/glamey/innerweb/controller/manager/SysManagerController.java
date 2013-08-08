@@ -344,4 +344,67 @@ public class SysManagerController extends BaseController {
         mav.addObject("metaInfo", metaInfo);
         return mav;
     }
+
+    /**
+     * 图书馆头部设置--显示页面
+     * @param request
+     * @param response
+     * @param session
+     * @param modelMap
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/meta/library_head/show.htm", method = RequestMethod.GET)
+    public ModelAndView libraryHeadShow(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("mg/sys/library-head-show");
+
+        MetaInfo libraryHeadTitile = metaInfoDao.getByName(SystemConstants.meta_library_title);
+        mav.addObject("libraryHeadTitile", libraryHeadTitile);
+
+        MetaInfo libraryHeadContent = metaInfoDao.getByName(SystemConstants.meta_library_content);
+        mav.addObject("libraryHeadContent", libraryHeadContent);
+
+        mav.addObject("title", "图书馆头部");
+
+        return mav;
+    }
+
+    /**
+     * 图书馆头部--标题内容修改处理
+     * @param request
+     * @param response
+     * @param session
+     * @param modelMap
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/meta/library-head/update.htm", method = RequestMethod.POST)
+    public ModelAndView libraryHeadUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("common/message");
+
+        String title = WebUtils.getRequestParameterAsString(request,"title","");
+        String content = WebUtils.getRequestParameterAsString(request,"content","");
+
+        if(StringUtils.isBlank(title) || StringUtils.isBlank(content)){
+            mav.addObject("message","标题、内容不能为空");
+            return mav ;
+        }
+
+        MetaInfo metaInfoTitle = new MetaInfo();
+        metaInfoTitle.setName(SystemConstants.meta_library_title);
+        metaInfoTitle.setValue(title);
+
+        MetaInfo metaInfoContent = new MetaInfo();
+        metaInfoContent.setName(SystemConstants.meta_library_content);
+        metaInfoContent.setValue(content);
+
+
+        if (metaInfoDao.update(metaInfoTitle) && metaInfoDao.update(metaInfoContent)){
+            mav.addObject("message","设置成功");
+        }
+        else {
+            mav.addObject("message","设置失败");
+        }
+        return mav ;
+    }
 }

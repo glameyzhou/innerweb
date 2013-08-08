@@ -34,6 +34,26 @@
             <%@include file="include/searcher.jsp" %>
         </div>
         <div class="body_right">
+            <%--图书馆头部设置  开始--%>
+            <div class="right_neiye">
+                <div class="body_right_tit1" style="width:962px;">
+                    <ul class="tit_biao">
+                        <li><img src="${basePath}res/front/images/right_tit_biao.png"/></li>
+                        <li style="padding-left:15px;">${headTitle}</li>
+                    </ul>
+                    <%--<ul class="tit_biao_right">
+                        <li><img src="${basePath}res/front/images/right_tit_biao2.png"/></li>
+                        <li><a href="${basePath}library-${dto.category.id}-0--1.htm">更&nbsp;多</a></li>
+                    </ul>--%>
+                </div>
+                <div class="neiye_right_con" style="width:932px;">
+                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr valign="top"><td>${headContent}</td></tr>
+                    </table>
+                </div>
+            </div>
+            <%--图书馆头部设置  结束--%>
+            <%--图书馆栏目展示  开始--%>
             <c:forEach var="dto" items="${libraryInfoDTOList}" varStatus="libStatus">
                 <c:if test="${libStatus.count % 2 == 0}"><c:set var="titleCSS" value="body_right_tit1" /></c:if>
                 <c:if test="${libStatus.count % 2 == 1}"><c:set var="titleCSS" value="body_right_tit2" /></c:if>
@@ -114,6 +134,7 @@
                     </div>
                 </div>
             </c:forEach>
+            <%--图书馆栏目展示结束--%>
         </div>
         <%@include file="include/friendlyLinks.jsp" %>
     </div>

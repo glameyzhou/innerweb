@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.innerweb.constants.SystemConstants;
+import com.glamey.innerweb.dao.MetaInfoDao;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,8 @@ public class LibraryFrontController extends BaseController {
     private IncludeFront includeFront;
     @Resource
     private LibraryInfoDao libraryInfoDao;
+    @Resource
+    private MetaInfoDao metaInfoDao ;
 
     /*微型图书馆首页*/
     @RequestMapping(value = "/library.htm", method = RequestMethod.GET)
@@ -45,6 +49,12 @@ public class LibraryFrontController extends BaseController {
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #postList#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
+
+        String headTitle = metaInfoDao.getByName(SystemConstants.meta_library_title).getValue();
+        String headContent = metaInfoDao.getByName(SystemConstants.meta_library_content).getValue();
+        mav.addObject("headTitle",headTitle);
+        mav.addObject("headContent",headContent);
+
 
         List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
         List<Category> rootList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
