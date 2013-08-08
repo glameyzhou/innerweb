@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.innerweb.constants.SystemConstants;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 
@@ -175,6 +176,8 @@ public class IncludeFront {
         /*友情链接*/
         map.addAllAttributes(friendlyLinks(request));
 
+        /*页面尾部*/
+        map.put("page_foot",getMetaByName(SystemConstants.page_foot));
         return map;
     }
 }
