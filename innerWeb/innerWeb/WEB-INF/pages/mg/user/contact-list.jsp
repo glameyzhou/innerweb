@@ -48,7 +48,7 @@
         </select>&nbsp;&nbsp;
             <input type="submit" value="查询">
         </div>
-        <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
+        <table class="pn-ltable"  width="100%" cellspacing="1" cellpadding="0" border="0" id="resultsTable">
             <thead class="pn-lthead">
             <tr>
                 <th width="4%">序号</th>
@@ -91,3 +91,30 @@
 </div>
 </body>
 </html>
+<script src="<%=projectBasePath%>res/common/js/jquery-1.9.0.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var jQuery_1_9 = $.noConflict(true);
+    jQuery_1_9(function ($) {
+        var $table = $("#resultsTable>tbody");
+        var tempTDHtml = $table.find("tr:eq(0)").find("td:eq(2)").text();
+        var size = 1;
+        var trIndex = 0;
+        $("#resultsTable>tbody>tr").each(function (index) {
+            if(index>0){
+                var $td = $(this).find("td:eq(2)");
+                if ($td.text() == tempTDHtml) {
+                    $td.remove();
+                    size++;
+                } else {
+                    $table.find("tr:eq(" + trIndex + ")").find("td:eq(2)").attr("rowspan", size);
+                    tempTDHtml = $td.text();
+                    size = 1;
+                    trIndex = index;
+                }
+            }
+            if(index == $table.find("tr").length-1 && size >1){
+                $table.find("tr:eq(" + trIndex + ")").find("td:eq(2)").attr("rowspan", size);
+            }
+        })
+    });
+</script>
