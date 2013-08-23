@@ -18,6 +18,7 @@ public class LibraryQuery implements Serializable {
     private List<String> categoryIds;
     private int type = -1;
     private int showImage = -1;
+    private int showIndex = -1 ;
     private int start;
     private int num;
 
@@ -75,6 +76,14 @@ public class LibraryQuery implements Serializable {
 
     public void setCategoryIds(List<String> categoryIds) {
         this.categoryIds = categoryIds;
+    }
+
+    public int getShowIndex() {
+        return showIndex;
+    }
+
+    public void setShowIndex(int showIndex) {
+        this.showIndex = showIndex;
     }
 
     @Override

@@ -326,6 +326,39 @@ public class CategoryDao extends BaseDao {
     }
 
     /**
+     * 查询所有子分类（是否首页显示）
+     * @param showIndex
+     * @param parentId
+     * @param categoryType
+     * @param start
+     * @param num
+     * @return
+     */
+    public List<Category> getByParentId(final int showIndex ,final String parentId, final String categoryType, final int start, final int num) {
+        logger.info("[CategoryDao] #getCategoryByParentId# showIndex=" + showIndex + " parendId=" + parentId + " categoryType=" + categoryType);
+        List<Category> list = new ArrayList<Category>();
+        try {
+            list = jdbcTemplate.query("select * from tbl_category where categorytype = ? and parentid = ? and showindex = ? order by categoryorder asc limit ?,? ",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedstatement)
+                                throws SQLException {
+                            preparedstatement.setString(1, categoryType);
+                            preparedstatement.setString(2, parentId);
+                            preparedstatement.setInt(3, showIndex);
+                            preparedstatement.setInt(4, start);
+                            preparedstatement.setInt(5, num);
+                        }
+                    },
+                    new CategoryRowMapper());
+            return list;
+        } catch (Exception e) {
+            logger.error("[CategoryDao] #getByParentId# error", e);
+        }
+        return null;
+    }
+
+    /**
      * 获取分类(指定的分类)下的所有子分类的总数
      *
      * @param parentId

@@ -55,6 +55,11 @@
     <form action="${basePath}mg/library/library-list.htm" method="get" style="padding-top:5px;" enctype="multipart/form-data">
         <div>
         关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
+        是否首页显示&nbsp;<select id="showIndex" name="showIndex">
+            <option value="-1">请选择</option>
+            <option value="1" <c:if test="${query.showIndex == 1}">selected="selected"</c:if>>显示</option>
+            <option value="0" <c:if test="${query.showIndex == 0}">selected="selected"</c:if>>不显示</option>
+        </select>&nbsp;&nbsp;
         内容类型&nbsp;<select id="type" name="type">
         <option value="-1">请选择</option>
         <option value="1" <c:if test="${query.type == 1}">selected="selected"</c:if>>正常(名称、URL)</option>
@@ -80,6 +85,7 @@
             <tr>
                 <th width="5%">选择框</th>
                 <th width="3%">排序</th>
+                <th width="3%">是否首页显示</th>
                 <th width="7%">类型</th>
                 <th width="15%">分类</th>
                 <th>名称</th>
@@ -93,6 +99,9 @@
                 <tr>
                     <td align="center"><input type="checkbox" id="id" name="id" value="${lib.id}"/></td>
                     <td align="center">${lib.order}</td>
+                    <td align="center">
+                        <c:if test="${lib.showIndex==1}">是</c:if><c:if test="${lib.showIndex==0}">否</c:if>
+                    </td>
                     <td align="center">
                         <c:if test="${lib.type == 1}">正常</c:if>
                         <c:if test="${lib.type == 2}">自定义内容</c:if>
@@ -117,7 +126,7 @@
             </tbody>
         </table>
         <c:set var="pageURL"
-               value="${basePath}mg/library/library-list.htm?categoryId=${query.categoryId}&keyword=${fmtString:encoder(query.keyword)}&type=${query.type}&"/>
+               value="${basePath}mg/library/library-list.htm?showIndex=${query.showIndex}&categoryId=${query.categoryId}&keyword=${fmtString:encoder(query.keyword)}&type=${query.type}&"/>
         <%@include file="../../common/pages.jsp" %>
     </form>
 </div>

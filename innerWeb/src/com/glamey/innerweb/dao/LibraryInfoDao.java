@@ -43,8 +43,8 @@ public class LibraryInfoDao extends BaseDao {
         logger.info("[LibraryInfoDao] #create# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_library(lib_id,lib_category_id,lib_type,lib_name,lib_url,lib_content,lib_image,lib_time,lib_order) " +
-                            " values(?,?,?,?,?,?,?,?,?)",
+                    "insert into tbl_library(lib_id,lib_category_id,lib_type,lib_name,lib_url,lib_content,lib_image,lib_time,lib_order,lib_showindex) " +
+                            " values(?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -58,6 +58,7 @@ public class LibraryInfoDao extends BaseDao {
                             pstmt.setString(++i, info.getImage());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
                             pstmt.setInt(++i, info.getOrder());
+                            pstmt.setInt(++i, info.getShowIndex());
                         }
                     });
             return count > 0;
@@ -75,7 +76,7 @@ public class LibraryInfoDao extends BaseDao {
         logger.info("[LibraryInfoDao] #update# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_library set lib_category_id=?,lib_type=?,lib_name=?,lib_url=?,lib_content=?,lib_image=?,lib_order = ? where lib_id = ?",
+                    "update tbl_library set lib_category_id=?,lib_type=?,lib_name=?,lib_url=?,lib_content=?,lib_image=?,lib_order = ?,lib_showindex=? where lib_id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -87,6 +88,7 @@ public class LibraryInfoDao extends BaseDao {
                             pstmt.setString(++i, info.getContent());
                             pstmt.setString(++i, info.getImage());
                             pstmt.setInt(++i, info.getOrder());
+                            pstmt.setInt(++i, info.getShowIndex());
                             pstmt.setString(++i, info.getId());
                         }
                     });
@@ -177,6 +179,9 @@ public class LibraryInfoDao extends BaseDao {
         	if(StringUtils.isNotBlank(query.getKeyword()))
         		sql.append(" and (lib_name like ? or lib_content like ? or lib_url like ? ) ");
 
+            if (query.getShowIndex() > -1)
+                sql.append(" and lib_showindex = ? ");
+
         	sql.append(" order by lib_order desc limit ?,? ");
         	
             list = jdbcTemplate.query(sql.toString(),
@@ -203,6 +208,9 @@ public class LibraryInfoDao extends BaseDao {
                                 preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
                                 preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
                         	}
+
+                            if (query.getShowIndex() > -1)
+                                preparedstatement.setInt(++i , query.getShowIndex());
 
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
@@ -254,7 +262,12 @@ public class LibraryInfoDao extends BaseDao {
         		params.add("%" + query.getKeyword() + "%");
         		params.add("%" + query.getKeyword() + "%");
         	}
-        	
+
+            if (query.getShowIndex() > -1 ) {
+                sql.append(" and lib_showindex = ? ");
+                params.add(query.getShowIndex()) ;
+            }
+
             count = jdbcTemplate.queryForInt(sql.toString(),params.toArray());
         } catch (Exception e) {
             logger.error("[LibraryInfoDao] #getCountByQuery# error! query=" + query , e);
@@ -279,6 +292,7 @@ public class LibraryInfoDao extends BaseDao {
             info.setImage(rs.getString("lib_image"));
             info.setTime(rs.getTimestamp("lib_time"));
             info.setOrder(rs.getInt("lib_order"));
+            info.setShowIndex(rs.getInt("lib_showindex"));
 
             Category category = categoryDao.getById(info.getCategoryId());
             info.setCategory(category);

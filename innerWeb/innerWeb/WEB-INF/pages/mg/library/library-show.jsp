@@ -116,6 +116,15 @@
             子分类：<select id="categoryId" name="categoryId"></select>
         </p>
         <p>
+            <font color="red">是否首页显示</font>
+            <select id="showIndex" name="showIndex">
+                <option value="1" <c:if test="${lib.showIndex == 1}">selected="selected"</c:if>>是</option>
+                <option value="0" <c:if test="${lib.showIndex == 0}">selected="selected"</c:if>>否</option>
+            </select>
+            <br/><br/>
+            <font color="red">排序&nbsp;&nbsp;&nbsp;&nbsp;</font>
+            <input type="text" name="order" id="order" value="${lib.order}"/><font color="red">数字越大越靠前</font>
+        </p><p>
             <font color="red">内容类型</font>
             <select id="type" name="type" onchange="showTypeContent(this.value);">
                 <option value="1" <c:if test="${lib.type == 1}">selected="selected"</c:if>>正常(名称、URL)</option>

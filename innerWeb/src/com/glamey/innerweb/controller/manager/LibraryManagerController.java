@@ -178,6 +178,7 @@ public class LibraryManagerController extends BaseController {
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);
 
+        int showIndex = WebUtils.getRequestParameterAsInt(request,"showIndex",-1);
         int type = WebUtils.getRequestParameterAsInt(request, "type", -1);
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
         String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
@@ -187,6 +188,7 @@ public class LibraryManagerController extends BaseController {
         query.setType(type);
         query.setCategoryId(categoryId);
         query.setKeyword(keyword);
+        query.setShowIndex(showIndex);
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
 
@@ -260,12 +262,14 @@ public class LibraryManagerController extends BaseController {
     public ModelAndView libraryCreate(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("common/message");
 
+        int showIndex = WebUtils.getRequestParameterAsInt(request,"showIndex",-1);
         int type = WebUtils.getRequestParameterAsInt(request, "type", 1);
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
 
         LibraryInfo lib = new LibraryInfo();
         lib.setType(type);
         lib.setCategoryId(categoryId);
+        lib.setShowIndex(showIndex);
         lib.setTime(new Date());
         if (StringUtils.isBlank(categoryId)) {
             mav.addObject("message", "分类不能为空");
@@ -333,6 +337,7 @@ public class LibraryManagerController extends BaseController {
             mav.addObject("message", "操作无效");
             return mav;
         }
+        int showIndex = WebUtils.getRequestParameterAsInt(request,"showIndex",-1);
         int type = WebUtils.getRequestParameterAsInt(request, "type", 1);
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
         if (StringUtils.isBlank(categoryId)) {
@@ -350,6 +355,7 @@ public class LibraryManagerController extends BaseController {
         lib.setOrder(Integer.valueOf(orderString));
         lib.setType(type);
         lib.setCategoryId(categoryId);
+        lib.setShowIndex(showIndex);
         lib.setTime(new Date());
 
         if (type == 1) {

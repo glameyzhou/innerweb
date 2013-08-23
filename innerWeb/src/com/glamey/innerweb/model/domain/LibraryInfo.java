@@ -52,6 +52,10 @@ public class LibraryInfo implements Serializable {
 	private Date time ;
 
     private int order ;
+    /**
+     * 是否显示在首页  1=是 0=否
+     */
+    private int showIndex ;
 
 	public String getId() {
 		return id;
@@ -131,6 +135,14 @@ public class LibraryInfo implements Serializable {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public int getShowIndex() {
+        return showIndex;
+    }
+
+    public void setShowIndex(int showIndex) {
+        this.showIndex = showIndex;
     }
 
     @Override

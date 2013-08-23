@@ -98,7 +98,6 @@ public class IndexFrontController extends BaseController {
     public ModelAndView errorPage(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         ModelAndView mav = new ModelAndView("common/message.jsp");
         mav.addObject("message","请求的内容不存在，返回首页");
-//        value="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/"/>
         String port = request.getServerPort() == 80 ? "" : ":" + request.getServerPort();
         String basePath = request.getScheme() + "://" + request.getServerName() + port + request.getContextPath() + "/";
         mav.addObject("href",basePath);

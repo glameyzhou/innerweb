@@ -55,9 +55,9 @@ public class LibraryFrontController extends BaseController {
         mav.addObject("headTitle",headTitle);
         mav.addObject("headContent",headContent);
 
-
+        int showIndex = 1 ;/*首页显示*/
         List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
-        List<Category> rootList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
+        List<Category> rootList = categoryDao.getByParentId(showIndex,CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
         for (Category rootCategory : rootList) {
             /*父类、子类、子类下内容*/
             LibraryInfoDTO dto = new LibraryInfoDTO();
@@ -66,12 +66,13 @@ public class LibraryFrontController extends BaseController {
             List<LibraryInfoDTO> libDTOList = new ArrayList<LibraryInfoDTO>();
             LibraryInfoDTO libDTO = null ;
             /*获取对应的子分类信息以及子分类下的连接数量*/
-            List<Category> categoryList = categoryDao.getByParentId(rootCategory.getId(),CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
+            List<Category> categoryList = categoryDao.getByParentId(showIndex,rootCategory.getId(),CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
             for (Category category : categoryList) {
                 libDTO = new LibraryInfoDTO();
                 libDTO.setCategory(category);
 
                 LibraryQuery query = new LibraryQuery();
+                query.setShowIndex(showIndex);
                 query.setCategoryId(category.getId());
                 query.setStart(0);
 				query.setNum(StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_DAILY)
