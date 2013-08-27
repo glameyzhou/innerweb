@@ -124,16 +124,15 @@
             <br/><br/>
             <font color="red">排序&nbsp;&nbsp;&nbsp;&nbsp;</font>
             <input type="text" name="order" id="order" value="${lib.order}"/><font color="red">数字越大越靠前</font>
-        </p><p>
+        </p>
+        <p>
             <font color="red">内容类型</font>
             <select id="type" name="type" onchange="showTypeContent(this.value);">
                 <option value="1" <c:if test="${lib.type == 1}">selected="selected"</c:if>>正常(名称、URL)</option>
                 <option value="2" <c:if test="${lib.type == 2}">selected="selected"</c:if>>自定义内容(名称、内容)</option>
                 <option value="3" <c:if test="${lib.type == 3}">selected="selected"</c:if>>图片(图片、URL)</option>
             </select>
-            <br/><br/>
-            <font color="red">排序&nbsp;&nbsp;&nbsp;&nbsp;</font>
-            <input type="text" name="order" id="order" value="${lib.order}"/><font color="red">数字越大越靠前</font>
+            <br/>
         </p>
         <p id="content1" style="display: none;">
             <font color="red">名称&nbsp;&nbsp;&nbsp;&nbsp;</font>
