@@ -103,14 +103,7 @@ public class PostFrontController extends BaseController {
         postReadInfo.setUserId(userId);
         postReadInfoDao.create(postReadInfo);
 
-        //读过文章的人数,排除自己
         List<UserInfo> postReadUserList = postReadInfoDao.getUserListByPostId(postId);
-        for (Iterator<UserInfo> it = postReadUserList.iterator() ; it.hasNext() ;) {
-            UserInfo userInfo = it.next() ;
-            if (StringUtils.equals(userInfo.getUserId(),userId)) {
-                it.remove();
-            }
-        }
         mav.addObject("postReadUserList", postReadUserList);
 
         return mav;
