@@ -1,0 +1,8 @@
+@charset "utf-8";
+/* CSS Document */
+.header{width:1020px; height:85px;}
+.logo{float:left; width:624px;}
+.logo_right ul{margin-top:10px; margin-left:50px;height:25px; line-height:25px; background:#f7f7f7; float:left;width:325px;}
+.logo_right li{float:left; padding:0px 18px; background-image:url(../images/logo_right.png);}
+.logo_right .logo_search{ background:none; margin-left:160px; width:215px; margin-top:15px;}
+.logo_right .logo_search li{background:none; padding:0px 2px;}
