@@ -38,6 +38,7 @@
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/org.springframework.transaction-3.1.0.M1.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/org.springframework.web.servlet-3.1.0.M1.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/org.springframework.context.support-3.1.0.M1.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/spring-context-3.1.0.RELEASE.jar" />
         </element>
       </element>
     </root>
