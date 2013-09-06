@@ -1,6 +1,6 @@
 package com.glamey.framework.utils;
 
-import com.glamey.innerweb.constants.Constants;
+import com.glamey.library.constants.Constants;
 
 import java.security.MessageDigest;
 import java.util.Random;

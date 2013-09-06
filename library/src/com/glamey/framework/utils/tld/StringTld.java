@@ -1,12 +1,10 @@
 package com.glamey.framework.utils.tld;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.glamey.innerweb.model.domain.Category;
-import com.glamey.innerweb.model.domain.RightsInfo;
+import com.glamey.library.model.domain.Category;
 import org.apache.commons.lang.StringUtils;
 import com.glamey.framework.utils.StringTools;
 import org.springframework.util.PatternMatchUtils;

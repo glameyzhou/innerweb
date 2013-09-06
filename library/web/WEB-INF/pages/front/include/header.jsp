@@ -1,5 +1,5 @@
-<%@ page import="com.glamey.innerweb.model.domain.UserInfo" %>
-<%@ page import="com.glamey.innerweb.constants.Constants" %>
+<%@ page import="com.glamey.library.model.domain.UserInfo" %>
+<%@ page import="com.glamey.library.constants.Constants" %>
 <%@ page import="org.apache.commons.lang.time.DateFormatUtils" %>
 <%@ page import="java.util.Date" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>

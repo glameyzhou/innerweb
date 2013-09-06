@@ -1,5 +1,5 @@
-<%@ page import="com.glamey.innerweb.model.domain.UserInfo" %>
-<%@ page import="com.glamey.innerweb.constants.Constants" %>
+<%@ page import="com.glamey.library.model.domain.UserInfo" %>
+<%@ page import="com.glamey.library.constants.Constants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

@@ -1,10 +1,8 @@
 package com.glamey.framework.utils;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -12,10 +10,6 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 import org.apache.commons.lang.StringUtils;
-
-import com.glamey.innerweb.model.dto.ChinaWeather;
-import com.glamey.innerweb.model.dto.weatherinfo;
-import com.google.gson.Gson;
 
 public class HttpConnection {
     public static String sendPost(String url, String body) {
