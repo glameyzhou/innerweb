@@ -9,7 +9,6 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="common-libs" />
-          <element id="library" level="project" name="spring-context-3.1.0.RELEASE" />
         </element>
       </element>
     </root>
