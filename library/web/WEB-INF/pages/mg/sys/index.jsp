@@ -50,16 +50,8 @@
             </thead>
             <tbody class="pn-ltbody">
             <tr>
-                <td align="left">通告是否需要审核</td>
-                <td align=center><a href="${basePath}mg/sys/permit-notices-show.htm">设置</a></td>
-            </tr>
-            <tr>
-                <td align="left">各部门通知可见配置</td>
-                <td align=center><a href="${basePath}mg/sys/notices-what-can-see.htm">设置</a></td>
-            </tr>
-            <tr>
-                <td align="left">首页结构设置</td>
-                <td align=center><a href="${basePath}mg/sys/area-show.htm">设置</a></td>
+                <td align="left">全文索引建立</td>
+                <td align=center id="luceneDiv"><a href="javascript:buildLucene();">建立</a></td>
             </tr>
             <%--<tr>
                 <td align="left">图片是否使用水印</td>
@@ -68,14 +60,6 @@
             <tr>
                 <td align="left">页尾内容</td>
                 <td align=center><a href="${basePath}mg/sys/meta/page_foot/meta-show.htm">设置</a></td>
-            </tr>
-            <tr>
-                <td align="left">全文索引建立</td>
-                <td align=center id="luceneDiv"><a href="javascript:buildLucene();">建立</a></td>
-            </tr>
-            <tr>
-                <td align="left">通讯录头部设置</td>
-                <td align=center><a href="${basePath}mg/sys/meta/contact_header/meta-show.htm">设置</a></td>
             </tr>
             <tr>
                 <td align="left">图书馆头部设置</td>

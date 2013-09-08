@@ -76,4 +76,9 @@ public class Pinyin4jUtils {
         }
         return convert;
     }
+
+    public static void main(String[] args) {
+        System.out.println(getPinYin("asdf中国人爱上对方"));
+    }
+
 }

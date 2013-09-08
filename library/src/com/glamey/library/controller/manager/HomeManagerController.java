@@ -86,7 +86,7 @@ public class HomeManagerController extends BaseController {
         UserInfo userInfo = (UserInfo) obj;
         mav.addObject("userInfo",userInfo);
         //权限List
-        List<String> rightsList = userInfo.getRoleInfo().getRightsList();
+        List<String> rightsList = userInfo.getRightsList();
         mav.addObject("rightsList",rightsList);
 
 

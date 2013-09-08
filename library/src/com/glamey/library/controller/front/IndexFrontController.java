@@ -1,14 +1,19 @@
 package com.glamey.library.controller.front;
 
 import com.glamey.framework.utils.tld.StringTld;
+import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.constants.SystemConstants;
 import com.glamey.library.controller.BaseController;
+import com.glamey.library.dao.CategoryDao;
+import com.glamey.library.dao.LibraryInfoDao;
 import com.glamey.library.dao.MetaInfoDao;
 import com.glamey.library.dao.PostDao;
-import com.glamey.library.model.domain.MetaInfo;
-import com.glamey.library.model.domain.UserInfo;
+import com.glamey.library.model.domain.*;
+import com.glamey.library.model.dto.LibraryInfoDTO;
+import com.glamey.library.model.dto.LibraryQuery;
 import com.glamey.library.model.dto.PostDTO;
+import com.glamey.library.model.dto.PostQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -21,6 +26,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,6 +40,10 @@ public class IndexFrontController extends BaseController {
     private MetaInfoDao metaInfoDao;
     @Resource
     private IncludeFront includeFront;
+    @Resource
+    private CategoryDao categoryDao ;
+    @Resource
+    private LibraryInfoDao libraryInfoDao ;
 
     @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
@@ -42,55 +52,68 @@ public class IndexFrontController extends BaseController {
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
         UserInfo userInfo = (UserInfo) obj;
 
-        //集团、院系入口
-        mav.addAllObjects(includeFront.linksEntrance());
-        //常用链接
-        mav.addAllObjects(includeFront.ofenLinks());
+        //图书馆头部信息
+        String libraryHeadTitle = metaInfoDao.getByName(SystemConstants.meta_library_title).getValue();
+        String libraryHeadContent = metaInfoDao.getByName(SystemConstants.meta_library_content).getValue();
+        mav.addObject("libraryHeadTitle",libraryHeadTitle);
+        mav.addObject("libraryHeadContent",libraryHeadContent);
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
 
-        //未读站内信
-        mav.addObject("unReadMessage", includeFront.unReadMessage(userInfo.getUserId()));
+        //图书馆内容
+        int showIndex = 1 ;/*首页显示*/
+        List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
+        List<Category> rootList = categoryDao.getByParentId(showIndex,CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
+        for (Category rootCategory : rootList) {
+            /*父类、子类、子类下内容*/
+            LibraryInfoDTO dto = new LibraryInfoDTO();
+            dto.setCategory(rootCategory);
 
-        //关于各部门通告是否显示所有人看
-        MetaInfo noticeCanSee = metaInfoDao.getByName(SystemConstants.notices_can_see);
-        MetaInfo noticesRoleInfo = metaInfoDao.getByName(SystemConstants.notices_who_can_see);
-        //部门ID
-        String whoCanSee = null;
-        if (StringUtils.equalsIgnoreCase(noticeCanSee.getValue(), "0")) {
-            whoCanSee = userInfo.getDeptId();
-        } else {
-            String roleIds = noticesRoleInfo.getValue();
-            if (StringUtils.isNotBlank(roleIds)) {
-                String arrays[] = StringUtils.split(roleIds, ",");
-                if (StringTld.hasRights(Arrays.asList(arrays), userInfo.getRoleId())) {
-                    whoCanSee = null; //查看所有的部门下文章
-                } else {
-                    whoCanSee = userInfo.getDeptId();
-                }
+            List<LibraryInfoDTO> libDTOList = new ArrayList<LibraryInfoDTO>();
+            LibraryInfoDTO libDTO = null ;
+            /*获取对应的子分类信息以及子分类下的连接数量*/
+            List<Category> categoryList = categoryDao.getByParentId(showIndex,rootCategory.getId(),CategoryConstants.CATEGORY_LIBRARY,0,2);
+            //不足两个的话进行数据补录
+            int countCategory = categoryList != null ? categoryList.size() : 0 ;
+            int diffCategory = 2 - countCategory ;
+            for(int i = 0 ; i < diffCategory ; i ++){
+                Category category = new Category();
+                category.setName("");
+                categoryList.add(category);
             }
+
+            for (Category category : categoryList) {
+                libDTO = new LibraryInfoDTO();
+                libDTO.setCategory(category);
+
+                LibraryQuery query = new LibraryQuery();
+                query.setShowIndex(showIndex);
+                query.setCategoryId(category.getId());
+                query.setStart(0);
+				/*query.setNum(StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_DAILY)
+                        || StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_HANGYEYANJIU_REPORT)
+                        || StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_ZHENGYAN)
+						? Constants.CATEGORY_LIBRARY_LENGTITLE_LEN
+						: Constants.LIBRARYDISCOUNT);*/
+                query.setNum(3);
+                List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
+                //不足三个的话进行数据补录
+                int count = libraryInfoList != null ? libraryInfoList.size() : 0 ;
+                int diff = 3 - count ;
+                for (int i = 0 ; i < diff ; i ++){
+                    LibraryInfo li = new LibraryInfo();
+                    li.setName("");
+                    libraryInfoList.add(li);
+                }
+                libDTO.setLibraryInfoList(libraryInfoList);
+
+                libDTOList.add(libDTO);
+            }
+            dto.setLibraryInfoDTOList(libDTOList);
+            libraryInfoDTOList.add(dto);
         }
-        //四个板块
-        //第一板块
-        List<PostDTO> area1PostDTOList = postDao.getDtoByMetaName(SystemConstants.AREA_1, whoCanSee);
-        mav.addObject("area1PostDTOList", area1PostDTOList);
+        mav.addObject("libraryInfoDTOList",libraryInfoDTOList);
 
-
-        //第二板块
-        List<PostDTO> area2PostDTOList = postDao.getDtoByMetaName(SystemConstants.AREA_2, whoCanSee);
-        mav.addObject("area2PostDTOList", area2PostDTOList);
-
-        //第三板块
-        List<PostDTO> area3PostDTOList = postDao.getDtoByMetaName(SystemConstants.AREA_3, whoCanSee);
-        mav.addObject("area3PostDTOList", area3PostDTOList);
-
-        //第四板块
-        List<PostDTO> area4PostDTOList = postDao.getDtoByMetaName(SystemConstants.AREA_4, whoCanSee);
-        mav.addObject("area4PostDTOList", area4PostDTOList);
-
-        //友情链接
         mav.addAllObjects(includeFront.friendlyLinks(request));
-
-        //尾部页面
-        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
         return mav;
     }
 

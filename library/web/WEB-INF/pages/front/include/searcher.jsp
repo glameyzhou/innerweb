@@ -4,7 +4,6 @@
         var kw = document.getElementById("kw").value ;
         window.location = "${basePath}search.htm?kw=" + encodeURI(kw) ;
     }
-
 </script>
 <div class="body_left_1" style="margin-top: 10px;">
 	<div class="body_left_tit">

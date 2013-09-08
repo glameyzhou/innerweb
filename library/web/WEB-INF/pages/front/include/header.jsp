@@ -1,63 +1,38 @@
-<%@ page import="com.glamey.library.model.domain.UserInfo" %>
-<%@ page import="com.glamey.library.constants.Constants" %>
-<%@ page import="org.apache.commons.lang.time.DateFormatUtils" %>
-<%@ page import="java.util.Date" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="../../common/tagInclude.jsp" %>
-<%
-    UserInfo sessionUserInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-%>
-<script type="text/javascript" src="${basePath}res/front/js/prototype-1.6.0.3.js"></script>
+<link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${basePath}res/common/js/jquery.js"></script>
+<script type="text/javascript" src="${basePath}res/common/js/header.js"></script>
 <script type="text/javascript">
-    var url = '${basePath}weather.htm';
-    new Ajax.Request(url, {
-                method: 'get',
-                onSuccess: function (transport) {
-                    var weather = $('weather');
-                    weather.innerHTML = transport.responseText;
-                }
-            }
-    );
-    function sysLogout() {
-        window.location = "${basePath}mg/logout.htm";
+    function search(){
+        var kw = document.getElementById("kw").value ;
+        window.location = "${basePath}search.htm?kw=" + encodeURI(kw) ;
     }
-    function showMessage(){
-     var url = "${basePath}mg/home.htm?opt=message" ;
-     window.open(url, "");
-     }
 </script>
 <div class="header">
-    <div class="header_top">
-        <div class="header_top_logo"><img src="${basePath}res/front/images/logo.png"/></div>
-        <div class="header_top_login">
-            <p id="weather"></p>
-            <p style="margin-top:10px;">
-            <ul>
-                <li><img src="${basePath}res/front/images/header_login.png"/></li>
-                <li>
-                    <span>欢迎您：<%=sessionUserInfo.getNickname()%></span>
-                </li>
-                <li>|</li>
-                <li><img src="${basePath}res/front/images/header_mail.png" onclick="javascript:showMessage();"/></li>
-                <li><a href="${basePath}mg/home.htm?opt=message" target="_blank">站内信(${unReadMessage})</a></li>
-                <li style="background-image:url(${basePath}res/front/images/botton_logout.png); margin-left:20px; margin-top:3px;">
-                    <input type="button" value="退出" class="botton_logout" onclick="javascript:sysLogout();"/>
-                </li>
-            </ul>
-            </p>
-        </div>
+    <div class="logo">
+        <img src="${basePath}res/front/library/images/logo.jpg" onclick="window.location='${basePath}index.htm';"
+                           onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='default'"/>
     </div>
-    <div class="menu">
+    <div class="logo_right">
         <ul>
-            <li><a href="${basePath}mg/home.htm" target="_blank">个人中心</a></li>
-            <li>|</li>
-            <li><a href="${basePath}pl-news-qQJvEz.htm">员工生活</a></li>
-            <li>|</li>
-            <li><a href="${basePath}rules-news-ZnyyUn.htm">规章制度</a></li>
-            <li>|</li>
-            <li><a href="${basePath}index.htm">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+            <li style="margin-left:10px;"><a href="#" id="addFavorites">加入收藏</a></li>
+            <li><a href="#" id="addHomePage">设为首页</a></li>
+            <c:choose>
+                <c:when test="${not empty sessionUserInfo}">
+                    <li><b><a href="${basePath}mg/home.htm" target="_blank"><c:out value="${sessionUserInfo.nickname}"/></a></b></li>
+                    <li><a href="${basePath}mg/logout.htm">退&nbsp;&nbsp;出</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="#">注&nbsp;&nbsp;册</a></li>
+                    <li><a href="${basePath}login.htm">登&nbsp;&nbsp;录</a></li>
+                </c:otherwise>
+            </c:choose>
+        </ul>
+        <ul class="logo_search">
+            <li>搜索</li>
+            <li><input name="kw" id="kw" value="${kw}" type="text" class="searchtext" /></li>
+            <li><img src="${basePath}res/front/library/images/search_button.png" onclick="javascript:search();"/></li>
         </ul>
     </div>
 </div>
-
-
+<div class="nav"><img src="${basePath}res/front/library/images/nav.jpg" /></div>

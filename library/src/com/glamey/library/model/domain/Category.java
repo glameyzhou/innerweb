@@ -31,6 +31,7 @@ public class Category implements java.io.Serializable {
     private int showIndex;
     /*父ID 根为0*/
     private String parentId = "0";
+    private Category categoryParent ;
     /*分类类型*/
     private String categoryType;
     /*分类图片*/
@@ -39,6 +40,8 @@ public class Category implements java.io.Serializable {
     private int categoryOrder ;
     /*分类建立时间*/
     private String categoryTime;
+
+    private int hasChild = 0 ;
 
     private List<Category> children ;
     public String getId() {
@@ -143,6 +146,22 @@ public class Category implements java.io.Serializable {
 
     public void setChildren(List<Category> children) {
         this.children = children;
+    }
+
+    public int getHasChild() {
+        return hasChild;
+    }
+
+    public void setHasChild(int hasChild) {
+        this.hasChild = hasChild;
+    }
+
+    public Category getCategoryParent() {
+        return categoryParent;
+    }
+
+    public void setCategoryParent(Category categoryParent) {
+        this.categoryParent = categoryParent;
     }
 
     @Override

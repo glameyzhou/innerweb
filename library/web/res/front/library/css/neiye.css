@@ -1,0 +1,140 @@
+@charset "utf-8";
+/* CSS Document */
+.neirong {
+    border: 2px solid #efefef;
+    float: left;
+    height: auto;
+    padding-bottom: 10px;
+    width: 720px;
+}
+
+.neirong_tit {
+    background-image: url(../images/youlian.jpg);
+    background-repeat: repeat-y;
+    float: left;
+    width: 720px;
+    height: 30px;
+    margin: 10px 5px;
+    font-size: 16px;
+    font-family: "黑体";
+    line-height: 30px;
+    padding-left: 15px;
+    font-weight: bold;
+}
+
+.daohang, .seat {
+    background-color: #f8fbda;
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    width: 650px;
+    margin-left: 25px;
+    padding-left: 15px;
+    color: #7d7d7d;
+}
+
+.neirong p {
+    width: 700px;
+    text-align: left;
+    color: #7d7d7d;
+    margin-top: 10px;
+    float: left;
+    line-height: 25px;
+    padding-right: 5px;
+    word-break: break-all;
+}
+
+.neirong_con {
+    width: 700px;
+    height: auto;
+    text-indent: 2em;
+    line-height: 20px;
+    /*margin: 0px auto;*/
+    color: #7d7d7d;
+    line-height: 25px;
+    margin-left: 10px;
+}
+
+.daohang {
+    font-size: 14px;
+    color: #000;
+}
+
+.daohang a {
+    color: #7d7d7d;
+    font-size: 14px;
+}
+
+.neiye_con {
+    float: left;
+    width: 690px;
+    height: 30px;
+    margin: 8px 5px;
+    margin-left: 20px;
+}
+
+.neirong_con_con {
+    float: left;
+    width: 690px;
+    height: auto;
+}
+
+.neirong_tit_tit {
+    float: left;
+    width: 680px;
+    height: 30px;
+    margin: 10px 5px;
+    margin-left: 20px;
+}
+
+.neirong_tit_tit li {
+    float: left;
+    font-size: 16px;
+    font-family: "黑体";
+    line-height: 30px;
+    padding-left: 15px;
+    font-weight: bold;
+}
+
+.neirong_con_xunxi li {
+    float: left;
+    width: 235px;
+    height: 25px;
+    margin-left: 15px;
+    _margin-left: 15px;
+    padding-left: 20px;
+}
+
+.neirong_con_xunxi {
+    width: 320px;
+    height: auto;
+}
+
+.neiye_right_con {
+    margin-top: 10px;
+    float: left;
+    width: 630px;
+    height: auto;
+    padding-right: 10px;
+    padding-left: 25px;
+    padding-top: 5px;
+}
+
+.neiye_right_con li {
+    float: left;
+}
+
+.con_neiye {
+    float: left;
+    width: 660px;
+    height: 25px;
+}
+
+.con_neiye li img {
+    padding-right: 5px;
+    padding-top: 1px;
+}
+
+.neirong_con a:link {
+    text-decoration: underline;
+}

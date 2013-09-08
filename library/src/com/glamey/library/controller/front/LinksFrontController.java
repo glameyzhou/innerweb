@@ -48,8 +48,10 @@ public class LinksFrontController extends BaseController{
     		@PathVariable String type ,
     		@PathVariable String categoryId ,
     		HttpServletRequest request,HttpServletResponse response,HttpSession session) {
-        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         ModelAndView mav = new ModelAndView("front/links-list");
+
+
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
 
         int curPage = WebUtils.getRequestParameterAsInt(request,"curPage",1);
         pageBean = new PageBean(200);
@@ -63,7 +65,7 @@ public class LinksFrontController extends BaseController{
             mav.setViewName("common/errorPage");
             return mav ;
         }
-        Category category = categoryDao.getById(categoryId);
+        Category category = categoryDao.getBySmpleId(categoryId);
 
         LinksQuery query = new LinksQuery();
         query.setShowIndex(1);
@@ -81,12 +83,7 @@ public class LinksFrontController extends BaseController{
         mav.addObject("linksLIst",linksLIst);
         mav.addObject("category",category);
 
-        mav.addAllObjects(includeFront.linksEntrance());
-        mav.addAllObjects(includeFront.friendlyLinks(request));
-        mav.addObject("unReadMessage", includeFront.unReadMessage(userInfo.getUserId()));
-        mav.addAllObjects(includeFront.ofenLinks());
-        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
-        
+
         return mav;
     }
 }

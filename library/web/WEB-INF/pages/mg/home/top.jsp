@@ -24,7 +24,7 @@
         <td width="223px"><img src="${basePath}res/jeecms/img/admin/logo.png"></td>
         <td align="left">&nbsp;&nbsp;
             <img src="${basePath}res/jeecms/img/admin/welconlogin-icon.png"><span
-                    style="color: #FFF;padding: 0 10px 0 5px ;">用户名：<%=userInfo.getNickname()%> &nbsp;&nbsp;&nbsp;[<%=userInfo.getRoleInfo().getRoleName()%>]</span>
+                    style="color: #FFF;padding: 0 10px 0 5px ;">用户名：<%=userInfo.getNickname()%> </span>
             <img src="${basePath}res/jeecms/img/admin/loginout-icon.png">
             <a style="color: #FFF;padding: 0 10px 0 5px ;" href="${basePath}mg/logout.htm" target="_top">注销</a>&nbsp;&nbsp;
             <a style="color: #FFF;padding: 0 10px 0 5px ;" href="${basePath}index.htm" id="logout"
@@ -32,18 +32,5 @@
         </td>
     </tr>
 </table>
-<%--<ul class="menu">
-    <li class="current" id="tb_11" onclick="HoverLi(1,1,4);"><a
-            href="${basePath}mg/frame/home.htm" target="mainFrame">首页</a></li>
-    <li class="sep"></li>
-    <li id="tb_12" onclick="HoverLi(1,2,4);"><a href="${basePath}mg/post/news/index.htm"
-                                                target="mainFrame">新闻</a></li>
-    <li class="sep"></li>
-    <li id="tb_13" onclick="HoverLi(1,3,4);"><a href="${basePath}mg/post/notices/index.htm"
-                                                target="mainFrame">通知公告</a></li>
-    <li class="sep"></li>
-    <li id="tb_14" onclick="HoverLi(1,4,4);"><a href="${basePath}mg/links/index.htm"
-                                                target="mainFrame">快捷入口管理</a></li>
-</ul>--%>
 </body>
 </html>

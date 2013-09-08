@@ -9,6 +9,44 @@
         $(function () {
             $("#jvForm").validate();
         });
+        function removeItem(){
+            var sltSrc=document.getElementById('sltSrc');
+            var sltTarget=document.getElementById('sltTarget');
+            for(var i=0;i<sltSrc.options.length;i++)
+            {
+                var tempOption=sltSrc.options[i];
+                if(tempOption.selected){
+                    sltSrc.removeChild(tempOption);
+                    sltTarget.appendChild(tempOption);
+                }
+            }
+        }
+        function addItem(){
+            var sltSrc=document.getElementById('sltSrc');
+            var sltTarget=document.getElementById('sltTarget');
+            for(var i=0;i<sltTarget.options.length;i++)
+            {
+                var tempOption=sltTarget.options[i];
+                if(tempOption.selected){
+                    sltTarget.removeChild(tempOption);
+                    sltSrc.appendChild(tempOption);
+                }
+            }
+        }
+
+        /*function pageLoad(){
+            var opt = ${opt};
+            if(opt == 'update'){
+                alert("asdfasfd");
+                var content = '' ;
+                var srcUserSelect = document.getElementById("sltTarget");
+                <c:forEach var="destRole" items="${destRoleInfoList}">
+                content +='<option value="${destRole.roleId}">${destRole.roleName}</option>';
+                </c:forEach>
+                alert(content);
+                srcUserSelect.innerHTML = content ;
+            }
+        }*/
     </script>
 </head>
 <body>
@@ -25,31 +63,28 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>角色:</td>
                 <td width="85%" class="pn-fcontent">
-                    <select id="roleId" name="roleId" class="required">
-                        <option value="">请选择</option>
-                        <c:forEach items="${roleInfoList}" var="role">
-                            <option value="${role.roleId}"
-                                    <c:if test="${userInfo.roleId eq role.roleId}">selected</c:if>>${role.roleName}</option>
-                        </c:forEach>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>部门:</td>
-                <td width="85%" class="pn-fcontent">
-                    <select id="deptId" name="deptId" class="required"  <c:if test="${!isSuper}">disabled="disabled"</c:if> >
-                        <option value="">请选择</option>
-                        <c:forEach items="${deptInfoList}" var="dept">
-                            <option value="${dept.id}"
-                                    <c:if test="${userInfo.deptId eq dept.id}">selected</c:if>>${dept.name}</option>
-                        </c:forEach>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h">职务:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="duties" id="duties" size="80" value="${userInfo.duties}"
+                    <table border="0" cellspacing="0" cellpDoAdding="0" align="left">
+                        <tr>
+                            <td width="45%" align="center" valign="top">
+                                <select id="sltSrc" name="sltSrc" multiple="true"  style="width: 200px;height: 350px;" ondblclick="removeItem();">
+                                    <c:forEach var="srcRole" items="${srcRoleInfoList}">
+                                        <option value="${srcRole.roleId}">${srcRole.roleName}</option>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                            <td width="10%" align="center">
+                                <input name="DoAdd" type="button" value=">>" onclick="removeItem();"><br>
+                                <input name="DoDel" type="button" value="<<" onClick="addItem();">
+                            </td>
+                            <td width="45%" align="center" valign="top">
+                                <select id="sltTarget" name="sltTarget"  multiple="true"  style="width: 200px;height: 350px;" ondblclick="addItem();">
+                                    <c:forEach var="destRole" items="${destRoleInfoList}">
+                                        <option value="${destRole.roleId}">${destRole.roleName}</option>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
             <tr>
@@ -90,45 +125,71 @@
             </c:choose>
 
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>姓名:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>真实姓名:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="nickname" id="nickname" class="required" size="80"
                            value="${userInfo.nickname}">
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h">手机号:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h">密码提示问题:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="mobile" id="mobile" size="80"
-                           value="${userInfo.mobile}">
+                    <input type="text" maxlength="100" name="question" id="question" size="80"
+                           value="${userInfo.question}">
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h">固话:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h">密码提示答案:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="phone" id="phone" size="80" value="${userInfo.phone}">
+                    <input type="text" maxlength="100" name="answer" id="answer" size="80"
+                           value="${userInfo.answer}">
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h">邮箱:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>单位:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="email" id="email" size="80" value="${userInfo.email}">
+                    <input type="text" maxlength="100" name="company" id="company" class="required" size="80"
+                           value="${userInfo.company}">
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h">地址:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h">部门:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="address" id="address" size="100"
+                    <input type="text" maxlength="100" name="dept" id="dept" size="80"
+                           value="${userInfo.dept}">
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h">职务:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="text" maxlength="100" name="duty" id="duty" size="80"
+                           value="${userInfo.duty}">
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h">单位地址:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="text" maxlength="100" name="address" id="address" size="80"
                            value="${userInfo.address}">
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否显示在通讯录中:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>手机号:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="showInContact" id="showInContact" value="0"
-                           <c:if test="${userInfo.showInContact == 0}">checked="checked"</c:if> />不显示&nbsp;
-                    <input type="radio" name="showInContact" id="showInContact" value="1"
-                           <c:if test="${userInfo.showInContact == 1}">checked="checked"</c:if> />显示&nbsp;
+                    <input type="text" maxlength="100" name="mobile" id="mobile" size="80" class="required"
+                           value="${userInfo.mobile}"/>
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>固话:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="text" maxlength="100" name="phone" id="phone" size="80" value="${userInfo.phone}" class="required"/>
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>邮箱:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="text" maxlength="100" name="email" id="email" size="80" value="${userInfo.email}" class="required"/>
                 </td>
             </tr>
             <tr>

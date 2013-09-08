@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<data>
+	<channel>
+		<item>
+			<link>http://www.checne.com/cn/news/372</link>
+			<image>http://www.checne.com/userfiles/image/20130307/20130307144006_557.jpg</image>
+			<title>新能源分公司参观考察国网风光储输示范基地</title>
+		</item>
+		<item>
+			<link>http://www.checne.com/cn/news/350</link>
+			<image>http://www.checne.com/userfiles/image/20130204104828564.jpg</image>
+			<title>谢春旺出席新能源技术开发公司2013年工作会议</title>
+		</item>
+		<item>
+			<link>http://www.checne.com/cn/news/299</link>
+			<image>http://www.checne.com/userfiles/image/20130108171542309.png</image>
+			<title>公司总承包建设的华电福清鲤鱼山风电工程首台风机顺利并网发电</title>
+		</item>
+		<item>
+			<link>http://www.checne.com/cn/news/298</link>
+			<image>http://www.checne.com/userfiles/image/20130108165836278.png</image>
+			<title>公司总承包建设的三塘湖风电场一期49.5MW工程顺利并网发电</title>
+		</item>
+		<item>
+			<link>http://www.checne.com/cn/news/225</link>
+			<image>http://www.checne.com/userfiles/image/20121213203805937.jpg</image>
+			<title>新能源分公司观看十八大召开盛况</title>
+		</item>
+		<item>
+			<link>http://www.checne.com/cn/news/216</link>
+			<image>http://www.checne.com/userfiles/image/20121212143706591.jpg</image>
+			<title>新能源公司总承包建设的新疆哈密三塘湖200MW风电场项目进展顺利</title>
+		</item>
+	</channel>
+	<config>
+		<roundCorner>0</roundCorner>
+		<autoPlayTime>3</autoPlayTime>
+		<isHeightQuality>false</isHeightQuality>
+		<blendMode>normal</blendMode>
+		<transDuration>1</transDuration>
+		<windowOpen>_self</windowOpen>
+		<btnSetMargin>auto 5 5 auto</btnSetMargin>
+		<btnDistance>20</btnDistance>
+		<titleBgColor>0xff6600</titleBgColor>
+		<titleTextColor>0xffffff</titleTextColor>
+		<titleBgAlpha>.75</titleBgAlpha>
+		<titleMoveDuration>1</titleMoveDuration>
+		<btnAlpha>0.7</btnAlpha>
+		<btnTextColor>0xffffff</btnTextColor>
+		<btnDefaultColor>0x1B3433</btnDefaultColor>
+		<btnHoverColor>0xff9900</btnHoverColor>
+		<btnFocusColor>0xff6600</btnFocusColor>
+		<changImageMode>click</changImageMode>
+		<isShowBtn>true</isShowBtn>
+		<isShowTitle>true</isShowTitle>
+		<scaleMode>noBorder</scaleMode>
+		<transform>blur</transform>
+		<isShowAbout>true</isShowAbout>
+		<titleFont>微软雅黑</titleFont>
+	</config>
+</data>

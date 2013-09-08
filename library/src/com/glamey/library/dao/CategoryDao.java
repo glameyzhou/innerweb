@@ -3,22 +3,21 @@
  */
 package com.glamey.library.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.glamey.framework.utils.StringTools;
+import com.glamey.library.constants.CategoryConstants;
+import com.glamey.library.model.domain.Category;
+import com.glamey.library.model.dto.CategoryQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.glamey.framework.utils.StringTools;
-import com.glamey.library.constants.CategoryConstants;
-import com.glamey.library.model.domain.Category;
-import com.glamey.library.model.dto.CategoryQuery;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 分类数据库操作
@@ -266,6 +265,28 @@ public class CategoryDao extends BaseDao {
         }
         return null;
     }
+    //分类的基础信息，没有孩子对象
+    public Category getBySmpleId(final String id) {
+        logger.info("[CategoryDao] #getById#" + id);
+        try {
+            List<Category> list = jdbcTemplate.query("select * from tbl_category where id = ? ",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(
+                                PreparedStatement preparedstatement)
+                                throws SQLException {
+                            preparedstatement.setString(1, id);
+                        }
+                    },
+                    new CategorySimpleRowMapper());
+            if (list != null && list.size() > 0) {
+                return list.get(0);
+            }
+        } catch (Exception e) {
+            logger.error("[CategoryDao] #getById# error " + id, e);
+        }
+        return null;
+    }
 
     /**
      * 通过引用名字获取对应的分类信息
@@ -457,7 +478,7 @@ public class CategoryDao extends BaseDao {
                             preparedstatement.setInt(4, num);
                         }
                     },
-                    new Category2RowMapper());
+                    new CategoryChildrenRowMapper());
             return list;
         } catch (Exception e) {
             logger.error("[CategoryDao] #getChildrenByPid# error", e);
@@ -484,11 +505,68 @@ public class CategoryDao extends BaseDao {
             category.setCategoryType(rs.getString("categorytype"));
             category.setCategoryImage(rs.getString("categoryimage"));
             category.setCategoryTime(rs.getString("categorytime"));
+            category.setHasChild(rs.getInt("hasChild"));
+
+            //父类ID
+            Category categoryParent = getById(category.getParentId());
+            category.setCategoryParent(categoryParent);
+
+            //所有孩子
+            /*List<Category> children = getChildrenByPid(category.getId(),CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
+            category.setChildren(children);*/
+
             return category;
         }
     }
 
-    class Category2RowMapper implements RowMapper<Category> {
+
+    class CategoryBaseRowMapper implements RowMapper<Category> {
+        @Override
+        public Category mapRow(ResultSet rs, int i) throws SQLException {
+            Category category = new Category();
+            category.setId(rs.getString("id"));
+            category.setName(rs.getString("name"));
+            category.setShortName(rs.getString("shortname"));
+            category.setAliasName(rs.getString("aliasname"));
+            category.setDescribe(rs.getString("categorydescribe"));
+            category.setShowType(rs.getInt("showtype"));
+            category.setShowIndex(rs.getInt("showindex"));
+            category.setCategoryOrder(rs.getInt("categoryorder"));
+            category.setParentId(rs.getString("parentid"));
+            category.setCategoryType(rs.getString("categorytype"));
+            category.setCategoryImage(rs.getString("categoryimage"));
+            category.setCategoryTime(rs.getString("categorytime"));
+            category.setHasChild(rs.getInt("hasChild"));
+            return category;
+        }
+    }
+
+    class CategorySimpleRowMapper implements RowMapper<Category> {
+        @Override
+        public Category mapRow(ResultSet rs, int i) throws SQLException {
+            Category category = new Category();
+            category.setId(rs.getString("id"));
+            category.setName(rs.getString("name"));
+            category.setShortName(rs.getString("shortname"));
+            category.setAliasName(rs.getString("aliasname"));
+            category.setDescribe(rs.getString("categorydescribe"));
+            category.setShowType(rs.getInt("showtype"));
+            category.setShowIndex(rs.getInt("showindex"));
+            category.setCategoryOrder(rs.getInt("categoryorder"));
+            category.setParentId(rs.getString("parentid"));
+            category.setCategoryType(rs.getString("categorytype"));
+            category.setCategoryImage(rs.getString("categoryimage"));
+            category.setCategoryTime(rs.getString("categorytime"));
+            category.setHasChild(rs.getInt("hasChild"));
+
+            //父类ID
+            Category categoryParent = getBySmpleId(category.getParentId());
+            category.setCategoryParent(categoryParent);
+            return category;
+        }
+    }
+
+    class CategoryChildrenRowMapper implements RowMapper<Category> {
         @Override
         public Category mapRow(ResultSet rs, int i) throws SQLException {
             Category category = new Category();
@@ -505,10 +583,38 @@ public class CategoryDao extends BaseDao {
             category.setCategoryImage(rs.getString("categoryimage"));
             category.setCategoryTime(rs.getString("categorytime"));
 
+            Category categoryPrent = getBySmpleId(category.getParentId());
+            category.setCategoryParent(categoryPrent);
+
             List<Category> children = getByParentId(category.getId(),category.getCategoryType(),0,Integer.MAX_VALUE);
             category.setChildren(children);
 
             return category;
         }
+    }
+
+    /**
+     * 根据类别获取所有可用的分类集合（按照顺序排序）
+     * @param categoryType
+     * @return
+     */
+    public List<Category> getCategoryListByType(final String categoryType) {
+        logger.info("[CategoryDao] #getCategoryListByType#" + categoryType);
+        List<Category> list = new ArrayList<Category>();
+        try {
+            list = jdbcTemplate.query("select * from tbl_category where categorytype = ?  order by categoryorder asc",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(
+                                PreparedStatement preparedstatement)
+                                throws SQLException {
+                            preparedstatement.setString(1, categoryType);
+                        }
+                    },
+                    new CategoryBaseRowMapper());
+        } catch (Exception e) {
+            logger.error("[CategoryDao] #getCategoryListByType# error " + categoryType, e);
+        }
+        return list;
     }
 }

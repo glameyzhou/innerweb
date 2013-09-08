@@ -32,20 +32,6 @@
     <form action="${basePath}mg/user/user-list.htm" method="get" style="padding-top:5px;">
         <div>
             关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
-            角色&nbsp;<select name="roleId" id="roleId">
-            <option value="">请选择</option>
-            <c:forEach var="role" items="${roleInfoList}">
-                <option value="${role.roleId}"
-                        <c:if test="${query.roleId eq role.roleId}">selected="selected" </c:if>>${role.roleName}</option>
-            </c:forEach>
-        </select>&nbsp;&nbsp;
-            部门&nbsp;<select name="deptId" id="deptId" <c:if test="${!isSuper}">disabled="disabled"</c:if> >
-            <option value="">请选择</option>
-            <c:forEach var="dept" items="${deptInfoList}">
-                <option value="${dept.id}"
-                        <c:if test="${query.deptId eq dept.id}">selected="selected" </c:if>>${dept.name}</option>
-            </c:forEach>
-        </select>&nbsp;&nbsp;
             用户状态&nbsp;<select name="isLive" id="isLive">
             <option value="">请选择</option>
             <option value="0" <c:if test="${query.isLive == 0}">selected="selected" </c:if>>禁用</option>
@@ -56,45 +42,41 @@
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
             <tr>
-                <th>序列</th>
-                <th>角色</th>
-                <th>用户名</th>
-                <th>姓名</th>
-                <th>用户状态</th>
-                <th>部门</th>
-                <th>手机号</th>
-                <th>固话</th>
-                <th>邮箱</th>
-                <th>操作</th>
+                <th width="7%">用户名</th>
+                <th width="7%">真实姓名</th>
+                <th width="5%">用户状态</th>
+                <th>单位</th>
+                <th width="10%">手机号</th>
+                <th width="10%">固话</th>
+                <th width="15%">邮箱</th>
+                <th  width="15%">操作</th>
             </tr>
             </thead>
             <tbody class="pn-ltbody">
             <c:forEach items="${userInfoList}" var="user" varStatus="status">
                 <tr>
-                    <td align="center"><input type="checkbox" id="userId" name="userId" value="${user.userId}"/>
-                    </td>
-                    <td align="center">${user.roleInfo.roleName}</td>
+                    <%--<td align="center"><input type="checkbox" id="userId" name="userId" value="${user.userId}"/></td>--%>
                     <td align="center">${user.username}</td>
                     <td align=center>${user.nickname}</td>
                     <td align=center>
                         <c:if test="${user.isLive == 1}">启用</c:if>
                         <c:if test="${user.isLive == 0}">禁用</c:if>
                     </td>
-                    <td align=center>${user.category.name}</td>
+                    <td align=center>${user.company}</td>
                     <td align=center>${user.mobile}</td>
                     <td align=center>${user.phone}</td>
                     <td align=center>${user.email}</td>
                     <td align=center>
                         <a href="javascript:edit('${user.userId}');">编辑</a>&nbsp;&nbsp;
                         <a href="javascript:del('${user.userId}');">删除</a>&nbsp;&nbsp;
-                        <a href="javascript:edit('${user.userId}');">详情</a>&nbsp;&nbsp;
+                        <a href="${basePath}mg/user/user-detail.htm?userId=${user.userId}">详情</a>&nbsp;&nbsp;
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
         <c:set var="pageURL"
-               value="${basePath}mg/user/user-list.htm?keyword=${fmtString:encoder(query.keyword)}&roleId=${query.roleId}&isLive=${query.isLive}&deptId=${query.deptId}&"/>
+               value="${basePath}mg/user/user-list.htm?keyword=${fmtString:encoder(query.keyword)}&isLive=${query.isLive}&"/>
         <%@include file="../../common/pages.jsp" %>
     </form>
 </div>

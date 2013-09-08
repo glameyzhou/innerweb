@@ -2,9 +2,12 @@ package com.glamey.library.controller.manager;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.print.attribute.standard.JobOriginatingUserName;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -405,9 +408,8 @@ public class UserInfoManagerController extends BaseController {
         logger.info("[manager-user-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
 
-        //如果是超级管理员的话，可以查看所有的用户，其他角色只能看本部门下的所有用户
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        boolean isSuper = StringUtils.equals(userInfo.getRoleId(), Constants.sysAdminRoleId);
+        boolean isSuper = userInfoDao.isSuper(userInfo);
 
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean = new PageBean(30);
@@ -415,16 +417,12 @@ public class UserInfoManagerController extends BaseController {
 
         String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
         keyword = StringTools.converISO2UTF8(keyword);
-        String roleId = WebUtils.getRequestParameterAsString(request, "roleId");
         int isLive = WebUtils.getRequestParameterAsInt(request, "isLive", -1);
-        String deptId = WebUtils.getRequestParameterAsString(request, "deptId");
         UserQuery query = new UserQuery();
         query.setKeyword(keyword);
-        query.setRoleId(roleId);
         query.setIsLive(isLive);
         query.setOrderByColumnName(Constants.ORDERBYCOLUMNNAME_USER);
         query.setOrderBy(Constants.ORDERBYASC);
-        query.setDeptId(isSuper ? deptId : userInfo.getDeptId());
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
 
@@ -450,46 +448,64 @@ public class UserInfoManagerController extends BaseController {
         mav.setViewName("mg/user/user-list");
         return mav;
     }
+    @RequestMapping(value = "/user-detail.htm", method = RequestMethod.GET)
+    public ModelAndView userDetail(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[manager-user-detail]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView();
+
+        String userId = WebUtils.getRequestParameterAsString(request,"userId");
+        if(StringUtils.isBlank(userId)){
+            mav.setViewName("common/message");
+            mav.addObject("message","查询用户不存在");
+            return mav ;
+        }
+
+        UserInfo userInfo = userInfoDao.getUserById(userId);
+        mav.addObject("userInfo", userInfo);
+        mav.setViewName("mg/user/user-detail");
+        return mav;
+    }
 
     /**
      * 系统用户--编辑、创建页面
      *
      * @param request
      * @param response
-     * @param session
      * @return
      */
     @RequestMapping(value = "/user-show.htm", method = RequestMethod.GET)
-    public ModelAndView userShow(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public ModelAndView userShow(HttpServletRequest request, HttpServletResponse response) {
         logger.info("[manager-user-show]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
 
-        UserInfo userInfoSession = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        boolean isSuper = StringUtils.equals(userInfoSession.getRoleId(), Constants.sysAdminRoleId);
-
         UserInfo userInfo = new UserInfo();
         String opt = "create";
+        //获取所有角色
+        List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
         String userId = WebUtils.getRequestParameterAsString(request, "userId");
+        List<RoleInfo> srcRoleInfoList = new ArrayList<RoleInfo>();
+        List<RoleInfo> destRoleInfoList = new ArrayList<RoleInfo>();
         if (StringUtils.isNotBlank(userId)) {
             userInfo = userInfoDao.getUserById(userId);
+            destRoleInfoList.addAll(userInfo.getRoleInfoList());
+            srcRoleInfoList.addAll(roleInfoList);
+            for(Iterator<RoleInfo> it = srcRoleInfoList.iterator();it.hasNext();){
+                RoleInfo r = it.next();
+                if(destRoleInfoList.contains(r)){
+                    it.remove();
+                }
+            }
             opt = "update";
         } else {
             //默认为用户激活状态
             userInfo.setIsLive(1);
-            userInfo.setDeptId(userInfoSession.getDeptId());
-            userInfo.setShowInContact(1);
+            srcRoleInfoList.addAll(roleInfoList);
         }
-        //获取所有角色
-        List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
-        //获取所有部门
-        Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEGORY_DEPT);
-        List<Category> deptInfoList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
 
-        mav.addObject("roleInfoList", roleInfoList);
-        mav.addObject("deptInfoList", deptInfoList);
+        mav.addObject("srcRoleInfoList", srcRoleInfoList);
+        mav.addObject("destRoleInfoList", destRoleInfoList);
         mav.addObject("userInfo", userInfo);
         mav.addObject("opt", opt);
-        mav.addObject("isSuper", isSuper);
         mav.setViewName("mg/user/user-show");
         return mav;
     }
@@ -522,23 +538,36 @@ public class UserInfoManagerController extends BaseController {
             mav.addObject("message", "两次密码不一致");
             return mav;
         }
+        String roleIds [] = WebUtils.getRequestParameterAsStringArrs(request,"sltTarget");
+        if(roleIds == null || roleIds.length == 0){
+            mav.addObject("message", "角色必须选择一项");
+            return mav;
+        }
+        List<String> roleIdList = Arrays.asList(roleIds);
+        String question = WebUtils.getRequestParameterAsString(request ,"question");
+        String answer = WebUtils.getRequestParameterAsString(request ,"answer");
+        if((StringUtils.isNotBlank(question) && StringUtils.isBlank(answer))
+                ||
+                (StringUtils.isBlank(question) && StringUtils.isNotBlank(answer))){
+            mav.addObject("message", "问题和答案都需要填写");
+            return mav;
+        }
         UserInfo userInfo = new UserInfo();
-        userInfo.setRoleId(WebUtils.getRequestParameterAsString(request, "roleId"));
-        userInfo.setDeptId(WebUtils.getRequestParameterAsString(request, "deptId"));
-        userInfo.setDuties(WebUtils.getRequestParameterAsString(request,"duties"));
+        userInfo.setRoleIdList(roleIdList);
         userInfo.setUsername(username);
         BlowFish bf = new BlowFish(Constants.SECRET_KEY);
         userInfo.setPasswd(bf.encryptString(passwd));
         String nickName = WebUtils.getRequestParameterAsString(request, "nickname");
         userInfo.setNickname(nickName);
         userInfo.setNicknamePinyin(Pinyin4jUtils.getPinYin(nickName));
+        userInfo.setCompany(WebUtils.getRequestParameterAsString(request, "company"));
+        userInfo.setDept(WebUtils.getRequestParameterAsString(request, "dept"));
+        userInfo.setDuty(WebUtils.getRequestParameterAsString(request, "duty"));
+        userInfo.setAddress(WebUtils.getRequestParameterAsString(request, "address"));
         userInfo.setPhone(WebUtils.getRequestParameterAsString(request, "phone"));
         userInfo.setMobile(WebUtils.getRequestParameterAsString(request, "mobile"));
         userInfo.setEmail(WebUtils.getRequestParameterAsString(request, "email"));
-        userInfo.setAddress(WebUtils.getRequestParameterAsString(request, "address"));
         userInfo.setIsLive(WebUtils.getRequestParameterAsInt(request, "isLive", 0));
-        userInfo.setShowInContact(WebUtils.getRequestParameterAsInt(request, "showInContact", 1));
-        userInfo.setShowOrder(WebUtils.getRequestParameterAsInt(request, "showOrder", 0));
 
         if (userInfoDao.createUser(userInfo)) {
             //比较变态的需求，新建用户之后，以该用户登陆系统
@@ -569,38 +598,33 @@ public class UserInfoManagerController extends BaseController {
         }
 
         UserInfo userInfo = userInfoDao.getUserById(userId);
-        String roleId = WebUtils.getRequestParameterAsString(request, "roleId");
-        if (StringUtils.isNotBlank(roleId)) {
-            userInfo.setRoleId(roleId);
-        }
-        String deptId = WebUtils.getRequestParameterAsString(request, "deptId");
-        if (StringUtils.isNotBlank(deptId)) {
-            userInfo.setDeptId(deptId);
-        }
-
-        userInfo.setDuties(WebUtils.getRequestParameterAsString(request,"duties"));
         userInfo.setUsername(WebUtils.getRequestParameterAsString(request, "username"));
         String passwd = WebUtils.getRequestParameterAsString(request, "passwd");
         if (StringUtils.isNotBlank(passwd)) {
             BlowFish bf = new BlowFish(Constants.SECRET_KEY);
             userInfo.setPasswd(bf.encryptString(passwd));
         }
+        String roleIds [] = WebUtils.getRequestParameterAsStringArrs(request,"sltTarget");
+        if(roleIds == null || roleIds.length == 0){
+            mav.addObject("message", "角色必须选择一项");
+            return mav;
+        }
+        List<String> roleIdList = Arrays.asList(roleIds);
+        userInfo.setRoleIdList(roleIdList);
         String nickName = WebUtils.getRequestParameterAsString(request, "nickname");
         userInfo.setNickname(nickName);
         userInfo.setNicknamePinyin(Pinyin4jUtils.getPinYin(nickName));
+        userInfo.setCompany(WebUtils.getRequestParameterAsString(request, "company"));
+        userInfo.setDept(WebUtils.getRequestParameterAsString(request, "dept"));
+        userInfo.setDuty(WebUtils.getRequestParameterAsString(request, "duty"));
+        userInfo.setAddress(WebUtils.getRequestParameterAsString(request, "address"));
         userInfo.setPhone(WebUtils.getRequestParameterAsString(request, "phone"));
         userInfo.setMobile(WebUtils.getRequestParameterAsString(request, "mobile"));
         userInfo.setEmail(WebUtils.getRequestParameterAsString(request, "email"));
-        userInfo.setAddress(WebUtils.getRequestParameterAsString(request, "address"));
         userInfo.setIsLive(WebUtils.getRequestParameterAsInt(request, "isLive", 0));
-        userInfo.setShowInContact(WebUtils.getRequestParameterAsInt(request, "showInContact", 1));
-        /*userInfo.setShowOrder(WebUtils.getRequestParameterAsInt(request, "showOrder", 0));*/
 
         if (userInfoDao.updateUser(userInfo)) {
             mav.addObject("message", "更新系统用户成功");
-            /*userInfo = userInfoDao.getUserById(userId);
-            session.removeAttribute(Constants.SESSIN_USERID);
-            session.setAttribute(Constants.SESSIN_USERID, userInfo);*/
         } else {
             mav.addObject("message", "更新系统用户失败");
         }
@@ -652,12 +676,8 @@ public class UserInfoManagerController extends BaseController {
         UserInfo userInfo = userInfoDao.getUserById(userId);
         //获取所有角色
         List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
-        //获取所有部门
-        Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEGORY_DEPT);
-        List<Category> deptInfoList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
 
         mav.addObject("roleInfoList", roleInfoList);
-        mav.addObject("deptInfoList", deptInfoList);
         mav.addObject("userInfo", userInfo);
         mav.addObject("opt", "update");
         mav.setViewName("mg/user/user-personal-show");
@@ -672,7 +692,7 @@ public class UserInfoManagerController extends BaseController {
 
         //如果是超级管理员，可以进行通讯录的排序设置
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        boolean isSuper = StringUtils.equals(userInfo.getRoleId(), Constants.sysAdminRoleId);
+        boolean isSuper = userInfoDao.isSuper(userInfo);
 
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean = new PageBean(30);

@@ -1,30 +1,26 @@
 package com.glamey.library.dao;
 
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
-
 import com.glamey.framework.utils.StringTools;
-import com.glamey.library.model.domain.Category;
+import com.glamey.library.constants.Constants;
 import com.glamey.library.model.domain.RightsInfo;
 import com.glamey.library.model.domain.RoleInfo;
 import com.glamey.library.model.domain.UserInfo;
 import com.glamey.library.model.dto.UserQuery;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * 用户管理
@@ -413,32 +409,49 @@ public class UserInfoDao extends BaseDao {
     public boolean createUser(final UserInfo userInfo) {
         logger.info("[UserInfoDao] #createUser# " + userInfo);
         try {
+            final String userId = StringTools.getUniqueId() ;
+            //插入用户基础信息
             int count = jdbcTemplate.update(
-                    "insert into tbl_user(user_id,user_name,user_passwd,user_nickname,user_phone,user_mobile,user_email,user_address,user_dept_id,user_duties,user_role_id,user_islive,user_time," +
-                            "user_nicknamepinyin,user_showorder,user_isincontact)" +
+                    "insert into tbl_user(user_id,user_name,user_passwd,user_nickname,user_nicknamepinyin,user_question,user_answer,user_company,user_dept,user_duty,user_address," +
+                            "user_phone,user_mobile,user_email,user_islive,user_time)" +
                             " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
-                            pstmt.setString(++i, StringTools.getUniqueId());
+                            pstmt.setString(++i, userId);
                             pstmt.setString(++i, userInfo.getUsername());
                             pstmt.setString(++i, userInfo.getPasswd());
                             pstmt.setString(++i, userInfo.getNickname());
+                            pstmt.setString(++i,userInfo.getNicknamePinyin());
+                            pstmt.setString(++i, userInfo.getQuestion());
+                            pstmt.setString(++i, userInfo.getAnswer());
+                            pstmt.setString(++i, userInfo.getCompany());
+                            pstmt.setString(++i, userInfo.getDept());
+                            pstmt.setString(++i, userInfo.getDuty());
+                            pstmt.setString(++i, userInfo.getAddress());
                             pstmt.setString(++i, userInfo.getPhone());
                             pstmt.setString(++i, userInfo.getMobile());
                             pstmt.setString(++i, userInfo.getEmail());
-                            pstmt.setString(++i, userInfo.getAddress());
-                            pstmt.setString(++i, userInfo.getDeptId());
-                            pstmt.setString(++i,userInfo.getDuties());
-                            pstmt.setString(++i, userInfo.getRoleId());
                             pstmt.setInt(++i, userInfo.getIsLive());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
-                            pstmt.setString(++i, userInfo.getNicknamePinyin());
-                            pstmt.setInt(++i, userInfo.getShowOrder());
-                            pstmt.setInt(++i, userInfo.getShowInContact());
                         }
                     });
+            //插入用户权限内容
+            final List<String> roleIdList = userInfo.getRoleIdList();
+            if(roleIdList != null && roleIdList.size() > 0){
+                jdbcTemplate.batchUpdate("insert into tbl_use_role(user_id_fk,role_id_fk) values(?,?)",new BatchPreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                        preparedStatement.setString(1,userId);
+                        preparedStatement.setString(2,roleIdList.get(i));
+                    }
+                    @Override
+                    public int getBatchSize() {
+                        return roleIdList.size();
+                    }
+                });
+            }
             return count > 0;
         } catch (Exception e) {
             logger.error("[UserInfoDao] #createUser# error " + userInfo, e);
@@ -455,31 +468,56 @@ public class UserInfoDao extends BaseDao {
     public boolean updateUser(final UserInfo userInfo) {
         logger.info("[UserInfoDao] #updateUser# " + userInfo);
         try {
+            final String userId = userInfo.getUserId() ;
+            //更新用户内容
             int count = jdbcTemplate.update(
-                    "update tbl_user set user_passwd=?,user_nickname=?,user_phone=?,user_mobile=?,user_email=?,user_address=?,user_dept_id=?,user_duties=?,user_role_id=?,user_islive=? ,user_time=?" +
-                            ",user_nicknamepinyin=?,user_showorder=?,user_isincontact=? where user_id = ? ",
+                    "update tbl_user set user_name=?,user_passwd=?,user_nickname=?,user_nicknamepinyin=?,user_question=?,user_answer=?,user_company=?,user_dept=?,user_duty=?," +
+                            "user_address=?,user_phone=?,user_mobile=?,user_email=?,user_islive=?,user_time=? where user_id = ? ",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
+                            pstmt.setString(++i, userInfo.getUsername());
                             pstmt.setString(++i, userInfo.getPasswd());
                             pstmt.setString(++i, userInfo.getNickname());
+                            pstmt.setString(++i, userInfo.getNicknamePinyin());
+                            pstmt.setString(++i, userInfo.getQuestion());
+                            pstmt.setString(++i, userInfo.getAnswer());
+                            pstmt.setString(++i, userInfo.getCompany());
+                            pstmt.setString(++i, userInfo.getDept());
+                            pstmt.setString(++i, userInfo.getDuty());
+                            pstmt.setString(++i, userInfo.getAddress());
                             pstmt.setString(++i, userInfo.getPhone());
                             pstmt.setString(++i, userInfo.getMobile());
                             pstmt.setString(++i, userInfo.getEmail());
-                            pstmt.setString(++i, userInfo.getAddress());
-                            pstmt.setString(++i, userInfo.getDeptId());
-                            pstmt.setString(++i,userInfo.getDuties());
-                            pstmt.setString(++i, userInfo.getRoleId());
                             pstmt.setInt(++i, userInfo.getIsLive());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
-                            pstmt.setString(++i, userInfo.getNicknamePinyin());
-                            pstmt.setInt(++i, userInfo.getShowOrder());
-                            pstmt.setInt(++i, userInfo.getShowInContact());
-                            pstmt.setString(++i, userInfo.getUserId());
+                            pstmt.setString(++i, userId);
 
                         }
                     });
+            //删除原来的角色内容
+            jdbcTemplate.update("delete from tbl_user_role where user_id_fk =?",new PreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                    preparedStatement.setString(1,userId);
+                }
+            });
+            //重新建立新的角色内容
+            final List<String> roleIdList = userInfo.getRoleIdList();
+            if(roleIdList != null && roleIdList.size() > 0){
+                jdbcTemplate.batchUpdate("insert into tbl_user_role(user_id_fk,role_id_fk) values(?,?)",new BatchPreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                        preparedStatement.setString(1,userId);
+                        preparedStatement.setString(2,roleIdList.get(i));
+                    }
+                    @Override
+                    public int getBatchSize() {
+                        return roleIdList.size();
+                    }
+                });
+            }
             return count > 0;
         } catch (Exception e) {
             logger.error("[UserInfoDao] #updateUser# error " + userInfo, e);
@@ -496,6 +534,7 @@ public class UserInfoDao extends BaseDao {
     public boolean delUser(final String userId) {
         logger.info("[UserInfoDao] #delUser# " + userId);
         try {
+            //删除用户
             int count = jdbcTemplate.update(
                     "delete from tbl_user where user_id = ?",
                     new PreparedStatementSetter() {
@@ -505,6 +544,13 @@ public class UserInfoDao extends BaseDao {
 
                         }
                     });
+            //删除原来的角色内容
+            jdbcTemplate.update("delete from tbl_user_role where user_id_fk =?",new PreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                    preparedStatement.setString(1,userId);
+                }
+            });
             return count > 0;
         } catch (Exception e) {
             logger.error("[UserInfoDao] #delUser# error " + userId, e);
@@ -523,26 +569,15 @@ public class UserInfoDao extends BaseDao {
         List<UserInfo> list = new ArrayList<UserInfo>();
         try {
             StringBuffer sql = new StringBuffer("select * from tbl_user where 1=1 ");
-            if (StringUtils.isNotBlank(query.getKeyword()))
-                sql.append(" and (user_name like ? or user_nickname like ?) ");
-
-            if (StringUtils.isNotBlank(query.getRoleId()))
-                sql.append(" and user_role_id = ? ");
-
-            if (query.getIsLive() > -1)
-                sql.append(" and user_islive = ? ");
-
-            if (StringUtils.isNotBlank(query.getDeptId()))
-                sql.append(" and user_dept_id = ? ");
-
-            if (query.getShowInContact() > -1)
-                sql.append(" and user_isincontact = ? ");
-
-            if (StringUtils.isNotBlank(query.getOrderByColumnName()) && StringUtils.isNotBlank(query.getOrderBy()))
-                sql.append(" order by ").append(query.getOrderByColumnName()).append(" ").append(query.getOrderBy());
-            else
-                sql.append(" order by user_time desc ");
-
+            if(StringUtils.isNotBlank(query.getKeyword())){
+                sql.append(" and (user_nickname like ? or user_company like ? or user_dept like ? or user_duty like ? )") ;
+            }
+            if(query.getIsLive() > -1){
+                sql.append(" and user_islive = ? ") ;
+            }
+            if(StringUtils.isNotBlank(query.getOrderByColumnName())){
+                sql.append(" order by ? ? ");
+            }
             sql.append(" limit ?,? ");
 
             list = jdbcTemplate.query(sql.toString(),
@@ -551,24 +586,19 @@ public class UserInfoDao extends BaseDao {
                         public void setValues(PreparedStatement preparedstatement)
                                 throws SQLException {
                             int i = 0;
-                            if (StringUtils.isNotBlank(query.getKeyword())) {
-                                preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
-                                preparedstatement.setString(++i, "%" + query.getKeyword() + "%");
+                            if(StringUtils.isNotBlank(query.getKeyword())){
+                                preparedstatement.setString(++i,"%" + query.getKeyword() + "%");
+                                preparedstatement.setString(++i,"%" + query.getKeyword() + "%");
+                                preparedstatement.setString(++i,"%" + query.getKeyword() + "%");
+                                preparedstatement.setString(++i,"%" + query.getKeyword() + "%");
                             }
-
-                            if (StringUtils.isNotBlank(query.getRoleId()))
-                                preparedstatement.setString(++i, query.getRoleId());
-
-                            if (query.getIsLive() > -1)
-                                preparedstatement.setInt(++i, query.getIsLive());
-
-                            if (StringUtils.isNotBlank(query.getDeptId()))
-                                preparedstatement.setString(++i, query.getDeptId());
-
-                            if (query.getShowInContact() > -1)
-                                preparedstatement.setInt(++i, query.getShowInContact());
-
-
+                            if(query.getIsLive() > -1){
+                                preparedstatement.setInt(++i,query.getIsLive());
+                            }
+                            if(StringUtils.isNotBlank(query.getOrderByColumnName())){
+                                preparedstatement.setString(++i,query.getOrderByColumnName());
+                                preparedstatement.setString(++i,query.getOrderBy());
+                            }
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
                         }
@@ -593,30 +623,17 @@ public class UserInfoDao extends BaseDao {
         List<Object> params = new ArrayList<Object>();
         StringBuffer sql = new StringBuffer("select count(1) as total from tbl_user where 1=1 ");
         try {
-            if (StringUtils.isNotBlank(query.getKeyword())) {
-                sql.append(" and (user_name like ? or user_nickname like ?) ");
+            if(StringUtils.isNotBlank(query.getKeyword())){
+                sql.append(" and (user_nickname like ? or user_company like ? or user_dept like ? or user_duty like ? )") ;
+                params.add("%" + query.getKeyword() + "%");
+                params.add("%" + query.getKeyword() + "%");
                 params.add("%" + query.getKeyword() + "%");
                 params.add("%" + query.getKeyword() + "%");
             }
-
-            if (StringUtils.isNotBlank(query.getRoleId())) {
-                sql.append(" and user_role_id = ? ");
-                params.add(query.getRoleId());
-            }
-
-            if (query.getIsLive() > -1) {
-                sql.append(" and user_islive = ? ");
+            if(query.getIsLive() > -1){
+                sql.append(" and user_islive = ? ") ;
                 params.add(query.getIsLive());
             }
-            if (StringUtils.isNotBlank(query.getDeptId())) {
-                sql.append(" and user_dept_id = ? ");
-                params.add(query.getDeptId());
-            }
-            if (query.getShowInContact() > -1) {
-                sql.append(" and user_isincontact = ? ");
-                params.add(query.getShowInContact());
-            }
-
             count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
             return count;
         } catch (Exception e) {
@@ -741,26 +758,27 @@ public class UserInfoDao extends BaseDao {
             userInfo.setPasswd(rs.getString("user_passwd"));
             userInfo.setNickname(rs.getString("user_nickname"));
             userInfo.setNicknamePinyin(rs.getString("user_nicknamepinyin"));
+            userInfo.setQuestion(rs.getString("user_question"));
+            userInfo.setAnswer(rs.getString("user_answer"));
+            userInfo.setCompany(rs.getString("user_company"));
+            userInfo.setDept(rs.getString("user_dept"));
+            userInfo.setDuty(rs.getString("user_duty"));
+            userInfo.setAddress(rs.getString("user_address"));
             userInfo.setPhone(rs.getString("user_phone"));
             userInfo.setMobile(rs.getString("user_mobile"));
             userInfo.setEmail(rs.getString("user_email"));
-            userInfo.setAddress(rs.getString("user_address"));
-            userInfo.setRoleId(rs.getString("user_role_id"));
             userInfo.setIsLive(rs.getInt("user_islive"));
             userInfo.setTime(rs.getTimestamp("user_time"));
-            userInfo.setShowInContact(rs.getInt("user_isincontact"));
-            userInfo.setShowOrder(rs.getInt("user_showorder"));
-            userInfo.setDuties(rs.getString("user_duties"));
-            String deptId = rs.getString("user_dept_id");
-            Category category = categoryDao.getById(deptId);
-            userInfo.setCategory(category);
-            userInfo.setDeptId(deptId);
-
-            String roleId = userInfo.getRoleId();
-            RoleInfo roleInfo = getRoleById(roleId);
-
-            userInfo.setRoleInfo(roleInfo);
-
+            List<RoleInfo> roleInfoList = getRoleListByUserId(userInfo.getUserId());
+            List<String> rightsList = new ArrayList<String>();
+            List<String> roleIdList = new ArrayList<String>();
+            for(RoleInfo roleInfo : roleInfoList){
+                roleIdList.add(roleInfo.getRoleId());
+                rightsList.addAll(roleInfo.getRightsList());
+            }
+            userInfo.setRoleIdList(roleIdList);
+            userInfo.setRoleInfoList(roleInfoList);
+            userInfo.setRightsList(rightsList);
             return userInfo;
         }
     }
@@ -777,12 +795,9 @@ public class UserInfoDao extends BaseDao {
             List<String> rightsList = new ArrayList<String>();
             if (StringUtils.isNotBlank(r.getRoleRightsIds())) {
                 String arrays[] = StringUtils.split(r.getRoleRightsIds(), ",");
-                for (String ar : arrays) {
-                    rightsList.add(ar);
-                }
+                rightsList = Arrays.asList(arrays);
                 r.setRightsList(rightsList);
             }
-
             return r;
         }
     }
@@ -799,5 +814,43 @@ public class UserInfoDao extends BaseDao {
             r.setRightsTime(rs.getTimestamp("rights_time"));
             return r;
         }
+    }
+
+    /**
+     * 通过用户ID获取对应的角色内容
+     * @param userId
+     * @return
+     */
+    public List<RoleInfo> getRoleListByUserId(final String userId){
+        List<RoleInfo> roleInfoList = new ArrayList<RoleInfo>();
+        try {
+        StringBuffer sql = new StringBuffer("select r.* from tbl_user_role ur,tbl_role r where ur.role_id_fk = r.role_id and ur.user_id_fk=?");
+        roleInfoList = jdbcTemplate.query(sql.toString(),new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                preparedStatement.setString(1,userId);
+            }
+        }, new RoleInfoRowMapper());
+        }catch (Exception ex){
+            logger.error(String.format("#getUserRoleList# error userId=%s",userId),ex);
+            return null ;
+        }
+        return roleInfoList ;
+    }
+
+    /**
+     * 是否为超级用户
+     * @param userInfo
+     * @return
+     */
+    public boolean isSuper(UserInfo userInfo){
+        if(userInfo == null){
+            return false ;
+        }
+        List<String> roleIdList = userInfo.getRoleIdList();
+        if(roleIdList == null || roleIdList.size() == 0){
+            return false ;
+        }
+        return roleIdList.contains(Constants.sysAdminRoleId);
     }
 }

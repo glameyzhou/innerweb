@@ -16,198 +16,88 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public class Post implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	private String id;
-	private String categoryType;
-	private String categoryId;
-	private Category category ;
-	
 	private String title ;
 	private String author ;
-    //发布部门
 	private String source ;
-    private Category deptCategory = new Category(); ;
 	private String time ;
-	/*是否首页显示*/
-	private int showIndex ;
-	/*是否列表显示*/
-	private int showList ;
-	/*是否同意审核*/
-	private int apply ;
-	/*是否为焦点图*/
-	private int focusImage ;
-	/*是否为热点*/
-	private int hot ;
-	/*摘要*/
 	private String summary ;
-	/*图片*/
 	private String image ;
-	/*正文*/
 	private String content ;
-
+    private int isValid ;
     private UserInfo userInfo = new UserInfo();
-	
-	
-	public String getId() {
-		return id;
-	}
 
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
+    public String getTitle() {
+        return title;
+    }
 
-	public String getCategoryType() {
-		return categoryType;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
+    public String getAuthor() {
+        return author;
+    }
 
-	public void setCategoryType(String categoryType) {
-		this.categoryType = categoryType;
-	}
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
+    public String getSource() {
+        return source;
+    }
 
-	public String getCategoryId() {
-		return categoryId;
-	}
+    public void setSource(String source) {
+        this.source = source;
+    }
 
+    public String getTime() {
+        return time;
+    }
 
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
+    public void setTime(String time) {
+        this.time = time;
+    }
 
+    public String getSummary() {
+        return summary;
+    }
 
-	public Category getCategory() {
-		return category;
-	}
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
 
+    public String getImage() {
+        return image;
+    }
 
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+    public void setImage(String image) {
+        this.image = image;
+    }
 
+    public String getContent() {
+        return content;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
+    public int getIsValid() {
+        return isValid;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-
-	public String getAuthor() {
-		return author;
-	}
-
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-
-
-
-	public String getSource() {
-		return source;
-	}
-
-
-	public void setSource(String source) {
-		this.source = source;
-	}
-
-
-	public String getTime() {
-		return time;
-	}
-
-
-	public void setTime(String time) {
-		this.time = time;
-	}
-
-
-	public int getShowIndex() {
-		return showIndex;
-	}
-
-
-	public void setShowIndex(int showIndex) {
-		this.showIndex = showIndex;
-	}
-
-
-	public int getShowList() {
-		return showList;
-	}
-
-
-	public void setShowList(int showList) {
-		this.showList = showList;
-	}
-
-
-	public int getApply() {
-		return apply;
-	}
-
-
-	public void setApply(int apply) {
-		this.apply = apply;
-	}
-
-
-	public int getFocusImage() {
-		return focusImage;
-	}
-
-
-	public void setFocusImage(int focusImage) {
-		this.focusImage = focusImage;
-	}
-
-
-	public int getHot() {
-		return hot;
-	}
-
-
-	public void setHot(int hot) {
-		this.hot = hot;
-	}
-
-
-	public String getSummary() {
-		return summary;
-	}
-
-
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
-
-
-	public String getImage() {
-		return image;
-	}
-
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-
-	public String getContent() {
-		return content;
-	}
-
-
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setIsValid(int valid) {
+        isValid = valid;
+    }
 
     public UserInfo getUserInfo() {
         return userInfo;
@@ -215,14 +105,6 @@ public class Post implements Serializable {
 
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
-    }
-
-    public Category getDeptCategory() {
-        return deptCategory;
-    }
-
-    public void setDeptCategory(Category deptCategory) {
-        this.deptCategory = deptCategory;
     }
 
     @Override

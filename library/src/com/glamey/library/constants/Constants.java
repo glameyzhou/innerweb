@@ -20,6 +20,8 @@ public class Constants {
      */
     public static final String SECRET_KEY = "<glameyzhou>";
 
+    public static final String COOKIES_ID = "LIBRARY_COOKIES_ID" ;
+
     /**
      * 每页显示的条数（针对前台）
      */
@@ -41,7 +43,7 @@ public class Constants {
     public static final String ORDERBYCOLUMNNAME_SHOWORDER = " user_showorder ";
 
     /*尾部友情链接显示的条数*/
-    public static final int FRIENDLYLINKSCOUNT = 9;
+    public static final int FRIENDLYLINKSCOUNT = 5;
 
     /*图书馆首页默认显示内容条数*/
     public static final int LIBRARYDISCOUNT = 9;

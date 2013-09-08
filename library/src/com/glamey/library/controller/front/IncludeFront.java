@@ -1,30 +1,23 @@
 package com.glamey.library.controller.front;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.glamey.library.constants.CategoryConstants;
+import com.glamey.library.constants.Constants;
+import com.glamey.library.constants.SystemConstants;
+import com.glamey.library.dao.*;
+import com.glamey.library.model.domain.*;
+import com.glamey.library.model.dto.FriendlyLinksDTO;
+import com.glamey.library.model.dto.LinksQuery;
+import com.glamey.library.model.dto.MessageQuery;
+import com.glamey.library.model.dto.PostQuery;
+import org.springframework.stereotype.Repository;
+import org.springframework.ui.ModelMap;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.glamey.library.constants.SystemConstants;
-import org.springframework.stereotype.Repository;
-import org.springframework.ui.ModelMap;
-
-import com.glamey.library.constants.CategoryConstants;
-import com.glamey.library.constants.Constants;
-import com.glamey.library.dao.CategoryDao;
-import com.glamey.library.dao.LinksDao;
-import com.glamey.library.dao.MessageDao;
-import com.glamey.library.dao.MetaInfoDao;
-import com.glamey.library.model.domain.Category;
-import com.glamey.library.model.domain.Links;
-import com.glamey.library.model.domain.MetaInfo;
-import com.glamey.library.model.domain.UserInfo;
-import com.glamey.library.model.dto.FriendlyLinksDTO;
-import com.glamey.library.model.dto.LinksQuery;
-import com.glamey.library.model.dto.MessageQuery;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 前端页面的包含内容
@@ -42,34 +35,8 @@ public class IncludeFront {
     private MetaInfoDao metaInfoDao;
     @Resource
     private MessageDao messageDao;
-
-    public ModelMap linksEntrance() {
-        ModelMap modelMap = new ModelMap();
-        //外部快捷入口
-        Category outCategory = categoryDao.getByAliasName(CategoryConstants.CATEGORY_OUTFASTENTRANCE);
-        LinksQuery outLinksQuery = new LinksQuery();
-        outLinksQuery.setCategoryType(outCategory.getCategoryType());
-        outLinksQuery.setCategoryId(outCategory.getId());
-        outLinksQuery.setShowIndex(1);
-        outLinksQuery.setStart(0);
-        outLinksQuery.setNum(10);
-        List<Links> outLinksList = linksDao.getByParentId(outLinksQuery);
-        modelMap.addAttribute("outLinksList", outLinksList);
-        modelMap.addAttribute("outCategory", outCategory);
-        //内部快捷入口
-        Category inCategory = categoryDao.getByAliasName(CategoryConstants.CATEGORY_INFASTENTRANCE);
-        LinksQuery inLinksQuery = new LinksQuery();
-        inLinksQuery.setCategoryType(inCategory.getCategoryType());
-        inLinksQuery.setCategoryId(inCategory.getId());
-        inLinksQuery.setShowIndex(1);
-        inLinksQuery.setStart(0);
-        inLinksQuery.setNum(10);
-        List<Links> inLinksList = linksDao.getByParentId(inLinksQuery);
-        modelMap.addAttribute("inLinksList", inLinksList);
-        modelMap.addAttribute("inCategory", inCategory);
-
-        return modelMap;
-    }
+    @Resource
+    private PostDao postDao;
 
     public ModelMap friendlyLinks(HttpServletRequest request) {
         int port = request.getServerPort();
@@ -102,7 +69,7 @@ public class IncludeFront {
             if (hasMore) {
                 Links links = new Links();
                 links.setUrl(basePath + "linksFront-" + category.getCategoryType() + "-" + category.getId() + ".htm");
-                links.setName("&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"" + basePath + "res/front/images/right_tit_biao2.png\" border=\"0\" />");
+                links.setName("&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"" + basePath + "res/front/library/images/zixun_more.jpg\" border=\"0\" />");
                 linksList.add(links);
             } else {
                 linksList.add(new Links());
@@ -113,34 +80,6 @@ public class IncludeFront {
             friendlyLinksDTOs.add(dto);
         }
         modelMap.addAttribute("friendlyLinksDTOs", friendlyLinksDTOs);
-
-        return modelMap;
-    }
-
-    public ModelMap ofenLinks() {
-        ModelMap modelMap = new ModelMap();
-
-        //常用链接管理
-        List<FriendlyLinksDTO> linksDTOs = new ArrayList<FriendlyLinksDTO>();
-        Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEGORY_OFENLINKS);
-        List<Category> ofenLinksCategory = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
-        FriendlyLinksDTO dto = null;
-        for (Category category : ofenLinksCategory) {
-            LinksQuery query = new LinksQuery();
-            query.setCategoryId(category.getId());
-            query.setCategoryType(category.getCategoryType());
-            query.setShowIndex(1);
-            query.setStart(0);
-            query.setNum(Integer.MAX_VALUE);
-            List<Links> linksList = linksDao.getByParentId(query);
-
-            dto = new FriendlyLinksDTO();
-            dto.setCategory(category);
-            dto.setLinksList(linksList);
-
-            linksDTOs.add(dto);
-        }
-        modelMap.addAttribute("linksDTOs", linksDTOs);
 
         return modelMap;
     }
@@ -160,24 +99,24 @@ public class IncludeFront {
 
     public ModelMap allInclude(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelMap map = new ModelMap();
-
-        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        String userId = userInfo.getUserId();
-
-        /*未读消息*/
-        map.put("unReadMessage", unReadMessage(userId));
-
-        /*快捷链接入口*/
-        map.addAllAttributes(linksEntrance());
-
-        /*常用链接*/
-        map.addAllAttributes(ofenLinks());
-
-        /*友情链接*/
-        map.addAllAttributes(friendlyLinks(request));
-
         /*页面尾部*/
-        map.put("page_foot",getMetaByName(SystemConstants.page_foot));
+        map.put("page_foot", getMetaByName(SystemConstants.page_foot));
+
+        //新闻资讯
+        PostQuery query = new PostQuery();
+        query.setStart(0);
+        query.setNum(8);
+        query.setIsValid(1);
+        List<Post> postList = postDao.getPostList(query);
+        map.put("includePostList", postList);
+
+        //个人信息
+        UserInfo sessionUserInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        map.put("sessionUserInfo", sessionUserInfo);
+
+        //图书信息分类
+        List<Category> categoryList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY);
+        map.put("libraryCategoryList",categoryList);
         return map;
     }
 }

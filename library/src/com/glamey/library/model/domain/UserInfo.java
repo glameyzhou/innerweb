@@ -5,6 +5,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,31 +13,27 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class UserInfo implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private String userId;
+    private static final long serialVersionUID = 1L;
+    private String userId;
     private String username;
     private String passwd;
     private String nickname;
     private String nicknamePinyin;
+    private String question;
+    private String answer;
+    private String company;
+    private String dept;
+    private String duty;
+    private String address;
     private String phone;
     private String mobile;
     private String email;
-    private String address;
-    private String deptId;
-    /**
-     * 员工职务
-     */
-    private String duties;
     private int isLive;
     private Date time;
-    /*是否显示在通讯录中 1=是 0=否*/
-    private int showInContact;
-    /*用户排序*/
-    private int showOrder;
-    /*部门*/
-    private Category category = new Category();
-    private String roleId;
-    private RoleInfo roleInfo;
+    //角色列表
+    private List<String> roleIdList;
+    private List<RoleInfo> roleInfoList ;
+    private List<String> rightsList ;
 
     public String getUserId() {
         return userId;
@@ -70,6 +67,62 @@ public class UserInfo implements Serializable {
         this.nickname = nickname;
     }
 
+    public String getNicknamePinyin() {
+        return nicknamePinyin;
+    }
+
+    public void setNicknamePinyin(String nicknamePinyin) {
+        this.nicknamePinyin = nicknamePinyin;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
+    }
+
+    public String getDuty() {
+        return duty;
+    }
+
+    public void setDuty(String duty) {
+        this.duty = duty;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -94,53 +147,12 @@ public class UserInfo implements Serializable {
         this.email = email;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(String deptId) {
-        this.deptId = deptId;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public RoleInfo getRoleInfo() {
-        return roleInfo;
-    }
-
-    public void setRoleInfo(RoleInfo roleInfo) {
-        this.roleInfo = roleInfo;
-    }
-
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
     public int getIsLive() {
         return isLive;
     }
 
-    public void setIsLive(int live) {
-        isLive = live;
+    public void setIsLive(int isLive) {
+        this.isLive = isLive;
     }
 
     public Date getTime() {
@@ -151,36 +163,28 @@ public class UserInfo implements Serializable {
         this.time = time;
     }
 
-    public String getNicknamePinyin() {
-        return nicknamePinyin;
+    public List<String> getRoleIdList() {
+        return roleIdList;
     }
 
-    public void setNicknamePinyin(String nicknamePinyin) {
-        this.nicknamePinyin = nicknamePinyin;
+    public void setRoleIdList(List<String> roleIdList) {
+        this.roleIdList = roleIdList;
     }
 
-    public int getShowInContact() {
-        return showInContact;
+    public List<RoleInfo> getRoleInfoList() {
+        return roleInfoList;
     }
 
-    public void setShowInContact(int showInContact) {
-        this.showInContact = showInContact;
+    public void setRoleInfoList(List<RoleInfo> roleInfoList) {
+        this.roleInfoList = roleInfoList;
     }
 
-    public int getShowOrder() {
-        return showOrder;
+    public List<String> getRightsList() {
+        return rightsList;
     }
 
-    public void setShowOrder(int showOrder) {
-        this.showOrder = showOrder;
-    }
-
-    public String getDuties() {
-        return duties;
-    }
-
-    public void setDuties(String duties) {
-        this.duties = duties;
+    public void setRightsList(List<String> rightsList) {
+        this.rightsList = rightsList;
     }
 
     @Override

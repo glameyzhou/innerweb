@@ -1,63 +1,77 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../common/tagInclude.jsp" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="Shortcut Icon" href="${basePath}res/ico/favicon.ico"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="${basePath}res/front/css/index.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/css/neiye.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/css/style.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/css/header.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/css/footer.css" rel="stylesheet" type="text/css"/>
-    <title>内网管理系统 - 微型图书馆</title>
+    <title>华电图书馆-您身边的能源行业情报秘书</title>
+    <link href="${basePath}res/front/library/css/index.css" rel="stylesheet" type="text/css"/>
+    <link href="${basePath}res/front/library/css/neiye.css" rel="stylesheet" type="text/css"/>
+    <link href="${basePath}res/front/library/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="${basePath}res/front/library/css/header.css" rel="stylesheet" type="text/css"/>
+    <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="${basePath}res/ztree/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript">
+        function collectIt(libId){
+            $.ajax({
+                url:'${basePath}library-collect.htm',
+                type:'GET',
+                data : 'libId=' + libId ,
+                async : false, //默认为true 异步
+                error:function(){
+                    alert('收藏失败,请稍后重试.');
+                },
+                success:function(data){
+                    var obj = document.getElementById("collecFont");
+                    var result = "已收藏" ;
+                    if(data != "OK"){
+                        result = "请稍后重试";
+                    }
+                    obj.style.color = 'red' ;
+                    obj.innerHTML = result ;
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 <div class="box">
-    <%@include file="include/header.jsp" %>
-    <div class="body">
-        <%--&lt;%&ndash;面包屑&ndash;%&gt;
-        <div class="seat">
-            <a href="#">首页</a>&nbsp;>&nbsp;<a href="#">${post.category.name}</a>&nbsp;>&nbsp;<span>${post.title}</span>
-        </div>--%>
-        <div class="body_left">
-            <%@include file="include/links-out.jsp" %>
-            <%@include file="include/links-in.jsp" %>
-            <%@include file="include/popular_Links.jsp" %>
-            <%@include file="include/searcher.jsp" %>
+    <!--头部代码开始-->
+    <%@include file="include/header.jsp"%>
+    <!--头部代码结束-->
+    <div class="center">
+        <!--左半边代码开始-->
+        <div class="center_left">
+            <%@include file="include/post-newest.jsp"%>
+            <%@include file="include/library-category.jsp"%>
+            <div class="guanggao"><img src="${basePath}res/front/library/images/guanggao.jpg"/></div>
         </div>
+        <!--左半边代码结束-->
 
-        <div class="right_neiye">
-            <div class="body_right_tit" style="width:962px;">
-                <ul class="tit_biao">
-                    <li><img src="${basePath}res/front/images/right_tit_biao.png"/></li>
-                    <%--<li style="padding-left:15px;">
-                    	<a href="${basePath}library-0-0-1.htm">微型图书馆</a> - 
-                    	<a href="${basePath}library-0-${info.category.id}-1.htm">${info.category.name}</a> - 
-                    	<a href="#">${info.name}</a>
-                    </li>--%>
-                    <li style="padding-left:15px;">微型图书馆 - ${info.category.name} - ${info.name}</li>
-                </ul>
-                <%--<ul class="tit_biao_right">
-                    <li><img src="${basePath}res/front/images/right_tit_biao2.png"/></li>
-                    <li><a href="#">更&nbsp;多</a></li>
-                </ul>--%>
-            </div>
-            <div class="neiye_right_con" style="width:932px;">
-                <div class="neirong_con" style="width:930px;">
-                    <h2>${info.name}</h2>
-                    <br/>
-                    <br/>
-
-                    <div class="neirong_con">
-                        ${info.content}
-                    </div>
+        <!--右半边代码开始-->
+        <div class="center_right">
+            <div class="neirong">
+                <div class="neirong_tit">${libraryInfo.name}</div>
+                <div class="seat" style="font-weight: bold">${libraryInfo.category.categoryParent.name} >> ${libraryInfo.category.name}</div>
+                <p style="text-align: right">
+                    <c:choose>
+                        <c:when test="${exist}"><font color="red">已收藏</font></c:when>
+                        <c:otherwise>
+                            <font color="#6495ed" id="collecFont"><a href="javascript:collectIt('${libraryInfo.id}');">收藏</a></font>
+                        </c:otherwise>
+                    </c:choose>
+                </p>
+                <div class="neirong_con">
+                    ${libraryInfo.content}
                 </div>
             </div>
         </div>
-        <%@include file="include/friendlyLinks.jsp" %>
+        <!--右半边代码结束-->
     </div>
-    <%@include file="include/footer.jsp" %>
+    <!--底部代码开始-->
+    <%@include file="include/footer.jsp"%>
+    <!--底部代码结束-->
 </div>
 </body>
 </html>

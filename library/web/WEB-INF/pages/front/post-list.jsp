@@ -1,66 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../common/tagInclude.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="Shortcut Icon" href="${basePath}res/ico/favicon.ico"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="${basePath}res/front/css/index.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/css/neiye.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/css/style.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/css/header.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/css/footer.css" rel="stylesheet" type="text/css"/>
-    <title>内网管理系统 - ${post.title}</title>
+    <title>华电图书馆-您身边的能源行业情报秘书</title>
+    <link href="${basePath}res/front/library/css/index.css" rel="stylesheet" type="text/css" />
+    <link href="${basePath}res/front/library/css/neiye.css" rel="stylesheet" type="text/css" />
+    <link href="${basePath}res/front/library/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="${basePath}res/front/library/css/header.css" rel="stylesheet" type="text/css" />
+    <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="box">
-    <%@include file="include/header.jsp" %>
-    <div class="body">
-        <div class="body_left">
-            <%@include file="include/links-out.jsp" %>
-            <%@include file="include/links-in.jsp" %>
-            <%@include file="include/popular_Links.jsp" %>
-            <%@include file="include/searcher.jsp" %>
+    <!--头部代码开始-->
+    <%@include file="include/header.jsp"%>
+    <!--头部代码结束-->
+    <div class="center">
+        <!--左半边代码开始-->
+        <div class="center_left">
+            <%@include file="include/post-newest.jsp"%>
+            <%@include file="include/library-category.jsp"%>
+
+            <div class="guanggao"><img src="${basePath}res/front/library/images/guanggao.jpg" /></div>
         </div>
-        <div class="right_neiye">
-            <div class="body_right_tit" style="width:962px;">
-                <ul class="tit_biao">
-                    <li><img src="${basePath}res/front/images/right_tit_biao.png"/></li>
-                    <li style="padding-left:15px;">
-                        <c:if test="${not empty categoryParent}">${categoryParent.name} - </c:if>
-                        <c:if test="${not empty category}">${category.name}</c:if>
-                    </li>
-                </ul>
-                <%--<ul class="tit_biao_right">
-                    <li><img src="${basePath}res/front/images/right_tit_biao2.png" /></li>
-                    <li><a href="#">更&nbsp;多</a></li>
-                </ul>--%>
-            </div>
-            <div class="neiye_right_con" style="width:932px;">
-                <c:forEach var="post" items="${postList}" varStatus="status">
-                    <ul class="con_neiye">
-                        <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
-                        <c:choose>
-                            <c:when test="${post.category.aliasName eq 'deptInnerNotices'}">
-                                <li><a href="${basePath}p-${post.id}.htm">[${post.deptCategory.name}]&nbsp;${post.title}</a>
-                                </li>
-                                <li style="float:right;">${fmtString:substring(post.time,10)}</li>
-                            </c:when>
-                            <c:otherwise>
-                                <li><a href="${basePath}p-${post.id}.htm">${post.title}</a></li>
-                                <li style="float:right;">
-                                    [${post.deptCategory.name}]&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substring(post.time,10)}</li>
-                            </c:otherwise>
-                        </c:choose>
-                    </ul>
-                </c:forEach>
-                <c:set var="pageURL" value="${basePath}pl-${categoryType}-${categoryId}.htm?"/>
-                <%@include file="../common/pages-front.jsp" %>
+        <!--左半边代码结束-->
+        <!--右半边代码开始-->
+        <div class="center_right">
+            <div class="neirong">
+                <div class="neirong_tit">资讯公告</div>
+                <%--<div class="seat">目录 : 能源行业规划及政策>> 法规- 国家级政策、法规>></div>--%>
+                <div class="neiye_right_con">
+                    <c:forEach var="post" items="${postList}">
+                        <ul class="con_neiye">
+                            <li><img src="${basePath}res/front/library/images/notice_list.png"/></li>
+                            <li><a href="${basePath}p-${post.id}.htm" title="${post.title}">${fmtString:substringAppend(post.title,30 ,'...' )}</a></li>
+                            <li style="float:right;">${fmtString:substring(post.time,10)}</li>
+                        </ul>
+                    </c:forEach>
+                    <c:set var="pageURL" value="${basePath}pl-news.htm?"/>
+                    <%@include file="../common/pages-front.jsp" %>
+                </div>
             </div>
         </div>
-        <%@include file="include/friendlyLinks.jsp" %>
+        <!--右半边代码结束-->
     </div>
-    <%@include file="include/footer.jsp" %>
+    <!--底部代码开始-->
+    <%@include file="include/footer.jsp"%>
+    <!--底部代码结束-->
 </div>
 </body>
 </html>

@@ -293,7 +293,6 @@ public class LibraryInfoDao extends BaseDao {
             info.setTime(rs.getTimestamp("lib_time"));
             info.setOrder(rs.getInt("lib_order"));
             info.setShowIndex(rs.getInt("lib_showindex"));
-
             Category category = categoryDao.getById(info.getCategoryId());
             info.setCategory(category);
             

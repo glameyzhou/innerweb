@@ -3,19 +3,21 @@ package com.glamey.library.controller.manager;
 import com.glamey.framework.utils.FileUtils;
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.StringTools;
-import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.constants.LuceneConstants;
-import com.glamey.library.constants.SystemConstants;
 import com.glamey.library.controller.BaseController;
 import com.glamey.library.controller.front.IncludeFront;
 import com.glamey.library.dao.CategoryDao;
+import com.glamey.library.dao.LibraryInfoDao;
 import com.glamey.library.dao.PostDao;
+import com.glamey.library.model.domain.LibraryInfo;
 import com.glamey.library.model.domain.Post;
 import com.glamey.library.model.domain.UserInfo;
+import com.glamey.library.model.dto.LibraryQuery;
 import com.glamey.library.model.dto.LuceneEntry;
 import com.glamey.library.model.dto.PostQuery;
 import com.glamey.library.util.LuceneUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.search.IndexSearcher;
@@ -39,7 +41,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,8 @@ public class LuceneManagerController extends BaseController {
 
     @Resource
     private PostDao postDao;
+    @Resource
+    private LibraryInfoDao libraryInfoDao ;
     @Resource
     private CategoryDao categoryDao ;
     @Resource
@@ -75,15 +78,13 @@ public class LuceneManagerController extends BaseController {
 
         //Post-news内容
         PostQuery queryNews = new PostQuery();
-        queryNews.setCategoryType(CategoryConstants.CATEGORY_NEWS);
         queryNews.setStart(0);
         queryNews.setNum(Integer.MAX_VALUE);
-        List<Post> newsList = postDao.getByCategoryId(queryNews);
+        queryNews.setIsValid(1);
+        List<Post> newsList = postDao.getPostList(queryNews);
         for (Post obj : newsList) {
             entry = new LuceneEntry();
             entry.setId(obj.getId());
-            entry.setModel(obj.getCategoryId());
-            entry.setModelName(obj.getCategory().getShortName());
             entry.setHref("p-" + entry.getId() + ".htm");
             entry.setTitle(obj.getTitle());
             entry.setContent(obj.getContent());
@@ -91,21 +92,20 @@ public class LuceneManagerController extends BaseController {
             entries.add(entry);
         }
         
-      //Post-notices内容
-        PostQuery queryNotices = new PostQuery();
-        queryNews.setCategoryType(CategoryConstants.CATEGORY_NOTICES);
-        queryNotices.setStart(0);
-        queryNotices.setNum(Integer.MAX_VALUE);
-        List<Post> noticesList = postDao.getByCategoryId(queryNotices);
-        for (Post obj : noticesList) {
+        //图书馆内容
+        LibraryQuery queryLib = new LibraryQuery();
+        queryLib.setStart(0);
+        queryLib.setNum(Integer.MAX_VALUE);
+        List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(queryLib);
+        for (LibraryInfo obj : libraryInfoList) {
             entry = new LuceneEntry();
             entry.setId(obj.getId());
             entry.setModel(obj.getCategoryId());
             entry.setModelName(obj.getCategory().getShortName());
-            entry.setHref("p-" + entry.getId() + ".htm");
-            entry.setTitle(obj.getTitle());
+            entry.setHref("library-detail-" + entry.getId() + ".htm");
+            entry.setTitle(obj.getName());
             entry.setContent(obj.getContent());
-            entry.setTime(obj.getTime());
+            entry.setTime(DateFormatUtils.format(obj.getTime(),"yyyy-MM-dd HH:mm:ss"));
             entries.add(entry);
         }
         String result = "";
@@ -113,7 +113,7 @@ public class LuceneManagerController extends BaseController {
             lu.createIndex(true, entries);
             result = "ok";
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
             result = "failure";
         }
         response.getWriter().print(result);
@@ -136,8 +136,7 @@ public class LuceneManagerController extends BaseController {
             @RequestParam(value = "curPage", required = false, defaultValue = "1") String pg,
             HttpServletRequest request, HttpServletResponse response,HttpSession session, ModelMap modelMap) throws Exception {
 
-        ModelAndView mav = new ModelAndView();
-        String viewName = "front/post-search";
+        ModelAndView mav = new ModelAndView("front/search");
         int curPage = Integer.parseInt(pg);
         kw = StringTools.converISO2UTF8(kw);
 
@@ -204,16 +203,11 @@ public class LuceneManagerController extends BaseController {
         modelMap.put("entries", entries);
         modelMap.put("pageBean", pageBean);
         modelMap.put("kw", kw);
-        mav.setViewName(viewName);
         mav.addAllObjects(modelMap);
 
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
         String userId = ((UserInfo) obj).getUserId();
-        mav.addAllObjects(includeFront.linksEntrance());
-        mav.addAllObjects(includeFront.friendlyLinks(request));
-        mav.addObject("unReadMessage", includeFront.unReadMessage(userId));
-        mav.addAllObjects(includeFront.ofenLinks());
-        mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
         
         return mav;
     }

@@ -100,7 +100,7 @@ public class LoginFrontController extends BaseController {
                 if(StringUtils.equals(remeberUser,"1")){
                     String value = username + "<>" + password ;
                     value = bf.encryptString(value);
-                    Cookie cookie = new Cookie("OFFICEINNER_SESSION_ID", value);
+                    Cookie cookie = new Cookie(Constants.COOKIES_ID, value);
                     cookie.setPath("/");
                     cookie.setDomain(request.getServerName());
                     cookie.setMaxAge(Integer.MAX_VALUE);

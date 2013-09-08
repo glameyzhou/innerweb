@@ -70,7 +70,24 @@ public class RoleInfo implements Serializable {
 		this.rightsList = rightsList;
 	}
 
-	@Override
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RoleInfo roleInfo = (RoleInfo) o;
+
+        if (!roleId.equals(roleInfo.roleId)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return roleId.hashCode();
+    }
+
+    @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }

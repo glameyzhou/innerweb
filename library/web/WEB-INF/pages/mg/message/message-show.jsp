@@ -89,8 +89,7 @@
                                         <option value="${dto.category.id}">${dto.category.name}</option>
                                     </c:forEach>
                                 </select><br/>
-                                <select id="sltSrc" name="sltSrc" multiple="true"  style="width: 200px;height: 300px;" ondblclick="removeItem();">
-                                </select>
+                                <select id="sltSrc" name="sltSrc" multiple="true"  style="width: 200px;height: 300px;" ondblclick="removeItem();"></select>
                             </td>
                             <td width="10%" align="center">
                                 <input name="DoAdd" type="button" value=">>" onclick="removeItem();"><br>
@@ -98,8 +97,7 @@
                             </td>
                             <td width="45%" align="center">
                                 <br/><br/>
-                                <select id="sltTarget" name="sltTarget"  multiple="true"  style="width: 200px;height: 300px;" ondblclick="addItem();">
-                                </select>
+                                <select id="sltTarget" name="sltTarget"  multiple="true"  style="width: 200px;height: 300px;" ondblclick="addItem();"></select>
                             </td>
                         </tr>
                     </table>

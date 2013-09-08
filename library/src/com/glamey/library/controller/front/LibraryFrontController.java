@@ -1,5 +1,7 @@
 package com.glamey.library.controller.front;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.glamey.library.constants.SystemConstants;
+import com.glamey.library.dao.LibraryCollectDao;
 import com.glamey.library.dao.MetaInfoDao;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -42,157 +45,157 @@ public class LibraryFrontController extends BaseController {
     private LibraryInfoDao libraryInfoDao;
     @Resource
     private MetaInfoDao metaInfoDao ;
+    @Resource
+    private LibraryCollectDao collectDao;
 
-    /*微型图书馆首页*/
-    @RequestMapping(value = "/library.htm", method = RequestMethod.GET)
-    public ModelAndView library(
+    /*获取分类下的类表*/
+    @RequestMapping(value = "/library-list-{categoryId}.htm", method = RequestMethod.GET)
+    public ModelAndView libList(@PathVariable String categoryId,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #postList#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
 
-        String headTitle = metaInfoDao.getByName(SystemConstants.meta_library_title).getValue();
-        String headContent = metaInfoDao.getByName(SystemConstants.meta_library_content).getValue();
-        mav.addObject("headTitle",headTitle);
-        mav.addObject("headContent",headContent);
+        if(StringUtils.isBlank(categoryId)){
+            mav.addObject("message","无指定分类,请重新选择");
+            mav.setViewName("common/message");
+            return mav ;
+        }
 
-        int showIndex = 1 ;/*首页显示*/
-        List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
-        List<Category> rootList = categoryDao.getByParentId(showIndex,CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
-        for (Category rootCategory : rootList) {
-            /*父类、子类、子类下内容*/
-            LibraryInfoDTO dto = new LibraryInfoDTO();
-            dto.setCategory(rootCategory);
+        Category category = categoryDao.getById(categoryId);
+        if(category == null){
+            mav.addObject("message","无指定分类,请重新选择");
+            mav.setViewName("common/message");
+            return mav ;
+        }
 
-            List<LibraryInfoDTO> libDTOList = new ArrayList<LibraryInfoDTO>();
-            LibraryInfoDTO libDTO = null ;
-            /*获取对应的子分类信息以及子分类下的连接数量*/
-            List<Category> categoryList = categoryDao.getByParentId(showIndex,rootCategory.getId(),CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
-            for (Category category : categoryList) {
-                libDTO = new LibraryInfoDTO();
-                libDTO.setCategory(category);
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
+
+        /*最后一级分类，直接输出列表*/
+        if(category.getHasChild() == 0){
+            int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
+            pageBean = new PageBean(Constants.rowsPerPageFront);
+
+            LibraryQuery query = new LibraryQuery();
+            query.setCategoryId(categoryId);
+            query.setShowIndex(1);
+            query.setStart(pageBean.getStart());
+            query.setNum(pageBean.getRowsPerPage());
+
+            List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
+            pageBean.setMaxRowCount(libraryInfoDao.getCountByQuery(query));
+            pageBean.setCurPage(curPage);
+            pageBean.setMaxPage();
+            pageBean.setPageNoList();
+
+            mav.addObject("category",category);
+            mav.addObject("libraryInfoList",libraryInfoList);
+            mav.addObject("pageBean",pageBean);
+            mav.setViewName("front/lib-list");
+            return mav ;
+        }
+        /*旗下有孩子，输出此分类的所有分类、每个分类显示2列内容*/
+        else {
+            category.setChildren(categoryDao.getChildrenByPid(categoryId,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE));
+            List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
+            List<Category> childrenCategory = categoryDao.getChildrenByPid(categoryId,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
+            for (Category child : childrenCategory) {
+                LibraryInfoDTO dto = new LibraryInfoDTO();
+                dto.setCategory(child);
 
                 LibraryQuery query = new LibraryQuery();
-                query.setShowIndex(showIndex);
-                query.setCategoryId(category.getId());
                 query.setStart(0);
-				query.setNum(StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_DAILY)
-                        || StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_HANGYEYANJIU_REPORT)
-                        || StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_ZHENGYAN)
-						? Constants.CATEGORY_LIBRARY_LENGTITLE_LEN
-						: Constants.LIBRARYDISCOUNT);
+                query.setNum(12);
                 List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
-                libDTO.setLibraryInfoList(libraryInfoList);
+                dto.setLibraryInfoList(libraryInfoList);
 
-                libDTOList.add(libDTO);
+                libraryInfoDTOList.add(dto);
             }
-            dto.setLibraryInfoDTOList(libDTOList);
-            libraryInfoDTOList.add(dto);
+
+            mav.addObject("libraryInfoDTOList",libraryInfoDTOList);
+            mav.addObject("category",category);
+            mav.setViewName("front/lib-index");
+            return mav ;
         }
-        mav.addObject("libraryInfoDTOList",libraryInfoDTOList);
-        //包含页面
-        mav.addAllObjects(includeFront.allInclude(request,response,session));
-        mav.setViewName("front/lib-index");
-        return mav;
-    }
-    /*library-0-0-0.htm*/
-    @RequestMapping(value = "/library_{pCategoryId}_{categoryId}_{showImage}.htm", method = RequestMethod.GET)
-    public ModelAndView libList(
-            @PathVariable String pCategoryId,
-            @PathVariable String categoryId,
-            @PathVariable int showImage,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        logger.info("[front] #postList#" + request.getRequestURI());
-        ModelAndView mav = new ModelAndView();
-        System.out.println(String.format("pid=%s,cid=%s,showImage=%d",pCategoryId,categoryId,showImage));
-        if (StringUtils.equalsIgnoreCase(categoryId, "0")) {
-            categoryId = null;
-        }
-        List<String> categoryIds = new ArrayList<String>();
-        if (!StringUtils.equalsIgnoreCase(pCategoryId, "0") && StringUtils.equalsIgnoreCase(categoryId, "0")) {
-            List<Category> categoryList = categoryDao.getByParentId(pCategoryId, CategoryConstants.CATEGORY_LIBRARY, 0, Integer.MAX_VALUE);
-            for (Category category : categoryList) {
-                categoryIds.add(category.getId());
-            }
-            categoryId = null;
-        }
-        Category pCategory = categoryDao.getById(pCategoryId);
-        Category category = categoryDao.getById(categoryId);
-        if(pCategory == null){
-            pCategory = new Category();
-            pCategory.setId("0");
-        }
-        if(category == null){
-            category = new Category();
-            category.setId("0");
-        }
-
-
-
-        pageBean = new PageBean(60);
-        int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
-        pageBean.setCurPage(curPage);
-
-        LibraryQuery query = new LibraryQuery();
-        query.setCategoryId(categoryId);
-        query.setCategoryIds(categoryIds);
-        query.setStart(pageBean.getStart());
-        query.setNum(pageBean.getRowsPerPage());
-        query.setShowImage(showImage);
-
-        List<LibraryInfo> libraryInfos = libraryInfoDao.getByQuery(query);
-        pageBean.setMaxRowCount(libraryInfoDao.getCountByQuery(query));
-        pageBean.setMaxPage();
-        pageBean.setPageNoList();
-
-        mav.addObject("pageBean", pageBean);
-        mav.addObject("libraryInfos", libraryInfos);
-        mav.addObject("query", query);
-        mav.addObject("pCategory", pCategory);
-        mav.addObject("category", category);
-
-        //包含页面
-        mav.addAllObjects(includeFront.allInclude(request,response,session));
-
-        //查看分类是否为图片分类,如果是的话，列表显示需要使用图片类型;如果是图片类型，并且数量少于四个的话，需要进行补录空白
-        boolean isImage = false ;
-        int len = libraryInfos.size() ;
-        for(LibraryInfo info : libraryInfos){
-            if(info.getType() == 3){
-                isImage = true ;
-                break;
-            }
-        }
-        for(int i = 0 ; i < 4- len ; i ++ ){
-            LibraryInfo info = new LibraryInfo();
-            info.setImage("");
-            info.setUrl("");
-            libraryInfos.add(info);
-        }
-
-        mav.addObject("isImage",isImage);
-        mav.setViewName("front/lib-list");
-        return mav;
     }
 
+    //图书详情页面展示
     @RequestMapping(value = "/library-detail-{id}.htm", method = RequestMethod.GET)
     public ModelAndView libraryDetail(
             @PathVariable String id,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        logger.info("[front] #postList#" + request.getRequestURI());
+        logger.info("[front] #libraryDetail#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
         if (StringUtils.isBlank(id)) {
             mav.addObject("message", "无效操作");
             mav.setViewName("common/errorPage");
             return mav;
         }
-
-        LibraryInfo info = libraryInfoDao.getById(id);
-        mav.addObject("info", info);
-
+        LibraryInfo libraryInfo = libraryInfoDao.getById(id);
+        mav.addObject("libraryInfo", libraryInfo);
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request,response,session));
 
+        boolean exist = collectDao.exist(id);
+        mav.addObject("exist",exist);
+
         mav.setViewName("front/lib-detail");
         return mav;
+    }
+
+    //图书馆--关于我们
+    @RequestMapping(value = "/library-aboutus.htm", method = RequestMethod.GET)
+    public ModelAndView aboutus(HttpServletRequest request,HttpServletResponse response,HttpSession session){
+        logger.info("[front] #aboutus#" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView();
+        //图书馆头部信息
+        String libraryHeadTitle = metaInfoDao.getByName(SystemConstants.meta_library_title).getValue();
+        String libraryHeadContent = metaInfoDao.getByName(SystemConstants.meta_library_content).getValue();
+        mav.addObject("libraryHeadTitle",libraryHeadTitle);
+        mav.addObject("libraryHeadContent",libraryHeadContent);
+
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
+
+        mav.setViewName("front/lib-aboutus");
+        return mav;
+    }
+
+    //获取所有可用的分类，用来做页面属性菜单
+    @RequestMapping(value = "/library-allCategory.htm", method = RequestMethod.POST)
+    public void allCategory(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException {
+        logger.info("[front] #allCategory#" + request.getRequestURI());
+        StringBuffer source = new StringBuffer(1000);
+        String result = "" ;
+        String basePath = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort()) + request.getContextPath();
+        List<Category> categoryList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY);
+        for (Category category : categoryList) {
+            source.append("{");
+            source.append("id:\"" + category.getId() + "\",");
+            source.append("pId:\"" + category.getParentId() + "\",");
+            source.append("name:\"" + category.getName() + "\",");
+            if(category.getHasChild() == 1){
+                source.append("open:false,");
+                source.append("icon:\"" + basePath + "/res/front/library/images/fenlei_con1.jpg\",");
+            }else{
+                source.append("icon:\"" + basePath + "/res/front/library/images/notice_list.png\",");
+            }
+            source.append("url:\"http://www.baidu.com\"");
+            source.append("},");
+        }
+        if(source.toString().length()>1)
+            result = source.toString().replaceAll(",$","");
+
+//        result = "[" + result + "]" ;
+        System.out.println(result);
+
+        response.setContentType("text/json;charset=UTF-8");
+        response.setHeader("pragma", "no-cache");
+        response.setHeader("cache-control", "no-cache");
+        response.setHeader("expires", "0");
+        PrintWriter out = response.getWriter();
+        out.print(result);
+        out.flush();
+        out.close();
+
     }
 }
