@@ -17,5 +17,11 @@ public class LuceneConstants {
     public static final String flContent = "CONTENT";
     public static final String flTime = "TIME";
 
+    static {
+        File folder = new File(PropertiesUtil.getLuceneIndexDir());
+        if(!folder.exists()){
+            folder.mkdirs();
+        }
+    }
     public static final File INDEXDIR = new File(PropertiesUtil.getLuceneIndexDir());
 }

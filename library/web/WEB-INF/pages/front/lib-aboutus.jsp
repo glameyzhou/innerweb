@@ -22,52 +22,10 @@
         <!--左半边代码开始-->
         <div class="center_left">
             <%@include file="include/post-newest.jsp"%>
-            <div class="fenlei">
-                <div class="fenlei_tit">
-                    <ul>
-                        <li><img src="${basePath}res/front/library/images/fenlei_tit.png"/></li>
-                        <li>图书类目导航</li>
-                    </ul>
-                </div>
-                <div class="fenlei_con">
-                    <ul>
-                        <li><img src="${basePath}res/front/library/images/fenlei_con1.jpg"/></li>
-                        <li><a href="#">能源行业规划及政策、法规</a></li>
-                    </ul>
-                </div>
-                <div class="fenlei_con_zilei">
-                    <ul>
-                        <li><img src="${basePath}res/front/library/images/notice_list.png"/></li>
-                        <li><a href="#">国际级规划</a></li>
-                    </ul>
-                    <ul>
-                        <li><img src="${basePath}res/front/library/images/notice_list.png"/></li>
-                        <li><a href="#">国际级规划</a></li>
-                    </ul>
-                    <ul>
-                        <li><img src="${basePath}res/front/library/images/notice_list.png"/></li>
-                        <li><a href="#">国际级规划</a></li>
-                    </ul>
-                    <ul>
-                        <li><img src="${basePath}res/front/library/images/notice_list.png"/></li>
-                        <li><a href="#">国际级规划</a></li>
-                    </ul>
-                </div>
-                <div class="fenlei_con">
-                    <ul>
-                        <li><img src="${basePath}res/front/library/images/fenlei_con1.jpg"/></li>
-                        <li><a href="#">能源行业规划及政策、法规</a></li>
-                    </ul>
-                    <ul>
-                        <li><img src="${basePath}res/front/library/images/fenlei_con1.jpg"/></li>
-                        <li><a href="#">能源行业规划及政策、法规</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="guanggao"><img src="${basePath}res/front/library/images/guanggao.jpg"/></div>
+            <%@include file="include/library-category.jsp"%>
+            <%@include file="include/contact.jsp" %>
         </div>
         <!--左半边代码结束-->
-
         <!--右半边代码开始-->
         <div class="center_right">
             <div class="neirong">
@@ -77,7 +35,6 @@
         </div>
         <!--右半边代码结束-->
     </div>
-
     <!--底部代码开始-->
     <%@include file="include/footer.jsp"%>
     <!--底部代码结束-->

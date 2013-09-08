@@ -73,7 +73,7 @@ public class LuceneManagerController extends BaseController {
     @ResponseBody
     public void luceneBuild(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
 
-        List<LuceneEntry> entries = new ArrayList<LuceneEntry>();
+        List<LuceneEntry> entries = new ArrayList<LuceneEntry>(1000);
         LuceneEntry entry = null;
 
         //Post-news内容

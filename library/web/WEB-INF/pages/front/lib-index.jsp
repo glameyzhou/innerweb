@@ -22,7 +22,7 @@
 <div class="center_left">
     <%@include file="include/post-newest.jsp"%>
     <%@include file="include/library-category.jsp"%>
-    <div class="guanggao"><img src="${basePath}res/front/library/images/guanggao.jpg" /></div>
+    <%@include file="include/contact.jsp" %>
 </div>
 <!--左半边代码结束-->
 <!--右半边代码开始-->
