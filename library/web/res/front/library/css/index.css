@@ -39,6 +39,15 @@
     height: 30px;
     /*background-image: url(../images/notice_list.png);*/
 }
+.notice_center li {
+    float: left;
+    width: 235px;
+    margin-left: 15px;
+    _margin-left: 15px;
+    padding-left: 20px;
+    height: 30px;
+    background-image: url(../images/notice_list.png);
+}
 
 .notice_bottom {
     background-image: url(../images/notice_bottom.jpg);
@@ -227,7 +236,6 @@
 
 .zixun_kuang_con li {
     height: 20px;
-    padding-left: 6px;
 }
 
 .zixun_kuang_con p {

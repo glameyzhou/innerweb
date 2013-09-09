@@ -9,6 +9,12 @@
     <link href="${basePath}res/front/library/css/index.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/library/css/header.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        .zixun_kuang_con li {
+            height: 20px;
+            padding-left: 6px;
+        }
+    </style>
     <title>华电图书馆-您身边的能源行业情报秘书</title>
 </head>
 <body>

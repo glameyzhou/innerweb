@@ -32,10 +32,10 @@
                 <div class="daohang">分类导航：${category.categoryParent.name} >> ${category.name}</div>
                     <div class="neirong_con_con">
                         <table width="98%" border="0" cellspacing="0">
-                            <tr valign="top"><td width="4%"></td>
+                            <tr><td width="4%"></td>
                                 <c:forEach var="link" items="${linksLIst}" varStatus="vStatus">
-                                    <td width="20%"><a href="${link.url}" target="_blank">${link.name}</a></td>
-                                    <c:if test="${vStatus.count % 4 == 0}"></tr><tr valign="top"><td width="4%"></td></c:if>
+                                    <td width="20%" height="30"><a href="${link.url}" target="_blank">${link.name}</a></td>
+                                    <c:if test="${vStatus.count % 4 == 0}"></tr><tr><td width="4%"></td></c:if>
                                 </c:forEach>
                             </tr>
                         </table>
