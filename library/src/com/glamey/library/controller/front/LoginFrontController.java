@@ -1,11 +1,13 @@
 package com.glamey.library.controller.front;
 
-import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.glamey.framework.utils.BlowFish;
+import com.glamey.framework.utils.Pinyin4jUtils;
+import com.glamey.framework.utils.WebUtils;
+import com.glamey.library.constants.Constants;
+import com.glamey.library.controller.BaseController;
+import com.glamey.library.dao.UserInfoDao;
+import com.glamey.library.model.domain.UserInfo;
+import com.glamey.library.util.WebCookieUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -13,12 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.glamey.framework.utils.BlowFish;
-import com.glamey.library.constants.Constants;
-import com.glamey.library.controller.BaseController;
-import com.glamey.library.dao.UserInfoDao;
-import com.glamey.library.model.domain.UserInfo;
-import com.glamey.library.util.WebCookieUtils;
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * 内网系统登陆管理
@@ -111,5 +114,83 @@ public class LoginFrontController extends BaseController {
         }
         mav.addObject("message", "登陆校验失败,请重试!");
         return mav;
+    }
+
+    @RequestMapping(value = "/register_userExist.htm", method = RequestMethod.POST)
+    public void registry_userExist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PrintWriter out = response.getWriter();
+        response.setContentType("text/json;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("pragma", "no-cache");
+        response.setHeader("cache-control", "no-cache");
+        response.setHeader("expires", "0");
+        String username = WebUtils.getRequestParameterAsString(request,"username");
+
+        if(StringUtils.isBlank(username)){
+            out.print("{\"regStatus\":\"empty\",\"regMessage\":\"the username is valid\"}");
+        }
+        else if (userInfoDao.isUserExist(username)){
+            out.print("{\"regStatus\":\"exist\",\"regMessage\":\"the username is exist\"}");
+        }
+        else {
+            out.print("{\"regStatus\":\"ok\",\"regMessage\":\"the username is ok\"}");
+        }
+
+        out.flush();
+        out.close();
+    }
+
+
+    @RequestMapping(value = "/register.htm", method = RequestMethod.POST)
+    public void register(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+        logger.info("[register]" + request.getRequestURI());
+        PrintWriter out = response.getWriter();
+//        response.setContentType("text/json;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("pragma", "no-cache");
+        response.setHeader("cache-control", "no-cache");
+        response.setHeader("expires", "0");
+        String regStatus = "0" ;
+        String username = WebUtils.getRequestParameterAsString(request, "username");
+        if (StringUtils.isBlank(username)) {
+            return;
+        }
+        if (userInfoDao.isUserExist(username)) {
+            return;
+        }
+
+        String passwd = WebUtils.getRequestParameterAsString(request, "passwd");
+        String passwdRp = WebUtils.getRequestParameterAsString(request, "passwdRp");
+        if (!StringUtils.equals(passwd, passwdRp) || (StringUtils.isBlank(passwd) || StringUtils.isBlank(passwdRp))) {
+            return;
+        }
+        /*String question = WebUtils.getRequestParameterAsString(request ,"question");
+        String answer = WebUtils.getRequestParameterAsString(request ,"answer");
+        if((StringUtils.isNotBlank(question) && StringUtils.isBlank(answer))
+                ||
+                (StringUtils.isBlank(question) && StringUtils.isNotBlank(answer))){
+            mav.addObject("message", "问题和答案都需要填写");
+            return mav;
+        }*/
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUsername(username);
+        BlowFish bf = new BlowFish(Constants.SECRET_KEY);
+        userInfo.setPasswd(bf.encryptString(passwd));
+        String nickName = WebUtils.getRequestParameterAsString(request, "nickname");
+        userInfo.setNickname(nickName);
+        userInfo.setNicknamePinyin(Pinyin4jUtils.getPinYin(nickName));
+        userInfo.setCompany(WebUtils.getRequestParameterAsString(request, "company"));
+        userInfo.setDept(WebUtils.getRequestParameterAsString(request, "dept"));
+        userInfo.setPhone(WebUtils.getRequestParameterAsString(request, "phone"));
+        userInfo.setMobile(WebUtils.getRequestParameterAsString(request, "mobile"));
+        userInfo.setEmail(WebUtils.getRequestParameterAsString(request, "email"));
+        userInfo.setIsLive(WebUtils.getRequestParameterAsInt(request, "isLive", 1));
+
+        if (userInfoDao.createUser(userInfo)) {
+            regStatus = "1" ;
+        }
+        out.print(regStatus);
+        out.flush();
+        out.close();
     }
 }
