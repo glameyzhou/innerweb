@@ -76,7 +76,7 @@
                     <div class="zixun_kuang_con">
                         <c:forEach var="cat_dto" items="${dto.libraryInfoDTOList}" varStatus="cate_status">
                         <p>
-                            ${cat_dto.category.name}_1
+                            ${cat_dto.category.name}
                                 <span style="float:right;"><a href="${basePath}library-list-${cat_dto.category.id}.htm">
                                     <img src="${basePath}res/front/library/images/zixun_more.jpg"/></a>
                                 </span>

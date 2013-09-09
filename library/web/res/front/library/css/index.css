@@ -37,7 +37,7 @@
     _margin-left: 15px;
     padding-left: 20px;
     height: 30px;
-    background-image: url(../images/notice_list.png);
+    /*background-image: url(../images/notice_list.png);*/
 }
 
 .notice_bottom {
@@ -227,6 +227,7 @@
 
 .zixun_kuang_con li {
     height: 20px;
+    padding-left: 6px;
 }
 
 .zixun_kuang_con p {
