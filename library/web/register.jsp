@@ -37,7 +37,6 @@
             var value = stringTrim(obj.value);
             if(value == ''){
                 document.getElementById(itemName + '_li').innerText = '必填项' ;
-                $("#register_submit").attr("disabled", true);
             }
             /*if(itemName == 'username'){
                 $.ajax({
@@ -57,10 +56,21 @@
                 });
             }*/
         }
+        function pageOnSubmit(){
+
+        }
+        function pageOnUp(itemName){
+            var obj = document.getElementById(itemName);
+            var value = stringTrim(obj.value);
+            if(value != ''){
+                document.getElementById(itemName + '_li').innerText = '' ;
+            }
+
+        }
     </script>
 </head>
 <body background="${basePath}res/front/library/images/register_bg.jpg" style="background-repeat:repeat-x;">
-<form action="" method="post">
+<form action="" method="post" onsubmit="pageOnSubmit();">
 <div class="register_logo"><img src="${basePath}res/front/library/images/register_logo.png"/></div>
 <div class="register_con">
     <p>立刻注册微型图书馆帐号</p>
@@ -68,28 +78,28 @@
         <div class="register_con_1">
             <ul>
                 <li>&nbsp;&nbsp;用户名：</li>
-                <li><input name="username" id="username" type="text" class="register_text" onblur="pageOnBlur('username');"/></li>
+                <li><input name="username" id="username" type="text" class="register_text" onblur="pageOnBlur('username');" onkeyup="pageOnUp('username')"/></li>
                 <li style="padding-left: 10px;color: #ff0000" id="username_li"/>
             </ul>
         </div>
         <div class="register_con_1">
             <ul>
                 <li class="liLeft">真实姓名：</li>
-                <li><input name="nickname" id="nickname" type="text" class="register_text" onblur="pageOnBlur('nickname');"/></li>
+                <li><input name="nickname" id="nickname" type="text" class="register_text" onblur="pageOnBlur('nickname');" onkeyup="pageOnUp('nickname')"/></li>
                 <li style="padding-left: 10px;color: #ff0000" id="nickname_li"/>
             </ul>
         </div>
         <div class="register_con_1">
             <ul>
                 <li>&nbsp;&nbsp;&nbsp;&nbsp;密码：</li>
-                <li><input name="passwd" id="passwd" type="password" class="register_text" onblur="pageOnBlur('passwd');"/></li>
+                <li><input name="passwd" id="passwd" type="password" class="register_text" onblur="pageOnBlur('passwd');" onkeyup="pageOnUp('passwd')"/></li>
                 <li style="padding-left: 10px;color: #ff0000" id="passwd_li"/>
             </ul>
         </div>
         <div class="register_con_1">
             <ul>
                 <li>确认密码：</li>
-                <li><input name="passwdRp" id="passwdRp" type="password" class="register_text" onblur="pageOnBlur('passwdRp');"/></li>
+                <li><input name="passwdRp" id="passwdRp" type="password" class="register_text" onblur="pageOnBlur('passwdRp');" onkeyup="pageOnUp('passwdRp')"/></li>
                 <li style="padding-left: 10px;color: #ff0000" id="passwdRp_li"/>
             </ul>
         </div>
@@ -97,35 +107,35 @@
         <div class="register_con_1">
             <ul>
                 <li>&nbsp;&nbsp;&nbsp;&nbsp;单位：</li>
-                <li><input name="company" id="company" type="text" class="register_text" onblur="pageOnBlur('company');"/></li>
+                <li><input name="company" id="company" type="text" class="register_text" onblur="pageOnBlur('company');" onkeyup="pageOnUp('company')"/></li>
                 <li style="padding-left: 10px;color: #ff0000" id="company_li"/>
             </ul>
         </div>
         <div class="register_con_1">
             <ul>
                 <li>&nbsp;&nbsp;&nbsp;&nbsp;部门：</li>
-                <li><input name="dept" id="dept" type="text" class="register_text" onblur="pageOnBlur('dept');"/></li>
+                <li><input name="dept" id="dept" type="text" class="register_text" onblur="pageOnBlur('dept');" onkeyup="pageOnUp('dept')"/></li>
                 <li style="padding-left: 10px;color: #ff0000" id="dept_li"/>
             </ul>
         </div>
         <div class="register_con_1">
             <ul>
                 <li>&nbsp;&nbsp;手机号：</li>
-                <li><input name="mobile" id="mobile" type="text" class="register_text" onblur="pageOnBlur('mobile');"/></li>
+                <li><input name="mobile" id="mobile" type="text" class="register_text" onblur="pageOnBlur('mobile');" onkeyup="pageOnUp('mobile')"/></li>
                 <li style="padding-left: 10px;color: #ff0000" id="mobile_li"/>
             </ul>
         </div>
         <div class="register_con_1">
             <ul>
                 <li>&nbsp;&nbsp;&nbsp;&nbsp;固话：</li>
-                <li><input name="phone" id="phone" type="text" class="register_text" onblur="pageOnBlur('phone');"/></li>
+                <li><input name="phone" id="phone" type="text" class="register_text" onblur="pageOnBlur('phone');" onkeyup="pageOnUp('phone')"/></li>
                 <li style="padding-left: 10px;color: #ff0000" id="phone_li"/>
             </ul>
         </div>
         <div class="register_con_1">
             <ul>
                 <li>&nbsp;&nbsp;&nbsp;&nbsp;邮箱：</li>
-                <li><input name="email" id="email" type="text" class="register_text" onblur="pageOnBlur('email');"/></li>
+                <li><input name="email" id="email" type="text" class="register_text" onblur="pageOnBlur('email');" onkeyup="pageOnUp('email')"/></li>
                 <li style="padding-left: 10px;color: #ff0000" id="email_li"/>
             </ul>
         </div>
