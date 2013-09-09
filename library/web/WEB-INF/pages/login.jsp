@@ -70,7 +70,7 @@
         document.getElementById("loginForm").submit();
     }
     function loginRegistry(){
-        alert("游客注册");
+        window.location = '${basePath}register.jsp' ;
     }
     function loginBrower(){
         alert("游客浏览");
