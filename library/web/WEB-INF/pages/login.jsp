@@ -73,7 +73,7 @@
         window.location = '${basePath}register.jsp' ;
     }
     function loginBrower(){
-        alert("游客浏览");
+        window.location = '${basePath}tourist.htm'
     }
 </script>
 </body>

@@ -6,6 +6,8 @@ import com.glamey.framework.utils.WebUtils;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
 import com.glamey.library.dao.UserInfoDao;
+import com.glamey.library.model.domain.RightsInfo;
+import com.glamey.library.model.domain.RoleInfo;
 import com.glamey.library.model.domain.UserInfo;
 import com.glamey.library.util.WebCookieUtils;
 import org.apache.commons.lang.StringUtils;
@@ -196,6 +198,39 @@ public class LoginFrontController extends BaseController {
             result.append("点击<a href='javascript:history.go(-1);'>这里</a>返回重试...<br/>");
         }
         mav.addObject("message",result.toString());
+        return mav ;
+    }
+
+
+    @RequestMapping(value = "/tourist.htm", method = RequestMethod.GET)
+    public ModelAndView tourist(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+        logger.info("[tourist]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("redirect:/index.htm");
+
+        //设置权限功能
+        List<RoleInfo> roleInfoList = new ArrayList<RoleInfo>();
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(Constants.sysTouristRoleId);
+        roleInfo.setRoleName("游客");
+        roleInfo.setRoleRightsIds("00");
+        List<String> rigthsList = new ArrayList<String>();
+        rigthsList.add("00");
+        roleInfo.setRightsList(rigthsList);
+        roleInfoList.add(roleInfo);
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId("000000");
+        userInfo.setUsername(Constants.sysTouristUID);
+        userInfo.setRightsList(rigthsList);
+        List<String> roleIdList = new ArrayList<String>();
+        roleIdList.add(Constants.sysTouristRoleId);
+        userInfo.setRoleIdList(roleIdList);
+        userInfo.setRoleInfoList(roleInfoList);
+        userInfo.setIsLive(1);
+
+
+        session.setAttribute(Constants.SESSIN_USERID, userInfo);
         return mav ;
     }
 }

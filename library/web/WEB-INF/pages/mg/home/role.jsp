@@ -35,10 +35,13 @@
     <li><a href="${basePath}mg/library/library-collect.htm?userId=${userInfo.userId}" target="mainFrame">个人收藏夹</a></li>
 
     <%--咨询公告--%>
-    <li><a href="${basePath}mg/post/post-list.htm" target="mainFrame">咨询公告管理</a></li>
+    <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'01')}">
+        <li><a href="${basePath}mg/post/post-list.htm" target="mainFrame">咨询公告管理</a></li>
+    </c:if>
+
 
     <%--微型图书馆管理--%>
-    <c:if test="${fmtString:hasRightsList(rightsList,'11')}">
+    <c:if test="${fmtString:hasRightsList(rightsList,'05')}">
         <li><a href="${basePath}mg/library/category-list.htm?pid=0" target="mainFrame">微型图书馆&nbsp;-&nbsp;分类栏目</a></li>
         <li><a href="${basePath}mg/library/library-merge-show.htm" target="mainFrame">微型图书馆&nbsp;-&nbsp;分类转移合并</a></li>
 
@@ -56,6 +59,7 @@
     </c:if>
 
     <%--友情链接分类管理--%>
+    <c:if test="${fmtString:hasRightsList(rightsList,'02')}">
         <li><a href="${basePath}mg/links/${categoryFriendlyLinks.aliasName}/category-list.htm" target="mainFrame">友情链接 - 分类管理</a></li>
         <li><a href="javascript:divDisplay('${categoryFriendlyLinks.id}_div');">${categoryFriendlyLinks.name} - 链接管理</a></li>
         <ul id="${categoryFriendlyLinks.id}_div" style="display: none">
@@ -63,18 +67,19 @@
                 <li><a href="${basePath}mg/links/${categoryFriendlyLinks.aliasName}/links-list.htm?categoryId=${cate.id}" target="mainFrame">${cate.name}</a></li>
             </c:forEach>
         </ul>
+    </c:if>
 
     <%--系统功能权限配置
     <li><a href="${basePath}mg/user/rights-list.htm" target="mainFrame">功能权限配置</a></li>--%>
-    <c:if test="${fmtString:hasRightsList(rightsList,'09')}">
-        <%--系统角色配置--%>
+    <c:if test="${fmtString:hasRightsList(rightsList,'03')}">
         <li><a href="${basePath}mg/user/role-list.htm" target="mainFrame">系统角色配置</a></li>
-        <%--用户角色配置--%>
+    </c:if>
+    <c:if test="${fmtString:hasRightsList(rightsList,'04')}">
         <li><a href="${basePath}mg/user/user-list.htm" target="mainFrame">系统用户配置</a></li>
     </c:if>
 
     <%--全局配置--%>
-    <c:if test="${fmtString:hasRightsList(rightsList,'10')}">
+    <c:if test="${fmtString:hasRightsList(rightsList,'06')}">
         <li><a href="${basePath}mg/sys/sys-list.htm" target="mainFrame">全局配置</a></li>
     </c:if>
 

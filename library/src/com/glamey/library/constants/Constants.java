@@ -31,6 +31,13 @@ public class Constants {
     /*系统超级管理员角色ID*/
     public static final String sysAdminRoleId = "zA3eem";
 
+    /*游客角色ID*/
+    public static final String sysTouristRoleId = "mQbMJv" ;
+
+    public static final String sysTouristUID = "lib_Tourist_uid" ;
+
+    public static final String sysTouristPwd = "lib_Tourist_uid" ;
+
     /**
      * 通告是否需要审核
      */

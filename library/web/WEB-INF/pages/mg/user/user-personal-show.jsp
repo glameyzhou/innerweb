@@ -78,20 +78,6 @@
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h">密码提示问题:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="question" id="question" size="80"
-                           value="${userInfo.question}">
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h">密码提示答案:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="answer" id="answer" size="80"
-                           value="${userInfo.answer}">
-                </td>
-            </tr>
-            <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>单位:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="company" id="company" class="required" size="80"

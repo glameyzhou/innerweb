@@ -90,7 +90,14 @@
                         <ul>
                             <c:forEach var="lib" items="${cat_dto.libraryInfoList}" varStatus="statusIndex">
                                 <li>
-                                    <a href="${basePath}library-detail-${lib.id}.htm" title="${lib.name}">${fmtString:substringAppend(lib.name,18 ,'' )}</a>
+                                    <c:choose>
+                                        <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
+                                            <a href="#" title="${lib.name}">${fmtString:substringAppend(lib.name,18 ,'' )}</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href="${basePath}library-detail-${lib.id}.htm" title="${lib.name}">${fmtString:substringAppend(lib.name,18 ,'' )}</a>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </li>
                             </c:forEach>
                         </ul>

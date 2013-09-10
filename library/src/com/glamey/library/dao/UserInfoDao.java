@@ -221,7 +221,6 @@ public class UserInfoDao extends BaseDao {
     public boolean createRole(final RoleInfo roleInfo) {
         logger.info("[UserInfoDao] #createRole# " + roleInfo);
         try {
-            final String roleId = StringTools.getUniqueId();
             //角色主表创建
             int count = jdbcTemplate.update(
                     "insert into tbl_role(role_id,role_name,role_desc,role_rights_id,role_time) values (?,?,?,?,?)",
@@ -229,7 +228,7 @@ public class UserInfoDao extends BaseDao {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
-                            pstmt.setString(++i, roleId);
+                            pstmt.setString(++i, roleInfo.getRoleId());
                             pstmt.setString(++i, roleInfo.getRoleName());
                             pstmt.setString(++i, roleInfo.getRoleDesc());
                             pstmt.setString(++i, roleInfo.getRoleRightsIds());

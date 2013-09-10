@@ -48,7 +48,16 @@
                     <c:forEach var="lib" items="${lib_cat.libraryInfoList}">
                         <tr valign="top">
                             <td width="5%"></td>
-                            <td><a href="${basePath}library-detail-${lib.id}.htm">${lib.name}</a></td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
+                                        <a href="#">${lib.name}</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="${basePath}library-detail-${lib.id}.htm">${lib.name}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>

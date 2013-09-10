@@ -303,6 +303,7 @@ public class UserInfoManagerController extends BaseController {
         ModelAndView mav = new ModelAndView("common/message");
 
         RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setRoleId(StringTools.getUniqueId());
         roleInfo.setRoleName(WebUtils.getRequestParameterAsString(request, "roleName"));
         roleInfo.setRoleDesc(WebUtils.getRequestParameterAsString(request, "roleDesc"));
         String rights[] = WebUtils.getRequestParameterAsStringArrs(request, "rightsId");
