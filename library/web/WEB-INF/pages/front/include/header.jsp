@@ -18,17 +18,9 @@
             <li style="margin-left:10px;"><a href="#" id="addFavorites">加入收藏</a></li>
             <li><a href="#" id="addHomePage">设为首页</a></li>
             <c:choose>
-                <c:when test="${not empty sessionUserInfo}">
-                    <c:choose>
-                        <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                            <li><b>游客</b></li>
-                            <li><a href="${basePath}register.jsp">注&nbsp;册</a></li>
-                        </c:when>
-                        <c:otherwise>
+                <c:when test="${(not empty sessionUserInfo) && (sessionUserInfo.username != 'lib_Tourist_uid')}">
                             <li><b><a href="${basePath}mg/home.htm" target="_blank"><c:out value="${sessionUserInfo.nickname}"/></a></b></li>
                             <li><a href="${basePath}mg/logout.htm">退&nbsp;&nbsp;出</a></li>
-                        </c:otherwise>
-                    </c:choose>
                 </c:when>
                 <c:otherwise>
                     <li><a href="${basePath}register.jsp">注&nbsp;&nbsp;册</a></li>

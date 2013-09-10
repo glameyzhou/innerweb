@@ -34,7 +34,14 @@
                     <c:forEach var="lib" items="${libraryInfoList}">
                         <ul class="con_neiye">
                             <li><img src="${basePath}res/front/library/images/notice_list.png"/></li>
-                            <li><a href="${basePath}library-detail-${lib.id}.htm" title="${lib.name}">${fmtString:substringAppend(lib.name,40 ,'...' )}</a></li>
+                            <c:choose>
+                                <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
+                                    <li><a href="#" title="${lib.name}">${fmtString:substringAppend(lib.name,40 ,'...' )}</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li><a href="${basePath}library-detail-${lib.id}.htm" title="${lib.name}">${fmtString:substringAppend(lib.name,40 ,'...' )}</a></li>
+                                </c:otherwise>
+                            </c:choose>
                             <li style="float:right;"><fmt:formatDate value="${lib.time}" pattern="yyyy-MM-dd"/></li>
                         </ul>
                     </c:forEach>
