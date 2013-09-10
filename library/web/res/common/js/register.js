@@ -18,7 +18,6 @@ function pageOnBlur(itemName){
     }else{
         /*检测用户名*/
         if(itemName == 'username'){
-//                    alert('username=' + value);
             $.ajax({
                 url: '${basePath}register_userExist.htm',
                 type: 'POST',
@@ -27,11 +26,11 @@ function pageOnBlur(itemName){
                 async : false, //默认为true 异步
                 dataType : 'json' ,
                 error:function(a,b,c){
-//                            alert(a + " " + b + "  " + c);
+                    alert(a + " " + b + "  " + c);
                     document.getElementById('username_li').innerText = '检测超时,请稍后重试.';
                 },
                 success: function(data) {
-//                            alert(data);
+                            alert(data);
                     if(data.regStatus == 'empty' || data.regStatus == 'exist'){
                         $("#username_li").html(data.regMessage);
                         submitStatus = '0' ;
@@ -96,7 +95,7 @@ function pageOnSubmit(){
             cache: false,
             async : false, //默认为true 异步
             error:function(a,b,c){
-//                        alert(a + " " + b + "  " + c);
+                alert(a + " " + b + "  " + c);
                 document.getElementById('username_li').innerText = '检测超时,请稍后重试.';
             },
             success: function(data) {

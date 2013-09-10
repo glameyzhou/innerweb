@@ -62,7 +62,7 @@ public class IndexFrontController extends BaseController {
         //图书馆内容
         int showIndex = 1 ;/*首页显示*/
         List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
-        List<Category> rootList = categoryDao.getByParentId(showIndex,CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
+        List<Category> rootList = categoryDao.getByParentId(showIndex,CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,8);
         for (Category rootCategory : rootList) {
             /*父类、子类、子类下内容*/
             LibraryInfoDTO dto = new LibraryInfoDTO();
