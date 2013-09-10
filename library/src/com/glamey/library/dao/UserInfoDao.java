@@ -441,7 +441,7 @@ public class UserInfoDao extends BaseDao {
             //插入用户权限内容
             final List<String> roleIdList = userInfo.getRoleIdList();
             if(roleIdList != null && roleIdList.size() > 0){
-                jdbcTemplate.batchUpdate("insert into tbl_use_role(user_id_fk,role_id_fk) values(?,?)",new BatchPreparedStatementSetter() {
+                jdbcTemplate.batchUpdate("insert into tbl_user_role(user_id_fk,role_id_fk) values(?,?)",new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
                         preparedStatement.setString(1,userId);

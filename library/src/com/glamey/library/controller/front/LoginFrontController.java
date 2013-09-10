@@ -186,12 +186,14 @@ public class LoginFrontController extends BaseController {
 
         //TODO 需要默认设置游客的角色ID集合
         List<String> roleIdList = new ArrayList<String>();
+        roleIdList.add(Constants.sysTouristRoleId);
         userInfo.setRoleIdList(roleIdList);
 
         if (userInfoDao.createUser(userInfo)) {
-            String basePath = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort()) + request.getContextPath() + "/index.htm";
+            String basePath = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort())
+                    + request.getContextPath() + "/login.htm";
             result.append("用户注册成功<br/>");
-            result.append("点击<a href=\"" + basePath + "\">这里</a>进行浏览...");
+            result.append("点击<a href=\"" + basePath + "\">这里</a>进行登陆...");
         }
         else{
             result.append("用户注册失败<br/>");

@@ -677,7 +677,7 @@ public class UserInfoManagerController extends BaseController {
         }
         UserInfo userInfo = userInfoDao.getUserById(userId);
         //获取所有角色
-        List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
+        List<RoleInfo> roleInfoList = userInfo.getRoleInfoList();
 
         mav.addObject("roleInfoList", roleInfoList);
         mav.addObject("userInfo", userInfo);

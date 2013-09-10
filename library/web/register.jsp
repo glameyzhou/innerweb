@@ -51,7 +51,7 @@
                         async : false, //默认为true 异步
                         dataType : 'json' ,
                         error:function(a,b,c){
-                            alert(a + " " + b + "  " + c);
+//                            alert(a + " " + b + "  " + c);
                             document.getElementById('username_li').innerText = '检测超时,请稍后重试.';
                         },
                         success: function(data) {
@@ -132,7 +132,6 @@
                         }
                     }
                 });*/
-                alert("11");
                 document.getElementById("registryForm").submit();
             }
         }
