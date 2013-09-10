@@ -97,8 +97,8 @@
         <div class="clear"></div>
     </div>
     <form method="post" action="${basePath}mg/library/library-merge-do.htm" id="jvForm" onsubmit="return onFormSubmit();">
-        <input type="text" id="srcCateId" name="srcCateId" value=""/>
-        <input type="text" id="destCateId" name="destCateId" value=""/>
+        <input type="hidden" id="srcCateId" name="srcCateId" value=""/>
+        <input type="hidden" id="destCateId" name="destCateId" value=""/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
             <tr>
