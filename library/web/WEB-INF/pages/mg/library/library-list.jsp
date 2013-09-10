@@ -41,6 +41,25 @@
                 window.location = opURL;
             }
         }
+        function move2Cate(itemName) {
+            var all_checkbox = document.getElementsByName(itemName);
+            var len = all_checkbox.length;
+            if (isChecked(itemName) == false) {
+                alert('至少选择一项');
+            } else {
+                if (!confirm('确认要执行操作?'))return;
+                var values = "";
+                for (var i = 0; i < len; i++) {
+                    if (all_checkbox[i].checked)
+                        values += "," + all_checkbox[i].value;
+                }
+                if (values.length > 1)
+                    values = values.substring(1);
+                var opURL = "${basePath}mg/library/library-move2Cate-show.htm?id=" + values ;
+                //alert(opURL);
+                window.location = opURL;
+            }
+        }
     </script>
 </head>
 <body>
@@ -79,13 +98,14 @@
             <a href="javascript:checkAll('id',true);">全选</a>&nbsp;&nbsp;<a
                 href="javascript:checkAll('id',false);">取消</a>&nbsp;&nbsp;
             <a href="javascript:delSelect('id');">删除所选</a>&nbsp;&nbsp;
+            <a href="javascript:move2Cate('id');">转移到分类</a>&nbsp;&nbsp;
         </div>
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
             <tr>
-                <th width="5%">选择框</th>
+                <th width="3%"></th>
                 <th width="3%">排序</th>
-                <th width="3%">是否首页显示</th>
+                <th width="5%">首页显示</th>
                 <th width="7%">类型</th>
                 <th width="15%">分类</th>
                 <th>名称</th>

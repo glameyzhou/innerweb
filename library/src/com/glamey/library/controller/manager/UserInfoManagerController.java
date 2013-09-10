@@ -604,6 +604,8 @@ public class UserInfoManagerController extends BaseController {
             BlowFish bf = new BlowFish(Constants.SECRET_KEY);
             userInfo.setPasswd(bf.encryptString(passwd));
         }
+
+
         String roleIds [] = WebUtils.getRequestParameterAsStringArrs(request,"sltTarget");
         if(roleIds == null || roleIds.length == 0){
             mav.addObject("message", "角色必须选择一项");

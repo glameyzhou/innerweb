@@ -3,26 +3,26 @@
  */
 package com.glamey.library.dao;
 
+import com.glamey.framework.utils.StringTools;
+import com.glamey.library.model.domain.Category;
+import com.glamey.library.model.domain.LibraryInfo;
+import com.glamey.library.model.dto.LibraryQuery;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
-
-import com.glamey.framework.utils.StringTools;
-import com.glamey.library.model.domain.Category;
-import com.glamey.library.model.domain.LibraryInfo;
-import com.glamey.library.model.dto.LibraryQuery;
 
 /**
  * 微型图书馆数据库操作类
@@ -298,5 +298,35 @@ public class LibraryInfoDao extends BaseDao {
             
             return info;
         }
+    }
+
+    /**
+     * 将指定的文章转移到指定分类下
+     *
+     * @param libIds
+     * @param targetCateId
+     * @return
+     */
+    public boolean move2CateDo(final String [] libIds,final String targetCateId) {
+        List<Category> list = new ArrayList<Category>();
+        try {
+
+            String sql = "update tbl_library set lib_category_id = ? where lib_id = ?" ;
+            int total [] = jdbcTemplate.batchUpdate(sql,new BatchPreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                    preparedStatement.setString(1,targetCateId);
+                    preparedStatement.setString(2,libIds[i]);
+                }
+                @Override
+                public int getBatchSize() {
+                    return libIds.length ;
+                }
+            }) ;
+            return total.length > 0 ;
+        } catch (Exception e) {
+            logger.error("[CategoryDao] #move2CateDo# error " + Arrays.deepToString(libIds) + " " + targetCateId, e);
+        }
+        return false;
     }
 }

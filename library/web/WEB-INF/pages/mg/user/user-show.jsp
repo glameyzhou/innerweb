@@ -47,6 +47,16 @@
                 srcUserSelect.innerHTML = content ;
             }
         }*/
+        function onFormSubmit() {
+            var sltTarget = document.getElementById('sltTarget');
+            for (var i = 0; i < sltTarget.options.length; i++) {
+                var tempOption = sltTarget.options[i];
+                if (!tempOption.selected) {
+                    tempOption.selected = true;
+                }
+            }
+            document.getElementById("jvForm").submit();
+        }
     </script>
 </head>
 <body>
@@ -56,7 +66,7 @@
                 test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
         <div class="clear"></div>
     </div>
-    <form method="post" action="${basePath}mg/user/user-${opt}.htm" id="jvForm">
+    <form method="post" action="${basePath}mg/user/user-${opt}.htm" id="jvForm" onsubmit="onFormSubmit();">
         <input type="hidden" id="userId" name="userId" value="${userInfo.userId}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
@@ -129,20 +139,6 @@
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="nickname" id="nickname" class="required" size="80"
                            value="${userInfo.nickname}">
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h">密码提示问题:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="question" id="question" size="80"
-                           value="${userInfo.question}">
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h">密码提示答案:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="answer" id="answer" size="80"
-                           value="${userInfo.answer}">
                 </td>
             </tr>
             <tr>

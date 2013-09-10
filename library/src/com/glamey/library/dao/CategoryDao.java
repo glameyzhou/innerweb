@@ -9,6 +9,7 @@ import com.glamey.library.model.domain.Category;
 import com.glamey.library.model.dto.CategoryQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -623,5 +625,25 @@ public class CategoryDao extends BaseDao {
             logger.error("[CategoryDao] #getCategoryListByType# error " + categoryType, e);
         }
         return list;
+    }
+
+
+
+    public boolean cateMerge(final String srcCateId ,final String destCateId) {
+        List<Category> list = new ArrayList<Category>();
+        try {
+            int count = jdbcTemplate.update("update tbl_library set lib_category_id = ? where lib_category_id = ?",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedstatement)throws SQLException {
+                            preparedstatement.setString(1,destCateId);
+                            preparedstatement.setString(2,srcCateId);
+                        }
+                    });
+            return count > 0 ;
+        } catch (Exception e) {
+            logger.error("[CategoryDao] #cateMerge# error srcCateId=" + srcCateId + " destCateid=" + destCateId, e);
+        }
+        return false;
     }
 }

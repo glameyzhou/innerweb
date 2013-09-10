@@ -39,7 +39,8 @@
 
     <%--微型图书馆管理--%>
     <c:if test="${fmtString:hasRightsList(rightsList,'11')}">
-        <li><a href="${basePath}mg/library/category-list.htm?pid=0" target="mainFrame">微型图书馆&nbsp;-&nbsp;分类管理</a></li>
+        <li><a href="${basePath}mg/library/category-list.htm?pid=0" target="mainFrame">微型图书馆&nbsp;-&nbsp;分类栏目</a></li>
+        <li><a href="${basePath}mg/library/library-merge-show.htm" target="mainFrame">微型图书馆&nbsp;-&nbsp;分类转移合并</a></li>
 
         <li><a href="javascript:divDisplay('lib_p_div');" target="mainFrame">微型图书馆&nbsp;-&nbsp;内容管理</a></li>
         <ul id="lib_p_div" style="display: none">

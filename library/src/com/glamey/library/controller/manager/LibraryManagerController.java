@@ -430,5 +430,81 @@ public class LibraryManagerController extends BaseController {
         return mav;
     }
 
+    /*将指定的图书转移到指定的分类下--展现页面*/
+    @RequestMapping(value = "/library-move2Cate-show.htm", method = RequestMethod.GET)
+    public ModelAndView move2Cate_show(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("mg/library/move2Cate-show");
+        String id = WebUtils.getRequestParameterAsString(request, "id");
+        if (StringUtils.isBlank(id)) {
+            mav.addObject("message", "操作无效");
+            return mav;
+        }
+        //获取指定的所有图书
+        String ids = WebUtils.getRequestParameterAsString(request, "id");
+        //获取所有的分类
+        List<Category> libCateList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY);
 
+        mav.addObject("libCateList",libCateList);
+        mav.addObject("libIds",ids);
+        return mav;
+    }
+
+    /*将指定的图书转移到指定的分类下*/
+    @RequestMapping(value = "/library-move2Cate-do.htm", method = RequestMethod.POST)
+    public ModelAndView move2Cate_do(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("common/message");
+        String libIds = WebUtils.getRequestParameterAsString(request, "libIds");
+        String cateId = WebUtils.getRequestParameterAsString(request,"cateId");
+        if (StringUtils.isBlank(libIds) || StringUtils.isBlank(cateId)) {
+            mav.addObject("message", "操作无效");
+            return mav;
+        }
+
+        String arrays [] = StringUtils.split(libIds,",");
+        if(arrays == null || arrays.length == 0){
+            mav.addObject("message", "请选择要转移的图书");
+            return mav;
+        }
+
+        if(libraryDao.move2CateDo(arrays,cateId)){
+            mav.addObject("message", "转移成功");
+            mav.addObject("href", "mg/library/library-list.htm?categoryId=" + cateId);
+        }
+        else{
+            mav.addObject("message", "转移失败");
+        }
+        return mav;
+    }
+
+
+    //分类转移合并--展现页面
+    @RequestMapping(value = "/library-merge-show.htm", method = RequestMethod.GET)
+    public ModelAndView mergeShow(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("mg/library/merge-show");
+        //获取所有的分类
+        List<Category> libCateList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY);
+        mav.addObject("libCateList",libCateList);
+        return mav;
+    }
+
+    //分类转移合并--执行
+    @RequestMapping(value = "/library-merge-do.htm", method = RequestMethod.POST)
+    public ModelAndView mergeDo(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("common/message");
+
+        String srcCateId = WebUtils.getRequestParameterAsString(request,"srcCateId");
+        String destCateId = WebUtils.getRequestParameterAsString(request,"destCateId");
+
+        Category srcCategory = categoryDao.getById(srcCateId);
+        Category destCategory = categoryDao.getById(destCateId);
+
+        if(categoryDao.cateMerge(srcCateId,destCateId)){
+            message = "已成功将分类\"" + srcCategory.getName() + "\" 转移合并到\"" + destCategory.getName()+ "\"" ;
+        }
+        else{
+            message = "分类转移合并失败" ;
+        }
+        mav.addObject("message",message);
+        return mav;
+    }
 }
