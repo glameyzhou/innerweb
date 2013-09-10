@@ -1,12 +1,14 @@
 package com.glamey.library.dao;
 
 
+import com.glamey.framework.utils.BlowFish;
 import com.glamey.framework.utils.StringTools;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.model.domain.RightsInfo;
 import com.glamey.library.model.domain.RoleInfo;
 import com.glamey.library.model.domain.UserInfo;
 import com.glamey.library.model.dto.UserQuery;
+import com.sun.crypto.provider.BlowfishCipher;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
@@ -554,6 +556,55 @@ public class UserInfoDao extends BaseDao {
             return count > 0;
         } catch (Exception e) {
             logger.error("[UserInfoDao] #delUser# error " + userId, e);
+            return false;
+        }
+    }
+
+    /**
+     * 设置用户是否有效
+     * @param userIds
+     * @param flag
+     * @return
+     */
+    public boolean setUserLive(final String [] userIds,final int flag) {
+        try {
+
+            String sql = "update tbl_user set user_islive = ? where user_id = ?" ;
+
+            int total [] = jdbcTemplate.batchUpdate(sql,new BatchPreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                    preparedStatement.setInt(1,flag);
+                    preparedStatement.setString(2,userIds[i]);
+                }
+
+                @Override
+                public int getBatchSize() {
+                    return userIds.length;
+                }
+            }) ;
+            return total.length > 0;
+        } catch (Exception e) {
+            logger.error("[UserInfoDao] #setUserLive# error " + Arrays.deepToString(userIds) + " " + flag, e);
+            return false;
+        }
+    }
+
+    public boolean resetPasswd(final String userId) {
+        try {
+            BlowFish bf = new BlowFish(Constants.SECRET_KEY);
+            final String passwd = bf.encryptString("adminadmin");
+            String sql = "update tbl_user set user_passwd = ? where user_id = ?" ;
+            int count = jdbcTemplate.update(sql,new PreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                    preparedStatement.setString(1,passwd);
+                    preparedStatement.setString(2,userId);
+                }
+            });
+            return count > 0;
+        } catch (Exception e) {
+            logger.error("[UserInfoDao] #resetPasswd# error userId=" + userId, e);
             return false;
         }
     }

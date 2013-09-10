@@ -18,6 +18,48 @@
             }
             window.location = '${basePath}mg/user/user-del.htm?userId=' + userId;
         }
+        function resePasswd(userId) {
+            if (!confirm("确定要重置密码?")) {
+                return;
+            }
+            window.location = '${basePath}mg/user/user-resetPasswd.htm?userId=' + userId;
+        }
+        function delAll(itemName){
+            var all_checkbox = document.getElementsByName(itemName);
+            var len = all_checkbox.length;
+            if(isChecked(itemName) == false ){
+                alert('至少选择一项');
+            }else{
+                if(!confirm('确认要执行操作?'))return;
+                var values = "";
+                for(var i=0;i<len ;i++){
+                    if(all_checkbox[i].checked)
+                        values += "," + all_checkbox[i].value;
+                }
+                if(values.length > 1)
+                    values = values.substring(1);
+                var opURL = '${basePath}mg/user/user-del.htm?userId=' + values;
+                window.location = opURL ;
+            }
+        }
+        function setLive(itemName,flag){
+            var all_checkbox = document.getElementsByName(itemName);
+            var len = all_checkbox.length;
+            if(isChecked(itemName) == false ){
+                alert('至少选择一项');
+            }else{
+                if(!confirm('确认要执行操作?'))return;
+                var values = "";
+                for(var i=0;i<len ;i++){
+                    if(all_checkbox[i].checked)
+                        values += "," + all_checkbox[i].value;
+                }
+                if(values.length > 1)
+                    values = values.substring(1);
+                var opURL = '${basePath}mg/user/user-setLive.htm?userId=' + values + '&flag=' + flag;
+                window.location = opURL ;
+            }
+        }
     </script>
 </head>
 <body>
@@ -36,12 +78,17 @@
             <option value="">请选择</option>
             <option value="0" <c:if test="${query.isLive == 0}">selected="selected" </c:if>>禁用</option>
             <option value="1" <c:if test="${query.isLive == 1}">selected="selected" </c:if>>启用</option>
-        </select>&nbsp;&nbsp;
-            <input type="submit" value="查询">
+        </select>&nbsp;&nbsp;<input type="submit" value="查询">
+            <br/><br/>
+            <a href="javascript:checkAll('userId',true);">全选</a>&nbsp;&nbsp;<a href="javascript:checkAll('userId',false);">取消</a>&nbsp;&nbsp;
+            <a href="javascript:delAll('userId');">删除所选</a>&nbsp;&nbsp;
+            <a href="javascript:setLive('userId','0');">禁用所选</a>&nbsp;&nbsp;
+            <a href="javascript:setLive('userId','1');">开启所选</a>&nbsp;&nbsp;
         </div>
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
             <tr>
+                <th width="3%">&nbsp;</th>
                 <th width="7%">用户名</th>
                 <th width="7%">真实姓名</th>
                 <th width="5%">用户状态</th>
@@ -49,13 +96,13 @@
                 <th width="10%">手机号</th>
                 <th width="10%">固话</th>
                 <th width="15%">邮箱</th>
-                <th  width="15%">操作</th>
+                <th  width="20%">操作</th>
             </tr>
             </thead>
             <tbody class="pn-ltbody">
             <c:forEach items="${userInfoList}" var="user" varStatus="status">
                 <tr>
-                    <%--<td align="center"><input type="checkbox" id="userId" name="userId" value="${user.userId}"/></td>--%>
+                    <td align="center"><input type="checkbox" id="userId" name="userId" value="${user.userId}"/></td>
                     <td align="center">${user.username}</td>
                     <td align=center>${user.nickname}</td>
                     <td align=center>
@@ -70,6 +117,7 @@
                         <a href="javascript:edit('${user.userId}');">编辑</a>&nbsp;&nbsp;
                         <a href="javascript:del('${user.userId}');">删除</a>&nbsp;&nbsp;
                         <a href="${basePath}mg/user/user-detail.htm?userId=${user.userId}">详情</a>&nbsp;&nbsp;
+                        <a href="javascript:resePasswd('${user.userId}');">密码重置</a>&nbsp;&nbsp;
                     </td>
                 </tr>
             </c:forEach>

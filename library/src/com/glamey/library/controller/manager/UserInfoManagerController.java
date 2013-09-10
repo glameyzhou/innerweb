@@ -659,7 +659,6 @@ public class UserInfoManagerController extends BaseController {
             logger.error("[manager-rights-delete] error " + request.getRequestURI() + " " + userId);
             mav.addObject("message", "删除系统用户失败");
         }
-
         return mav;
     }
 
@@ -681,69 +680,6 @@ public class UserInfoManagerController extends BaseController {
         mav.addObject("userInfo", userInfo);
         mav.addObject("opt", "update");
         mav.setViewName("mg/user/user-personal-show");
-        return mav;
-    }
-
-    /*通讯录*/
-    @RequestMapping(value = "/contact.htm", method = RequestMethod.GET)
-    public ModelAndView userContact(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        logger.info("[manager-user-contact]" + request.getRequestURI());
-        ModelAndView mav = new ModelAndView();
-
-        //如果是超级管理员，可以进行通讯录的排序设置
-        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        boolean isSuper = userInfoDao.isSuper(userInfo);
-
-        int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
-        pageBean = new PageBean(30);
-        pageBean.setCurPage(curPage);
-
-        String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
-        keyword = StringTools.converISO2UTF8(keyword);
-        String deptId = WebUtils.getRequestParameterAsString(request, "deptId");
-        UserQuery query = new UserQuery();
-        query.setKeyword(keyword);
-        query.setDeptId(deptId);
-        query.setStart(pageBean.getStart());
-        query.setNum(pageBean.getRowsPerPage());
-        query.setOrderBy(Constants.ORDERBYASC);
-        query.setOrderByColumnName(Constants.ORDERBYCOLUMNNAME_SHOWORDER);
-        query.setShowInContact(1);
-
-        //获取符合条件的所有用户
-        List<UserInfo> userInfoList = userInfoDao.getUserList(query);
-        pageBean.setMaxRowCount(userInfoDao.getUserListCount(query));
-        pageBean.setMaxPage();
-        pageBean.setPageNoList();
-
-        //获取所有部门
-        Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEGORY_DEPT);
-        List<Category> deptInfoList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
-
-        /*获取通讯录头部信息*/
-        MetaInfo contactHeader = metaInfoDao.getByName(SystemConstants.contact_header);
-        mav.addObject("userInfoList", userInfoList);
-        mav.addObject("deptInfoList", deptInfoList);
-        mav.addObject("query", query);
-        mav.addObject("isSuper", isSuper);
-        mav.addObject("pageBean", pageBean);
-        mav.addObject("contactHeader",contactHeader);
-        mav.setViewName("mg/user/contact-list");
-        return mav;
-    }
-
-    @RequestMapping(value = "/setContactOrder.htm", method = RequestMethod.GET)
-    public ModelAndView setContactOrder(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        ModelAndView mav = new ModelAndView("common/message");
-        String userId = WebUtils.getRequestParameterAsString(request, "userId");
-        int orderId = WebUtils.getRequestParameterAsInt(request, "orderId", 0);
-
-        if (userInfoDao.setContactOrder(userId, orderId)) {
-            mav.addObject("message", "排序成功");
-            mav.addObject("href", "mg/user/contact.htm");
-        } else {
-            mav.addObject("message", "排序失败，请稍后重试");
-        }
         return mav;
     }
 
@@ -770,6 +706,55 @@ public class UserInfoManagerController extends BaseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping(value = "/user-setLive.htm", method = RequestMethod.GET)
+    public ModelAndView setLive(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[manager-user-update]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("common/message");
+        String userId = WebUtils.getRequestParameterAsString(request, "userId");
+        String flag = WebUtils.getRequestParameterAsString(request,"flag");
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(flag)) {
+            mav.addObject("message", "操作无效");
+            return mav;
+        }
+        try {
+            String arrays[] = StringUtils.split(userId, ",");
+            if(userInfoDao.setUserLive(arrays,Integer.valueOf(flag))){
+                message = "设置成功" ;
+                mav.addObject("href","mg/user/user-list.htm");
+            }
+            mav.addObject("message", message);
+        } catch (Exception e) {
+            logger.error("[manager-rights-delete] error " + request.getRequestURI() + " " + userId);
+            mav.addObject("message", "设置用户属性失败");
+        }
+        return mav;
+    }
+
+    @RequestMapping(value = "/user-resetPasswd.htm", method = RequestMethod.GET)
+    public ModelAndView resetPasswd(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[manager-user-update]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("common/message");
+        String userId = WebUtils.getRequestParameterAsString(request, "userId");
+        if (StringUtils.isBlank(userId)) {
+            mav.addObject("message", "操作无效");
+            return mav;
+        }
+        try {
+            String arrays[] = StringUtils.split(userId, ",");
+            if(userInfoDao.resetPasswd(userId)){
+                message = "重置成功，新密码为\"adminadmin\"" ;
+            }
+            else{
+                message = "重置失败，请稍后重试" ;
+            }
+            mav.addObject("message", message);
+        } catch (Exception e) {
+            logger.error("[manager-rights-delete] error " + request.getRequestURI() + " " + userId);
+            mav.addObject("message", "重试密码失败");
+        }
+        return mav;
     }
     /****************************************************************【结束】系统用户操作*************************************************************************/
 
