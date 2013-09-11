@@ -17,6 +17,7 @@ public class CategoryQuery {
     private String keyword ;
     private int showType = -1;
     private int showIndex = -1;
+    private int showInTree = -1 ;
     private String categoryType;
     private String categoryImage ;
 
@@ -58,6 +59,14 @@ public class CategoryQuery {
 
     public void setShowIndex(int showIndex) {
         this.showIndex = showIndex;
+    }
+
+    public int getShowInTree() {
+        return showInTree;
+    }
+
+    public void setShowInTree(int showInTree) {
+        this.showInTree = showInTree;
     }
 
     public String getCategoryType() {

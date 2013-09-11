@@ -29,6 +29,8 @@ public class Category implements java.io.Serializable {
     private int showType;
     /*是否首页显示 0=否 1=是*/
     private int showIndex;
+    /*是否显示在树形菜单上*/
+    private int showInTree ;
     /*父ID 根为0*/
     private String parentId = "0";
     private Category categoryParent ;
@@ -98,6 +100,14 @@ public class Category implements java.io.Serializable {
 
     public void setShowIndex(int showIndex) {
         this.showIndex = showIndex;
+    }
+
+    public int getShowInTree() {
+        return showInTree;
+    }
+
+    public void setShowInTree(int showInTree) {
+        this.showInTree = showInTree;
     }
 
     public String getParentId() {

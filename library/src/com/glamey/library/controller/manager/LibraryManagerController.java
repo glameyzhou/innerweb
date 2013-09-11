@@ -93,6 +93,7 @@ public class LibraryManagerController extends BaseController {
         String shortName = WebUtils.getRequestParameterAsString(request, "shortName");
         String desc = WebUtils.getRequestParameterAsString(request, "describe");
         int showIndex = WebUtils.getRequestParameterAsInt(request, "showIndex", 1);
+        int showInTree = WebUtils.getRequestParameterAsInt(request, "showInTree", 1);
         int categoryOrder = WebUtils.getRequestParameterAsInt(request, "categoryOrder", 0);
         Category category = new Category();
         category.setParentId(pid);
@@ -101,9 +102,13 @@ public class LibraryManagerController extends BaseController {
         category.setAliasName(aliasName);
         category.setDescribe(desc);
         category.setShowIndex(showIndex);
+        category.setShowInTree(showInTree);
         category.setCategoryOrder(categoryOrder);
         category.setCategoryType(CategoryConstants.CATEGORY_LIBRARY);
         category.setCategoryTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        category.setHasChild(0);
+
+        //新增分类的时候，同时需要进行更新父节点下边是否有孩子
         String uniqueId = categoryDao.createReturnId(category);
         if (StringUtils.isNotBlank(uniqueId)) {
             category = categoryDao.getById(uniqueId);
@@ -130,6 +135,7 @@ public class LibraryManagerController extends BaseController {
         String shortName = WebUtils.getRequestParameterAsString(request, "shortName");
         String desc = WebUtils.getRequestParameterAsString(request, "describe");
         int showIndex = WebUtils.getRequestParameterAsInt(request, "showIndex", 1);
+        int showInTree = WebUtils.getRequestParameterAsInt(request, "showInTree", 1);
         int categoryOrder = WebUtils.getRequestParameterAsInt(request, "categoryOrder", 0);
         Category category = categoryDao.getById(id);
         category.setParentId(pid);
@@ -138,6 +144,7 @@ public class LibraryManagerController extends BaseController {
         category.setAliasName(aliasName);
         category.setDescribe(desc);
         category.setShowIndex(showIndex);
+        category.setShowInTree(showInTree);
         category.setCategoryOrder(categoryOrder);
         category.setCategoryType(CategoryConstants.CATEGORY_LIBRARY);
         boolean result = categoryDao.update(category);
@@ -159,6 +166,11 @@ public class LibraryManagerController extends BaseController {
         if (StringUtils.isBlank(id)) {
             mav.addObject("message", "无效操作");
             return mav;
+        }
+        Category category = categoryDao.getById(id);
+        if(category.getHasChild() == 1){
+            mav.addObject("message","需要先删除子分类");
+            return mav ;
         }
         if (categoryDao.deleteById(id, CategoryConstants.CATEGORY_LIBRARY)) {
             mav.addObject("message", "分类删除成功");
@@ -442,7 +454,7 @@ public class LibraryManagerController extends BaseController {
         //获取指定的所有图书
         String ids = WebUtils.getRequestParameterAsString(request, "id");
         //获取所有的分类
-        List<Category> libCateList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY);
+        List<Category> libCateList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY,1);
 
         mav.addObject("libCateList",libCateList);
         mav.addObject("libIds",ids);
@@ -482,7 +494,7 @@ public class LibraryManagerController extends BaseController {
     public ModelAndView mergeShow(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("mg/library/merge-show");
         //获取所有的分类
-        List<Category> libCateList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY);
+        List<Category> libCateList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY,1);
         mav.addObject("libCateList",libCateList);
         return mav;
     }

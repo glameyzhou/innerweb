@@ -43,6 +43,15 @@
                 </td>
             </tr>
             <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否显示在树形结构上:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="radio" name="showInTree" id="showInTree" value="0"
+                           <c:if test="${category.showInTree == 0}">checked="checked"</c:if> />否&nbsp;
+                    <input type="radio" name="showInTree" id="showInTree" value="1"
+                           <c:if test="${category.showInTree == 1}">checked="checked"</c:if> />是&nbsp;
+                </td>
+            </tr>
+            <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>排列顺序:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="categoryOrder" id="categoryOrder" class="required" size="80" value="${category.categoryOrder}">

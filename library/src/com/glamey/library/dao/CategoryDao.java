@@ -40,7 +40,7 @@ public class CategoryDao extends BaseDao {
         logger.info("[CategoryDao] #create# " + category);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,categoryorder,parentid,categorytype,categoryimage,categorytime) values(?,?,?,?,?,?,?,?,?,?,?,?)",
+                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,showintree,categoryorder,parentid,categorytype,categoryimage,categorytime) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -52,6 +52,7 @@ public class CategoryDao extends BaseDao {
                             pstmt.setString(++i, category.getDescribe());
                             pstmt.setInt(++i, category.getShowType());
                             pstmt.setInt(++i, category.getShowIndex());
+                            pstmt.setInt(++i,category.getShowInTree());
                             pstmt.setInt(++i, category.getCategoryOrder());
                             pstmt.setString(++i, category.getParentId());
                             pstmt.setString(++i, category.getCategoryType());
@@ -66,12 +67,13 @@ public class CategoryDao extends BaseDao {
         }
     }
 
+    //新增分类，同时更新父分类他下边有孩子
     public String createReturnId(final Category category) {
         logger.info("[CategoryDao] #create# " + category);
         try {
             final String id = StringTools.getUniqueId();
             int count = jdbcTemplate.update(
-                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,categoryorder,parentid,categorytype,categoryimage,categorytime) values(?,?,?,?,?,?,?,?,?,?,?,?)",
+                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,showintree,categoryorder,parentid,categorytype,categoryimage,categorytime,hasChild) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -83,13 +85,25 @@ public class CategoryDao extends BaseDao {
                             pstmt.setString(++i, category.getDescribe());
                             pstmt.setInt(++i, category.getShowType());
                             pstmt.setInt(++i, category.getShowIndex());
+                            pstmt.setInt(++i,category.getShowInTree());
                             pstmt.setInt(++i, category.getCategoryOrder());
                             pstmt.setString(++i, category.getParentId());
                             pstmt.setString(++i, category.getCategoryType());
                             pstmt.setString(++i, category.getCategoryImage());
                             pstmt.setString(++i, category.getCategoryTime());
+                            pstmt.setInt(++i,category.getHasChild());
                         }
                     });
+
+            //如果父分类ID非"0"(根结点)
+            if(!StringUtils.equals(category.getParentId(),"0")){
+                jdbcTemplate.update("update tbl_category set hasChild = 1 where id=?",new PreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                        preparedStatement.setString(1,category.getParentId());
+                    }
+                });
+            }
             return count > 0 ? id : null;
         } catch (Exception e) {
             logger.error("[CategoryDao] #create# error " + category, e);
@@ -105,7 +119,7 @@ public class CategoryDao extends BaseDao {
         logger.info("[CategoryDao] #update# " + category);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_category set name=?,shortname=?,aliasname=?,categorydescribe=?,showtype=?,showindex=?,categoryorder=?,parentid=?,categorytype=? ,categoryimage = ? where id = ?",
+                    "update tbl_category set name=?,shortname=?,aliasname=?,categorydescribe=?,showtype=?,showindex=?,showintree=?,categoryorder=?,parentid=?,categorytype=? ,categoryimage = ? where id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -116,6 +130,7 @@ public class CategoryDao extends BaseDao {
                             pstmt.setString(++i, category.getDescribe());
                             pstmt.setInt(++i, category.getShowType());
                             pstmt.setInt(++i, category.getShowIndex());
+                            pstmt.setInt(++i, category.getShowInTree());
                             pstmt.setInt(++i, category.getCategoryOrder());
                             pstmt.setString(++i, category.getParentId());
                             pstmt.setString(++i, category.getCategoryType());
@@ -154,15 +169,20 @@ public class CategoryDao extends BaseDao {
     }
 
     /**
-     * 针对文章操作，删除分类的同时，会把旗下的文章、连接设置为无分类
-     *
+     * 删除分类信息。
+     * 1、删除指定分类。
+     * 2、更新父分类属性：是否有孩子。
+     * 3、设置删除分类的所有文章，无分类信息。
      * @param categoryId
      * @param categoryType
+     *
      * @return
      */
     public boolean deleteById(final String categoryId, final String categoryType) {
         logger.info("[CategoryDao] #delete#" + String.format("categoryId=%s,categoryType=%s", categoryId, categoryType));
         try {
+            final Category category = getById(categoryId); //当前分类对象属性
+
             int cateCount = jdbcTemplate.update("delete from tbl_category where id = ?", new PreparedStatementSetter() {
                 @Override
                 public void setValues(PreparedStatement preparedstatement)
@@ -170,6 +190,20 @@ public class CategoryDao extends BaseDao {
                     preparedstatement.setString(1, categoryId);
                 }
             });
+
+            //删除分类之后，需要查询是否还有其他兄弟姐妹，如果没有的话，需要更新他老爹的属性（亦无子嗣）
+            if(!StringUtils.equals(category.getParentId(),"0")){
+                int childrenCount = getCountByParentId(category.getParentId(),categoryType);
+                if(childrenCount == 0){
+                    jdbcTemplate.update("update tbl_category set hasChild = 0 where id = ?",new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                            preparedStatement.setString(1,category.getParentId());
+                        }
+                    });
+                }
+            }
+
             int cateContentCount = 0;
             //通告、新闻 tbl_post
             if (StringUtils.equals(categoryType, CategoryConstants.CATEGORY_NEWS) || StringUtils.equals(categoryType, CategoryConstants.CATEGORY_NOTICES)) {
@@ -199,7 +233,7 @@ public class CategoryDao extends BaseDao {
 
                         });
             }
-            //TODO 微型图书馆
+            //微型图书馆,如果删除了分类
             if (StringUtils.equals(categoryType, CategoryConstants.CATEGORY_LIBRARY)) {
                 cateContentCount = jdbcTemplate.update("update tbl_library set lib_category_id = ? where lib_category_id = ? ",
                         new PreparedStatementSetter() {
@@ -418,6 +452,9 @@ public class CategoryDao extends BaseDao {
             if (query.getShowIndex() > -1)
                 sql.append(" and showindex = ? ");
 
+            if (query.getShowInTree() > -1)
+                sql.append(" and showintree = ? ");
+
             if (query.getShowType() > -1)
                 sql.append(" and showtype = ? ");
 
@@ -444,6 +481,9 @@ public class CategoryDao extends BaseDao {
 
                             if (query.getShowIndex() > -1)
                                 preparedstatement.setInt(++i, query.getShowIndex());
+
+                            if (query.getShowInTree() > -1)
+                                preparedstatement.setInt(++i, query.getShowInTree());
 
                             if (query.getShowType() > -1)
                                 preparedstatement.setInt(++i, query.getShowType());
@@ -473,7 +513,7 @@ public class CategoryDao extends BaseDao {
         logger.info("[CategoryDao] #getChildrenByPid# parendId=" + parentId + " categoryType=" + categoryType);
         List<Category> list = new ArrayList<Category>();
         try {
-            list = jdbcTemplate.query("select * from tbl_category where categorytype = ? and parentid = ? order by categoryorder asc limit ?,? ",
+            list = jdbcTemplate.query("select * from tbl_category where categorytype = ? and parentid = ? and showintree=1 order by categoryorder asc limit ?,? ",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement preparedstatement)
@@ -506,6 +546,7 @@ public class CategoryDao extends BaseDao {
             category.setDescribe(rs.getString("categorydescribe"));
             category.setShowType(rs.getInt("showtype"));
             category.setShowIndex(rs.getInt("showindex"));
+            category.setShowInTree(rs.getInt("showintree"));
             category.setCategoryOrder(rs.getInt("categoryorder"));
             category.setParentId(rs.getString("parentid"));
             category.setCategoryType(rs.getString("categorytype"));
@@ -555,6 +596,7 @@ public class CategoryDao extends BaseDao {
             category.setDescribe(rs.getString("categorydescribe"));
             category.setShowType(rs.getInt("showtype"));
             category.setShowIndex(rs.getInt("showindex"));
+            category.setShowInTree(rs.getInt("showintree"));
             category.setCategoryOrder(rs.getInt("categoryorder"));
             category.setParentId(rs.getString("parentid"));
             category.setCategoryType(rs.getString("categorytype"));
@@ -582,6 +624,7 @@ public class CategoryDao extends BaseDao {
             category.setDescribe(rs.getString("categorydescribe"));
             category.setShowType(rs.getInt("showtype"));
             category.setShowIndex(rs.getInt("showindex"));
+            category.setShowInTree(rs.getInt("showintree"));
             category.setCategoryOrder(rs.getInt("categoryorder"));
             category.setParentId(rs.getString("parentid"));
             category.setCategoryType(rs.getString("categorytype"));
@@ -602,27 +645,28 @@ public class CategoryDao extends BaseDao {
     }
 
     /**
-     * 根据类别获取所有可用的分类集合（按照顺序排序）
+     * 根据类别获取所有可用的分类集合（按照顺序排序）,用于树形菜单使用
      *
      * @param categoryType
      * @return
      */
-    public List<Category> getCategoryListByType(final String categoryType) {
-        logger.info("[CategoryDao] #getCategoryListByType#" + categoryType);
+    public List<Category> getCategoryListByType(final String categoryType,final int showInTree) {
+        logger.info("[CategoryDao] #getCategoryListByType# categoryType=" + categoryType + " showInTree=" + showInTree);
         List<Category> list = new ArrayList<Category>();
         try {
-            list = jdbcTemplate.query("select * from tbl_category where categorytype = ?  order by categoryorder asc",
+            list = jdbcTemplate.query("select * from tbl_category where categorytype = ? and showintree=? order by categoryorder asc",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(
                                 PreparedStatement preparedstatement)
                                 throws SQLException {
                             preparedstatement.setString(1, categoryType);
+                            preparedstatement.setInt(2,showInTree);
                         }
                     },
                     new CategoryBaseRowMapper());
         } catch (Exception e) {
-            logger.error("[CategoryDao] #getCategoryListByType# error " + categoryType, e);
+            logger.error("[CategoryDao] #getCategoryListByType# error categoryType=" + categoryType + " showInTree=" + showInTree, e);
         }
         return list;
     }

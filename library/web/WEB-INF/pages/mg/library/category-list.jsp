@@ -38,8 +38,9 @@
                 <!-- <th>序列</th> -->
                 <th>名称</th>
                 <th>短名字</th>
-                <th>名字引用</th>
-                <th>是否首页显示</th>
+                <%--<th>名字引用</th>--%>
+                <th>首页显示</th>
+                <th>树形结构显示</th>
                 <th>排序</th>
                 <th>创建时间</th>
                 <th>操作</th>
@@ -51,10 +52,15 @@
                     <%-- <td align="center"><input type="checkbox" id="id" name="id" value="${cate.id}"/></td> --%>
                     <td align="center">${cate.name}</td>
                     <td align=center>${cate.shortName}</td>
-                    <td align=center>${cate.aliasName}</td>
+                    <%--<td align=center>${cate.aliasName}</td>--%>
                     <td align=center>
                         <c:choose>
                             <c:when test="${cate.showIndex == 0}">否</c:when><c:otherwise>是</c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td align=center>
+                        <c:choose>
+                            <c:when test="${cate.showInTree == 0}">否</c:when><c:otherwise>是</c:otherwise>
                         </c:choose>
                     </td>
                     <td>${cate.categoryOrder}</td>

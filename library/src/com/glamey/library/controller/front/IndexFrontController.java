@@ -78,6 +78,7 @@ public class IndexFrontController extends BaseController {
             for(int i = 0 ; i < diffCategory ; i ++){
                 Category category = new Category();
                 category.setName("");
+                category.setId(CategoryConstants.CATEGORY_UNKNOW);
                 categoryList.add(category);
             }
 

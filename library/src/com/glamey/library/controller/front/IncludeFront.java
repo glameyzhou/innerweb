@@ -115,7 +115,7 @@ public class IncludeFront {
         map.put("sessionUserInfo", sessionUserInfo);
 
         //图书信息分类
-        List<Category> categoryList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY);
+        List<Category> categoryList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY,1);
         map.put("libraryCategoryList",categoryList);
         return map;
     }

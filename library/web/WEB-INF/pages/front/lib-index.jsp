@@ -11,8 +11,13 @@
     <link href="${basePath}res/front/library/css/style.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/library/css/header.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="${basePath}res/common/js/jquery.js"></script>
+    <script type="text/javascript" src="${basePath}/res/common/js/library-showDiv.js"></script>
 </head>
 <body>
+<c:if test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
+    <c:set  var="isT" value="true"/>
+</c:if>
 <div class="box">
 <!--头部代码开始-->
 <%@include file="include/header.jsp"%>
@@ -45,21 +50,41 @@
             </div>
             <div class="neirong_con_con">
                 <table width="98%" border="0" cellspacing="0">
-                    <c:forEach var="lib" items="${lib_cat.libraryInfoList}">
-                        <tr valign="top">
-                            <td width="5%"></td>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                                        <a href="#">${lib.name}</a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a href="${basePath}library-detail-${lib.id}.htm">${lib.name}</a>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                    <tr>
+                        <c:forEach var="lib" items="${lib_cat.libraryInfoList}" varStatus="statusIndex">
+                            <c:choose>
+                                <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
+                                    <c:set var="libHref" value="href=\"#\""/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${lib.type ==1 || lib.type == 3}">
+                                        <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
+                                    </c:if>
+                                    <c:if test="${lib.type ==2}">
+                                        <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
+                            <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
+                            <c:if test="${lib.type == 1}">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<img src="${basePath}res/front/library/images/right_tit_biao3.png"/>
+                                <a title="${lib.name}" ${libHref}>${lib.name}</a>
+                                <br/><br/>
+                            </c:if>
+                            <c:if test="${lib.type == 2}">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<img src="${basePath}res/front/library/images/right_tit_biao3.png"/>
+                                <a title="${lib.name}" ${libHref}>${lib.name}</a>
+                                <br/><br/>
+                            </c:if>
+                            <c:if test="${lib.type == 3}">
+                                <a ${libHref}>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <img width="170px;" height="80px" border="0" src="${basePath}${lib.image}"
+                                         onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${lib.image}','${lib.name}');"/>
+                                </a>
+                                <c:if test="${statusIndex.count % 3 == 0}"><br/><br/></c:if>
+                            </c:if>
+                        </c:forEach>
+                    </tr>
                 </table>
             </div>
         </c:forEach>
@@ -68,6 +93,7 @@
 <!--底部代码开始-->
 <%@include file="include/footer.jsp"%>
 <!--底部代码结束-->
+    <%@include file="include/library-showDiv.jsp"%>
 </div>
 </body>
 </html>

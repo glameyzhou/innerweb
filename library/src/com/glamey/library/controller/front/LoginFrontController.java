@@ -235,4 +235,11 @@ public class LoginFrontController extends BaseController {
         session.setAttribute(Constants.SESSIN_USERID, userInfo);
         return mav ;
     }
+
+    @RequestMapping(value = "/onBusy.htm",method = RequestMethod.GET)
+    public ModelAndView onBusy(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView("common/message");
+        mav.addObject("message","服务器繁忙，请稍后重试!");
+        return mav ;
+    }
 }

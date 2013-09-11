@@ -9,6 +9,8 @@
     <link href="${basePath}res/front/library/css/index.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/library/css/header.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery.js"></script>
+    <script type="text/javascript" src="${basePath}/res/common/js/library-showDiv.js"></script>
     <style type="text/css">
         .zixun_kuang_con li {
             height: 20px;
@@ -82,22 +84,48 @@
                     <div class="zixun_kuang_con">
                         <c:forEach var="cat_dto" items="${dto.libraryInfoDTOList}" varStatus="cate_status">
                         <p>
-                            ${cat_dto.category.name}
-                                <span style="float:right;"><a href="${basePath}library-list-${cat_dto.category.id}.htm">
-                                    <img src="${basePath}res/front/library/images/zixun_more.jpg"/></a>
-                                </span>
+                                <c:if test="${not empty cat_dto.category.name}">${cat_dto.category.name}
+                                    <span style="float:right;">
+                                        <a href="${basePath}library-list-${cat_dto.category.id}.htm">
+                                            <img src="${basePath}res/front/library/images/zixun_more.jpg"/>
+                                        </a>
+                                    </span>
+                                </c:if>
+                                <c:if test="${empty cat_dto.category.name}">
+                                    <span style="float:right;">
+                                        <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg" style="display: none;"/></a>
+                                    </span>
+                                </c:if>
                         </p>
                         <ul>
                             <c:forEach var="lib" items="${cat_dto.libraryInfoList}" varStatus="statusIndex">
+                                <c:choose>
+                                    <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
+                                        <c:set var="libHref" value="href=\"#\""/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${lib.type ==1 || lib.type == 3}">
+                                            <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
+                                        </c:if>
+                                        <c:if test="${lib.type ==2}">
+                                            <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
+                                        </c:if>
+                                    </c:otherwise>
+                                </c:choose>
                                 <li>
-                                    <c:choose>
-                                        <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                                            <a href="#" title="${lib.name}">${fmtString:substringAppend(lib.name,18 ,'' )}</a>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <a href="${basePath}library-detail-${lib.id}.htm" title="${lib.name}">${fmtString:substringAppend(lib.name,18 ,'' )}</a>
-                                        </c:otherwise>
-                                    </c:choose>
+                                    <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
+                                    <c:if test="${lib.type == 1}">
+                                        <a title="${lib.name}" ${libHref}>${fmtString:substringAppend(lib.name,18 ,'' )}</a>
+                                    </c:if>
+                                    <c:if test="${lib.type == 2}">
+                                        <a title="${lib.name}" >${fmtString:substringAppend(lib.name,18 ,'' )}</a>
+                                    </c:if>
+                                    <c:if test="${lib.type == 3}">
+                                        <a ${libHref}>
+                                           <img width="130px;" height="35px" border="0" src="${basePath}${lib.image}"
+                                                onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${lib.image}','${lib.name}');"/>
+                                        </a>
+                                    </c:if>
                                 </li>
                             </c:forEach>
                         </ul>
@@ -113,6 +141,8 @@
     <!--底部代码开始-->
     <%@include file="include/footer.jsp" %>
     <!--底部代码结束-->
+    <%--图片弹出层--%>
+    <%@include file="include/library-showDiv.jsp" %>
 </div>
 </body>
 </html>

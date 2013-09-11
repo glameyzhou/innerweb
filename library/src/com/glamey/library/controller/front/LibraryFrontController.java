@@ -74,7 +74,7 @@ public class LibraryFrontController extends BaseController {
         /*最后一级分类，直接输出列表*/
         if(category.getHasChild() == 0){
             int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
-            pageBean = new PageBean(Constants.rowsPerPageFront);
+            pageBean = new PageBean(30);
 
             LibraryQuery query = new LibraryQuery();
             query.setCategoryId(categoryId);
@@ -96,9 +96,10 @@ public class LibraryFrontController extends BaseController {
         }
         /*旗下有孩子，输出此分类的所有分类、每个分类显示2列内容*/
         else {
-            category.setChildren(categoryDao.getChildrenByPid(categoryId,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE));
+            List<Category> childrenCategory = new ArrayList<Category>();
+            childrenCategory = categoryDao.getChildrenByPid(categoryId,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE) ;
+            category.setChildren(childrenCategory);
             List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
-            List<Category> childrenCategory = categoryDao.getChildrenByPid(categoryId,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
             for (Category child : childrenCategory) {
                 LibraryInfoDTO dto = new LibraryInfoDTO();
                 dto.setCategory(child);
@@ -106,6 +107,7 @@ public class LibraryFrontController extends BaseController {
                 LibraryQuery query = new LibraryQuery();
                 query.setStart(0);
                 query.setNum(12);
+                query.setCategoryId(child.getId());
                 List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
                 dto.setLibraryInfoList(libraryInfoList);
 
@@ -160,14 +162,14 @@ public class LibraryFrontController extends BaseController {
         return mav;
     }
 
-    //获取所有可用的分类，用来做页面属性菜单
+    //获取所有可用的分类，用来做页面树形单
     @RequestMapping(value = "/library-allCategory.htm", method = RequestMethod.POST)
     public void allCategory(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException {
         logger.info("[front] #allCategory#" + request.getRequestURI());
         StringBuffer source = new StringBuffer(1000);
         String result = "" ;
         String basePath = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort()) + request.getContextPath();
-        List<Category> categoryList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY);
+        List<Category> categoryList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY,1);
         for (Category category : categoryList) {
             source.append("{");
             source.append("id:\"" + category.getId() + "\",");

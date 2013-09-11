@@ -10,6 +10,8 @@ package com.glamey.library.constants;
  */
 public class CategoryConstants {
     public static final String PARENTID = "0" ;
+    /*未知分类*/
+    public static final String CATEGORY_UNKNOW = "000000" ;
     /*新闻*/
     public static final String CATEGORY_NEWS = "news";
     /*通知通告*/
