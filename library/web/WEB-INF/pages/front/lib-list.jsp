@@ -65,19 +65,19 @@
                                 </c:choose>
                                 <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
                                 <c:if test="${lib.type == 1}">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;
                                     <img src="${basePath}res/front/library/images/right_tit_biao3.png"/>
                                     <a title="${lib.name}" ${libHref}>${lib.name}</a>
                                     <br/><br/>
                                 </c:if>
                                 <c:if test="${lib.type == 2}">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;
                                     <img src="${basePath}res/front/library/images/right_tit_biao3.png"/>
                                     <a title="${lib.name}" ${libHref}>${lib.name}</a>
                                     <br/><br/>
                                 </c:if>
                                 <c:if test="${lib.type == 3}">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;
                                     <a ${libHref}>
                                         <img width="170px;" height="80px" border="0" src="${basePath}${lib.image}"
                                              onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${lib.image}','${lib.name}');"/>
