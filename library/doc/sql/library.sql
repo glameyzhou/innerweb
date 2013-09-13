@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-09-11 20:26:20
+Date: 2013-09-13 16:40:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,8 +26,8 @@ CREATE TABLE `tbl_category` (
   `aliasname` varchar(100) default NULL COMMENT '别名，用户URL显示，建议为数字、字母、下划线',
   `categorydescribe` varchar(1000) default NULL COMMENT '描述',
   `showtype` tinyint(1) default '0' COMMENT '0=列表页 1内容页',
-  `showindex` tinyint(1) default '0' COMMENT '是否首页显示1=是 0=否',
-  `showintree` tinyint(1) default '0' COMMENT '是否显示在树形菜单中 1=是 0=否',
+  `showindex` tinyint(1) default '1' COMMENT '是否首页显示1=是 0=否',
+  `showintree` tinyint(1) default '1' COMMENT '是否显示在树形菜单中 1=是 0=否',
   `categoryorder` int(10) default '0' COMMENT '分类排序，数值越小优先级越高',
   `parentid` varchar(32) NOT NULL default '0' COMMENT '父ID。根默认为0',
   `categorytype` varchar(32) default NULL COMMENT '分类所属的类型,例如本次为新闻分类等',

@@ -28,9 +28,9 @@ public class Category implements java.io.Serializable {
     /*显示类型 0=列表页 1=内容页*/
     private int showType;
     /*是否首页显示 0=否 1=是*/
-    private int showIndex;
+    private int showIndex = 1;
     /*是否显示在树形菜单上*/
-    private int showInTree ;
+    private int showInTree = 1 ;
     /*父ID 根为0*/
     private String parentId = "0";
     private Category categoryParent ;

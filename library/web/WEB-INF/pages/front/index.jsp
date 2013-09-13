@@ -144,8 +144,5 @@
     <%--图片弹出层--%>
     <%@include file="include/library-showDiv.jsp" %>
 </div>
-<%
-out.print("currentPath=" + request.getRealPath("/"));
-%>
 </body>
 </html>

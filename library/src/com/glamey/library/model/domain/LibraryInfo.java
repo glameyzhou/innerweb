@@ -55,7 +55,7 @@ public class LibraryInfo implements Serializable {
     /**
      * 是否显示在首页  1=是 0=否
      */
-    private int showIndex ;
+    private int showIndex = 1 ;
 
 	public String getId() {
 		return id;

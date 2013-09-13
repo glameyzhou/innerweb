@@ -78,7 +78,7 @@ public class LibraryFrontController extends BaseController {
 
             LibraryQuery query = new LibraryQuery();
             query.setCategoryId(categoryId);
-            query.setShowIndex(1);
+//            query.setShowIndex(1);
             query.setStart(pageBean.getStart());
             query.setNum(pageBean.getRowsPerPage());
 
