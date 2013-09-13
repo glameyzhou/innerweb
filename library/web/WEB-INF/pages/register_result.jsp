@@ -31,7 +31,9 @@
     <title>华电图书馆-您身边的能源行业情报秘书-游客注册结果</title>
 </head>
 <body background="${basePath}res/front/library/images/register_bg.jpg" style="background-repeat:repeat-x;">
-<div class="register_logo"><img src="${basePath}res/front/library/images/register_logo.png"/></div>
+<div class="register_logo">
+    <a href="${basePath}login.htm"><img src="${basePath}res/front/library/images/register_logo.png" border="0"/></a>
+</div>
 <div class="register_con">
     <p>微型图书馆 >> 注册结果</p>
     <div style="width:375px; margin:0px auto; margin-top:80px;">

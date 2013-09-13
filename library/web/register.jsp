@@ -87,6 +87,17 @@
                         submitStatus = '0' ;
                     }
                 }
+                if(itemName == 'email'){
+                    var email = stringTrim(document.getElementById('email').value);
+                    var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+                    if(reg.test(email)){
+                        document.getElementById(itemName + '_li').innerText = '' ;
+                        submitStatus = '1' ;
+                    }else{
+                        document.getElementById(itemName + '_li').innerText = '邮箱无效' ;
+                        submitStatus = '0' ;
+                    }
+                }
             }else{
                 document.getElementById(itemName + '_li').innerText = '' ;
                 submitStatus = '1' ;
@@ -103,35 +114,10 @@
                 pageOnUp('dept',0);
                 pageOnUp('mobile',0);
                 pageOnUp('phone',0);
-                pageOnUp('email',0);
+                pageOnUp('email',5);
                 return false;
             }
             else{
-                /*var content = 'username=' + stringTrim($("#username").attr("value")) + '&nickname=' + stringTrim($("#nickname").attr("value"))
-                        + '&passwd=' + stringTrim($("#passwd").attr("value")) + '&passwdRp=' + stringTrim($("#passwdRp").attr("value"))
-                        + '&company=' + stringTrim($("#company").attr("value")) + '&dept=' + stringTrim($("#dept").attr("value"))
-                        + '&mobile=' + stringTrim($("#mobile").attr("value")) + '&phone=' + stringTrim($("#phone").attr("value"))
-                        + '&email=' + stringTrim($("#email").attr("value")) ;
-                $.ajax({
-                    url: '${basePath}register.htm',
-                    type: 'POST',
-                    data: content,
-                    cache: false,
-                    async : false, //默认为true 异步
-                    error:function(a,b,c){
-                        document.getElementById('username_li').innerText = '检测超时,请稍后重试.';
-                    },
-                    success: function(data) {
-                        if(data == '1'){
-                            window.location = 'http://www.sina.com' ;
-                        }
-                        else{
-                            document.getElementById("resultDiv").style.display = 'block' ;
-                            $("#register_message").html('注册失败');
-
-                        }
-                    }
-                });*/
                 document.getElementById("registryForm").submit();
             }
         }
@@ -139,7 +125,9 @@
 </head>
 <body background="${basePath}res/front/library/images/register_bg.jpg" style="background-repeat:repeat-x;">
 <form action="${basePath}register.htm" method="post" id="registryForm">
-<div class="register_logo"><img src="${basePath}res/front/library/images/register_logo.png"/></div>
+<div class="register_logo">
+    <a href="${basePath}login.htm"><img src="${basePath}res/front/library/images/register_logo.png"/></a>
+</div>
 <div class="register_con">
     <p>立刻注册微型图书馆帐号</p>
     <div style="width:375px; margin:0px auto; margin-top:80px;">
@@ -200,16 +188,14 @@
         <div class="register_con_1">
             <ul>
                 <li>&nbsp;&nbsp;手机号：</li>
-                <li><input name="mobile" id="mobile" type="text" class="register_text"
-                           onblur="pageOnBlur('mobile');" onkeyup="pageOnUp('mobile',0)"/></li>
+                <li><input name="mobile" id="mobile" type="text" class="register_text"/></li>
                 <li style="padding-left: 10px;color: #ff0000" id="mobile_li"/>
             </ul>
         </div>
         <div class="register_con_1">
             <ul>
                 <li>&nbsp;&nbsp;&nbsp;&nbsp;固话：</li>
-                <li><input name="phone" id="phone" type="text" class="register_text"
-                           onblur="pageOnBlur('phone');" onkeyup="pageOnUp('phone',0)"/></li>
+                <li><input name="phone" id="phone" type="text" class="register_text"/></li>
                 <li style="padding-left: 10px;color: #ff0000" id="phone_li"/>
             </ul>
         </div>
@@ -217,7 +203,7 @@
             <ul>
                 <li>&nbsp;&nbsp;&nbsp;&nbsp;邮箱：</li>
                 <li><input name="email" id="email" type="text" class="register_text"
-                           onblur="pageOnBlur('email');" onkeyup="pageOnUp('email',0)"/></li>
+                           onblur="pageOnBlur('email');" onkeyup="pageOnUp('email',4)"/></li>
                 <li style="padding-left: 10px;color: #ff0000" id="email_li"/>
             </ul>
         </div>

@@ -52,111 +52,12 @@ public class SysManagerController extends BaseController {
         return "mg/sys/index";
     }
 
-    /*是否需要审核*/
-    @RequestMapping(value = "/permit-notices-show.htm", method = RequestMethod.GET)
-    public ModelAndView permitNoticesShow(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
-        MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.permit_notices);
-        ModelAndView mav = new ModelAndView("mg/sys/permit-notices-show");
-        mav.addObject("metaInfo", metaInfo);
-        return mav;
-    }
 
-    /*是否需要审核处理*/
-    @RequestMapping(value = "/permit-notices-update.htm", method = RequestMethod.POST)
-    public ModelAndView permitNoticesUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
-        ModelAndView mav = new ModelAndView("mg/sys/permit-notices-show");
-        MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.permit_notices);
-        String value = WebUtils.getRequestParameterAsString(request, "value");
-        if (StringUtils.isBlank(value)) {
-            mav.addObject("message", "不能为空");
-            return mav;
-        }
-        metaInfo.setValue(value);
-        if (metaInfoDao.update(metaInfo)) {
-            mav.addObject("message", "设置成功");
-            //设置全局变量
-            Constants.NOTICES_PERMIT = Integer.valueOf(value);
-        } else {
-            mav.addObject("message", "设置失败");
-        }
-        mav.addObject("metaInfo", metaInfo);
-        return mav;
-    }
 
-    /*那个部门能看到所有的通告*/
-    @RequestMapping(value = "/notices-what-can-see.htm", method = RequestMethod.GET)
-    public ModelAndView noticesWhoCanSee(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
-        ModelAndView mav = new ModelAndView("mg/sys/notices-what-can-see");
-        MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.notices_can_see);
-        MetaInfo metaInfoRole = metaInfoDao.getByName(SystemConstants.notices_who_can_see);
-        List<String> allowedRoleList = new ArrayList<String>();
-        if (metaInfoRole != null && StringUtils.isNotBlank(metaInfoRole.getValue())) {
-            String arrays[] = StringUtils.split(metaInfoRole.getValue(), ",");
-            for (String array : arrays) {
-                allowedRoleList.add(array);
-            }
-        }
-        List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
-        mav.addObject("roleInfoList", roleInfoList);
-        mav.addObject("metaInfo", metaInfo);
-        mav.addObject("allowedRoleList", allowedRoleList);
-        return mav;
-    }
-
-    /*是否需要审核处理*/
-    @RequestMapping(value = "/notices-what-can-see-update.htm", method = RequestMethod.POST)
-    public ModelAndView noticesWhoCanSeeUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
-        ModelAndView mav = new ModelAndView("mg/sys/notices-what-can-see");
-        MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.notices_can_see);
-        String value = WebUtils.getRequestParameterAsString(request, "value");
-        if (StringUtils.isBlank(value)) {
-            mav.addObject("message", "不能为空");
-            return mav;
-        }
-        try {
-            metaInfo.setValue(value);
-            metaInfoDao.update(metaInfo);
-
-            //那些部门可见
-            MetaInfo metaInfoRole = new MetaInfo();
-            String values[] = WebUtils.getRequestParameterAsStringArrs(request, "roleId");
-            if (values != null && values.length > 0 && StringUtils.equalsIgnoreCase(value, "1")) {
-                String roleIds = "";
-                StringBuffer sb = new StringBuffer();
-                for (String s : values) {
-                    sb.append(",").append(s);
-                }
-                if (sb.length() > 0) {
-                    roleIds = sb.substring(1);
-                }
-                metaInfoRole.setName(SystemConstants.notices_who_can_see);
-                metaInfoRole.setValue(roleIds);
-                metaInfoDao.update(metaInfoRole);
-            }
-            //DB中允许的角色
-            List<String> allowedRoleList = new ArrayList<String>();
-            if (metaInfoRole != null && StringUtils.isNotBlank(metaInfoRole.getValue())) {
-                String arrays[] = StringUtils.split(metaInfoRole.getValue(), ",");
-                for (String array : arrays) {
-                    allowedRoleList.add(array);
-                }
-            }
-            //所有juese
-            List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
-
-            mav.addObject("metaInfo", metaInfo);
-            mav.addObject("allowedRoleList", allowedRoleList);
-            mav.addObject("roleInfoList", roleInfoList);
-            mav.addObject("message", "设置成功");
-        } catch (Exception e) {
-            mav.addObject("message", "设置失败");
-        }
-        return mav;
-    }
 
     /**
      * 首页主体模块设置
-     */
+     *//*
     @RequestMapping(value = "/area-show.htm", method = RequestMethod.GET)
     public ModelAndView area(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         ModelAndView mav = new ModelAndView("mg/sys/area-show");
@@ -198,9 +99,9 @@ public class SysManagerController extends BaseController {
         return mav;
     }
 
-    /**
+    *//**
      * 板块调整
-     */
+     *//*
     @RequestMapping(value = "/area-update.htm")
     public ModelAndView areaUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         ModelAndView mav = new ModelAndView("mg/sys/area-show");
@@ -288,7 +189,7 @@ public class SysManagerController extends BaseController {
         }
         return mav;
     }
-
+*/
     /**
      * 通用的全局配置显示页面
      * mg/sys/meta/popular_Links/meta-show.htm
@@ -306,14 +207,11 @@ public class SysManagerController extends BaseController {
         MetaInfo metaInfo = metaInfoDao.getByName(name);
         mav.addObject("metaInfo", metaInfo);
         String title = "";
-        if (StringUtils.equals(name, "popular_Links")) {
-            title = "常用链接";
-        }
         if (StringUtils.equals(name, "page_foot")) {
             title = "页尾内容";
         }
-        if (StringUtils.equals(name, "contact_header")) {
-            title = "通讯录头部" ;
+        if (StringUtils.equals(name, "contact_us")) {
+            title = "联系我们" ;
         }
         mav.addObject("title", title);
         return mav;
@@ -400,6 +298,41 @@ public class SysManagerController extends BaseController {
 
 
         if (metaInfoDao.update(metaInfoTitle) && metaInfoDao.update(metaInfoContent)){
+            mav.addObject("message","设置成功");
+        }
+        else {
+            mav.addObject("message","设置失败");
+        }
+        return mav ;
+    }
+
+
+    @RequestMapping(value = "/meta/contact-us/show.htm", method = RequestMethod.GET)
+    public ModelAndView contactusShow(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("mg/sys/contactus-show");
+        MetaInfo contactusContent = metaInfoDao.getByName(SystemConstants.meta_contact_us);
+        mav.addObject("contactusContent", contactusContent);
+        mav.addObject("title", "联系我们");
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/meta/contact-us/update.htm", method = RequestMethod.POST)
+    public ModelAndView contactusUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("common/message");
+
+        String contactusContent = WebUtils.getRequestParameterAsString(request,"contactusContent","");
+        if(StringUtils.isBlank(contactusContent)){
+            mav.addObject("message","内容不能为空");
+            return mav ;
+        }
+
+
+        MetaInfo metaInfoContent = new MetaInfo();
+        metaInfoContent.setName(SystemConstants.meta_contact_us);
+        metaInfoContent.setValue(contactusContent);
+
+        if (metaInfoDao.update(metaInfoContent)){
             mav.addObject("message","设置成功");
         }
         else {

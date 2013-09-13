@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Repository;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -19,6 +20,7 @@ import java.util.UUID;
  * User: zy
  * To change this template use File | Settings | File Templates.
  */
+@Repository
 public class MailUtils {
     private static final Logger logger = Logger.getLogger(MailUtils.class);
     private JavaMailSender javaMailSender;

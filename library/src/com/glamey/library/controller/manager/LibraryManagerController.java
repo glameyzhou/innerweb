@@ -94,6 +94,7 @@ public class LibraryManagerController extends BaseController {
         String desc = WebUtils.getRequestParameterAsString(request, "describe");
         int showIndex = WebUtils.getRequestParameterAsInt(request, "showIndex", 1);
         int showInTree = WebUtils.getRequestParameterAsInt(request, "showInTree", 1);
+        int treeorder = WebUtils.getRequestParameterAsInt(request, "treeOrder", 0);
         int categoryOrder = WebUtils.getRequestParameterAsInt(request, "categoryOrder", 0);
         Category category = new Category();
         category.setParentId(pid);
@@ -103,6 +104,7 @@ public class LibraryManagerController extends BaseController {
         category.setDescribe(desc);
         category.setShowIndex(showIndex);
         category.setShowInTree(showInTree);
+        category.setTreeOrder(treeorder);
         category.setCategoryOrder(categoryOrder);
         category.setCategoryType(CategoryConstants.CATEGORY_LIBRARY);
         category.setCategoryTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
@@ -136,6 +138,7 @@ public class LibraryManagerController extends BaseController {
         String desc = WebUtils.getRequestParameterAsString(request, "describe");
         int showIndex = WebUtils.getRequestParameterAsInt(request, "showIndex", 1);
         int showInTree = WebUtils.getRequestParameterAsInt(request, "showInTree", 1);
+        int treeorder = WebUtils.getRequestParameterAsInt(request, "treeOrder", 0);
         int categoryOrder = WebUtils.getRequestParameterAsInt(request, "categoryOrder", 0);
         Category category = categoryDao.getById(id);
         category.setParentId(pid);
@@ -145,6 +148,7 @@ public class LibraryManagerController extends BaseController {
         category.setDescribe(desc);
         category.setShowIndex(showIndex);
         category.setShowInTree(showInTree);
+        category.setTreeOrder(treeorder);
         category.setCategoryOrder(categoryOrder);
         category.setCategoryType(CategoryConstants.CATEGORY_LIBRARY);
         boolean result = categoryDao.update(category);

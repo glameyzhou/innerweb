@@ -2,13 +2,17 @@ package com.glamey.library.controller.front;
 
 import com.glamey.framework.utils.BlowFish;
 import com.glamey.framework.utils.Pinyin4jUtils;
+import com.glamey.framework.utils.TimeUtils;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
 import com.glamey.library.dao.UserInfoDao;
+import com.glamey.library.dao.UserRegisterVerifyDao;
 import com.glamey.library.model.domain.RightsInfo;
 import com.glamey.library.model.domain.RoleInfo;
 import com.glamey.library.model.domain.UserInfo;
+import com.glamey.library.model.domain.UserRegisterVerify;
+import com.glamey.library.util.MailUtils;
 import com.glamey.library.util.WebCookieUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -23,8 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 内网系统登陆管理
@@ -39,6 +42,11 @@ public class LoginFrontController extends BaseController {
     private UserInfoDao userInfoDao;
 	@Resource
 	private WebCookieUtils webCookieUtils ;
+    @Resource
+    private UserRegisterVerifyDao verifyDao ;
+
+    @Resource
+    private MailUtils libraryMail ;
     /**
      * 显示登陆界面
      */
@@ -92,7 +100,7 @@ public class LoginFrontController extends BaseController {
 
         UserInfo userInfo = userInfoDao.getUserByName(username);
         if(userInfo != null && userInfo.getIsLive() == 0){
-            mav.addObject("message", "账户被冻结,请联系管理员!");
+            mav.addObject("message", "账号未激活!");
             return  mav ;
         }
 
@@ -182,7 +190,7 @@ public class LoginFrontController extends BaseController {
         userInfo.setPhone(WebUtils.getRequestParameterAsString(request, "phone"));
         userInfo.setMobile(WebUtils.getRequestParameterAsString(request, "mobile"));
         userInfo.setEmail(WebUtils.getRequestParameterAsString(request, "email"));
-        userInfo.setIsLive(WebUtils.getRequestParameterAsInt(request, "isLive", 1));
+        userInfo.setIsLive(WebUtils.getRequestParameterAsInt(request, "isLive", 0)); //设置注册完毕，用户处于冷藏状态，需要通过邮件里边的注册码进行激活.
 
         //TODO 需要默认设置游客的角色ID集合
         List<String> roleIdList = new ArrayList<String>();
@@ -191,9 +199,29 @@ public class LoginFrontController extends BaseController {
 
         if (userInfoDao.createUser(userInfo)) {
             String basePath = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort())
-                    + request.getContextPath() + "/login.htm";
+                    + request.getContextPath() ;
             result.append("用户注册成功<br/>");
-            result.append("点击<a href=\"" + basePath + "\">这里</a>进行登陆...");
+            result.append("点击查看邮箱，进行确认激活...");
+
+            //发送激活邮件
+            String verifycode = UUID.randomUUID().toString().replaceAll("-","") ;
+            Map<String,String> parameters = new HashMap<String,String>();
+            parameters.put(Constants.MAIL_TO,userInfo.getEmail());
+            parameters.put(Constants.MAIL_NICKNAME,userInfo.getNickname());
+            parameters.put(Constants.MAIL_ACTIVE_URL,basePath + "/active.htm?verifycode=");
+            parameters.put(Constants.MAIL_ACTIVE_RANDOM,verifycode);
+            libraryMail.send(parameters);
+
+            //放入注册码信息
+            UserRegisterVerify verify = new UserRegisterVerify();
+            verify.setUsername(userInfo.getUsername());
+            verify.setVerifycode(verifycode);
+            verify.setExpireDate(TimeUtils.addDate(new Date(),1));
+            verify.setRegisterDate(new Date());
+            verify.setStatus(1);
+
+            verifyDao.create(verify);
+
         }
         else{
             result.append("用户注册失败<br/>");
@@ -236,19 +264,36 @@ public class LoginFrontController extends BaseController {
         return mav ;
     }
 
+    /*用户通过激活码进行激活*/
     @RequestMapping(value = "/active.htm",method = RequestMethod.GET)
-    public ModelAndView active(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView active(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws Exception {
         ModelAndView mav = new ModelAndView("common/message");
-
-        String verify = WebUtils.getRequestParameterAsString(request,"verify");
-        if(StringUtils.isBlank(verify)){
+        String verifycode = WebUtils.getRequestParameterAsString(request,"verifycode");
+        if(StringUtils.isBlank(verifycode)){
             mav.addObject("message","激活码无效");
+            mav.addObject("href", "/login.htm");
             return mav ;
         }
 
-        UserInfo userInfo = userInfoDao.getUserById("");
+        UserRegisterVerify verify = verifyDao.getVerifycode(verifycode);
+        if(verify == null){
+            mav.addObject("message","激活码已过期、无效");
+            mav.addObject("href", "/login.htm");
+            return mav ;
+        }
+        //设置激活码已经使用
+        verify.setStatus(0);
+        verifyDao.update(verify);
 
-        return mav ;
+        //设置用户已经被激活
+        String username = verify.getUsername() ;
+        UserInfo userInfo = userInfoDao.getUserByName(username);
+        userInfo.setIsLive(1);
+        userInfoDao.updateUser(userInfo);
+
+        session.setAttribute(Constants.SESSIN_USERID, userInfo);
+        mav.setViewName("redirect:/index.htm");
+        return mav;
     }
 
 

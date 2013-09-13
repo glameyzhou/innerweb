@@ -39,6 +39,8 @@ public class Category implements java.io.Serializable {
     /*分类图片*/
     private String categoryImage;
     /*分类排序，数字越小越靠前*/
+    private int treeOrder ;
+    /*分类排序，数字越小越靠前*/
     private int categoryOrder ;
     /*分类建立时间*/
     private String categoryTime;
@@ -172,6 +174,14 @@ public class Category implements java.io.Serializable {
 
     public void setCategoryParent(Category categoryParent) {
         this.categoryParent = categoryParent;
+    }
+
+    public int getTreeOrder() {
+        return treeOrder;
+    }
+
+    public void setTreeOrder(int treeOrder) {
+        this.treeOrder = treeOrder;
     }
 
     @Override

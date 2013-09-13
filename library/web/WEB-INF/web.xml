@@ -72,7 +72,7 @@
         <filter-class>com.glamey.library.util.UserLoginFilter</filter-class>
         <init-param>
             <param-name>allowed</param-name>
-            <param-value>/login.htm,/verifyCode.htm,/manager.htm,/register_userExist.htm,/register.htm,/tourist.htm,/onBusy.htm,/monitor/console.htm</param-value>
+            <param-value>/login.htm,/verifyCode.htm,/manager.htm,/register_userExist.htm,/register.htm,/tourist.htm,/onBusy.htm,/monitor/console.htm,/active.htm</param-value>
         </init-param>
     </filter>
     <filter-mapping>

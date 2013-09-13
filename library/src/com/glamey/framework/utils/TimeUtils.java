@@ -32,6 +32,13 @@ public class TimeUtils {
 		return new SimpleDateFormat(format).format(calendar.getTime());
 	}
 
+    public static Date addDate(Date date,int addDays) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, addDays);
+        return calendar.getTime();
+    }
+
 	public static Date formatDate(String dateString) {
 		if (!StringUtils.hasText(dateString))
 			return new Date();

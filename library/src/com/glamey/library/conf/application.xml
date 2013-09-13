@@ -14,8 +14,8 @@
     http://www.springframework.org/schema/context 
     http://www.springframework.org/schema/context/spring-context.xsd" default-lazy-init="false">
 
-    <!--<context:component-scan base-package="com.glamey.library"/>
-    &lt;!&ndash; 允许上传的图片 &ndash;&gt;
+    <context:component-scan base-package="com.glamey.library"/>
+    <!-- 允许上传的图片 -->
     <bean id="allowedUploadImages" class="java.util.ArrayList">
         <constructor-arg>
             <list>
@@ -27,7 +27,7 @@
             </list>
         </constructor-arg>
     </bean>
-    &lt;!&ndash; 允许上传的Flash &ndash;&gt;
+    <!-- 允许上传的Flash -->
     <bean id="allowedUploadFlash" class="java.util.ArrayList">
         <constructor-arg>
             <list>
@@ -36,11 +36,11 @@
             </list>
         </constructor-arg>
     </bean>
-    &lt;!&ndash; 文件上传 &ndash;&gt;
+    <!-- 文件上传 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="UTF-8"/>
         <property name="maxUploadSize" value="100000000"/>
-    </bean>-->
+    </bean>
 
     <!--发送邮件-->
 
@@ -60,11 +60,11 @@
     <bean id="libraryMail" class="com.glamey.library.util.MailUtils">
         <property name="javaMailSender" ref="mailSender"/>
         <property name="encoding" value="UTF-8"/>
-        <property name="title" value="标题"/>
+        <property name="title" value="注册用户激活--华电迷你图书馆--您身边的能源行业情报秘书"/>
         <property name="from" value="chdtsg@chdi.ac.cn"/>
         <property name="content">
             <value>
-                <![CDATA[${MAIL_NICKNAME}，你好：<br/>&nbsp;&nbsp;请点击下面的连接地址或者将下面的地址复制到浏览器完成注册。<br/>
+                <![CDATA[${MAIL_NICKNAME}，您好：<br/>&nbsp;&nbsp;请点击下面的链接地址或者将下面的地址复制到浏览器完成注册。<br/>
                 ${MAIL_ACTIVEURL}${MAIL_ACTIVE_RANDOM}<br/>
                 ]]>
             </value>

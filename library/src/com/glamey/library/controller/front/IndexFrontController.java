@@ -127,4 +127,14 @@ public class IndexFrontController extends BaseController {
         mav.addObject("href",basePath);
         return mav ;
     }
+
+
+    @RequestMapping(value = "/contact-us.htm", method = RequestMethod.GET)
+    public ModelAndView contactUS(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("front/contact-us");
+        MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.meta_contact_us);
+        mav.addObject("contactusContent",metaInfo.getValue());
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
+        return mav ;
+    }
 }

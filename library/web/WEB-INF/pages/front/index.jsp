@@ -84,7 +84,8 @@
                     <div class="zixun_kuang_con">
                         <c:forEach var="cat_dto" items="${dto.libraryInfoDTOList}" varStatus="cate_status">
                         <p>
-                                <c:if test="${not empty cat_dto.category.name}">${cat_dto.category.name}
+                                <c:if test="${not empty cat_dto.category.name}">
+                                <span style="float: left;width: 250px;">${cat_dto.category.name}</span>
                                     <span style="float:right;">
                                         <a href="${basePath}library-list-${cat_dto.category.id}.htm">
                                             <img src="${basePath}res/front/library/images/zixun_more.jpg"/>
@@ -97,6 +98,19 @@
                                     </span>
                                 </c:if>
                         </p>
+                        <%--<c:if test="${not empty cat_dto.category.name}">
+                            <ul style="list-style-type: none;width: 300px;font-size:14px; font-weight:bold;">
+                                <li style="display: inline;">${cat_dto.category.name}</li>
+                                <li style="display: inline;width: 50px;float: right">
+                                    <img src="${basePath}res/front/library/images/zixun_more.jpg"/>
+                                </li>
+                            </ul>
+                        </c:if>--%>
+                        <c:if test="${empty cat_dto.category.name}">
+                                <span style="float:right;">
+                                    <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg" style="display: none;"/></a>
+                                </span>
+                        </c:if>
                         <ul>
                             <c:forEach var="lib" items="${cat_dto.libraryInfoList}" varStatus="statusIndex">
                                 <c:choose>

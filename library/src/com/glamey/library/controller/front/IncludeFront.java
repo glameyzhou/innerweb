@@ -100,7 +100,7 @@ public class IncludeFront {
     public ModelMap allInclude(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelMap map = new ModelMap();
         /*页面尾部*/
-        map.put("page_foot", getMetaByName(SystemConstants.page_foot));
+        map.put("page_foot", getMetaByName(SystemConstants.meta_page_foot));
 
         //新闻资讯
         PostQuery query = new PostQuery();

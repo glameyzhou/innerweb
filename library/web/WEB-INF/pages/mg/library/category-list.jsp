@@ -41,7 +41,8 @@
                 <%--<th>名字引用</th>--%>
                 <th>首页显示</th>
                 <th>树形结构显示</th>
-                <th>排序</th>
+                <th align="center">树排序</th>
+                <th align="center">分类排序</th>
                 <th>创建时间</th>
                 <th>操作</th>
             </tr>
@@ -63,7 +64,8 @@
                             <c:when test="${cate.showInTree == 0}">否</c:when><c:otherwise>是</c:otherwise>
                         </c:choose>
                     </td>
-                    <td>${cate.categoryOrder}</td>
+                    <td align="center">${cate.treeOrder}</td>
+                    <td align="center">${cate.categoryOrder}</td>
                     <td align="center">${fmtString:substring(cate.categoryTime,16)}</td>
                     <td align=center>
                         <a href="javascript:edit('${cate.parentId}','${cate.id}');">编辑</a>&nbsp;&nbsp;

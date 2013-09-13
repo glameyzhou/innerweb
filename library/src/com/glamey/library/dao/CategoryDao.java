@@ -40,7 +40,7 @@ public class CategoryDao extends BaseDao {
         logger.info("[CategoryDao] #create# " + category);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,showintree,categoryorder,parentid,categorytype,categoryimage,categorytime) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,showintree,treeorder,categoryorder,parentid,categorytype,categoryimage,categorytime) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -53,6 +53,7 @@ public class CategoryDao extends BaseDao {
                             pstmt.setInt(++i, category.getShowType());
                             pstmt.setInt(++i, category.getShowIndex());
                             pstmt.setInt(++i,category.getShowInTree());
+                            pstmt.setInt(++i, category.getTreeOrder());
                             pstmt.setInt(++i, category.getCategoryOrder());
                             pstmt.setString(++i, category.getParentId());
                             pstmt.setString(++i, category.getCategoryType());
@@ -73,7 +74,7 @@ public class CategoryDao extends BaseDao {
         try {
             final String id = StringTools.getUniqueId();
             int count = jdbcTemplate.update(
-                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,showintree,categoryorder,parentid,categorytype,categoryimage,categorytime,hasChild) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    "insert into tbl_category(id,name,shortname,aliasname,categorydescribe,showtype,showindex,showintree,treeorder,categoryorder,parentid,categorytype,categoryimage,categorytime,hasChild) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -86,6 +87,7 @@ public class CategoryDao extends BaseDao {
                             pstmt.setInt(++i, category.getShowType());
                             pstmt.setInt(++i, category.getShowIndex());
                             pstmt.setInt(++i,category.getShowInTree());
+                            pstmt.setInt(++i, category.getTreeOrder());
                             pstmt.setInt(++i, category.getCategoryOrder());
                             pstmt.setString(++i, category.getParentId());
                             pstmt.setString(++i, category.getCategoryType());
@@ -119,7 +121,7 @@ public class CategoryDao extends BaseDao {
         logger.info("[CategoryDao] #update# " + category);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_category set name=?,shortname=?,aliasname=?,categorydescribe=?,showtype=?,showindex=?,showintree=?,categoryorder=?,parentid=?,categorytype=? ,categoryimage = ? where id = ?",
+                    "update tbl_category set name=?,shortname=?,aliasname=?,categorydescribe=?,showtype=?,showindex=?,showintree=?,treeorder=?,categoryorder=?,parentid=?,categorytype=? ,categoryimage = ? where id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -131,6 +133,7 @@ public class CategoryDao extends BaseDao {
                             pstmt.setInt(++i, category.getShowType());
                             pstmt.setInt(++i, category.getShowIndex());
                             pstmt.setInt(++i, category.getShowInTree());
+                            pstmt.setInt(++i, category.getTreeOrder());
                             pstmt.setInt(++i, category.getCategoryOrder());
                             pstmt.setString(++i, category.getParentId());
                             pstmt.setString(++i, category.getCategoryType());
@@ -547,6 +550,7 @@ public class CategoryDao extends BaseDao {
             category.setShowType(rs.getInt("showtype"));
             category.setShowIndex(rs.getInt("showindex"));
             category.setShowInTree(rs.getInt("showintree"));
+            category.setTreeOrder(rs.getInt("treeorder"));
             category.setCategoryOrder(rs.getInt("categoryorder"));
             category.setParentId(rs.getString("parentid"));
             category.setCategoryType(rs.getString("categorytype"));
@@ -575,6 +579,7 @@ public class CategoryDao extends BaseDao {
             category.setDescribe(rs.getString("categorydescribe"));
             category.setShowType(rs.getInt("showtype"));
             category.setShowIndex(rs.getInt("showindex"));
+            category.setTreeOrder(rs.getInt("treeorder"));
             category.setCategoryOrder(rs.getInt("categoryorder"));
             category.setParentId(rs.getString("parentid"));
             category.setCategoryType(rs.getString("categorytype"));
@@ -597,6 +602,7 @@ public class CategoryDao extends BaseDao {
             category.setShowType(rs.getInt("showtype"));
             category.setShowIndex(rs.getInt("showindex"));
             category.setShowInTree(rs.getInt("showintree"));
+            category.setTreeOrder(rs.getInt("treeorder"));
             category.setCategoryOrder(rs.getInt("categoryorder"));
             category.setParentId(rs.getString("parentid"));
             category.setCategoryType(rs.getString("categorytype"));
@@ -625,6 +631,7 @@ public class CategoryDao extends BaseDao {
             category.setShowType(rs.getInt("showtype"));
             category.setShowIndex(rs.getInt("showindex"));
             category.setShowInTree(rs.getInt("showintree"));
+            category.setTreeOrder(rs.getInt("treeorder"));
             category.setCategoryOrder(rs.getInt("categoryorder"));
             category.setParentId(rs.getString("parentid"));
             category.setCategoryType(rs.getString("categorytype"));
@@ -654,7 +661,7 @@ public class CategoryDao extends BaseDao {
         logger.info("[CategoryDao] #getCategoryListByType# categoryType=" + categoryType + " showInTree=" + showInTree);
         List<Category> list = new ArrayList<Category>();
         try {
-            list = jdbcTemplate.query("select * from tbl_category where categorytype = ? and showintree=? order by categoryorder asc",
+            list = jdbcTemplate.query("select * from tbl_category where categorytype = ? and showintree=? order by treeorder asc",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(
