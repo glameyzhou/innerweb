@@ -236,6 +236,22 @@ public class LoginFrontController extends BaseController {
         return mav ;
     }
 
+    @RequestMapping(value = "/active.htm",method = RequestMethod.GET)
+    public ModelAndView active(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView("common/message");
+
+        String verify = WebUtils.getRequestParameterAsString(request,"verify");
+        if(StringUtils.isBlank(verify)){
+            mav.addObject("message","激活码无效");
+            return mav ;
+        }
+
+        UserInfo userInfo = userInfoDao.getUserById("");
+
+        return mav ;
+    }
+
+
     @RequestMapping(value = "/onBusy.htm",method = RequestMethod.GET)
     public ModelAndView onBusy(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView mav = new ModelAndView("common/message");
