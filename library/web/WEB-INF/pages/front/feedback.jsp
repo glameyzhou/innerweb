@@ -46,6 +46,8 @@
                         document.getElementById("showMessage").style.display = 'block' ;
                         if(data == 'E'){
                             document.getElementById("message").innerText = '不能为空' ;
+                        }else if(data == 'B'){
+                            document.getElementById("message").innerText = '服务器繁忙,请超时重试' ;
                         }else{
                             document.getElementById("message").innerText = '留言成功' ;
                             $('#feedbackSubmit').attr('disabled','disabled');

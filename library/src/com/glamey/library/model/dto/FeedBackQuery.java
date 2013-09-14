@@ -10,12 +10,11 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * Time: 上午10:19
  * To change this template use File | Settings | File Templates.
  */
-public class MessageQuery {
+public class FeedBackQuery {
 
     private String keyword;
-    private String from;
-    private String to;
-    private int flag = -1;
+    private String startTime;
+    private String endTime;
     private int start;
     private int num;
 
@@ -27,12 +26,20 @@ public class MessageQuery {
         this.keyword = keyword;
     }
 
-    public int getFlag() {
-        return flag;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setFlag(int flag) {
-        this.flag = flag;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public int getStart() {
@@ -49,22 +56,6 @@ public class MessageQuery {
 
     public void setNum(int num) {
         this.num = num;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
     }
 
     @Override

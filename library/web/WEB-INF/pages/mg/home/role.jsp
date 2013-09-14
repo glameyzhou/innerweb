@@ -69,6 +69,10 @@
         </ul>
     </c:if>
 
+    <c:if test="${fmtString:hasRightsList(rightsList,'07')}">
+        <li><a href="${basePath}mg/feedback/list.htm" target="mainFrame">在线留言管理</a></li>
+    </c:if>
+
     <%--系统功能权限配置
     <li><a href="${basePath}mg/user/rights-list.htm" target="mainFrame">功能权限配置</a></li>--%>
     <c:if test="${fmtString:hasRightsList(rightsList,'03')}">

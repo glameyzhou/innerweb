@@ -120,6 +120,14 @@
                             </td>
                             <td>全局设置</td>
                         </tr>
+
+                         <tr>
+                            <td width="20%">
+                                <input type="checkbox" id="rightsId" name="rightsId" value="07"
+                                       <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'07')}">checked="checked"</c:if>/>
+                            </td>
+                            <td>在线留言</td>
+                        </tr>
                     </table>
                 </td>
             </tr>

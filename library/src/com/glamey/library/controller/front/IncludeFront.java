@@ -3,11 +3,13 @@ package com.glamey.library.controller.front;
 import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.constants.SystemConstants;
-import com.glamey.library.dao.*;
+import com.glamey.library.dao.CategoryDao;
+import com.glamey.library.dao.LinksDao;
+import com.glamey.library.dao.MetaInfoDao;
+import com.glamey.library.dao.PostDao;
 import com.glamey.library.model.domain.*;
 import com.glamey.library.model.dto.FriendlyLinksDTO;
 import com.glamey.library.model.dto.LinksQuery;
-import com.glamey.library.model.dto.MessageQuery;
 import com.glamey.library.model.dto.PostQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
@@ -33,8 +35,6 @@ public class IncludeFront {
     private LinksDao linksDao;
     @Resource
     private MetaInfoDao metaInfoDao;
-    @Resource
-    private MessageDao messageDao;
     @Resource
     private PostDao postDao;
 
@@ -89,14 +89,6 @@ public class IncludeFront {
         return metaInfo != null ? metaInfo.getValue() : "";
     }
 
-    public int unReadMessage(String userId) {
-        MessageQuery query = new MessageQuery();
-        query.setFlag(2);
-        query.setTo(userId);
-        int count = messageDao.getCountMessageList(query);
-        return count;
-    }
-
     public ModelMap allInclude(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         ModelMap map = new ModelMap();
         /*页面尾部*/
@@ -115,8 +107,8 @@ public class IncludeFront {
         map.put("sessionUserInfo", sessionUserInfo);
 
         //图书信息分类
-        List<Category> categoryList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY,1);
-        map.put("libraryCategoryList",categoryList);
+        List<Category> categoryList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY, 1);
+        map.put("libraryCategoryList", categoryList);
         return map;
     }
 }
