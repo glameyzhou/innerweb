@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.glamey.library.model.domain.Category;
+import com.glamey.library.model.domain.LibraryInfo;
 import org.apache.commons.lang.StringUtils;
 import com.glamey.framework.utils.StringTools;
 import org.springframework.util.PatternMatchUtils;
@@ -19,6 +20,47 @@ public class StringTld {
      */
     public static String substringAppend(String source, Integer end, String append) {
         return StringTools.substring(source, end.intValue(), append);
+    }
+    public static String substringPreciseAppend(String source, Integer end, String append) {
+        if (StringUtils.isBlank(source)) {
+            return "";
+        }
+        source = source.trim();
+        append = StringUtils.isNotBlank(append) ? append : "...";
+        int len = source.length();
+
+        if (len > end) {
+            StringBuffer result = new StringBuffer(end);
+            int sourceLen = source.length() ;
+            String ss [] = source.split("");
+            double subIndex = 0;
+            double increment = 0.333333333333333333 ;
+            String s ;
+            for(int i = 0 ; i < sourceLen ; i ++){
+                s = ss [i] ;
+                int sLen = s.getBytes().length;
+                //utf-8的中文
+                if(sLen == 3 ){
+                    subIndex += 1 ;
+                }
+                //gbk的中文
+                else if(sLen == 2){
+                    subIndex += 1 ;
+                    increment = 0.5 ;
+                } else {
+                    subIndex += increment ;
+                }
+                result.append(s);
+                if((int)subIndex == end){
+                    break;
+                }
+            }
+            return result.append(append).toString();
+        }
+        if (len <= end) {
+            return source;
+        }
+        return "";
     }
 
     public static String substring(String source, Integer end) {
@@ -100,5 +142,6 @@ public class StringTld {
         list.add("01_news_xx_delete");
 
         System.out.println(hasRightsRegex(list,"01_notices*"));
+        System.out.println("..." + StringTld.substringPreciseAppend("2013-2018年中国电力供应市场深度调研及战略决策咨询分析报告",18,".."));
     }
 }

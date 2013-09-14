@@ -23,6 +23,13 @@
         </function-signature>
         <example>${fmtString:substringAppend('',,'')}</example>
     </function>
+    <function>
+        <name>substringPreciseAppend</name>
+        <function-class>com.glamey.framework.utils.tld.StringTld</function-class>
+        <function-signature>java.lang.String substringPreciseAppend(java.lang.String,java.lang.Integer,java.lang.String)
+        </function-signature>
+        <example>${fmtString:substringPreciseAppend('',,'')}</example>
+    </function>
 
     <function>
         <name>encoder</name>

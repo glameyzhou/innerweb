@@ -295,7 +295,7 @@ public class LibraryInfoDao extends BaseDao {
             info.setShowIndex(rs.getInt("lib_showindex"));
             Category category = categoryDao.getById(info.getCategoryId());
             info.setCategory(category);
-            
+
             return info;
         }
     }

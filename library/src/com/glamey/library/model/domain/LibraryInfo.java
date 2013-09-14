@@ -6,6 +6,8 @@ package com.glamey.library.model.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.glamey.framework.utils.StringTools;
+import com.glamey.framework.utils.tld.StringTld;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -149,5 +151,4 @@ public class LibraryInfo implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
-
 }
