@@ -34,8 +34,20 @@
                     <c:forEach var="entry" items="${entries}">
                         <ul class="con_neiye">
                             <li><img src="${basePath}res/front/library/images/notice_list.png"/></li>
-                            <li><a href="${basePath}${entry.href}">${entry.title}</a></li>
-                            <li style="float:right;">{fmtString:substring(entry.time,10)}</li>
+                            <c:choose>
+                                <c:when test="${fmtString:aContantsb(entry.model,'post')}">
+                                    <li><a href="${basePath}${entry.href}">${entry.title}</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${fmtString:aContantsb(entry.model,'lib_1') || fmtString:aContantsb(entry.model,'lib_3')}">
+                                        <li><a href="${entry.href}" target="_blank">${entry.title}</a></li>
+                                    </c:if>
+                                    <c:if test="${fmtString:aContantsb(entry.model,'lib_2')}">
+                                        <li><a href="${basePath}${entry.href}">${entry.title}</a></li>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
+                            <li style="float:right;">${fmtString:substring(entry.time,10)}</li>
                         </ul>
                     </c:forEach>
                     <c:set var="pageURL" value="${basePath}search.htm?kw=${fmtString:encoder(kw)}&"/>

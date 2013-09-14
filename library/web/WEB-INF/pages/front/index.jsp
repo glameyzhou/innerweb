@@ -125,7 +125,7 @@
                                         <a title="${lib.name}" ${libHref}>${fmtString:substringPreciseAppend(lib.name,20,'..' )}</a>
                                     </c:if>
                                     <c:if test="${lib.type == 2}">
-                                        <a title="${lib.name}" >${fmtString:substringPreciseAppend(lib.name,20,'..' )}</a>
+                                        <a title="${lib.name}" ${libHref}>${fmtString:substringPreciseAppend(lib.name,20,'..' )}</a>
                                     </c:if>
                                     <c:if test="${lib.type == 3}">
                                         <a ${libHref}>

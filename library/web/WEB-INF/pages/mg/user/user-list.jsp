@@ -78,6 +78,12 @@
             <option value="">请选择</option>
             <option value="0" <c:if test="${query.isLive == 0}">selected="selected" </c:if>>禁用</option>
             <option value="1" <c:if test="${query.isLive == 1}">selected="selected" </c:if>>启用</option>
+        </select>&nbsp;&nbsp;
+            角色&nbsp;<select name="roleId" id="roleId">
+            <option value="">请选择</option>
+            <c:forEach var="role" items="${roleInfoList}">
+            <option value="${role.roleId}" <c:if test="${query.roleId == role.roleId}">selected="selected" </c:if>>${role.roleName}</option>
+            </c:forEach>
         </select>&nbsp;&nbsp;<input type="submit" value="查询">
             <br/><br/>
             <a href="javascript:checkAll('userId',true);">全选</a>&nbsp;&nbsp;<a href="javascript:checkAll('userId',false);">取消</a>&nbsp;&nbsp;
@@ -124,7 +130,7 @@
             </tbody>
         </table>
         <c:set var="pageURL"
-               value="${basePath}mg/user/user-list.htm?keyword=${fmtString:encoder(query.keyword)}&isLive=${query.isLive}&"/>
+               value="${basePath}mg/user/user-list.htm?keyword=${fmtString:encoder(query.keyword)}&isLive=${query.isLive}&roleId=${query.roleId}&"/>
         <%@include file="../../common/pages.jsp" %>
     </form>
 </div>

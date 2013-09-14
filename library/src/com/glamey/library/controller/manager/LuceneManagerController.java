@@ -7,17 +7,11 @@ import com.glamey.library.constants.Constants;
 import com.glamey.library.constants.LuceneConstants;
 import com.glamey.library.controller.BaseController;
 import com.glamey.library.controller.front.IncludeFront;
-import com.glamey.library.dao.CategoryDao;
 import com.glamey.library.dao.LibraryInfoDao;
 import com.glamey.library.dao.PostDao;
-import com.glamey.library.model.domain.LibraryInfo;
-import com.glamey.library.model.domain.Post;
 import com.glamey.library.model.domain.UserInfo;
-import com.glamey.library.model.dto.LibraryQuery;
 import com.glamey.library.model.dto.LuceneEntry;
-import com.glamey.library.model.dto.PostQuery;
 import com.glamey.library.util.LuceneUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.search.IndexSearcher;
@@ -27,6 +21,7 @@ import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,59 +50,26 @@ import java.util.List;
 public class LuceneManagerController extends BaseController {
 
     @Resource
-    private PostDao postDao;
+    private IncludeFront includeFront;
+    @Resource
+    private PostDao postDao ;
     @Resource
     private LibraryInfoDao libraryInfoDao ;
-    @Resource
-    private CategoryDao categoryDao ;
-    @Resource
-    private IncludeFront includeFront;
 
     private LuceneUtils lu = new LuceneUtils();
     private static Directory directory = null;
     private static IndexSearcher isearcher = null;
 
-
     //创建索引
     @RequestMapping(value = "/lucene/build.htm", method = RequestMethod.GET)
     @ResponseBody
     public void luceneBuild(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
-
         List<LuceneEntry> entries = new ArrayList<LuceneEntry>(1000);
-        LuceneEntry entry = null;
-
         //Post-news内容
-        PostQuery queryNews = new PostQuery();
-        queryNews.setStart(0);
-        queryNews.setNum(Integer.MAX_VALUE);
-        queryNews.setIsValid(1);
-        List<Post> newsList = postDao.getPostList(queryNews);
-        for (Post obj : newsList) {
-            entry = new LuceneEntry();
-            entry.setId(obj.getId());
-            entry.setHref("p-" + entry.getId() + ".htm");
-            entry.setTitle(obj.getTitle());
-            entry.setContent(obj.getContent());
-            entry.setTime(obj.getTime());
-            entries.add(entry);
-        }
-        
+        entries.addAll(postDao.getPostLuceneEntry());
         //图书馆内容
-        LibraryQuery queryLib = new LibraryQuery();
-        queryLib.setStart(0);
-        queryLib.setNum(Integer.MAX_VALUE);
-        List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(queryLib);
-        for (LibraryInfo obj : libraryInfoList) {
-            entry = new LuceneEntry();
-            entry.setId(obj.getId());
-            entry.setModel(obj.getCategoryId());
-            entry.setModelName(obj.getCategory().getShortName());
-            entry.setHref("library-detail-" + entry.getId() + ".htm");
-            entry.setTitle(obj.getName());
-            entry.setContent(obj.getContent());
-            entry.setTime(DateFormatUtils.format(obj.getTime(),"yyyy-MM-dd HH:mm:ss"));
-            entries.add(entry);
-        }
+        entries.addAll(libraryInfoDao.getLibraryLuceneEntry());
+
         String result = "";
         try {
             lu.createIndex(true, entries);
@@ -168,7 +130,7 @@ public class LuceneManagerController extends BaseController {
                 Document doc = isearcher.doc(sDoc.doc);
                 title = doc.get(LuceneConstants.flTitle);
                 // 高亮显示
-//				title = LuceneUtils.getHighlighter(query, doc, LuceneConstants.flTitle, kw, null,null);
+				title = LuceneUtils.getHighlighter(query, doc, LuceneConstants.flTitle, kw, null,null);
                 entry.setId(doc.get(LuceneConstants.flID));
                 entry.setModel(doc.get(LuceneConstants.flModel));
                 entry.setHref(doc.get(LuceneConstants.flHref));
@@ -177,6 +139,7 @@ public class LuceneManagerController extends BaseController {
                 entry.setTime(doc.get(LuceneConstants.flTime));
 
                 entries.add(entry);
+                System.out.println(entry);
             }
 
         } catch (CorruptIndexException e) {

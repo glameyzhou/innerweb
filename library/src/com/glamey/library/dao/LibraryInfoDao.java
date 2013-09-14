@@ -7,8 +7,11 @@ import com.glamey.framework.utils.StringTools;
 import com.glamey.library.model.domain.Category;
 import com.glamey.library.model.domain.LibraryInfo;
 import com.glamey.library.model.dto.LibraryQuery;
+import com.glamey.library.model.dto.LuceneEntry;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
@@ -328,5 +331,44 @@ public class LibraryInfoDao extends BaseDao {
             logger.error("[CategoryDao] #move2CateDo# error " + Arrays.deepToString(libIds) + " " + targetCateId, e);
         }
         return false;
+    }
+
+    public List<LuceneEntry> getLibraryLuceneEntry(){
+        List<LuceneEntry> entries = new ArrayList<LuceneEntry>(1000);
+        try {
+            LuceneEntry entry = null;
+            List<LibraryInfo> libraryInfoList = new ArrayList<LibraryInfo>();
+            String sql = "select lib_id,lib_name,lib_type,lib_time,lib_url from tbl_library" ;
+            libraryInfoList = jdbcTemplate.query(sql,
+                    new RowMapper<LibraryInfo>() {
+                        @Override
+                        public LibraryInfo mapRow(ResultSet resultSet, int i) throws SQLException {
+                            LibraryInfo info = new LibraryInfo();
+                            info.setId(resultSet.getString("lib_id"));
+                            info.setName(resultSet.getString("lib_name"));
+                            info.setType(resultSet.getInt("lib_type"));
+                            info.setUrl(resultSet.getString("lib_url"));
+                            info.setTime(resultSet.getTimestamp("lib_time"));
+                            return info ;
+                        }
+                    });
+            for (LibraryInfo obj : libraryInfoList) {
+                entry = new LuceneEntry();
+                entry.setId(obj.getId());
+                entry.setModel("lib_" + obj.getType());
+                if(obj.getType() == 1 || obj.getType() == 3){
+                    entry.setHref(obj.getUrl());
+                }else{
+                    entry.setHref("library-detail-" + entry.getId() + ".htm");
+                }
+                entry.setTitle(obj.getName());
+                entry.setContent(obj.getContent());
+                entry.setTime(DateFormatUtils.format(obj.getTime(), "yyyy-MM-dd HH:mm:ss"));
+                entries.add(entry);
+            }
+        } catch (DataAccessException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return entries ;
     }
 }

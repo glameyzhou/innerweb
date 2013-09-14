@@ -6,9 +6,11 @@ package com.glamey.library.dao;
 import com.glamey.framework.utils.StringTools;
 import com.glamey.library.model.domain.Post;
 import com.glamey.library.model.domain.UserInfo;
+import com.glamey.library.model.dto.LuceneEntry;
 import com.glamey.library.model.dto.PostQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -245,4 +247,42 @@ public class PostDao extends BaseDao {
             return post;
         }
     }
+
+    public List<LuceneEntry> getPostLuceneEntry(){
+        List<LuceneEntry> entries = new ArrayList<LuceneEntry>(1000);
+        try {
+            LuceneEntry entry = null;
+            //Post-news内容
+            List<Post> postList = new ArrayList<Post>(1000);
+            String sql = "select id,post_title,post_time,post_summary,post_content from tbl_post where post_isvalid = 1";
+            postList = jdbcTemplate.query(sql,
+                    new RowMapper<Post>() {
+                        @Override
+                        public Post mapRow(ResultSet resultSet, int i) throws SQLException {
+                            Post post = new Post();
+                            post.setId(resultSet.getString("id"));
+                            post.setTitle(resultSet.getString("post_title"));
+                            post.setTime(resultSet.getString("post_time"));
+                            post.setSummary(resultSet.getString("post_summary"));
+                            post.setContent(resultSet.getString("post_content"));
+                            return post ;
+                        }
+                    });
+            for (Post obj : postList) {
+                entry = new LuceneEntry();
+                entry.setId(obj.getId());
+                entry.setHref("p-" + entry.getId() + ".htm");
+                entry.setTitle(obj.getTitle());
+                entry.setContent(obj.getContent());
+                entry.setTime(obj.getTime());
+                entry.setModel("post");
+                entries.add(entry);
+            }
+        } catch (DataAccessException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return entries ;
+    }
+
+
 }

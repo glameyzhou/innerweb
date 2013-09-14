@@ -618,18 +618,22 @@ public class UserInfoDao extends BaseDao {
         logger.info("[UserInfoDao] #getUserList# query=" + query);
         List<UserInfo> list = new ArrayList<UserInfo>();
         try {
-            StringBuffer sql = new StringBuffer("select * from tbl_user where 1=1 ");
+            StringBuffer sql = new StringBuffer("select * from (select * from tbl_user,tbl_user_role b where user_id = b.user_id_fk ");
             if(StringUtils.isNotBlank(query.getKeyword())){
                 sql.append(" and (user_nickname like ? or user_company like ? or user_dept like ? or user_duty like ? )") ;
             }
             if(query.getIsLive() > -1){
                 sql.append(" and user_islive = ? ") ;
             }
+            if(StringUtils.isNotBlank(query.getRoleId())){
+                sql.append(" and b.role_id_fk = ? ");
+            }
+            sql.append(" group by user_id ");
             if(StringUtils.isNotBlank(query.getOrderByColumnName())){
                 sql.append(" order by ? ? ");
             }
-            sql.append(" limit ?,? ");
-
+            sql.append(" limit ?,? ) as user_role");
+            System.out.println(sql);
             list = jdbcTemplate.query(sql.toString(),
                     new PreparedStatementSetter() {
                         @Override
@@ -644,6 +648,9 @@ public class UserInfoDao extends BaseDao {
                             }
                             if(query.getIsLive() > -1){
                                 preparedstatement.setInt(++i,query.getIsLive());
+                            }
+                            if(StringUtils.isNotBlank(query.getRoleId())){
+                                preparedstatement.setString(++i,query.getRoleId());
                             }
                             if(StringUtils.isNotBlank(query.getOrderByColumnName())){
                                 preparedstatement.setString(++i,query.getOrderByColumnName());
@@ -671,7 +678,7 @@ public class UserInfoDao extends BaseDao {
         logger.info("[UserInfoDao] #getUserListCount# query=" + query);
         int count = 0;
         List<Object> params = new ArrayList<Object>();
-        StringBuffer sql = new StringBuffer("select count(1) as total from tbl_user where 1=1 ");
+        StringBuffer sql = new StringBuffer("select count(1) as total  from (select * from tbl_user,tbl_user_role b where user_id = b.user_id_fk ");
         try {
             if(StringUtils.isNotBlank(query.getKeyword())){
                 sql.append(" and (user_nickname like ? or user_company like ? or user_dept like ? or user_duty like ? )") ;
@@ -684,6 +691,11 @@ public class UserInfoDao extends BaseDao {
                 sql.append(" and user_islive = ? ") ;
                 params.add(query.getIsLive());
             }
+            if(StringUtils.isNotBlank(query.getRoleId())){
+                sql.append(" and b.role_id_fk = ? ");
+                params.add(query.getRoleId());
+            }
+            sql.append(" group by user_id) as user_role ");
             count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
             return count;
         } catch (Exception e) {

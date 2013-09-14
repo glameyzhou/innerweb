@@ -419,9 +419,11 @@ public class UserInfoManagerController extends BaseController {
         String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
         keyword = StringTools.converISO2UTF8(keyword);
         int isLive = WebUtils.getRequestParameterAsInt(request, "isLive", -1);
+        String roleId = WebUtils.getRequestParameterAsString(request,"roleId");
         UserQuery query = new UserQuery();
         query.setKeyword(keyword);
         query.setIsLive(isLive);
+        query.setRoleId(roleId);
         query.setOrderByColumnName(Constants.ORDERBYCOLUMNNAME_USER);
         query.setOrderBy(Constants.ORDERBYASC);
         query.setStart(pageBean.getStart());

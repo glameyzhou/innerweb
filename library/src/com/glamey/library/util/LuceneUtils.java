@@ -56,7 +56,7 @@ public class LuceneUtils extends LuceneConstants {
      */
     public void createIndex(boolean isCreate, List<LuceneEntry> entries) {
         try {
-            Date startTime = new Date();
+//            Date startTime = new Date();
             directory = FSDirectory.open(INDEXDIR);
             iwriter = new IndexWriter(directory, analyzer, isCreate, IndexWriter.MaxFieldLength.LIMITED);
             Document doc = null;
@@ -64,7 +64,7 @@ public class LuceneUtils extends LuceneConstants {
                 doc = new Document();
                 doc.add(new Field(flID, String.valueOf(entry.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
                 doc.add(new Field(flModel, entry.getModel(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-                doc.add(new Field(flModelName, entry.getModelName(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+//                doc.add(new Field(flModelName, entry.getModelName(), Field.Store.YES, Field.Index.NOT_ANALYZED));
                 doc.add(new Field(flHref, entry.getHref(), Field.Store.YES, Field.Index.NOT_ANALYZED));
                 doc.add(new Field(flTime, entry.getTime(), Field.Store.YES, Field.Index.NOT_ANALYZED));
                 doc.add(new Field(flTitle, StringUtils.isBlank(entry.getTitle()) ? "" : entry.getTitle(), Field.Store.YES, Field.Index.ANALYZED));
@@ -123,7 +123,7 @@ public class LuceneUtils extends LuceneConstants {
                 if (log.isDebugEnabled())
                     log.debug("Document boost : " + doc.getBoost());
 
-                title = doc.get(flTitle);
+//                title = doc.get(flTitle);
                 // 高亮显示
                 title = getHighlighter(query, doc, flTitle, keyword, null, null);
                 entry.setId(doc.get(flID));
@@ -169,7 +169,7 @@ public class LuceneUtils extends LuceneConstants {
     public static String getHighlighter(Query query, Document doc, String fieldName, String keyword, String preTag, String postTag) {
         String hString = "";
         if (StringUtils.isBlank(preTag))
-            preTag = "<font color=\"red\">";
+            preTag = "<font style=\"color: red;\">";
         if (StringUtils.isBlank(postTag))
             postTag = "</font>";
         SimpleHTMLFormatter simpleHtmlFormatter = new SimpleHTMLFormatter(preTag, postTag);
