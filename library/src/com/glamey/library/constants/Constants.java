@@ -31,6 +31,9 @@ public class Constants {
     /*系统超级管理员角色ID*/
     public static final String sysAdminRoleId = "zA3eem";
 
+    /*系统角色-集团领导*/
+    public static final String sysRoleIdGroupLeader = "zu2q2q" ;
+
     /*游客角色ID*/
     public static final String sysTouristRoleId = "mQbMJv" ;
 

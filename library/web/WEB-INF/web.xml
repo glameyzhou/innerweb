@@ -85,12 +85,12 @@
         <session-timeout>1024</session-timeout>
     </session-config>
 
-    <error-page>
+    <!--<error-page>
         <error-code>404</error-code>
         <location>/onBusy.htm</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
         <location>/onBusy.htm</location>
-    </error-page>
+    </error-page>-->
 </web-app>

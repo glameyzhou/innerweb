@@ -915,4 +915,20 @@ public class UserInfoDao extends BaseDao {
         }
         return roleIdList.contains(Constants.sysAdminRoleId);
     }
+
+    /**
+     * 是否有集团领导
+     * @param userInfo
+     * @return
+     */
+    public boolean isGroupLeader(UserInfo userInfo){
+        if(userInfo == null){
+            return false ;
+        }
+        List<String> roleIdList = userInfo.getRoleIdList();
+        if(roleIdList == null || roleIdList.size() == 0){
+            return false ;
+        }
+        return roleIdList.contains(Constants.sysRoleIdGroupLeader);
+    }
 }

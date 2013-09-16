@@ -60,6 +60,9 @@
 </head>
 <%--<body onload="onPageLoad();">--%>
 <body>
+<c:if test="${!sessionUserInfo.username eq 'lib_Tourist_uid'}">
+    <c:set var="readable" value="readonly=\"readonly\""/>
+</c:if>
 <div class="box">
     <!--头部代码开始-->
     <%@include file="include/header.jsp"%>
@@ -86,14 +89,14 @@
                         <div class="feedback_con_1">
                             <ul>
                                 <li>&nbsp;&nbsp;昵&nbsp;&nbsp;称：</li>
-                                <li><input name="username" id="username" type="text" class="feedback_text" value="${userInfo.nickname}"/></li>
+                                <li><input name="username" id="username" type="text" class="feedback_text" value="${userInfo.nickname}" ${readable}/></li>
                                 <li style="padding-left: 10px;color: #ff0000" id="username_li"/>
                             </ul>
                         </div>
                         <div class="feedback_con_1">
                             <ul>
                                 <li>&nbsp;&nbsp;邮&nbsp;&nbsp;箱：</li>
-                                <li><input name="email" id="email" type="text" class="feedback_text" value="${userInfo.email}"/></li>
+                                <li><input name="email" id="email" type="text" class="feedback_text" value="${userInfo.email}" ${readable}/></li>
                                 <li style="padding-left: 10px;color: #ff0000" id="email_li"/>
                             </ul>
                         </div>

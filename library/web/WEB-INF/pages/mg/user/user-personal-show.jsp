@@ -11,6 +11,10 @@
     </script>
 </head>
 <body>
+<c:if test="${!isGroupLeader}">
+    <c:set  var="requiredCssSyle" value=" <span class=\"pn-frequired\">*</span> "/>
+    <c:set  var="requiredClass" value=" class=\"required\" "/>
+</c:if>
 <div class="body-box">
     <div class="rhead">
         <div class="rpos">当前位置: 首页 - 用户管理 - 个人信息修改</div>
@@ -55,7 +59,7 @@
                     <tr>
                         <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>密码:</td>
                         <td width="85%" class="pn-fcontent">
-                            <input type="password" maxlength="100" name="passwd" id="passwd" class="required" size="80"
+                            <input type="password" maxlength="100" name="passwd" id="passwd" size="80"
                                    value="">
                         </td>
                     </tr>
@@ -106,33 +110,35 @@
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>手机号:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h">${requiredCssSyle}手机号:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="mobile" id="mobile" size="80" class="required"
+                    <input type="text" maxlength="100" name="mobile" id="mobile" size="80" ${requiredClass}
                            value="${userInfo.mobile}"/>
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>固话:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h">${requiredCssSyle}固话:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="phone" id="phone" size="80" value="${userInfo.phone}" class="required"/>
+                    <input type="text" maxlength="100" name="phone" id="phone" size="80" value="${userInfo.phone}"  ${requiredClass}/>
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>邮箱:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h">${requiredCssSyle}邮箱:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="email" id="email" size="80" value="${userInfo.email}" class="required"/>
+                    <input type="text" maxlength="100" name="email" id="email" size="80" value="${userInfo.email}"  ${requiredClass}/>
                 </td>
             </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>用户状态:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="isLive" id="isLive" value="0"
-                           <c:if test="${userInfo.isLive == 0}">checked="checked"</c:if> />禁用&nbsp;
-                    <input type="radio" name="isLive" id="isLive" value="1"
-                           <c:if test="${userInfo.isLive == 1}">checked="checked"</c:if> />启用&nbsp;
-                </td>
-            </tr>
+            <c:if test="${isSuper}">
+                <tr>
+                    <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>用户状态:</td>
+                    <td width="85%" class="pn-fcontent">
+                        <input type="radio" name="isLive" id="isLive" value="0"
+                               <c:if test="${userInfo.isLive == 0}">checked="checked"</c:if> />禁用&nbsp;
+                        <input type="radio" name="isLive" id="isLive" value="1"
+                               <c:if test="${userInfo.isLive == 1}">checked="checked"</c:if> />启用&nbsp;
+                    </td>
+                </tr>
+            </c:if>
             <tr>
                 <td colspan="2" class="pn-fbutton">
                     <input type="submit" value="提交"> &nbsp; <input type="reset" value="重置">

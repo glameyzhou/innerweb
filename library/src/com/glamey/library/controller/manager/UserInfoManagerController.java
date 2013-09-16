@@ -439,12 +439,12 @@ public class UserInfoManagerController extends BaseController {
         List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
 
         //获取所有部门
-        Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEGORY_DEPT);
-        List<Category> deptInfoList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
+//        Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEGORY_DEPT);
+//        List<Category> deptInfoList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
 
         mav.addObject("roleInfoList", roleInfoList);
         mav.addObject("userInfoList", userInfoList);
-        mav.addObject("deptInfoList", deptInfoList);
+//        mav.addObject("deptInfoList", deptInfoList);
         mav.addObject("query", query);
         mav.addObject("isSuper", isSuper);
         mav.addObject("pageBean", pageBean);
@@ -685,6 +685,12 @@ public class UserInfoManagerController extends BaseController {
         mav.addObject("userInfo", userInfo);
         mav.addObject("opt", "update");
         mav.setViewName("mg/user/user-personal-show");
+
+        boolean isSuper = userInfoDao.isSuper((UserInfo)session.getAttribute(Constants.SESSIN_USERID));
+        mav.addObject("isSuper",isSuper);
+        boolean isGroupLeader = userInfoDao.isGroupLeader((UserInfo)session.getAttribute(Constants.SESSIN_USERID));
+        mav.addObject("isGroupLeader",isGroupLeader);
+
         return mav;
     }
 

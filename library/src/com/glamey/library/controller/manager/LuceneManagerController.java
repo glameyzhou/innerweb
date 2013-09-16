@@ -137,11 +137,8 @@ public class LuceneManagerController extends BaseController {
                 entry.setTitle(title);
                 entry.setContent(doc.get(LuceneConstants.flContent));
                 entry.setTime(doc.get(LuceneConstants.flTime));
-
                 entries.add(entry);
-                System.out.println(entry);
             }
-
         } catch (CorruptIndexException e) {
             e.printStackTrace();
         } catch (LockObtainFailedException e) {
@@ -168,10 +165,7 @@ public class LuceneManagerController extends BaseController {
         modelMap.put("kw", kw);
         mav.addAllObjects(modelMap);
 
-        Object obj = session.getAttribute(Constants.SESSIN_USERID);
-        String userId = ((UserInfo) obj).getUserId();
         mav.addAllObjects(includeFront.allInclude(request,response,session));
-        
         return mav;
     }
 
