@@ -618,20 +618,21 @@ public class UserInfoDao extends BaseDao {
         logger.info("[UserInfoDao] #getUserList# query=" + query);
         List<UserInfo> list = new ArrayList<UserInfo>();
         try {
-            StringBuffer sql = new StringBuffer("select * from (select * from tbl_user,tbl_user_role b where user_id = b.user_id_fk ");
+            StringBuffer sql = new StringBuffer("select * from (select * from tbl_user a,tbl_user_role b where a.user_id = b.user_id_fk ");
             if(StringUtils.isNotBlank(query.getKeyword())){
-                sql.append(" and (user_nickname like ? or user_company like ? or user_dept like ? or user_duty like ? )") ;
+                sql.append(" and (a.user_nickname like ? or a.user_company like ? or a.user_dept like ? or a.user_duty like ? )") ;
             }
             if(query.getIsLive() > -1){
-                sql.append(" and user_islive = ? ") ;
+                sql.append(" and a.user_islive = ? ") ;
             }
             if(StringUtils.isNotBlank(query.getRoleId())){
                 sql.append(" and b.role_id_fk = ? ");
             }
-            sql.append(" group by user_id ");
-            if(StringUtils.isNotBlank(query.getOrderByColumnName())){
+            sql.append(" group by a.user_id ");
+            /*if(StringUtils.isNotBlank(query.getOrderByColumnName())){
                 sql.append(" order by ? ? ");
-            }
+            }*/
+            sql.append(" order by user_nicknamepinyin asc ");
             sql.append(" limit ?,? ) as user_role");
             System.out.println(sql);
             list = jdbcTemplate.query(sql.toString(),
@@ -652,10 +653,10 @@ public class UserInfoDao extends BaseDao {
                             if(StringUtils.isNotBlank(query.getRoleId())){
                                 preparedstatement.setString(++i,query.getRoleId());
                             }
-                            if(StringUtils.isNotBlank(query.getOrderByColumnName())){
+                            /*if(StringUtils.isNotBlank(query.getOrderByColumnName())){
                                 preparedstatement.setString(++i,query.getOrderByColumnName());
                                 preparedstatement.setString(++i,query.getOrderBy());
-                            }
+                            }*/
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
                         }

@@ -194,38 +194,20 @@ public class LoginFrontController extends BaseController {
 
         //TODO 需要默认设置游客的角色ID集合
         List<String> roleIdList = new ArrayList<String>();
-        roleIdList.add(Constants.sysTouristRoleId);
+        roleIdList.add(Constants.sysRoleIdCommon);
         userInfo.setRoleIdList(roleIdList);
 
-        if (userInfoDao.createUser(userInfo)) {
-            String basePath = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort())
-                    + request.getContextPath() ;
-            result.append("用户注册成功<br/>");
-            result.append("点击查看邮箱，进行确认激活...");
-
-            //发送激活邮件
-            String verifycode = UUID.randomUUID().toString().replaceAll("-","") ;
-            Map<String,String> parameters = new HashMap<String,String>();
-            parameters.put(Constants.MAIL_TO,userInfo.getEmail());
-            parameters.put(Constants.MAIL_NICKNAME,userInfo.getNickname());
-            parameters.put(Constants.MAIL_ACTIVE_URL,basePath + "/active.htm?verifycode=");
-            parameters.put(Constants.MAIL_ACTIVE_RANDOM,verifycode);
-            libraryMail.send(parameters);
-
-            //放入注册码信息
-            UserRegisterVerify verify = new UserRegisterVerify();
-            verify.setUsername(userInfo.getUsername());
-            verify.setVerifycode(verifycode);
-            verify.setExpireDate(TimeUtils.addDate(new Date(),1));
-            verify.setRegisterDate(new Date());
-            verify.setStatus(1);
-
-            verifyDao.create(verify);
-
-        }
-        else{
-            result.append("用户注册失败<br/>");
-            result.append("点击<a href='javascript:history.go(-1);'>这里</a>返回重试...<br/>");
+        if(sendActiveMail(userInfo,request)){
+            if (userInfoDao.createUser(userInfo)) {
+                result.append("用户注册成功<br/>");
+                result.append("点击查看邮箱，进行确认激活...");
+            }
+            else{
+                result.append("用户注册失败<br/>");
+                result.append("点击<a href='javascript:history.go(-1);'>这里</a>返回重试...<br/>");
+            }
+        }else{
+            result.append("用户注册失败，发送邮件失败，请检查邮箱是否存在<br/>");
         }
         mav.addObject("message",result.toString());
         return mav ;
@@ -302,5 +284,34 @@ public class LoginFrontController extends BaseController {
         ModelAndView mav = new ModelAndView("common/message");
         mav.addObject("message","服务器繁忙，请稍后重试!");
         return mav ;
+    }
+
+    private boolean sendActiveMail(UserInfo userInfo,HttpServletRequest request){
+        String basePath = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort())
+                + request.getContextPath() ;
+        try {
+            //发送激活邮件
+            String verifycode = UUID.randomUUID().toString().replaceAll("-","") ;
+            Map<String,String> parameters = new HashMap<String,String>();
+            parameters.put(Constants.MAIL_TO,userInfo.getEmail());
+            parameters.put(Constants.MAIL_NICKNAME,userInfo.getNickname());
+            parameters.put(Constants.MAIL_ACTIVE_URL,basePath + "/active.htm?verifycode=");
+            parameters.put(Constants.MAIL_ACTIVE_RANDOM,verifycode);
+            libraryMail.send(parameters);
+
+            //放入注册码信息
+            UserRegisterVerify verify = new UserRegisterVerify();
+            verify.setUsername(userInfo.getUsername());
+            verify.setVerifycode(verifycode);
+            verify.setExpireDate(TimeUtils.addDate(new Date(),1));
+            verify.setRegisterDate(new Date());
+            verify.setStatus(1);
+            verifyDao.create(verify);
+            return true ;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("userActiveSendMail error userinfo=" + userInfo,e);
+            return false ;
+        }
     }
 }

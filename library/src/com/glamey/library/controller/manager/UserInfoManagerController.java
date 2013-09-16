@@ -257,24 +257,24 @@ public class UserInfoManagerController extends BaseController {
             List<String> rightsInfoList = new ArrayList<String>();
             if (StringUtils.isNotBlank(roleInfo.getRoleRightsIds())) {
                 String arrays[] = StringUtils.split(roleInfo.getRoleRightsIds(), ",");
-                for (String array : arrays) {
+                /*for (String array : arrays) {
                     rightsInfoList.add(array);
-                }
+                }*/
+                rightsInfoList.addAll(Arrays.asList(arrays));
             }
             roleInfo.setRightsList(rightsInfoList);
         }
-
         mav.addObject("roleInfo", roleInfo);
         mav.addObject("opt", opt);
         mav.setViewName("mg/user/role-show");
 
-        //新闻分类
+        /*//新闻分类
         Category categoryNews = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NEWS);
         List<Category> categoryNewsList = categoryDao.getByParentId(categoryNews.getId(), categoryNews.getCategoryType(), 0, Integer.MAX_VALUE);
         mav.addObject("categoryNews", categoryNews);
         mav.addObject("categoryNewsList", categoryNewsList);
         
-        /*通知通告分类管理*/
+        *//*通知通告分类管理*//*
         Category categoryNotices = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NOTICES);
         List<Category> categoryNoticesList = categoryDao.getByParentId(categoryNotices.getId(), categoryNotices.getCategoryType(), 0, Integer.MAX_VALUE);
         mav.addObject("categoryNotices", categoryNotices);
@@ -284,7 +284,11 @@ public class UserInfoManagerController extends BaseController {
         Category categorySafe = categoryDao.getByAliasName(CategoryConstants.CATEGORY_SAFE);
         List<Category> categorySafeList = categoryDao.getByParentId(categorySafe.getId(), categorySafe.getCategoryType(), 0, Integer.MAX_VALUE);
         mav.addObject("categorySafe", categorySafe);
-        mav.addObject("categorySafeList", categorySafeList);
+        mav.addObject("categorySafeList", categorySafeList);*/
+
+        /*图书馆一级分类*/
+        List<Category> libCategoryList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
+        mav.addObject("libCategoryList",libCategoryList);
 
         return mav;
     }

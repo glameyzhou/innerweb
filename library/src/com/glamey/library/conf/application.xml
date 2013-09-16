@@ -62,13 +62,6 @@
         <property name="encoding" value="UTF-8"/>
         <property name="title" value="注册用户激活--华电迷你图书馆--您身边的能源行业情报秘书"/>
         <property name="from" value="chdtsg@chdi.ac.cn"/>
-        <property name="content">
-            <value>
-                <![CDATA[${MAIL_NICKNAME}，您好：<br/>&nbsp;&nbsp;请点击下面的链接地址或者将下面的地址复制到浏览器完成注册。<br/>
-                ${MAIL_ACTIVEURL}${MAIL_ACTIVE_RANDOM}<br/>
-                ]]>
-            </value>
-        </property>
     </bean>
 
 </beans>

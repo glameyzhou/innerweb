@@ -35,28 +35,33 @@
     <li><a href="${basePath}mg/library/library-collect.htm?userId=${userInfo.userId}" target="mainFrame">个人收藏夹</a></li>
 
     <%--咨询公告--%>
-    <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'01')}">
+    <c:if test="${fmtString:hasRightsList(rightsList,'01')}">
         <li><a href="${basePath}mg/post/post-list.htm" target="mainFrame">咨询公告管理</a></li>
     </c:if>
 
 
     <%--微型图书馆管理--%>
-    <c:if test="${fmtString:hasRightsList(rightsList,'05')}">
-        <li><a href="${basePath}mg/library/category-list.htm?pid=0" target="mainFrame">微型图书馆&nbsp;-&nbsp;分类栏目</a></li>
+    <c:if test="${fmtString:hasRightsList(rightsList,'05_category_manage')}">
+        <li><a href="${basePath}mg/library/category-list.htm?pid=0" target="mainFrame">微型图书馆&nbsp;-&nbsp;分类栏目管理</a></li>
+    </c:if>
+    <c:if test="${fmtString:hasRightsList(rightsList,'05_category_move')}">
         <li><a href="${basePath}mg/library/library-merge-show.htm" target="mainFrame">微型图书馆&nbsp;-&nbsp;分类转移合并</a></li>
+    </c:if>
 
-        <li><a href="javascript:divDisplay('lib_p_div');" target="mainFrame">微型图书馆&nbsp;-&nbsp;内容管理</a></li>
-        <ul id="lib_p_div" style="display: none">
-            <c:forEach var="dto" items="${libraryInfoDTOList}">
+    <li><a href="javascript:divDisplay('lib_p_div');" target="mainFrame">微型图书馆&nbsp;-&nbsp;内容管理</a></li>
+    <ul id="lib_p_div" style="display: none;">
+        <c:forEach var="dto" items="${libraryInfoDTOList}">
+            <c:set var="libId" value="05_${dto.category.id}"/>
+            <c:if test="${fmtString:hasRightsList(rightsList,libId)}">
                 <li><a href="javascript:divDisplay('lib_p_c_${dto.category.id}_div');" target="mainFrame">${dto.category.name}</a></li>
                 <ul id="lib_p_c_${dto.category.id}_div" style="display: none">
                     <c:forEach var="dtocate" items="${dto.libraryInfoDTOList}">
                         <li><a href="${basePath}mg/library/library-list.htm?categoryId=${dtocate.category.id}" target="mainFrame">${dtocate.category.name}</a></li>
                     </c:forEach>
                 </ul>
-            </c:forEach>
-        </ul>
-    </c:if>
+            </c:if>
+        </c:forEach>
+    </ul>
 
     <%--友情链接分类管理--%>
     <c:if test="${fmtString:hasRightsList(rightsList,'02')}">

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2013-09-14 15:28:10
+Date: 2013-09-17 01:06:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1007,10 +1007,7 @@ CREATE TABLE `tbl_registerverify` (
 -- ----------------------------
 -- Records of tbl_registerverify
 -- ----------------------------
-INSERT INTO `tbl_registerverify` VALUES ('asdasdasd', '17ceee5a2913403ca8dcec9ea3debb4f', '2013-09-14 23:18:42', '2013-09-13 23:18:42', '1');
-INSERT INTO `tbl_registerverify` VALUES ('asdfasdf', '32d41497f8d0484b9ac55183b52140e8', '2013-09-14 23:17:00', '2013-09-13 23:17:00', '1');
-INSERT INTO `tbl_registerverify` VALUES ('qw123123', 'a33ce5eebec24e8e933fc785c372da92', '2013-09-14 23:17:51', '2013-09-13 23:17:51', '1');
-INSERT INTO `tbl_registerverify` VALUES ('zhangsan', '7710bf083f6d46d599eae131bde105a9', '2013-09-14 22:59:55', '2013-09-13 22:59:55', '0');
+INSERT INTO `tbl_registerverify` VALUES ('zhouyang', '5cad6c2ccab14f60a94e4a43ddbcfa89', '2013-09-18 00:48:38', '2013-09-17 00:48:40', '0');
 
 -- ----------------------------
 -- Table structure for `tbl_rights`
@@ -1049,8 +1046,16 @@ CREATE TABLE `tbl_role` (
 -- ----------------------------
 -- Records of tbl_role
 -- ----------------------------
-INSERT INTO `tbl_role` VALUES ('zA3eem', '超级管理员', '超级管理员', '00,01,02,03,04,05,06,07', '2013-09-14 14:20:45');
-INSERT INTO `tbl_role` VALUES ('mQbMJv', '游客', '游客，仅仅可以浏览前台图书的标题', '00', '2013-09-10 19:34:13');
+INSERT INTO `tbl_role` VALUES ('zA3eem', '超级管理员', '超级管理员', '00,01,02,03,04,05_category_move,05_category_manage,05_bamMBf,05_QRZrUb,05_mUnqii,05_Z3M7Rz,05_BbeYfq,05_yEJRF3,05_ZjYZR3,05_mMN7Vz,05_RrEvqi,05_2MZfIj,05_eaAr6j,05_beqiMn,05_fEV7vu,05_j2imAr,06,07', '2013-09-17 00:18:27');
+INSERT INTO `tbl_role` VALUES ('mQbMJv', '总院用户', '', '00,07', '2013-09-16 12:22:01');
+INSERT INTO `tbl_role` VALUES ('M3MFBv', '集团总部', '', '00,07', '2013-09-16 09:58:15');
+INSERT INTO `tbl_role` VALUES ('zu2q2q', '集团领导', '', '00,07', '2013-09-16 09:58:20');
+INSERT INTO `tbl_role` VALUES ('6beyqy', '华电用户', '', '00,07', '2013-09-16 09:54:52');
+INSERT INTO `tbl_role` VALUES ('IbUrYv', '外部用户', '', '00,07', '2013-09-16 09:54:28');
+INSERT INTO `tbl_role` VALUES ('f22qIf', '游客', '', '00,07', '2013-09-16 12:22:43');
+INSERT INTO `tbl_role` VALUES ('Q7nyY3', '总院管理员', '', '00,01,02,03,04,05,06,07', '2013-09-16 12:13:17');
+INSERT INTO `tbl_role` VALUES ('yIZ732', '普通用户', '', '00', '2013-09-17 00:53:42');
+INSERT INTO `tbl_role` VALUES ('fUJ7Jr', 'VIP', '', '00,07', '2013-09-16 12:31:15');
 
 -- ----------------------------
 -- Table structure for `tbl_user`
@@ -1081,71 +1086,167 @@ CREATE TABLE `tbl_user` (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('2UNNNn', '陈浩', '3f8406ae412a11a63a3ca350863dff4af9fb69c0edb41864', '陈浩', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-01 16:14:55');
-INSERT INTO `tbl_user` VALUES ('2yueeq', '黄溯', '1ba120cc484fca0cb3805d89e1f6086884edd2c8bc5504f3', '黄溯', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-01 15:05:44');
-INSERT INTO `tbl_user` VALUES ('3IBVba', '孔飞', 'e186fef4e46d7f515bca18fe664aa5e099a61dd7859d126b01777947ce8e841f', '孔飞', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-03 13:10:38');
-INSERT INTO `tbl_user` VALUES ('3Q7rey', '李哲非', '70f93184ccc75d6d0d6767d1172b6545db0f5dd50f698f81', '李哲非', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-03 13:18:29');
-INSERT INTO `tbl_user` VALUES ('3QJFvu', '孙青松', '37b9ee6e3de33874b83e9c6daed528dab70a2c52749d4c94', '孙青松', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:31:36');
-INSERT INTO `tbl_user` VALUES ('3QruUf', '张圣鹏', '102d52d24742b2ff0e2fd8c029ea89374baeda266d64d73a27983c7a6b87078a', '张圣鹏', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:46:22');
-INSERT INTO `tbl_user` VALUES ('6N7RJv', '易伟', '5174aa16cc51fdb581969be6f0926e708808b2d29483db5b', '易伟', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 14:39:01');
-INSERT INTO `tbl_user` VALUES ('6NBrMn', '曹文广', '53c5e0e05b04967de1fd8b868756ab2e19280ff28a84bdd3ce57339e3e1cfae3', '曹文广', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:42:22');
-INSERT INTO `tbl_user` VALUES ('6VfaEr', '奚萍', 'cd2124a285bf4b9e67a00e1a151a9fdc38ca4449a3cdfe4b', '奚萍', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-03 13:18:11');
-INSERT INTO `tbl_user` VALUES ('7BFnA3', '杨立强', '6894d1b3fcc8357df4d107296f2f3a061419b6e85886ddff', '杨立强', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-03 10:52:17');
-INSERT INTO `tbl_user` VALUES ('7RzQVz', '董方', 'd7d99b9e560f7079018922814f3817aca62fd11a62b8695c', '董方', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 15:19:34');
-INSERT INTO `tbl_user` VALUES ('AfuU7n', '翟燕萍', '5e9e862fe918dec040a247004e821a8d2ab2096e8f89b4e3e77436f7745706c9', '翟燕萍', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:44:36');
-INSERT INTO `tbl_user` VALUES ('biymau', 'admin', '668053e73aa152351ff461db17d6f1376572dd8a556c82c59ef8e149ecadaa39', '管理员', 'guanliyuan', null, null, '华电集团', '综合管理部', '', '', '151151', '151151151151', 'xxx@163.com', '1', '2013-09-12 19:14:40');
-INSERT INTO `tbl_user` VALUES ('Bv6RBn', '王珍', 'b8079e42f665ea031264cb88971678fc8624d47ad1f980df', '王珍', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:41:56');
-INSERT INTO `tbl_user` VALUES ('Bz63Qr', '陈远台', 'adf0b5c423b8836f5199f94d2ffdb64347d9df1daca3c0e3', '陈远台', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-04 10:35:59');
-INSERT INTO `tbl_user` VALUES ('eYZvui', '肖克勤', '7bc22738029beeef4e531ffb7fe9683d4e5655a0b70e0a13', '肖克勤', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 09:02:10');
-INSERT INTO `tbl_user` VALUES ('fE3AFf', '纪宇飞', '6fc8e46391a3f7faca6a875ef8abcc77210239b86f60af9f3ad497c23cff78ca', '纪宇飞', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:39:30');
-INSERT INTO `tbl_user` VALUES ('fEbMjq', '赵江', 'f3706bd681868a97a00b76b07d64d0892717b6b7e35026e0', '赵江', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:37:33');
-INSERT INTO `tbl_user` VALUES ('fiu6Rf', '傅昱斐', '90dfd934b1aa5455458e45e26cba6b781c05a00948ce9781', '傅昱斐', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-01 16:10:37');
-INSERT INTO `tbl_user` VALUES ('fiYz22', '许全坤', '7b8bb367ef9358763a98f46a7f03ee156976e557f66de6d8', '许全坤', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:35:35');
-INSERT INTO `tbl_user` VALUES ('Fjeaqa', '余卫平', 'b8fbe63d02273376fc9fd8e555995a44ee620ac849edb660', '余卫平', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-01 16:15:44');
-INSERT INTO `tbl_user` VALUES ('FJzyum', '胡小夫', '9d55f18c72130bb51da167dec56e58019e836908c659a660', '胡小夫', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:46:38');
-INSERT INTO `tbl_user` VALUES ('FNNNvy', '王先德', '2a216777c756b033aedb2b4f2f862f728a3bbc7ee3ede48b', '王先德', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:46:10');
-INSERT INTO `tbl_user` VALUES ('FRJbM3', '邓建玲', '870ef9314b75160ed71972ce09dadf8522d36229af91bcd5', '邓建玲', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:31:18');
-INSERT INTO `tbl_user` VALUES ('FVfIJr', '彭维明', 'f6ea10e58124b703c24883a0d63da49411723c40a3cfaca4', '彭维明', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-03 13:03:04');
-INSERT INTO `tbl_user` VALUES ('i2mIZj', '马治安', '3f3b1f9ca6a70459ab47a2e988e6f5d2123fb24c84d5d446', '马治安', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:41:23');
-INSERT INTO `tbl_user` VALUES ('i6Bnu2', '郑晓雨', '0ed262fd81fd063833c2e4f8e8ae8540254808bf7ec84373', '郑晓雨', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 15:08:30');
-INSERT INTO `tbl_user` VALUES ('iauemi', '张国远', '9c23655c5b610938c165bc283d9daeeb780d8472c4c9dc77b6531531ff8c23aa', '张国远', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-10 15:45:34');
-INSERT INTO `tbl_user` VALUES ('j2U3mm', '王向东', '269161ec0b5dfbed538b2b8d584fcae92298690b4ce8190d', '王向东', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 14:35:22');
-INSERT INTO `tbl_user` VALUES ('J7ZBvi', '王家亮', '17b6729ec491e40091550715e69f96e28a6a34b9d359d7dc', '王家亮', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:47:23');
-INSERT INTO `tbl_user` VALUES ('jaEzQn', '黄群', 'f88b998978ec3ea9298f82b1df88b6f3a82504d3a8499cc1', '黄群', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-01 16:06:54');
-INSERT INTO `tbl_user` VALUES ('jANvuq', '刘勇', '96bf7119cb02fd11867472c025f7d85f33972f1c6fbf1ed9', '刘勇', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-01 16:08:53');
-INSERT INTO `tbl_user` VALUES ('jEbAba', '张新', '77f515eeecc472abbb808d0fc4d5d46e138ae79a17d3df8b', '张新', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-01 15:37:13');
-INSERT INTO `tbl_user` VALUES ('MjMBna', '王卉', '8871b23e8023a35819927cc4d2f5e8192f534b5936d294f5', '王卉', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:49:27');
-INSERT INTO `tbl_user` VALUES ('MrIjUj', '孙丽丽', 'f32aa12ffa784b187df70de5b09384f72f65223ce75fe1f7', '孙丽丽', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-01 15:00:20');
-INSERT INTO `tbl_user` VALUES ('n22qy2', '冉志军', '011afabd40a5d61be22a453990eded1b3d06bc821a08b2b1', '冉志军', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-03 13:04:50');
-INSERT INTO `tbl_user` VALUES ('n2Azqu', '孙海峰', 'ac735ac2e36c6a6c6cfd570b6cdfe2be6571e784d0b166cc', '孙海峰', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:41:41');
-INSERT INTO `tbl_user` VALUES ('n2YV7r', '何佳', '09f0dd8bfbd1f72e8de55103acb20c0db59f7362d3218003', '何佳', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-01 14:54:25');
-INSERT INTO `tbl_user` VALUES ('nE7fmu', '武文扬', '9ee60de9b37320989c2ffc96fa577237aa16bdfdc8f32628', '武文扬', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 11:29:40');
-INSERT INTO `tbl_user` VALUES ('NZ36ny', '陈耀斌', '2489fffc1ec36e7839e6e2f55e41cff343570841661628e3', '陈耀斌', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-03 13:02:42');
-INSERT INTO `tbl_user` VALUES ('NzMFRv', '冯一兵', '58dd82155a3d2d284bbcd745aec816761334d7610e822f15', '冯一兵', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 14:42:10');
-INSERT INTO `tbl_user` VALUES ('Q3Ib6f', '吴建辉', '62148f025e7ebe2df047deadecc0e5532f71b96aa987b7c5e58bbff20e998228', '吴健辉', null, null, null, null, null, null, null, null, null, null, '1', '2013-06-04 13:27:07');
-INSERT INTO `tbl_user` VALUES ('qIFB7r', '彭敏', '23537c5081f2ca4495e6f64042f2408cd1af4dd6245e0eb29c6cc338de58f0c4fe1aa091319350f4', '彭敏', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-03 13:12:07');
-INSERT INTO `tbl_user` VALUES ('QVjaye', '孙爱荣', '2baeebfa945cc887cd21c8c6b51eb836fe499231c21188ef', '孙爱荣', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-01 16:13:31');
-INSERT INTO `tbl_user` VALUES ('QZNRFn', '郭南南', 'feb732f9b4b10e835e7c300a7f04a95686f6d05eda96419b011481090c02a188', '郭南南', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-22 09:59:51');
-INSERT INTO `tbl_user` VALUES ('RBVR7v', '李伟', '8909d3361edc4a7906f823e93ec25f37e6512f9450e40c84', '李伟', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 14:33:52');
-INSERT INTO `tbl_user` VALUES ('RfQnqm', '马跃龙', '940ad50e74c0c8d7e95616f3f6a192a75f61e720134b709b', '马跃龙', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:45:38');
-INSERT INTO `tbl_user` VALUES ('rQVz6f', '何冬梅', 'a8c3bc13e7a30de1808979223c2412e4c011cab9597b913a', '何冬梅', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-01 16:08:04');
-INSERT INTO `tbl_user` VALUES ('RRZNf2', '邹重恩', '67ed31fb38c1e8c86689e568dec0ab287657485efe25c69c3f37e9ad4dd2d160', '邹重恩', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-17 17:01:55');
-INSERT INTO `tbl_user` VALUES ('ruqE3e', '王鹏', 'ad1a8cb86c33d29e1c6fe23c746e674a9f51a3c7310e5a7f', '王鹏', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 14:31:02');
-INSERT INTO `tbl_user` VALUES ('uArmQ3', '徐波', 'e53a2cfc81965e13158495015a52a48e4fadbe92c97dd768935fdec1eaca8b12', '徐波', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:44:05');
-INSERT INTO `tbl_user` VALUES ('uEbERz', '刘清侠', 'dc0fbf513137a069a2c454fb9e8c1c003f2b8d71efbf9ffb', '刘清侠', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-03 13:03:22');
-INSERT INTO `tbl_user` VALUES ('UJzaIr', '李义强', 'f4aca5c1a3d1ab7cb0af4cc6073be927e06e39013e24fda5d1ac46c6ec258545', '李义强', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:38:58');
-INSERT INTO `tbl_user` VALUES ('UNrEZr', '姜宝益', '53e6dc6258af20c8d4dd6f788fb5add44d90624a298464b7cbdf106776c0e93c', '姜宝益', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-23 16:55:34');
-INSERT INTO `tbl_user` VALUES ('UrEZzq', '孙利', '558ed5fa367cd6035d3290d697e44d070cf8f23ea0c9548f', '孙利', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:47:39');
-INSERT INTO `tbl_user` VALUES ('uu2q2a', '熊晓霞', '26363b73599743677d1fb9440fb10f2353aa4d281474e44e', '熊晓霞', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-01 16:09:42');
-INSERT INTO `tbl_user` VALUES ('uyayyq', '张宇龙', '2281fcc24798e1b78de83dcaa46dfeeb43800ff1678eaea0', '张宇龙', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-03 13:10:18');
-INSERT INTO `tbl_user` VALUES ('vENrau', '张锋', '1f66e962d5cee3b338570ee8516acc0d728b753fb56d82deafeff47ef668281a', '张锋', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-03 13:05:17');
-INSERT INTO `tbl_user` VALUES ('vyEzUb', '孔令莹', 'f29f5ba4185cc5bab33289c4dbc968046a6aca405de72933', '孔令莹', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-03 13:05:30');
-INSERT INTO `tbl_user` VALUES ('Vzq6Jz', '姚小强', '07f4ad8d3e4f8b96dbbef68f9c9053fd1ca27cb4c3899698', '姚小强', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:46:55');
-INSERT INTO `tbl_user` VALUES ('YFzIFn', '王潇彤', '1767e3e04aec7b168325d0f947dcfb78fee049f576223568', '王潇彤', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:35:57');
-INSERT INTO `tbl_user` VALUES ('YNzMba', '柳冠青', '26b2cae06ce54cd8ac6e167dc9cd3c7d98438c4e9a09a252', '柳冠青', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-23 11:55:22');
-INSERT INTO `tbl_user` VALUES ('ZBRRn2', '王恒涛', 'aa884178e6b57698b8d4b5464b4fc39061db01be3a016460', '王恒涛', null, null, null, null, null, null, null, null, null, null, '1', '2013-08-19 10:39:47');
-INSERT INTO `tbl_user` VALUES ('ZjmMre', '张智勇', '836526933cb742214fd17bc41ee311d91a0fc8fe9cf45687', '张智勇', null, null, null, null, null, null, null, null, null, null, '1', '2013-06-05 09:27:48');
-INSERT INTO `tbl_user` VALUES ('ZZj6Rj', '于博', 'cf2aa45c8bc5d5d494fe1b8ec813d70e83977ee2f9f4cf54', '于博', null, null, null, null, null, null, null, null, null, null, '1', '2013-07-02 14:17:38');
+INSERT INTO `tbl_user` VALUES ('2UNNNn', '陈浩', '3f8406ae412a11a63a3ca350863dff4af9fb69c0edb41864', '陈浩', 'chenhao', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:11:50');
+INSERT INTO `tbl_user` VALUES ('2yueeq', '黄溯', '1ba120cc484fca0cb3805d89e1f6086884edd2c8bc5504f3', '黄溯', 'huangshuo', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:11:55');
+INSERT INTO `tbl_user` VALUES ('3I3Mni', 'zhouyang', '13b571294146168f50d1393aabeed582a3c63cbcf0ccc295ff44afe08aaa4187', 'zhouyang', 'ZHOUYANG', null, null, 'zhouyang', 'zhouyang', null, null, 'zhouyang', 'zhouyang', 'zy61046670@126.com', '1', '2013-09-17 00:48:58');
+INSERT INTO `tbl_user` VALUES ('3IBVba', '孔飞', 'e186fef4e46d7f515bca18fe664aa5e099a61dd7859d126b01777947ce8e841f', '孔飞', 'kongfei', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:11:57');
+INSERT INTO `tbl_user` VALUES ('3Q7rey', '李哲非', '70f93184ccc75d6d0d6767d1172b6545db0f5dd50f698f81', '李哲非', 'lizhefei', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:11:58');
+INSERT INTO `tbl_user` VALUES ('3QJFvu', '孙青松', '37b9ee6e3de33874b83e9c6daed528dab70a2c52749d4c94', '孙青松', 'sunqingsong', null, null, '', '', '', '', '', '', '', '1', '2013-09-16 12:31:34');
+INSERT INTO `tbl_user` VALUES ('3QruUf', '张圣鹏', '102d52d24742b2ff0e2fd8c029ea89374baeda266d64d73a27983c7a6b87078a', '张圣鹏', 'zhangshengpeng', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:01');
+INSERT INTO `tbl_user` VALUES ('6N7RJv', '易伟', '5174aa16cc51fdb581969be6f0926e708808b2d29483db5b', '易伟', 'yiwei', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:03');
+INSERT INTO `tbl_user` VALUES ('6NBrMn', '曹文广', '53c5e0e05b04967de1fd8b868756ab2e19280ff28a84bdd3ce57339e3e1cfae3', '曹文广', 'caowenguang', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:05');
+INSERT INTO `tbl_user` VALUES ('6VfaEr', '奚萍', 'cd2124a285bf4b9e67a00e1a151a9fdc38ca4449a3cdfe4b', '奚萍', 'xiping', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:07');
+INSERT INTO `tbl_user` VALUES ('7BFnA3', '杨立强', '6894d1b3fcc8357df4d107296f2f3a061419b6e85886ddff', '杨立强', 'yangliqiang', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:09');
+INSERT INTO `tbl_user` VALUES ('7RzQVz', '董方', 'd7d99b9e560f7079018922814f3817aca62fd11a62b8695c', '董方', 'dongfang', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:11');
+INSERT INTO `tbl_user` VALUES ('AfuU7n', '翟燕萍', '5e9e862fe918dec040a247004e821a8d2ab2096e8f89b4e3e77436f7745706c9', '翟燕萍', 'zhaiyanping', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:14');
+INSERT INTO `tbl_user` VALUES ('biymau', 'admin', '668053e73aa152351ff461db17d6f1376572dd8a556c82c59ef8e149ecadaa39', '管理员', 'guanliyuan', null, null, '华电科研总院', '综合管理部', '', '', '010-5196 6662', '18911803600', 'chdtsg@163.com', '1', '2013-09-16 12:24:51');
+INSERT INTO `tbl_user` VALUES ('Bv6RBn', '王珍', 'b8079e42f665ea031264cb88971678fc8624d47ad1f980df', '王珍', 'wangzhen', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:16');
+INSERT INTO `tbl_user` VALUES ('Bz63Qr', '陈远台', 'adf0b5c423b8836f5199f94d2ffdb64347d9df1daca3c0e3', '陈远台', 'chenyuantai', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:18');
+INSERT INTO `tbl_user` VALUES ('eYZvui', '肖克勤', '7bc22738029beeef4e531ffb7fe9683d4e5655a0b70e0a13', '肖克勤', 'xiaokeqin', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:20');
+INSERT INTO `tbl_user` VALUES ('fE3AFf', '纪宇飞', '6fc8e46391a3f7faca6a875ef8abcc77210239b86f60af9f3ad497c23cff78ca', '纪宇飞', 'jiyufei', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:25');
+INSERT INTO `tbl_user` VALUES ('fEbMjq', '赵江', 'f3706bd681868a97a00b76b07d64d0892717b6b7e35026e0', '赵江', 'zhaojiang', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:27');
+INSERT INTO `tbl_user` VALUES ('fiu6Rf', '傅昱斐', '90dfd934b1aa5455458e45e26cba6b781c05a00948ce9781', '傅昱斐', 'fulifei', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:30');
+INSERT INTO `tbl_user` VALUES ('fiYz22', '许全坤', '7b8bb367ef9358763a98f46a7f03ee156976e557f66de6d8', '许全坤', 'xuquankun', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:33');
+INSERT INTO `tbl_user` VALUES ('Fjeaqa', '余卫平', 'b8fbe63d02273376fc9fd8e555995a44ee620ac849edb660', '余卫平', 'yuweiping', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:35');
+INSERT INTO `tbl_user` VALUES ('FJzyum', '胡小夫', '9d55f18c72130bb51da167dec56e58019e836908c659a660', '胡小夫', 'huxiaofu', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:36');
+INSERT INTO `tbl_user` VALUES ('FNNNvy', '王先德', '2a216777c756b033aedb2b4f2f862f728a3bbc7ee3ede48b', '王先德', 'wangxiande', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:38');
+INSERT INTO `tbl_user` VALUES ('FRJbM3', '邓建玲', '870ef9314b75160ed71972ce09dadf8522d36229af91bcd5', '邓建玲', 'dengjianling', null, null, '', '', '', '', '', '', '', '1', '2013-09-16 12:32:20');
+INSERT INTO `tbl_user` VALUES ('FVfIJr', '彭维明', 'f6ea10e58124b703c24883a0d63da49411723c40a3cfaca4', '彭维明', 'pengweiming', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:41');
+INSERT INTO `tbl_user` VALUES ('i2mIZj', '马治安', '3f3b1f9ca6a70459ab47a2e988e6f5d2123fb24c84d5d446', '马治安', 'mazhian', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:43');
+INSERT INTO `tbl_user` VALUES ('i6Bnu2', '郑晓雨', '0ed262fd81fd063833c2e4f8e8ae8540254808bf7ec84373', '郑晓雨', 'zhengxiaoyu', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:45');
+INSERT INTO `tbl_user` VALUES ('iauemi', '张国远', '9c23655c5b610938c165bc283d9daeeb780d8472c4c9dc77b6531531ff8c23aa', '张国远', 'zhangguoyuan', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:47');
+INSERT INTO `tbl_user` VALUES ('j2U3mm', '王向东', '269161ec0b5dfbed538b2b8d584fcae92298690b4ce8190d', '王向东', 'wangxiangdong', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:50');
+INSERT INTO `tbl_user` VALUES ('J7ZBvi', '王家亮', '17b6729ec491e40091550715e69f96e28a6a34b9d359d7dc', '王家亮', 'wangjialiang', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:52');
+INSERT INTO `tbl_user` VALUES ('jaEzQn', '黄群', 'f88b998978ec3ea9298f82b1df88b6f3a82504d3a8499cc1', '黄群', 'huangqun', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:54');
+INSERT INTO `tbl_user` VALUES ('jANvuq', '刘勇', '96bf7119cb02fd11867472c025f7d85f33972f1c6fbf1ed9', '刘勇', 'liuyong', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:12:59');
+INSERT INTO `tbl_user` VALUES ('jEbAba', '张新', '77f515eeecc472abbb808d0fc4d5d46e138ae79a17d3df8b', '张新', 'zhangxin', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:00');
+INSERT INTO `tbl_user` VALUES ('MjMBna', '王卉', '8871b23e8023a35819927cc4d2f5e8192f534b5936d294f5', '王卉', 'wanghui', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:03');
+INSERT INTO `tbl_user` VALUES ('MrIjUj', '孙丽丽', 'f32aa12ffa784b187df70de5b09384f72f65223ce75fe1f7', '孙丽丽', 'sunlili', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:06');
+INSERT INTO `tbl_user` VALUES ('n22qy2', '冉志军', '011afabd40a5d61be22a453990eded1b3d06bc821a08b2b1', '冉志军', 'ranzhijun', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:10');
+INSERT INTO `tbl_user` VALUES ('n2Azqu', '孙海峰', 'ac735ac2e36c6a6c6cfd570b6cdfe2be6571e784d0b166cc', '孙海峰', 'sunhaifeng', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:14');
+INSERT INTO `tbl_user` VALUES ('n2YV7r', '何佳', '09f0dd8bfbd1f72e8de55103acb20c0db59f7362d3218003', '何佳', 'hejia', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:16');
+INSERT INTO `tbl_user` VALUES ('nE7fmu', '武文扬', '9ee60de9b37320989c2ffc96fa577237aa16bdfdc8f32628', '武文扬', 'wuwenyang', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:19');
+INSERT INTO `tbl_user` VALUES ('NZ36ny', '陈耀斌', '2489fffc1ec36e7839e6e2f55e41cff343570841661628e3', '陈耀斌', 'chenyaobin', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:22');
+INSERT INTO `tbl_user` VALUES ('NzMFRv', '冯一兵', '58dd82155a3d2d284bbcd745aec816761334d7610e822f15', '冯一兵', 'fengyibing', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:24');
+INSERT INTO `tbl_user` VALUES ('Q3Ib6f', '吴建辉', '62148f025e7ebe2df047deadecc0e5532f71b96aa987b7c5e58bbff20e998228', '吴健辉', 'wujianhui', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:26');
+INSERT INTO `tbl_user` VALUES ('qIFB7r', '彭敏', '23537c5081f2ca4495e6f64042f2408cd1af4dd6245e0eb29c6cc338de58f0c4fe1aa091319350f4', '彭敏', 'pengmin', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:29');
+INSERT INTO `tbl_user` VALUES ('quAjIb', '雷艳婷', 'be30082e906cf2610438588cb78eb9918f92d36fa3662023', '雷艳婷', 'leiyanting', null, null, '', '', '', '', '', '', '928153697@qq.com', '1', '2013-09-16 12:27:48');
+INSERT INTO `tbl_user` VALUES ('QVjaye', '孙爱荣', '2baeebfa945cc887cd21c8c6b51eb836fe499231c21188ef', '孙爱荣', 'sunairong', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:33');
+INSERT INTO `tbl_user` VALUES ('QZNRFn', '郭南南', 'feb732f9b4b10e835e7c300a7f04a95686f6d05eda96419b011481090c02a188', '郭南南', 'guonannan', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:35');
+INSERT INTO `tbl_user` VALUES ('R3Qvuu', 'zhengying', '267be1f0e4479de5a3ac33be92af8b18a2623349a45e2038', 'zhengying', 'zhengying', null, null, 'wer', 'add', null, null, '', '', 'feng-zhang11@chd.com.cn', '0', '2013-09-16 23:13:46');
+INSERT INTO `tbl_user` VALUES ('RBVR7v', '李伟', '8909d3361edc4a7906f823e93ec25f37e6512f9450e40c84', '李伟', 'liwei', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:40');
+INSERT INTO `tbl_user` VALUES ('RfQnqm', '马跃龙', '940ad50e74c0c8d7e95616f3f6a192a75f61e720134b709b', '马跃龙', 'mayuelong', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:48');
+INSERT INTO `tbl_user` VALUES ('rQVz6f', '何冬梅', 'a8c3bc13e7a30de1808979223c2412e4c011cab9597b913a', '何冬梅', 'hedongmei', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:50');
+INSERT INTO `tbl_user` VALUES ('RRZNf2', '邹重恩', '67ed31fb38c1e8c86689e568dec0ab287657485efe25c69c3f37e9ad4dd2d160', '邹重恩', 'zouchongen', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:54');
+INSERT INTO `tbl_user` VALUES ('ruqE3e', '王鹏', 'ad1a8cb86c33d29e1c6fe23c746e674a9f51a3c7310e5a7f', '王鹏', 'wangpeng', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:13:55');
+INSERT INTO `tbl_user` VALUES ('uArmQ3', '徐波', 'e53a2cfc81965e13158495015a52a48e4fadbe92c97dd768935fdec1eaca8b12', '徐波', 'xubo', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:38');
+INSERT INTO `tbl_user` VALUES ('uEbERz', '刘清侠', 'dc0fbf513137a069a2c454fb9e8c1c003f2b8d71efbf9ffb', '刘清侠', 'liuqingxia', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:33');
+INSERT INTO `tbl_user` VALUES ('UJzaIr', '李义强', 'f4aca5c1a3d1ab7cb0af4cc6073be927e06e39013e24fda5d1ac46c6ec258545', '李义强', 'liyiqiang', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:31');
+INSERT INTO `tbl_user` VALUES ('UNrEZr', '姜宝益', '53e6dc6258af20c8d4dd6f788fb5add44d90624a298464b7cbdf106776c0e93c', '姜宝益', 'jiangbaoyi', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:28');
+INSERT INTO `tbl_user` VALUES ('UrEZzq', '孙利', '558ed5fa367cd6035d3290d697e44d070cf8f23ea0c9548f', '孙利', 'sunli', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:24');
+INSERT INTO `tbl_user` VALUES ('uu2q2a', '熊晓霞', '26363b73599743677d1fb9440fb10f2353aa4d281474e44e', '熊晓霞', 'xiongxiaoxia', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:22');
+INSERT INTO `tbl_user` VALUES ('uyayyq', '张宇龙', '2281fcc24798e1b78de83dcaa46dfeeb43800ff1678eaea0', '张宇龙', 'zhangyulong', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:20');
+INSERT INTO `tbl_user` VALUES ('vENrau', '张锋', '1f66e962d5cee3b338570ee8516acc0d728b753fb56d82deafeff47ef668281a', '张锋', 'zhangfeng', null, null, '华电科研总院', '', '', '', '010-5196 6662', '18911803600', 'zhangfengvipchina@163.com', '1', '2013-09-16 12:28:53');
+INSERT INTO `tbl_user` VALUES ('vyEzUb', '孔令莹', 'f29f5ba4185cc5bab33289c4dbc968046a6aca405de72933', '孔令莹', 'konglingying', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:17');
+INSERT INTO `tbl_user` VALUES ('Vzq6Jz', '姚小强', '07f4ad8d3e4f8b96dbbef68f9c9053fd1ca27cb4c3899698', '姚小强', 'yaoxiaoqiang', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:14');
+INSERT INTO `tbl_user` VALUES ('YFzIFn', '王潇彤', '1767e3e04aec7b168325d0f947dcfb78fee049f576223568', '王潇彤', 'wangxiaotong', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:12');
+INSERT INTO `tbl_user` VALUES ('YNzMba', '柳冠青', '26b2cae06ce54cd8ac6e167dc9cd3c7d98438c4e9a09a252', '柳冠青', 'liuguanqing', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:09');
+INSERT INTO `tbl_user` VALUES ('ZBRRn2', '王恒涛', 'aa884178e6b57698b8d4b5464b4fc39061db01be3a016460', '王恒涛', 'wanghengtao', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:07');
+INSERT INTO `tbl_user` VALUES ('ZjmMre', '张智勇', '836526933cb742214fd17bc41ee311d91a0fc8fe9cf45687', '张智勇', 'zhangzhiyong', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:04');
+INSERT INTO `tbl_user` VALUES ('ZZj6Rj', '于博', 'cf2aa45c8bc5d5d494fe1b8ec813d70e83977ee2f9f4cf54', '于博', 'yubo', null, null, null, null, null, null, null, null, null, '1', '2013-09-16 23:14:01');
+
+-- ----------------------------
+-- Table structure for `tbl_user_copy`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_user_copy`;
+CREATE TABLE `tbl_user_copy` (
+  `user_id` varchar(100) NOT NULL,
+  `user_name` varchar(100) NOT NULL,
+  `user_passwd` varchar(500) NOT NULL,
+  `user_nickname` varchar(100) default NULL,
+  `user_phone` varchar(100) default NULL,
+  `user_mobile` varchar(100) default NULL,
+  `user_email` varchar(100) default NULL,
+  `user_address` text,
+  `user_duties` varchar(200) default NULL COMMENT '用户职责',
+  `user_dept_id` varchar(100) default NULL,
+  `user_role_id` varchar(100) default NULL,
+  `user_islive` tinyint(4) default '0' COMMENT '是否激活 1=是 0=否',
+  `user_time` timestamp NULL default NULL on update CURRENT_TIMESTAMP,
+  `user_nicknamepinyin` varchar(500) default NULL,
+  `user_showorder` int(11) default '0',
+  `user_isincontact` tinyint(4) default '1',
+  PRIMARY KEY  (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tbl_user_copy
+-- ----------------------------
+INSERT INTO `tbl_user_copy` VALUES ('2UNNNn', '陈浩', '3f8406ae412a11a63a3ca350863dff4af9fb69c0edb41864', '陈浩', '010-83568590', '13810792818', '', '', null, 'i2ima2', 'UZJnqq', '1', '2013-07-01 16:14:55', 'chenhao', '98', '1');
+INSERT INTO `tbl_user_copy` VALUES ('2yueeq', '黄溯', '1ba120cc484fca0cb3805d89e1f6086884edd2c8bc5504f3', '黄溯', '010-83568679', '18618437551', 'huangshuo@chdt.com.cn', '', null, 'i2ima2', 'UZJnqq', '1', '2013-07-01 15:05:44', 'huangsu', '96', '1');
+INSERT INTO `tbl_user_copy` VALUES ('3IBVba', '孔飞', 'e186fef4e46d7f515bca18fe664aa5e099a61dd7859d126b01777947ce8e841f', '孔飞', '', '18612446172/13954727115', 'fei-kong@chdi.ac.cn', '', '主任助理', 'Uvuyqy', 'UZJnqq', '1', '2013-07-03 13:10:38', 'kongfei', '22', '1');
+INSERT INTO `tbl_user_copy` VALUES ('3Q7rey', '李哲非', '70f93184ccc75d6d0d6767d1172b6545db0f5dd50f698f81', '李哲非', '010-83568685', '13911087662', 'lizhefei@chdt.com.cn', '', '副主任', 'i2ima2', '26NVne', '1', '2013-07-03 13:18:29', 'lizhefei', '82', '1');
+INSERT INTO `tbl_user_copy` VALUES ('3QJFvu', '孙青松', '37b9ee6e3de33874b83e9c6daed528dab70a2c52749d4c94', '孙青松', '010-5196 6777', '', '', '', '常务副院长（常务副总经理）（兼）', 'rYF3qa', 'rIB3qi', '1', '2013-08-19 10:31:36', 'sunqingsong', '1', '1');
+INSERT INTO `tbl_user_copy` VALUES ('3QruUf', '张圣鹏', '102d52d24742b2ff0e2fd8c029ea89374baeda266d64d73a27983c7a6b87078a', '张圣鹏', '010-52392439', '15811399017', 'shengpeng-zhang@chdi.ac.cn', '北京市东城区永定门西滨河路8号院东塔11楼', null, 'qiuUJf', 'rENNbe', '1', '2013-08-19 10:46:22', 'zhangshengpeng', '57', '1');
+INSERT INTO `tbl_user_copy` VALUES ('6N7RJv', '易伟', '5174aa16cc51fdb581969be6f0926e708808b2d29483db5b', '易伟', '', '13146170299', '', '', '', 'u6RnAb', 'mQjamq', '1', '2013-08-19 14:39:01', 'yiwei', '401', '1');
+INSERT INTO `tbl_user_copy` VALUES ('6NBrMn', '曹文广', '53c5e0e05b04967de1fd8b868756ab2e19280ff28a84bdd3ce57339e3e1cfae3', '曹文广', '', '13810788612', 'wenguang-cao@chdi.ac.cn;  caowenguang1221@163.com', '', '团队成员', 'EVBjYr', 'UZJnqq', '1', '2013-08-19 10:42:22', 'caowenguang', '43', '1');
+INSERT INTO `tbl_user_copy` VALUES ('6VfaEr', '奚萍', 'cd2124a285bf4b9e67a00e1a151a9fdc38ca4449a3cdfe4b', '奚萍', '010-83568588', '13701211972', 'xiping@chdt.com.cn', '', '主任', 'i2ima2', '26NVne', '1', '2013-07-03 13:18:11', 'xiping', '81', '1');
+INSERT INTO `tbl_user_copy` VALUES ('7BFnA3', '杨立强', '6894d1b3fcc8357df4d107296f2f3a061419b6e85886ddff', '杨立强', '010-83568589', '13910719129', 'yangliqiang@chdt.com.cn', '', '', 'i2ima2', 'UZJnqq', '1', '2013-07-03 10:52:17', 'yangliqiang', '84', '1');
+INSERT INTO `tbl_user_copy` VALUES ('7RzQVz', '董方', 'd7d99b9e560f7079018922814f3817aca62fd11a62b8695c', '董方', '', '18501361683', 'fang-dong@chdi.ac.cn', '北京市东城区永定门西滨河路8号院东塔11楼', '团队成员', 'EVBjYr', 'UZJnqq', '1', '2013-08-19 15:19:34', 'dongfang', '44', '1');
+INSERT INTO `tbl_user_copy` VALUES ('AfuU7n', '翟燕萍', '5e9e862fe918dec040a247004e821a8d2ab2096e8f89b4e3e77436f7745706c9', '翟燕萍', '010-5239 2434', '13911001485', 'yanping-zhai@chdi.ac.cn', '1116-1', null, '2ENnUj', '2aIr6z', '1', '2013-08-19 10:44:36', 'zhaiyanping', '49', '1');
+INSERT INTO `tbl_user_copy` VALUES ('biymau', 'admin', '47b18745f891ca869ac31fdc7a9784e56eabe10a1bd392558cfe4e0f02c6509e1fa5f1f3474aaed3', '管理员', '', '18911803600', '', '', '', 'NjQrmi', 'zA3eem', '1', '2013-07-03 13:04:30', 'guanliyuan', '0', '0');
+INSERT INTO `tbl_user_copy` VALUES ('Bv6RBn', '王珍', 'b8079e42f665ea031264cb88971678fc8624d47ad1f980df', '王珍', '010-5239 2442', '13810878010', 'zhen-wang@chdi.ac.cn', '北京市东城区永定门西滨河路8号院东塔11楼', '团队成员', 'EVBjYr', 'UZJnqq', '1', '2013-08-19 10:41:56', 'wangzhen', '41', '1');
+INSERT INTO `tbl_user_copy` VALUES ('Bz63Qr', '陈远台', 'adf0b5c423b8836f5199f94d2ffdb64347d9df1daca3c0e3', '陈远台', '010-5196 6816', '18618219736 ', 'yuantai-chen@chdi.ac.cn', '1107', '副院长（副总经理）', 'rYF3qa', 'rIB3qi', '1', '2013-07-04 10:35:59', 'chenyuantai', '3', '1');
+INSERT INTO `tbl_user_copy` VALUES ('eYZvui', '肖克勤', '7bc22738029beeef4e531ffb7fe9683d4e5655a0b70e0a13', '肖克勤', '010-5196 6808', '13801158996', 'keqin-xiao@chdi.ac.cn', '1106', '副院长（副总经理）', 'rYF3qa', 'rIB3qi', '1', '2013-08-19 09:02:10', 'xiaokeqin', '2', '1');
+INSERT INTO `tbl_user_copy` VALUES ('fE3AFf', '纪宇飞', '6fc8e46391a3f7faca6a875ef8abcc77210239b86f60af9f3ad497c23cff78ca', '纪宇飞', '010-52392436', '15901386859', 'yufei-ji@chdi.ac.cn', '', '团队成员', '732ymy', 'UZJnqq', '1', '2013-08-19 10:39:30', 'jiyufei', '33', '1');
+INSERT INTO `tbl_user_copy` VALUES ('fEbMjq', '赵江', 'f3706bd681868a97a00b76b07d64d0892717b6b7e35026e0', '赵江', '', '', '', '', '负责人（兼）', 'ZfuaUv', 'ieeiiy', '1', '2013-08-19 10:37:33', 'zhaojiang', '29', '1');
+INSERT INTO `tbl_user_copy` VALUES ('fiu6Rf', '傅昱斐', '90dfd934b1aa5455458e45e26cba6b781c05a00948ce9781', '傅昱斐', '010-83568590', '18911260780', 'fuyufei@chdt.com.cn', '', null, 'i2ima2', 'bmAZji', '1', '2013-07-01 16:10:37', 'fuyufei', '89', '1');
+INSERT INTO `tbl_user_copy` VALUES ('fiYz22', '许全坤', '7b8bb367ef9358763a98f46a7f03ee156976e557f66de6d8', '许全坤', '010-5196 6551', '13601193682', 'xuqk@chec.com.cn', '', '负责人（兼）', 'AzIZr2', 'YBFZju', '1', '2013-08-19 10:35:35', 'xuquankun', '26', '1');
+INSERT INTO `tbl_user_copy` VALUES ('Fjeaqa', '余卫平', 'b8fbe63d02273376fc9fd8e555995a44ee620ac849edb660', '余卫平', '010-83568678', '13581558655', 'yuweiping@chdt.com.cn', '', null, 'i2ima2', 'UZJnqq', '1', '2013-07-01 16:15:44', 'yuweiping', '92', '1');
+INSERT INTO `tbl_user_copy` VALUES ('FJzyum', '胡小夫', '9d55f18c72130bb51da167dec56e58019e836908c659a660', '胡小夫', '', '13811245489', 'xiaofu-hu@chdi.ac.cn', '', null, 'qiuUJf', 'UZJnqq', '1', '2013-08-19 10:46:38', 'huxiaofu', '58', '1');
+INSERT INTO `tbl_user_copy` VALUES ('FNNNvy', '王先德', '2a216777c756b033aedb2b4f2f862f728a3bbc7ee3ede48b', '王先德', '5196-4055', '13552817855', 'wangxd@chec.com.cn', '', null, 'qiuUJf', 'UZJnqq', '1', '2013-08-19 10:46:10', 'wangxiande', '56', '1');
+INSERT INTO `tbl_user_copy` VALUES ('FRJbM3', '邓建玲', '870ef9314b75160ed71972ce09dadf8522d36229af91bcd5', '邓建玲', '', '', '', '', '董事长、院长（总经理）（兼）', 'rYF3qa', 'rIB3qi', '1', '2013-08-19 10:31:18', 'dengjianling', '0', '1');
+INSERT INTO `tbl_user_copy` VALUES ('FVfIJr', '彭维明', 'f6ea10e58124b703c24883a0d63da49411723c40a3cfaca4', '彭维明', '010-5239 2426', '18611787651', 'weiming-peng@chdi.ac.cn', '1112', '副院长、国家“千人计划”专家', 'rYF3qa', 'rIB3qi', '1', '2013-07-03 13:03:04', 'pengweiming', '7', '1');
+INSERT INTO `tbl_user_copy` VALUES ('i2mIZj', '马治安', '3f3b1f9ca6a70459ab47a2e988e6f5d2123fb24c84d5d446', '马治安', '52392334', '18612715215', 'zhian-ma@chdi.ac.cn', '北京市东城区永定门西滨河路8号院东塔11楼', '团队成员', 'EVBjYr', 'UZJnqq', '1', '2013-08-19 10:41:23', 'mazhian', '39', '1');
+INSERT INTO `tbl_user_copy` VALUES ('i6Bnu2', '郑晓雨', '0ed262fd81fd063833c2e4f8e8ae8540254808bf7ec84373', '郑晓雨', '', '18911237773', '', '', '', 'u6RnAb', 'mQjamq', '1', '2013-08-19 15:08:30', 'zhengxiaoyu', '405', '1');
+INSERT INTO `tbl_user_copy` VALUES ('iauemi', '张国远', '9c23655c5b610938c165bc283d9daeeb780d8472c4c9dc77b6531531ff8c23aa', '张国远', '010-5196 6828', '18811030969', 'guoyuan-zhang@chdi.ac.cn', '1109', '副院长（副总经理）', 'rYF3qa', 'rIB3qi', '1', '2013-07-10 15:45:34', 'zhangguoyuan', '4', '1');
+INSERT INTO `tbl_user_copy` VALUES ('j2U3mm', '王向东', '269161ec0b5dfbed538b2b8d584fcae92298690b4ce8190d', '王向东', '', '13661069589', '', '', '', 'u6RnAb', 'mQjamq', '1', '2013-08-19 14:35:22', 'wangxiangdong', '403', '1');
+INSERT INTO `tbl_user_copy` VALUES ('J7ZBvi', '王家亮', '17b6729ec491e40091550715e69f96e28a6a34b9d359d7dc', '王家亮', '010-51964051', '18611173749', '', '', null, 'qiuUJf', 'UZJnqq', '1', '2013-08-19 10:47:23', 'wangjialiang', '60', '1');
+INSERT INTO `tbl_user_copy` VALUES ('jaEzQn', '黄群', 'f88b998978ec3ea9298f82b1df88b6f3a82504d3a8499cc1', '黄群', '010-83568591', '15901169090', 'huangqun@chdt.com.cn', '', null, 'i2ima2', 'UZJnqq', '1', '2013-07-01 16:06:54', 'huangqun', '85', '1');
+INSERT INTO `tbl_user_copy` VALUES ('jANvuq', '刘勇', '96bf7119cb02fd11867472c025f7d85f33972f1c6fbf1ed9', '刘勇', '010-83568592', '13436682038', 'liuyong@chdt.com.cn', '', null, 'i2ima2', 'UZJnqq', '1', '2013-07-01 16:08:53', 'liuyong', '87', '1');
+INSERT INTO `tbl_user_copy` VALUES ('jEbAba', '张新', '77f515eeecc472abbb808d0fc4d5d46e138ae79a17d3df8b', '张新', '', '15010079939', '', '', '科研主管', 'Uvuyqy', 'fANFFz', '1', '2013-08-01 15:37:13', 'zhangxin', '24', '1');
+INSERT INTO `tbl_user_copy` VALUES ('MjMBna', '王卉', '8871b23e8023a35819927cc4d2f5e8192f534b5936d294f5', '王卉', '010-5239 2422', '13146568181', '', '', null, 'mAfEji', 'ZZjMv2', '1', '2013-08-19 10:49:27', 'wanghui', '450', '1');
+INSERT INTO `tbl_user_copy` VALUES ('MrIjUj', '孙丽丽', 'f32aa12ffa784b187df70de5b09384f72f65223ce75fe1f7', '孙丽丽', '010-83568687', '13810994576', 'sunlili@chdt.com.cn', '', null, 'i2ima2', 'UZJnqq', '1', '2013-07-01 15:00:20', 'sunlili', '94', '1');
+INSERT INTO `tbl_user_copy` VALUES ('n22qy2', '冉志军', '011afabd40a5d61be22a453990eded1b3d06bc821a08b2b1', '冉志军', '010-5196 6692', '18610086733', 'zhijun-ran@chdi.ac.cn', '1101', '主任', 'NjQrmi', 'bYFJru', '1', '2013-07-03 13:04:50', 'ranzhijun', '11', '1');
+INSERT INTO `tbl_user_copy` VALUES ('n2Azqu', '孙海峰', 'ac735ac2e36c6a6c6cfd570b6cdfe2be6571e784d0b166cc', '孙海峰', '010-51966539', '15801052698', 'haifeng-sun@chdi.ac.cn', '', '团队成员', 'EVBjYr', 'UZJnqq', '1', '2013-08-19 10:41:41', 'sunhaifeng', '40', '1');
+INSERT INTO `tbl_user_copy` VALUES ('n2YV7r', '何佳', '09f0dd8bfbd1f72e8de55103acb20c0db59f7362d3218003', '何佳', '83568684', '13581679983', 'hejia@chdt.com.cn', '华滨酒店', null, 'i2ima2', 'UZJnqq', '1', '2013-07-01 14:54:25', 'hejia', '93', '1');
+INSERT INTO `tbl_user_copy` VALUES ('nE7fmu', '武文扬', '9ee60de9b37320989c2ffc96fa577237aa16bdfdc8f32628', '武文扬', '', '18311093850', 'doris_wwy@163.com', '西直门内大街273号B座317', '会计', 'ZfuaUv', 'UZJnqq', '1', '2013-08-19 11:29:40', 'wuwenyang', '31', '1');
+INSERT INTO `tbl_user_copy` VALUES ('NZ36ny', '陈耀斌', '2489fffc1ec36e7839e6e2f55e41cff343570841661628e3', '陈耀斌', '010-5239 2419', '18610697108', 'yaobin-chen@chdi.ac.cn', '1110', '副院长、国家“千人计划”专家', 'rYF3qa', 'rIB3qi', '1', '2013-07-03 13:02:42', 'chenyaobin', '5', '1');
+INSERT INTO `tbl_user_copy` VALUES ('NzMFRv', '冯一兵', '58dd82155a3d2d284bbcd745aec816761334d7610e822f15', '冯一兵', '', '13718292368', '', '', '', 'u6RnAb', 'mQjamq', '1', '2013-08-19 14:42:10', 'fengyibing', '404', '1');
+INSERT INTO `tbl_user_copy` VALUES ('Q3Ib6f', '吴建辉', '62148f025e7ebe2df047deadecc0e5532f71b96aa987b7c5e58bbff20e998228', '吴健辉', '010-83568897', '18618264173', 'wujianhui@chdt.com.cn', '', null, 'i2ima2', 'UZJnqq', '1', '2013-06-04 13:27:07', 'wujianhui', '91', '1');
+INSERT INTO `tbl_user_copy` VALUES ('qIFB7r', '彭敏', '23537c5081f2ca4495e6f64042f2408cd1af4dd6245e0eb29c6cc338de58f0c4fe1aa091319350f4', '彭敏', '010-5196 6923', '13401096866', '', '', '科研主管', 'Uvuyqy', 'fANFFz', '1', '2013-07-03 13:12:07', 'pengmin', '23', '1');
+INSERT INTO `tbl_user_copy` VALUES ('QVjaye', '孙爱荣', '2baeebfa945cc887cd21c8c6b51eb836fe499231c21188ef', '孙爱荣', '010-83568590', '13355117968', 'sunairong@chdt.com.cn', '', null, 'i2ima2', 'UZJnqq', '1', '2013-07-01 16:13:31', 'sunairong', '99', '1');
+INSERT INTO `tbl_user_copy` VALUES ('QZNRFn', '郭南南', 'feb732f9b4b10e835e7c300a7f04a95686f6d05eda96419b011481090c02a188', '郭南南', '010-5196 1557', '18611789521', 'nannan-guo@chdi.ac.cn', '西直门内大街273号B座317', '会计', 'ZfuaUv', 'zIfaYj', '1', '2013-08-22 09:59:51', 'guonannan', '30', '1');
+INSERT INTO `tbl_user_copy` VALUES ('RBVR7v', '李伟', '8909d3361edc4a7906f823e93ec25f37e6512f9450e40c84', '李伟', '', '18201586113', '', '', '', 'u6RnAb', 'mQjamq', '1', '2013-08-19 14:33:52', 'liwei', '402', '1');
+INSERT INTO `tbl_user_copy` VALUES ('RfQnqm', '马跃龙', '940ad50e74c0c8d7e95616f3f6a192a75f61e720134b709b', '马跃龙', '010-51966999', '13910634221', 'yuelong-ma@chdi.ac.cn', '北京市东城区永定门西滨河路8号院东塔11楼', '副主任级', 'qiuUJf', 'yyuiiu', '1', '2013-08-19 10:45:38', 'mayuelong', '55', '1');
+INSERT INTO `tbl_user_copy` VALUES ('rQVz6f', '何冬梅', 'a8c3bc13e7a30de1808979223c2412e4c011cab9597b913a', '何冬梅', '010-83568591', '15910888997', 'hedongmei@chdt.com.cn', '', null, 'i2ima2', 'UZJnqq', '1', '2013-07-01 16:08:04', 'hedongmei', '86', '1');
+INSERT INTO `tbl_user_copy` VALUES ('RRZNf2', '邹重恩', '67ed31fb38c1e8c86689e568dec0ab287657485efe25c69c3f37e9ad4dd2d160', '邹重恩', '010-51966539', '18611191622', 'chongen-zou@chdi.ac.cn', '', '高级主管', 'EVBjYr', 'ZzMjAb', '1', '2013-07-17 17:01:55', 'zouzhongen', '38', '1');
+INSERT INTO `tbl_user_copy` VALUES ('ruqE3e', '王鹏', 'ad1a8cb86c33d29e1c6fe23c746e674a9f51a3c7310e5a7f', '王鹏', '', '13701288433', '', '', '', 'u6RnAb', 'mQjamq', '1', '2013-08-19 14:31:02', 'wangpeng', '400', '1');
+INSERT INTO `tbl_user_copy` VALUES ('uArmQ3', '徐波', 'e53a2cfc81965e13158495015a52a48e4fadbe92c97dd768935fdec1eaca8b12', '徐波', '010-52392433', '18612186088', 'bo-xu@chdi.ac.cn', '1108-1', '副处级', '2ENnUj', '7ZBr6v', '1', '2013-08-19 10:44:05', 'xubo', '48', '1');
+INSERT INTO `tbl_user_copy` VALUES ('uEbERz', '刘清侠', 'dc0fbf513137a069a2c454fb9e8c1c003f2b8d71efbf9ffb', '刘清侠', '010-5239 2420', '15801337739', 'qingxia-liu@chdi.ac.cn', '1111', '国家“千人计划”专家', 'rYF3qa', 'rIB3qi', '1', '2013-07-03 13:03:22', 'liuqingxia', '8', '1');
+INSERT INTO `tbl_user_copy` VALUES ('UJzaIr', '李义强', 'f4aca5c1a3d1ab7cb0af4cc6073be927e06e39013e24fda5d1ac46c6ec258545', '李义强', '010-52392436', '15910910725', 'yiqiang-li@chdi.ac.cn', '', '主任助理', '732ymy', 'uQV3Av', '1', '2013-08-19 10:38:58', 'liyiqiang', '32', '1');
+INSERT INTO `tbl_user_copy` VALUES ('UNrEZr', '姜宝益', '53e6dc6258af20c8d4dd6f788fb5add44d90624a298464b7cbdf106776c0e93c', '姜宝益', '010-51964054', '13141325212', 'baoyi-jiang@chdi.ac.cn', '西直门内大街273号', '', 'qiuUJf', 'UZJnqq', '1', '2013-08-23 16:55:34', 'jiangbaoyi', '62', '1');
+INSERT INTO `tbl_user_copy` VALUES ('UrEZzq', '孙利', '558ed5fa367cd6035d3290d697e44d070cf8f23ea0c9548f', '孙利', '010-51964052', '13511009504', '', '', null, 'qiuUJf', 'UZJnqq', '1', '2013-08-19 10:47:39', 'sunli', '61', '1');
+INSERT INTO `tbl_user_copy` VALUES ('uu2q2a', '熊晓霞', '26363b73599743677d1fb9440fb10f2353aa4d281474e44e', '熊晓霞', '010-83568593', '13581666053', 'xiongxiaoxia@chdt.com.cn', '', null, 'i2ima2', 'UZJnqq', '1', '2013-07-01 16:09:42', 'xiongxiaoxia', '88', '1');
+INSERT INTO `tbl_user_copy` VALUES ('uyayyq', '张宇龙', '2281fcc24798e1b78de83dcaa46dfeeb43800ff1678eaea0', '张宇龙', '', '111', '', '', '副主任', 'Uvuyqy', 'uMFFfe', '1', '2013-07-03 13:10:18', 'zhangyulong', '20', '1');
+INSERT INTO `tbl_user_copy` VALUES ('vENrau', '张锋', '1f66e962d5cee3b338570ee8516acc0d728b753fb56d82deafeff47ef668281a', '张锋', '010-5196 6662', '18911803600', 'feng-zhang@chdi.ac.cn', '', '行业情报研究师', 'NjQrmi', 'iuq2Y3', '1', '2013-07-03 13:05:17', 'zhangfeng', '13', '1');
+INSERT INTO `tbl_user_copy` VALUES ('vyEzUb', '孔令莹', 'f29f5ba4185cc5bab33289c4dbc968046a6aca405de72933', '孔令莹', '010-5196 6891', '13718943425', 'lingying-kong@chdi.ac.cn', '北京市东城区永定门西滨河路8号院东塔11楼', '部门秘书', 'NjQrmi', 'Ffu22q', '1', '2013-07-03 13:05:30', 'konglingying', '14', '1');
+INSERT INTO `tbl_user_copy` VALUES ('Vzq6Jz', '姚小强', '07f4ad8d3e4f8b96dbbef68f9c9053fd1ca27cb4c3899698', '姚小强', '', '13699283426', 'xiaoqiang-yao@chdi.ac.cn', '', null, 'qiuUJf', 'UZJnqq', '1', '2013-08-19 10:46:55', 'yaoxiaoqiang', '59', '1');
+INSERT INTO `tbl_user_copy` VALUES ('YFzIFn', '王潇彤', '1767e3e04aec7b168325d0f947dcfb78fee049f576223568', '王潇彤', '010-5196 8660', '18600237531', 'xiaotong-wang@chdi.ac.cn', '', '管理员', 'AzIZr2', 'reYjum', '1', '2013-08-19 10:35:57', 'wangxiaotong', '27', '1');
+INSERT INTO `tbl_user_copy` VALUES ('YNzMba', '柳冠青', '26b2cae06ce54cd8ac6e167dc9cd3c7d98438c4e9a09a252', '柳冠青', '52392442', '15911164310', 'guanqing-liu@chdi.ac.cn', '北京市东城区永定门西滨河路8号院东塔11楼', '团队成员', 'EVBjYr', 'UZJnqq', '1', '2013-08-23 11:55:22', 'liuguanqing', '42', '1');
+INSERT INTO `tbl_user_copy` VALUES ('ZBRRn2', '王恒涛', 'aa884178e6b57698b8d4b5464b4fc39061db01be3a016460', '王恒涛', '', '13810497245', 'hengtao-wang@chdi.ac.cn', '', '团队成员', '732ymy', 'UZJnqq', '1', '2013-08-19 10:39:47', 'wanghengtao', '34', '1');
+INSERT INTO `tbl_user_copy` VALUES ('ZjmMre', '张智勇', '836526933cb742214fd17bc41ee311d91a0fc8fe9cf45687', '张智勇', '010-83568680', '18801172377', '', '', null, 'i2ima2', 'UZJnqq', '1', '2013-06-05 09:27:48', 'zhangzhiyong', '100', '1');
+INSERT INTO `tbl_user_copy` VALUES ('ZZj6Rj', '于博', 'cf2aa45c8bc5d5d494fe1b8ec813d70e83977ee2f9f4cf54', '于博', '010-83568682', '13911087906', 'yubo@chdt.com.cn', '', null, 'i2ima2', 'UZJnqq', '1', '2013-07-02 14:17:38', 'yubo', '97', '1');
 
 -- ----------------------------
 -- Table structure for `tbl_user_role`
@@ -1160,13 +1261,10 @@ CREATE TABLE `tbl_user_role` (
 -- ----------------------------
 -- Records of tbl_user_role
 -- ----------------------------
-INSERT INTO `tbl_user_role` VALUES ('biymau', 'zA3eem');
-INSERT INTO `tbl_user_role` VALUES ('biymau', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('2UNNNn', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('2yueeq', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('3IBVba', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('3Q7rey', 'mQbMJv');
-INSERT INTO `tbl_user_role` VALUES ('3QJFvu', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('3QruUf', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('6N7RJv', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('6NBrMn', 'mQbMJv');
@@ -1184,7 +1282,6 @@ INSERT INTO `tbl_user_role` VALUES ('fiYz22', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('Fjeaqa', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('FJzyum', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('FNNNvy', 'mQbMJv');
-INSERT INTO `tbl_user_role` VALUES ('FRJbM3', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('FVfIJr', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('i2mIZj', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('i6Bnu2', 'mQbMJv');
@@ -1218,7 +1315,6 @@ INSERT INTO `tbl_user_role` VALUES ('UNrEZr', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('UrEZzq', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('uu2q2a', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('uyayyq', 'mQbMJv');
-INSERT INTO `tbl_user_role` VALUES ('vENrau', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('vyEzUb', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('Vzq6Jz', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('YFzIFn', 'mQbMJv');
@@ -1226,3 +1322,19 @@ INSERT INTO `tbl_user_role` VALUES ('YNzMba', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('ZBRRn2', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('ZjmMre', 'mQbMJv');
 INSERT INTO `tbl_user_role` VALUES ('ZZj6Rj', 'mQbMJv');
+INSERT INTO `tbl_user_role` VALUES ('biymau', 'zA3eem');
+INSERT INTO `tbl_user_role` VALUES ('quAjIb', 'IbUrYv');
+INSERT INTO `tbl_user_role` VALUES ('vENrau', 'mQbMJv');
+INSERT INTO `tbl_user_role` VALUES ('vENrau', 'Q7nyY3');
+INSERT INTO `tbl_user_role` VALUES ('3QJFvu', 'mQbMJv');
+INSERT INTO `tbl_user_role` VALUES ('3QJFvu', 'fUJ7Jr');
+INSERT INTO `tbl_user_role` VALUES ('FRJbM3', 'zu2q2q');
+INSERT INTO `tbl_user_role` VALUES ('FRJbM3', 'fUJ7Jr');
+INSERT INTO `tbl_user_role` VALUES ('R3Qvuu', 'mQbMJv');
+INSERT INTO `tbl_user_role` VALUES ('yI3iQr', 'yIZ732');
+INSERT INTO `tbl_user_role` VALUES ('fumaya', 'yIZ732');
+INSERT INTO `tbl_user_role` VALUES ('eUjAZr', 'yIZ732');
+INSERT INTO `tbl_user_role` VALUES ('iQRjEf', 'yIZ732');
+INSERT INTO `tbl_user_role` VALUES ('InYJna', 'yIZ732');
+INSERT INTO `tbl_user_role` VALUES ('jYbmeq', 'yIZ732');
+INSERT INTO `tbl_user_role` VALUES ('3I3Mni', 'yIZ732');

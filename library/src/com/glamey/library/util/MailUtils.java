@@ -27,32 +27,22 @@ public class MailUtils {
     private String encoding;
     private String title;
     private String from;
-    private String content;
 
-    public boolean send(Map<String, String> parameters) {
-        try {
-            MimeMessage msg = javaMailSender.createMimeMessage();
-            MimeMessageHelper message = new MimeMessageHelper(msg, true, encoding);
-            message.setSubject(title);
-            message.setFrom(from);
-            message.setTo(parameters.get(Constants.MAIL_TO));
-            content = content.replace("${" + Constants.MAIL_TO + "}", parameters.get(Constants.MAIL_TO));
-            content = content.replace("${" + Constants.MAIL_NICKNAME + "}", parameters.get(Constants.MAIL_NICKNAME));
-            content = content.replace("${" + Constants.MAIL_ACTIVE_URL + "}", parameters.get(Constants.MAIL_ACTIVE_URL));
-            content = content.replace("${" + Constants.MAIL_ACTIVE_RANDOM + "}", parameters.get(Constants.MAIL_ACTIVE_RANDOM));
-            message.setText(content, true); /*如果发的不是html内容去掉true参数*/
-            message.setPriority(3);
-            /*message.addInline("myLogo",new ClassPathResource("img/mylogo.gif"));
-            message.addAttachment("myDocument.pdf", new ClassPathResource("doc/myDocument.pdf"));*/
-            javaMailSender.send(msg);
-
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            return false;
-        } catch (MailException me) {
-            me.printStackTrace();
-            return false;
-        }
+    public boolean send(Map<String, String> parameters) throws MessagingException {
+        String content = "${MAIL_NICKNAME}，您好：<br/><br/>&nbsp;&nbsp;请点击下面的链接地址或者将下面的地址复制到浏览器完成注册。<br/><br/>${MAIL_ACTIVEURL}${MAIL_ACTIVE_RANDOM}<br/><br/><br/><font color=\"red\">此邮件为系统自动发送，请勿回复，多谢。</font>";
+        MimeMessage msg = javaMailSender.createMimeMessage();
+        MimeMessageHelper message = new MimeMessageHelper(msg, true, encoding);
+        message.setSubject(title);
+        message.setFrom(from);
+        message.setTo(parameters.get(Constants.MAIL_TO));
+        content = content.replace("${" + Constants.MAIL_NICKNAME + "}", parameters.get(Constants.MAIL_NICKNAME));
+        content = content.replace("${" + Constants.MAIL_ACTIVE_URL + "}", parameters.get(Constants.MAIL_ACTIVE_URL));
+        content = content.replace("${" + Constants.MAIL_ACTIVE_RANDOM + "}", parameters.get(Constants.MAIL_ACTIVE_RANDOM));
+        message.setText(content, true); /*如果发的不是html内容去掉true参数*/
+        message.setPriority(3);
+        /*message.addInline("myLogo",new ClassPathResource("img/mylogo.gif"));
+        message.addAttachment("myDocument.pdf", new ClassPathResource("doc/myDocument.pdf"));*/
+        javaMailSender.send(msg);
         return true;
     }
 
@@ -88,16 +78,7 @@ public class MailUtils {
         this.from = from;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MessagingException {
         ApplicationContext content = new ClassPathXmlApplicationContext("/com/glamey/library/conf/application.xml");
         MailUtils mail = (MailUtils) content.getBean("libraryMail");
 
