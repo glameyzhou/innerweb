@@ -433,6 +433,9 @@ public class UserInfoManagerController extends BaseController {
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
 
+        query.setStartTime(WebUtils.getRequestParameterAsString(request, "startTime"));
+        query.setEndTime(WebUtils.getRequestParameterAsString(request, "endTime"));
+
         //获取符合条件的所有用户
         List<UserInfo> userInfoList = userInfoDao.getUserList(query);
         pageBean.setMaxRowCount(userInfoDao.getUserListCount(query));

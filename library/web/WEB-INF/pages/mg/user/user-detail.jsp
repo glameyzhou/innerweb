@@ -42,14 +42,14 @@
                     <c:if test="${userInfo.isLive ==1}">开启</c:if><c:if test="${userInfo.isLive ==0}">禁用</c:if>
                 </td>
             </tr>
-            <tr>
+            <%--<tr>
                 <td width="15%" class="pn-flabel pn-flabel-h">问题:</td>
                 <td width="85%" class="pn-fcontent"><c:out value="${userInfo.question}"/></td>
             </tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h">答案:</td>
                 <td width="85%" class="pn-fcontent"><c:out value="${userInfo.answer}"/></td>
-            </tr>
+            </tr>--%>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h">单位:</td>
                 <td width="85%" class="pn-fcontent"><c:out value="${userInfo.company}"/></td>
@@ -77,6 +77,10 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h">电邮:</td>
                 <td width="85%" class="pn-fcontent"><c:out value="${userInfo.email}"/></td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h">注册时间:</td>
+                <td width="85%" class="pn-fcontent"><c:out value="${userInfo.time}"/></td>
             </tr>
             </tbody>
         </table>

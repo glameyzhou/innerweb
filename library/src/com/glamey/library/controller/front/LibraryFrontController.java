@@ -78,7 +78,7 @@ public class LibraryFrontController extends BaseController {
 
             LibraryQuery query = new LibraryQuery();
             query.setCategoryId(categoryId);
-//            query.setShowIndex(1);
+            query.setShowIndex(1);
             query.setStart(pageBean.getStart());
             query.setNum(pageBean.getRowsPerPage());
 
@@ -107,6 +107,7 @@ public class LibraryFrontController extends BaseController {
                 LibraryQuery query = new LibraryQuery();
                 query.setStart(0);
                 query.setNum(12);
+                query.setShowIndex(1);
                 query.setCategoryId(child.getId());
                 List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
                 dto.setLibraryInfoList(libraryInfoList);

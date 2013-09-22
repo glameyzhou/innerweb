@@ -61,6 +61,7 @@
             }
         }
     </script>
+    <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 <div class="body-box">
@@ -84,7 +85,12 @@
             <c:forEach var="role" items="${roleInfoList}">
             <option value="${role.roleId}" <c:if test="${query.roleId == role.roleId}">selected="selected" </c:if>>${role.roleName}</option>
             </c:forEach>
-        </select>&nbsp;&nbsp;<input type="submit" value="查询">
+        </select>&nbsp;&nbsp;
+        注册开始时间&nbsp;<input type="text" maxlength="100" name="startTime" id="startTime" class="required" size="18" value="${query.startTime}"
+                       onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;
+        注册结束时间&nbsp;<input type="text" maxlength="100" name="endTime" id="endTime" class="required" size="18" value="${query.endTime}"
+                       onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;
+            <input type="submit" value="查询">
             <br/><br/>
             <a href="javascript:checkAll('userId',true);">全选</a>&nbsp;&nbsp;<a href="javascript:checkAll('userId',false);">取消</a>&nbsp;&nbsp;
             <a href="javascript:delAll('userId');">删除所选</a>&nbsp;&nbsp;
@@ -102,6 +108,7 @@
                 <th width="10%">手机号</th>
                 <th width="10%">固话</th>
                 <th width="15%">邮箱</th>
+                <th width="10%">注册时间</th>
                 <th  width="20%">操作</th>
             </tr>
             </thead>
@@ -119,6 +126,7 @@
                     <td align=center>${user.mobile}</td>
                     <td align=center>${user.phone}</td>
                     <td align=center>${user.email}</td>
+                    <td align=center><fmt:formatDate value="${user.time}" type="both"/></td>
                     <td align=center>
                         <a href="javascript:edit('${user.userId}');">编辑</a>&nbsp;&nbsp;
                         <a href="javascript:del('${user.userId}');">删除</a>&nbsp;&nbsp;
@@ -130,7 +138,7 @@
             </tbody>
         </table>
         <c:set var="pageURL"
-               value="${basePath}mg/user/user-list.htm?keyword=${fmtString:encoder(query.keyword)}&isLive=${query.isLive}&roleId=${query.roleId}&"/>
+               value="${basePath}mg/user/user-list.htm?keyword=${fmtString:encoder(query.keyword)}&isLive=${query.isLive}&roleId=${query.roleId}&&startTime=${fmtString:encoder(query.startTime)}&endTime=${fmtString:encoder(query.endTime)}&"/>
         <%@include file="../../common/pages.jsp" %>
     </form>
 </div>

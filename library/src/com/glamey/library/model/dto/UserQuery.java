@@ -20,6 +20,9 @@ public class UserQuery {
     /*是否显示在通讯录中 1=是 0=否*/
     private int showInContact = -1 ;
 
+    private String startTime;
+    private String endTime;
+
     public String getKeyword() {
         return keyword;
     }
@@ -90,6 +93,22 @@ public class UserQuery {
 
     public void setShowInContact(int showInContact) {
         this.showInContact = showInContact;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     @Override

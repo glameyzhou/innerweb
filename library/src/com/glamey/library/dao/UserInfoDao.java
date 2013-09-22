@@ -628,6 +628,13 @@ public class UserInfoDao extends BaseDao {
             if(StringUtils.isNotBlank(query.getRoleId())){
                 sql.append(" and b.role_id_fk = ? ");
             }
+
+            if (StringUtils.isNotBlank(query.getStartTime()))
+                sql.append(" and a.user_time >= ? ");
+
+            if (StringUtils.isNotBlank(query.getEndTime()))
+                sql.append(" and a.user_time <= ? ");
+
             sql.append(" group by a.user_id ");
             /*if(StringUtils.isNotBlank(query.getOrderByColumnName())){
                 sql.append(" order by ? ? ");
@@ -652,6 +659,12 @@ public class UserInfoDao extends BaseDao {
                             }
                             if(StringUtils.isNotBlank(query.getRoleId())){
                                 preparedstatement.setString(++i,query.getRoleId());
+                            }
+                            if(StringUtils.isNotBlank(query.getStartTime())){
+                                preparedstatement.setString(++i,query.getStartTime());
+                            }
+                            if(StringUtils.isNotBlank(query.getEndTime())){
+                                preparedstatement.setString(++i,query.getEndTime());
                             }
                             /*if(StringUtils.isNotBlank(query.getOrderByColumnName())){
                                 preparedstatement.setString(++i,query.getOrderByColumnName());
@@ -696,6 +709,16 @@ public class UserInfoDao extends BaseDao {
                 sql.append(" and b.role_id_fk = ? ");
                 params.add(query.getRoleId());
             }
+
+            if (StringUtils.isNotBlank(query.getStartTime())){
+                sql.append(" and user_time >= ? ");
+                params.add(query.getStartTime());
+            }
+            if (StringUtils.isNotBlank(query.getEndTime())){
+                sql.append(" and user_time <= ? ");
+                params.add(query.getEndTime());
+            }
+
             sql.append(" group by user_id) as user_role ");
             count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
             return count;
