@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.glamey.library.constants.SystemConstants;
 import com.glamey.library.dao.LibraryCollectDao;
 import com.glamey.library.dao.MetaInfoDao;
+import com.glamey.library.model.dto.CategoryQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -97,7 +98,12 @@ public class LibraryFrontController extends BaseController {
         /*旗下有孩子，输出此分类的所有分类、每个分类显示2列内容*/
         else {
             List<Category> childrenCategory = new ArrayList<Category>();
-            childrenCategory = categoryDao.getChildrenByPid(categoryId,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE) ;
+//            childrenCategory = categoryDao.getChildrenByPid(categoryId,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE) ;
+            CategoryQuery categoryQuery = new CategoryQuery();
+            categoryQuery.setCategoryType(CategoryConstants.CATEGORY_LIBRARY);
+            categoryQuery.setParentId(categoryId);
+            categoryQuery.setShowIndex(1);
+            childrenCategory = categoryDao.getByQuery(categoryQuery,0,Integer.MAX_VALUE);
             category.setChildren(childrenCategory);
             List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
             for (Category child : childrenCategory) {
