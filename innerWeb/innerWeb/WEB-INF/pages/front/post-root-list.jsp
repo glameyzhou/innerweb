@@ -54,7 +54,7 @@
         </div>
         <%--右半边代码结束--%>
         <%--友情链接--%>
-        <%@include file="include/friendlyLinks.jsp" %>
+        <%--<%@include file="include/friendlyLinks.jsp" %>--%>
     </div>
     <!--中间内容部分代码结束-->
     <%@include file="include/footer.jsp" %>

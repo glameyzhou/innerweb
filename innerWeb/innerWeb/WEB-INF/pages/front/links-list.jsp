@@ -49,7 +49,7 @@
                 <%@include file="../common/pages-front.jsp" %>
             </div>
         </div>
-        <%@include file="include/friendlyLinks.jsp" %>
+        <%--<%@include file="include/friendlyLinks.jsp" %>--%>
     </div>
     <%@include file="include/footer.jsp" %>
 </div>

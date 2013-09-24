@@ -136,7 +136,7 @@
             </c:forEach>
             <%--图书馆栏目展示结束--%>
         </div>
-        <%@include file="include/friendlyLinks.jsp" %>
+        <%--<%@include file="include/friendlyLinks.jsp" %>--%>
     </div>
     <%@include file="include/footer.jsp" %>
 </div>

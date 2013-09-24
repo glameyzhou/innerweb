@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.glamey.innerweb.constants.Constants;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
@@ -799,5 +800,13 @@ public class UserInfoDao extends BaseDao {
             r.setRightsTime(rs.getTimestamp("rights_time"));
             return r;
         }
+    }
+
+
+    public boolean isSuper(UserInfo userInfo){
+        if(userInfo == null || StringUtils.isBlank(userInfo.getRoleId())){
+            return false ;
+        }
+        return StringUtils.equals(userInfo.getRoleId(), Constants.sysAdminRoleId) ;
     }
 }

@@ -8,6 +8,7 @@ import com.glamey.innerweb.constants.Constants;
 import com.glamey.innerweb.controller.BaseController;
 import com.glamey.innerweb.dao.CategoryDao;
 import com.glamey.innerweb.dao.PostDao;
+import com.glamey.innerweb.dao.UserInfoDao;
 import com.glamey.innerweb.model.domain.Category;
 import com.glamey.innerweb.model.domain.Post;
 import com.glamey.innerweb.model.domain.UploadInfo;
@@ -48,6 +49,9 @@ public class PostManagerController extends BaseController {
     @Resource
     private WebUploadUtils uploadUtils;
     private String basePath;
+
+    @Resource
+    private UserInfoDao userInfoDao ;
 
     /*分类列表（指定分类）
     * 默认的都是第一级分类，例如：信息动态、通告等等
@@ -287,6 +291,10 @@ public class PostManagerController extends BaseController {
         //通告是否需要审核，如果是1需要用户设置通告是否已被审核 0后台直接默认已经通过审核
         mav.addObject("noticesPermit", Constants.NOTICES_PERMIT);
         mav.setViewName("mg/post/post-show");
+
+
+        boolean isSuper = userInfoDao.isSuper(userInfo);
+        mav.addObject("isSuper",isSuper);
         return mav;
     }
 

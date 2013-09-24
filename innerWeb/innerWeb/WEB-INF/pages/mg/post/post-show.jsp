@@ -101,9 +101,9 @@
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>发布人:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="authorNickName" id="authorNickName" class="required"
-                           size="80" value="${post.userInfo.nickname}" readonly="readonly">
+                           size="80" value="${post.userInfo.nickname}" <c:if test="${!isSuper}">readonly="readonly"</c:if>/>
                     <input type="hidden" maxlength="100" name="author" id="author" class="required" size="80"
-                           value="${post.author}" readonly="readonly">
+                           value="${post.author}" <c:if test="${!isSuper}">readonly="readonly"</c:if>/>
                 </td>
             </tr>
             <tr>
