@@ -100,10 +100,22 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>发布人:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="authorNickName" id="authorNickName" class="required"
-                           size="80" value="${post.userInfo.nickname}" <c:if test="${!isSuper}">readonly="readonly"</c:if>/>
-                    <input type="hidden" maxlength="100" name="author" id="author" class="required" size="80"
-                           value="${post.author}" <c:if test="${!isSuper}">readonly="readonly"</c:if>/>
+                    <%--<input type="text" maxlength="100" name="authorNickName" id="authorNickName" class="required"
+                           size="80" value="${post.userInfo.nickname}" <c:if test="${!isSuper}">readonly="readonly"</c:if>/>--%>
+                    <%--<input type="hidden" maxlength="100" name="author" id="author" class="required" size="80"
+                           value="${post.author}" <c:if test="${!isSuper}">readonly="readonly"</c:if>/>--%>
+                    <select id="author">
+                        <c:forEach var="au" items="${userInfoList}">
+                            <c:choose>
+                                <c:when test="${isSuper}">
+                                    <option value="${au.userId}" <c:if test="${post.author eq au.userId}">selected="selected"</c:if> >${au.nickname}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${au.userId}">${au.nickname}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
                 </td>
             </tr>
             <tr>

@@ -14,6 +14,7 @@ import com.glamey.innerweb.model.domain.Post;
 import com.glamey.innerweb.model.domain.UploadInfo;
 import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.PostQuery;
+import com.glamey.innerweb.model.dto.UserQuery;
 import com.glamey.innerweb.util.WebUploadUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
@@ -258,7 +259,8 @@ public class PostManagerController extends BaseController {
         List<Category> categoryList = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
         Category category = categoryDao.getById(categoryId);
-        
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+
         String opt = "create";
         Post post = new Post();
         String postId = WebUtils.getRequestParameterAsString(request, "postId", "");
@@ -272,15 +274,13 @@ public class PostManagerController extends BaseController {
             post.setApply(1);
             post.setFocusImage(1);
             post.setHot(1);
+            //设置发布人和发布部门
+            post.setAuthor(userInfo.getUserId());
+            post.setUserInfo(userInfo);
+            Category deptCategory = categoryDao.getById(userInfo.getDeptId());
+            post.setDeptCategory(deptCategory);
+            post.setSource(deptCategory.getId());
         }
-        //设置发布人和发布部门
-        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        post.setAuthor(userInfo.getUserId());
-        post.setUserInfo(userInfo);
-        Category deptCategory = categoryDao.getById(userInfo.getDeptId());
-        post.setDeptCategory(deptCategory);
-        post.setSource(deptCategory.getId());
-
 
         mav.addObject("opt", opt);
         mav.addObject("categoryParent", categoryParent);
@@ -295,6 +295,11 @@ public class PostManagerController extends BaseController {
 
         boolean isSuper = userInfoDao.isSuper(userInfo);
         mav.addObject("isSuper",isSuper);
+        UserQuery query = new UserQuery();
+        query.setStart(0);
+        query.setNum(Integer.MAX_VALUE);
+        List<UserInfo> userInfoList = userInfoDao.getUserList(query);
+        mav.addObject("userInfoList",userInfoList);
         return mav;
     }
 
@@ -323,7 +328,8 @@ public class PostManagerController extends BaseController {
         post.setCategoryId(categoryId);
         post.setTitle(WebUtils.getRequestParameterAsString(request, "title"));
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        post.setAuthor(userInfo.getUserId());
+//        post.setAuthor(userInfo.getUserId());
+        post.setAuthor(WebUtils.getRequestParameterAsString(request,"author"));
         post.setSource(WebUtils.getRequestParameterAsString(request, "source"));
         String time = WebUtils.getRequestParameterAsString(request, "time");
         if (StringUtils.isBlank(time)) {
@@ -362,6 +368,7 @@ public class PostManagerController extends BaseController {
             mav.addObject("message", "There is no category for post ! ");
             return mav;
         }
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         Post post = new Post();
         String postId = WebUtils.getRequestParameterAsString(request, "postId");
         if (StringUtils.isBlank(postId)) {
@@ -381,8 +388,8 @@ public class PostManagerController extends BaseController {
         post.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
         post.setCategoryId(categoryId);
         post.setTitle(WebUtils.getRequestParameterAsString(request, "title"));
-        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        post.setAuthor(userInfo.getUserId());
+//        post.setAuthor(userInfo.getUserId());
+        post.setAuthor(WebUtils.getRequestParameterAsString(request,"author"));
         post.setSource(WebUtils.getRequestParameterAsString(request, "source"));
         String time = WebUtils.getRequestParameterAsString(request, "time");
         if (StringUtils.isBlank(time)) {
