@@ -24,6 +24,7 @@ public class Post implements Serializable {
 	
 	private String title ;
 	private String author ;
+    private String nickname ;
     //发布部门
 	private String source ;
     private Category deptCategory = new Category(); ;
@@ -108,9 +109,15 @@ public class Post implements Serializable {
 	}
 
 
+    public String getNickname() {
+        return nickname;
+    }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
-	public String getSource() {
+    public String getSource() {
 		return source;
 	}
 

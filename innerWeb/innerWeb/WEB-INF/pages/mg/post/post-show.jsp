@@ -98,13 +98,9 @@
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>发布人:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h">发布人:</td>
                 <td width="85%" class="pn-fcontent">
-                    <%--<input type="text" maxlength="100" name="authorNickName" id="authorNickName" class="required"
-                           size="80" value="${post.userInfo.nickname}" <c:if test="${!isSuper}">readonly="readonly"</c:if>/>--%>
-                    <%--<input type="hidden" maxlength="100" name="author" id="author" class="required" size="80"
-                           value="${post.author}" <c:if test="${!isSuper}">readonly="readonly"</c:if>/>--%>
-                    <select id="author">
+                    <%--<select id="author">
                         <c:forEach var="au" items="${userInfoList}">
                             <c:choose>
                                 <c:when test="${isSuper}">
@@ -115,7 +111,24 @@
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
-                    </select>
+                    </select>--%>
+                    <c:choose>
+                        <c:when test="${empty post.nickname}">
+                            <c:set var="postName" value="${post.userInfo.nickname}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="postName" value="${post.nickname}"/>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${isSuper}">
+                            <input type="text" id="nickname" name="nickname" value="${postName}" />(如果为空，默认为当前用户的姓名)
+                        </c:when>
+                        <c:otherwise>
+                            <input type="text" id="nickname" name="nickname" value="${postName}" readonly="readonly"/>
+                        </c:otherwise>
+                    </c:choose>
+                    <input type="hidden" id="author" name="author" value="${post.author}" readonly="readonly"/>
                 </td>
             </tr>
             <tr>

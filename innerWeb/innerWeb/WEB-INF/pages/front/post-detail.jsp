@@ -46,7 +46,15 @@
                 <div class="neirong_con" style="width:930px;">
                     <h2>${post.title}</h2>
                     <br/>
-                    <h3>作者：${post.userInfo.nickname}&nbsp;&nbsp;&nbsp;时间：${post.time}&nbsp;&nbsp;&nbsp;来源：${post.deptCategory.name}</h3>
+                    <c:choose>
+                        <c:when test="${empty post.nickname}">
+                            <c:set var="postName" value="${post.userInfo.nickname}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="postName" value="${post.nickname}"/>
+                        </c:otherwise>
+                    </c:choose>
+                    <h3>作者：${postName}&nbsp;&nbsp;&nbsp;时间：${post.time}&nbsp;&nbsp;&nbsp;来源：${post.deptCategory.name}</h3>
                     <br/>
                     <div class="neirong_con">
                         ${post.content}

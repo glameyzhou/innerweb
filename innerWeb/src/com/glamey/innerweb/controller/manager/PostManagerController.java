@@ -328,8 +328,8 @@ public class PostManagerController extends BaseController {
         post.setCategoryId(categoryId);
         post.setTitle(WebUtils.getRequestParameterAsString(request, "title"));
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-//        post.setAuthor(userInfo.getUserId());
-        post.setAuthor(WebUtils.getRequestParameterAsString(request,"author"));
+        post.setAuthor(userInfo.getUserId());
+        post.setNickname(WebUtils.getRequestParameterAsString(request,"nickname"));
         post.setSource(WebUtils.getRequestParameterAsString(request, "source"));
         String time = WebUtils.getRequestParameterAsString(request, "time");
         if (StringUtils.isBlank(time)) {
@@ -388,8 +388,8 @@ public class PostManagerController extends BaseController {
         post.setCategoryType(WebUtils.getRequestParameterAsString(request, "categoryType"));
         post.setCategoryId(categoryId);
         post.setTitle(WebUtils.getRequestParameterAsString(request, "title"));
-//        post.setAuthor(userInfo.getUserId());
-        post.setAuthor(WebUtils.getRequestParameterAsString(request,"author"));
+        post.setAuthor(userInfo.getUserId());
+        post.setNickname(WebUtils.getRequestParameterAsString(request,"nickname"));
         post.setSource(WebUtils.getRequestParameterAsString(request, "source"));
         String time = WebUtils.getRequestParameterAsString(request, "time");
         if (StringUtils.isBlank(time)) {

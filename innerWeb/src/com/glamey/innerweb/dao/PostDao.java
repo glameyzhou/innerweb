@@ -45,9 +45,9 @@ public class PostDao extends BaseDao {
         logger.info("[PostDao] #create# " + post);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_post(id,post_category_type,post_category_id,post_title,post_author,post_source,post_time,post_showindex,post_showlist," +
+                    "insert into tbl_post(id,post_category_type,post_category_id,post_title,post_author,post_nickname,post_source,post_time,post_showindex,post_showlist," +
                             "post_apply,post_focusimage,post_hot,post_summary,post_image,post_content)" +
-                            " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                            " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -57,6 +57,7 @@ public class PostDao extends BaseDao {
                             pstmt.setString(++i, post.getCategoryId());
                             pstmt.setString(++i, post.getTitle());
                             pstmt.setString(++i, post.getAuthor());
+                            pstmt.setString(++i, post.getNickname());
                             pstmt.setString(++i, post.getSource());
                             pstmt.setString(++i, post.getTime());
                             pstmt.setInt(++i, post.getShowIndex());
@@ -86,7 +87,7 @@ public class PostDao extends BaseDao {
         logger.info("[PostDao] #update# " + post);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_post set post_category_type=?,post_category_id=?,post_title=?,post_author=?,post_source=?,post_time=?," +
+                    "update tbl_post set post_category_type=?,post_category_id=?,post_title=?,post_author=?,post_nickname=?,post_source=?,post_time=?," +
                             "post_showindex=?,post_showlist=?,post_apply=?,post_focusimage=?,post_hot=?,post_summary=?,post_image=?,post_content=? where id=?",
                     new PreparedStatementSetter() {
                         @Override
@@ -96,6 +97,7 @@ public class PostDao extends BaseDao {
                             pstmt.setString(++i, post.getCategoryId());
                             pstmt.setString(++i, post.getTitle());
                             pstmt.setString(++i, post.getAuthor());
+                            pstmt.setString(++i, post.getNickname());
                             pstmt.setString(++i, post.getSource());
                             pstmt.setString(++i, post.getTime());
                             pstmt.setInt(++i, post.getShowIndex());
@@ -412,6 +414,7 @@ public class PostDao extends BaseDao {
 
             post.setTitle(rs.getString("post_title"));
             post.setAuthor(rs.getString("post_author"));
+            post.setNickname(rs.getString("post_nickname"));
 
             UserInfo userInfo = userInfoDao.getUserById(post.getAuthor());
             post.setUserInfo(userInfo);

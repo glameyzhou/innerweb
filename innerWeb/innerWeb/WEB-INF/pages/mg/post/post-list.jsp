@@ -18,7 +18,6 @@
 			return ;
 		}
         var locationURL = "${basePath}mg/post/${categoryParent.aliasName}/post-pageOperate.htm?postId=" + postId + "&categoryId=" + categoryId + "&type=1&flag=1";
-        alert(locationURL);
 		window.location = locationURL ;
 	}
     /**
@@ -155,7 +154,17 @@
 				<td align="center"><input type="checkbox" id="postId" name="postId" value="${post.id}"/></td>
 				<td title="${post.title}">${fmtString:substringAppend(post.title,35,'')}</td>
 				<td align="center">${post.deptCategory.name}</td>
-				<td align="center">${post.userInfo.nickname}</td>
+				<td align="center">
+                    <c:choose>
+                        <c:when test="${empty post.nickname}">
+                            <c:set var="postName" value="${post.userInfo.nickname}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="postName" value="${post.nickname}"/>
+                        </c:otherwise>
+                    </c:choose>
+                    ${postName}
+				</td>
 				<td align=center>${post.category.name}</td>
 				<td align=center><c:choose><c:when test="${post.showIndex == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
 				<td align=center><c:choose><c:when test="${post.showList == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
