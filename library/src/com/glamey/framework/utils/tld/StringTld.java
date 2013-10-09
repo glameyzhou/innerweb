@@ -143,5 +143,7 @@ public class StringTld {
 
         System.out.println(hasRightsRegex(list,"01_notices*"));
         System.out.println("..." + StringTld.substringPreciseAppend("2013-2018年中国电力供应市场深度调研及战略决策咨询分析报告",18,".."));
+        System.out.println("..." + StringTld.substringPreciseAppend("中国华电科[2013]133号    关于转发中国电力科学技术奖奖励通报（2012年度）的通知",20,".."));
+
     }
 }

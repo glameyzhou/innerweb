@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="GBK"?>
+<project name="WebApp Precompilation JSP to Java to Class to Jar" basedir="." default="class2jar">
+    <property name="tomcat.home" value="C:/Program Files/Apache Software Foundation/Tomcat 5.5"/>
+    <property name="webapp.path" value="${tomcat.home}/webapps/lotus"/>
+    <property name="webapp.name" value="lotus"/>
+    <target name="all" depends="jsp2java,java2class,class2jar,clear"/>
+    <target name="help">
+        <echo message="显示功能列表"/>
+        <echo message="jsp2java  通过JspC将JSP转换成Java源代码"/>
+        <echo message="java2class 将转换后的Java源代码进行编译成class文件"/>
+        <echo message="class2jar 将编译后的class文件打包"/>
+        <echo message="clear  清理现场"/>
+    </target>
+    <target name="jsp2java">
+        <taskdef classname="org.apache.jasper.JspC" name="jsp2java">
+            <classpath id="jsp2java.classpath">
+                <fileset dir="${tomcat.home}/bin">
+                    <include name="*.jar"/>
+                </fileset>
+                <fileset dir="${tomcat.home}/server/lib">
+                    <include name="*.jar"/>
+                </fileset>
+                <fileset dir="${tomcat.home}/common/lib">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </taskdef>
+        <!-- 注意JSP文件要设置为UTF-8编码 -->
+        <jsp2java classpath="jsp2java.classpath" javaEncoding="UTF-8" validateXml="false" uriroot="${webapp.path}"
+                  webXmlFragment="${webapp.path}/WEB-INF/webJSP.xml" outputDir="${webapp.path}/WEB-INF/JspC/src"/>
+    </target>
+    <target name="java2class" depends="jsp2java">
+        <mkdir dir="${webapp.path}/WEB-INF/JspC/classes"/>
+        <!-- 同样Java文件要设置为UTF-8编码 -->
+        <javac srcdir="${webapp.path}/WEB-INF/JspC/src" destdir="${webapp.path}/WEB-INF/JspC/classes" encoding="UTF-8"
+               optimize="off" debug="on" failonerror="false" excludes="**/*.smap">
+            <classpath id="java2class.classpath">
+                <pathelement location="${webapp.path}/WEB-INF/classes"/>
+                <fileset dir="${webapp.path}/WEB-INF/lib">
+                    <include name="*.jar"/>
+                </fileset>
+                <pathelement location="${tomcat.home}/common/classes"/>
+                <fileset dir="${tomcat.home}/common/lib">
+                    <include name="*.jar"/>
+                </fileset>
+                <pathelement location="${tomcat.home}/shared/classes"/>
+                <fileset dir="${tomcat.home}/shared/lib">
+                    <include name="*.jar"/>
+                </fileset>
+                <fileset dir="${tomcat.home}/bin">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+            <include name="**"/>
+            <exclude name="tags/**"/>
+        </javac>
+    </target>
+    <target name="class2jar" depends="java2class">
+        <mkdir dir="${webapp.path}/WEB-INF/lib"/>
+        <jar basedir="${webapp.path}/WEB-INF/JspC/classes" jarfile="${webapp.path}/WEB-INF/lib/${webapp.name}JSP.jar"/>
+    </target>
+    <target name="clear">
+        <delete dir="${webapp.path}/WEB-INF/JspC/classes"/>
+        <delete dir="${webapp.path}/WEB-INF/JspC/src"/>
+        <delete dir="${webapp.path}/WEB-INF/JspC"/>
+    </target>
+</project>

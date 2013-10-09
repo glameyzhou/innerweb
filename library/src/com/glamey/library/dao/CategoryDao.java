@@ -467,7 +467,7 @@ public class CategoryDao extends BaseDao {
             if (StringUtils.isNotBlank(query.getKeyword()))
                 sql.append(" and (name = ? or shortname like ? or aliasname like ? or categorydescribe like ?)");
 
-            sql.append(" order by categoryorder desc limit ?,? ");
+            sql.append(" order by categoryorder asc limit ?,? ");
 
             list = jdbcTemplate.query(sql.toString(),
                     new PreparedStatementSetter() {

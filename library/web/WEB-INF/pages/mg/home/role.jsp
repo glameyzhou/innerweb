@@ -56,7 +56,11 @@
                 <li><a href="javascript:divDisplay('lib_p_c_${dto.category.id}_div');" target="mainFrame">${dto.category.name}</a></li>
                 <ul id="lib_p_c_${dto.category.id}_div" style="display: none">
                     <c:forEach var="dtocate" items="${dto.libraryInfoDTOList}">
-                        <li><a href="${basePath}mg/library/library-list.htm?categoryId=${dtocate.category.id}" target="mainFrame">${dtocate.category.name}</a></li>
+                        <li>
+                            <a href="${basePath}mg/library/library-list.htm?categoryId=${dtocate.category.id}" target="mainFrame">
+                        <font style="font-size: 8px;">${dtocate.category.name}</font>
+                            </a>
+                        </li>
                     </c:forEach>
                 </ul>
             </c:if>
