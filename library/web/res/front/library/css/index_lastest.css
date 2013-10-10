@@ -1,0 +1,57 @@
+@charset "utf-8";
+/* CSS Document */
+.center{width:1020px; margin-top:5px; margin-left:5px;}
+/*左半边样式开始*/
+.center_left{width:265px; height:auto; float:left;}
+/*焦点图*/
+.jiaodiantu{width:264px; height:215px; margin-top:10px;}
+.mainbox{ overflow:hidden; position:relative;}
+.flashbox{ overflow:hidden;position:relative;}
+.imagebox{text-align:right;position:relative;z-index:999;}
+.bitdiv{display:inline-block;width:18px;height:18px;margin:0 10px 10px 0px;cursor:pointer;float:right;}
+.defimg{background-image:url(../images/02.png)}
+.curimg{background-image:url(../images/01.png)}
+/*焦点图end*/
+.notice_top{background-image:url(../images/notice_top.jpg); width:265px; height:76px; font-size:16px; font-family:"黑体"; line-height:76px; padding-left:50px;}
+.notice_center{background-image:url(../images/notice_center.jpg); width:265px; height:auto; background-repeat:repeat-y; float:left;}
+.zixun_kuang_con li ,.notice_center li{float:left;width:235px; margin-left:15px; _margin-left:15px; padding-left:20px; height:30px; background-image:url(../images/notice_list.png);}
+.notice_bottom{background-image:url(../images/notice_bottom.jpg); width:265px; height:40px; float:left;}
+
+.fenlei{width:255px; height:auto; border:5px solid #efefef; float:left; padding-bottom:20px;}
+.fenlei_tit{width:245px; padding-left:5px; padding-top:10px;}
+.fenlei_con_zilei ul,.fenlei_con ul{height:25px;}
+.fenlei_con_zilei li,.fenlei_con li{line-height:32px;float:left;}
+.fenlei_con_zilei li a{color:#999}
+.fenlei_con_zilei li img,.fenlei_con li img{padding-top:10px;padding-right:10px;}
+.fenlei_con ul{float:left;width:210px;margin-left:18px;padding-left:10px;}
+.fenlei_con_zilei ul{float:left;width:190px;margin-left:40px;padding-left:5px;}
+.xiala{margin-top:10px;border:1px solid #C0C0C0;height:23px;line-height:23px;width:200px;}
+.guanggao{float:left; margin-top:10px;}
+/*左半边样式结束*/
+.center_right{width:740px; height:auto; float:left; margin-left:15px; margin-top:7px;}
+.focus{width:730px;}
+.focus_title{float:left; height:40px; width:720px;}
+.fenlei_tit li ,.focus_title li{float:left; font-size:16px; font-family:"黑体"; height:39px; line-height:39px; padding-left:5px;}
+.focus_content{float:left; margin-top:5px; padding-left:5px; width:710px;}
+.focus_pic{float:left; width:270px;}
+.focus_pic img{padding:3px; border:1px solid #efefef;}
+.focus_news{float:left; width:430px;font-size: 14px;line-height:18px;}
+.focus_news li{float:left; line-height:18px; width:420px;}
+/*.focus_news p{ line-height:18px;}*/
+.zixun{width:730px; height:auto; margin-top:10px; float:left;}
+.youlian1,.youlian,.zixun_kuang{width:720px; border:5px solid #efefef; float:left;  padding-bottom:10px;}
+.youlian1{width:1000px; margin-top:10px;}
+.zixun_kuang_tit{background-image:url(../images/neirong1.jpg); background-repeat:repeat-y; float:left; width:700px; height:30px; margin:8px 5px;}
+.zixun_kuang_tit1{background-image:url(../images/neirong.jpg); background-repeat:repeat-y; float:left; width:700px; height:30px; margin:8px 5px;}
+.zixun_kuang_tit2{background-image:url(../images/neirong2.jpg); background-repeat:repeat-y; float:left; width:700px; height:30px; margin:8px 5px;}
+.zixun_kuang_tit3{background-image:url(../images/neirong3.jpg); background-repeat:repeat-y; float:left; width:700px; height:30px; margin:8px 5px;}
+.youlian_tit{background-image:url(../images/neirong1.jpg); background-repeat:repeat-y; float:left; width:700px; height:30px; margin:8px 5px;}
+
+.tupian_tit,.youlian_tit1{background-image:url(../images/youlian.jpg); background-repeat:repeat-y; float:left; width:980px; height:30px; margin:8px 5px;}
+.tupian_tit{background-image:url(../images/neirong4.jpg)}
+.youlian_tit1 li ,.tupian_tit li ,.youlian_tit li,.zixun_kuang_tit1 li,.zixun_kuang_tit2 li,.zixun_kuang_tit li,.zixun_kuang_tit3 li{float:left; font-size:16px; font-family:"黑体"; line-height:30px; padding-left:15px; font-weight:bold;}
+.zixun_kuang_con{width:720px; height:auto;}
+.zixun_kuang_con li{height:20px;}
+.zixun_kuang p ,.zixun_kuang_con p{ font-family:"黑体"; font-size:14px; font-weight:bold; padding-left:20px; padding-top:10px;height:25px; float:left; }
+.zixun_kuang_con p a{ padding-left:185px;}
+.zixun_kuang_tit1 .tit_erji ,.zixun_kuang_tit2 .tit_erji{font-size:14px; font-weight:normal; line-height:30px; font-family:"黑体"; white-space:nowrap;}

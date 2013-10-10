@@ -185,7 +185,14 @@ public class LibraryInfoDao extends BaseDao {
             if (query.getShowIndex() > -1)
                 sql.append(" and lib_showindex = ? ");
 
-        	sql.append(" order by lib_order desc limit ?,? ");
+            if(StringUtils.isNotBlank(query.getOrderColumnName()) && StringUtils.isNotBlank(query.getOrderType())){
+                sql.append(" order by ? ? ") ;
+            }else{
+                sql.append(" order by lib_order desc ");
+            }
+
+            sql.append(" limit ?,? ");
+
         	
             list = jdbcTemplate.query(sql.toString(),
                     new PreparedStatementSetter() {
@@ -214,6 +221,12 @@ public class LibraryInfoDao extends BaseDao {
 
                             if (query.getShowIndex() > -1)
                                 preparedstatement.setInt(++i , query.getShowIndex());
+
+                            if(StringUtils.isNotBlank(query.getOrderColumnName()) && StringUtils.isNotBlank(query.getOrderType())){
+//                                sql.append(" order by ? ? ") ;
+                                preparedstatement.setString(++i,query.getOrderColumnName());
+                                preparedstatement.setString(++i,query.getOrderType());
+                            }
 
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());

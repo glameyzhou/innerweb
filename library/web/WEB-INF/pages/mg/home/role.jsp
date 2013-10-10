@@ -78,6 +78,18 @@
         </ul>
     </c:if>
 
+    <%--常用链接管理--%>
+    <c:if test="${fmtString:hasRightsList(rightsList,'08')}">
+        <li><a href="${basePath}mg/links/${categoryOfenLinks.aliasName}/category-list.htm" target="mainFrame">常用链接 - 分类管理</a></li>
+        <li><a href="javascript:divDisplay('${categoryOfenLinks.id}_div');">${categoryOfenLinks.name} - 链接管理</a></li>
+        <ul id="${categoryOfenLinks.id}_div" style="display: none">
+            <c:forEach var="cate" items="${categoryOfenLinksList}">
+                <li><a href="${basePath}mg/links/${categoryOfenLinks.aliasName}/links-list.htm?categoryId=${cate.id}" target="mainFrame">${cate.name}</a></li>
+            </c:forEach>
+        </ul>
+    </c:if>
+
+
     <c:if test="${fmtString:hasRightsList(rightsList,'07')}">
         <li><a href="${basePath}mg/feedback/list.htm" target="mainFrame">在线留言管理</a></li>
     </c:if>

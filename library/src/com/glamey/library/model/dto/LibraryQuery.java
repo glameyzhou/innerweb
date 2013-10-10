@@ -22,6 +22,15 @@ public class LibraryQuery implements Serializable {
     private int start;
     private int num;
 
+    /**
+     * 排序的列名称
+     */
+    private String orderColumnName ;
+    /**
+     * 排序方式
+     */
+    private String orderType ;
+
     public String getKeyword() {
         return keyword;
     }
@@ -84,6 +93,22 @@ public class LibraryQuery implements Serializable {
 
     public void setShowIndex(int showIndex) {
         this.showIndex = showIndex;
+    }
+
+    public String getOrderColumnName() {
+        return orderColumnName;
+    }
+
+    public void setOrderColumnName(String orderColumnName) {
+        this.orderColumnName = orderColumnName;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
     }
 
     @Override

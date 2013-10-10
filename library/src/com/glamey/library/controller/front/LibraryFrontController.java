@@ -128,6 +128,37 @@ public class LibraryFrontController extends BaseController {
         }
     }
 
+    /*最新荐读*/
+    @RequestMapping(value = "/library-newest.htm", method = RequestMethod.GET)
+    public ModelAndView libNewest(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[front] #libNewest#" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView();
+
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
+
+        int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
+        pageBean = new PageBean(30);
+
+        List<LibraryInfo> libraryInfoNewestList = new ArrayList<LibraryInfo>(10);
+        LibraryQuery libraryQuery = new LibraryQuery();
+        libraryQuery.setShowIndex(1);
+        libraryQuery.setStart(pageBean.getStart());
+        libraryQuery.setNum(pageBean.getRowsPerPage());
+        libraryQuery.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
+        libraryQuery.setOrderType(Constants.ORDERBYDESC);
+        libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
+        pageBean.setMaxRowCount(libraryInfoDao.getCountByQuery(libraryQuery));
+        pageBean.setCurPage(curPage);
+        pageBean.setMaxPage();
+        pageBean.setPageNoList();
+
+        mav.addObject("libraryInfoList",libraryInfoNewestList);
+        mav.addObject("pageBean",pageBean);
+        mav.setViewName("front/lib-newest");
+        return mav ;
+    }
+
     //图书详情页面展示
     @RequestMapping(value = "/library-detail-{id}.htm", method = RequestMethod.GET)
     public ModelAndView libraryDetail(

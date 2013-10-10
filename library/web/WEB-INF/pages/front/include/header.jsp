@@ -15,8 +15,8 @@
     </div>
     <div class="logo_right">
         <ul>
-            <li style="margin-left:10px;"><a href="#" id="addFavorites">加入收藏</a></li>
-            <li><a href="#" id="addHomePage">设为首页</a></li>
+            <li style="margin-left:10px;"><a href="${basePath}index.htm">返回首页</a></li>
+            <li><a href="http://www.chdi.ac.cn" target="_blank">总院首页</a></li>
             <c:choose>
                 <c:when test="${(not empty sessionUserInfo) && (sessionUserInfo.username != 'lib_Tourist_uid')}">
                             <li><b><a href="${basePath}mg/home.htm" target="_blank"><c:out value="${sessionUserInfo.nickname}"/></a></b></li>

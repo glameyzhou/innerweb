@@ -86,6 +86,14 @@
                             <td>友情链接管理</td>
                         </tr>
 
+                        <tr>
+                            <td width="10%" align="right">
+                                <input type="checkbox" id="rightsId" name="rightsId" value="08"
+                                       <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'08')}">checked="checked"</c:if>/>
+                            </td>
+                            <td>常用链接管理</td>
+                        </tr>
+
 
                         <tr>
                             <td width="10%" align="right">

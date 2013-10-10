@@ -5,15 +5,9 @@ import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.constants.SystemConstants;
 import com.glamey.library.controller.BaseController;
-import com.glamey.library.dao.CategoryDao;
-import com.glamey.library.dao.LibraryInfoDao;
-import com.glamey.library.dao.MetaInfoDao;
-import com.glamey.library.dao.PostDao;
+import com.glamey.library.dao.*;
 import com.glamey.library.model.domain.*;
-import com.glamey.library.model.dto.LibraryInfoDTO;
-import com.glamey.library.model.dto.LibraryQuery;
-import com.glamey.library.model.dto.PostDTO;
-import com.glamey.library.model.dto.PostQuery;
+import com.glamey.library.model.dto.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -44,11 +38,13 @@ public class IndexFrontController extends BaseController {
     private CategoryDao categoryDao ;
     @Resource
     private LibraryInfoDao libraryInfoDao ;
+    @Resource
+    private LinksDao linksDao ;
 
     @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         logger.info("[front] #index#");
-        ModelAndView mav = new ModelAndView("front/index");
+        ModelAndView mav = new ModelAndView("front/index_lastest");
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
         UserInfo userInfo = (UserInfo) obj;
 
@@ -115,6 +111,20 @@ public class IndexFrontController extends BaseController {
         mav.addObject("libraryInfoDTOList",libraryInfoDTOList);
 
         mav.addAllObjects(includeFront.friendlyLinks(request));
+
+        //常用链接管理
+        mav.addAllObjects(includeFront.ofenLinks());
+
+        //最新荐读（所有分类中的倒序排列top10）
+        List<LibraryInfo> libraryInfoNewestList = new ArrayList<LibraryInfo>(10);
+        LibraryQuery libraryQuery = new LibraryQuery();
+        libraryQuery.setShowIndex(1);
+        libraryQuery.setNum(10);
+        libraryQuery.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
+        libraryQuery.setOrderType(Constants.ORDERBYDESC);
+        libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
+        mav.addObject("libraryInfoNewestList",libraryInfoNewestList);
+
         return mav;
     }
 

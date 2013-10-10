@@ -38,6 +38,32 @@ public class IncludeFront {
     @Resource
     private PostDao postDao;
 
+    public ModelMap ofenLinks() {
+        ModelMap modelMap = new ModelMap();
+        //常用链接管理
+        List<FriendlyLinksDTO> linksDTOs = new ArrayList<FriendlyLinksDTO>();
+        Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEGORY_OFENLINKS);
+        List<Category> ofenLinksCategory = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
+        FriendlyLinksDTO dto = null;
+        for (Category category : ofenLinksCategory) {
+            LinksQuery query = new LinksQuery();
+            query.setCategoryId(category.getId());
+            query.setCategoryType(category.getCategoryType());
+            query.setShowIndex(1);
+            query.setStart(0);
+            query.setNum(Integer.MAX_VALUE);
+            List<Links> linksList = linksDao.getByParentId(query);
+
+            dto = new FriendlyLinksDTO();
+            dto.setCategory(category);
+            dto.setLinksList(linksList);
+
+            linksDTOs.add(dto);
+        }
+        modelMap.addAttribute("linksDTOs", linksDTOs);
+
+        return modelMap;
+    }
     public ModelMap friendlyLinks(HttpServletRequest request) {
         int port = request.getServerPort();
         String basePath = request.getScheme() + "://" + request.getServerName() + (port == 80 ? "" : ":" + port) + request.getContextPath() + "/";
