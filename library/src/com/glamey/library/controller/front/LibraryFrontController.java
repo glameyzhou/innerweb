@@ -139,17 +139,16 @@ public class LibraryFrontController extends BaseController {
 
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean = new PageBean(30);
+        pageBean.setCurPage(curPage);
 
-        List<LibraryInfo> libraryInfoNewestList = new ArrayList<LibraryInfo>(10);
         LibraryQuery libraryQuery = new LibraryQuery();
         libraryQuery.setShowIndex(1);
         libraryQuery.setStart(pageBean.getStart());
         libraryQuery.setNum(pageBean.getRowsPerPage());
         libraryQuery.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
         libraryQuery.setOrderType(Constants.ORDERBYDESC);
-        libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
+        List<LibraryInfo> libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
         pageBean.setMaxRowCount(libraryInfoDao.getCountByQuery(libraryQuery));
-        pageBean.setCurPage(curPage);
         pageBean.setMaxPage();
         pageBean.setPageNoList();
 

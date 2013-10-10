@@ -186,7 +186,7 @@ public class LibraryInfoDao extends BaseDao {
                 sql.append(" and lib_showindex = ? ");
 
             if(StringUtils.isNotBlank(query.getOrderColumnName()) && StringUtils.isNotBlank(query.getOrderType())){
-                sql.append(" order by ? ? ") ;
+                sql.append(" order by ").append(query.getOrderColumnName()).append(query.getOrderType()) ;
             }else{
                 sql.append(" order by lib_order desc ");
             }
@@ -222,14 +222,10 @@ public class LibraryInfoDao extends BaseDao {
                             if (query.getShowIndex() > -1)
                                 preparedstatement.setInt(++i , query.getShowIndex());
 
-                            if(StringUtils.isNotBlank(query.getOrderColumnName()) && StringUtils.isNotBlank(query.getOrderType())){
-//                                sql.append(" order by ? ? ") ;
-                                preparedstatement.setString(++i,query.getOrderColumnName());
-                                preparedstatement.setString(++i,query.getOrderType());
-                            }
-
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
+
+                            System.out.println(preparedstatement.toString());
                         }
                     },
                     new LibraryInfoRowMapper());
