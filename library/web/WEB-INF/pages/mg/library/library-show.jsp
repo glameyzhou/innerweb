@@ -66,16 +66,20 @@
                 dispContent("content1", "block");
                 dispContent("content2", "none");
                 dispContent("content3", "none");
+                dispContent("showFouceImageDiv", "none");
+                document.getElementById("").value="0";
             }
             else if (typeId == '2') {
                 dispContent("content1", "none");
                 dispContent("content2", "block");
                 dispContent("content3", "none");
+                dispContent("showFouceImageDiv", "block");
             }
             else if (typeId == '3') {
                 dispContent("content1", "none");
                 dispContent("content2", "none");
                 dispContent("content3", "block");
+                dispContent("showFouceImageDiv", "block");
             }
         }
         function dispContent(id, dis) {
@@ -140,7 +144,12 @@
             <font color="red">URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>
             <input type="text" maxlength="100" name="url" id="url" size="80" value="${lib.url}"/>
         </p>
-
+        <p id="showFouceImageDiv" style="display: none;">
+            <font color="red">焦点图显示</font>
+            <input type="radio" name="showFouceImage" value="1" <c:if test="${lib.showFocusimage == 1}">checked="checked"</c:if> />&nbsp;显示&nbsp;&nbsp;
+            <input type="radio" name="showFouceImage" value="0" <c:if test="${lib.showFocusimage == 0}">checked="checked"</c:if> />&nbsp;不显示
+            <br/><br/>
+        </p>
         <p id="content2" style="display: none;">
             <font color="red">名称&nbsp;&nbsp;&nbsp;&nbsp;</font>
             <input type="text" maxlength="100" name="contentName" id="contentName" size="80" value="${lib.name}"/><br/><br/>

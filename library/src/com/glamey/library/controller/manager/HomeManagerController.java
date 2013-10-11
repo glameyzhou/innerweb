@@ -126,6 +126,12 @@ public class HomeManagerController extends BaseController {
         mav.addObject("categoryOfenLinks",categoryOfenLinks);
         mav.addObject("categoryOfenLinksList",categoryOfenLinksList);
 
+        /*滚动图片*/
+        Category categoryRollingImages = categoryDao.getByAliasName(CategoryConstants.CATEGORY_ROLLINGIMAGE);
+        List<Category> categoryRollingImagesList = categoryDao.getByParentId(categoryRollingImages.getId(),categoryRollingImages.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryRollingImages",categoryRollingImages);
+        mav.addObject("categoryRollingImagesList",categoryRollingImagesList);
+
         List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
         List<Category> rootList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
         for (Category rootCategory : rootList) {

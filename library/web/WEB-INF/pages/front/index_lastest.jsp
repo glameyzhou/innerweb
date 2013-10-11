@@ -226,7 +226,7 @@
     </div>
 <!--右半边代码结束-->
 </div>
-    <%@include file="include/friendlyLinks.jsp"%>
+    <%@include file="include/friendlyLinks_lastest.jsp"%>
     <%@include file="include/rollingImages.jsp"%>
     <%@include file="include/footer.jsp" %>
 </div>

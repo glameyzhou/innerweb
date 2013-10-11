@@ -26,35 +26,33 @@
             <%@include file="include/library-category.jsp"%>
             <%@include file="include/contact.jsp" %>
         </div>
+        <!--左半边代码结束-->
+        <!--右半边代码开始-->
         <div class="center_right">
             <div class="neirong">
-                <div class="neirong_tit">最新荐读</div>
+                <div class="neirong_tit">滚动图片 <c:if test="${not empty category}">>> ${category.name}</c:if></div>
+                <div class="seat">分类&nbsp;&nbsp;<a href="${basePath}rolling-.htm">所有</a> ||
+                    <c:forEach var="cate" items="${categoryList}" varStatus="index">
+                        <a href="${basePath}rolling-${cate.id}.htm">${cate.name}</a><c:if test="${!index.last}"> || </c:if>
+                    </c:forEach>
+                </div>
                 <div class="neiye_right_con">
                     <table width="99%" cellpadding="0" cellspacing="0" border="0">
                         <tr>
-                            <c:forEach var="lib" items="${libraryInfoList}" varStatus="statusIndex">
-                                <c:choose>
-                                    <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                                        <c:set var="libHref" value="href=\"#\""/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:if test="${lib.type ==1 || lib.type == 3}">
-                                            <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
-                                        </c:if>
-                                        <c:if test="${lib.type ==2}">
-                                            <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
-                                        </c:if>
-                                    </c:otherwise>
-                                </c:choose>
-                                <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
-                                &nbsp;
-                                <img src="${basePath}res/front/library/images/right_tit_biao3.png"/>&nbsp;
-                                <a title="${lib.name}" ${libHref}>${lib.name}</a>
-                                <br/><br/>
+                            <c:forEach var="rolling" items="${rollingImageInfoList}" varStatus="statusIndex">
+                                <td width="33%">
+                                    <img src="${basePath}${rolling.image}" alt="" height="147" width="200"
+                                         <%--onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${rolling.image}','${rolling.name}');"--%>/><br/>
+                                    名称：${rolling.name}<br/>
+                                    时间：<fmt:formatDate value="${rolling.rollingDate}" pattern="yyyy-MM-dd"/><br/><br/>
+                                </td>
+                                <c:if test="${statusIndex.count % 3 == 0}">
+                                    </tr><tr>
+                                </c:if>
                             </c:forEach>
                         </tr>
                     </table>
-                    <c:set var="pageURL" value="${basePath}library-newest.htm?"/>
+                    <c:set var="pageURL" value="${basePath}rolling-${category.id}.htm?"/>
                     <%@include file="../common/pages-front.jsp" %>
                 </div>
             </div>
@@ -64,7 +62,7 @@
     <!--底部代码开始-->
     <%@include file="include/footer.jsp"%>
     <!--底部代码结束-->
-    <%--<%@include file="include/library-showDiv.jsp"%>--%>
+    <%@include file="include/library-showDiv.jsp"%>
 </div>
 </body>
 </html>

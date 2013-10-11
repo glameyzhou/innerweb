@@ -29,6 +29,9 @@ public class CategoryConstants {
     /*常用链接*/
     public static final String CATEGORY_OFENLINKS = "ofenLinks" ;
 
+    /*滚动图片*/
+    public static final String CATEGORY_ROLLINGIMAGE = "rollingImage" ;
+
     /*所有通知(公司内部通告)*/
     public static final String  CATEGORY_ALLNOTICES = "deptInnerNotices" ;
 

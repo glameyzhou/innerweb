@@ -62,7 +62,7 @@
                     <input type="radio" name="showIndex" id="showIndex" value="1" <c:if test="${category.showIndex == 1}">checked="checked"</c:if> />是&nbsp;
                 </td>
             </tr>
-            <tr>
+            <tr style="display: none;">
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>分类模式:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="radio" name="showType" id="showType" value="0" <c:if test="${category.showType == 0}">checked="checked"</c:if> />列表形式&nbsp;

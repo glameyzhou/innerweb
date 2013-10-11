@@ -20,9 +20,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class IndexFrontController extends BaseController {
@@ -40,10 +38,84 @@ public class IndexFrontController extends BaseController {
     private LibraryInfoDao libraryInfoDao ;
     @Resource
     private LinksDao linksDao ;
+    @Resource
+    private RollingImageDao rollingImageDao ;
 
     @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         logger.info("[front] #index#");
+        ModelAndView mav = new ModelAndView("front/index");
+        Object obj = session.getAttribute(Constants.SESSIN_USERID);
+        UserInfo userInfo = (UserInfo) obj;
+
+        //图书馆头部信息
+        String libraryHeadTitle = metaInfoDao.getByName(SystemConstants.meta_library_title).getValue();
+        String libraryHeadContent = metaInfoDao.getByName(SystemConstants.meta_library_content).getValue();
+        mav.addObject("libraryHeadTitle",libraryHeadTitle);
+        mav.addObject("libraryHeadContent",libraryHeadContent);
+        mav.addAllObjects(includeFront.allInclude(request,response,session));
+
+        //图书馆内容
+        int showIndex = 1 ;/*首页显示*/
+        List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
+        List<Category> rootList = categoryDao.getByParentId(showIndex,CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,8);
+        for (Category rootCategory : rootList) {
+            /*父类、子类、子类下内容*/
+            LibraryInfoDTO dto = new LibraryInfoDTO();
+            dto.setCategory(rootCategory);
+
+            List<LibraryInfoDTO> libDTOList = new ArrayList<LibraryInfoDTO>();
+            LibraryInfoDTO libDTO = null ;
+            /*获取对应的子分类信息以及子分类下的连接数量*/
+            List<Category> categoryList = categoryDao.getByParentId(showIndex,rootCategory.getId(),CategoryConstants.CATEGORY_LIBRARY,0,2);
+            //不足两个的话进行数据补录
+            int countCategory = categoryList != null ? categoryList.size() : 0 ;
+            int diffCategory = 2 - countCategory ;
+            for(int i = 0 ; i < diffCategory ; i ++){
+                Category category = new Category();
+                category.setName("");
+                category.setId(CategoryConstants.CATEGORY_UNKNOW);
+                categoryList.add(category);
+            }
+
+            for (Category category : categoryList) {
+                libDTO = new LibraryInfoDTO();
+                libDTO.setCategory(category);
+
+                LibraryQuery query = new LibraryQuery();
+                query.setShowIndex(showIndex);
+                query.setCategoryId(category.getId());
+                query.setStart(0);
+				/*query.setNum(StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_DAILY)
+                        || StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_HANGYEYANJIU_REPORT)
+                        || StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_ZHENGYAN)
+						? Constants.CATEGORY_LIBRARY_LENGTITLE_LEN
+						: Constants.LIBRARYDISCOUNT);*/
+                query.setNum(3);
+                List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
+                //不足三个的话进行数据补录
+                int count = libraryInfoList != null ? libraryInfoList.size() : 0 ;
+                int diff = 3 - count ;
+                for (int i = 0 ; i < diff ; i ++){
+                    LibraryInfo li = new LibraryInfo();
+                    li.setName("");
+                    libraryInfoList.add(li);
+                }
+                libDTO.setLibraryInfoList(libraryInfoList);
+
+                libDTOList.add(libDTO);
+            }
+            dto.setLibraryInfoDTOList(libDTOList);
+            libraryInfoDTOList.add(dto);
+        }
+        mav.addObject("libraryInfoDTOList",libraryInfoDTOList);
+        mav.addAllObjects(includeFront.friendlyLinks(request));
+        return mav;
+    }
+
+    @RequestMapping(value = "/indexNewest.htm", method = RequestMethod.GET)
+    public ModelAndView indexNewest(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        logger.info("[front] #indexNewest#");
         ModelAndView mav = new ModelAndView("front/index_lastest");
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
         UserInfo userInfo = (UserInfo) obj;
@@ -124,6 +196,40 @@ public class IndexFrontController extends BaseController {
         libraryQuery.setOrderType(Constants.ORDERBYDESC);
         libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
         mav.addObject("libraryInfoNewestList",libraryInfoNewestList);
+
+
+        //焦点图
+        List<LibraryInfo> libraryInfoFouceImageList = new ArrayList<LibraryInfo>(10);
+        LibraryQuery queryFouceImage = new LibraryQuery();
+        queryFouceImage.setShowIndex(1);
+        queryFouceImage.setNum(3);
+        queryFouceImage.setType(2);
+        queryFouceImage.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
+        queryFouceImage.setOrderType(Constants.ORDERBYDESC);
+        queryFouceImage.setHasImage(1);
+        libraryInfoFouceImageList = libraryInfoDao.getByQuery(queryFouceImage);
+
+        queryFouceImage.setType(3);
+        libraryInfoFouceImageList.addAll(libraryInfoDao.getByQuery(queryFouceImage));
+        //做时间的排序
+        Collections.sort(libraryInfoFouceImageList,new Comparator<LibraryInfo>() {
+            @Override
+            public int compare(LibraryInfo o1, LibraryInfo o2) {
+                return o1.getTime().before(o2.getTime()) ? -1 : 0;
+            }
+        });
+        mav.addObject("libraryInfoFouceImageList",libraryInfoFouceImageList);
+
+        //滚动图片
+
+        RollingImageQuery rollingImageQuery = new RollingImageQuery();
+        rollingImageQuery.setValid(1);
+        rollingImageQuery.setStart(0);
+        rollingImageQuery.setNum(10);
+
+        List<RollingImageInfo> rollingImageInfoList = rollingImageDao.getByParentId(rollingImageQuery) ;
+        mav.addObject("rollingImageInfoList",rollingImageInfoList);
+
 
         return mav;
     }

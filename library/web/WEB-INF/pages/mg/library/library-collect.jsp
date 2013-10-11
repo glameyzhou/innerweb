@@ -57,6 +57,7 @@
                 <th width="5%">选择框</th>
                 <th width="10%">用户</th>
                 <th>图书</th>
+                <th width="5%">查看</th>
                 <th width="15%">收藏时间</th>
             </tr>
             </thead>
@@ -65,7 +66,16 @@
                 <tr>
                     <td align="center"><input type="checkbox" id="id" name="id" value="${collect.collectId}"/></td>
                     <td align="center">${collect.userInfo.nickname}</td>
-                    <td align="left">${collect.libraryInfo.name}</td>
+                    <td align="left">
+                        <c:if test="${collect.libraryInfo.type == 1 || collect.libraryInfo.type == 3}">
+                            <c:set value="${collect.libraryInfo.url}" var="libHref"/>
+                        </c:if>
+                        <c:if test="${collect.libraryInfo.type == 2}">
+                            <c:set value="${basePath}library-detail-${collect.libraryInfo.id}.htm" var="libHref"/>
+                        </c:if>
+                        <a href="${libHref}" target="_blank">${collect.libraryInfo.name}</a>
+                    </td>
+                    <td align="center"><a href="${libHref}" target="_blank">查看</a></td>
                     <td align="center"><fmt:formatDate value="${collect.time}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td align="center">${lib.category.name}</td>
                 </tr>

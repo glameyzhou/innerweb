@@ -1,9 +1,6 @@
 package com.glamey.library.controller.manager;
 
-import com.glamey.framework.utils.PageBean;
-import com.glamey.framework.utils.Pinyin4jUtils;
-import com.glamey.framework.utils.StringTools;
-import com.glamey.framework.utils.WebUtils;
+import com.glamey.framework.utils.*;
 import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.controller.BaseController;
 import com.glamey.library.dao.CategoryDao;
@@ -298,6 +295,7 @@ public class LibraryManagerController extends BaseController {
             return mav;
         }
         lib.setOrder(Integer.valueOf(orderString));
+        lib.setShowFocusimage(WebUtils.getRequestParameterAsInt(request,"showFouceImage",0)); /*是否显示焦点图*/
 
         if (type == 1) {
             String name = WebUtils.getRequestParameterAsString(request, "name");
@@ -318,6 +316,14 @@ public class LibraryManagerController extends BaseController {
             }
             lib.setName(contentName);
             lib.setContent(content);
+
+            //TODO 从内容中提取正文中的图片，放置到libImage属性中
+            if(lib.getShowFocusimage() == 1){
+                String libImage = getContentImage(request,lib.getContent()) ;
+                if(StringUtils.isNotBlank(libImage)){
+                    lib.setImage(libImage);
+                }
+            }
         }
         if (type == 3) {
         	UploadInfo ui = uploadUtils.doUpload(request, response);
@@ -366,13 +372,14 @@ public class LibraryManagerController extends BaseController {
             mav.addObject("message", "排序不能为空，且为数字");
             return mav;
         }
-
+        int showFouceImge = WebUtils.getRequestParameterAsInt(request,"showFouceImage",0);
         LibraryInfo lib = libraryDao.getById(id);
         lib.setOrder(Integer.valueOf(orderString));
         lib.setType(type);
         lib.setCategoryId(categoryId);
         lib.setShowIndex(showIndex);
         lib.setTime(new Date());
+        lib.setShowFocusimage(showFouceImge);
 
         if (type == 1) {
             String name = WebUtils.getRequestParameterAsString(request, "name");
@@ -393,6 +400,15 @@ public class LibraryManagerController extends BaseController {
             }
             lib.setName(contentName);
             lib.setContent(content);
+
+            //TODO 从内容中提取正文中的图片，放置到libImage属性中
+            if(lib.getShowFocusimage() == 1){
+                String libImage = getContentImage(request,lib.getContent()) ;
+                if(StringUtils.isNotBlank(libImage)){
+                    lib.setImage(libImage);
+                }
+            }
+
         }
         if (type == 3) {
         	UploadInfo ui = uploadUtils.doUpload(request, response);
@@ -522,5 +538,30 @@ public class LibraryManagerController extends BaseController {
         }
         mav.addObject("message",message);
         return mav;
+    }
+
+
+    /**
+     * 获取正文中的图片信息
+     * @param source
+     * @return
+     */
+    private static String getContentImage(HttpServletRequest request, String source){
+        if(StringUtils.isBlank(source)){
+            return null ;
+        }
+        String image = null ;
+        String reg = "<img\\s*.+?src=[\"|'| ](.+?(jpg|jpeg|png|bmp|gif|ico))[\"|'| ].+?>" ;
+        List<String> images = RegexUtils.getStringGoup1(source,reg);
+        if(images != null && images.size() > 0){
+            image = images.get(0);
+
+            if(image.toLowerCase().startsWith("http")){
+                return image ;
+            }
+            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() ;
+            return basePath + image ;
+        }
+        return image ;
     }
 }

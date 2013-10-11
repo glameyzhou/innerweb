@@ -35,6 +35,12 @@ public class LibraryInfo implements Serializable {
 	 * 显示名称
 	 */
 	private String name ;
+
+    /**
+     * 是否焦点图显示
+     * 1=是 0=否
+     */
+    private int showFocusimage ;
 	/**
 	 * 指定URL
 	 */
@@ -99,7 +105,15 @@ public class LibraryInfo implements Serializable {
 		this.name = name;
 	}
 
-	public String getUrl() {
+    public int getShowFocusimage() {
+        return showFocusimage;
+    }
+
+    public void setShowFocusimage(int showFocusimage) {
+        this.showFocusimage = showFocusimage;
+    }
+
+    public String getUrl() {
 		return url;
 	}
 

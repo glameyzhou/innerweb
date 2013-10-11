@@ -94,6 +94,14 @@
                             <td>常用链接管理</td>
                         </tr>
 
+                        <tr>
+                            <td width="10%" align="right">
+                                <input type="checkbox" id="rightsId" name="rightsId" value="09"
+                                       <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'09')}">checked="checked"</c:if>/>
+                            </td>
+                            <td>滚动图片</td>
+                        </tr>
+
 
                         <tr>
                             <td width="10%" align="right">

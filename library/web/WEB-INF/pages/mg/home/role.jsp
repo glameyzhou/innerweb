@@ -89,6 +89,17 @@
         </ul>
     </c:if>
 
+    <%--滚动图片--%>
+    <c:if test="${fmtString:hasRightsList(rightsList,'09')}">
+        <li><a href="${basePath}mg/links/${categoryRollingImages.aliasName}/category-list.htm" target="mainFrame">${categoryRollingImages.name} - 分类管理</a></li>
+        <li><a href="javascript:divDisplay('${categoryRollingImages.id}_div');">${categoryRollingImages.name} - 链接管理</a></li>
+        <ul id="${categoryRollingImages.id}_div" style="display: none">
+            <c:forEach var="cate" items="${categoryRollingImagesList}">
+                <li><a href="${basePath}mg/rolling/rolling-list.htm?categoryId=${cate.id}" target="mainFrame">${cate.name}</a></li>
+            </c:forEach>
+        </ul>
+    </c:if>
+
 
     <c:if test="${fmtString:hasRightsList(rightsList,'07')}">
         <li><a href="${basePath}mg/feedback/list.htm" target="mainFrame">在线留言管理</a></li>

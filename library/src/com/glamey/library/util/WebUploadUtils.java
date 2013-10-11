@@ -36,24 +36,36 @@ public class WebUploadUtils {
         try {
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             MultipartFile multipartFile = multipartRequest.getFile("image");
-            if (multipartFile != null) {
-                String originalFilename = multipartFile.getOriginalFilename();
-                if (StringUtils.isNotBlank(originalFilename)) {
-                    if (!isAllowed(originalFilename)) {
-                        modelAndView.addObject("message", "上传文件类型不符合,必须是以下几种<br/>" + this.allowedUploadImages.toString());
-                        ui.setResultCode(1);
-                        ui.setModelAndView(modelAndView);
-                        return ui;
-                    }
-                    String fileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + "." + FilenameUtils.getExtension(originalFilename);
-                    @SuppressWarnings("deprecation")
-                    String basePath = request.getRealPath("/") + "/";
-                    String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
-                    FileUtils.mkdirs(basePath + relativePath);
-                    multipartFile.transferTo(new File(basePath + relativePath + fileName));
-                    ui.setFilePath(relativePath + fileName);
-                }
+            if(multipartFile == null){
+                modelAndView.addObject("message", "请上传图片!");
+                ui.setResultCode(1);
+                ui.setModelAndView(modelAndView);
+                return ui;
             }
+
+            String originalFilename = multipartFile.getOriginalFilename();
+            if(StringUtils.isBlank(originalFilename)){
+                modelAndView.addObject("message", "请上传图片!");
+                ui.setResultCode(1);
+                ui.setModelAndView(modelAndView);
+                return ui;
+            }
+
+            if (!isAllowed(originalFilename)) {
+                modelAndView.addObject("message", "上传文件类型不符合,必须是以下几种<br/>" + this.allowedUploadImages.toString());
+                ui.setResultCode(1);
+                ui.setModelAndView(modelAndView);
+                return ui;
+            }
+
+            String fileName = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss") + "." + FilenameUtils.getExtension(originalFilename);
+            @SuppressWarnings("deprecation")
+            String basePath = request.getRealPath("/") + "/";
+            String relativePath = "userfiles/upload/user-images/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd").replaceAll("-", "/") + "/";
+            FileUtils.mkdirs(basePath + relativePath);
+            multipartFile.transferTo(new File(basePath + relativePath + fileName));
+            ui.setFilePath(relativePath + fileName);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

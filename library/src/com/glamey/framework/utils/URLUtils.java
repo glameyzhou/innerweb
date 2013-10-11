@@ -20,6 +20,7 @@ public class URLUtils {
             System.out.println("[" + i + "]:::" + aResult[i]);
         }
         System.out.println(getShort(System.nanoTime() +""));
+        System.out.println(getShort("rollingImage"));
     }
     public static String[] shortUrl(String url) {
         String key = "glamey.zhou";

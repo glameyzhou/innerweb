@@ -19,6 +19,7 @@ public class LibraryQuery implements Serializable {
     private int type = -1;
     private int showImage = -1;
     private int showIndex = -1 ;
+    private int showFouceImage = -1 ;
     private int start;
     private int num;
 
@@ -30,6 +31,11 @@ public class LibraryQuery implements Serializable {
      * 排序方式
      */
     private String orderType ;
+
+    /**
+     * 是否有图片的选项
+     */
+    private int hasImage = -1 ;
 
     public String getKeyword() {
         return keyword;
@@ -95,6 +101,14 @@ public class LibraryQuery implements Serializable {
         this.showIndex = showIndex;
     }
 
+    public int getShowFouceImage() {
+        return showFouceImage;
+    }
+
+    public void setShowFouceImage(int showFouceImage) {
+        this.showFouceImage = showFouceImage;
+    }
+
     public String getOrderColumnName() {
         return orderColumnName;
     }
@@ -109,6 +123,14 @@ public class LibraryQuery implements Serializable {
 
     public void setOrderType(String orderType) {
         this.orderType = orderType;
+    }
+
+    public int getHasImage() {
+        return hasImage;
+    }
+
+    public void setHasImage(int hasImage) {
+        this.hasImage = hasImage;
     }
 
     @Override

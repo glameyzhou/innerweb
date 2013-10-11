@@ -6,10 +6,15 @@
             box.width = 264; //宽度
             box.height = 200;//高度
             box.autoplayer = 2;//自动播放间隔时间
-            box.add({"url": "${basePath}res/front/library/images/jiaodiantu1.jpg","href":"http://www.baidu.com","title":"百度空间"})
-            box.add({"url": "${basePath}res/front/library/images/jiaodiantu2.jpg","href":"http://www.sina.com","title":"新浪"})
-            box.add({"url": "${basePath}res/front/library/images/jiaodiantu3.jpg","href":"http://www.163.com","title":"网易"})
-            box.add({"url": "${basePath}res/front/library/images/jiaodiantu4.jpg","href":"http://www.qq.com","title":"腾讯"})
+            <c:forEach var="fouceImage" items="${libraryInfoFouceImageList}">
+                <c:if test="${fouceImage.type == 2}">
+                    <c:set var="imageHref" value="${basePath}library-detail-${fouceImage.id}.htm"/>
+                </c:if>
+                <c:if test="${fouceImage.type == 3}">
+                    <c:set var="imageHref" value="${fouceImage.url}"/>
+                </c:if>
+                box.add({"url": "${fouceImage.image}","href":"${imageHref}","title":"${fouceImage.name}"});
+            </c:forEach>
             box.show();
         </script>
     </div>

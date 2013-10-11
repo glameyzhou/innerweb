@@ -4,7 +4,7 @@
         <ul>
             <li>图片滚动</li>
             <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体'; font-weight:normal; margin-top:8px; padding-right:10px;">
-                <a href="#">更多</a></li>
+                <a href="${basePath}rolling-.htm">更多</a></li>
         </ul>
     </div>
     <div id="colee_left" style="overflow:hidden;width:980px;margin-left:10px;">
@@ -13,34 +13,15 @@
                 <td id="colee_left1" valign="top" align="center">
                     <table cellpadding="0" cellspacing="5" border="0">
                         <tr align="center">
-                            <td>
-                                <a href="#">
-                                    <p>
-                                        <img src="${basePath}res/front/library/images/tupian_1.jpg" height="147" width="212"/>
-                                    </p>
-                                </a>
-                            </td>
-                            <td>
-                                <a href="#">
-                                    <p>
-                                        <img src="${basePath}res/front/library/images/tupian_2.jpg" height="147" width="212"/>
-                                    </p>
-                                </a>
-                            </td>
-                            <td>
-                                <a href="#">
-                                    <p>
-                                        <img src="${basePath}res/front/library/images/tupian_2.jpg" height="147" width="212"/>
-                                    </p>
-                                </a>
-                            </td>
-                            <td>
-                                <a href="#">
-                                    <p>
-                                        <img src="${basePath}res/front/library/images/tupian_1.jpg" height="147" width="212"/>
-                                    </p>
-                                </a>
-                            </td>
+                            <c:forEach var="rolling" items="${rollingImageInfoList}">
+                                <td>
+                                    <a href="#">
+                                        <p>
+                                            <img src="${basePath}${rolling.image}" height="147" width="212"/>
+                                        </p>
+                                    </a>
+                                </td>
+                            </c:forEach>
                         </tr>
                     </table>
                 </td>
