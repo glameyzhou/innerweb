@@ -122,10 +122,10 @@
                                 <li>
                                     <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
                                     <c:if test="${lib.type == 1}">
-                                        <a title="${lib.name}" ${libHref}>${fmtString:substringPreciseAppend(lib.name,20,'..' )}</a>
+                                        <a title="${lib.name}" ${libHref}>${fmtString:substringPreciseAppend(lib.name,18,'..' )}</a>
                                     </c:if>
                                     <c:if test="${lib.type == 2}">
-                                        <a title="${lib.name}" ${libHref}>${fmtString:substringPreciseAppend(lib.name,20,'..' )}</a>
+                                        <a title="${lib.name}" ${libHref}>${fmtString:substringPreciseAppend(lib.name,18,'..' )}</a>
                                     </c:if>
                                     <c:if test="${lib.type == 3}">
                                         <a ${libHref}>

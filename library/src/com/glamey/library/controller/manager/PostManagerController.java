@@ -66,7 +66,7 @@ public class PostManagerController extends BaseController {
         Post post = new Post();
         /*图片上传*/
         UploadInfo ui = uploadUtils.doUpload(request, response);
-        if (ui.getResultCode() != 0)
+        if (ui.getResultCode() == 2)
             return ui.getModelAndView();
         if (StringUtils.isNotBlank(ui.getFilePath()))
             post.setImage(ui.getFilePath());
@@ -111,7 +111,7 @@ public class PostManagerController extends BaseController {
         post = postDao.getByPostId(postId);
         /*图片上传*/
         UploadInfo ui = uploadUtils.doUpload(request, response);
-        if (ui.getResultCode() != 0)
+        if (ui.getResultCode() == 2)
             return ui.getModelAndView();
         if (StringUtils.isNotBlank(ui.getFilePath()))
             post.setImage(ui.getFilePath());

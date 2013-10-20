@@ -118,9 +118,9 @@ public class LinksManagerController extends BaseController {
             return mav;
         }
         Category category = new Category();
-        /*图片上传*/
+        /*图片上传(非必须参数)*/
         UploadInfo ui = uploadUtils.doUpload(request, response);
-        if (ui.getResultCode() != 0)
+        if (ui.getResultCode() == 2)
             return ui.getModelAndView();
         if (StringUtils.isNotBlank(ui.getFilePath()))
             category.setCategoryImage(ui.getFilePath());
@@ -170,7 +170,7 @@ public class LinksManagerController extends BaseController {
         category = categoryDao.getById(categoryId);
         /*图片上传*/
         UploadInfo ui = uploadUtils.doUpload(request, response);
-        if (ui.getResultCode() != 0)
+        if (ui.getResultCode() == 2)
             return ui.getModelAndView();
         if (StringUtils.isNotBlank(ui.getFilePath()))
             category.setCategoryImage(ui.getFilePath());
@@ -304,9 +304,9 @@ public class LinksManagerController extends BaseController {
         Category category = categoryDao.getById(categoryId);
 
         Links links = new Links();
-        //处理图片
+        //处理图片,非必须参数
         UploadInfo ui = uploadUtils.doUpload(request, response);
-        if (ui.getResultCode() != 0)
+        if (ui.getResultCode() == 2)
             return ui.getModelAndView();
         if (StringUtils.isNotBlank(ui.getFilePath()))
             links.setImage(ui.getFilePath());
@@ -352,9 +352,9 @@ public class LinksManagerController extends BaseController {
         Category category = categoryDao.getById(categoryId);
 
         Links links = linksDao.getById(linksId);
-        //处理图片
+        //处理图片,非必须参数
         UploadInfo ui = uploadUtils.doUpload(request, response);
-        if (ui.getResultCode() != 0)
+        if (ui.getResultCode() == 2)
             return ui.getModelAndView();
         if (StringUtils.isNotBlank(ui.getFilePath()))
             links.setImage(ui.getFilePath());

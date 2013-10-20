@@ -10,6 +10,8 @@
     <link href="${basePath}res/front/library/css/header.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="${basePath}res/front/library/js/pptBox.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery.js"></script>
+    <script type="text/javascript" src="${basePath}/res/common/js/library-showDiv.js"></script>
     <title>华电图书馆-您身边的能源行业情报秘书</title>
 </head>
 <body>
@@ -26,16 +28,22 @@
                 <ul>
                     <li>近期展会</li>
                     <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体';  margin-top:8px; padding-right:10px;">
-                        <a href="#" style="padding-left:10px;">更多</a></li>
+                        <a href="${basePath}library-list-beqiMn.htm" style="padding-left:10px;">更多</a></li>
                 </ul>
             </div>
-            <div class="fenlei_con" style="padding-left:10px; width:235px;overflow:hidden;"><img
-                    src="${basePath}res/front/library/images/zhanhui.jpg"/>
-            </div>
-            <div class="fenlei_con" style="padding-left:10px; width:235px;overflow:hidden; margin-top:10px;"><img
-                    src="${basePath}res/front/library/images/zhanhui.jpg"/></div>
-            <div class="fenlei_con" style="padding-left:10px; width:235px;overflow:hidden; margin-top:10px;"><img
-                    src="${basePath}res/front/library/images/zhanhui.jpg"/></div>
+            <c:forEach var="jinqihuizhan" items="${jinqihuizhan_libs}" varStatus="index">
+                <c:if test="${jinqihuizhan.type ==1 || jinqihuizhan.type == 3}">
+                    <c:set var="libHref" value="href=\"${jinqihuizhan.url}\" target=\"_blank\""/>
+                </c:if>
+                <c:if test="${jinqihuizhan.type ==2}">
+                    <c:set var="libHref" value="href=\"${basePath}library-detail-${jinqihuizhan.id}.htm\""/>
+                </c:if>
+                <div class="fenlei_con" style="padding-left:10px; width:235px;overflow:hidden;<c:if test='${index.index>0}'> margin-top:10px;</c:if>">
+                    <a ${libHref}>
+                        <img src='<c:out value="${jinqihuizhan.image}" default="${basePath}res/front/library/images/zhanhui.jpg"/>'/>
+                    </a>
+                </div>
+            </c:forEach>
         </div>
         <%@include file="include/ofenLinks.jsp" %>
         <%@include file="include/contact.jsp" %>
@@ -54,7 +62,9 @@
             </div>
             <div class="focus_content">
                 <div class="focus_pic"><img src="${basePath}res/front/library/images/focus_pic1.jpg"/></div>
-                <div class="focus_news">
+                <div class="focus_news">${libraryHeadContent}
+                </div>
+            </div>
                     <%--<ul>
                         <li>主管：中国华电集团公司</li>
                         <li>主办：中国华电集团科学技术研究总院</li>
@@ -66,127 +76,90 @@
                         <li>联系人：张锋</li>
                         <li>委托订阅：如需委托订阅能源行业信息情报资料，请按下面联系方式联系。</li>
                     </ul>--%>
-                        ${libraryHeadContent}
-                </div>
-            </div>
         </div>
         <div class="zixun">
             <%@include file="include/library-newest.jsp"%>
+            <c:forEach var="libDTO" items="${libraryInfoDTOList}" varStatus="lib_status">
+                <c:choose><c:when test="${lib_status.count%2==0}"><c:set var="titleCSS" value="zixun_kuang_tit1"/></c:when><c:otherwise><c:set var="titleCSS" value="zixun_kuang_tit2"/></c:otherwise></c:choose>
             <div class="zixun_kuang" style="margin-top:10px;">
-                <div class="zixun_kuang_tit1">
+                <div class="${titleCSS}">
                     <ul>
-                        <li>规划及政策、法规</li>
-                        <li class="tit_erji">国家规划|国家政策、法规|地方规划|地方政策</li>
+                        <li>${libDTO.category.name}</li>
+                        <li class="tit_erji">
+                            <c:forEach var="libCate" items="${libDTO.childrenCategory}" varStatus="libcate_status">
+                                ${libCate.shortName}<c:if test="${!libcate_status.last}">|</c:if>
+                            </c:forEach>
+                        </li>
                         <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体'; font-weight:normal; margin-top:8px; padding-right:10px;">
-                            <a href="#">更多</a></li>
+                            <a href="${basePath}library-list-${libDTO.category.id}.htm">更多</a></li>
                     </ul>
                 </div>
                 <div class="zixun_kuang_con">
+                    <c:forEach var="libCateDetail" items="${libDTO.libraryInfoDTOList}" varStatus="libcatedetail_status">
                     <div style="width:350px; float:left;">
-                        <p>国家级规划<span style="float:right;"><a href="#"><img
-                                src="${basePath}res/front/library/images/zixun_more.jpg"/></a></span></p>
+                        <%--<p>${libCateDetail.category.name}<span style="float:right;">
+                            <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg"/></a></span>
+                        </p>--%>
+                        <p>
+                            <c:if test="${not empty libCateDetail.category.name}">
+                                <span style="float: left;width: 250px;">${libCateDetail.category.name}</span>
+                                    <span style="float:right;">
+                                        <a href="${basePath}library-list-${libCateDetail.category.id}.htm">
+                                            <img src="${basePath}res/front/library/images/zixun_more.jpg"/>
+                                        </a>
+                                    </span>
+                            </c:if>
+                            <c:if test="${empty libCateDetail.category.name}">
+                                    <span style="float:right;">
+                                        <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg" style="display: none;"/></a>
+                                    </span>
+                            </c:if>
+                        </p>
+                        <c:if test="${empty cat_dto.category.name}">
+                                <span style="float:right;">
+                                    <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg" style="display: none;"/></a>
+                                </span>
+                        </c:if>
                         <ul>
-                            <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                            <li><a href="#">国际货币基金组织在线图书馆</a></li>
-                            <li><a href="#">Springer Protocols数据库正式开</a></li>
+                            <c:forEach var="libCateDetail2" items="${libCateDetail.libraryInfoList}">
+                                <%--<li><a href="#">${fmtString:substringPreciseAppend(libCateDetail2.name,15,'..' )}</a></li>--%>
+                                <c:choose>
+                                    <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
+                                        <c:set var="libHref" value="href=\"#\""/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${libCateDetail2.type ==1 || libCateDetail2.type == 3}">
+                                            <c:set var="libHref" value="href=\"${libCateDetail2.url}\" target=\"_blank\""/>
+                                        </c:if>
+                                        <c:if test="${libCateDetail2.type ==2}">
+                                            <c:set var="libHref" value="href=\"${basePath}library-detail-${libCateDetail2.id}.htm\""/>
+                                        </c:if>
+                                    </c:otherwise>
+                                </c:choose>
+                                <li>
+                                        <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
+                                    <c:if test="${libCateDetail2.type == 1}">
+                                        <a title="${libCateDetail2.name}" ${libHref}>${fmtString:substringPreciseAppend(libCateDetail2.name,18,'..' )}</a>
+                                    </c:if>
+                                    <c:if test="${libCateDetail2.type == 2}">
+                                        <a title="${libCateDetail2.name}" ${libHref}>${fmtString:substringPreciseAppend(libCateDetail2.name,18,'..' )}</a>
+                                    </c:if>
+                                    <c:if test="${libCateDetail2.type == 3}">
+                                        <a ${libHref}>
+                                            <img width="130px;" height="35px" border="0" src="${basePath}${libCateDetail2.image}"
+                                                 onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${libCateDetail2.image}','${libCateDetail2.name}');"/>
+                                        </a>
+                                    </c:if>
+                                </li>
+
+                            </c:forEach>
                         </ul>
                     </div>
-                    <div style="width:350px; float:left;">
-                        <p>国家级规划<span style="float:right;"><a href="#"><img
-                                src="${basePath}res/front/library/images/zixun_more.jpg"/></a></span></p>
-                        <ul>
-                            <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                            <li><a href="#">国际货币基金组织在线图书馆</a></li>
-                            <li><a href="#">Springer Protocols数据库正式开</a></li>
-                        </ul>
-                    </div>
-                    <div style="width:350px; float:left;">
-                        <p>国家级规划<span style="float:right;"><a href="#"><img
-                                src="${basePath}res/front/library/images/zixun_more.jpg"/></a></span></p>
-                        <ul>
-                            <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                            <li><a href="#">国际货币基金组织在线图书馆</a></li>
-                            <li><a href="#">Springer Protocols数据库正式开</a></li>
-                        </ul>
-                    </div>
-                    <div style="width:350px; float:left;">
-                        <p>国家级规划<span style="float:right;"><a href="#"><img
-                                src="${basePath}res/front/library/images/zixun_more.jpg"/></a></span></p>
-                        <ul>
-                            <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                            <li><a href="#">国际货币基金组织在线图书馆</a></li>
-                            <li><a href="#">Springer Protocols数据库正式开</a></li>
-                        </ul>
-                    </div>
+                    </c:forEach>
                 </div>
             </div>
-            <div class="zixun_kuang" style="margin-top:10px;">
-                <div class="zixun_kuang_tit2">
-                    <ul>
-                        <li>期刊、报纸</li>
-                        <li class="tit_erji">国家规划|国家政策、法规|地方规划|地方政策</li>
-                        <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体'; font-weight:normal; margin-top:8px; padding-right:10px;">
-                            <a href="#">更多</a></li>
-                    </ul>
-                </div>
-                <div class="zixun_kuang_con">
-                    <div style="width:350px; float:left;">
-                        <p>国家级规划<span style="float:right;"><a href="#"><img
-                                src="${basePath}res/front/library/images/zixun_more.jpg"/></a></span></p>
-                        <ul>
-                            <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                            <li><a href="#">国际货币基金组织在线图书馆</a></li>
-                            <li><a href="#">Springer Protocols数据库正式开</a></li>
-                        </ul>
-                    </div>
-                    <div style="width:350px; float:left;">
-                        <p>国家级规划<span style="float:right;"><a href="#"><img
-                                src="${basePath}res/front/library/images/zixun_more.jpg"/></a></span></p>
-                        <ul>
-                            <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                            <li><a href="#">国际货币基金组织在线图书馆</a></li>
-                            <li><a href="#">Springer Protocols数据库正式开</a></li>
-                        </ul>
-                    </div>
-                    <div style="width:350px; float:left;">
-                        <p>国家级规划<span style="float:right;"><a href="#"><img
-                                src="${basePath}res/front/library/images/zixun_more.jpg"/></a></span></p>
-                        <ul>
-                            <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                            <li><a href="#">国际货币基金组织在线图书馆</a></li>
-                            <li><a href="#">Springer Protocols数据库正式开</a></li>
-                        </ul>
-                    </div>
-                    <div style="width:350px; float:left;">
-                        <p>国家级规划<span style="float:right;"><a href="#"><img
-                                src="${basePath}res/front/library/images/zixun_more.jpg"/></a></span></p>
-                        <ul>
-                            <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                            <li><a href="#">国际货币基金组织在线图书馆</a></li>
-                            <li><a href="#">Springer Protocols数据库正式开</a></li>
-                        </ul>
-                    </div>
-                    <div style="width:350px; float:left;">
-                        <p>国家级规划<span style="float:right;"><a href="#"><img
-                                src="${basePath}res/front/library/images/zixun_more.jpg"/></a></span></p>
-                        <ul>
-                            <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                            <li><a href="#">国际货币基金组织在线图书馆</a></li>
-                            <li><a href="#">Springer Protocols数据库正式开</a></li>
-                        </ul>
-                    </div>
-                    <div style="width:350px; float:left;">
-                        <p>国家级规划<span style="float:right;"><a href="#"><img
-                                src="${basePath}res/front/library/images/zixun_more.jpg"/></a></span></p>
-                        <ul>
-                            <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                            <li><a href="#">国际货币基金组织在线图书馆</a></li>
-                            <li><a href="#">Springer Protocols数据库正式开</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="zixun_kuang" style="margin-top:10px;">
+            </c:forEach>
+            <%--<div class="zixun_kuang" style="margin-top:10px;">
                 <div class="zixun_kuang_tit3">
                     <ul>
                         <li>世界500强中的能源企业</li>
@@ -218,9 +191,8 @@
                             <td><a href="#"><img src="${basePath}res/front/library/images/2.jpg"/></a></td>
                         </tr>
                     </table>
-
                 </div>
-            </div>
+            </div>--%>
         </div>
 
     </div>
@@ -229,6 +201,8 @@
     <%@include file="include/friendlyLinks_lastest.jsp"%>
     <%@include file="include/rollingImages.jsp"%>
     <%@include file="include/footer.jsp" %>
+    <%--图片弹出层--%>
+    <%@include file="include/library-showDiv.jsp" %>
 </div>
 </body>
 </html>

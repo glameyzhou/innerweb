@@ -53,7 +53,7 @@ public class WebUploadUtils {
 
             if (!isAllowed(originalFilename)) {
                 modelAndView.addObject("message", "上传文件类型不符合,必须是以下几种<br/>" + this.allowedUploadImages.toString());
-                ui.setResultCode(1);
+                ui.setResultCode(2);
                 ui.setModelAndView(modelAndView);
                 return ui;
             }

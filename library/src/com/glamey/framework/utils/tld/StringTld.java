@@ -1,5 +1,6 @@
 package com.glamey.framework.utils.tld;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class StringTld {
             double subIndex = 0;
             double increment = 0.333333333333333333 ;
             String s ;
-            for(int i = 0 ; i < sourceLen ; i ++){
+            for(int i = 1 ; i < sourceLen ; i ++){ //第一个是空格，直接跳过
                 s = ss [i] ;
                 int sLen = s.getBytes().length;
                 //utf-8的中文
@@ -48,6 +49,7 @@ public class StringTld {
                     subIndex += 1 ;
                     increment = 0.5 ;
                 } else {
+                    increment = 0.5 ;
                     subIndex += increment ;
                 }
                 result.append(s);
@@ -134,8 +136,8 @@ public class StringTld {
         return rightsMap.containsKey(rights);
     }
 
-    public static void main(String[] args) {
-        System.out.println("home/a.htm".matches(".+htm"));
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        /*System.out.println("home/a.htm".matches(".+htm"));
         List<String> list = new ArrayList<String>();
         list.add("01_news_xx_create");
         list.add("01_news_xx_update");
@@ -143,7 +145,27 @@ public class StringTld {
 
         System.out.println(hasRightsRegex(list,"01_notices*"));
         System.out.println("..." + StringTld.substringPreciseAppend("2013-2018年中国电力供应市场深度调研及战略决策咨询分析报告",18,".."));
-        System.out.println("..." + StringTld.substringPreciseAppend("中国华电科[2013]133号    关于转发中国电力科学技术奖奖励通报（2012年度）的通知",20,".."));
+        System.out.println("..." + StringTld.substringPreciseAppend("中国华电科[2013]133号    关于转发中国电力科学技术奖奖励通报（2012年度）的通知",20,".."));*/
 
+
+        System.out.println(substringPreciseAppend("EI Annual Enerny Outlook 2013",18,""));
+        System.out.println(substringPreciseAppend("Journal of Biobased Materials and Bioenergy》",18,""));
+        /*String s = "国中华电科[2013]76号 关于下EIA：Annual Enerny Outlook 201";
+        String ss [] = s.split("");
+        int index = 0 ;
+
+        char chars [] = s.toCharArray();
+        for (char aChar : chars) {
+            System.out.println(aChar);
+        }*/
+        /*for (String s1 : ss) {
+            int len = s1.getBytes("UTF-8").length;
+            if(index == 0) continue;
+            if(len == 3){ // 表示是中文字符
+
+            }
+            System.out.println(">>>" + s1 + " length=" + s1.getBytes("UTF-8").length);
+            index ++ ;
+        }*/
     }
 }

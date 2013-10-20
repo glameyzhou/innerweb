@@ -14,6 +14,7 @@ import java.util.List;
 public class LibraryInfoDTO implements Serializable {
 
     private Category category;
+    private List<Category> childrenCategory;
     private List<LibraryInfo> libraryInfoList;
 
     private List<LibraryInfoDTO> libraryInfoDTOList ;
@@ -41,6 +42,14 @@ public class LibraryInfoDTO implements Serializable {
 
     public void setLibraryInfoDTOList(List<LibraryInfoDTO> libraryInfoDTOList) {
         this.libraryInfoDTOList = libraryInfoDTOList;
+    }
+
+    public List<Category> getChildrenCategory() {
+        return childrenCategory;
+    }
+
+    public void setChildrenCategory(List<Category> childrenCategory) {
+        this.childrenCategory = childrenCategory;
     }
 
     @Override

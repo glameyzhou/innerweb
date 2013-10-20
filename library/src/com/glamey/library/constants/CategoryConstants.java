@@ -42,4 +42,10 @@ public class CategoryConstants {
 
     /*安全管理*/
     public static final String CATEGORY_SAFE = "safe";
+
+
+    /**
+     * 分类近期会展ID
+     */
+    public static final String CATEGORY_JINQIHUIZHAN = "beqiMn";
 }

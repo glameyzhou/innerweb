@@ -164,11 +164,11 @@ public class LibraryInfoDao extends BaseDao {
 
             if(query.getCategoryIds() != null && query.getCategoryIds().size() > 0){
                 int size = query.getCategoryIds().size() ;
-                String psql = null ;
+                String psql = "" ;
                 for(int i = 0 ; i < size ; i ++){
                     psql += "," + "?" ;
                 }
-                psql = psql != null && psql.length() > 0 ? psql.substring(1) : null ;
+                psql = StringUtils.isNotBlank(psql) ? psql.substring(1) : "" ;
                 sql.append(" and lib_category_id in (" + psql + ") ");
             }
 
@@ -253,12 +253,12 @@ public class LibraryInfoDao extends BaseDao {
         	}
 
             if(query.getCategoryIds() != null && query.getCategoryIds().size() > 0){
-                String psql = null ;
+                String psql = "" ;
                 for(String p : query.getCategoryIds()){
                     psql += "," + "?" ;
                     params.add(p);
                 }
-                psql = psql != null && psql.length() > 0 ? psql.substring(1) : null ;
+                psql = StringUtils.isNotBlank(psql) ? psql.substring(1) : "" ;
                 sql.append(" and lib_category_id in (" + psql + ") ");
             }
         	

@@ -76,6 +76,7 @@
                     <table border="0" cellspacing="0" cellpDoAdding="0" align="left">
                         <tr>
                             <td width="45%" align="center" valign="top">
+                                <B>待选区：</B><br/>
                                 <select id="sltSrc" name="sltSrc" multiple="true"  style="width: 200px;height: 350px;" ondblclick="removeItem();">
                                     <c:forEach var="srcRole" items="${srcRoleInfoList}">
                                         <option value="${srcRole.roleId}">${srcRole.roleName}</option>
@@ -87,6 +88,7 @@
                                 <input name="DoDel" type="button" value="<<" onClick="addItem();">
                             </td>
                             <td width="45%" align="center" valign="top">
+                                <B>已选择：</B><br/>
                                 <select id="sltTarget" name="sltTarget"  multiple="true"  style="width: 200px;height: 350px;" ondblclick="addItem();">
                                     <c:forEach var="destRole" items="${destRoleInfoList}">
                                         <option value="${destRole.roleId}">${destRole.roleName}</option>

@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -130,8 +131,15 @@ public class IndexFrontController extends BaseController {
         //图书馆内容
         int showIndex = 1 ;/*首页显示*/
         List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
-        List<Category> rootList = categoryDao.getByParentId(showIndex,CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,8);
+        List<Category> rootList = categoryDao.getByParentId(showIndex,CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,100);
         for (Category rootCategory : rootList) {
+
+            //列表页面不在显示“近期会展”
+            if(StringUtils.equals(rootCategory.getId(),CategoryConstants.CATEGORY_JINQIHUIZHAN)){
+                continue;
+            }
+
+
             /*父类、子类、子类下内容*/
             LibraryInfoDTO dto = new LibraryInfoDTO();
             dto.setCategory(rootCategory);
@@ -139,17 +147,14 @@ public class IndexFrontController extends BaseController {
             List<LibraryInfoDTO> libDTOList = new ArrayList<LibraryInfoDTO>();
             LibraryInfoDTO libDTO = null ;
             /*获取对应的子分类信息以及子分类下的连接数量*/
-            List<Category> categoryList = categoryDao.getByParentId(showIndex,rootCategory.getId(),CategoryConstants.CATEGORY_LIBRARY,0,2);
-            //不足两个的话进行数据补录
-            int countCategory = categoryList != null ? categoryList.size() : 0 ;
-            int diffCategory = 2 - countCategory ;
-            for(int i = 0 ; i < diffCategory ; i ++){
-                Category category = new Category();
-                category.setName("");
-                category.setId(CategoryConstants.CATEGORY_UNKNOW);
-                categoryList.add(category);
+            List<Category> categoryList = categoryDao.getByParentId(showIndex,rootCategory.getId(),CategoryConstants.CATEGORY_LIBRARY,0,100);
+            if(!CollectionUtils.isEmpty(categoryList)){
+                int categoryListSize = categoryList.size();
+                if(categoryListSize > 1 && categoryListSize % 2 > 0){
+                    categoryList = categoryList.subList(0,categoryListSize-1);
+                }
             }
-
+            dto.setChildrenCategory(categoryList);
             for (Category category : categoryList) {
                 libDTO = new LibraryInfoDTO();
                 libDTO.setCategory(category);
@@ -165,14 +170,14 @@ public class IndexFrontController extends BaseController {
 						: Constants.LIBRARYDISCOUNT);*/
                 query.setNum(3);
                 List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
-                //不足三个的话进行数据补录
+                /*//不足三个的话进行数据补录
                 int count = libraryInfoList != null ? libraryInfoList.size() : 0 ;
                 int diff = 3 - count ;
                 for (int i = 0 ; i < diff ; i ++){
                     LibraryInfo li = new LibraryInfo();
                     li.setName("");
                     libraryInfoList.add(li);
-                }
+                }*/
                 libDTO.setLibraryInfoList(libraryInfoList);
 
                 libDTOList.add(libDTO);
@@ -221,15 +226,31 @@ public class IndexFrontController extends BaseController {
         mav.addObject("libraryInfoFouceImageList",libraryInfoFouceImageList);
 
         //滚动图片
-
         RollingImageQuery rollingImageQuery = new RollingImageQuery();
         rollingImageQuery.setValid(1);
         rollingImageQuery.setStart(0);
         rollingImageQuery.setNum(10);
-
         List<RollingImageInfo> rollingImageInfoList = rollingImageDao.getByParentId(rollingImageQuery) ;
         mav.addObject("rollingImageInfoList",rollingImageInfoList);
 
+
+        //近期会展（ID）
+        List<String> jinqihuizhan_ids =  new ArrayList<String>();
+        Category category_jiqihuizhan = categoryDao.getById(CategoryConstants.CATEGORY_JINQIHUIZHAN);
+        if(category_jiqihuizhan != null && StringUtils.isNotBlank(category_jiqihuizhan.getId())){
+            List<Category> a = categoryDao.getByParentId(1,CategoryConstants.CATEGORY_JINQIHUIZHAN,CategoryConstants.CATEGORY_LIBRARY,0,100);
+            for (Category category : a) {
+                jinqihuizhan_ids.add(category.getId());
+            }
+        }
+        LibraryQuery jiqihuizhan = new LibraryQuery();
+        jiqihuizhan.setStart(0);
+        jiqihuizhan.setNum(3);
+        jiqihuizhan.setShowIndex(1);
+        jiqihuizhan.setHasImage(1);
+        jiqihuizhan.setCategoryIds(jinqihuizhan_ids);
+        List<LibraryInfo> jinqihuizhan_libs = libraryInfoDao.getByQuery(jiqihuizhan);
+        mav.addObject("jinqihuizhan_libs",jinqihuizhan_libs);
 
         return mav;
     }
