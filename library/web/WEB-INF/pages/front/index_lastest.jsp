@@ -124,17 +124,17 @@
                                             <tr>
                                                 <c:forEach var="libCateDetail2" items="${libCateDetail.libraryInfoList}" varStatus="libCate2_status">
                                                 <c:if test="${libCateDetail2.type == 3}">
-                                                    <c:choose>
+                                                    <%--<c:choose>
                                                         <c:when test="${libCate2_status.count % 2 == 0}">
                                                             <c:set var="imageWith" value="width=\"245\" height=\"67\" "/>
                                                         </c:when>
                                                         <c:otherwise>
                                                             <c:set var="imageWith" value="width=\"222\" height=\"68\" "/>
                                                         </c:otherwise>
-                                                    </c:choose>
+                                                    </c:choose>--%>
                                                     <td>
                                                         <a href="${libCateDetail2.url}" target="_blank">
-                                                            <img ${imageWith} src="${basePath}${libCateDetail2.image}" onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${libCateDetail2.image}','${libCateDetail2.name}');"/>
+                                                            <img width="283" height="57" src="${basePath}${libCateDetail2.image}" onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${libCateDetail2.image}','${libCateDetail2.name}');"/>
                                                         </a>
                                                     </td>
                                                     <c:if test="${libCate2_status.count % 2 == 0}"></tr><tr></c:if>
