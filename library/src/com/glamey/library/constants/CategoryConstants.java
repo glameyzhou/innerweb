@@ -48,4 +48,14 @@ public class CategoryConstants {
      * 分类近期会展ID
      */
     public static final String CATEGORY_JINQIHUIZHAN = "beqiMn";
+
+    /**
+     * 知名能源企业
+     */
+    public static final String CATEGORY_ZHIMINGNENGYUANQIYE = "mMN7Vz";
+
+    /**
+     * 行业研究机构、协会
+     */
+    public static final String CATEGORY_HANGYEYANJIUJIGOUXIEHUI = "ZjYZR3";
 }

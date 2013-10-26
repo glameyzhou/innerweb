@@ -8,24 +8,6 @@
         </ul>
     </div>
     <div class="zixun_kuang_con">
-        <%--<div style="width:350px; float:left; margin-top:10px;">
-            <ul>
-                <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                <li><a href="#">国际货币基金组织在线图书馆</a></li>
-                <li><a href="#">Springer Protocols数据库正式开</a></li>
-                <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                <li><a href="#">国际货币基金组织在线图书馆</a></li>
-            </ul>
-        </div>
-        <div style="width:350px; float:left;  margin-top:10px;">
-            <ul>
-                <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                <li><a href="#">国际货币基金组织在线图书馆</a></li>
-                <li><a href="#">Springer Protocols数据库正式开</a></li>
-                <li><a href="#">读览天下-专版应用平台正式开通</a></li>
-                <li><a href="#">国际货币基金组织在线图书馆</a></li>
-            </ul>
-        </div>--%>
         <table width="100%" cellpadding="0" cellspacing="0" style="margin-left: 15px;">
             <tr align="left">
                 <c:forEach var="libNewest" items="${libraryInfoNewestList}" varStatus="index">
@@ -44,7 +26,7 @@
                     </c:choose>
                     <td width="50%">
                         <img src="${basePath}res/front/library/images/notice_list.png" alt="">&nbsp;
-                        <a title="${libNewest.name}" ${libHref}>${fmtString:substringPreciseAppend(libNewest.name,22,'..' )}</a>
+                        <a title="${libNewest.name}" ${libHref} class="libNews">${libNewest.name}</a>
                     </td>
                     <c:if test="${index.count % 2 == 0}">
                         </tr><tr align="left" style="margin-left: 5px;">

@@ -196,12 +196,14 @@ public class LibraryManagerController extends BaseController {
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
         String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
         keyword = StringTools.converISO2UTF8(keyword);
+        int focusImage = WebUtils.getRequestParameterAsInt(request,"showFocusimage",-1);
 
         LibraryQuery query = new LibraryQuery();
         query.setType(type);
         query.setCategoryId(categoryId);
         query.setKeyword(keyword);
         query.setShowIndex(showIndex);
+        query.setIsFocusImage(focusImage);
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
 
@@ -412,7 +414,7 @@ public class LibraryManagerController extends BaseController {
         }
         if (type == 3) {
         	UploadInfo ui = uploadUtils.doUpload(request, response);
-            if (ui.getResultCode() != 0)
+            if (ui.getResultCode() != 1)
                 return ui.getModelAndView();
             if (StringUtils.isNotBlank(ui.getFilePath()))
                 lib.setImage(ui.getFilePath());

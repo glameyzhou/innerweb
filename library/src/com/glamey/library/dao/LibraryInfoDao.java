@@ -187,8 +187,8 @@ public class LibraryInfoDao extends BaseDao {
             if (query.getShowIndex() > -1)
                 sql.append(" and lib_showindex = ? ");
 
-            if (query.getHasImage() > -1)
-                sql.append(" and (lib_image <> '' or lib_image <> null) ");
+            if (query.getIsFocusImage() > -1)
+                sql.append(" and lib_focusimage = ? ");
 
             if(StringUtils.isNotBlank(query.getOrderColumnName()) && StringUtils.isNotBlank(query.getOrderType())){
                 sql.append(" order by ").append(query.getOrderColumnName()).append(query.getOrderType()) ;
@@ -226,6 +226,10 @@ public class LibraryInfoDao extends BaseDao {
 
                             if (query.getShowIndex() > -1)
                                 preparedstatement.setInt(++i , query.getShowIndex());
+
+                            if (query.getIsFocusImage() > -1)
+                                preparedstatement.setInt(++i,query.getIsFocusImage());
+
 
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
@@ -284,8 +288,10 @@ public class LibraryInfoDao extends BaseDao {
                 sql.append(" and lib_showindex = ? ");
                 params.add(query.getShowIndex()) ;
             }
-            if (query.getHasImage() > -1)
-                sql.append(" and (lib_image <> '' or lib_image <> null) ");
+            if (query.getIsFocusImage() > -1){
+                sql.append(" and lib_focusimage = ? ");
+                params.add(query.getIsFocusImage());
+            }
 
             count = jdbcTemplate.queryForInt(sql.toString(),params.toArray());
         } catch (Exception e) {

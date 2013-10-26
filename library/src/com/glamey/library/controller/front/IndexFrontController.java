@@ -211,7 +211,7 @@ public class IndexFrontController extends BaseController {
         queryFouceImage.setType(2);
         queryFouceImage.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
         queryFouceImage.setOrderType(Constants.ORDERBYDESC);
-        queryFouceImage.setHasImage(1);
+        queryFouceImage.setIsFocusImage(1);
         libraryInfoFouceImageList = libraryInfoDao.getByQuery(queryFouceImage);
 
         queryFouceImage.setType(3);
@@ -247,7 +247,7 @@ public class IndexFrontController extends BaseController {
         jiqihuizhan.setStart(0);
         jiqihuizhan.setNum(3);
         jiqihuizhan.setShowIndex(1);
-        jiqihuizhan.setHasImage(1);
+        jiqihuizhan.setShowImage(1);
         jiqihuizhan.setCategoryIds(jinqihuizhan_ids);
         List<LibraryInfo> jinqihuizhan_libs = libraryInfoDao.getByQuery(jiqihuizhan);
         mav.addObject("jinqihuizhan_libs",jinqihuizhan_libs);

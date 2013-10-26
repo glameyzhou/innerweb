@@ -35,7 +35,7 @@ public class LibraryQuery implements Serializable {
     /**
      * 是否有图片的选项
      */
-    private int hasImage = -1 ;
+    private int isFocusImage = -1 ;
 
     public String getKeyword() {
         return keyword;
@@ -125,12 +125,12 @@ public class LibraryQuery implements Serializable {
         this.orderType = orderType;
     }
 
-    public int getHasImage() {
-        return hasImage;
+    public int getIsFocusImage() {
+        return isFocusImage;
     }
 
-    public void setHasImage(int hasImage) {
-        this.hasImage = hasImage;
+    public void setIsFocusImage(int focusImage) {
+        isFocusImage = focusImage;
     }
 
     @Override

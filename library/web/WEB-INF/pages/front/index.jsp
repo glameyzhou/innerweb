@@ -15,7 +15,11 @@
         .zixun_kuang_con li {
             height: 20px;
             padding-left: 6px;
-            width: 340px;
+            width:260px;
+            white-space:nowrap;
+            word-break:keep-all;
+            overflow:hidden;
+            text-overflow:ellipsis;
         }
     </style>
     <title>华电图书馆-您身边的能源行业情报秘书</title>
@@ -122,10 +126,10 @@
                                 <li>
                                     <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
                                     <c:if test="${lib.type == 1}">
-                                        <a title="${lib.name}" ${libHref}>${fmtString:substringPreciseAppend(lib.name,18,'..' )}</a>
+                                        <a title="${lib.name}" ${libHref}>${lib.name}</a>
                                     </c:if>
                                     <c:if test="${lib.type == 2}">
-                                        <a title="${lib.name}" ${libHref}>${fmtString:substringPreciseAppend(lib.name,18,'..' )}</a>
+                                        <a title="${lib.name}" ${libHref}>${lib.name}</a>
                                     </c:if>
                                     <c:if test="${lib.type == 3}">
                                         <a ${libHref}>

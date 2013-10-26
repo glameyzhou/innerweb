@@ -52,7 +52,7 @@
                         onSuccess: function (transport) {
                             var cateSelect = document.getElementById("categoryId");
                             var responseContent = transport.responseText;
-                            //alert(responseContent);
+//                            alert(responseContent);
                             cateSelect.innerHTML = responseContent;
                         }
                     }
@@ -67,7 +67,6 @@
                 dispContent("content2", "none");
                 dispContent("content3", "none");
                 dispContent("showFouceImageDiv", "none");
-                document.getElementById("").value="0";
             }
             else if (typeId == '2') {
                 dispContent("content1", "none");
@@ -89,7 +88,6 @@
             if (typeId == '' || typeId == '-1') {
                 typeId = '1';
             }
-            //alert("typeId=" + typeId);
             showTypeContent(typeId);
             var pid = '${lib.category.parentId}';
             var cateId = '${lib.category.id}';

@@ -31,9 +31,9 @@
         <div class="center_right">
             <div class="neirong">
                 <div class="neirong_tit">滚动图片 <c:if test="${not empty category}">>> ${category.name}</c:if></div>
-                <div class="seat">分类&nbsp;&nbsp;<a href="${basePath}rolling-.htm">所有</a> ||
+                <div class="seat">分类&nbsp;&nbsp;<a href="${basePath}rolling-.htm">所有</a> |
                     <c:forEach var="cate" items="${categoryList}" varStatus="index">
-                        <a href="${basePath}rolling-${cate.id}.htm">${cate.name}</a><c:if test="${!index.last}"> || </c:if>
+                        <a href="${basePath}rolling-${cate.id}.htm">${cate.name}</a><c:if test="${!index.last}"> | </c:if>
                     </c:forEach>
                 </div>
                 <div class="neiye_right_con">

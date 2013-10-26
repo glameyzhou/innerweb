@@ -80,10 +80,15 @@
             <option value="0" <c:if test="${query.showIndex == 0}">selected="selected"</c:if>>不显示</option>
         </select>&nbsp;&nbsp;
         内容类型&nbsp;<select id="type" name="type">
-        <option value="-1">请选择</option>
-        <option value="1" <c:if test="${query.type == 1}">selected="selected"</c:if>>正常(名称、URL)</option>
-        <option value="2" <c:if test="${query.type == 2}">selected="selected"</c:if>>自定义内容(名称、内容)</option>
-        <option value="3" <c:if test="${query.type == 3}">selected="selected"</c:if>>图片(图片、URL)</option>
+            <option value="-1">请选择</option>
+            <option value="1" <c:if test="${query.type == 1}">selected="selected"</c:if>>正常(名称、URL)</option>
+            <option value="2" <c:if test="${query.type == 2}">selected="selected"</c:if>>自定义内容(名称、内容)</option>
+            <option value="3" <c:if test="${query.type == 3}">selected="selected"</c:if>>图片(图片、URL)</option>
+        </select>&nbsp;&nbsp;
+        焦点图&nbsp;<select id="showFocusimage" name="showFocusimage">
+            <option value="-1">请选择</option>
+            <option value="0" <c:if test="${query.isFocusImage == 0}">selected="selected"</c:if>>否</option>
+            <option value="1" <c:if test="${query.isFocusImage == 1}">selected="selected"</c:if>>是</option>
         </select>&nbsp;&nbsp;
         栏目分类&nbsp;<select id="categoryId" name="categoryId">
         <option value="">请选择</option>
