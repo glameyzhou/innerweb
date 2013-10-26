@@ -4,6 +4,7 @@
 <head>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
+    <script type="text/javascript" src="${basePath}res/front/js/prototype-1.6.0.3.js"></script>
     <base href="${basePath}">
     <script>
         KindEditor.ready(function (K) {

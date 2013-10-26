@@ -31,15 +31,17 @@
         });
         function delImage(id) {
             if (!confirm('确认要删除指定图片?'))return;
-            var url = '${basePath}mg/library/library-delImage.htm?id=' + id;
-            new Ajax.Request(url, {
-                        method: 'get',
-                        onSuccess: function (transport) {
-                            $('imageOpr').innerHTML = '<input type="file" maxlength="100" name="image" id="image" size="80" value="">';
-                        }
-                    }
+            var url = '${basePath}mg/library/library-delImage.htm';
+            var pars = 'id=' + id;
+            var myAjax = new Ajax.Request(
+                    url,
+                    {method: 'get', parameters: pars, onComplete: showResponse}
             );
         }
+        function showResponse(originalRequest) {
+            $('imageOpr').innerHTML = '<input type="file" maxlength="100" name="image" id="image" size="80" value="">';
+        }
+
         /**
         *  通过父ID获取对应的子分类列表，同时选中对应的子分类
         * @param pid
@@ -163,13 +165,15 @@
             <font color="red">图片&nbsp;&nbsp;&nbsp;&nbsp;</font>
             <c:choose>
                 <c:when test="${opt == 'update'}">
-                    <c:if test="${!empty lib.image}">
-                        <img src="${basePath}${lib.image}" width="104"
-                             height="100"/>&nbsp;<a href="javascript:delImage(${lib.id});">删除</a>
-                    </c:if>
-                    <c:if test="${empty lib.image}">
-                        <input type="file" maxlength="100" name="image" id="image" size="80" value=""/>
-                    </c:if>
+                    <p id="imageOpr" style="margin-left: 20px;">
+                        <c:if test="${!empty lib.image}">
+                            <img src="${basePath}${lib.image}" width="104"
+                                 height="100"/>&nbsp;<a href="javascript:delImage('${lib.id}');">删除</a>
+                        </c:if>
+                        <c:if test="${empty lib.image}">
+                            <input type="file" maxlength="100" name="image" id="image" size="80" value=""/>
+                        </c:if>
+                    </p>
                 </c:when>
                 <c:otherwise>
                     <input type="file" maxlength="100" name="image" id="image" size="80" value=""/>

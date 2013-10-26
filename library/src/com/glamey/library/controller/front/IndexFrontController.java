@@ -42,7 +42,7 @@ public class IndexFrontController extends BaseController {
     @Resource
     private RollingImageDao rollingImageDao ;
 
-    @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/indexOld.htm", method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         logger.info("[front] #index#");
         ModelAndView mav = new ModelAndView("front/index");
@@ -114,7 +114,7 @@ public class IndexFrontController extends BaseController {
         return mav;
     }
 
-    @RequestMapping(value = "/indexNewest.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
     public ModelAndView indexNewest(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         logger.info("[front] #indexNewest#");
         ModelAndView mav = new ModelAndView("front/index_lastest");
@@ -168,18 +168,28 @@ public class IndexFrontController extends BaseController {
                         || StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_ZHENGYAN)
 						? Constants.CATEGORY_LIBRARY_LENGTITLE_LEN
 						: Constants.LIBRARYDISCOUNT);*/
-                query.setNum(3);
-                List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
-                /*//不足三个的话进行数据补录
-                int count = libraryInfoList != null ? libraryInfoList.size() : 0 ;
-                int diff = 3 - count ;
-                for (int i = 0 ; i < diff ; i ++){
-                    LibraryInfo li = new LibraryInfo();
-                    li.setName("");
-                    libraryInfoList.add(li);
-                }*/
-                libDTO.setLibraryInfoList(libraryInfoList);
+                List<LibraryInfo> libraryInfoList = null;
+                if(StringUtils.equals(rootCategory.getId(),CategoryConstants.CATEGORY_ZHIMINGNENGYUANQIYE)
+                        || StringUtils.equals(rootCategory.getId(),CategoryConstants.CATEGORY_HANGYEYANJIUJIGOUXIEHUI)
+                        ){
+                    query.setNum(6);
+                    libraryInfoList = libraryInfoDao.getByQuery(query);
+                    if(libraryInfoList != null && libraryInfoList.size() > 0 ){
+                        int size = libraryInfoList.size();
+                        if(size == 1){
+                            libraryInfoList = new ArrayList<LibraryInfo>();
+                        }
+                        if(size > 1 && size % 2 != 0){
+                            libraryInfoList = libraryInfoList.subList(0,size - 1);
+                        }
+                    }
+                }
+                else{
+                    query.setNum(3);
+                    libraryInfoList = libraryInfoDao.getByQuery(query);
 
+                }
+                libDTO.setLibraryInfoList(libraryInfoList);
                 libDTOList.add(libDTO);
             }
             dto.setLibraryInfoDTOList(libDTOList);

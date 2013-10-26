@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -413,8 +414,8 @@ public class LibraryManagerController extends BaseController {
 
         }
         if (type == 3) {
-        	UploadInfo ui = uploadUtils.doUpload(request, response);
-            if (ui.getResultCode() != 1)
+            UploadInfo ui = uploadUtils.doUpload(request, response);
+            if (ui.getResultCode() == 2)
                 return ui.getModelAndView();
             if (StringUtils.isNotBlank(ui.getFilePath()))
                 lib.setImage(ui.getFilePath());
@@ -461,6 +462,29 @@ public class LibraryManagerController extends BaseController {
                 logger.error("[library-del] error!", e);
             }
         }
+        return mav;
+    }
+
+    /*删除链接中的图片信息*/
+    @RequestMapping(value = "/library-delImage.htm", method = RequestMethod.GET)
+    public ModelAndView delImage(
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[manager-rolling-delete-images]" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("common/message");
+        String id = WebUtils.getRequestParameterAsString(request, "id");
+        if (StringUtils.isBlank(id)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "获取不到要操作的内容");
+            return mav;
+        }
+        LibraryInfo info = libraryDao.getById(id);
+        info.setImage("");
+        if (!libraryDao.update(info)) {
+            message = "图片删除失败,请稍后重试!";
+        } else {
+            message = "图片删除成功.";
+        }
+        mav.addObject("message", message);
         return mav;
     }
 

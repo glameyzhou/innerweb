@@ -233,7 +233,7 @@ public class RollingImageManagerController extends BaseController {
             return mav;
         }
 
-        if (!categoryDao.deleteImage(id)) {
+        if (!rollingImageDao.deleteImage(id)) {
             message = "图片删除失败,请稍后重试!";
         } else {
             message = "图片删除成功.";
