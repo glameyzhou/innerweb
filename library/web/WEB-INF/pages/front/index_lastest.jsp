@@ -14,7 +14,7 @@
     <script type="text/javascript" src="${basePath}/res/common/js/library-showDiv.js"></script>
     <style type="text/css">
         .zixun_kuang_con li {
-            height: 20px;
+            height: 25px;
             padding-left: 6px;
             width:260px;
             white-space:nowrap;
