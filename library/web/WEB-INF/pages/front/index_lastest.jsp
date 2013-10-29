@@ -110,7 +110,7 @@
                                     <li>${libDTO.category.name}</li>
                                     <li class="tit_erji">
                                         <c:forEach var="libCate" items="${libDTO.childrenCategory}" varStatus="libcate_status">
-                                            ${libCate.shortName}<c:if test="${!libcate_status.last}">|</c:if>
+                                            <a href="${basePath}library-list-${libCate.id}.htm">${libCate.shortName}</a><c:if test="${!libcate_status.last}">|</c:if>
                                         </c:forEach>
                                     </li>
                                     <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体'; font-weight:normal; margin-top:8px; padding-right:10px;">
@@ -144,7 +144,7 @@
                                     <li>${libDTO.category.name}</li>
                                     <li class="tit_erji">
                                         <c:forEach var="libCate" items="${libDTO.childrenCategory}" varStatus="libcate_status">
-                                            ${libCate.shortName}<c:if test="${!libcate_status.last}">|</c:if>
+                                            <a href="${basePath}library-list-${libCate.id}.htm">${libCate.shortName}</a><c:if test="${!libcate_status.last}">|</c:if>
                                         </c:forEach>
                                     </li>
                                     <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体'; font-weight:normal; margin-top:8px; padding-right:10px;">
