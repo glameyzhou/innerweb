@@ -75,7 +75,7 @@ public class LibraryFrontController extends BaseController {
         /*最后一级分类，直接输出列表*/
         if(category.getHasChild() == 0){
             int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
-            pageBean = new PageBean(30);
+            pageBean = new PageBean(20);
 
             LibraryQuery query = new LibraryQuery();
             query.setCategoryId(categoryId);

@@ -78,10 +78,10 @@
                             </c:if>
                             <c:if test="${lib.type == 3}">
                                 <a ${libHref}>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <img width="170px;" height="80px" border="0" src="${basePath}${lib.image}"
+                                    <img width="283" height="57" border="0" src="${basePath}${lib.image}"
                                          onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${lib.image}','${lib.name}');"/>
                                 </a>
-                                <c:if test="${statusIndex.count % 3 == 0}"><br/><br/></c:if>
+                                <c:if test="${statusIndex.count % 2 == 0}"><br/><br/></c:if>
                             </c:if>
                         </c:forEach>
                     </tr>

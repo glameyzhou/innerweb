@@ -22,16 +22,7 @@
             overflow:hidden;
             text-overflow:ellipsis;
         }
-        .libNews{
-            height: 20px;
-            padding-left: 6px;
-            width:260px;
-            white-space:nowrap;
-            word-break:keep-all;
-            overflow:hidden;
-            text-overflow:ellipsis;
-        }
-    </style>
+     </style>
     <title>华电图书馆-您身边的能源行业情报秘书</title>
 </head>
 <body>
@@ -83,8 +74,6 @@
             <div class="focus_content">
                 <div class="focus_pic"><img src="${basePath}res/front/library/images/focus_pic1.jpg"/></div>
                 <div class="focus_news">${libraryHeadContent}
-                </div>
-            </div>
                     <%--<ul>
                         <li>主管：中国华电集团公司</li>
                         <li>主办：中国华电集团科学技术研究总院</li>
@@ -96,6 +85,8 @@
                         <li>联系人：张锋</li>
                         <li>委托订阅：如需委托订阅能源行业信息情报资料，请按下面联系方式联系。</li>
                     </ul>--%>
+                </div>
+            </div>
         </div>
         <div class="zixun">
             <%@include file="include/library-newest.jsp"%>
@@ -129,7 +120,7 @@
                                                             <img width="283" height="57" src="${basePath}${libCateDetail2.image}" onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${libCateDetail2.image}','${libCateDetail2.name}');"/>
                                                         </a>
                                                     </td>
-                                                    <c:if test="${libCate2_status.count % 2 == 0}"></tr><tr></c:if>
+                                                    <c:if test="${libCate2_status.count % 2 == 0}"></tr><tr><td colspan="2"></td></tr><tr></c:if>
                                                 </c:if>
                                             </c:forEach>
                                         </table>

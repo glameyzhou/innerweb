@@ -148,13 +148,14 @@ public class IndexFrontController extends BaseController {
             LibraryInfoDTO libDTO = null ;
             /*获取对应的子分类信息以及子分类下的连接数量*/
             List<Category> categoryList = categoryDao.getByParentId(showIndex,rootCategory.getId(),CategoryConstants.CATEGORY_LIBRARY,0,100);
+            dto.setChildrenCategory(categoryList);//设置旗下孩子的对象集合
+            //用来显示孩子的模块内容，如果孩子为奇数个的话，自动减去1；
             if(!CollectionUtils.isEmpty(categoryList)){
                 int categoryListSize = categoryList.size();
                 if(categoryListSize > 1 && categoryListSize % 2 > 0){
                     categoryList = categoryList.subList(0,categoryListSize-1);
                 }
             }
-            dto.setChildrenCategory(categoryList);
             for (Category category : categoryList) {
                 libDTO = new LibraryInfoDTO();
                 libDTO.setCategory(category);
