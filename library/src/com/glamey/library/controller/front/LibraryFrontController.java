@@ -143,6 +143,7 @@ public class LibraryFrontController extends BaseController {
 
         LibraryQuery libraryQuery = new LibraryQuery();
         libraryQuery.setShowIndex(1);
+        libraryQuery.setShowSugguest(1);
         libraryQuery.setStart(pageBean.getStart());
         libraryQuery.setNum(pageBean.getRowsPerPage());
         libraryQuery.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);

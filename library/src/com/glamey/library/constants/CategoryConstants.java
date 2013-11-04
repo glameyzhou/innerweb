@@ -58,4 +58,9 @@ public class CategoryConstants {
      * 行业研究机构、协会
      */
     public static final String CATEGORY_HANGYEYANJIUJIGOUXIEHUI = "ZjYZR3";
+
+    /**
+     * 华电技术
+     */
+    public static final String CATEGORY_HUADIANJISHU = "3AzAv2";
 }

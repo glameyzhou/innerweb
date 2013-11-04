@@ -65,6 +65,11 @@ public class LibraryInfo implements Serializable {
      */
     private int showIndex = 1 ;
 
+    /**
+     * 是否为推荐阅读
+     */
+    private int showSugguest = 1;
+
 	public String getId() {
 		return id;
 	}
@@ -159,6 +164,14 @@ public class LibraryInfo implements Serializable {
 
     public void setShowIndex(int showIndex) {
         this.showIndex = showIndex;
+    }
+
+    public int getShowSugguest() {
+        return showSugguest;
+    }
+
+    public void setShowSugguest(int showSugguest) {
+        this.showSugguest = showSugguest;
     }
 
     @Override

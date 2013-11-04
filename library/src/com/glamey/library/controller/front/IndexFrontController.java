@@ -138,8 +138,6 @@ public class IndexFrontController extends BaseController {
             if(StringUtils.equals(rootCategory.getId(),CategoryConstants.CATEGORY_JINQIHUIZHAN)){
                 continue;
             }
-
-
             /*父类、子类、子类下内容*/
             LibraryInfoDTO dto = new LibraryInfoDTO();
             dto.setCategory(rootCategory);
@@ -148,6 +146,14 @@ public class IndexFrontController extends BaseController {
             LibraryInfoDTO libDTO = null ;
             /*获取对应的子分类信息以及子分类下的连接数量*/
             List<Category> categoryList = categoryDao.getByParentId(showIndex,rootCategory.getId(),CategoryConstants.CATEGORY_LIBRARY,0,100);
+
+            //如果是华电科技--华电技术的话，直接删除
+            for (Iterator<Category> it = categoryList.iterator();it.hasNext();){
+                Category category = it.next();
+                if(StringUtils.equals(category.getId(),CategoryConstants.CATEGORY_HUADIANJISHU)){
+                    it.remove();
+                }
+            }
             dto.setChildrenCategory(categoryList);//设置旗下孩子的对象集合
             //用来显示孩子的模块内容，如果孩子为奇数个的话，自动减去1；
             if(!CollectionUtils.isEmpty(categoryList)){
@@ -206,6 +212,7 @@ public class IndexFrontController extends BaseController {
         //最新荐读（所有分类中的倒序排列top10）
         List<LibraryInfo> libraryInfoNewestList = new ArrayList<LibraryInfo>(10);
         LibraryQuery libraryQuery = new LibraryQuery();
+        libraryQuery.setShowSugguest(1);
         libraryQuery.setShowIndex(1);
         libraryQuery.setNum(10);
         libraryQuery.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
@@ -218,7 +225,7 @@ public class IndexFrontController extends BaseController {
         List<LibraryInfo> libraryInfoFouceImageList = new ArrayList<LibraryInfo>(10);
         LibraryQuery queryFouceImage = new LibraryQuery();
         queryFouceImage.setShowIndex(1);
-        queryFouceImage.setNum(3);
+        queryFouceImage.setNum(6);
         queryFouceImage.setType(2);
         queryFouceImage.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
         queryFouceImage.setOrderType(Constants.ORDERBYDESC);
@@ -234,6 +241,10 @@ public class IndexFrontController extends BaseController {
                 return o1.getTime().before(o2.getTime()) ? -1 : 0;
             }
         });
+
+        if(libraryInfoFouceImageList != null && libraryInfoFouceImageList.size() >6){
+            libraryInfoFouceImageList = libraryInfoFouceImageList.subList(0,6);
+        }
         mav.addObject("libraryInfoFouceImageList",libraryInfoFouceImageList);
 
         //滚动图片
@@ -256,12 +267,24 @@ public class IndexFrontController extends BaseController {
         }
         LibraryQuery jiqihuizhan = new LibraryQuery();
         jiqihuizhan.setStart(0);
-        jiqihuizhan.setNum(3);
+        jiqihuizhan.setNum(5);
         jiqihuizhan.setShowIndex(1);
         jiqihuizhan.setShowImage(1);
         jiqihuizhan.setCategoryIds(jinqihuizhan_ids);
         List<LibraryInfo> jinqihuizhan_libs = libraryInfoDao.getByQuery(jiqihuizhan);
         mav.addObject("jinqihuizhan_libs",jinqihuizhan_libs);
+
+        //华电科技--华电技术
+        LibraryQuery huadianjishu = new LibraryQuery();
+        huadianjishu.setStart(0);
+        huadianjishu.setNum(1);
+        huadianjishu.setShowIndex(1);
+        huadianjishu.setShowImage(1);
+        huadianjishu.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
+        huadianjishu.setOrderType(Constants.ORDERBYDESC);
+        huadianjishu.setCategoryId(CategoryConstants.CATEGORY_HUADIANJISHU);
+        List<LibraryInfo> huadianjishu_libs = libraryInfoDao.getByQuery(huadianjishu);
+        mav.addObject("huadianjishu_libs",huadianjishu_libs);
 
         return mav;
     }

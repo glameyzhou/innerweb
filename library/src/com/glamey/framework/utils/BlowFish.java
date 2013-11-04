@@ -890,7 +890,7 @@ public class BlowFish {
 
     public static void main(String[] args) {
         BlowFish bf = new BlowFish(Constants.SECRET_KEY);
-        String en = bf.encryptString("admin") ;
+        String en = bf.encryptString("adminadmin") ;
         System.out.println(en);
         System.out.println(bf.decryptString(en));
         System.out.println(bf.decryptString(bf.encryptString("admin")));

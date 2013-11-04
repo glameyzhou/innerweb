@@ -36,6 +36,10 @@ public class LibraryQuery implements Serializable {
      * 是否有图片的选项
      */
     private int isFocusImage = -1 ;
+    /**
+     * 是否为推荐阅读
+     */
+    private int showSugguest = -1;
 
     public String getKeyword() {
         return keyword;
@@ -131,6 +135,14 @@ public class LibraryQuery implements Serializable {
 
     public void setIsFocusImage(int focusImage) {
         isFocusImage = focusImage;
+    }
+
+    public int getShowSugguest() {
+        return showSugguest;
+    }
+
+    public void setShowSugguest(int showSugguest) {
+        this.showSugguest = showSugguest;
     }
 
     @Override

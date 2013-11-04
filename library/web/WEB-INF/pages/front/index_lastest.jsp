@@ -56,6 +56,28 @@
                 </div>
             </c:forEach>
         </div>
+        <div class="fenlei" style="margin-top:10px;">
+            <div class="fenlei_tit">
+                <ul>
+                    <li>华电技术</li>
+                    <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体';  margin-top:8px; padding-right:10px;">
+                        <a href="${basePath}library-list-3AzAv2.htm" style="padding-left:10px;">更多</a></li>
+                </ul>
+            </div>
+            <c:forEach var="huadianjishu" items="${huadianjishu_libs}" varStatus="index">
+                <c:if test="${huadianjishu.type ==1 || huadianjishu.type == 3}">
+                    <c:set var="libHref" value="href=\"${huadianjishu.url}\" target=\"_blank\""/>
+                </c:if>
+                <c:if test="${huadianjishu.type ==2}">
+                    <c:set var="libHref" value="href=\"${basePath}library-detail-${huadianjishu.id}.htm\""/>
+                </c:if>
+                <div class="fenlei_con" style="padding-left:10px; width:235px;overflow:hidden;<c:if test='${index.index>0}'> margin-top:10px;</c:if>">
+                    <a ${libHref}>
+                        <img src='${huadianjishu.image}' width="218" height="218"/>
+                    </a>
+                </div>
+            </c:forEach>
+        </div>
         <%@include file="include/ofenLinks.jsp" %>
         <%@include file="include/contact.jsp" %>
     </div>

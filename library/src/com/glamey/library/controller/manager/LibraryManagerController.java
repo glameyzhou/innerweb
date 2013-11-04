@@ -198,6 +198,7 @@ public class LibraryManagerController extends BaseController {
         String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
         keyword = StringTools.converISO2UTF8(keyword);
         int focusImage = WebUtils.getRequestParameterAsInt(request,"showFocusimage",-1);
+        int showSugguest = WebUtils.getRequestParameterAsInt(request,"showSugguest",-1);
 
         LibraryQuery query = new LibraryQuery();
         query.setType(type);
@@ -205,6 +206,7 @@ public class LibraryManagerController extends BaseController {
         query.setKeyword(keyword);
         query.setShowIndex(showIndex);
         query.setIsFocusImage(focusImage);
+        query.setShowSugguest(showSugguest);
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
 
@@ -299,6 +301,7 @@ public class LibraryManagerController extends BaseController {
         }
         lib.setOrder(Integer.valueOf(orderString));
         lib.setShowFocusimage(WebUtils.getRequestParameterAsInt(request,"showFouceImage",0)); /*是否显示焦点图*/
+        lib.setShowSugguest(WebUtils.getRequestParameterAsInt(request,"showSugguest",1));
 
         if (type == 1) {
             String name = WebUtils.getRequestParameterAsString(request, "name");
@@ -383,6 +386,7 @@ public class LibraryManagerController extends BaseController {
         lib.setShowIndex(showIndex);
         lib.setTime(new Date());
         lib.setShowFocusimage(showFouceImge);
+        lib.setShowSugguest(WebUtils.getRequestParameterAsInt(request,"showSugguest",1));
 
         if (type == 1) {
             String name = WebUtils.getRequestParameterAsString(request, "name");
