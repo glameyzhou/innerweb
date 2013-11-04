@@ -65,6 +65,14 @@
                                     </c:if>
                                 </c:otherwise>
                             </c:choose>
+                            <c:choose>
+                                <c:when test="${category.id == 'beqiMn' or category.id == 'mMN7Vz' or category.id == 'ZjYZR3'}">
+                                    <c:set var="imageSize" value=" width=\"283\" height=\"57\" "/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set var="imageSize" value=" width=\"218\" height=\"218\" "/>
+                                </c:otherwise>
+                            </c:choose>
                             <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
                             <c:if test="${lib.type == 1}">
                                 &nbsp;&nbsp;&nbsp;&nbsp;<img src="${basePath}res/front/library/images/right_tit_biao3.png"/>
@@ -78,7 +86,7 @@
                             </c:if>
                             <c:if test="${lib.type == 3}">
                                 <a ${libHref}>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <img width="283" height="57" border="0" src="${basePath}${lib.image}"
+                                    <img ${imageSize} border="0" src="${basePath}${lib.image}"
                                          onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${lib.image}','${lib.name}');"/>
                                 </a>
                                 <c:if test="${statusIndex.count % 2 == 0}"><br/><br/></c:if>
