@@ -22,6 +22,9 @@
             overflow:hidden;
             text-overflow:ellipsis;
         }
+        .libIntroduct {
+            height: 23px;
+        }
      </style>
     <title>华电图书馆-您身边的能源行业情报秘书</title>
 </head>
@@ -95,19 +98,7 @@
             </div>
             <div class="focus_content">
                 <div class="focus_pic"><img src="${basePath}res/front/library/images/focus_pic1.jpg"/></div>
-                <div class="focus_news">${libraryHeadContent}
-                    <%--<ul>
-                        <li>主管：中国华电集团公司</li>
-                        <li>主办：中国华电集团科学技术研究总院</li>
-                        <li>协作单位：XX 能源网<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XX 能源研究中心</li>
-                        <li>阅读须知：如需深度阅读馆藏资料，请在本站首页进行注册。</li>
-                        <li>资料复制：如需下载复制本站有关资料，请按下面联系方式联系。</li>
-                        <li>委托订阅：如需委托订阅能源行业信息情报资料，请按下面联系方式联系。</li>
-                        <li>联系方式：电话：010-5196 6662; 18911803600;</li>
-                        <li>联系人：张锋</li>
-                        <li>委托订阅：如需委托订阅能源行业信息情报资料，请按下面联系方式联系。</li>
-                    </ul>--%>
-                </div>
+                <div class="focus_news">${libraryHeadContent}</div>
             </div>
         </div>
         <div class="zixun">

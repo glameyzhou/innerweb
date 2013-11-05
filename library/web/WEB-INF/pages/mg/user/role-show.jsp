@@ -99,7 +99,7 @@
                                 <input type="checkbox" id="rightsId" name="rightsId" value="09"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'09')}">checked="checked"</c:if>/>
                             </td>
-                            <td>滚动图片</td>
+                            <td>图片滚动</td>
                         </tr>
 
 

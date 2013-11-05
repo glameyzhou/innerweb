@@ -195,11 +195,14 @@
 .focus_pic {
     float: left;
     width: 270px;
+    height: 184px;
 }
 
 .focus_pic img {
-    padding: 3px;
+    padding: 1px;
     border: 1px solid #efefef;
+    width: 260px;
+    height: 180px;
 }
 
 .focus_news {
