@@ -2,7 +2,7 @@
 <div class="youlian1" style="margin-left:5px;">
     <div class="tupian_tit">
         <ul>
-            <li>图片滚动</li>
+            <li>滚动图片</li>
             <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体'; font-weight:normal; margin-top:8px; padding-right:10px;">
                 <a href="${basePath}rolling-.htm">更多</a></li>
         </ul>
