@@ -8,7 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div class="guanggao">
     <a href="${basePath}library-list-FBRvYf.htm">
-        <img width="265" height="265"
+        <img width="265"
                 src="${basePath}res/front/library/images/tsglm.jpg" border="0"/>
     </a>
 </div>

@@ -80,6 +80,8 @@
                     </a>
                 </div>
             </c:forEach>
+        </div>
+        <div class="fenlei" style="margin-top:10px;">
             <div class="fenlei_tit">
                 <ul>
                     <li>中国华电科研</li>
@@ -143,20 +145,40 @@
                             </div>
                             <c:forEach var="libCateDetail" items="${libDTO.libraryInfoDTOList}" varStatus="libcatedetail_status">
                                 <div>
-                                    <p>${libCateDetail.category.name}</p>
-                                        <table width="98%" border="0" cellspacing="0" style="margin-left:20px; float:left;">
-                                            <tr>
-                                                <c:forEach var="libCateDetail2" items="${libCateDetail.libraryInfoList}" varStatus="libCate2_status">
-                                                <c:if test="${libCateDetail2.type == 3}">
-                                                    <td>
-                                                        <a href="${libCateDetail2.url}" target="_blank">
-                                                            <img width="283" height="57" src="${basePath}${libCateDetail2.image}" onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${libCateDetail2.image}','${libCateDetail2.name}');"/>
-                                                        </a>
-                                                    </td>
-                                                    <c:if test="${libCate2_status.count % 2 == 0}"></tr><tr><td colspan="2"></td></tr><tr></c:if>
-                                                </c:if>
-                                            </c:forEach>
-                                        </table>
+                                    <%--<p>${libCateDetail.category.name}</p>--%>
+                                    <p style="width: 680px;">
+                                        <c:if test="${not empty libCateDetail.category.name}">
+                                            <span style="float: left;width: 250px;">${libCateDetail.category.name}</span>
+                                            <span style="float:right;">
+                                                <a href="${basePath}library-list-${libCateDetail.category.id}.htm">
+                                                    <img src="${basePath}res/front/library/images/zixun_more.jpg"/>
+                                                </a>
+                                            </span>
+                                        </c:if>
+                                        <%--<c:if test="${empty libCateDetail.category.name}">
+                                        <span style="float:right;">
+                                            <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg" style="display: none;"/></a>
+                                        </span>
+                                        </c:if>--%>
+                                    </p>
+                                    <c:if test="${empty cat_dto.category.name}">
+                                        <span style="float:right;">
+                                            <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg" style="display: none;"/></a>
+                                        </span>
+                                    </c:if>
+                                    <table width="98%" border="0" cellspacing="0" style="margin-left:20px; float:left;">
+                                        <tr>
+                                            <c:forEach var="libCateDetail2" items="${libCateDetail.libraryInfoList}" varStatus="libCate2_status">
+                                            <c:if test="${libCateDetail2.type == 3}">
+                                                <td>
+                                                    <a href="${libCateDetail2.url}" target="_blank">
+                                                        <img width="283" height="57" src="${basePath}${libCateDetail2.image}" onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${libCateDetail2.image}','${libCateDetail2.name}');"/>
+                                                    </a>
+                                                </td>
+                                                <c:if test="${libCate2_status.count % 2 == 0}"></tr><tr><td colspan="2"></td></tr><tr></c:if>
+                                            </c:if>
+                                        </c:forEach>
+                                    </table>
                                 </div>
                             </c:forEach>
                         </div>
@@ -197,9 +219,9 @@
                                             </c:if>
                                         </p>
                                         <c:if test="${empty cat_dto.category.name}">
-                                        <span style="float:right;">
-                                            <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg" style="display: none;"/></a>
-                                        </span>
+                                            <span style="float:right;">
+                                                <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg" style="display: none;"/></a>
+                                            </span>
                                         </c:if>
                                         <ul>
                                             <c:forEach var="libCateDetail2" items="${libCateDetail.libraryInfoList}">
