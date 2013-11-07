@@ -15,7 +15,8 @@
         </ul>
     </div>
     <div class="fenlei_con" style="float:left;">
-        <ul style="height:70px;">
+        <%--<ul style="height:70px;">--%>
+        <ul style="height:auto;">
             <c:forEach items="${linksDTOs}" var="ol">
                 <li>
                     <select name="popularLinks" id="popularLinks" class="xiala" onchange="javascript:jumpLinks(this.value)">
