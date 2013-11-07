@@ -63,4 +63,9 @@ public class CategoryConstants {
      * 华电技术
      */
     public static final String CATEGORY_HUADIANJISHU = "3AzAv2";
+
+    /**
+     * 华电科研
+     */
+    public static final String CATEGORY_HUADIANKEYAN = "6zyeYj";
 }

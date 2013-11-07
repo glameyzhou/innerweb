@@ -4,7 +4,7 @@
         <script>
             var box = new PPTBox();
             box.width = 264; //宽度
-            box.height = 200;//高度
+            box.height = 222;//高度
             box.autoplayer = 2;//自动播放间隔时间
             <c:forEach var="fouceImage" items="${libraryInfoFouceImageList}">
                 <c:if test="${fouceImage.type == 2}">

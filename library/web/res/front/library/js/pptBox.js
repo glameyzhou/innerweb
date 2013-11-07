@@ -8,7 +8,7 @@
         PPTBoxHelper.instance[this.uid] = this;
         this._$ = function(id){return document.getElementById(id);};
         this.width = 400;//宽度
-        this.height = 300;//高度
+        this.height = 220;//高度
         this.picWidth = 15;//小图宽度
         this.picHeight = 12;//小图高度
         this.autoplayer = 4;//自动播放间隔（秒）

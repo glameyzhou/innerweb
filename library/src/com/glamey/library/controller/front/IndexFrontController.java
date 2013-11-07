@@ -150,7 +150,10 @@ public class IndexFrontController extends BaseController {
             //如果是华电科技--华电技术的话，直接删除
             for (Iterator<Category> it = categoryList.iterator();it.hasNext();){
                 Category category = it.next();
-                if(StringUtils.equals(category.getId(),CategoryConstants.CATEGORY_HUADIANJISHU)){
+                if(StringUtils.equals(category.getId(),CategoryConstants.CATEGORY_HUADIANJISHU)
+                        ||
+                        StringUtils.equals(category.getId(),CategoryConstants.CATEGORY_HUADIANKEYAN)
+                  ){
                     it.remove();
                 }
             }
@@ -285,6 +288,18 @@ public class IndexFrontController extends BaseController {
         huadianjishu.setCategoryId(CategoryConstants.CATEGORY_HUADIANJISHU);
         List<LibraryInfo> huadianjishu_libs = libraryInfoDao.getByQuery(huadianjishu);
         mav.addObject("huadianjishu_libs",huadianjishu_libs);
+
+        //华电科技--中国华电科研
+        LibraryQuery huadiankeyan = new LibraryQuery();
+        huadiankeyan.setStart(0);
+        huadiankeyan.setNum(1);
+        huadiankeyan.setShowIndex(1);
+        huadiankeyan.setShowImage(1);
+        huadiankeyan.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
+        huadiankeyan.setOrderType(Constants.ORDERBYDESC);
+        huadiankeyan.setCategoryId(CategoryConstants.CATEGORY_HUADIANKEYAN);
+        List<LibraryInfo> huadiankeyan_libs = libraryInfoDao.getByQuery(huadiankeyan);
+        mav.addObject("huadiankeyan_libs",huadiankeyan_libs);
 
         return mav;
     }
