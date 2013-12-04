@@ -29,7 +29,7 @@
         <!--右半边代码开始-->
         <div class="center_right">
             <div class="neirong">
-                <div class="neirong_tit">资讯公告</div>
+                <div class="neirong_tit">通知公告</div>
                 <div class="seat" style="font-weight: bold">${post.title}</div>
                 <div class="neirong_con">
                     <p style="text-align: center;">来源：${post.source} &nbsp;&nbsp;时间：${fmtString:substring(post.time,10)}</p>

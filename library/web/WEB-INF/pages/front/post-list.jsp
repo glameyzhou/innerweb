@@ -28,7 +28,7 @@
         <!--右半边代码开始-->
         <div class="center_right">
             <div class="neirong">
-                <div class="neirong_tit">资讯公告</div>
+                <div class="neirong_tit">通知公告</div>
                 <%--<div class="seat">目录 : 能源行业规划及政策>> 法规- 国家级政策、法规>></div>--%>
                 <div class="neiye_right_con">
                     <c:forEach var="post" items="${postList}">

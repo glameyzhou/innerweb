@@ -113,7 +113,7 @@
             <div class="focus_title">
                 <ul>
                     <li><img src="${basePath}res/front/library/images/focus_title1.jpg"/></li>
-                    <li>图书馆简介&nbsp;ABOUTS</li>
+                    <li>图书馆简介&nbsp;Huadian library introduction</li>
                     <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体'; margin-top:5px; padding-left:15px;">
                         <a href="${basePath}library-aboutus.htm">更多</a></li>
                 </ul>

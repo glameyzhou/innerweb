@@ -36,7 +36,7 @@
 
     <%--咨询公告--%>
     <c:if test="${fmtString:hasRightsList(rightsList,'01')}">
-        <li><a href="${basePath}mg/post/post-list.htm" target="mainFrame">咨询公告管理</a></li>
+        <li><a href="${basePath}mg/post/post-list.htm" target="mainFrame">通知公告管理</a></li>
     </c:if>
 
 

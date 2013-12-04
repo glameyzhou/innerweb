@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div class="notice">
     <div class="notice_top" onclick="javascript:window.location='${basePath}pl-news.htm';"
-         onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='default'">资讯公告</div>
+         onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='default'">通知公告</div>
     <div class="notice_center">
         <ul>
             <c:forEach var="p" items="${includePostList}">

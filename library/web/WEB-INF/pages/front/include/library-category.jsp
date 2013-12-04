@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="${basePath}res/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <script type="text/javascript" src="${basePath}res/ztree/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="${basePath}res/ztree/js/jquery.ztree.core-3.5.js"></script>
-<div class="fenlei" style="width: 255px;height: 50px;padding-bottom:0px;border:5px solid #efefef;">
+<div class="fenlei" style="width: 255px;height: 50px;padding-bottom:0px;border:5px solid #efefef; background-color: #F7F7F7;">
     <div class="fenlei_tit">
         <ul>
             <li><img src="${basePath}res/front/library/images/fenlei_tit.png"/></li>
@@ -17,8 +17,8 @@
         </ul>
     </div>
 </div>
-<div class="fenlei">
-    <div style="width: 250px;height: auto;text-align: left">
+<div class="fenlei" style="background-color:#F7F7F7;">
+    <div style="width: 250px;height: auto;text-align: left;">
         <ul id="treeDemo" class="ztree"></ul>
     </div>
 </div>

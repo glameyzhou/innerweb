@@ -150,8 +150,8 @@ public class IndexFrontController extends BaseController {
             //如果是华电科技--华电技术的话，直接删除
             for (Iterator<Category> it = categoryList.iterator();it.hasNext();){
                 Category category = it.next();
-                if(StringUtils.equals(category.getId(),CategoryConstants.CATEGORY_HUADIANJISHU)
-                        ||
+                if(/*StringUtils.equals(category.getId(),CategoryConstants.CATEGORY_HUADIANJISHU)
+                        ||*/
                         StringUtils.equals(category.getId(),CategoryConstants.CATEGORY_HUADIANKEYAN)
                   ){
                     it.remove();

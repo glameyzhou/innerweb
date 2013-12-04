@@ -75,7 +75,7 @@
                                 <input type="checkbox" id="rightsId" name="rightsId" value="01"
                                    <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'01')}">checked="checked"</c:if>/>
                             </td>
-                            <td>资讯公告管理</td>
+                            <td>通知公告管理</td>
                         </tr>
                         <%--友情链接管理--%>
                         <tr>
