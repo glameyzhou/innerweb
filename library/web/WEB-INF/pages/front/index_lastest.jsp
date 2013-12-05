@@ -62,9 +62,9 @@
         <div class="fenlei" style="margin-top:10px;">
             <div class="fenlei_tit">
                 <ul>
-                    <li>华电技术</li>
+                    <li>政策研究</li>
                     <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体';  margin-top:8px; padding-right:10px;">
-                        <a href="${basePath}library-list-3AzAv2.htm" style="padding-left:10px;">更多</a></li>
+                        <a href="${basePath}library-list-eaAr6j.htm" style="padding-left:10px;">更多</a></li>
                 </ul>
             </div>
             <c:forEach var="huadianjishu" items="${huadianjishu_libs}" varStatus="index">
@@ -155,11 +155,6 @@
                                                 </a>
                                             </span>
                                         </c:if>
-                                        <%--<c:if test="${empty libCateDetail.category.name}">
-                                        <span style="float:right;">
-                                            <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg" style="display: none;"/></a>
-                                        </span>
-                                        </c:if>--%>
                                     </p>
                                     <c:if test="${empty cat_dto.category.name}">
                                         <span style="float:right;">
@@ -200,9 +195,6 @@
                             <div class="zixun_kuang_con">
                                 <c:forEach var="libCateDetail" items="${libDTO.libraryInfoDTOList}" varStatus="libcatedetail_status">
                                     <div style="width:350px; float:left;">
-                                            <%--<p>${libCateDetail.category.name}<span style="float:right;">
-                                                <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg"/></a></span>
-                                            </p>--%>
                                         <p>
                                             <c:if test="${not empty libCateDetail.category.name}">
                                                 <span style="float: left;width: 250px;">${libCateDetail.category.name}</span>
@@ -238,23 +230,21 @@
                                                         </c:if>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <%--<li>
-                                                        &lt;%&ndash;1、正常情况，外链 2、自定义内容，内部使用 3、图片链接&ndash;%&gt;
-                                                    <c:if test="${libCateDetail2.type == 1}">
-                                                        <a title="${libCateDetail2.name}" ${libHref}>${fmtString:substringPreciseAppend(libCateDetail2.name,18,'..' )}</a>
-                                                    </c:if>
-                                                    <c:if test="${libCateDetail2.type == 2}">
-                                                        <a title="${libCateDetail2.name}" ${libHref}>${fmtString:substringPreciseAppend(libCateDetail2.name,18,'..' )}</a>
-                                                    </c:if>
-                                                    <c:if test="${libCateDetail2.type == 3}">
-                                                        <a ${libHref}>
-                                                            <img width="130px;" height="35px" border="0" src="${basePath}${libCateDetail2.image}"
-                                                                 onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${libCateDetail2.image}','${libCateDetail2.name}');"/>
-                                                        </a>
-                                                    </c:if>
-                                                </li>--%>
-
-                                                <li>
+                                                <%--如果是华电技术的话，仅仅显示一个图片，并且图片设置大小为三行文字的大小--%>
+                                                <c:set var="xxxCss" value=""/>
+                                                <c:if test="${libCateDetail2.categoryId eq '3AzAv2'}">
+                                                    <c:choose>
+                                                        <c:when test="${libCateDetail2.type == 3}">
+                                                            <c:set var="xxxImage" value="width=\"283px\" height=\"57px\""/>
+                                                            <c:set var="xxxCss" value="style=\"width:283px;height:57px\""/>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:set var="xxxImage" value="width=\"130px\" height=\"35px\""/>
+                                                            <c:set var="xxxCss" value=""/>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:if>
+                                                <li ${xxxCss}>
                                                         <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
                                                     <c:if test="${libCateDetail2.type == 1}">
                                                         <a title="${libCateDetail2.name}" ${libHref}>${libCateDetail2.name}</a>
@@ -264,7 +254,7 @@
                                                     </c:if>
                                                     <c:if test="${libCateDetail2.type == 3}">
                                                         <a ${libHref}>
-                                                            <img width="130px;" height="35px" border="0" src="${basePath}${libCateDetail2.image}"
+                                                            <img ${xxxImage} border="0" src="${basePath}${libCateDetail2.image}"
                                                                  onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${libCateDetail2.image}','${libCateDetail2.name}');"/>
                                                         </a>
                                                     </c:if>

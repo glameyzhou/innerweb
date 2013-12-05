@@ -173,12 +173,7 @@ public class IndexFrontController extends BaseController {
                 query.setShowIndex(showIndex);
                 query.setCategoryId(category.getId());
                 query.setStart(0);
-				/*query.setNum(StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_DAILY)
-                        || StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_HANGYEYANJIU_REPORT)
-                        || StringUtils.equals(rootCategory.getId(),Constants.CATEGORY_LIBRARY_ZHENGYAN)
-						? Constants.CATEGORY_LIBRARY_LENGTITLE_LEN
-						: Constants.LIBRARYDISCOUNT);*/
-                List<LibraryInfo> libraryInfoList = null;
+                List<LibraryInfo> libraryInfoList;
                 if(StringUtils.equals(rootCategory.getId(),CategoryConstants.CATEGORY_ZHIMINGNENGYUANQIYE)
                         || StringUtils.equals(rootCategory.getId(),CategoryConstants.CATEGORY_HANGYEYANJIUJIGOUXIEHUI)
                         ){
@@ -193,6 +188,11 @@ public class IndexFrontController extends BaseController {
                             libraryInfoList = libraryInfoList.subList(0,size - 1);
                         }
                     }
+                }
+                //如果是华电技术的话，取出来一条信息
+                else if (StringUtils.equals(category.getId(),CategoryConstants.CATEGORY_HUADIANJISHU)) {
+                    query.setNum(1);
+                    libraryInfoList = libraryInfoDao.getByQuery(query);
                 }
                 else{
                     query.setNum(3);
