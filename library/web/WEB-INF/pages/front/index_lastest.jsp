@@ -62,9 +62,9 @@
         <div class="fenlei" style="margin-top:10px;">
             <div class="fenlei_tit">
                 <ul>
-                    <li>政策研究</li>
+                    <li>华电技术</li>
                     <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体';  margin-top:8px; padding-right:10px;">
-                        <a href="${basePath}library-list-eaAr6j.htm" style="padding-left:10px;">更多</a></li>
+                        <a href="${basePath}library-list-3AzAv2.htm" style="padding-left:10px;">更多</a></li>
                 </ul>
             </div>
             <c:forEach var="huadianjishu" items="${huadianjishu_libs}" varStatus="index">
@@ -84,9 +84,9 @@
         <div class="fenlei" style="margin-top:10px;">
             <div class="fenlei_tit">
                 <ul>
-                    <li>中国华电科研</li>
+                    <li>政策研究</li>
                     <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体';  margin-top:8px; padding-right:10px;">
-                        <a href="${basePath}library-list-6zyeYj.htm" style="padding-left:10px;">更多</a></li>
+                        <a href="${basePath}library-list-eaAr6j.htm" style="padding-left:10px;">更多</a></li>
                 </ul>
             </div>
             <c:forEach var="huadiankayan" items="${huadiankeyan_libs}" varStatus="index">
