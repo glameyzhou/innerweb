@@ -241,6 +241,7 @@ public class LibraryManagerController extends BaseController {
             categoryList = categoryDao.getByParentId(info.getCategoryId(), CategoryConstants.CATEGORY_LIBRARY, 0, Integer.MAX_VALUE);
         } else {
             info.setType(-1);
+            info.setShowSugguest(0);
         }
         mav.addObject("opt", opt);
         mav.addObject("lib", info);

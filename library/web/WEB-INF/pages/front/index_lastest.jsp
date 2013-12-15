@@ -235,8 +235,10 @@
                                                 <c:if test="${libCateDetail2.categoryId eq '3AzAv2'}">
                                                     <c:choose>
                                                         <c:when test="${libCateDetail2.type == 3}">
-                                                            <c:set var="xxxImage" value="width=\"283px\" height=\"57px\""/>
-                                                            <c:set var="xxxCss" value="style=\"width:283px;height:57px\""/>
+                                                            <%--<c:set var="xxxImage" value="width=\"283px\" height=\"57px\""/>
+                                                            <c:set var="xxxCss" value="style=\"width:283px;height:57px\""/>--%>
+                                                            <c:set var="xxxImage" value="width=\"120px\" height=\"120px\""/>
+                                                            <c:set var="xxxCss" value="style=\"width:120px;height:120px\""/>
                                                         </c:when>
                                                         <c:otherwise>
                                                             <c:set var="xxxImage" value="width=\"130px\" height=\"35px\""/>
