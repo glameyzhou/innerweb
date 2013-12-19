@@ -37,6 +37,12 @@
         <%@include file="include/focusImages.jsp" %>
         <%@include file="include/post-newest.jsp" %>
         <%@include file="include/library-category.jsp" %>
+        <div class="guanggao">
+            <a href="${basePath}library-list-FBRvYf.htm">
+                <img width="265"
+                     src="${basePath}res/front/library/images/tsglm.jpg" border="0"/>
+            </a>
+        </div>
         <div class="fenlei" style="margin-top:10px;">
             <div class="fenlei_tit">
                 <ul>
@@ -113,7 +119,7 @@
             <div class="focus_title">
                 <ul>
                     <li><img src="${basePath}res/front/library/images/focus_title1.jpg"/></li>
-                    <li>图书馆简介&nbsp;Huadian library introduction</li>
+                    <li>图书馆简介&nbsp;Bief Introduction of Huadian Library</li>
                     <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体'; margin-top:5px; padding-left:15px;">
                         <a href="${basePath}library-aboutus.htm">更多</a></li>
                 </ul>

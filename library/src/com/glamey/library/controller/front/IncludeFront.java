@@ -123,7 +123,7 @@ public class IncludeFront {
         //新闻资讯
         PostQuery query = new PostQuery();
         query.setStart(0);
-        query.setNum(8);
+        query.setNum(4);
         query.setIsValid(1);
         List<Post> postList = postDao.getPostList(query);
         map.put("includePostList", postList);
