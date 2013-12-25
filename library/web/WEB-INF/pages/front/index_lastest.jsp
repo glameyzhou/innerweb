@@ -133,9 +133,10 @@
             <%@include file="include/library-newest.jsp"%>
             <c:forEach var="libDTO" items="${libraryInfoDTOList}" varStatus="lib_status">
                 <c:choose><c:when test="${lib_status.count%2==0}"><c:set var="titleCSS" value="zixun_kuang_tit1"/></c:when><c:otherwise><c:set var="titleCSS" value="zixun_kuang_tit2"/></c:otherwise></c:choose>
-                <%--如果是"知名能源企业" or "行业研究机构、协会"--%>
+                <%--如果是"知名能源企业" or "行业研究机构、协会(世界五百强)"--%>
                 <c:choose>
-                    <c:when test="${libDTO.category.id == 'mMN7Vz' or libDTO.category.id == 'ZjYZR3'}">
+                    <%--<c:when test="${libDTO.category.id == 'mMN7Vz' or libDTO.category.id == 'ZjYZR3'}">--%>
+                    <c:when test="${libDTO.category.id == 'ZjYZR3'}">
                         <div class="zixun_kuang" style="margin-top:10px;">
                             <div class="${titleCSS}">
                                 <ul>

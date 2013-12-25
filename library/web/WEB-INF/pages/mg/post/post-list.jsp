@@ -83,7 +83,8 @@
 			<tr>
 				<td align="center"><input type="checkbox" id="postId" name="postId" value="${post.id}"/></td>
 				<td title="${post.title}">${fmtString:substringAppend(post.title,35,'')}</td>
-				<td align="center">${post.userInfo.nickname}</td>
+				<%--<td align="center">${post.userInfo.nickname}</td>--%>
+                <td align="center">${post.author}</td>
 				<td align="center">${post.source}</td>
 				<td align=center><c:choose><c:when test="${post.isValid == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
 				<td align=center>${post.time}</td>

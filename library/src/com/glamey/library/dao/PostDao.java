@@ -152,7 +152,7 @@ public class PostDao extends BaseDao {
 
     public List<Post> getPostList(final PostQuery query) {
         logger.info("[PostDao] #getPostList# query=" + query);
-        List<Post> list = new ArrayList<Post>();
+        List<Post> list;
         try {
 
             StringBuffer sql = new StringBuffer("select * from tbl_post where 1=1 ");
@@ -236,8 +236,8 @@ public class PostDao extends BaseDao {
             post.setId(rs.getString("id"));
             post.setTitle(rs.getString("post_title"));
             post.setAuthor(rs.getString("post_author"));
-            UserInfo userInfo = userInfoDao.getUserById(post.getAuthor());
-            post.setUserInfo(userInfo);
+            /*UserInfo userInfo = userInfoDao.getUserById(post.getAuthor());
+            post.setUserInfo(userInfo);*/
             post.setSource(rs.getString("post_source"));
             post.setTime(rs.getString("post_time"));
             post.setSummary(rs.getString("post_summary"));

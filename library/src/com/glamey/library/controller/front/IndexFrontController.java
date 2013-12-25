@@ -174,8 +174,9 @@ public class IndexFrontController extends BaseController {
                 query.setCategoryId(category.getId());
                 query.setStart(0);
                 List<LibraryInfo> libraryInfoList;
-                if(StringUtils.equals(rootCategory.getId(),CategoryConstants.CATEGORY_ZHIMINGNENGYUANQIYE)
-                        || StringUtils.equals(rootCategory.getId(),CategoryConstants.CATEGORY_HANGYEYANJIUJIGOUXIEHUI)
+                if(
+                        /*StringUtils.equals(rootCategory.getId(),CategoryConstants.CATEGORY_ZHIMINGNENGYUANQIYE)
+                        || */StringUtils.equals(rootCategory.getId(),CategoryConstants.CATEGORY_HANGYEYANJIUJIGOUXIEHUI)
                         ){
                     query.setNum(6);
                     libraryInfoList = libraryInfoDao.getByQuery(query);
@@ -197,7 +198,14 @@ public class IndexFrontController extends BaseController {
                 else{
                     query.setNum(3);
                     libraryInfoList = libraryInfoDao.getByQuery(query);
-
+                    int size = libraryInfoList.size();
+                    if (!CollectionUtils.isEmpty(libraryInfoList) && size < 3) {
+                        for (int i = size ; i <= 3 ; i ++) {
+                            LibraryInfo info = new LibraryInfo();
+                            info.setName("");
+                            libraryInfoList.add(info);
+                        }
+                    }
                 }
                 libDTO.setLibraryInfoList(libraryInfoList);
                 libDTOList.add(libDTO);

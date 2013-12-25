@@ -50,7 +50,7 @@ public class CategoryConstants {
     public static final String CATEGORY_JINQIHUIZHAN = "beqiMn";
 
     /**
-     * 知名能源企业
+     * 知名能源企业-->世界五百强
      */
     public static final String CATEGORY_ZHIMINGNENGYUANQIYE = "mMN7Vz";
 

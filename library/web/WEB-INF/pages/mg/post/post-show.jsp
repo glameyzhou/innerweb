@@ -65,16 +65,13 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>来源:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="hidden" id="source" name="source" value="${post.source}" />
+                    <input type="text" id="source" name="source" value="${post.source}" class="required"/>
                 </td>
             </tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>发布人:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="authorNickName" id="authorNickName" class="required"
-                           size="80" value="${post.userInfo.nickname}" readonly="readonly">
-                    <input type="hidden" maxlength="100" name="author" id="author" class="required" size="80"
-                           value="${post.author}" readonly="readonly">
+                    <input type="text" maxlength="100" name="author" id="author" class="required" size="80" value="${post.author}">
                 </td>
             </tr>
             <tr>

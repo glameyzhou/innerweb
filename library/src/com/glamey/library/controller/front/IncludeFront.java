@@ -72,7 +72,8 @@ public class IncludeFront {
         //友情链接内容显示
         List<FriendlyLinksDTO> friendlyLinksDTOs = new ArrayList<FriendlyLinksDTO>();
         Category categoryParent = categoryDao.getByAliasName(CategoryConstants.CATEOGRY_FRIENDLYLINKS);
-        List<Category> friendlyLinksCategory = categoryDao.getByParentId(categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
+        List<Category> friendlyLinksCategory = categoryDao.getByParentId(1,categoryParent.getId(), categoryParent.getCategoryType(), 0, Integer.MAX_VALUE);
+//        getByParentId(final int showIndex, final String parentId, final String categoryType, final int start, final int num)
 
         FriendlyLinksDTO dto = null;
         int count = Constants.FRIENDLYLINKSCOUNT;

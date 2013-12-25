@@ -73,7 +73,8 @@ public class PostManagerController extends BaseController {
 
         post.setTitle(WebUtils.getRequestParameterAsString(request, "title"));
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        post.setAuthor(userInfo.getUserId());
+//        post.setAuthor(userInfo.getUserId());
+        post.setAuthor(WebUtils.getRequestParameterAsString(request,"author"));
         post.setSource(WebUtils.getRequestParameterAsString(request, "source"));
         String time = WebUtils.getRequestParameterAsString(request, "time");
         if (StringUtils.isBlank(time)) {
@@ -101,7 +102,7 @@ public class PostManagerController extends BaseController {
     public ModelAndView postUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-post-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
-        Post post = null ;
+        Post post ;
         String postId = WebUtils.getRequestParameterAsString(request, "postId");
         if (StringUtils.isBlank(postId)) {
             mav.setViewName("common/message");
@@ -118,7 +119,8 @@ public class PostManagerController extends BaseController {
 
         post.setTitle(WebUtils.getRequestParameterAsString(request, "title"));
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        post.setAuthor(userInfo.getUserId());
+//        post.setAuthor(userInfo.getUserId());
+        post.setAuthor(WebUtils.getRequestParameterAsString(request,"author"));
         post.setSource(WebUtils.getRequestParameterAsString(request, "source"));
         String time = WebUtils.getRequestParameterAsString(request, "time");
         if (StringUtils.isBlank(time)) {
