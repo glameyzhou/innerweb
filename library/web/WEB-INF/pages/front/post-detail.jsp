@@ -30,7 +30,7 @@
         <div class="center_right">
             <div class="neirong">
                 <div class="neirong_tit">通知公告</div>
-                <div class="seat" style="font-weight: bold">${post.title}</div>
+                <div class="seat">${post.title}</div>
                 <div class="neirong_con">
                     <p style="text-align: center;">发布人：${post.author} &nbsp;&nbsp;来源：${post.source} &nbsp;&nbsp;时间：${fmtString:substring(post.time,10)}</p>
                     ${post.content}

@@ -67,7 +67,7 @@
     <div class="rhead">
         <div class="rpos">当前位置: 首页 - 微型图书馆 - 内容列表</div>
         <form class="ropt">
-            <input type="button" value="添加" onclick="javascript:window.location='${basePath}mg/library/library-show.htm';">
+            <input type="button" value="添加" onclick="javascript:window.location='${basePath}mg/library/library-show.htm?categoryId=${category.id}&pid=${category.parentId}';">
         </form>
         <div class="clear"></div>
     </div>

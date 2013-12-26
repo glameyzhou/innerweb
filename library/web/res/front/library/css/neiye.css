@@ -22,16 +22,17 @@
     font-weight: bold;
 }
 
-.daohang, .seat {
+.seat {
     background-color: #f8fbda;
     float: left;
-    /*height: 25px;*/
+    height: 25px;
     line-height: 25px;
     width: 650px;
     margin-left: 25px;
     padding-left: 15px;
-    color: #7d7d7d;
-    font-size: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
 }
 
 .neirong p {

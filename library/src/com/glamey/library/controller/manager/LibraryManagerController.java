@@ -222,6 +222,9 @@ public class LibraryManagerController extends BaseController {
         //所有分类
         List<Category> categoryList = categoryDao.getChildrenByPid(CategoryConstants.PARENTID, CategoryConstants.CATEGORY_LIBRARY, 0, Integer.MAX_VALUE);
         mav.addObject("children",categoryList);
+
+        Category category = categoryDao.getById(categoryId);
+        mav.addObject("category", category);
         return mav;
     }
 
@@ -242,11 +245,18 @@ public class LibraryManagerController extends BaseController {
         } else {
             info.setType(-1);
             info.setShowSugguest(0);
+            //默认显示当前分类
+            Category category = new Category();
+            category.setId(WebUtils.getRequestParameterAsString(request,"categoryId"));
+            category.setParentId(WebUtils.getRequestParameterAsString(request,"pid"));
+            info.setCategory(category);
+            info.setCategoryId(category.getId());
         }
         mav.addObject("opt", opt);
         mav.addObject("lib", info);
         mav.addObject("categoryParentList", categoryParentList);
         mav.addObject("categoryList", categoryList);
+
         return mav;
     }
 
