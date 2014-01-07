@@ -11,3 +11,6 @@
     <area shape="rect" coords="5,4,121,58" href="${basePath}contact-us.htm"/>
     <area shape="rect" coords="139,6,257,58" href="${basePath}mg/feedback/index.htm"/>
 </map>
+<div class="guanggao"><img src="${basePath}res/front/library/images/vido.jpg" /></div>
+<div class="guanggao"><img src="${basePath}res/front/library/images/digitresource.jpg"/></div>
+<div class="guanggao"><img src="${basePath}res/front/library/images/spical.jpg"/></div>
