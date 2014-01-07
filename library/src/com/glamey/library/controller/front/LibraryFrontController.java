@@ -76,6 +76,7 @@ public class LibraryFrontController extends BaseController {
         if(category.getHasChild() == 0){
             int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
             pageBean = new PageBean(20);
+            pageBean.setCurPage(curPage);
 
             LibraryQuery query = new LibraryQuery();
             query.setCategoryId(categoryId);
