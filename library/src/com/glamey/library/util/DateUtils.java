@@ -34,8 +34,8 @@ public class DateUtils {
      * @param date
      * @return
      */
-    public static boolean isDiff8Days(Date date){
-        return isDiffDays(8,date);
+    public static boolean isDiff7Days(Date date){
+        return isDiffDays(7,date);
     }
 
     public static void main(String[] args) throws ParseException {
