@@ -257,9 +257,11 @@
                                                         <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
                                                     <c:if test="${libCateDetail2.type == 1}">
                                                         <a title="${libCateDetail2.name}" ${libHref}>${libCateDetail2.name}</a>
+                                                        <c:if test="${libCateDetail2.showisNew == 1}"><img src="${basePath}res/front/library/images/new.png"/></c:if>
                                                     </c:if>
                                                     <c:if test="${libCateDetail2.type == 2}">
                                                         <a title="${libCateDetail2.name}" ${libHref}>${libCateDetail2.name}</a>
+                                                        <c:if test="${libCateDetail2.showisNew == 1}"><img src="${basePath}res/front/library/images/new.png"/></c:if>
                                                     </c:if>
                                                     <c:if test="${libCateDetail2.type == 3}">
                                                         <a ${libHref}>

@@ -34,7 +34,7 @@
 <div class="center_right">
     <div class="neirong">
         <div class="neirong_tit">${category.name}</div>
-        <div class="daohang">分类导航：
+        <div class="daohang">&nbsp;分类导航：
             <c:forEach var="c" items="${category.children}" varStatus="vStatus">
                 <a href="${basePath}library-list-${c.id}.htm">${c.name}</a><c:if test="${!vStatus.last}"> | </c:if>
             </c:forEach>
@@ -77,11 +77,13 @@
                             <c:if test="${lib.type == 1}">
                                 &nbsp;&nbsp;&nbsp;&nbsp;<img src="${basePath}res/front/library/images/right_tit_biao3.png"/>
                                 <a title="${lib.name}" ${libHref}>${lib.name}</a>
+                                <c:if test="${lib.showisNew == 1}"><img src="${basePath}res/front/library/images/new.png"/></c:if>
                                 <br/><br/>
                             </c:if>
                             <c:if test="${lib.type == 2}">
                                 &nbsp;&nbsp;&nbsp;&nbsp;<img src="${basePath}res/front/library/images/right_tit_biao3.png"/>
                                 <a title="${lib.name}" ${libHref}>${lib.name}</a>
+                                <c:if test="${lib.showisNew == 1}"><img src="${basePath}res/front/library/images/new.png"/></c:if>
                                 <br/><br/>
                             </c:if>
                             <c:if test="${lib.type == 3}">

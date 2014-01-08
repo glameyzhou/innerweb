@@ -76,13 +76,14 @@
                                     &nbsp;&nbsp;
                                     <img src="${basePath}res/front/library/images/right_tit_biao3.png"/>&nbsp;
                                     <a title="${lib.name}" ${libHref}>${lib.name}</a>
+                                    <c:if test="${lib.showisNew == 1}"><img src="${basePath}res/front/library/images/new.png"/></c:if>
                                     <br/><br/>
                                 </c:if>
                                 <c:if test="${lib.type == 2}">
                                     &nbsp;&nbsp;
                                     <img src="${basePath}res/front/library/images/right_tit_biao3.png"/>&nbsp;
                                     <a title="${lib.name}" ${libHref}>${lib.name}</a>
-                                    <br/><br/>
+                                    <c:if test="${lib.showisNew == 1}"><img src="${basePath}res/front/library/images/new.png"/></c:if>                                    <br/><br/>
                                 </c:if>
                                 <c:if test="${lib.type == 3}">
                                     &nbsp;&nbsp;

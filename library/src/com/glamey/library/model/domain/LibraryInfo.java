@@ -70,6 +70,11 @@ public class LibraryInfo implements Serializable {
      */
     private int showSugguest = 1;
 
+    /**
+     * 是否为最近一周的图书
+     */
+    private int showisNew = 0 ;
+
 	public String getId() {
 		return id;
 	}
@@ -172,6 +177,14 @@ public class LibraryInfo implements Serializable {
 
     public void setShowSugguest(int showSugguest) {
         this.showSugguest = showSugguest;
+    }
+
+    public int getShowisNew() {
+        return showisNew;
+    }
+
+    public void setShowisNew(int showisNew) {
+        this.showisNew = showisNew;
     }
 
     @Override

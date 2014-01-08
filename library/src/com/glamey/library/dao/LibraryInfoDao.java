@@ -8,6 +8,7 @@ import com.glamey.library.model.domain.Category;
 import com.glamey.library.model.domain.LibraryInfo;
 import com.glamey.library.model.dto.LibraryQuery;
 import com.glamey.library.model.dto.LuceneEntry;
+import com.glamey.library.util.DateUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
@@ -330,6 +331,7 @@ public class LibraryInfoDao extends BaseDao {
             info.setContent(rs.getString("lib_content"));
             info.setImage(rs.getString("lib_image"));
             info.setTime(rs.getTimestamp("lib_time"));
+            info.setShowisNew(DateUtils.isDiff8Days(info.getTime()) ? 1 : 0);
             info.setOrder(rs.getInt("lib_order"));
             info.setShowIndex(rs.getInt("lib_showindex"));
             info.setShowSugguest(rs.getInt("lib_sugguest"));
@@ -386,6 +388,7 @@ public class LibraryInfoDao extends BaseDao {
                             info.setType(resultSet.getInt("lib_type"));
                             info.setUrl(resultSet.getString("lib_url"));
                             info.setTime(resultSet.getTimestamp("lib_time"));
+                            info.setShowisNew(DateUtils.isDiff8Days(info.getTime()) ? 1 : 0);
                             return info ;
                         }
                     });
