@@ -60,6 +60,25 @@
                 window.location = opURL;
             }
         }
+        function setSelectContent(itemName,category,type,categoryId) {
+            var all_checkbox = document.getElementsByName(itemName);
+            var len = all_checkbox.length;
+            if (isChecked(itemName) == false) {
+                alert('至少选择一项');
+            } else {
+                if (!confirm('确认要执行操作?'))return;
+                var values = "";
+                for (var i = 0; i < len; i++) {
+                    if (all_checkbox[i].checked)
+                        values += "," + all_checkbox[i].value;
+                }
+                if (values.length > 1)
+                    values = values.substring(1);
+                var opURL = "${basePath}mg/library/library-setSelectContent.htm?id=" + values + "&category=" + category + "&type=" + type + "&categoryId=" + categoryId;
+                alert(opURL);
+                window.location = opURL;
+            }
+        }
     </script>
 </head>
 <body>
@@ -109,6 +128,12 @@
                 href="javascript:checkAll('id',false);">取消</a>&nbsp;&nbsp;
             <a href="javascript:delSelect('id');">删除所选</a>&nbsp;&nbsp;
             <a href="javascript:move2Cate('id');">转移到分类</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('id','index',1,'${category.id}');">设置首页显示</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('id','index',0,'${category.id}');">取消首页显示</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('id','suggest',1,'${category.id}');">设置最新推荐</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('id','suggest',0,'${category.id}');">取消最新推荐</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('id','focus',1,'${category.id}');">设置焦点图</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('id','focus',0,'${category.id}');">取消焦点图</a>&nbsp;&nbsp;
         </div>
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
@@ -116,6 +141,8 @@
                 <th width="3%"></th>
                 <th width="3%">排序</th>
                 <th width="5%">首页显示</th>
+                <th width="5%">推荐</th>
+                <th width="5%">焦点图</th>
                 <th width="7%">类型</th>
                 <th width="15%">分类</th>
                 <th>名称</th>
@@ -131,6 +158,12 @@
                     <td align="center">${lib.order}</td>
                     <td align="center">
                         <c:if test="${lib.showIndex==1}">是</c:if><c:if test="${lib.showIndex==0}">否</c:if>
+                    </td>
+                    <td align="center">
+                        <c:if test="${lib.showSugguest==1}">是</c:if><c:if test="${lib.showSugguest==0}">否</c:if>
+                    </td>
+                    <td align="center">
+                        <c:if test="${lib.showFocusimage==1}">是</c:if><c:if test="${lib.showFocusimage==0}">否</c:if>
                     </td>
                     <td align="center">
                         <c:if test="${lib.type == 1}">正常</c:if>

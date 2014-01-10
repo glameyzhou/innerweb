@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
@@ -47,8 +48,8 @@ public class LibraryInfoDao extends BaseDao {
         logger.info("[LibraryInfoDao] #create# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_library(lib_id,lib_category_id,lib_type,lib_name,lib_focusimage,lib_url,lib_content,lib_image,lib_time,lib_order,lib_showindex,lib_sugguest) " +
-                            " values(?,?,?,?,?,?,?,?,?,?,?,?)",
+                    "insert into tbl_library(lib_id,lib_category_id,lib_type,lib_name,lib_focusimage,lib_url,lib_content,lib_image,lib_time,lib_order,lib_showindex,lib_sugguest,lib_update_time) " +
+                            " values(?,?,?,?,?,?,?,?,?,?,?,?,now())",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -82,7 +83,7 @@ public class LibraryInfoDao extends BaseDao {
         logger.info("[LibraryInfoDao] #update# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_library set lib_category_id=?,lib_type=?,lib_name=?,lib_focusimage=?,lib_url=?,lib_content=?,lib_image=?,lib_order = ?,lib_showindex=?,lib_sugguest=? where lib_id = ?",
+                    "update tbl_library set lib_category_id=?,lib_type=?,lib_name=?,lib_focusimage=?,lib_url=?,lib_content=?,lib_image=?,lib_order = ?,lib_showindex=?,lib_sugguest=?,lib_update_time = now() where lib_id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -103,6 +104,43 @@ public class LibraryInfoDao extends BaseDao {
             return count > 0;
         } catch (Exception e) {
             logger.error("[LibraryInfoDao] #update# error " + info, e);
+            return false;
+        }
+    }
+
+    public boolean update(final List<LibraryInfo> libraryInfoList,String category,final int type) {
+        logger.info("[LibraryInfoDao] #update# " + libraryInfoList);
+        try {
+            String sql = "";
+            if (StringUtils.equals(category,"suggest")) {
+               sql = "update tbl_library set lib_sugguest=?,lib_update_time = now() where lib_id = ?";
+            }
+            if (StringUtils.equals(category,"focus")) {
+               sql = "update tbl_library set lib_focusimage=?,lib_update_time = now() where lib_id = ?";
+            }
+            if (StringUtils.equals(category,"index")) {
+               sql = "update tbl_library set lib_showindex=?,lib_update_time = now() where lib_id = ?";
+            }
+            if (StringUtils.isNotBlank(sql) && !CollectionUtils.isEmpty(libraryInfoList))
+                 jdbcTemplate.batchUpdate(
+                            sql,
+                            new BatchPreparedStatementSetter() {
+                                @Override
+                                public void setValues(PreparedStatement pstmt, int i) throws SQLException {
+                                    LibraryInfo info = libraryInfoList.get(i);
+                                    int j = 0;
+                                    pstmt.setInt(++j, type);
+                                    pstmt.setString(++j, info.getId());
+                                }
+                                @Override
+                                public int getBatchSize() {
+                                    return libraryInfoList.size();
+                                }
+                            }
+                 );
+            return true;
+        } catch (Exception e) {
+            logger.error("[LibraryInfoDao] #update# error", e);
             return false;
         }
     }
@@ -331,10 +369,11 @@ public class LibraryInfoDao extends BaseDao {
             info.setContent(rs.getString("lib_content"));
             info.setImage(rs.getString("lib_image"));
             info.setTime(rs.getTimestamp("lib_time"));
-            info.setShowisNew(DateUtils.isDiff7Days(info.getTime()) ? 1 : 0);
+            info.setShowisNew(DateUtils.isDiffDays(10, info.getTime()) ? 1 : 0);
             info.setOrder(rs.getInt("lib_order"));
             info.setShowIndex(rs.getInt("lib_showindex"));
             info.setShowSugguest(rs.getInt("lib_sugguest"));
+            info.setUpdateTime(rs.getTimestamp("lib_update_time"));
             Category category = categoryDao.getById(info.getCategoryId());
             info.setCategory(category);
 
@@ -388,7 +427,7 @@ public class LibraryInfoDao extends BaseDao {
                             info.setType(resultSet.getInt("lib_type"));
                             info.setUrl(resultSet.getString("lib_url"));
                             info.setTime(resultSet.getTimestamp("lib_time"));
-                            info.setShowisNew(DateUtils.isDiff7Days(info.getTime()) ? 1 : 0);
+                            info.setShowisNew(DateUtils.isDiffDays(10,info.getTime()) ? 1 : 0);
                             return info ;
                         }
                     });
@@ -407,7 +446,7 @@ public class LibraryInfoDao extends BaseDao {
                 entries.add(entry);
             }
         } catch (DataAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         return entries ;
     }

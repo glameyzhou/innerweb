@@ -593,7 +593,7 @@ public class LibraryManagerController extends BaseController {
         }
         String image = null ;
         String reg = "<img\\s*.+?src=[\"|'| ](.+?(jpg|jpeg|png|bmp|gif|ico))[\"|'| ].+?>" ;
-        List<String> images = RegexUtils.getStringGoup1(source,reg);
+        List<String> images = RegexUtils.getStringGoup1(source, reg);
         if(images != null && images.size() > 0){
             image = images.get(0);
 
@@ -604,5 +604,43 @@ public class LibraryManagerController extends BaseController {
             return basePath + image ;
         }
         return image ;
+    }
+
+
+    /*设置图书的属性*/
+    @RequestMapping(value = "/library-setSelectContent.htm", method = RequestMethod.GET)
+    public ModelAndView setSelectContent(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("common/message");
+//        ?id=" + values + "&category=" + category + "&type=" + type?
+//        http://library.chdi.ac.cn/mg/library/library-list.htm?categoryId=rUnI7v
+        String libIds = WebUtils.getRequestParameterAsString(request, "id");
+        String category = WebUtils.getRequestParameterAsString(request,"category");
+        String type = WebUtils.getRequestParameterAsString(request,"type");
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        if (StringUtils.isBlank(libIds) || StringUtils.isBlank(category) || StringUtils.isBlank(type)) {
+            mav.addObject("message", "操作无效");
+            return mav;
+        }
+
+        String arrays [] = StringUtils.split(libIds,",");
+        if(arrays == null || arrays.length == 0){
+            mav.addObject("message", "请选择您需要操作的图书");
+            return mav;
+        }
+
+        List<LibraryInfo> libraryInfoList = new ArrayList<LibraryInfo>();
+        for (String id : arrays) {
+            LibraryInfo libraryInfo = new LibraryInfo();
+            libraryInfo.setId(id);
+            libraryInfoList.add(libraryInfo);
+        }
+        if (libraryDao.update(libraryInfoList,category,Integer.valueOf(type))) {
+            mav.addObject("message", "设置成功");
+            mav.addObject("href", "mg/library/library-list.htm?categoryId=" + categoryId);
+        }
+        else{
+            mav.addObject("message", "设置失败");
+        }
+        return mav;
     }
 }

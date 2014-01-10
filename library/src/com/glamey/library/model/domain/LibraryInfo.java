@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.glamey.library.model.domain;
 
@@ -13,57 +13,56 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * @author zy
- *
  */
 public class LibraryInfo implements Serializable {
-	private static final long serialVersionUID = -4602365176206792577L;
-	
-	private String id ;
-	/**
-	 * 分类ID
-	 */
-	private String categoryId ;
-	
-	private Category category ;
-	/**
-	 * 1  名称、URL
-	 * 2 名称、自定义内容，点击之后跳入自己的内容页面
-	 * 3 上传图片、URL
-	 */
-	private int type ;
-	/**
-	 * 显示名称
-	 */
-	private String name ;
+    private static final long serialVersionUID = -4602365176206792577L;
+
+    private String id;
+    /**
+     * 分类ID
+     */
+    private String categoryId;
+
+    private Category category;
+    /**
+     * 1  名称、URL
+     * 2 名称、自定义内容，点击之后跳入自己的内容页面
+     * 3 上传图片、URL
+     */
+    private int type;
+    /**
+     * 显示名称
+     */
+    private String name;
 
     /**
      * 是否焦点图显示
      * 1=是 0=否
      */
-    private int showFocusimage ;
-	/**
-	 * 指定URL
-	 */
-	private String url ;
-	
-	/**
-	 * 指定内容
-	 */
-	private String content ;
-	/**
-	 * 上传图片
-	 */
-	private String image ;
-	/**
-	 * 操作时间
-	 */
-	private Date time ;
+    private int showFocusimage;
+    /**
+     * 指定URL
+     */
+    private String url;
 
-    private int order ;
+    /**
+     * 指定内容
+     */
+    private String content;
+    /**
+     * 上传图片
+     */
+    private String image;
+    /**
+     * 操作时间
+     */
+    private Date time;
+
+    private int order;
     /**
      * 是否显示在首页  1=是 0=否
      */
-    private int showIndex = 1 ;
+    private int showIndex = 1;
 
     /**
      * 是否为推荐阅读
@@ -73,47 +72,52 @@ public class LibraryInfo implements Serializable {
     /**
      * 是否为最近一周的图书
      */
-    private int showisNew = 0 ;
+    private int showisNew = 0;
 
-	public String getId() {
-		return id;
-	}
+    /**
+     * 最后更新时间
+     */
+    private Date updateTime ;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getCategoryId() {
-		return categoryId;
-	}
-	
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
-	
-	public Category getCategory() {
-		return category;
-	}
-	
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-	
-	public int getType() {
-		return type;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setType(int type) {
-		this.type = type;
-	}
+    public String getCategoryId() {
+        return categoryId;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getShowFocusimage() {
         return showFocusimage;
@@ -124,36 +128,36 @@ public class LibraryInfo implements Serializable {
     }
 
     public String getUrl() {
-		return url;
-	}
+        return url;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public String getImage() {
-		return image;
-	}
+    public String getImage() {
+        return image;
+    }
 
-	public void setImage(String image) {
-		this.image = image;
-	}
+    public void setImage(String image) {
+        this.image = image;
+    }
 
-	public Date getTime() {
-		return time;
-	}
+    public Date getTime() {
+        return time;
+    }
 
-	public void setTime(Date time) {
-		this.time = time;
-	}
+    public void setTime(Date time) {
+        this.time = time;
+    }
 
     public int getOrder() {
         return order;
@@ -187,8 +191,16 @@ public class LibraryInfo implements Serializable {
         this.showisNew = showisNew;
     }
 
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }

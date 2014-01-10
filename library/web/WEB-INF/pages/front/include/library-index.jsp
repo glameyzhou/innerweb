@@ -53,7 +53,7 @@
                                 <td colspan="2">
                                     <a href="${basePath}library-detail-${lib.id}.htm" title="${lib.name}">${fmtString:substringAppend(lib.name,25 ,'...' )}</a>
                                     <c:if test="${lib.type == 1 or lib.type == 2}">
-                                        <c:if test="${lib.showisNew == 1}"><img src="${basePath}res/front/library/images/new.png"/></c:if>
+                                        <c:if test="${lib.showisNew == 1}"><img src="${basePath}res/front/library/images/new.gif"/></c:if>
                                     </c:if>
                                 </td>
                             </tr>
