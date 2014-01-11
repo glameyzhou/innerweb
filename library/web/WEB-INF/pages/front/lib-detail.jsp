@@ -54,7 +54,7 @@
             <div class="neirong">
                 <div class="neirong_tit">${libraryInfo.name}</div>
                 <div class="seat" style="font-weight: bold">${libraryInfo.category.categoryParent.name} >> ${libraryInfo.category.name}</div>
-                <p style="text-align: right">
+                <p style="text-align: right"><fmt:formatDate value="${libraryInfo.time}" pattern="yyyy-MM-dd HH:mm:ss"/>&nbsp;&nbsp;
                     <c:choose>
                         <c:when test="${exist}"><font color="red">已收藏</font></c:when>
                         <c:otherwise>

@@ -34,7 +34,7 @@
 <div class="center_right">
     <div class="neirong">
         <div class="neirong_tit">${category.name}</div>
-        <div class="daohang">&nbsp;分类导航：
+        <div class="daohang">&nbsp;&nbsp;分类导航：
             <c:forEach var="c" items="${category.children}" varStatus="vStatus">
                 <a href="${basePath}library-list-${c.id}.htm">${c.name}</a><c:if test="${!vStatus.last}"> | </c:if>
             </c:forEach>

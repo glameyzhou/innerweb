@@ -16,11 +16,19 @@
         .zixun_kuang_con li {
             height: 25px;
             padding-left: 6px;
-            width:260px;
-            white-space:nowrap;
-            word-break:keep-all;
-            overflow:hidden;
-            text-overflow:ellipsis;
+            width: 260px;
+        }
+        .subtitle_a{
+            display:block;
+            float: left;
+            width: 230px;
+            white-space: nowrap;
+            word-break: keep-all;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .subtitle_image {
+            float: left;
         }
         .libIntroduct {
             height: 23px;
@@ -242,8 +250,6 @@
                                                 <c:if test="${libCateDetail2.categoryId eq '3AzAv2'}">
                                                     <c:choose>
                                                         <c:when test="${libCateDetail2.type == 3}">
-                                                            <%--<c:set var="xxxImage" value="width=\"283px\" height=\"57px\""/>
-                                                            <c:set var="xxxCss" value="style=\"width:283px;height:57px\""/>--%>
                                                             <c:set var="xxxImage" value="width=\"120px\" height=\"120px\""/>
                                                             <c:set var="xxxCss" value="style=\"width:120px;height:120px\""/>
                                                         </c:when>
@@ -256,11 +262,11 @@
                                                 <li ${xxxCss}>
                                                         <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
                                                     <c:if test="${libCateDetail2.type == 1}">
-                                                        <a title="${libCateDetail2.name}" ${libHref}>${libCateDetail2.name}</a>
+                                                        <a class="subtitle_a" title="${libCateDetail2.name}" ${libHref}>${libCateDetail2.name}</a>
                                                         <c:if test="${libCateDetail2.showisNew == 1}"><img src="${basePath}res/front/library/images/new.gif"/></c:if>
                                                     </c:if>
                                                     <c:if test="${libCateDetail2.type == 2}">
-                                                        <a title="${libCateDetail2.name}" ${libHref}>${libCateDetail2.name}</a>
+                                                        <a class="subtitle_a" title="${libCateDetail2.name}" ${libHref}>${libCateDetail2.name}</a>
                                                         <c:if test="${libCateDetail2.showisNew == 1}"><img src="${basePath}res/front/library/images/new.gif"/></c:if>
                                                     </c:if>
                                                     <c:if test="${libCateDetail2.type == 3}">

@@ -46,11 +46,14 @@
                             <c:set var="libHref" value="href=\"${libNewest.url}\" target=\"_blank\""/>
                         </c:if>
                         <c:if test="${libNewest.type ==2}">
-                            <c:set var="libHref" value="href=\"${basePath}library-detail-${libNewest.id}.htm\""/>
+                            <c:set var="libHref" value="href='${basePath}library-detail-${libNewest.id}.htm'"/>
                         </c:if>
                     </c:otherwise>
                 </c:choose>
-                <li><img src="${basePath}res/front/library/images/notice_list.png" alt="">&nbsp;<a title="${libNewest.name}" ${libHref}>${libNewest.name}</a></li>
+                <li style="height: 25px;padding-left: 6px;width:260px;">
+                    <img src="${basePath}res/front/library/images/notice_list.png" style="float: left;"/>&nbsp;<a style="float: left;display:block;width: 205px;white-space:nowrap;word-break:keep-all;overflow:hidden;text-overflow:ellipsis;" title="${libNewest.name}" ${libHref}>${libNewest.name}</a>
+                    <c:if test="${libNewest.showisNew == 1}"><img src="${basePath}res/front/library/images/new.gif" style="float: left;"/></c:if>
+                </li>
                 <c:if test="${index.count % 5 == 0}">
                     </ul></div><div style="width:350px; float:left;  margin-top:10px;"><ul>
                 </c:if>
