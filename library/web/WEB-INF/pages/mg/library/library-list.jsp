@@ -117,9 +117,16 @@
         栏目分类&nbsp;<select id="categoryId" name="categoryId">
         <option value="">请选择</option>
         <c:forEach var="cate" items="${children}">
-            <c:forEach var="child" items="${cate.children}">
-                <option value="${child.id}" <c:if test="${query.categoryId == child.id}">selected="selected"</c:if>>${cate.name} - ${child.name}</option>
-            </c:forEach>
+            <c:choose>
+                <c:when test="${fn:length(cate.children) > 0}">
+                    <c:forEach var="child" items="${cate.children}">
+                        <option value="${child.id}" <c:if test="${query.categoryId == child.id}">selected="selected"</c:if>>${cate.name} - ${child.name}</option>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <option value="${cate.id}" <c:if test="${query.categoryId == cate.id}">selected="selected"</c:if>>${cate.name}</option>
+                </c:otherwise>
+            </c:choose>
         </c:forEach>
         </select>&nbsp;&nbsp;
             <input type="submit" value="查询">

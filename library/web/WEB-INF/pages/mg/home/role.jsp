@@ -53,7 +53,18 @@
         <c:forEach var="dto" items="${libraryInfoDTOList}">
             <c:set var="libId" value="05_${dto.category.id}"/>
             <c:if test="${fmtString:hasRightsList(rightsList,libId)}">
-                <li><a href="javascript:divDisplay('lib_p_c_${dto.category.id}_div');" target="mainFrame">${dto.category.name}</a></li>
+                <c:choose>
+                    <c:when test="${dto.category.hasChild == 1}">
+                        <li><a href="javascript:divDisplay('lib_p_c_${dto.category.id}_div');" target="mainFrame">${dto.category.name}</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li>
+                            <a href="${basePath}mg/library/library-list.htm?categoryId=${dto.category.id}" target="mainFrame">
+                                <font style="font-size: 8px;">${dto.category.name}</font>
+                            </a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
                 <ul id="lib_p_c_${dto.category.id}_div" style="display: none">
                     <c:forEach var="dtocate" items="${dto.libraryInfoDTOList}">
                         <li>
