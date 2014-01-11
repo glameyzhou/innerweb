@@ -50,6 +50,7 @@
                                 &nbsp;
                                 <img src="${basePath}res/front/library/images/right_tit_biao3.png"/>&nbsp;
                                 <a title="${lib.name}" ${libHref}>${lib.name}</a>
+                                <c:if test="${lib.showisNew == 1}"><img src="${basePath}res/front/library/images/new.gif"/></c:if>
                                 <br/><br/>
                             </c:forEach>
                         </tr>
