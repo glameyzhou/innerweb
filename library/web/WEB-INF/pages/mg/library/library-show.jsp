@@ -97,6 +97,7 @@
             showCateList(pid,cateId);
         }
     </script>
+    <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body onload="onPageLoad('${lib.type}');">
 <div class="body-box">
@@ -134,6 +135,11 @@
             <br/><br/>
             <font color="red">排序&nbsp;&nbsp;&nbsp;&nbsp;</font>
             <input type="text" name="order" id="order" value="${lib.order}"/><font color="red">数字越大越靠前</font>
+            <br/><br/>
+            <font color="red">时间&nbsp;&nbsp;&nbsp;&nbsp;</font>
+            <input type="text" maxlength="100" name="time" id="time" class="required" size="35"
+                   value='<fmt:formatDate value="${lib.time}" pattern="yyyy-MM-dd HH:mm:ss"/>'
+                   onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">
         </p>
         <p>
             <font color="red">内容类型</font>

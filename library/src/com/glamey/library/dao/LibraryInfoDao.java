@@ -62,7 +62,7 @@ public class LibraryInfoDao extends BaseDao {
                             pstmt.setString(++i, info.getUrl());
                             pstmt.setString(++i, info.getContent());
                             pstmt.setString(++i, info.getImage());
-                            pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
+                            pstmt.setTimestamp(++i, new Timestamp(info.getTime().getTime()));
                             pstmt.setInt(++i, info.getOrder());
                             pstmt.setInt(++i, info.getShowIndex());
                             pstmt.setInt(++i, info.getShowSugguest());
@@ -83,13 +83,13 @@ public class LibraryInfoDao extends BaseDao {
         logger.info("[LibraryInfoDao] #update# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_library set lib_category_id=?,lib_type=?,lib_name=?,lib_focusimage=?,lib_url=?,lib_content=?,lib_image=?,lib_order = ?,lib_showindex=?,lib_sugguest=?,lib_update_time = now() where lib_id = ?",
+                    "update tbl_library set lib_category_id=?,lib_type=?,lib_name=?,lib_focusimage=?,lib_url=?,lib_content=?,lib_image=?,lib_order = ?,lib_showindex=?,lib_sugguest=?,lib_time=?,lib_update_time = now() where lib_id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
                             pstmt.setString(++i,info.getCategoryId());
-                            pstmt.setInt(++i,info.getType());
+                            pstmt.setInt(++i, info.getType());
                             pstmt.setString(++i, info.getName());
                             pstmt.setInt(++i, info.getShowFocusimage());
                             pstmt.setString(++i, info.getUrl());
@@ -98,6 +98,7 @@ public class LibraryInfoDao extends BaseDao {
                             pstmt.setInt(++i, info.getOrder());
                             pstmt.setInt(++i, info.getShowIndex());
                             pstmt.setInt(++i, info.getShowSugguest());
+                            pstmt.setTimestamp(++i, new Timestamp(info.getTime().getTime()));
                             pstmt.setString(++i, info.getId());
                         }
                     });

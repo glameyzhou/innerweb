@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -251,6 +253,7 @@ public class LibraryManagerController extends BaseController {
             category.setParentId(WebUtils.getRequestParameterAsString(request,"pid"));
             info.setCategory(category);
             info.setCategoryId(category.getId());
+            info.setTime(new Date());
         }
         mav.addObject("opt", opt);
         mav.addObject("lib", info);
@@ -299,7 +302,16 @@ public class LibraryManagerController extends BaseController {
         lib.setType(type);
         lib.setCategoryId(categoryId);
         lib.setShowIndex(showIndex);
-        lib.setTime(new Date());
+        String time = WebUtils.getRequestParameterAsString(request, "time");
+        if (StringUtils.isBlank(time))
+            time = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
+        java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            lib.setTime(format.parse(time));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         if (StringUtils.isBlank(categoryId)) {
             mav.addObject("message", "分类不能为空");
             return mav;
@@ -395,9 +407,17 @@ public class LibraryManagerController extends BaseController {
         lib.setType(type);
         lib.setCategoryId(categoryId);
         lib.setShowIndex(showIndex);
-        lib.setTime(new Date());
         lib.setShowFocusimage(showFouceImge);
         lib.setShowSugguest(WebUtils.getRequestParameterAsInt(request,"showSugguest",1));
+        String time = WebUtils.getRequestParameterAsString(request, "time");
+        if (StringUtils.isBlank(time))
+            time = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
+        java.text.DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            lib.setTime(format.parse(time));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         if (type == 1) {
             String name = WebUtils.getRequestParameterAsString(request, "name");
