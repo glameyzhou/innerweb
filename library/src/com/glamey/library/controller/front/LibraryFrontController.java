@@ -135,6 +135,9 @@ public class LibraryFrontController extends BaseController {
         logger.info("[front] #libNewest#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
 
+        //是否来自页面最左侧的“最新荐读”
+        String src = WebUtils.getRequestParameterAsString(request,"src","");
+
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request,response,session));
 
@@ -156,6 +159,7 @@ public class LibraryFrontController extends BaseController {
 
         mav.addObject("libraryInfoList",libraryInfoNewestList);
         mav.addObject("pageBean",pageBean);
+        mav.addObject("src",src);
         mav.setViewName("front/lib-newest");
         return mav ;
     }

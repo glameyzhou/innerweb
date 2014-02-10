@@ -3,12 +3,10 @@ package com.glamey.library.controller.front;
 import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.constants.SystemConstants;
-import com.glamey.library.dao.CategoryDao;
-import com.glamey.library.dao.LinksDao;
-import com.glamey.library.dao.MetaInfoDao;
-import com.glamey.library.dao.PostDao;
+import com.glamey.library.dao.*;
 import com.glamey.library.model.domain.*;
 import com.glamey.library.model.dto.FriendlyLinksDTO;
+import com.glamey.library.model.dto.LibraryQuery;
 import com.glamey.library.model.dto.LinksQuery;
 import com.glamey.library.model.dto.PostQuery;
 import org.springframework.stereotype.Repository;
@@ -37,6 +35,8 @@ public class IncludeFront {
     private MetaInfoDao metaInfoDao;
     @Resource
     private PostDao postDao;
+    @Resource
+    private LibraryInfoDao libraryInfoDao ;
 
     public ModelMap ofenLinks() {
         ModelMap modelMap = new ModelMap();
@@ -122,12 +122,24 @@ public class IncludeFront {
         map.put("page_foot", getMetaByName(SystemConstants.meta_page_foot));
 
         //新闻资讯
-        PostQuery query = new PostQuery();
+        /*PostQuery query = new PostQuery();
         query.setStart(0);
         query.setNum(4);
         query.setIsValid(1);
         List<Post> postList = postDao.getPostList(query);
-        map.put("includePostList", postList);
+        map.put("includePostList", postList);*/
+
+        //新闻资讯修改为-（图书分类中所有分类中的倒序排列top4）
+        List<LibraryInfo> libraryInfoNewestList = new ArrayList<LibraryInfo>(4);
+        LibraryQuery libraryQuery = new LibraryQuery();
+        libraryQuery.setShowSugguest(1);
+        libraryQuery.setShowIndex(1);
+        libraryQuery.setNum(4);
+        libraryQuery.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
+        libraryQuery.setOrderType(Constants.ORDERBYDESC);
+        libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
+        map.put("includePostList", libraryInfoNewestList);
+
 
         //个人信息
         UserInfo sessionUserInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);

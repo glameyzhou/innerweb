@@ -2,7 +2,7 @@
 <div class="zixun_kuang">
     <div class="zixun_kuang_tit">
         <ul>
-            <li style="color: #ff0000;">最新荐读</li>
+            <li style="color: #ff0000;">近期收录</li>
             <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体'; font-weight:normal; margin-top:8px; padding-right:10px;">
                 <a href="${basePath}library-newest.htm">更多</a></li>
         </ul>

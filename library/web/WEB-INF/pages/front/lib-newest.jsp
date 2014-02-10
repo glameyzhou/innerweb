@@ -28,7 +28,12 @@
         </div>
         <div class="center_right">
             <div class="neirong">
-                <div class="neirong_tit">最新荐读</div>
+                <div class="neirong_tit">
+                    <c:choose>
+                        <c:when test="${src eq 'left'}">最新荐读</c:when>
+                        <c:otherwise>近期收录</c:otherwise>
+                    </c:choose>
+                </div>
                 <div class="neiye_right_con">
                     <table width="99%" cellpadding="0" cellspacing="0" border="0">
                         <tr>
@@ -55,7 +60,7 @@
                             </c:forEach>
                         </tr>
                     </table>
-                    <c:set var="pageURL" value="${basePath}library-newest.htm?"/>
+                    <c:set var="pageURL" value="${basePath}library-newest.htm?src=${src}&"/>
                     <%@include file="../common/pages-front.jsp" %>
                 </div>
             </div>
