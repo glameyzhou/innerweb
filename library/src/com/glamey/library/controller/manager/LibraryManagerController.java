@@ -347,12 +347,12 @@ public class LibraryManagerController extends BaseController {
             lib.setContent(content);
 
             //TODO 从内容中提取正文中的图片，放置到libImage属性中
-            if(lib.getShowFocusimage() == 1){
+            //if(lib.getShowFocusimage() == 1){
                 String libImage = getContentImage(request,lib.getContent()) ;
                 if(StringUtils.isNotBlank(libImage)){
                     lib.setImage(libImage);
                 }
-            }
+            //}
         }
         if (type == 3) {
         	UploadInfo ui = uploadUtils.doUpload(request, response);
@@ -440,12 +440,12 @@ public class LibraryManagerController extends BaseController {
             lib.setContent(content);
 
             //TODO 从内容中提取正文中的图片，放置到libImage属性中
-            if(lib.getShowFocusimage() == 1){
+            //if(lib.getShowFocusimage() == 1){
                 String libImage = getContentImage(request,lib.getContent()) ;
                 if(StringUtils.isNotBlank(libImage)){
                     lib.setImage(libImage);
                 }
-            }
+            //}
 
         }
         if (type == 3) {

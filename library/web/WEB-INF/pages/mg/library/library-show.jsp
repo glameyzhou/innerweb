@@ -179,7 +179,7 @@
                 <c:when test="${opt == 'update'}">
                     <p id="imageOpr" style="margin-left: 20px;">
                         <c:if test="${!empty lib.image}">
-                            <img src="${basePath}${lib.image}" width="104"
+                            <img src="<%--${basePath}--%>${lib.image}" width="104"
                                  height="100"/>&nbsp;<a href="javascript:delImage('${lib.id}');">删除</a>
                         </c:if>
                         <c:if test="${empty lib.image}">
