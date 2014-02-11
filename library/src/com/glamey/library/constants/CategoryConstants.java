@@ -68,4 +68,9 @@ public class CategoryConstants {
      * 华电科研
      */
     public static final String CATEGORY_HUADIANKEYAN = "6zyeYj";
+
+    /**
+     * 政策研究
+     */
+    public static final String CATEGORY_ZHENGCEYANJIU = "f6vYji";
 }
