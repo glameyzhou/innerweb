@@ -39,6 +39,9 @@ if(!ServletFileUpload.isMultipartContent(request)){
 }
 //检查目录
 File uploadDir = new File(savePath);
+if (!uploadDir.exists()) {
+    uploadDir.mkdirs();
+}
 if(!uploadDir.isDirectory()){
 	out.println(getError("上传目录不存在。"));
 	return;

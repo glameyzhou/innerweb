@@ -30,8 +30,12 @@
         <!--右半边代码开始-->
         <div class="center_right">
             <div class="neirong">
-                <div class="neirong_tit">最新荐读</div>
-                <%--<div class="seat">目录 : 能源行业规划及政策>> 法规- 国家级政策、法规>></div>--%>
+                <div class="neirong_tit">
+                    <c:choose>
+                        <c:when test="${category.id eq '73aANz'}">最新荐读</c:when>
+                        <c:otherwise>${category.name}</c:otherwise>
+                    </c:choose>
+                </div>
                 <div class="neiye_right_con">
                     <c:forEach var="post" items="${postList}">
                         <ul class="con_neiye">
@@ -40,7 +44,7 @@
                             <li style="float:right;">${fmtString:substring(post.time,10)}</li>
                         </ul>
                     </c:forEach>
-                    <c:set var="pageURL" value="${basePath}pl-news.htm?"/>
+                    <c:set var="pageURL" value="${basePath}post-${category.id}.htm?"/>
                     <%@include file="../common/pages-front.jsp" %>
                 </div>
             </div>

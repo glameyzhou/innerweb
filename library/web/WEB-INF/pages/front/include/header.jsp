@@ -32,7 +32,7 @@
             <li>搜索</li>
             <li><input name="kw" id="kw" value="${kw}" type="text" class="searchtext" /></li>
             <li><img src="${basePath}res/front/library/images/search_button.png" onclick="javascript:search();"/></li>
-            <li><a href="${basePath}pl-news.htm">查看历史通知</a></li>
+            <li><a href="${basePath}post-QbINfy.htm">查看历史通知</a></li>
         </ul>
     </div>
 </div>

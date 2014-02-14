@@ -3,6 +3,7 @@ package com.glamey.library.controller.front;
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.RegexUtils;
 import com.glamey.framework.utils.WebUtils;
+import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
 import com.glamey.library.dao.CategoryDao;
@@ -68,6 +69,9 @@ public class PostFrontController extends BaseController {
         Post post = postDao.getByPostId(postId);
         mav.addObject("post", post);
 
+        Category category = categoryDao.getById(post.getCategoryId());
+        mav.addObject("category", category);
+
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request, response, session));
 
@@ -82,7 +86,7 @@ public class PostFrontController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/pl-news-${categoryId}.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/post-{categoryId}.htm", method = RequestMethod.GET)
     public ModelAndView postList(
             @PathVariable String categoryId,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -113,7 +117,6 @@ public class PostFrontController extends BaseController {
 
         return mav;
     }
-
     /**
      * 首页通知公告的弹出层
      * @param request
@@ -121,7 +124,7 @@ public class PostFrontController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/pl-popdiv.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/post-popdiv.htm", method = RequestMethod.GET)
     public ModelAndView postPopDivv(
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #postPopDivv#" + request.getRequestURI());
@@ -129,11 +132,11 @@ public class PostFrontController extends BaseController {
 
         PostQuery query = new PostQuery();
         query.setIsValid(1);
-        query.setStartTime(DateFormatUtils.format(DateUtils.getDay(new Date(),-1111),"yyyy-MM-dd HH:mm:ss"));
+        query.setStartTime(DateFormatUtils.format(DateUtils.getDay(new Date(),-7),"yyyy-MM-dd HH:mm:ss"));
         query.setEndTime(DateFormatUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
         query.setStart(0);
         query.setNum(15);
-        query.setCategoryId("QbINfy");
+        query.setCategoryId(CategoryConstants.CATEGORY_TONGZHIGONGGAO);
 
         List<Post> postList = postDao.getPostList(query);
         mav.addObject("postList", postList);

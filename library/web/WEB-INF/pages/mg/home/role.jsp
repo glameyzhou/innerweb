@@ -39,7 +39,9 @@
         <li><a href="${basePath}mg/post/post-list.htm?categoryId=QbINfy" target="mainFrame">通知公告管理</a></li>
     </c:if>
     <%--行业资讯管理--%>
-    <li><a href="${basePath}mg/post/post-list.htm?categoryId=73aANz" target="mainFrame">行业资讯管理</a></li>
+    <c:if test="${fmtString:hasRightsList(rightsList,'10')}">
+        <li><a href="${basePath}mg/post/post-list.htm?categoryId=73aANz" target="mainFrame">行业资讯管理</a></li>
+    </c:if>
 
 
     <%--微型图书馆管理--%>

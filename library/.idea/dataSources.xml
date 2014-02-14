@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="1193246881">
+    <data-source source="LOCAL" name="mysql" product="MySQL" version="5.0.22-community-nt" jdbc-version="3.0" driver-name="MySQL-AB JDBC Driver" driver-version="mysql-connector-java-3.1.13 ( $Date: 2005-11-17 15:53:48 +0100 (Thu, 17 Nov 2005) $, $Revision$ )" uuid="99cfe112-91d5-4dfe-8076-5b396f249dbd">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/library?useUnicode=true&amp;amp;characterEncoding=utf8</jdbc-url>
+      <user-name>root</user-name>
+      <user-password>dfd8dfc5dfc5dfde</user-password>
+      <libraries>
+        <library>
+          <url>file://$PROJECT_DIR$/web/WEB-INF/lib/mysql-connector-java-3.1.13-bin.jar</url>
+        </library>
+      </libraries>
+    </data-source>
+  </component>
+</project>
+

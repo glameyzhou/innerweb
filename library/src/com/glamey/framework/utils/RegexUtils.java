@@ -15,8 +15,9 @@ public class RegexUtils {
 					"regex must contain group 1 at least.");
 		if (StringUtils.isBlank(source))
 			throw new IllegalArgumentException("source can`t be null.");
-		Pattern p = Pattern.compile(reg, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL) ;
-		Matcher m = null;
+//		Pattern p = Pattern.compile(reg, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL) ;
+		Pattern p = Pattern.compile(reg, Pattern.MULTILINE | Pattern.DOTALL);
+		Matcher m;
 
 		m = p.matcher(source);
 		while (m.find()) {
@@ -41,7 +42,7 @@ public class RegexUtils {
 
     public static void main(String[] args) {
 		String source = "AasdfAB123Dd";
-		System.out.println(getStringGoup1(source, "AB(.+?)DD"));
+		System.out.println(getStringGoup1(source, "(A)"));
         System.out.println("mg/message/message-list.htm".matches(".+?/message-list.htm"));
         System.out.println(isMatch("mg/message/message-list.htm","mg/.+?list.htm"));
     }

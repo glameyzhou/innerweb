@@ -121,24 +121,14 @@ public class IncludeFront {
         /*页面尾部*/
         map.put("page_foot", getMetaByName(SystemConstants.meta_page_foot));
 
-        //新闻资讯
-        /*PostQuery query = new PostQuery();
-        query.setStart(0);
-        query.setNum(4);
-        query.setIsValid(1);
-        List<Post> postList = postDao.getPostList(query);
-        map.put("includePostList", postList);*/
-
-        //新闻资讯修改为-（图书分类中所有分类中的倒序排列top4）
-        List<LibraryInfo> libraryInfoNewestList = new ArrayList<LibraryInfo>(4);
-        LibraryQuery libraryQuery = new LibraryQuery();
-        libraryQuery.setShowSugguest(1);
-        libraryQuery.setShowIndex(1);
-        libraryQuery.setNum(4);
-        libraryQuery.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
-        libraryQuery.setOrderType(Constants.ORDERBYDESC);
-        libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
-        map.put("includePostList", libraryInfoNewestList);
+        //页面左侧--最新荐读（行业资讯）
+        PostQuery postQuery = new PostQuery();
+        postQuery.setIsValid(1);
+        postQuery.setCategoryId(CategoryConstants.CATEGORY_HANGYEZIXUN);
+        postQuery.setStart(0);
+        postQuery.setNum(4);
+        List<Post> postList = postDao.getPostList(postQuery);
+        map.put("includePostList", postList);
 
 
         //个人信息

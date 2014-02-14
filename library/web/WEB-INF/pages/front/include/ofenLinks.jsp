@@ -6,6 +6,14 @@
             window.open(url, "");
         }
     }
+    function selectNo(selectName) {
+        var s1=document.getElementById(selectName);
+        var sV=s1.options[s1.selectedIndex].value;
+        alert("xxx");
+        if (sV != '') {
+            window.open(sV, "");
+        }
+    }
     //-->
 </script>
 <div class="fenlei" style="margin-top:10px;">

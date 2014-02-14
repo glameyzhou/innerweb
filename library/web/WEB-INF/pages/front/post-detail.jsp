@@ -31,7 +31,7 @@
         <!--右半边代码开始-->
         <div class="center_right">
             <div class="neirong">
-                <div class="neirong_tit">最新荐读</div>
+                <div class="neirong_tit">${category.name}</div>
                 <div class="seat">${post.title}</div>
                 <div class="neirong_con">
                     <p style="text-align: center;">发布人：${post.author} &nbsp;&nbsp;来源：${post.source} &nbsp;&nbsp;时间：${fmtString:substring(post.time,10)}</p>

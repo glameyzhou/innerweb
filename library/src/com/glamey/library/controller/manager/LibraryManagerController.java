@@ -615,7 +615,8 @@ public class LibraryManagerController extends BaseController {
         String reg = "<img\\s*.+?src=[\"|'| ](.+?(jpg|jpeg|png|bmp|gif|ico))[\"|'| ].+?>" ;
         List<String> images = RegexUtils.getStringGoup1(source, reg);
         if(images != null && images.size() > 0){
-            image = images.get(0);
+            int size = images.size();
+            image = images.get(size - 1);
 
             if(image.toLowerCase().startsWith("http")){
                 return image ;

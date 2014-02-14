@@ -73,4 +73,14 @@ public class CategoryConstants {
      * 政策研究
      */
     public static final String CATEGORY_ZHENGCEYANJIU = "f6vYji";
+
+    /**
+     * 通知公告
+     */
+    public static final String CATEGORY_TONGZHIGONGGAO = "QbINfy";
+
+    /**
+     * 行业资讯
+     */
+    public static final String CATEGORY_HANGYEZIXUN  = "73aANz";
 }

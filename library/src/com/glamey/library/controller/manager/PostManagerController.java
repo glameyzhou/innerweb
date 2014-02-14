@@ -56,6 +56,7 @@ public class PostManagerController extends BaseController {
         String opt = "create";
         Post post = new Post();
         String postId = WebUtils.getRequestParameterAsString(request,"postId");
+        post.setTime(DateFormatUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
         if(StringUtils.isNotBlank(postId)){
             post = postDao.getByPostId(postId);
             opt = "update" ;
@@ -98,7 +99,7 @@ public class PostManagerController extends BaseController {
             message = "文章新建失败,请稍后重试!";
         } else {
             message = "文章新建成功.";
-            mav.addObject("href", "mg/post/post-list.htm");
+            mav.addObject("href", "mg/post/post-list.htm?categoryId=" + post.getCategoryId());
         }
         mav.addObject("message", message);
         mav.addObject("post", post);
@@ -145,7 +146,7 @@ public class PostManagerController extends BaseController {
             message = "文章更新失败,请稍后重试!";
         } else {
             message = "文章更新成功.";
-            mav.addObject("href", "mg/post/post-list.htm");
+            mav.addObject("href", "mg/post/post-list.htm?categoryId=" + post.getCategoryId());
         }
         mav.addObject("message", message);
         return mav;
@@ -194,6 +195,7 @@ public class PostManagerController extends BaseController {
         ModelAndView mav = new ModelAndView("common/message");
         //postID集合，中间以","分割
         String postIds = WebUtils.getRequestParameterAsString(request, "postId");
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
 
         if (StringUtils.isBlank(postIds)) {
             mav.setViewName("common/message");
@@ -206,7 +208,7 @@ public class PostManagerController extends BaseController {
                 logger.info("[manager-post-post-postDel] postId=" + s + " operateResult=" + postDao.deleteById(s));
             }
             mav.addObject("message", "操作成功!");
-            mav.addObject("href", "mg/post/post-list.htm");
+            mav.addObject("href", "mg/post/post-list.htm?categoryId=" + categoryId);
         } catch (Exception e) {
             mav.addObject("message", "操作失败,请稍后重试!");
             logger.info("[manager-post-post-postDel] error!", e);

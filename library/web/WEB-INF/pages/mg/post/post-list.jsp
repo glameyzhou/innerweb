@@ -16,7 +16,7 @@
 		if(!confirm("确定要删除?")){
 			return ;
 		}
-        var locationURL = "${basePath}mg/post/post-del.htm?postId=" + postId;
+        var locationURL = "${basePath}mg/post/post-del.htm?postId=" + postId + '&categoryId=${category.id}';
 		window.location = locationURL ;
 	}
 	function delAll(itemName){
@@ -33,7 +33,7 @@
 			}
 			if(values.length > 1)
 				values = values.substring(1);
-            var opURL = "${basePath}mg/post/post-del.htm?postId=" + values;
+            var opURL = "${basePath}mg/post/post-del.htm?postId=" + values + '&categoryId=${category.id}';
             window.location = opURL ;
 		}
 	}
@@ -50,7 +50,7 @@
 		<div class="clear"></div>
 	</div>
 	<form action="${basePath}mg/post/post-list.htm" method="get" style="padding-top:5px;">
-        <input name="categoryId" id="categoryId" value="${category.id}" type="input"/>
+        <input name="categoryId" id="categoryId" value="${category.id}" type="hidden"/>
 		<div>
 			关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
             是否有效&nbsp;<select name="isValid" id="isValid">

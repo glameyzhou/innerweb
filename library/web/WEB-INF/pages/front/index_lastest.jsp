@@ -19,9 +19,9 @@
             $.layer({
                 type: 2,
                 title: false,
-                iframe: {src: path + 'pl-popdiv.htm'},
-                area : ['1000px' , '500px'],
-                time : 500,
+                iframe: {src: path + 'post-popdiv.htm'},
+                area : ['762px' , '500px'],
+                time : 8,
                 success : function(){
                     layer.shift('bottom', 400)
                 }

@@ -28,12 +28,7 @@
         </div>
         <div class="center_right">
             <div class="neirong">
-                <div class="neirong_tit">
-                    <c:choose>
-                        <c:when test="${src eq 'left'}">最新荐读</c:when>
-                        <c:otherwise>近期收录</c:otherwise>
-                    </c:choose>
-                </div>
+                <div class="neirong_tit">近期收录</div>
                 <div class="neiye_right_con">
                     <table width="99%" cellpadding="0" cellspacing="0" border="0">
                         <tr>

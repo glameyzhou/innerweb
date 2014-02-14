@@ -18,13 +18,13 @@
     </script>
 </head>
 <body>
-<div class="box">
+<div style="width:760px;height:auto;margin:0px auto;">
     <!--头部代码开始-->
     <!--头部代码结束-->
-    <div class="center">
+    <div style="width: 750px;margin-top: 5px;margin-left: 5px;">
         <!--右半边代码开始-->
-        <div class="center_right">
-            <div class="neirong">
+        <div class="center_right" style="width: 740px;height: auto;float: left;margin-left: 5px;margin-top: 7px;">
+            <div class="neirong" style="width:730px; ">
                 <div class="neirong_tit">最新通知公告</div>
                 <div class="neiye_right_con">
                     <c:choose>
