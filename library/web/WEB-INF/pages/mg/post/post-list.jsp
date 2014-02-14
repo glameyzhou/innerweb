@@ -43,13 +43,14 @@
 <body>
 <div class="body-box">
 	<div class="rhead">
-		<div class="rpos">当前位置: 首页  - 咨询公告 - 列表</div>
+		<div class="rpos">当前位置: 首页  - ${category.name} - 列表</div>
             <form class="ropt">
-                <input type="button" value="添加" onclick="window.location='${basePath}mg/post/post-show.htm';">
+                <input type="button" value="添加" onclick="window.location='${basePath}mg/post/post-show.htm?categoryId=${category.id}';">
             </form>
 		<div class="clear"></div>
 	</div>
 	<form action="${basePath}mg/post/post-list.htm" method="get" style="padding-top:5px;">
+        <input name="categoryId" id="categoryId" value="${category.id}" type="input"/>
 		<div>
 			关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
             是否有效&nbsp;<select name="isValid" id="isValid">
@@ -96,7 +97,7 @@
 			</c:forEach>
 			</tbody>
 		</table>
-		<c:set var="pageURL" value="${basePath}mg/post/post-list.htm?kw=${fmtString:encoder(query.keyword)}&isValid=${query.isValid}&startTime=${fmtString:encoder(query.startTime)}&endTime=${fmtString:encoder(query.endTime)}&"/>
+		<c:set var="pageURL" value="${basePath}mg/post/post-list.htm?categoryId=${query.categoryId}&kw=${fmtString:encoder(query.keyword)}&isValid=${query.isValid}&startTime=${fmtString:encoder(query.startTime)}&endTime=${fmtString:encoder(query.endTime)}&"/>
 		<%@include file="../../common/pages.jsp"%>
 	</form>
 </div>

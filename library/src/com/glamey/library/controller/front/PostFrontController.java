@@ -5,11 +5,15 @@ import com.glamey.framework.utils.RegexUtils;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
+import com.glamey.library.dao.CategoryDao;
 import com.glamey.library.dao.PostDao;
+import com.glamey.library.model.domain.Category;
 import com.glamey.library.model.domain.Post;
 import com.glamey.library.model.domain.UserInfo;
 import com.glamey.library.model.dto.PostQuery;
+import com.glamey.library.util.DateUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -32,6 +37,8 @@ public class PostFrontController extends BaseController {
 
     @Resource
     private PostDao postDao;
+    @Resource
+    private CategoryDao categoryDao;
     @Resource
     private IncludeFront includeFront;
     //新建一个静态的线程池
@@ -75,8 +82,9 @@ public class PostFrontController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/pl-news", method = RequestMethod.GET)
+    @RequestMapping(value = "/pl-news-${categoryId}.htm", method = RequestMethod.GET)
     public ModelAndView postList(
+            @PathVariable String categoryId,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #postList#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("front/post-list");
@@ -90,14 +98,45 @@ public class PostFrontController extends BaseController {
         query.setIsValid(1);
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
+        query.setCategoryId(categoryId);
 
         List<Post> postList = postDao.getPostList(query);
         pageBean.setMaxRowCount(postDao.getCountPostList(query));
         pageBean.setMaxPage();
         pageBean.setPageNoList();
 
+        Category category = categoryDao.getById(categoryId);
+
         mav.addObject("postList", postList);
+        mav.addObject("category", category);
         mav.addObject("pageBean", pageBean);
+
+        return mav;
+    }
+
+    /**
+     * 首页通知公告的弹出层
+     * @param request
+     * @param response
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/pl-popdiv.htm", method = RequestMethod.GET)
+    public ModelAndView postPopDivv(
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[front] #postPopDivv#" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("front/include/post-list-popdiv");
+
+        PostQuery query = new PostQuery();
+        query.setIsValid(1);
+        query.setStartTime(DateFormatUtils.format(DateUtils.getDay(new Date(),-1111),"yyyy-MM-dd HH:mm:ss"));
+        query.setEndTime(DateFormatUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+        query.setStart(0);
+        query.setNum(15);
+        query.setCategoryId("QbINfy");
+
+        List<Post> postList = postDao.getPostList(query);
+        mav.addObject("postList", postList);
 
         return mav;
     }

@@ -7,7 +7,7 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <link rel="stylesheet" href="${basePath}res/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-<script type="text/javascript" src="${basePath}res/ztree/js/jquery-1.4.4.min.js"></script>
+<%--<script type="text/javascript" src="${basePath}res/ztree/js/jquery-1.4.4.min.js"></script>--%>
 <script type="text/javascript" src="${basePath}res/ztree/js/jquery.ztree.core-3.5.js"></script>
 <div class="fenlei" style="width: 255px;height: 50px;padding-bottom:0px;border:5px solid #efefef; background-color: #F7F7F7;">
     <div class="fenlei_tit">

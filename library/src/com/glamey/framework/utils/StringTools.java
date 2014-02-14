@@ -169,5 +169,9 @@ public class StringTools {
             System.out.println(s + " length = " + s.getBytes().length);
         }*/
 
+
+        System.out.println(URLUtils.getShort("通知公告"));
+        System.out.println(URLUtils.getShort("行业资讯"));
+
     }
 }

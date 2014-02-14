@@ -2,6 +2,7 @@ package com.glamey.library.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -36,6 +37,20 @@ public class DateUtils {
      */
     public static boolean isDiff7Days(Date date){
         return isDiffDays(7,date);
+    }
+
+
+    /**
+     * 获取前后几天的时间
+     * @param d
+     * @param day +后几天  -前几天
+     * @return
+     */
+    public static Date getDay(Date d, int day) {
+        Calendar now = Calendar.getInstance();
+        now.setTime(d);
+        now.set(Calendar.DATE, now.get(Calendar.DATE) + day);
+        return now.getTime();
     }
 
     public static void main(String[] args) throws ParseException {

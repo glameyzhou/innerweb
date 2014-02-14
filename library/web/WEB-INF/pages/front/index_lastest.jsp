@@ -10,8 +10,24 @@
     <link href="${basePath}res/front/library/css/header.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="${basePath}res/front/library/js/pptBox.js"></script>
-    <script type="text/javascript" src="${basePath}res/common/js/jquery.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
     <script type="text/javascript" src="${basePath}/res/common/js/library-showDiv.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
+    <script type="text/javascript">
+        var path = '${basePath}';
+        $().ready(function () {
+            $.layer({
+                type: 2,
+                title: false,
+                iframe: {src: path + 'pl-popdiv.htm'},
+                area : ['1000px' , '500px'],
+                time : 500,
+                success : function(){
+                    layer.shift('bottom', 400)
+                }
+            });
+        });
+    </script>
     <style type="text/css">
         .zixun_kuang_con li {
             height: 25px;

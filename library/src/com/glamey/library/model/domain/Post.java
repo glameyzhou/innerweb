@@ -26,7 +26,8 @@ public class Post implements Serializable {
 	private String content ;
     private int isValid ;
     private UserInfo userInfo = new UserInfo();
-
+    private String categoryId;
+    private Category category;
     public String getId() {
         return id;
     }
@@ -105,6 +106,22 @@ public class Post implements Serializable {
 
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override

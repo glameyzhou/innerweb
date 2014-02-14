@@ -9,7 +9,7 @@
     <link href="${basePath}res/front/library/css/index.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/library/css/header.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="${basePath}res/common/js/jquery.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
     <script type="text/javascript" src="${basePath}/res/common/js/library-showDiv.js"></script>
     <style type="text/css">
         .zixun_kuang_con li {

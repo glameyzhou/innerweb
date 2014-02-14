@@ -297,7 +297,7 @@ public class IndexFrontController extends BaseController {
         List<LibraryInfo> huadianjishu_libs = libraryInfoDao.getByQuery(huadianjishu);
         mav.addObject("huadianjishu_libs",huadianjishu_libs);
 
-        //华电科技--中国华电科研----->修改为《政策研究》 modify by zy 20140211
+        //华电科技--中国华电科研----->修改为《政策研究》 modify by zy 20140211(暂时不修改)
         LibraryQuery huadiankeyan = new LibraryQuery();
         huadiankeyan.setStart(0);
         huadiankeyan.setNum(1);
@@ -305,7 +305,8 @@ public class IndexFrontController extends BaseController {
         huadiankeyan.setShowImage(1);
         huadiankeyan.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
         huadiankeyan.setOrderType(Constants.ORDERBYDESC);
-        huadiankeyan.setCategoryId(CategoryConstants.CATEGORY_ZHENGCEYANJIU);
+//        huadiankeyan.setCategoryId(CategoryConstants.CATEGORY_ZHENGCEYANJIU);
+        huadiankeyan.setCategoryId(CategoryConstants.CATEGORY_HUADIANKEYAN);
         List<LibraryInfo> huadiankeyan_libs = libraryInfoDao.getByQuery(huadiankeyan);
         mav.addObject("huadiankeyan_libs",huadiankeyan_libs);
 

@@ -12,7 +12,7 @@
     <link href="${basePath}res/front/library/css/style.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/library/css/header.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="${basePath}res/common/js/jquery.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
     <style type="text/css">
         .feedback_con{margin:0px auto; margin-top:2px;}
         .feedback_con_1{width:500px; float:left; height:40px;}

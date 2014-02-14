@@ -18,6 +18,7 @@ public class PostQuery {
     private String endTime;
     private int start;
     private int num;
+    private String categoryId;
 
     public String getKeyword() {
         return keyword;
@@ -65,6 +66,14 @@ public class PostQuery {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     @Override

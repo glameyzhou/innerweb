@@ -36,8 +36,10 @@
 
     <%--咨询公告--%>
     <c:if test="${fmtString:hasRightsList(rightsList,'01')}">
-        <li><a href="${basePath}mg/post/post-list.htm" target="mainFrame">通知公告管理</a></li>
+        <li><a href="${basePath}mg/post/post-list.htm?categoryId=QbINfy" target="mainFrame">通知公告管理</a></li>
     </c:if>
+    <%--行业资讯管理--%>
+    <li><a href="${basePath}mg/post/post-list.htm?categoryId=73aANz" target="mainFrame">行业资讯管理</a></li>
 
 
     <%--微型图书馆管理--%>

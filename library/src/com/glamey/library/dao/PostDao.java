@@ -4,6 +4,7 @@
 package com.glamey.library.dao;
 
 import com.glamey.framework.utils.StringTools;
+import com.glamey.library.model.domain.Category;
 import com.glamey.library.model.domain.Post;
 import com.glamey.library.model.domain.UserInfo;
 import com.glamey.library.model.dto.LuceneEntry;
@@ -42,8 +43,8 @@ public class PostDao extends BaseDao {
         logger.info("[PostDao] #create# " + post);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_post(id,post_title,post_author,post_source,post_time,post_summary,post_image,post_content,post_isvalid)" +
-                            " values(?,?,?,?,?,?,?,?,?)",
+                    "insert into tbl_post(id,post_title,post_author,post_source,post_time,post_summary,post_image,post_content,post_isvalid,post_category_id_fk)" +
+                            " values(?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -57,6 +58,7 @@ public class PostDao extends BaseDao {
                             pstmt.setString(++i, post.getImage());
                             pstmt.setString(++i, post.getContent());
                             pstmt.setInt(++i, post.getIsValid());
+                            pstmt.setString(++i, post.getCategoryId());
                         }
                     });
             return count > 0;
@@ -76,7 +78,7 @@ public class PostDao extends BaseDao {
         logger.info("[PostDao] #update# " + post);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_post set post_title=?,post_author=?,post_source=?,post_time=?,post_summary=?,post_image=?,post_content=?,post_isvalid=? where id=?",
+                    "update tbl_post set post_title=?,post_author=?,post_source=?,post_time=?,post_summary=?,post_image=?,post_content=?,post_isvalid=?,post_category_id_fk=? where id=?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -89,6 +91,7 @@ public class PostDao extends BaseDao {
                             pstmt.setString(++i, post.getImage());
                             pstmt.setString(++i, post.getContent());
                             pstmt.setInt(++i, post.getIsValid());
+                            pstmt.setString(++i, post.getCategoryId());
                             pstmt.setString(++i, post.getId());
                         }
                     });
@@ -164,6 +167,8 @@ public class PostDao extends BaseDao {
                 sql.append(" and post_time >= ? ");
             if (StringUtils.isNotBlank(query.getEndTime()))
                 sql.append(" and post_time <= ? ");
+            if (StringUtils.isNotBlank(query.getCategoryId()))
+                sql.append(" and post_category_id_fk = ? ");
             sql.append(" order by post_time desc limit ?,? ");
 
             list = jdbcTemplate.query(sql.toString(),
@@ -184,6 +189,9 @@ public class PostDao extends BaseDao {
 
                             if (StringUtils.isNotBlank(query.getEndTime()))
                                 preparedstatement.setString(++i, query.getEndTime());
+
+                            if (StringUtils.isNotBlank(query.getCategoryId()))
+                                preparedstatement.setString(++i, query.getCategoryId());
 
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
@@ -222,6 +230,10 @@ public class PostDao extends BaseDao {
                 sql.append(" and post_time <= ? ");
                 params.add(query.getEndTime());
             }
+            if (StringUtils.isNotBlank(query.getCategoryId())) {
+                sql.append(" and post_category_id_fk = ? ");
+                params.add(query.getCategoryId());
+            }
             count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
         } catch (Exception e) {
             logger.error("[PostDao] #getCountPostList# query=" + query + " error!", e);
@@ -244,6 +256,10 @@ public class PostDao extends BaseDao {
             post.setImage(rs.getString("post_image"));
             post.setContent(rs.getString("post_content"));
             post.setIsValid(rs.getInt("post_isvalid"));
+
+            post.setCategoryId(rs.getString("post_category_id_fk"));
+            Category category = categoryDao.getById(post.getCategoryId());
+            post.setCategory(category);
             return post;
         }
     }

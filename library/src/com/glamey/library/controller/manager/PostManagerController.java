@@ -5,7 +5,9 @@ import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
+import com.glamey.library.dao.CategoryDao;
 import com.glamey.library.dao.PostDao;
+import com.glamey.library.model.domain.Category;
 import com.glamey.library.model.domain.Post;
 import com.glamey.library.model.domain.UploadInfo;
 import com.glamey.library.model.domain.UserInfo;
@@ -40,6 +42,8 @@ public class PostManagerController extends BaseController {
     @Resource
     private PostDao postDao;
     @Resource
+    private CategoryDao categoryDao;
+    @Resource
     private WebUploadUtils uploadUtils;
 
 
@@ -47,6 +51,8 @@ public class PostManagerController extends BaseController {
     public ModelAndView postShow(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-post-postShow]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("mg/post/post-show");
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        Category category = categoryDao.getById(categoryId);
         String opt = "create";
         Post post = new Post();
         String postId = WebUtils.getRequestParameterAsString(request,"postId");
@@ -56,6 +62,7 @@ public class PostManagerController extends BaseController {
         }
         mav.addObject("opt", opt);
         mav.addObject("post", post);
+        mav.addObject("category", category);
         return mav;
     }
     /*文章创建*/
@@ -71,6 +78,7 @@ public class PostManagerController extends BaseController {
         if (StringUtils.isNotBlank(ui.getFilePath()))
             post.setImage(ui.getFilePath());
 
+        post.setCategoryId(WebUtils.getRequestParameterAsString(request,"categoryId"));
         post.setTitle(WebUtils.getRequestParameterAsString(request, "title"));
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
 //        post.setAuthor(userInfo.getUserId());
@@ -117,6 +125,7 @@ public class PostManagerController extends BaseController {
         if (StringUtils.isNotBlank(ui.getFilePath()))
             post.setImage(ui.getFilePath());
 
+        post.setCategoryId(WebUtils.getRequestParameterAsString(request,"categoryId"));
         post.setTitle(WebUtils.getRequestParameterAsString(request, "title"));
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
 //        post.setAuthor(userInfo.getUserId());
@@ -148,6 +157,8 @@ public class PostManagerController extends BaseController {
         logger.info("[manager-post-post-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
         //请求参数获取
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        Category category = categoryDao.getById(categoryId);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean = new PageBean();
         pageBean.setCurPage(curPage);
@@ -161,6 +172,7 @@ public class PostManagerController extends BaseController {
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
         query.setIsValid(isValid);
+        query.setCategoryId(categoryId);
 
         //获取指定分类下的所有文章
         List<Post> postList = postDao.getPostList(query);
@@ -171,6 +183,7 @@ public class PostManagerController extends BaseController {
         mav.addObject("postList", postList);
         mav.addObject("pageBean", pageBean);
         mav.addObject("query", query);
+        mav.addObject("category", category);
         mav.setViewName("mg/post/post-list");
         return mav;
     }

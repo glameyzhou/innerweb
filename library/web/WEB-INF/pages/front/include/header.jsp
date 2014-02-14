@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${basePath}res/common/js/jquery.js"></script>
+<%--<script type="text/javascript" src="${basePath}res/common/js/jquery.js"></script>--%>
 <script type="text/javascript" src="${basePath}res/common/js/header.js"></script>
 <script type="text/javascript">
     function search(){
@@ -32,6 +32,7 @@
             <li>搜索</li>
             <li><input name="kw" id="kw" value="${kw}" type="text" class="searchtext" /></li>
             <li><img src="${basePath}res/front/library/images/search_button.png" onclick="javascript:search();"/></li>
+            <li><a href="${basePath}pl-news.htm">查看历史通知</a></li>
         </ul>
     </div>
 </div>
