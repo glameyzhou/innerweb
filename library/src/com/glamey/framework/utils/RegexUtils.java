@@ -16,7 +16,8 @@ public class RegexUtils {
 		if (StringUtils.isBlank(source))
 			throw new IllegalArgumentException("source can`t be null.");
 //		Pattern p = Pattern.compile(reg, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL) ;
-		Pattern p = Pattern.compile(reg, Pattern.MULTILINE | Pattern.DOTALL);
+//		Pattern p = Pattern.compile(reg, Pattern.MULTILINE | Pattern.DOTALL);
+		Pattern p = Pattern.compile(reg,Pattern.CASE_INSENSITIVE);
 		Matcher m;
 
 		m = p.matcher(source);
@@ -41,9 +42,9 @@ public class RegexUtils {
     }
 
     public static void main(String[] args) {
-		String source = "AasdfAB123Dd";
-		System.out.println(getStringGoup1(source, "(A)"));
-        System.out.println("mg/message/message-list.htm".matches(".+?/message-list.htm"));
-        System.out.println(isMatch("mg/message/message-list.htm","mg/.+?list.htm"));
+		String source = "<img src='1.jpg' />\r\n<img src='2.JPG' />\n<img src='3.jpg' />\n<img src='4.jpg' />";
+		System.out.println(getStringGoup1(source, "<img\\s*.+?src=[\"|'| ](.+?(jpg|jpeg|png|bmp|gif|ico))[\"|'| ].+?>"));
+//        System.out.println("mg/message/message-list.htm".matches(".+?/message-list.htm"));
+//        System.out.println(isMatch("mg/message/message-list.htm","mg/.+?list.htm"));
     }
 }

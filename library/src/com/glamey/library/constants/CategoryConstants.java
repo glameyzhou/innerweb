@@ -83,4 +83,15 @@ public class CategoryConstants {
      * 行业资讯
      */
     public static final String CATEGORY_HANGYEZIXUN  = "73aANz";
+
+
+    /**
+     * BBS_煤炭清洁利用
+     */
+    public static final String CATEGORY_BBS_MEITANQINGJIELIYONG = "VvAnyy";
+
+    /**
+     * BBS_区域能源
+     */
+    public static final String CATEGORY_BBS_QUYUNENGYUAN  = "Evmqey";
 }

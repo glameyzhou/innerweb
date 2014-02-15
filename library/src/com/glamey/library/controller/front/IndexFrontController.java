@@ -8,7 +8,9 @@ import com.glamey.library.controller.BaseController;
 import com.glamey.library.dao.*;
 import com.glamey.library.model.domain.*;
 import com.glamey.library.model.dto.*;
+import com.glamey.library.util.DateUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -309,6 +311,21 @@ public class IndexFrontController extends BaseController {
         huadiankeyan.setCategoryId(CategoryConstants.CATEGORY_HUADIANKEYAN);
         List<LibraryInfo> huadiankeyan_libs = libraryInfoDao.getByQuery(huadiankeyan);
         mav.addObject("huadiankeyan_libs",huadiankeyan_libs);
+
+
+        //是否有最新的通知公告
+        boolean isHasNotice = false;
+        PostQuery query = new PostQuery();
+        query.setIsValid(1);
+        query.setStartTime(DateFormatUtils.format(DateUtils.getDay(new Date(), -7), "yyyy-MM-dd HH:mm:ss"));
+        query.setEndTime(DateFormatUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+        query.setStart(0);
+        query.setNum(15);
+        query.setCategoryId(CategoryConstants.CATEGORY_TONGZHIGONGGAO);
+        List<Post> postList = postDao.getPostList(query);
+        if (!CollectionUtils.isEmpty(postList))
+            isHasNotice = true;
+        mav.addObject("isHasNotice",isHasNotice);
 
         return mav;
     }

@@ -172,6 +172,8 @@ public class StringTools {
 
         System.out.println(URLUtils.getShort("通知公告"));
         System.out.println(URLUtils.getShort("行业资讯"));
+        System.out.println(URLUtils.getShort("BBS_煤炭清洁利用"));
+        System.out.println(URLUtils.getShort("BBS_区域能源"));
 
     }
 }

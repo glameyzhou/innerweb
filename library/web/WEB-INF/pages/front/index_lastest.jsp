@@ -15,19 +15,21 @@
     <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <script type="text/javascript">
         var path = '${basePath}';
-        $().ready(function () {
-            $.layer({
-                type: 2,
-                title: false,
-                iframe: {src: path + 'post-popdiv.htm'},
-                area : ['762px' , '500px'],
-                time : 8,
-                offset: ['10px',''],
-                success : function(){
-                    layer.shift('top', 400)
-                }
+        var hasNotice = ${isHasNotice};
+        if (hasNotice)
+            $().ready(function () {
+                $.layer({
+                    type: 2,
+                    title: false,
+                    iframe: {src: path + 'post-popdiv.htm'},
+                    area : ['762px' , '500px'],
+                    time : 8,
+                    offset: ['10px',''],
+                    success : function(){
+                        layer.shift('top', 400)
+                    }
+                });
             });
-        });
     </script>
     <style type="text/css">
         .zixun_kuang_con li {

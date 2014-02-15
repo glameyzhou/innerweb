@@ -754,6 +754,26 @@ public class UserInfoDao extends BaseDao {
         }
     }
 
+    public UserInfo getUserSimpleById(final String userId) {
+        logger.info("[UserInfoDao] #getUserById# userId=" + userId);
+        List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+        StringBuffer sql = new StringBuffer("select * from tbl_user where user_id = ?");
+        try {
+            userInfoList = jdbcTemplate.query(sql.toString(),
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                            preparedStatement.setString(1, userId);
+                        }
+                    },
+                    new UserInfoSimpleRowMapper());
+            return userInfoList != null && userInfoList.size() > 0 ? userInfoList.get(0) : null;
+        } catch (Exception e) {
+            logger.error("[UserInfoDao] #getUserById# error " + userId, e);
+            return new UserInfo();
+        }
+    }
+
     /**
      * 通过登录名获取对应的用户信息
      *
@@ -865,6 +885,17 @@ public class UserInfoDao extends BaseDao {
             userInfo.setRoleIdList(roleIdList);
             userInfo.setRoleInfoList(roleInfoList);
             userInfo.setRightsList(rightsList);
+            return userInfo;
+        }
+    }
+    class UserInfoSimpleRowMapper implements RowMapper<UserInfo> {
+        @Override
+        public UserInfo mapRow(ResultSet rs, int i) throws SQLException {
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserId(rs.getString("user_id"));
+            userInfo.setUsername(rs.getString("user_name"));
+            userInfo.setNickname(rs.getString("user_nickname"));
+            userInfo.setNicknamePinyin(rs.getString("user_nicknamepinyin"));
             return userInfo;
         }
     }
