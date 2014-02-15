@@ -137,8 +137,8 @@
             <a href="javascript:move2Cate('id');">转移到分类</a>&nbsp;&nbsp;
             <a href="javascript:setSelectContent('id','index',1,'${category.id}');">设置首页显示</a>&nbsp;&nbsp;
             <a href="javascript:setSelectContent('id','index',0,'${category.id}');">取消首页显示</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('id','suggest',1,'${category.id}');">设置最新推荐</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('id','suggest',0,'${category.id}');">取消最新推荐</a>&nbsp;&nbsp;
+            <%--<a href="javascript:setSelectContent('id','suggest',1,'${category.id}');">设置最新推荐</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('id','suggest',0,'${category.id}');">取消最新推荐</a>&nbsp;&nbsp;--%>
             <a href="javascript:setSelectContent('id','focus',1,'${category.id}');">设置焦点图</a>&nbsp;&nbsp;
             <a href="javascript:setSelectContent('id','focus',0,'${category.id}');">取消焦点图</a>&nbsp;&nbsp;
         </div>
@@ -148,7 +148,7 @@
                 <th width="3%"></th>
                 <th width="3%">排序</th>
                 <th width="5%">首页显示</th>
-                <th width="5%">推荐</th>
+                <%--<th width="5%">推荐</th>--%>
                 <th width="5%">焦点图</th>
                 <th width="7%">类型</th>
                 <th width="15%">分类</th>
@@ -166,9 +166,9 @@
                     <td align="center">
                         <c:if test="${lib.showIndex==1}">是</c:if><c:if test="${lib.showIndex==0}">否</c:if>
                     </td>
-                    <td align="center">
+                    <%--<td align="center">
                         <c:if test="${lib.showSugguest==1}">是</c:if><c:if test="${lib.showSugguest==0}">否</c:if>
-                    </td>
+                    </td>--%>
                     <td align="center">
                         <c:if test="${lib.showFocusimage==1}">是</c:if><c:if test="${lib.showFocusimage==0}">否</c:if>
                     </td>

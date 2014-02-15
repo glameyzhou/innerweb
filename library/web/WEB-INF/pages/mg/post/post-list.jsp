@@ -37,10 +37,34 @@
             window.location = opURL ;
 		}
 	}
+    function setSelectContent(itemName,category,type,categoryId) {
+        var all_checkbox = document.getElementsByName(itemName);
+        var len = all_checkbox.length;
+        if (isChecked(itemName) == false) {
+            alert('至少选择一项');
+        } else {
+            if (!confirm('确认要执行操作?'))return;
+            var values = "";
+            for (var i = 0; i < len; i++) {
+                if (all_checkbox[i].checked)
+                    values += "," + all_checkbox[i].value;
+            }
+            if (values.length > 1)
+                values = values.substring(1);
+            var opURL = "${basePath}mg/post/post-setSelectContent.htm?id=" + values + "&category=" + category + "&type=" + type + "&categoryId=" + categoryId;
+            window.location = opURL;
+        }
+    }
 </script>
 <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
+<c:choose>
+    <c:when test="${category.id eq '73aANz'}">
+        <c:set var="categoryNameType" value="推荐"/>
+    </c:when>
+    <c:otherwise><c:set var="categoryNameType" value="有效"/></c:otherwise>
+</c:choose>
 <div class="body-box">
 	<div class="rhead">
 		<div class="rpos">当前位置: 首页  - ${category.name} - 列表</div>
@@ -53,7 +77,11 @@
         <input name="categoryId" id="categoryId" value="${category.id}" type="hidden"/>
 		<div>
 			关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
-            是否有效&nbsp;<select name="isValid" id="isValid">
+            <c:choose>
+                <c:when test="${category.id eq '73aANz'}">是否${categoryNameType}</c:when>
+                <c:otherwise>是否${categoryNameType}</c:otherwise>
+            </c:choose>
+            &nbsp;<select name="isValid" id="isValid">
 					<option value="">请选择</option>
 					<option value="0" <c:if test="${query.isValid == 0}">selected="selected" </c:if>>否</option>
 					<option value="1" <c:if test="${query.isValid == 1}">selected="selected" </c:if>>是</option>
@@ -64,8 +92,11 @@
 					onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;
 			<input type="submit" value="查询">
 			<br/><br/>
-			<a href="javascript:checkAll('postId',true);">全选</a>&nbsp;&nbsp;<a href="javascript:checkAll('postId',false);">取消</a>&nbsp;&nbsp;
+			<a href="javascript:checkAll('postId',true);">全选</a>&nbsp;&nbsp;
+            <a href="javascript:checkAll('postId',false);">取消</a>&nbsp;&nbsp;
 		    <a href="javascript:delAll('postId');">删除所选</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('postId','valid',1,'${category.id}');">设置${categoryNameType}</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('postId','valid',0,'${category.id}');">取消${categoryNameType}</a>&nbsp;&nbsp;
 		</div>
 		<table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
 			<thead class="pn-lthead">
@@ -74,7 +105,7 @@
 				<th>标题</th>
 				<th width="10%">发布人</th>
 				<th width="10%">来源</th>
-				<th width="5%">是否有效</th>
+				<th width="5%">是否${categoryNameType}</th>
 				<th width="10%">发布时间</th>
 				<th width="10%">操作</th>
 			</tr>

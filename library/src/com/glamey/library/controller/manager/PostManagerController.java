@@ -7,10 +7,7 @@ import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
 import com.glamey.library.dao.CategoryDao;
 import com.glamey.library.dao.PostDao;
-import com.glamey.library.model.domain.Category;
-import com.glamey.library.model.domain.Post;
-import com.glamey.library.model.domain.UploadInfo;
-import com.glamey.library.model.domain.UserInfo;
+import com.glamey.library.model.domain.*;
 import com.glamey.library.model.dto.PostQuery;
 import com.glamey.library.util.WebUploadUtils;
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +22,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -212,6 +210,50 @@ public class PostManagerController extends BaseController {
         } catch (Exception e) {
             mav.addObject("message", "操作失败,请稍后重试!");
             logger.info("[manager-post-post-postDel] error!", e);
+        }
+        return mav;
+    }
+
+
+    /*设置图书的属性*/
+    @RequestMapping(value = "/post-setSelectContent.htm", method = RequestMethod.GET)
+    public ModelAndView setSelectContent(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("common/message");
+        String libIds = WebUtils.getRequestParameterAsString(request, "id");
+        String category = WebUtils.getRequestParameterAsString(request,"category");
+        String type = WebUtils.getRequestParameterAsString(request,"type");
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        if (StringUtils.isBlank(libIds) || StringUtils.isBlank(category) || StringUtils.isBlank(type)) {
+            mav.addObject("message", "操作无效");
+            return mav;
+        }
+
+        String arrays [] = StringUtils.split(libIds,",");
+        if(arrays == null || arrays.length == 0){
+            mav.addObject("message", "请选择您需要操作内容");
+            return mav;
+        }
+
+        try {
+            if (StringUtils.equals(category,"del")) {
+                for (String s : arrays) {
+                    logger.info("[manager-post-post-setSelectContent] postId=" + s + " operateResult=" + postDao.deleteById(s));
+                }
+            }
+
+            if (StringUtils.equals(category,"valid")) {
+                for (String s : arrays) {
+                    Post p = postDao.getByPostId(s);
+                    p.setIsValid(Integer.valueOf(type));
+                    postDao.update(p);
+                }
+            }
+
+            mav.addObject("message", "操作成功!");
+            mav.addObject("href", "mg/post/post-list.htm?categoryId=" + categoryId);
+        } catch (Exception e) {
+            mav.addObject("message", "操作失败,请稍后重试!");
+            logger.info("[manager-post-post-setSelectContent] error!", e);
         }
         return mav;
     }

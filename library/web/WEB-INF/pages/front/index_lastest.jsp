@@ -22,8 +22,9 @@
                 iframe: {src: path + 'post-popdiv.htm'},
                 area : ['762px' , '500px'],
                 time : 8,
+                offset: ['10px',''],
                 success : function(){
-                    layer.shift('bottom', 400)
+                    layer.shift('top', 400)
                 }
             });
         });

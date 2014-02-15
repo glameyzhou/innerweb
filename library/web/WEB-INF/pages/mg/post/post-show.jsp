@@ -84,7 +84,12 @@
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否有效:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>
+                    <c:choose>
+                        <c:when test="${category.id eq '73aANz'}">是否推荐</c:when>
+                        <c:otherwise>是否有效</c:otherwise>
+                    </c:choose>
+                    :</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="radio" name="isValid" id="isValid" value="0"
                            <c:if test="${post.isValid == 0}">checked="checked"</c:if> />否&nbsp;
