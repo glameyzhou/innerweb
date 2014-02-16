@@ -134,10 +134,10 @@
         <li><a href="${basePath}mg/sys/sys-list.htm" target="mainFrame">全局配置</a></li>
     </c:if>
 
-    <%--全局配置--%>
-    <c:if test="${fmtString:hasRightsList(rightsList,'11')}">
+    <%--accessLog--%>
+    <%--<c:if test="${fmtString:hasRightsList(rightsList,'11')}">
         <li><a href="${basePath}mg/sys/accessLog/list.htm" target="mainFrame">访问日志</a></li>
-    </c:if>
+    </c:if>--%>
 
 </ul>
 </body>

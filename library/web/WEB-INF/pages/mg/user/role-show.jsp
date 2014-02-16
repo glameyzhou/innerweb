@@ -172,13 +172,13 @@
                             <td>在线留言</td>
                         </tr>
 
-                        <tr>
+                        <%--<tr>
                             <td width="10%" align="right" >
                                 <input type="checkbox" id="rightsId" name="rightsId" value="11"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'11')}">checked="checked"</c:if>/>
                             </td>
                             <td>访问日志</td>
-                        </tr>
+                        </tr>--%>
                     </table>
                 </td>
             </tr>
