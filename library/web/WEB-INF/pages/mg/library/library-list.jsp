@@ -75,7 +75,7 @@
                 if (values.length > 1)
                     values = values.substring(1);
                 var opURL = "${basePath}mg/library/library-setSelectContent.htm?id=" + values + "&category=" + category + "&type=" + type + "&categoryId=" + categoryId;
-                alert(opURL);
+//                alert(opURL);
                 window.location = opURL;
             }
         }

@@ -413,6 +413,9 @@ public class UserInfoManagerController extends BaseController {
         logger.info("[manager-user-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
 
+        //设置论坛版主的条件
+        String brandId = WebUtils.getRequestParameterAsString(request,"brandId","");
+
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         boolean isSuper = userInfoDao.isSuper(userInfo);
 
@@ -455,6 +458,7 @@ public class UserInfoManagerController extends BaseController {
         mav.addObject("query", query);
         mav.addObject("isSuper", isSuper);
         mav.addObject("pageBean", pageBean);
+        mav.addObject("brandId", brandId);
         mav.setViewName("mg/user/user-list");
         return mav;
     }

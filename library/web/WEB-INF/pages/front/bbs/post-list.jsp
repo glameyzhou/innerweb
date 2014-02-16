@@ -47,17 +47,30 @@
                             <th width="10%">回复/查看</th>
                             <th width="15%">最后发表</th>
                         </tr>
-                    </table>
-                    <c:forEach var="post" items="${bbsPostDTOList_top}">
+                        <c:forEach var="post" items="${bbsPostDTOList_top}">
+                            <tr align="center">
+                                <td>
+                                    <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,30 ,'...' )}</a>
+                                </td>
+                                <td>${post.userInfo.nickname}<br/><fmt:formatDate value="${post.postUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                <td>${post.replyCount}/${post.viewCount}</td>
+                                <td>${post.lastReplyUserInfo.nickname}<br/><fmt:formatDate value="${post.lastReplyUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                            </tr>
+                        </c:forEach>
                         <tr align="center">
-                            <td>
-                                <a href="${basePath}bbs/post-${post.postId}" title="${post.title}">${fmtString:substringAppend(post.title,30 ,'...' )}</a>
-                            </td>
-                            <td>${post.userInfo.nickname}<br/><fmt:formatDate value="${post.postUpdateTime}" type="both" /></td>
-                            <td>${post.replyCount}/${post.viewCount}</td>
-                            <td>${post.lastReplyUserInfo.nickname}<br/><fmt:formatDate value="${post.lastReplyUpdateTime}" type="both" /></td>
+                            <td colspan="4"></td>
                         </tr>
-                    </c:forEach>
+                        <c:forEach var="post" items="${bbsPostDTOList_normal}">
+                            <tr align="center">
+                                <td>
+                                    <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,30 ,'...' )}</a>
+                                </td>
+                                <td>${post.userInfo.nickname}<br/><fmt:formatDate value="${post.postUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                <td>${post.replyCount}/${post.viewCount}</td>
+                                <td>${post.lastReplyUserInfo.nickname}<br/><fmt:formatDate value="${post.lastReplyUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                            </tr>
+                        </c:forEach>
+                    </table>
                     <c:set var="pageURL" value="${basePath}bbs/brand-${category.id}.htm?postType=${postType}&"/>
                     <%@include file="../../common/pages-front.jsp" %>
                 </div>

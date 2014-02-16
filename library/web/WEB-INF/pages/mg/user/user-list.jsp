@@ -85,7 +85,7 @@
             <c:forEach var="role" items="${roleInfoList}">
             <option value="${role.roleId}" <c:if test="${query.roleId == role.roleId}">selected="selected" </c:if>>${role.roleName}</option>
             </c:forEach>
-        </select>&nbsp;&nbsp;
+        </select>&nbsp;&nbsp;<br/>
         注册开始时间&nbsp;<input type="text" maxlength="100" name="startTime" id="startTime" class="required" size="18" value="${query.startTime}"
                        onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;
         注册结束时间&nbsp;<input type="text" maxlength="100" name="endTime" id="endTime" class="required" size="18" value="${query.endTime}"
@@ -108,7 +108,7 @@
                 <th width="10%">手机号</th>
                 <th width="10%">固话</th>
                 <th width="15%">邮箱</th>
-                <th width="10%">注册时间</th>
+                <th width="7%">注册时间</th>
                 <th  width="20%">操作</th>
             </tr>
             </thead>
@@ -128,10 +128,13 @@
                     <td align=center>${user.email}</td>
                     <td align=center><fmt:formatDate value="${user.time}" type="both"/></td>
                     <td align=center>
-                        <a href="javascript:edit('${user.userId}');">编辑</a>&nbsp;&nbsp;
-                        <a href="javascript:del('${user.userId}');">删除</a>&nbsp;&nbsp;
-                        <a href="${basePath}mg/user/user-detail.htm?userId=${user.userId}">详情</a>&nbsp;&nbsp;
-                        <a href="javascript:resePasswd('${user.userId}');">密码重置</a>&nbsp;&nbsp;
+                        <a href="javascript:edit('${user.userId}');">编辑</a>&nbsp;
+                        <a href="javascript:del('${user.userId}');">删除</a>&nbsp;
+                        <a href="${basePath}mg/user/user-detail.htm?userId=${user.userId}">详情</a>&nbsp;
+                        <a href="javascript:resePasswd('${user.userId}');">密码重置</a>&nbsp;
+                        <c:if test="${not empty brandId}">
+                            <a href="${basePath}mg/bbs/brand-manager-set.htm?brandId=${brandId}&userId=${user.userId}">设置版主</a>
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach>

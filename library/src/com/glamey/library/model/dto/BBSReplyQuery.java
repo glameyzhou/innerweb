@@ -14,10 +14,10 @@ import java.util.Date;
 public class BBSReplyQuery implements Serializable {
     private String kw;
     private String userId;
-    private Date publishStartTime;
-    private Date publishEndTime;
-    private Date updateStartTime;
-    private Date updateEndTime;
+    private String publishStartTime;
+    private String publishEndTime;
+    private String updateStartTime;
+    private String updateEndTime;
     private int start;
     private int num;
     private String postId;
@@ -38,35 +38,35 @@ public class BBSReplyQuery implements Serializable {
         this.userId = userId;
     }
 
-    public Date getPublishStartTime() {
+    public String getPublishStartTime() {
         return publishStartTime;
     }
 
-    public void setPublishStartTime(Date publishStartTime) {
+    public void setPublishStartTime(String publishStartTime) {
         this.publishStartTime = publishStartTime;
     }
 
-    public Date getPublishEndTime() {
+    public String getPublishEndTime() {
         return publishEndTime;
     }
 
-    public void setPublishEndTime(Date publishEndTime) {
+    public void setPublishEndTime(String publishEndTime) {
         this.publishEndTime = publishEndTime;
     }
 
-    public Date getUpdateStartTime() {
+    public String getUpdateStartTime() {
         return updateStartTime;
     }
 
-    public void setUpdateStartTime(Date updateStartTime) {
+    public void setUpdateStartTime(String updateStartTime) {
         this.updateStartTime = updateStartTime;
     }
 
-    public Date getUpdateEndTime() {
+    public String getUpdateEndTime() {
         return updateEndTime;
     }
 
-    public void setUpdateEndTime(Date updateEndTime) {
+    public void setUpdateEndTime(String updateEndTime) {
         this.updateEndTime = updateEndTime;
     }
 

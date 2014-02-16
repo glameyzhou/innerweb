@@ -20,6 +20,7 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
+import sun.util.resources.TimeZoneNames_sv;
 
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
@@ -98,7 +99,7 @@ public class BBSPostDao extends BaseDao {
                             pstmt.setString(++i, info.getCategoryId());
                             pstmt.setString(++i, info.getTitle());
                             pstmt.setString(++i, info.getUserId());
-                            pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
+                            pstmt.setTimestamp(++i, new Timestamp(info.getPublishTime().getTime()));
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
                             pstmt.setString(++i, info.getContent());
                             pstmt.setInt(++i, info.getViewCount());
@@ -164,22 +165,22 @@ public class BBSPostDao extends BaseDao {
      * 帖子属性设置
      *
      * @param postIdList
-     * @param category
+     * @param type
      * @param itemValue
      * @return
      */
-    public boolean update(final List<String> postIdList, final String category, final int itemValue) {
+    public boolean update(final List<String> postIdList, final String type, final int itemValue) {
         logger.info("[BBSPostDao] #update# " + postIdList);
         try {
             String sql = "";
-            if (StringUtils.equals(category, "showTop")) {
-                sql = "update tbl_bbs_post set show_top = ? update_time = now() where id = ?";
+            if (StringUtils.equals(type, "showTop")) {
+                sql = "update tbl_bbs_post set show_top = ?, update_time = now() where id = ?";
             }
-            if (StringUtils.equals(category, "show_great")) {
-                sql = "update tbl_bbs_post set show_great = ? update_time = now() where id = ?";
+            if (StringUtils.equals(type, "showGreat")) {
+                sql = "update tbl_bbs_post set show_great = ?, update_time = now() where id = ?";
             }
-            if (StringUtils.equals(category, "show_popular")) {
-                sql = "update tbl_bbs_post set show_popular = ? update_time = now() where id = ?";
+            if (StringUtils.equals(type, "showPopular")) {
+                sql = "update tbl_bbs_post set show_popular = ?, update_time = now() where id = ?";
             }
             if (StringUtils.isNotBlank(sql) && !CollectionUtils.isEmpty(postIdList))
                 jdbcTemplate.batchUpdate(
@@ -216,8 +217,8 @@ public class BBSPostDao extends BaseDao {
         logger.info("[BBSPostDao] #delete#" + postId);
         try {
             String sql[] = new String[2];
-            sql[0] = "delete from tbl_bbs_post where id = " + postId;
-            sql[1] = "delete from tbl_bbs_reply where post_id = " + postId;
+            sql[0] = "delete from tbl_bbs_post where id = '" + postId + "'";
+            sql[1] = "delete from tbl_bbs_reply where post_id = '" + postId + "'";;
 
             int count[] = jdbcTemplate.batchUpdate(sql);
             return count.length > 0;
@@ -274,6 +275,15 @@ public class BBSPostDao extends BaseDao {
             if (query.getShowPopular() > -1)
                 sql.append(" and show_popular = ? ");
 
+            if (StringUtils.isNotBlank(query.getPublishStartTime()))
+                    sql.append(" and publish_time >= ? ");
+            if (StringUtils.isNotBlank(query.getPublishEndTime()))
+                    sql.append(" and publish_time <= ? ");
+            if (StringUtils.isNotBlank(query.getUpdateStartTime()))
+                    sql.append(" and update_time >= ? ");
+            if (StringUtils.isNotBlank(query.getUpdateEndTime()))
+                    sql.append(" and update_time <= ? ");
+
             if (StringUtils.isNotBlank(query.getKw()))
                 sql.append(" and (title like ? or content like ? ) ");
 
@@ -304,6 +314,16 @@ public class BBSPostDao extends BaseDao {
 
                             if (query.getShowPopular() > -1)
                                 preparedstatement.setInt(++i, query.getShowPopular());
+
+                            if (StringUtils.isNotBlank(query.getPublishStartTime()))
+                                preparedstatement.setString(++i, query.getPublishStartTime());
+                            if (StringUtils.isNotBlank(query.getPublishEndTime()))
+                                preparedstatement.setString(++i, query.getPublishEndTime());
+                            if (StringUtils.isNotBlank(query.getUpdateStartTime()))
+                                preparedstatement.setString(++i, query.getUpdateStartTime());
+                            if (StringUtils.isNotBlank(query.getUpdateEndTime()))
+                                preparedstatement.setString(++i, query.getUpdateEndTime());
+
 
                             if (StringUtils.isNotBlank(query.getKw())) {
                                 preparedstatement.setString(++i, "%" + query.getKw() + "%");
@@ -354,6 +374,23 @@ public class BBSPostDao extends BaseDao {
                 sql.append(" and show_popular = ? ");
                 params.add(query.getShowPopular());
             }
+            if (StringUtils.isNotBlank(query.getPublishStartTime())) {
+                sql.append(" and publish_time >= ? ");
+                params.add(query.getPublishStartTime());
+            }
+            if (StringUtils.isNotBlank(query.getPublishEndTime())) {
+                sql.append(" and publish_time <= ? ");
+                params.add(query.getPublishEndTime());
+            }
+            if (StringUtils.isNotBlank(query.getUpdateStartTime())) {
+                sql.append(" and update_time >= ? ");
+                params.add(query.getUpdateStartTime());
+            }
+            if (StringUtils.isNotBlank(query.getUpdateEndTime())) {
+                sql.append(" and update_time <= ? ");
+                params.add(query.getUpdateEndTime());
+            }
+
             if (StringUtils.isNotBlank(query.getKw())) {
                 sql.append(" and (title like ? or content like ? ) ");
                 params.add(query.getKw());
@@ -497,6 +534,25 @@ public class BBSPostDao extends BaseDao {
             logger.error("[BBSPostDao] #getBBSManager# error " + categoryId, e);
         }
         return null;
+    }
+
+    public boolean setBBSManager(final String categoryId, final String userId) {
+        logger.info("[BBSPostDao] #setBBSManager# categoryId=" + categoryId + " userId=" + userId);
+        try {
+            int i = jdbcTemplate.update(
+                        "update tbl_bbs_manager set user_id_fk = ? where category_id_fk = ? ",
+                        new PreparedStatementSetter() {
+                            @Override
+                            public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                                preparedStatement.setString(1,userId);
+                                preparedStatement.setString(2,categoryId);
+                            }
+                });
+            return i > 0;
+        } catch (Exception e) {
+            logger.error("[BBSPostDao] #setBBSManager# error categoryId=" + categoryId + " userId=" + userId, e);
+        }
+        return false;
     }
 
     /**

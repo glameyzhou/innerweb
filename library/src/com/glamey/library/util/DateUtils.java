@@ -53,6 +53,17 @@ public class DateUtils {
         return now.getTime();
     }
 
+    public static Date format(String dateString,String patter) {
+        SimpleDateFormat format = new SimpleDateFormat(patter);
+        Date date = null;
+        try {
+            date = format.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
     public static void main(String[] args) throws ParseException {
         String cur = "2013-12-31 01:14:52";
         java.text.SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

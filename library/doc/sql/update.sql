@@ -68,3 +68,5 @@ CREATE TABLE `tbl_access_log` (
   KEY `idx_access_log_time` (`access_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统访问日志';
 
+INSERT INTO `tbl_bbs_manager` VALUES ('VvAnyy', '6NBrMn');
+INSERT INTO `tbl_bbs_manager` VALUES ('Evmqey', 'NZ36ny');

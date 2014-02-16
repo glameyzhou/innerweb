@@ -80,15 +80,15 @@ public class BBSReplyDao extends BaseDao {
         logger.info("[BBSReplyDao] #update# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_bbs_post set post_id_fk = ? ,user_id_fk = ? ,publish_time = ? ,update_time = ? ,content = ?  where id = ?",
+                    "update tbl_bbs_reply set post_id_fk = ? ,user_id_fk = ? ,publish_time = ? ,update_time = ? ,content = ?  where id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
                             pstmt.setString(++i, info.getPostId());
                             pstmt.setString(++i, info.getUserId());
-                            pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
-                            pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
+                            pstmt.setTimestamp(++i, new Timestamp(info.getPublishTime().getTime()));
+                            pstmt.setTimestamp(++i, new Timestamp(info.getUpdateTime().getTime()));
                             pstmt.setString(++i, info.getContent());
                             pstmt.setString(++i, info.getId());
                         }
@@ -106,11 +106,12 @@ public class BBSReplyDao extends BaseDao {
      * @param replyId
      * @return
      */
-    public boolean deleteById(final String replyId) {
+    public boolean deleteById(final String replyId,final String postId) {
         logger.info("[BBSReplyDao] #delete#" + replyId);
         try {
-            String sql[] = new String[1];
-            sql[1] = "delete from tbl_bbs_reply where id = " + replyId;
+            String sql[] = new String[2];
+            sql[0] = "delete from tbl_bbs_reply where id = '" + replyId + "'";
+            sql[1] = "update tbl_bbs_post set reply_count = reply_count -1 where id = '" + postId + "'";
 
             int count[] = jdbcTemplate.batchUpdate(sql);
             return count.length > 0;
@@ -159,10 +160,19 @@ public class BBSReplyDao extends BaseDao {
                 sql.append(" and user_id_fk = ? ");
 
             if (StringUtils.isNotBlank(query.getKw()))
-                sql.append(" and (title like ? or content like ? ) ");
+                sql.append(" and  content like ? ");
+
+            if (StringUtils.isNotBlank(query.getPublishStartTime()))
+                sql.append(" and  publish_time >= ? ");
+            if (StringUtils.isNotBlank(query.getPublishEndTime()))
+                sql.append(" and  publish_time <= ? ");
+            if (StringUtils.isNotBlank(query.getUpdateStartTime()))
+                sql.append(" and  update_time >= ? ");
+            if (StringUtils.isNotBlank(query.getUpdateEndTime()))
+                sql.append(" and  update_time <= ? ");
 
 
-            sql.append(" order by update_time desc ");
+            sql.append(" order by publish_time desc ");
 
             sql.append(" limit ?,? ");
 
@@ -182,9 +192,15 @@ public class BBSReplyDao extends BaseDao {
 
                             if (StringUtils.isNotBlank(query.getKw())) {
                                 preparedstatement.setString(++i, "%" + query.getKw() + "%");
-                                preparedstatement.setString(++i, "%" + query.getKw() + "%");
                             }
-
+                            if (StringUtils.isNotBlank(query.getPublishStartTime()))
+                                preparedstatement.setString(++i, query.getPublishStartTime());
+                            if (StringUtils.isNotBlank(query.getPublishEndTime()))
+                                preparedstatement.setString(++i, query.getPublishEndTime());
+                            if (StringUtils.isNotBlank(query.getUpdateStartTime()))
+                                preparedstatement.setString(++i, query.getUpdateStartTime());
+                            if (StringUtils.isNotBlank(query.getUpdateEndTime()))
+                                preparedstatement.setString(++i, query.getUpdateEndTime());
 
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
@@ -205,7 +221,7 @@ public class BBSReplyDao extends BaseDao {
         int count = 0;
         try {
             List<Object> params = new ArrayList<Object>();
-            StringBuffer sql = new StringBuffer("select count(1) as total from tbl_bbs_post where 1=1 ");
+            StringBuffer sql = new StringBuffer("select count(1) as total from tbl_bbs_reply where 1=1 ");
 
             if (StringUtils.isNotBlank(query.getPostId())) {
                 sql.append(" and post_id_fk = ? ");
@@ -218,12 +234,26 @@ public class BBSReplyDao extends BaseDao {
             }
 
             if (StringUtils.isNotBlank(query.getKw())) {
-                sql.append(" and (title like ? or content like ? ) ");
-                params.add(query.getKw());
+                sql.append(" and content like ? ");
                 params.add(query.getKw());
             }
 
-            sql.append(" order by update_time desc ");
+            if (StringUtils.isNotBlank(query.getPublishStartTime())) {
+                sql.append(" and  publish_time >= ? ");
+                params.add(query.getPublishStartTime());
+            }
+            if (StringUtils.isNotBlank(query.getPublishEndTime())) {
+                sql.append(" and  publish_time <= ? ");
+                params.add(query.getPublishEndTime());
+            }
+            if (StringUtils.isNotBlank(query.getUpdateStartTime())) {
+                sql.append(" and  update_time >= ? ");
+                params.add(query.getUpdateStartTime());
+            }
+            if (StringUtils.isNotBlank(query.getUpdateEndTime())) {
+                sql.append(" and  update_time <= ? ");
+                params.add(query.getUpdateEndTime());
+            }
 
             count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
         } catch (Exception e) {
