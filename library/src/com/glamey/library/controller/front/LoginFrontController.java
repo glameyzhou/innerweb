@@ -6,6 +6,7 @@ import com.glamey.framework.utils.TimeUtils;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
+import com.glamey.library.dao.AccessLogDao;
 import com.glamey.library.dao.UserInfoDao;
 import com.glamey.library.dao.UserRegisterVerifyDao;
 import com.glamey.library.model.domain.RightsInfo;
@@ -47,11 +48,14 @@ public class LoginFrontController extends BaseController {
 
     @Resource
     private MailUtils libraryMail ;
+    @Resource
+    private AccessLogDao accessLogDao;
     /**
      * 显示登陆界面
      */
     @RequestMapping(value = "/login.htm", method = RequestMethod.GET)
     public ModelAndView loginShow(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        accessLogDao.save("","login.htm","登陆界面","");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
         
@@ -67,6 +71,7 @@ public class LoginFrontController extends BaseController {
      */
     @RequestMapping(value = "/mg/logout.htm", method = RequestMethod.GET)
     public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        accessLogDao.save("mg/logout.htm","用户登出","",session);
         session.removeAttribute(Constants.SESSIN_USERID);
         session.invalidate();
         webCookieUtils.cookieRemove(request, response);
@@ -122,6 +127,7 @@ public class LoginFrontController extends BaseController {
                 }
                 return mav;
             }
+            accessLogDao.save("manager.htm","用户登入","",session);
         }
         mav.addObject("message", "登陆校验失败,请重试!");
         return mav;

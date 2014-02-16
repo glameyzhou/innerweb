@@ -6,6 +6,7 @@ import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.constants.SystemConstants;
 import com.glamey.library.controller.BaseController;
+import com.glamey.library.dao.AccessLogDao;
 import com.glamey.library.dao.CategoryDao;
 import com.glamey.library.dao.LinksDao;
 import com.glamey.library.model.domain.Category;
@@ -41,7 +42,8 @@ public class LinksFrontController extends BaseController{
     private LinksDao linksDao ;
     @Resource
     private CategoryDao categoryDao ;
-
+    @Resource
+    private AccessLogDao accessLogDao;
 
     @RequestMapping(value = "/linksFront-{type}-{categoryId}.htm",method=RequestMethod.GET)
     public ModelAndView linksList(
@@ -83,6 +85,7 @@ public class LinksFrontController extends BaseController{
         mav.addObject("linksLIst",linksLIst);
         mav.addObject("category",category);
 
+        accessLogDao.save("linksFront-" + type + "-" + categoryId + ".htm","友情链接(" + category.getName() + ")",categoryId,session);
 
         return mav;
     }

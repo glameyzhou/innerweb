@@ -360,8 +360,6 @@ public class BBSPostDao extends BaseDao {
                 params.add(query.getKw());
             }
 
-            sql.append(" order by update_time desc ");
-
             count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
         } catch (Exception e) {
             logger.error("[BBSPostDao] #getCountByQuery# error! query=" + query, e);
@@ -457,7 +455,7 @@ public class BBSPostDao extends BaseDao {
             analyzer.setPostReplyCount(postCount + replyCount);
 
             //发帖量+回帖量 (当天总量)
-            String today = DateFormatUtils.format(new Date(), "yyyy-HH-dd");
+            String today = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
             String postTodaySql = "select count(1) from tbl_bbs_post where category_id_fk = ? and publish_time >= ? and  publish_time <= ? ";
             int postTodayCount = jdbcTemplate.queryForInt(postTodaySql, new String[]{categoryId, today + " 00:00:00", today + "23:59:59"});
 

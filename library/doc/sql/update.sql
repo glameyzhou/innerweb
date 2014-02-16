@@ -53,7 +53,18 @@ CREATE TABLE `tbl_bbs_reply` (
   KEY `idx_bbs_reply_publish` (`publish_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='论坛-主题回复内容';
 
+#20140216
+ALTER TABLE `tbl_bbs_post`
+ADD PRIMARY KEY (`id`);
 
-
-
+CREATE TABLE `tbl_access_log` (
+  `id` varchar(32) default NULL,
+  `user_id_fk` varchar(32) default NULL COMMENT '访问人',
+  `access_time` datetime default NULL COMMENT '访问时间',
+  `page_url` varchar(500) default NULL COMMENT '访问页面URL',
+  `page_title` varchar(1000) default NULL COMMENT '访问页面标题（如果非正文的话，默认为空）',
+  `page_category_id` varchar(32) default NULL COMMENT '如果是图书、文章的话，记录对应的内容分类ID',
+  KEY `idx_access_log_user_id` (`user_id_fk`),
+  KEY `idx_access_log_time` (`access_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统访问日志';
 

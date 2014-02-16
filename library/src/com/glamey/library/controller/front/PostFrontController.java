@@ -6,6 +6,7 @@ import com.glamey.framework.utils.WebUtils;
 import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
+import com.glamey.library.dao.AccessLogDao;
 import com.glamey.library.dao.CategoryDao;
 import com.glamey.library.dao.PostDao;
 import com.glamey.library.model.domain.Category;
@@ -42,6 +43,8 @@ public class PostFrontController extends BaseController {
     private CategoryDao categoryDao;
     @Resource
     private IncludeFront includeFront;
+    @Resource
+    private AccessLogDao accessLogDao;
     //新建一个静态的线程池
 //    private static ExecutorService executor = Executors.newFixedThreadPool(5);
 
@@ -75,6 +78,7 @@ public class PostFrontController extends BaseController {
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request, response, session));
 
+        accessLogDao.save("p-" + postId + ".htm",post.getTitle(),post.getCategoryId(),session);
         return mav;
     }
 
@@ -114,6 +118,8 @@ public class PostFrontController extends BaseController {
         mav.addObject("postList", postList);
         mav.addObject("category", category);
         mav.addObject("pageBean", pageBean);
+
+        accessLogDao.save("post-" + category.getId() + ".htm","分类" + category.getName() + "列表",category.getId(),session);
 
         return mav;
     }

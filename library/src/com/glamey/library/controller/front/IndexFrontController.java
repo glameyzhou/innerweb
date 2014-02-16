@@ -43,6 +43,8 @@ public class IndexFrontController extends BaseController {
     private LinksDao linksDao ;
     @Resource
     private RollingImageDao rollingImageDao ;
+    @Resource
+    private AccessLogDao accessLogDao;
 
     @RequestMapping(value = "/indexOld.htm", method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
@@ -326,7 +328,7 @@ public class IndexFrontController extends BaseController {
         if (!CollectionUtils.isEmpty(postList))
             isHasNotice = true;
         mav.addObject("isHasNotice",isHasNotice);
-
+        accessLogDao.save("index.htm","首页","",session);
         return mav;
     }
 
@@ -347,6 +349,8 @@ public class IndexFrontController extends BaseController {
         MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.meta_contact_us);
         mav.addObject("contactusContent",metaInfo.getValue());
         mav.addAllObjects(includeFront.allInclude(request,response,session));
+
+        accessLogDao.save("contact-us.htm","联系我们","",session);
         return mav ;
     }
 }

@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.glamey.library.constants.SystemConstants;
-import com.glamey.library.dao.LibraryCollectDao;
-import com.glamey.library.dao.MetaInfoDao;
+import com.glamey.library.dao.*;
 import com.glamey.library.model.dto.CategoryQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -27,8 +26,6 @@ import com.glamey.framework.utils.WebUtils;
 import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
-import com.glamey.library.dao.CategoryDao;
-import com.glamey.library.dao.LibraryInfoDao;
 import com.glamey.library.model.domain.Category;
 import com.glamey.library.model.domain.LibraryInfo;
 import com.glamey.library.model.dto.LibraryInfoDTO;
@@ -48,6 +45,8 @@ public class LibraryFrontController extends BaseController {
     private MetaInfoDao metaInfoDao ;
     @Resource
     private LibraryCollectDao collectDao;
+    @Resource
+    private AccessLogDao accessLogDao;
 
     /*获取分类下的类表*/
     @RequestMapping(value = "/library-list-{categoryId}.htm", method = RequestMethod.GET)
@@ -125,6 +124,9 @@ public class LibraryFrontController extends BaseController {
             mav.addObject("libraryInfoDTOList",libraryInfoDTOList);
             mav.addObject("category",category);
             mav.setViewName("front/lib-index");
+
+            accessLogDao.save("library-list-" + category.getId() + ".htm","分类" + category.getName() + "列表",category.getId(),session);
+
             return mav ;
         }
     }
@@ -157,6 +159,9 @@ public class LibraryFrontController extends BaseController {
         mav.addObject("libraryInfoList",libraryInfoNewestList);
         mav.addObject("pageBean",pageBean);
         mav.setViewName("front/lib-newest");
+
+        accessLogDao.save("library-newest.htm","近期收录列表","",session);
+
         return mav ;
     }
 
@@ -181,6 +186,7 @@ public class LibraryFrontController extends BaseController {
         mav.addObject("exist",exist);
 
         mav.setViewName("front/lib-detail");
+        accessLogDao.save("library-detail-" + libraryInfo.getId() + ".htm",libraryInfo.getName(),libraryInfo.getCategoryId(),session);
         return mav;
     }
 
@@ -198,6 +204,9 @@ public class LibraryFrontController extends BaseController {
         mav.addAllObjects(includeFront.allInclude(request,response,session));
 
         mav.setViewName("front/lib-aboutus");
+
+        accessLogDao.save("library-aboutus.htm","关于我们","",session);
+
         return mav;
     }
 
