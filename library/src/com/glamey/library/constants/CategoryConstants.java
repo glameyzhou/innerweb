@@ -80,9 +80,9 @@ public class CategoryConstants {
     public static final String CATEGORY_TONGZHIGONGGAO = "QbINfy";
 
     /**
-     * 行业资讯
+     * 行业资讯（图书类别）
      */
-    public static final String CATEGORY_HANGYEZIXUN  = "73aANz";
+    public static final String CATEGORY_HANGYEZIXUN  = "EnQnii";
 
 
     /**

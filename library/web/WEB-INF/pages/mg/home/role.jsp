@@ -38,10 +38,10 @@
     <c:if test="${fmtString:hasRightsList(rightsList,'01')}">
         <li><a href="${basePath}mg/post/post-list.htm?categoryId=QbINfy" target="mainFrame">通知公告管理</a></li>
     </c:if>
-    <%--行业资讯管理--%>
-    <c:if test="${fmtString:hasRightsList(rightsList,'10')}">
+    <%--行业资讯管理，已经废弃，转移到图书管理分类中--%>
+    <%--<c:if test="${fmtString:hasRightsList(rightsList,'10')}">
         <li><a href="${basePath}mg/post/post-list.htm?categoryId=73aANz" target="mainFrame">行业资讯管理</a></li>
-    </c:if>
+    </c:if>--%>
 
 
     <%--微型图书馆管理--%>
@@ -139,12 +139,12 @@
         <li><a href="${basePath}mg/sys/accessLog/list.htm" target="mainFrame">访问日志</a></li>
     </c:if>--%>
 
-    <li><a href="javascript:divDisplay('bbs_div');">论坛管理</a></li>
+    <%--<li><a href="javascript:divDisplay('bbs_div');">论坛管理</a></li>
     <ul id="bbs_div" style="display: none">
         <li><a href="${basePath}mg/bbs/post-list.htm?categoryId=VvAnyy" target="mainFrame">煤炭清洁利用-主帖管理</a></li>
         <li><a href="${basePath}mg/bbs/post-list.htm?categoryId=Evmqey" target="mainFrame">区域能源-主帖管理</a></li>
         <li><a href="${basePath}mg/bbs/brand-manager.htm" target="mainFrame">版主设置</a></li>
-    </ul>
+    </ul>--%>
 </ul>
 </body>
 </html>

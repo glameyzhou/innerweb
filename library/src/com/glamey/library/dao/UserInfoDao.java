@@ -896,6 +896,7 @@ public class UserInfoDao extends BaseDao {
             userInfo.setUsername(rs.getString("user_name"));
             userInfo.setNickname(rs.getString("user_nickname"));
             userInfo.setNicknamePinyin(rs.getString("user_nicknamepinyin"));
+            userInfo.setCompany(rs.getString("user_company"));
             return userInfo;
         }
     }

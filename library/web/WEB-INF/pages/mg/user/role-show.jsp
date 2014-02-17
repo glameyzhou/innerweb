@@ -77,13 +77,13 @@
                             </td>
                             <td>通知公告管理</td>
                         </tr>
-                        <tr>
+                        <%--<tr>
                             <td width="10%" align="right">
                                 <input type="checkbox" id="rightsId" name="rightsId" value="10"
                                    <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'10')}">checked="checked"</c:if>/>
                             </td>
                             <td>行业资讯管理</td>
-                        </tr>
+                        </tr>--%>
                         <%--友情链接管理--%>
                         <tr>
                             <td width="10%" align="right">

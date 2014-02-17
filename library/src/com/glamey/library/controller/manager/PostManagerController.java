@@ -55,6 +55,7 @@ public class PostManagerController extends BaseController {
         Post post = new Post();
         String postId = WebUtils.getRequestParameterAsString(request,"postId");
         post.setTime(DateFormatUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+        post.setIsValid(1);
         if(StringUtils.isNotBlank(postId)){
             post = postDao.getByPostId(postId);
             opt = "update" ;

@@ -136,15 +136,18 @@ public class LibraryFrontController extends BaseController {
     public ModelAndView libNewest(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #libNewest#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
-
+        //是否从最左侧的“最新荐读”点击过来的
+        String src = WebUtils.getRequestParameterAsString(request,"src");
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request,response,session));
 
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean = new PageBean(30);
         pageBean.setCurPage(curPage);
 
         LibraryQuery libraryQuery = new LibraryQuery();
+        libraryQuery.setCategoryId(categoryId);
         libraryQuery.setShowIndex(1);
         libraryQuery.setShowSugguest(1);
         libraryQuery.setStart(pageBean.getStart());
@@ -158,9 +161,16 @@ public class LibraryFrontController extends BaseController {
 
         mav.addObject("libraryInfoList",libraryInfoNewestList);
         mav.addObject("pageBean",pageBean);
+        mav.addObject("libraryQuery",libraryQuery);
         mav.setViewName("front/lib-newest");
+        mav.addObject("src",src);
 
-        accessLogDao.save("library-newest.htm","近期收录列表","",session);
+        if (StringUtils.isNotBlank(src)) {
+            accessLogDao.save("library-newest.htm?src=left","最新荐读列表","",session);
+        } else {
+            accessLogDao.save("library-newest.htm","近期收录列表","",session);
+        }
+
 
         return mav ;
     }

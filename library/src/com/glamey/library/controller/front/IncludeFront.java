@@ -122,13 +122,24 @@ public class IncludeFront {
         map.put("page_foot", getMetaByName(SystemConstants.meta_page_foot));
 
         //页面左侧--最新荐读（行业资讯）
-        PostQuery postQuery = new PostQuery();
+        /*PostQuery postQuery = new PostQuery();
         postQuery.setIsValid(1);
         postQuery.setCategoryId(CategoryConstants.CATEGORY_HANGYEZIXUN);
         postQuery.setStart(0);
         postQuery.setNum(4);
         List<Post> postList = postDao.getPostList(postQuery);
-        map.put("includePostList", postList);
+        map.put("includePostList", postList);*/
+
+        //modify by zy 20140217 从tbl_post中摘除行业资讯，调整到图书管理分类中
+        LibraryQuery query = new LibraryQuery();
+        query.setCategoryId(CategoryConstants.CATEGORY_HANGYEZIXUN);
+        query.setShowIndex(1);
+        query.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
+        query.setOrderType(Constants.ORDERBYDESC);
+        query.setStart(0);
+        query.setNum(4);
+        List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
+        map.put("includePostList",libraryInfoList);
 
 
         //个人信息

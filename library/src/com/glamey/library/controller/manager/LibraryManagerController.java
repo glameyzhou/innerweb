@@ -325,6 +325,8 @@ public class LibraryManagerController extends BaseController {
         lib.setOrder(Integer.valueOf(orderString));
         lib.setShowFocusimage(WebUtils.getRequestParameterAsInt(request,"showFouceImage",0)); /*是否显示焦点图*/
         lib.setShowSugguest(WebUtils.getRequestParameterAsInt(request,"showSugguest",1));
+        lib.setAuthor(WebUtils.getRequestParameterAsString(request,"author"));
+        lib.setSource(WebUtils.getRequestParameterAsString(request,"source"));
 
         if (type == 1) {
             String name = WebUtils.getRequestParameterAsString(request, "name");
@@ -409,6 +411,8 @@ public class LibraryManagerController extends BaseController {
         lib.setShowIndex(showIndex);
         lib.setShowFocusimage(showFouceImge);
         lib.setShowSugguest(WebUtils.getRequestParameterAsInt(request,"showSugguest",1));
+        lib.setAuthor(WebUtils.getRequestParameterAsString(request,"author"));
+        lib.setSource(WebUtils.getRequestParameterAsString(request,"source"));
         String time = WebUtils.getRequestParameterAsString(request, "time");
         if (StringUtils.isBlank(time))
             time = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");

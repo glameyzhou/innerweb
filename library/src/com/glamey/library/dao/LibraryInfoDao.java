@@ -48,8 +48,8 @@ public class LibraryInfoDao extends BaseDao {
         logger.info("[LibraryInfoDao] #create# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_library(lib_id,lib_category_id,lib_type,lib_name,lib_focusimage,lib_url,lib_content,lib_image,lib_time,lib_order,lib_showindex,lib_sugguest,lib_update_time) " +
-                            " values(?,?,?,?,?,?,?,?,?,?,?,?,now())",
+                    "insert into tbl_library(lib_id,lib_category_id,lib_type,lib_name,lib_author,lib_source,lib_focusimage,lib_url,lib_content,lib_image,lib_time,lib_order,lib_showindex,lib_sugguest,lib_update_time) " +
+                            " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,now())",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -58,6 +58,8 @@ public class LibraryInfoDao extends BaseDao {
                             pstmt.setString(++i,info.getCategoryId());
                             pstmt.setInt(++i,info.getType());
                             pstmt.setString(++i, info.getName());
+                            pstmt.setString(++i, info.getAuthor());
+                            pstmt.setString(++i, info.getSource());
                             pstmt.setInt(++i, info.getShowFocusimage());
                             pstmt.setString(++i, info.getUrl());
                             pstmt.setString(++i, info.getContent());
@@ -83,7 +85,7 @@ public class LibraryInfoDao extends BaseDao {
         logger.info("[LibraryInfoDao] #update# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_library set lib_category_id=?,lib_type=?,lib_name=?,lib_focusimage=?,lib_url=?,lib_content=?,lib_image=?,lib_order = ?,lib_showindex=?,lib_sugguest=?,lib_time=?,lib_update_time = now() where lib_id = ?",
+                    "update tbl_library set lib_category_id=?,lib_type=?,lib_name=?,lib_author=?,lib_source=?,lib_focusimage=?,lib_url=?,lib_content=?,lib_image=?,lib_order = ?,lib_showindex=?,lib_sugguest=?,lib_time=?,lib_update_time = now() where lib_id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -91,6 +93,8 @@ public class LibraryInfoDao extends BaseDao {
                             pstmt.setString(++i,info.getCategoryId());
                             pstmt.setInt(++i, info.getType());
                             pstmt.setString(++i, info.getName());
+                            pstmt.setString(++i, info.getAuthor());
+                            pstmt.setString(++i, info.getSource());
                             pstmt.setInt(++i, info.getShowFocusimage());
                             pstmt.setString(++i, info.getUrl());
                             pstmt.setString(++i, info.getContent());
@@ -365,6 +369,8 @@ public class LibraryInfoDao extends BaseDao {
             info.setCategoryId(rs.getString("lib_category_id"));
             info.setType(rs.getInt("lib_type"));
             info.setName(rs.getString("lib_name"));
+            info.setAuthor(rs.getString("lib_author"));
+            info.setSource(rs.getString("lib_source"));
             info.setShowFocusimage(rs.getInt("lib_focusimage"));
             info.setUrl(rs.getString("lib_url"));
             info.setContent(rs.getString("lib_content"));

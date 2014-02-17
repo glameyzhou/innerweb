@@ -109,11 +109,11 @@
             <option value="0" <c:if test="${query.isFocusImage == 0}">selected="selected"</c:if>>否</option>
             <option value="1" <c:if test="${query.isFocusImage == 1}">selected="selected"</c:if>>是</option>
         </select>&nbsp;&nbsp;
-        最新荐读&nbsp;<select id="showSugguest" name="showSugguest">
+        <%--最新荐读&nbsp;<select id="showSugguest" name="showSugguest">
             <option value="-1">请选择</option>
             <option value="0" <c:if test="${query.showSugguest == 0}">selected="selected"</c:if>>否</option>
             <option value="1" <c:if test="${query.showSugguest == 1}">selected="selected"</c:if>>是</option>
-        </select>&nbsp;&nbsp;<br/>
+        </select>&nbsp;&nbsp;--%><br/>
         栏目分类&nbsp;<select id="categoryId" name="categoryId">
         <option value="">请选择</option>
         <c:forEach var="cate" items="${children}">

@@ -140,6 +140,12 @@
             <input type="text" maxlength="100" name="time" id="time" class="required" size="35"
                    value='<fmt:formatDate value="${lib.time}" pattern="yyyy-MM-dd HH:mm:ss"/>'
                    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">
+            <br/><br/>
+            <font color="red">发布人&nbsp;&nbsp;&nbsp;&nbsp;</font>
+            <input type="text" name="author" id="author" value="${lib.author}"/><font color="red">非必须</font>
+            <br/><br/>
+            <font color="red">来源&nbsp;&nbsp;&nbsp;&nbsp;</font>
+            <input type="text" name="source" id="source" value="${lib.source}"/><font color="red">非必须</font>
         </p>
         <p>
             <font color="red">内容类型</font>

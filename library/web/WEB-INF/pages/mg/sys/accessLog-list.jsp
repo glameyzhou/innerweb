@@ -80,6 +80,7 @@
 			<thead class="pn-lthead">
 			<tr>
 				<th width="10%">用户</th>
+				<th width="10%">单位</th>
                 <th width="10%">访问时间</th>
 				<th width="10%">栏目分类</th>
 				<th width="15%">访问页面URL</th>
@@ -95,6 +96,7 @@
                         <a href="${basePath}mg/sys/accessLog/list.htm?userId=${log.userId}">${log.userInfo.nickname}</a>
                     </c:if>
 				</td>
+				<td align="center">${log.userInfo.company}</td>
 				<td align="center"><fmt:formatDate value="${log.accessTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td align="center">${log.category.name}</td>
                 <td align="center">${basePath}${log.pageUrl}</td>

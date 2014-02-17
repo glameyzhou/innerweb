@@ -34,6 +34,8 @@ public class LibraryInfo implements Serializable {
      * 显示名称
      */
     private String name;
+    private String author;
+    private String source ;
 
     /**
      * 是否焦点图显示
@@ -197,6 +199,22 @@ public class LibraryInfo implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     @Override
