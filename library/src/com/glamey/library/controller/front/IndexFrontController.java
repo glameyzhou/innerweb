@@ -232,7 +232,8 @@ public class IndexFrontController extends BaseController {
         libraryQuery.setNum(10);
         libraryQuery.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
         libraryQuery.setOrderType(Constants.ORDERBYDESC);
-        libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
+//        libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
+        libraryInfoNewestList = libraryInfoDao.getFilterByQuery(libraryQuery);
         mav.addObject("libraryInfoNewestList",libraryInfoNewestList);
 
 

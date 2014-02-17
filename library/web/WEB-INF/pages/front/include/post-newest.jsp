@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <div class="notice">
     <div class="notice_top" onclick="javascript:window.location='${basePath}library-newest.htm?categoryId=EnQnii&src=left';"
-         onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='default'" style="color: #0000ff;">最新荐读</div>
+         onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='default'" style="color: rgb(0, 0, 255); font-weight: bold;">最新荐读</div>
     <div class="notice_center">
         <ul>
             <%--<c:forEach var="p" items="${includePostList}">

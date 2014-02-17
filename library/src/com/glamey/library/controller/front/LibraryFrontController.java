@@ -154,8 +154,8 @@ public class LibraryFrontController extends BaseController {
         libraryQuery.setNum(pageBean.getRowsPerPage());
         libraryQuery.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
         libraryQuery.setOrderType(Constants.ORDERBYDESC);
-        List<LibraryInfo> libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
-        pageBean.setMaxRowCount(libraryInfoDao.getCountByQuery(libraryQuery));
+        List<LibraryInfo> libraryInfoNewestList = StringUtils.isNotBlank(src) ? libraryInfoDao.getByQuery(libraryQuery) : libraryInfoDao.getFilterByQuery(libraryQuery);
+        pageBean.setMaxRowCount(StringUtils.isNotBlank(src) ? libraryInfoDao.getCountByQuery(libraryQuery) : libraryInfoDao.getCountFileterByQuery(libraryQuery));
         pageBean.setMaxPage();
         pageBean.setPageNoList();
 

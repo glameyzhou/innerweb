@@ -4,10 +4,7 @@ import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
-import com.glamey.library.dao.BBSPostDao;
-import com.glamey.library.dao.BBSReplyDao;
-import com.glamey.library.dao.CategoryDao;
-import com.glamey.library.dao.UserInfoDao;
+import com.glamey.library.dao.*;
 import com.glamey.library.model.domain.BBSPost;
 import com.glamey.library.model.domain.BBSReply;
 import com.glamey.library.model.domain.Category;
@@ -45,54 +42,31 @@ public class BBSFrontController extends BaseController {
     private CategoryDao categoryDao;
     @Resource
     private IncludeFront includeFront;
+    @Resource
+    private AccessLogDao accessLogDao;
 
     @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
-    public ModelAndView index(
-            @PathVariable String categoryId,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-        logger.info("[front] #brandList#" + request.getRequestURI());
-        ModelAndView mav = new ModelAndView("front/post-detail");
-        if (StringUtils.isBlank(categoryId)) {
-            mav.addObject("message", "操作无效");
-            mav.setViewName("common/errorPage");
-            return mav;
-        }
+    public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        logger.info("[front] #index#" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("front/bbs/index");
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request, response, session));
 
-        pageBean = new PageBean(Constants.rowsPerPageFront);
-        int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
-        pageBean.setCurPage(curPage);
 
-        //置顶帖子
-        BBSPostQuery query = new BBSPostQuery();
-        query.setCategoryId(categoryId);
-        query.setShowTop(1);
-        query.setStart(0);
-        query.setNum(10);
-        List<BBSPostDTO> bbsPostDTOList_top = null;
+        accessLogDao.save("bbs/index.htm","论坛首页","",session);
+        return mav;
+    }
 
-        //普通帖子
-        query = new BBSPostQuery();
-        query.setCategoryId(categoryId);
-        query.setShowTop(0);
-        query.setStart(0);
-        query.setNum(pageBean.getRowsPerPage());
-        List<BBSPostDTO> bbsPostDTOList_normal = null;
-        pageBean.setMaxRowCount(0);
-        pageBean.setMaxPage();
-        pageBean.setPageNoList();
+    /**发帖子新增界面*/
+    @RequestMapping(value = "/post.htm", method = RequestMethod.GET)
+    public ModelAndView postShow(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        logger.info("[front] #postShow#" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("front/bbs/post-show");
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request, response, session));
 
-        //所在栏目
-        Category category = categoryDao.getById(categoryId);
 
-        //本栏目下帖子统计
-        //TODO
-
-        mav.addObject("bbsPostDTOList_top", bbsPostDTOList_top);
-        mav.addObject("bbsPostDTOList_normal", bbsPostDTOList_normal);
-        mav.addObject("category", category);
-
+        accessLogDao.save("bbs/index.htm","发帖子","",session);
         return mav;
     }
 
@@ -166,7 +140,7 @@ public class BBSFrontController extends BaseController {
             @PathVariable String postId,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #bbsDetail#" + request.getRequestURI());
-        ModelAndView mav = new ModelAndView("front/post-list");
+        ModelAndView mav = new ModelAndView("front/bbs/post-detail");
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request, response, session));
 
