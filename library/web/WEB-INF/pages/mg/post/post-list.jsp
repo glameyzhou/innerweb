@@ -10,7 +10,7 @@
 		$("#jvForm").validate();
 	});
 	function edit(postId){
-		window.location = '${basePath}mg/post/post-show.htm?postId='+postId;
+		window.location = '${basePath}mg/post/post-show.htm?postId='+postId + "&categoryId=${category.id}";
 	}
 	function del(postId){
 		if(!confirm("确定要删除?")){
