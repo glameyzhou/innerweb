@@ -2,6 +2,7 @@ package com.glamey.library.controller.front;
 
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.WebUtils;
+import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
 import com.glamey.library.dao.*;
@@ -9,13 +10,11 @@ import com.glamey.library.model.domain.BBSPost;
 import com.glamey.library.model.domain.BBSReply;
 import com.glamey.library.model.domain.Category;
 import com.glamey.library.model.domain.UserInfo;
-import com.glamey.library.model.dto.BBSAnalyzer;
-import com.glamey.library.model.dto.BBSPostDTO;
-import com.glamey.library.model.dto.BBSPostQuery;
-import com.glamey.library.model.dto.BBSReplyQuery;
+import com.glamey.library.model.dto.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +24,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -45,6 +45,10 @@ public class BBSFrontController extends BaseController {
     @Resource
     private AccessLogDao accessLogDao;
 
+    private static final int postTotal = 20;
+    private static final int postTopTotal = 5;
+    private static int postNormalTotal = 15;
+
     @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         logger.info("[front] #index#" + request.getRequestURI());
@@ -52,8 +56,48 @@ public class BBSFrontController extends BaseController {
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request, response, session));
 
+        List<BBSDTO> bbsdtoList = new ArrayList<BBSDTO>();
+        BBSDTO bbsdto = null;
+        List<Category> bbsCategoryList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_BBS,0,Integer.MAX_VALUE);
+        for (Category category : bbsCategoryList) {
+            //栏目帖子总量分析
+            BBSAnalyzer analyzer = bbsPostDao.getAnalyzer(category.getId());
+            //版主
+            UserInfo userInfo = bbsPostDao.getBBSManager(category.getId());
+            //每个栏目的帖子总量为20，其中置顶为5，普通为15.
+            //置顶帖子
+            BBSPostQuery query = new BBSPostQuery();
+            query.setCategoryId(category.getId());
+            query.setShowTop(1);
+            query.setStart(0);
+            query.setNum(postTopTotal);
+            List<BBSPostDTO> bbsPostDTOList_top = bbsPostDao.getPostDTOListByQuery(query);
 
-        accessLogDao.save("bbs/index.htm","论坛首页","",session);
+            //普通帖子(如果置顶帖子不够)
+            if (CollectionUtils.isEmpty(bbsPostDTOList_top) || bbsPostDTOList_top.size() < postTopTotal) {
+                postNormalTotal = postTotal - bbsPostDTOList_top.size();
+            }
+            query = new BBSPostQuery();
+            query.setCategoryId(category.getId());
+            query.setShowTop(0);
+            query.setStart(0);
+            query.setNum(postNormalTotal);
+            List<BBSPostDTO> bbsPostDTOList_normal = bbsPostDao.getPostDTOListByQuery(query);
+
+            bbsdto = new BBSDTO();
+            bbsdto.setCategory(category);
+            bbsdto.setAnalyzer(analyzer);
+            bbsdto.setBbsManager(userInfo);
+            bbsdto.setBbsPostDTOList_top(bbsPostDTOList_top);
+            bbsdto.setBbsPostDTOList_normal(bbsPostDTOList_normal);
+
+            bbsdtoList.add(bbsdto);
+        }
+
+        mav.addObject("bbsdtoList",bbsdtoList);
+
+
+        accessLogDao.save("bbs/index.htm","专题讨论区-首页","",session);
         return mav;
     }
 
@@ -87,6 +131,8 @@ public class BBSFrontController extends BaseController {
         }
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request, response, session));
+        //帖子类型："greate"精华
+        String type = WebUtils.getRequestParameterAsString(request,"type");
         //所在栏目
         Category category = categoryDao.getById(categoryId);
         //本栏目下帖子统计
@@ -96,10 +142,10 @@ public class BBSFrontController extends BaseController {
 
         //置顶帖子
         BBSPostQuery query = new BBSPostQuery();
-        query.setCategoryId(categoryId);
+        query.setCategoryId(category.getId());
         query.setShowTop(1);
         query.setStart(0);
-        query.setNum(10);
+        query.setNum(postTopTotal);
         List<BBSPostDTO> bbsPostDTOList_top = bbsPostDao.getPostDTOListByQuery(query);
 
         //普通帖子
@@ -107,14 +153,12 @@ public class BBSFrontController extends BaseController {
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);
         query = new BBSPostQuery();
-        query.setCategoryId(categoryId);
+        query.setCategoryId(category.getId());
         query.setShowTop(0);
         query.setStart(0);
         query.setNum(pageBean.getRowsPerPage());
-        String postType = WebUtils.getRequestParameterAsString(request,"postType","");
-        if (StringUtils.equals("great",postType))
+        if (StringUtils.equals("great",type))
             query.setShowGreat(1);
-
         List<BBSPostDTO> bbsPostDTOList_normal = bbsPostDao.getPostDTOListByQuery(query);
         pageBean.setMaxRowCount(bbsPostDao.getCountByQuery(query));
         pageBean.setMaxPage();
@@ -127,7 +171,10 @@ public class BBSFrontController extends BaseController {
 
         mav.addObject("bbsPostDTOList_top", bbsPostDTOList_top);
         mav.addObject("bbsPostDTOList_normal", bbsPostDTOList_normal);
-        mav.addObject("postType", postType);
+        mav.addObject("pageBean", pageBean);
+        mav.addObject("type", type);
+
+        accessLogDao.save("brand-{categoryId}.htm?type" + type,"专题讨论区-" + category.getName() + "列表",categoryId,session);
 
         return mav;
     }
@@ -141,11 +188,22 @@ public class BBSFrontController extends BaseController {
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #bbsDetail#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("front/bbs/post-detail");
+        if (StringUtils.isBlank(postId)) {
+            mav.addObject("message", "操作无效");
+            mav.setViewName("common/errorPage");
+            return mav;
+        }
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request, response, session));
-
+        //增加本主题的viewcount
+        bbsPostDao.addViewCount(postId);
         //主帖
         BBSPost bbsPost = bbsPostDao.getPostById(postId);
+        if (bbsPost == null) {
+            mav.addObject("message", "操作无效");
+            mav.setViewName("common/errorPage");
+            return mav;
+        }
 
         //回帖
         pageBean = new PageBean(Constants.rowsPerPageFront);
@@ -165,10 +223,11 @@ public class BBSFrontController extends BaseController {
         //帖子栏目
         Category category = categoryDao.getById(bbsPost.getCategoryId());
 
-        mav.addObject("bbsPost", bbsPost);
         mav.addObject("category", category);
+        mav.addObject("bbsPost", bbsPost);
         mav.addObject("bbsReplyList", bbsReplyList);
         mav.addObject("pageBean", pageBean);
+        mav.addObject("pageURL", "bbs/post-" + postId + ".htm?curPage=" + curPage);
 
         return mav;
     }

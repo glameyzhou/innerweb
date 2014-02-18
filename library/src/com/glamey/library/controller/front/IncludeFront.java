@@ -137,7 +137,7 @@ public class IncludeFront {
         query.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
         query.setOrderType(Constants.ORDERBYDESC);
         query.setStart(0);
-        query.setNum(4);
+        query.setNum(6);
         List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);
         map.put("includePostList",libraryInfoList);
 

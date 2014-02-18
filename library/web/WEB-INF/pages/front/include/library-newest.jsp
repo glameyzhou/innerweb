@@ -51,7 +51,8 @@
                     </c:otherwise>
                 </c:choose>
                 <li style="height: 25px;padding-left: 6px;width:260px;">
-                    <img src="${basePath}res/front/library/images/notice_list.png" style="float: left;"/>&nbsp;<a style="float: left;display:block;width: 205px;white-space:nowrap;word-break:keep-all;overflow:hidden;text-overflow:ellipsis;" title="${libNewest.name}" ${libHref}>${libNewest.name}</a>
+                    <%--<img src="${basePath}res/front/library/images/notice_list.png" style="float: left;"/>&nbsp;--%>
+                    <a style="float: left;display:block;width: 230px;white-space:nowrap;word-break:keep-all;overflow:hidden;text-overflow:ellipsis;" title="${libNewest.name}" ${libHref}>${libNewest.name}</a>
                     <c:if test="${libNewest.showisNew == 1}"><img src="${basePath}res/front/library/images/new.gif" style="float: left;"/></c:if>
                 </li>
                 <c:if test="${index.count % 5 == 0}">

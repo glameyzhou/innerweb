@@ -121,7 +121,7 @@ public class BBSPostDao extends BaseDao {
         logger.info("[BBSPostDao] #addViewCount# postId=" + postId);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_bbs_post set view_count= viw_count + 1 where id = ?",
+                    "update tbl_bbs_post set view_count= view_count + 1 where id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -600,7 +600,7 @@ public class BBSPostDao extends BaseDao {
             info.setShowTop(rs.getInt("show_top"));
             info.setShowGreat(rs.getInt("show_great"));
             info.setShowPopular(rs.getInt("show_popular"));
-            info.setPostUpdateTime(rs.getTime("update_time"));
+            info.setPostUpdateTime(rs.getTimestamp("update_time"));
             info.setViewCount(rs.getInt("view_count"));
             info.setReplyCount(rs.getInt("reply_count"));
 
@@ -610,7 +610,7 @@ public class BBSPostDao extends BaseDao {
             query.setStart(0);
             query.setNum(1);
             List<BBSReply> bbsReplyList = bbsReplyDao.getByQuery(query);
-            if (CollectionUtils.isEmpty(bbsReplyList)) {
+            if (!CollectionUtils.isEmpty(bbsReplyList)) {
                 BBSReply reply = bbsReplyList.get(0);
                 info.setLastReplyUserId(reply.getUserId());
                 info.setLastReplyUserInfo(reply.getUserInfo());

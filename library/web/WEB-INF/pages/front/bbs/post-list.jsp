@@ -11,8 +11,8 @@
     <link href="${basePath}res/front/library/css/style.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/library/css/header.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css" />
+    <link href="${basePath}res/front/library/css/bbs.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
-
 </head>
 <body>
 <div class="box">
@@ -29,49 +29,70 @@
         <!--左半边代码结束-->
         <!--右半边代码开始-->
         <div class="center_right">
-            <div class="neirong">
-                <div class="neirong_tit">${category.name}&nbsp;<c:if test="${postType eq 'great'}"><font color="red">精华</font></c:if></div>
-                <p style="margin-left: 20px;">
-                    ${analyzer.postCount} 主题 / ${analyzer.postReplyCount} 帖子 / ${analyzer.todayPostReplyCount} 今日帖子&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="${basePath}bbs/brand-${category.id}.htm?postType=great">精华</a>&nbsp;&nbsp;&nbsp;&nbsp;版主：
-                    <c:choose>
-                        <c:when test="${empty bbsManager.nickname}">暂无</c:when>
-                        <c:otherwise>${bbsManager.nickname}</c:otherwise>
-                    </c:choose>
-                </p>
-                <div class="neiye_right_con">
-                    <table cellpadding="0" cellspacing="0" border="1">
-                        <tr align="center">
-                            <th width="60%">标题</th>
-                            <th width="15%">作者</th>
-                            <th width="10%">回复/查看</th>
-                            <th width="15%">最后发表</th>
+            <div class="right-meitan">
+                <div class="right-meitan-tit">
+                    <ul>
+                        <li><a href="${basePath}bbs/brand-${category.id}.htm" style="font-weight: bold;font-size: 14px;">${category.name}</a></li>
+                        <li style=" padding-left:20px;">[<span class="colorju">${analyzer.postCount}</span>主题/${analyzer.postReplyCount}帖子/${analyzer.todayPostReplyCount}今日帖子]</li>
+                        <li style="padding-left:20px;">
+                            <img src="${basePath}res/front/library/images/right-2.jpg" align="absmiddle"/>
+                            <a href="${basePath}bbs/brand-${category.id}.htm?type=great">精华</a>
+                        </li>
+                        <li style=" padding-left:50px;">版主：
+                                <span class="colorbule">
+                                    <c:choose>
+                                        <c:when test="${bbsManager == null or empty bbsManager.nickname}">空缺</c:when>
+                                        <c:otherwise>${bbsManager.nickname}</c:otherwise>
+                                    </c:choose>
+                                </span>
+                        </li>
+                        <li>
+                            <div class="menu">
+                                <ul>
+                                    <li><a class="hide" href="javascript:void(0)"></a>
+                                        <ul>
+                                            <li><a href="${basePath}bbs/post.htm?categoryId=${category.id}">只发文字</a></li>
+                                            <li><a href="javascript:void(0)">发起投票</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <p></p>
+                <div class="clear"></div>
+                <div class="right-tiezi">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <th style="padding-left:50px;">标题</th>
+                            <th>作者</th>
+                            <th>查看/回复</th>
+                            <th>最后发表</th>
                         </tr>
                         <c:forEach var="post" items="${bbsPostDTOList_top}">
-                            <tr align="center">
+                            <tr>
                                 <td>
                                     <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,30 ,'...' )}</a>
                                 </td>
-                                <td>${post.userInfo.nickname}<br/><fmt:formatDate value="${post.postUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                                <td>${post.replyCount}/${post.viewCount}</td>
-                                <td>${post.lastReplyUserInfo.nickname}<br/><fmt:formatDate value="${post.lastReplyUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                <td>${post.userInfo.nickname}<br/><span class="colorhui"><fmt:formatDate value="${post.postUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></td>
+                                <td><span class="colorbule">${post.viewCount}</span>/${post.replyCount}</td>
+                                <td>${post.lastReplyUserInfo.nickname}<br /><span class="colorhui"><fmt:formatDate value="${post.lastReplyUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></td>
                             </tr>
                         </c:forEach>
-                        <tr align="center">
-                            <td colspan="4"></td>
-                        </tr>
+
                         <c:forEach var="post" items="${bbsPostDTOList_normal}">
-                            <tr align="center">
+                            <tr>
                                 <td>
                                     <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,30 ,'...' )}</a>
                                 </td>
-                                <td>${post.userInfo.nickname}<br/><fmt:formatDate value="${post.postUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                                <td>${post.replyCount}/${post.viewCount}</td>
-                                <td>${post.lastReplyUserInfo.nickname}<br/><fmt:formatDate value="${post.lastReplyUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                                <td>${post.userInfo.nickname}<br/><span class="colorhui"><fmt:formatDate value="${post.postUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></td>
+                                <td><span class="colorbule">${post.viewCount}</span>/${post.replyCount}</td>
+                                <td>${post.lastReplyUserInfo.nickname}<br /><span class="colorhui"><fmt:formatDate value="${post.lastReplyUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></td>
                             </tr>
                         </c:forEach>
                     </table>
-                    <c:set var="pageURL" value="${basePath}bbs/brand-${category.id}.htm?postType=${postType}&"/>
+                    <c:set var="pageURL" value="${basePath}bbs/brand-${category.id}.htm?type=${type}&"/>
                     <%@include file="../../common/pages-front.jsp" %>
                 </div>
             </div>
