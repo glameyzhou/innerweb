@@ -141,9 +141,10 @@
 
     <%--<li><a href="javascript:divDisplay('bbs_div');">论坛管理</a></li>
     <ul id="bbs_div" style="display: none">
-        <li><a href="${basePath}mg/bbs/post-list.htm?categoryId=VvAnyy" target="mainFrame">煤炭清洁利用-主帖管理</a></li>
-        <li><a href="${basePath}mg/bbs/post-list.htm?categoryId=Evmqey" target="mainFrame">区域能源-主帖管理</a></li>
         <li><a href="${basePath}mg/bbs/brand-manager.htm" target="mainFrame">版主设置</a></li>
+        <c:forEach var="bbs" items="${categoryBBSList}">
+            <li><a href="${basePath}mg/bbs/post-list.htm?categoryId=${bbs.id}" target="mainFrame">煤炭清洁利用-主帖管理</a></li>
+        </c:forEach>
     </ul>--%>
 </ul>
 </body>

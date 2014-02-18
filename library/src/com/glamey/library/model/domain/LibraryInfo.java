@@ -72,7 +72,7 @@ public class LibraryInfo implements Serializable {
     private int showSugguest = 1;
 
     /**
-     * 是否为最近一周的图书
+     * 是否为最近一周的图书(用来显示标题前边的new字眼)
      */
     private int showisNew = 0;
 
@@ -80,6 +80,11 @@ public class LibraryInfo implements Serializable {
      * 最后更新时间
      */
     private Date updateTime ;
+
+    /**
+     * 近期收录模块使用 （1=是 0=否）
+     */
+    private int showRecent;
 
     public String getId() {
         return id;
@@ -215,6 +220,14 @@ public class LibraryInfo implements Serializable {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public int getShowRecent() {
+        return showRecent;
+    }
+
+    public void setShowRecent(int showRecent) {
+        this.showRecent = showRecent;
     }
 
     @Override

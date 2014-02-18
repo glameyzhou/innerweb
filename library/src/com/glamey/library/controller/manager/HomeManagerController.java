@@ -155,6 +155,10 @@ public class HomeManagerController extends BaseController {
 
         mav.addObject("libraryInfoDTOList",libraryInfoDTOList);
 
+        /*专题讨论区*/
+        List<Category> categoryBBSList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_BBS,0,Integer.MAX_VALUE);
+        mav.addObject("categoryBBSList",categoryBBSList);
+
         return mav ;
     }
 

@@ -224,16 +224,17 @@ public class IndexFrontController extends BaseController {
         //常用链接管理
         mav.addAllObjects(includeFront.ofenLinks());
 
-        //最新荐读（所有分类中的倒序排列top10）
+        //近期收录（所有分类中的倒序排列top10）
         List<LibraryInfo> libraryInfoNewestList = new ArrayList<LibraryInfo>(10);
         LibraryQuery libraryQuery = new LibraryQuery();
         libraryQuery.setShowSugguest(1);
         libraryQuery.setShowIndex(1);
+        libraryQuery.setShowRecent(1);
         libraryQuery.setNum(10);
         libraryQuery.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
         libraryQuery.setOrderType(Constants.ORDERBYDESC);
-//        libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
-        libraryInfoNewestList = libraryInfoDao.getFilterByQuery(libraryQuery);
+        libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
+//        libraryInfoNewestList = libraryInfoDao.getFilterByQuery(libraryQuery);
         mav.addObject("libraryInfoNewestList",libraryInfoNewestList);
 
 

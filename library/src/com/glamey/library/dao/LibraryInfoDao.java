@@ -48,8 +48,8 @@ public class LibraryInfoDao extends BaseDao {
         logger.info("[LibraryInfoDao] #create# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_library(lib_id,lib_category_id,lib_type,lib_name,lib_author,lib_source,lib_focusimage,lib_url,lib_content,lib_image,lib_time,lib_order,lib_showindex,lib_sugguest,lib_update_time) " +
-                            " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,now())",
+                    "insert into tbl_library(lib_id,lib_category_id,lib_type,lib_name,lib_author,lib_source,lib_focusimage,lib_url,lib_content,lib_image,lib_time,lib_order,lib_showindex,lib_sugguest,lib_recent,lib_update_time) " +
+                            " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,now())",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -68,6 +68,8 @@ public class LibraryInfoDao extends BaseDao {
                             pstmt.setInt(++i, info.getOrder());
                             pstmt.setInt(++i, info.getShowIndex());
                             pstmt.setInt(++i, info.getShowSugguest());
+                            pstmt.setInt(++i, info.getShowRecent());
+
                         }
                     });
             return count > 0;
@@ -85,7 +87,7 @@ public class LibraryInfoDao extends BaseDao {
         logger.info("[LibraryInfoDao] #update# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_library set lib_category_id=?,lib_type=?,lib_name=?,lib_author=?,lib_source=?,lib_focusimage=?,lib_url=?,lib_content=?,lib_image=?,lib_order = ?,lib_showindex=?,lib_sugguest=?,lib_time=?,lib_update_time = now() where lib_id = ?",
+                    "update tbl_library set lib_category_id=?,lib_type=?,lib_name=?,lib_author=?,lib_source=?,lib_focusimage=?,lib_url=?,lib_content=?,lib_image=?,lib_order = ?,lib_showindex=?,lib_sugguest=?,lib_recent=?,lib_time=?,lib_update_time = now() where lib_id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -102,6 +104,7 @@ public class LibraryInfoDao extends BaseDao {
                             pstmt.setInt(++i, info.getOrder());
                             pstmt.setInt(++i, info.getShowIndex());
                             pstmt.setInt(++i, info.getShowSugguest());
+                            pstmt.setInt(++i, info.getShowRecent());
                             pstmt.setTimestamp(++i, new Timestamp(info.getTime().getTime()));
                             pstmt.setString(++i, info.getId());
                         }
@@ -125,6 +128,9 @@ public class LibraryInfoDao extends BaseDao {
             }
             if (StringUtils.equals(category, "index")) {
                 sql = "update tbl_library set lib_showindex=?,lib_update_time = now() where lib_id = ?";
+            }
+            if (StringUtils.equals(category, "recent")) {
+                sql = "update tbl_library set lib_recent=?,lib_update_time = now() where lib_id = ?";
             }
             if (StringUtils.isNotBlank(sql) && !CollectionUtils.isEmpty(libraryInfoList))
                 jdbcTemplate.batchUpdate(
@@ -240,6 +246,9 @@ public class LibraryInfoDao extends BaseDao {
             if (query.getShowSugguest() > -1)
                 sql.append(" and lib_sugguest = ? ");
 
+            if (query.getShowRecent() > -1)
+                sql.append(" and lib_recent = ? ");
+
             if (StringUtils.isNotBlank(query.getOrderColumnName()) && StringUtils.isNotBlank(query.getOrderType())) {
                 sql.append(" order by ").append(query.getOrderColumnName()).append(query.getOrderType());
             } else {
@@ -282,6 +291,9 @@ public class LibraryInfoDao extends BaseDao {
 
                             if (query.getShowSugguest() > -1)
                                 preparedstatement.setInt(++i, query.getShowSugguest());
+
+                            if (query.getShowRecent() > -1)
+                                preparedstatement.setInt(++i, query.getShowRecent());
 
 
                             preparedstatement.setInt(++i, query.getStart());
@@ -351,6 +363,11 @@ public class LibraryInfoDao extends BaseDao {
                 params.add(query.getShowSugguest());
             }
 
+            if (query.getShowRecent() > -1) {
+                sql.append(" and lib_recent = ? ");
+                params.add(query.getShowRecent());
+            }
+
             count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
         } catch (Exception e) {
             logger.error("[LibraryInfoDao] #getCountByQuery# error! query=" + query, e);
@@ -404,6 +421,9 @@ public class LibraryInfoDao extends BaseDao {
             if (query.getShowSugguest() > -1)
                 sql.append(" and lib_sugguest = ? ");
 
+            if (query.getShowRecent() > -1)
+                sql.append(" and lib_recent = ? ");
+
             if (StringUtils.isNotBlank(query.getOrderColumnName()) && StringUtils.isNotBlank(query.getOrderType())) {
                 sql.append(" order by ").append(query.getOrderColumnName()).append(query.getOrderType());
             } else {
@@ -446,6 +466,9 @@ public class LibraryInfoDao extends BaseDao {
 
                             if (query.getShowSugguest() > -1)
                                 preparedstatement.setInt(++i, query.getShowSugguest());
+
+                            if (query.getShowRecent() > -1)
+                                preparedstatement.setInt(++i, query.getShowRecent());
 
 
                             preparedstatement.setInt(++i, query.getStart());
@@ -521,6 +544,11 @@ public class LibraryInfoDao extends BaseDao {
                 params.add(query.getShowSugguest());
             }
 
+            if (query.getShowRecent() > -1) {
+                sql.append(" and lib_recent = ? ");
+                params.add(query.getShowRecent());
+            }
+
             count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
         } catch (Exception e) {
             logger.error("[LibraryInfoDao] #getCountByQuery# error! query=" + query, e);
@@ -551,6 +579,7 @@ public class LibraryInfoDao extends BaseDao {
             info.setOrder(rs.getInt("lib_order"));
             info.setShowIndex(rs.getInt("lib_showindex"));
             info.setShowSugguest(rs.getInt("lib_sugguest"));
+            info.setShowRecent(rs.getInt("lib_recent"));
             info.setUpdateTime(rs.getTimestamp("lib_update_time"));
             Category category = categoryDao.getById(info.getCategoryId());
             info.setCategory(category);

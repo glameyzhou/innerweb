@@ -147,15 +147,22 @@ public class LibraryFrontController extends BaseController {
         pageBean.setCurPage(curPage);
 
         LibraryQuery libraryQuery = new LibraryQuery();
-        libraryQuery.setCategoryId(categoryId);
         libraryQuery.setShowIndex(1);
         libraryQuery.setShowSugguest(1);
         libraryQuery.setStart(pageBean.getStart());
         libraryQuery.setNum(pageBean.getRowsPerPage());
         libraryQuery.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
         libraryQuery.setOrderType(Constants.ORDERBYDESC);
-        List<LibraryInfo> libraryInfoNewestList = StringUtils.isNotBlank(src) ? libraryInfoDao.getByQuery(libraryQuery) : libraryInfoDao.getFilterByQuery(libraryQuery);
-        pageBean.setMaxRowCount(StringUtils.isNotBlank(src) ? libraryInfoDao.getCountByQuery(libraryQuery) : libraryInfoDao.getCountFileterByQuery(libraryQuery));
+        /*List<LibraryInfo> libraryInfoNewestList = StringUtils.isNotBlank(src) ? libraryInfoDao.getByQuery(libraryQuery) : libraryInfoDao.getFilterByQuery(libraryQuery);
+        pageBean.setMaxRowCount(StringUtils.isNotBlank(src) ? libraryInfoDao.getCountByQuery(libraryQuery) : libraryInfoDao.getCountFileterByQuery(libraryQuery));*/
+        //如果是左侧过来的数据，直接查询对应的栏目“行业资讯”，反之查询所有的图书内容（最新收录类型的）
+        if (StringUtils.isNotBlank(src))
+            libraryQuery.setCategoryId(categoryId);
+        else
+            libraryQuery.setShowRecent(1);
+
+        List<LibraryInfo> libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
+        pageBean.setMaxRowCount(libraryInfoDao.getCountByQuery(libraryQuery));
         pageBean.setMaxPage();
         pageBean.setPageNoList();
 

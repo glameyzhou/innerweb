@@ -113,7 +113,12 @@
             <option value="-1">请选择</option>
             <option value="0" <c:if test="${query.showSugguest == 0}">selected="selected"</c:if>>否</option>
             <option value="1" <c:if test="${query.showSugguest == 1}">selected="selected"</c:if>>是</option>
-        </select>&nbsp;&nbsp;--%><br/>
+        </select>&nbsp;&nbsp;--%>
+        近期收录&nbsp;<select id="showRecent" name="showRecent">
+            <option value="-1">请选择</option>
+            <option value="0" <c:if test="${query.showRecent == 0}">selected="selected"</c:if>>否</option>
+            <option value="1" <c:if test="${query.showRecent == 1}">selected="selected"</c:if>>是</option>
+        </select>&nbsp;&nbsp;<br/>
         栏目分类&nbsp;<select id="categoryId" name="categoryId">
         <option value="">请选择</option>
         <c:forEach var="cate" items="${children}">
@@ -141,6 +146,8 @@
             <a href="javascript:setSelectContent('id','suggest',0,'${category.id}');">取消最新推荐</a>&nbsp;&nbsp;--%>
             <a href="javascript:setSelectContent('id','focus',1,'${category.id}');">设置焦点图</a>&nbsp;&nbsp;
             <a href="javascript:setSelectContent('id','focus',0,'${category.id}');">取消焦点图</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('id','recent',1,'${category.id}');">设置近期收录</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('id','recent',0,'${category.id}');">取消近期收录</a>&nbsp;&nbsp;
         </div>
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
@@ -149,6 +156,7 @@
                 <th width="3%">排序</th>
                 <th width="5%">首页显示</th>
                 <%--<th width="5%">推荐</th>--%>
+                <th width="5%">近期收录</th>
                 <th width="5%">焦点图</th>
                 <th width="7%">类型</th>
                 <th width="15%">分类</th>
@@ -169,6 +177,9 @@
                     <%--<td align="center">
                         <c:if test="${lib.showSugguest==1}">是</c:if><c:if test="${lib.showSugguest==0}">否</c:if>
                     </td>--%>
+                    <td align="center">
+                        <c:if test="${lib.showRecent==1}">是</c:if><c:if test="${lib.showRecent==0}">否</c:if>
+                    </td>
                     <td align="center">
                         <c:if test="${lib.showFocusimage==1}">是</c:if><c:if test="${lib.showFocusimage==0}">否</c:if>
                     </td>
@@ -196,7 +207,7 @@
             </tbody>
         </table>
         <c:set var="pageURL"
-               value="${basePath}mg/library/library-list.htm?showIndex=${query.showIndex}&categoryId=${query.categoryId}&keyword=${fmtString:encoder(query.keyword)}&type=${query.type}&showSugguest=${query.showSugguest}&"/>
+               value="${basePath}mg/library/library-list.htm?showIndex=${query.showIndex}&categoryId=${query.categoryId}&keyword=${fmtString:encoder(query.keyword)}&type=${query.type}&showSugguest=${query.showSugguest}&showRecent=${query.showRecent}&"/>
         <%@include file="../../common/pages.jsp" %>
     </form>
 </div>

@@ -20,6 +20,7 @@ public class LibraryQuery implements Serializable {
     private int showImage = -1;
     private int showIndex = -1 ;
     private int showFouceImage = -1 ;
+    private int showRecent = -1;
     private int start;
     private int num;
 
@@ -40,6 +41,14 @@ public class LibraryQuery implements Serializable {
      * 是否为推荐阅读
      */
     private int showSugguest = -1;
+
+    public int getShowRecent() {
+        return showRecent;
+    }
+
+    public void setShowRecent(int showRecent) {
+        this.showRecent = showRecent;
+    }
 
     public String getKeyword() {
         return keyword;

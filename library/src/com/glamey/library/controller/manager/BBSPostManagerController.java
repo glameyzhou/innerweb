@@ -10,6 +10,7 @@ import com.glamey.library.model.dto.BBSReplyQuery;
 import com.glamey.library.model.dto.LibraryQuery;
 import com.glamey.library.util.DateUtils;
 import com.glamey.library.util.WebUploadUtils;
+import org.apache.commons.collections.map.LinkedMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
@@ -26,10 +27,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 论坛帖子后台管理
@@ -154,15 +152,14 @@ public class BBSPostManagerController extends BaseController {
     @RequestMapping(value = "/brand-manager.htm", method = RequestMethod.GET)
     public ModelAndView brandManagerShow() {
         ModelAndView mav = new ModelAndView("mg/bbs/brand-manager");
-        UserInfo userInfo1 = bbsPostDao.getBBSManager(CategoryConstants.CATEGORY_BBS_MEITANQINGJIELIYONG);
-        UserInfo userInfo2 = bbsPostDao.getBBSManager(CategoryConstants.CATEGORY_BBS_QUYUNENGYUAN);
 
-        Category category1 = categoryDao.getBySmpleId(CategoryConstants.CATEGORY_BBS_MEITANQINGJIELIYONG);
-        Category category2 = categoryDao.getBySmpleId(CategoryConstants.CATEGORY_BBS_QUYUNENGYUAN);
-        mav.addObject("userInfo1",userInfo1);
-        mav.addObject("userInfo2",userInfo2);
-        mav.addObject("category1",category1);
-        mav.addObject("category2",category2);
+        Map<Category,UserInfo> result = new LinkedHashMap<Category, UserInfo>();
+        List<Category> bbsCategoryList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_BBS,0,Integer.MAX_VALUE);
+        for (Category category : bbsCategoryList) {
+            UserInfo userInfo = bbsPostDao.getBBSManager(category.getId());
+            result.put(category,userInfo);
+        }
+        mav.addObject("result",result);
         return mav;
     }
 

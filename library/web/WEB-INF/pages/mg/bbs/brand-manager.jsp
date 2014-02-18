@@ -30,16 +30,15 @@
             </tr>
             </thead>
             <tbody class="pn-ltbody">
-                <tr align="center">
-                    <td><a href="${basePath}bbs/brand-${category1.id}.htm" target="_blank">${category1.name}</a></td>
-                    <td>${userInfo1.nickname}</td>
-                    <td><a href="${basePath}mg/user/user-list.htm?brandId=${category1.id}">设置版主</a></td>
-                </tr>
-                <tr align="center">
-                    <td><a href="${basePath}bbs/brand-${category2.id}.htm" target="_blank">${category2.name}</a></td>
-                    <td>${userInfo2.nickname}</td>
-                    <td><a href="${basePath}mg/user/user-list.htm?brandId=${category2.id}">设置版主</a></td>
-                </tr>
+                <c:forEach var="result" items="${result}">
+                    <c:set var="category" value="${result.key}"/>
+                    <c:set var="userinfo" value="${result.value}"/>
+                    <tr align="center">
+                        <td><a href="${basePath}bbs/brand-${category.id}.htm" target="_blank">${category.name}</a></td>
+                        <td>${userinfo.nickname}</td>
+                        <td><a href="${basePath}mg/user/user-list.htm?brandId=${category.id}">设置版主</a></td>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
     </form>

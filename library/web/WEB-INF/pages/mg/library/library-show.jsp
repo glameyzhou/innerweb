@@ -133,6 +133,12 @@
                 <option value="0" <c:if test="${lib.showSugguest == 0}">selected="selected"</c:if>>否</option>
             </select>
             <br/><br/>--%>
+            <font color="red">近期收录</font>
+            <select id="showRecent" name="showRecent">
+                <option value="1" <c:if test="${lib.showRecent == 1}">selected="selected"</c:if>>是</option>
+                <option value="0" <c:if test="${lib.showRecent == 0}">selected="selected"</c:if>>否</option>
+            </select>
+            <br/><br/>
             <font color="red">排序&nbsp;&nbsp;&nbsp;&nbsp;</font>
             <input type="text" name="order" id="order" value="${lib.order}"/><font color="red">数字越大越靠前</font>
             <br/><br/>
