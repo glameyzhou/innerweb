@@ -7,6 +7,20 @@
 <%@ page import="com.glamey.framework.utils.StringTools" %>
 <%@ page import="com.glamey.library.constants.Constants" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<style type="text/css">
+    /*.postTitle_li {
+        width: 260px;
+    }*/
+    .postTitle_a{
+        display:block;
+        float: left;
+        width: 215px;
+        white-space: nowrap;
+        word-break: keep-all;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
 <div class="notice">
     <div class="notice_top" onclick="javascript:window.location='${basePath}library-newest.htm?categoryId=EnQnii&src=left';"
          onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='default'" style="color: rgb(0, 0, 255); font-weight: bold;">最新荐读</div>
@@ -34,9 +48,8 @@
                             libHref = "href=\"" + request.getContextPath() + "library-detail-" + info.getId() + ".htm\"";
                         }
                     }
-                    Date libTime = info.getTime();
              %>
-                <li><a <%=libHref%> title="<%=info.getName()%>" <%=DateUtils.isDiffDays(3,libTime) ? "style=\"color: #0000ff;\"" : ""%>><%=StringTools.substring(info.getName(), 17, "...")%></a></li>
+                <li><a class="postTitle_a" <%=libHref%> title="<%=info.getName()%>"><%=info.getName()%></a></li>
              <%
                 }
             %>

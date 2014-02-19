@@ -53,8 +53,8 @@
         <!--右半边代码开始-->
         <div class="center_right">
             <div class="neirong">
-                <div class="neirong_tit">${libraryInfo.name}</div>
-                <div class="seat" style="font-weight: bold">${libraryInfo.category.categoryParent.name} >> ${libraryInfo.category.name}</div>
+                <div class="neirong_tit" style="font-size: 14px;text-align: left;font-weight: normal;">${libraryInfo.category.categoryParent.name} >> ${libraryInfo.category.name}</div>
+                <div class="seat" style="font-weight: bold;text-align: center;">${libraryInfo.name}</div>
                 <p style="text-align: right">
                     <c:if test="${not empty libraryInfo.author}">发布人：${libraryInfo.author}</c:if>&nbsp;&nbsp;
                     <c:if test="${not empty libraryInfo.source}">来源：${libraryInfo.source}</c:if>&nbsp;&nbsp;
