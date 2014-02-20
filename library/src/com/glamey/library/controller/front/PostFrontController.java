@@ -19,6 +19,7 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -141,11 +142,12 @@ public class PostFrontController extends BaseController {
         query.setStartTime(DateFormatUtils.format(DateUtils.getDay(new Date(),-7),"yyyy-MM-dd HH:mm:ss"));
         query.setEndTime(DateFormatUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
         query.setStart(0);
-        query.setNum(15);
+        query.setNum(1); //修改为仅仅查询出来最后一条，标题正文直接显示在弹出的DIV中
         query.setCategoryId(CategoryConstants.CATEGORY_TONGZHIGONGGAO);
 
         List<Post> postList = postDao.getPostList(query);
         mav.addObject("postList", postList);
+        mav.addObject("post", CollectionUtils.isEmpty(postList) ? new Post() : postList.get(0));
 
         return mav;
     }

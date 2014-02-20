@@ -159,7 +159,6 @@ public class AccessLogDao extends BaseDao {
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
 
-                            System.out.println(preparedstatement.toString());
                         }
                     },
                     new AccessLogRowMapper());

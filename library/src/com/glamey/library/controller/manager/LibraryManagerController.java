@@ -54,12 +54,14 @@ public class LibraryManagerController extends BaseController {
     public ModelAndView categoryList(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("mg/library/category-list");
         String pid = WebUtils.getRequestParameterAsString(request, "pid", "0");
+        String type = WebUtils.getRequestParameterAsString(request, "type", CategoryConstants.CATEGORY_LIBRARY);
         Category pCategory = new Category();
         if (!StringUtils.equalsIgnoreCase(pid, "0")) {
             pCategory = categoryDao.getById(pid);
         }
-        List<Category> categoryList = categoryDao.getByParentId(pid, CategoryConstants.CATEGORY_LIBRARY, 0, Integer.MAX_VALUE);
+        List<Category> categoryList = categoryDao.getByParentId(pid, type, 0, Integer.MAX_VALUE);
         mav.addObject("pid", pid);
+        mav.addObject("type", type);
         mav.addObject("pCategory", pCategory);
         mav.addObject("categoryList", categoryList);
         return mav;
@@ -70,6 +72,7 @@ public class LibraryManagerController extends BaseController {
     public ModelAndView categoryShow(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("mg/library/category-show");
         String pid = WebUtils.getRequestParameterAsString(request, "pid");
+        String type = WebUtils.getRequestParameterAsString(request, "type", CategoryConstants.CATEGORY_LIBRARY);
         String id = WebUtils.getRequestParameterAsString(request, "id");
         String opt = "create";
         Category category = new Category();
@@ -80,6 +83,7 @@ public class LibraryManagerController extends BaseController {
         mav.addObject("category", category);
         mav.addObject("opt", opt);
         mav.addObject("pid", pid);
+        mav.addObject("type", type);
         return mav;
     }
 
@@ -88,6 +92,7 @@ public class LibraryManagerController extends BaseController {
     public ModelAndView categoryCreate(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("common/message");
         String pid = WebUtils.getRequestParameterAsString(request, "pid");
+        String type = WebUtils.getRequestParameterAsString(request, "type", CategoryConstants.CATEGORY_LIBRARY);
         String name = WebUtils.getRequestParameterAsString(request, "name");
         String aliasName = Pinyin4jUtils.getPinYin(name);
         String shortName = WebUtils.getRequestParameterAsString(request, "shortName");
@@ -106,7 +111,7 @@ public class LibraryManagerController extends BaseController {
         category.setShowInTree(showInTree);
         category.setTreeOrder(treeorder);
         category.setCategoryOrder(categoryOrder);
-        category.setCategoryType(CategoryConstants.CATEGORY_LIBRARY);
+        category.setCategoryType(type);
         category.setCategoryTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
         category.setHasChild(0);
 
@@ -115,7 +120,7 @@ public class LibraryManagerController extends BaseController {
         if (StringUtils.isNotBlank(uniqueId)) {
             category = categoryDao.getById(uniqueId);
             mav.addObject("message", "分类添加成功");
-            mav.addObject("href", "mg/library/category-list.htm?pid=" + category.getParentId());
+            mav.addObject("href", "mg/library/category-list.htm?pid=" + category.getParentId() + "&type=" + type);
         } else {
             mav.addObject("message", "分类添加失败,请重试");
         }
@@ -132,6 +137,7 @@ public class LibraryManagerController extends BaseController {
             return mav;
         }
         String pid = WebUtils.getRequestParameterAsString(request, "pid");
+        String type = WebUtils.getRequestParameterAsString(request, "type", CategoryConstants.CATEGORY_LIBRARY);
         String name = WebUtils.getRequestParameterAsString(request, "name");
         String aliasName = Pinyin4jUtils.getPinYin(name);
         String shortName = WebUtils.getRequestParameterAsString(request, "shortName");
@@ -150,11 +156,12 @@ public class LibraryManagerController extends BaseController {
         category.setShowInTree(showInTree);
         category.setTreeOrder(treeorder);
         category.setCategoryOrder(categoryOrder);
-        category.setCategoryType(CategoryConstants.CATEGORY_LIBRARY);
+        category.setCategoryType(type);
         boolean result = categoryDao.update(category);
         if (result) {
             mav.addObject("message", "分类修改成功");
-            mav.addObject("href", "mg/library/category-list.htm?pid=" + category.getParentId());
+//            mav.addObject("href", "mg/library/category-list.htm?pid=" + category.getParentId());
+            mav.addObject("href", "mg/library/category-list.htm?pid=" + category.getParentId() + "&type=" + type);
         } else {
             mav.addObject("message", "分类修改失败,请重试");
         }

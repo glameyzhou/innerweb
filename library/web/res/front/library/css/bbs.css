@@ -69,6 +69,14 @@ h2 {
     font-weight: bold
 }
 
+.width180 {
+    width: 180px;
+}
+
+.width100 {
+    width: 100px;
+}
+
 .center-right p {
     width: 700px;
     margin: 0 auto;
@@ -123,8 +131,6 @@ h2 {
     width: 90px;
     margin: 0;
     margin: 10px 0;
-    margin-left: 130px;
-    _margin-left: 130px;
 }
 
 .menu ul {
@@ -269,7 +275,7 @@ h2 {
 /*内页添加代码 END*/
 /*发表新帖子*/
 .tiezi-text {
-    width: 350px;
+    width: 250px;
     height: 20px;
     border-top: 1px solid #999;
     border-left: 1px solid #999;

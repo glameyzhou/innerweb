@@ -70,11 +70,16 @@
 	</div>
 	<form action="${basePath}mg/sys/accessLog/list.htm" method="get" style="padding-top:5px;">
 		<div>
+            <input type="hidden" name="userId" id="userId" value="${query.userId}"/>
+            <input type="hidden" name="categoryId" id="categoryId" value="${query.categoryId}"/>
 			开始&nbsp;<input type="text" maxlength="100" name="startTime" id="startTime" class="required" size="18" value="${query.accessStartTime}"
 					onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;
 			结束&nbsp;<input type="text" maxlength="100" name="endTime" id="endTime" class="required" size="18" value="${query.accessEndTime}"
 					onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;
 			<input type="submit" value="查询">
+            <c:if test="${not empty query.userId}">
+                &nbsp;&nbsp;<input type="button" value="所有人" onclick="javascript:window.location='${basePath}mg/sys/accessLog/list.htm';">
+            </c:if>
 		</div>
 		<table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
 			<thead class="pn-lthead">
@@ -93,13 +98,13 @@
 				<%--<td align="center">${log.id}</td>--%>
 				<td align="center">
                     <c:if test="${not empty log.userId}">
-                        <a href="${basePath}mg/sys/accessLog/list.htm?userId=${log.userId}">${log.userInfo.nickname}</a>
+                        <a href="${basePath}mg/sys/accessLog/list.htm?userId=${log.userId}&categoryId=${query.categoryId}&startTime=${fmtString:encoder(query.accessStartTime)}&endTime=${fmtString:encoder(query.accessEndTime)}">${log.userInfo.nickname}</a>
                     </c:if>
 				</td>
 				<td align="center">${log.userInfo.company}</td>
 				<td align="center"><fmt:formatDate value="${log.accessTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td align="center">${log.category.name}</td>
-                <td align="center">${basePath}${log.pageUrl}</td>
+                <td align="center"><a href="${basePath}${log.pageUrl}" target="_blank">${basePath}${log.pageUrl}</a></td>
 				<td title="${log.pageTitle}">${fmtString:substringAppend(log.pageTitle,35,'')}</td>
 			</tr>
 			</c:forEach>

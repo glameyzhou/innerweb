@@ -29,22 +29,34 @@
         <!--左半边代码结束-->
         <!--右半边代码开始-->
         <div class="center_right">
-            <c:forEach var="bbsdto" items="${bbsdtoList}">
+            <c:forEach var="bbsdto" items="${bbsdtoList}" varStatus="status">
                 <c:set var="category" value="${bbsdto.category}"/>
                 <c:set var="analyzer" value="${bbsdto.analyzer}"/>
                 <c:set var="bbsManager" value="${bbsdto.bbsManager}"/>
                 <c:set var="postList_top" value="${bbsdto.bbsPostDTOList_top}"/>
                 <c:set var="postList_normal" value="${bbsdto.bbsPostDTOList_normal}"/>
-                <div class="right-meitan">
+                <c:choose>
+                    <c:when test="${status.count > 1}">
+                        <c:set var="cssStyle" value="right-meitan right-margin"></c:set>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="cssStyle" value="right-meitan"></c:set>
+                    </c:otherwise>
+                </c:choose>
+                <div class="${cssStyle}">
                     <div class="right-meitan-tit">
                         <ul>
-                            <li><a href="${basePath}bbs/brand-${category.id}.htm" style="font-weight: bold;font-size: 14px;">${category.name}</a></li>
-                            <li style=" padding-left:20px;">[<span class="colorju">${analyzer.postCount}</span>主题/${analyzer.postReplyCount}帖子/${analyzer.todayPostReplyCount}今日帖子]</li>
-                            <li style="padding-left:20px;">
+                            <li style="text-align: left;width: 180px;">
+                                <%--<h2 class="width180">--%>
+                                    <a href="${basePath}bbs/brand-${category.id}.htm" style="font-weight: bold;font-size: 15px;color: #444444; text-align: left;">${category.name}</a>
+                                <%--</h2>--%>
+                            </li>
+                            <li class="width180">[<span class="colorju">${analyzer.postCount}</span>主题/${analyzer.postReplyCount}帖子/${analyzer.todayPostReplyCount}今日帖子]</li>
+                            <li class="width100">
                                 <img src="${basePath}res/front/library/images/right-2.jpg" align="absmiddle"/>
                                 <a href="${basePath}bbs/brand-${category.id}.htm?type=great">精华</a>
                             </li>
-                            <li style=" padding-left:50px;">版主：
+                            <li class="width100">版主：
                                 <span class="colorbule">
                                     <c:choose>
                                         <c:when test="${bbsManager == null or empty bbsManager.nickname}">空缺</c:when>
@@ -66,7 +78,7 @@
                             </li>
                         </ul>
                     </div>
-                    <p></p>
+                    <p style="width: 700px;margin: 0 auto;background: #e6e7e1;height: 3px;"></p>
                     <div class="clear"></div>
                     <div class="right-tiezi">
                         <table width="100%" border="0" cellpadding="0" cellspacing="0">

@@ -11,15 +11,26 @@
     </script>
 </head>
 <body>
+<c:choose>
+    <c:when test="${type eq 'bbs'}">
+        <c:set value="专题讨论区" var="cateTitle"/>
+        <c:set value="true" var="isBBS"/>
+    </c:when>
+    <c:otherwise>
+        <c:set value="微型图书馆" var="cateTitle"/>
+        <c:set value="false" var="isBBS"/>
+    </c:otherwise>
+</c:choose>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - 微型图书馆
+        <div class="rpos">当前位置: 首页 - ${cateTitle} - 栏目
             <c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
         <div class="clear"></div>
     </div>
     <form method="post" action="${basePath}mg/library/category-${opt}.htm" id="jvForm">
         <input type="hidden" id="id" name="id" value="${category.id}"/>
         <input type="hidden" id="pid" name="pid" value="${pid}"/>
+        <input type="hidden" id="type" name="type" value="${type}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
             <tr>
@@ -34,6 +45,7 @@
                     <input type="text" maxlength="100" name="shortName" id="shortName" class="required" size="80" value="${category.shortName}">
                 </td>
             </tr>
+            <c:if test="${!isBBS}">
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否首页显示:</td>
                 <td width="85%" class="pn-fcontent">
@@ -58,6 +70,7 @@
                     &nbsp;<font color="red">数字越小越靠前</font>
                 </td>
             </tr>
+            </c:if>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>分类排列顺序:</td>
                 <td width="85%" class="pn-fcontent">

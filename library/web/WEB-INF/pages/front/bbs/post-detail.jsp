@@ -104,7 +104,6 @@
                 </div>
                 <%--回帖区域--%>
                 <div class="tiezi-bianxie">
-                    <%--<img src="${basePath}res/front/library/images/right-9.jpg" />--%>
                         <link rel="stylesheet" href="${basePath}kindeditor/themes/default/default.css" />
                         <link rel="stylesheet" href="${basePath}kindeditor/plugins/code/prettify.css" />
                         <script charset="utf-8" src="${basePath}kindeditor/kindeditor.js"></script>

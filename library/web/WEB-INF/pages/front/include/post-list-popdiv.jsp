@@ -24,6 +24,35 @@
     <div style="width: 750px;margin-top: 5px;margin-left: 5px;">
         <!--右半边代码开始-->
         <div class="center_right" style="width: 740px;height: auto;float: left;margin-left: 5px;margin-top: 7px;">
+            <div class="neirong" style="width:730px;">
+                <%--<div class="neirong_tit">最新通知公告</div>
+                <div class="neiye_right_con">
+                    <c:choose>
+                        <c:when test="${empty postList}">
+                            <p>暂无最新通知公告</p>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="post" items="${postList}">
+                                <ul class="con_neiye">
+                                    <li><img src="${basePath}res/front/library/images/notice_list.png"/></li>
+                                    <li><a href="javascript:pop('${post.id}');" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a></li>
+                                    <li style="float:right;">${fmtString:substring(post.time,10)}</li>
+                                </ul>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </div>--%>
+                    <div class="neirong_tit" style="text-align: center">${post.title}</div>
+                    <div class="neirong_con">
+                        <p style="text-align: center;">发布人：${post.author} &nbsp;&nbsp;来源：${post.source}
+                            &nbsp;&nbsp;时间：${fmtString:substring(post.time,10)}
+                            &nbsp;&nbsp;<a href="javascript:pop('${post.id}');">查看全文</a>
+                        </p>
+                    ${post.content}
+                    </div>
+            </div>
+        </div>
+        <%--<div class="center_right" style="width: 740px;height: auto;float: left;margin-left: 5px;margin-top: 7px;">
             <div class="neirong" style="width:730px; ">
                 <div class="neirong_tit">最新通知公告</div>
                 <div class="neiye_right_con">
@@ -43,7 +72,7 @@
                     </c:choose>
                 </div>
             </div>
-        </div>
+        </div>--%>
         <!--右半边代码结束-->
     </div>
 </div>

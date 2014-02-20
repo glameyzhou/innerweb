@@ -324,7 +324,7 @@ public class IndexFrontController extends BaseController {
         query.setStartTime(DateFormatUtils.format(DateUtils.getDay(new Date(), -7), "yyyy-MM-dd HH:mm:ss"));
         query.setEndTime(DateFormatUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
         query.setStart(0);
-        query.setNum(15);
+        query.setNum(1);
         query.setCategoryId(CategoryConstants.CATEGORY_TONGZHIGONGGAO);
         List<Post> postList = postDao.getPostList(query);
         if (!CollectionUtils.isEmpty(postList))

@@ -22,7 +22,7 @@
                     type: 2,
                     title: false,
                     iframe: {src: path + 'post-popdiv.htm'},
-                    area : ['762px' , '500px'],
+                    area : ['762px' , '100%'],
                     time : 8,
                     offset: ['10px',''],
                     success : function(){
