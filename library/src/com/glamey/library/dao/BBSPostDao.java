@@ -51,9 +51,10 @@ public class BBSPostDao extends BaseDao {
      * @param info
      * @return
      */
-    public boolean create(final BBSPost info) {
+    public String create(final BBSPost info) {
         logger.info("[BBSPostDao] #create# " + info);
         try {
+            final String postId = StringTools.getUniqueId();
             int count = jdbcTemplate.update(
                     "insert into tbl_bbs_post(id,category_id_fk,title,user_id_fk,publish_time,update_time,content,view_count,reply_count,show_top,show_great,show_popular) " +
                             " values(?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -61,7 +62,7 @@ public class BBSPostDao extends BaseDao {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
-                            pstmt.setString(++i, StringTools.getUniqueId());
+                            pstmt.setString(++i, postId);
                             pstmt.setString(++i, info.getCategoryId());
                             pstmt.setString(++i, info.getTitle());
                             pstmt.setString(++i, info.getUserId());
@@ -76,10 +77,10 @@ public class BBSPostDao extends BaseDao {
 
                         }
                     });
-            return count > 0;
+            return count > 0 ? postId : null;
         } catch (Exception e) {
             logger.error("[BBSPostDao] #create# error " + info, e);
-            return false;
+            return null;
         }
     }
 

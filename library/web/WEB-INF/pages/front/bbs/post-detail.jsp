@@ -31,7 +31,7 @@
         <form>
         <div class="center_right">
             <div class="right-top">
-                <span class="colorbule">专题讨论区</span> >> <a href="${basePath}bbs/brand-${category.id}.htm">${category.name}</a> >> ${bbsPost.title}</div>
+                <span class="colorbule" style="color: #0099cc;"><a href="${basePath}bbs/index.htm">专题讨论区</a></span> >> <a href="${basePath}bbs/brand-${category.id}.htm">${category.name}</a> >> ${bbsPost.title}</div>
             <div class="right-meitan">
                 <div class="right-meitan-tit tit-height">
                     <ul style="width:700px;">
@@ -45,7 +45,7 @@
                                 <ul>
                                     <li><a class="hide" href="javascript:void(0)"></a>
                                         <ul>
-                                            <li><a href="javascript:void(0)">只发文字</a></li>
+                                            <li><a href="${basePath}bbs/post.htm?categoryId=${bbsPost.categoryId}">只发文字</a></li>
                                             <li><a href="javascript:void(0)">发起投票</a></li>
                                         </ul>
                                     </li>

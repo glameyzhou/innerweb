@@ -135,18 +135,18 @@
     </c:if>
 
     <%--accessLog--%>
-    <%--<c:if test="${fmtString:hasRightsList(rightsList,'11')}">
+    <c:if test="${fmtString:hasRightsList(rightsList,'11')}">
         <li><a href="${basePath}mg/sys/accessLog/list.htm" target="mainFrame">访问日志</a></li>
-    </c:if>--%>
+    </c:if>
 
-    <%--<li><a href="javascript:divDisplay('bbs_div');">论坛管理</a></li>
+    <li><a href="javascript:divDisplay('bbs_div');">论坛管理</a></li>
     <ul id="bbs_div" style="display: none">
         <li><a href="${basePath}mg/library/category-list.htm?pid=0&type=bbs" target="mainFrame">板块设置</a></li>
         <li><a href="${basePath}mg/bbs/brand-manager.htm" target="mainFrame">版主设置</a></li>
         <c:forEach var="bbs" items="${categoryBBSList}">
             <li><a href="${basePath}mg/bbs/post-list.htm?categoryId=${bbs.id}" target="mainFrame">${bbs.name}-主帖管理</a></li>
         </c:forEach>
-    </ul>--%>
+    </ul>
 </ul>
 </body>
 </html>

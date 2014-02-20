@@ -83,8 +83,8 @@
                     <td align="center">${fmtString:substring(cate.categoryTime,16)}</td>
                     <td align=center>
                         <a href="javascript:edit('${cate.parentId}','${cate.id}');">编辑</a>&nbsp;&nbsp;
+                        <a href="javascript:del('${cate.parentId}','${cate.id}');">删除</a>&nbsp;&nbsp;
                         <c:if test="${!isBBS}">
-                            <a href="javascript:del('${cate.parentId}','${cate.id}');">删除</a>&nbsp;&nbsp;
                             <c:if test="${pid eq '0'}">
                                 <a href="${basePath}mg/library/category-list.htm?pid=${cate.id}">子分类</a>
                             </c:if>

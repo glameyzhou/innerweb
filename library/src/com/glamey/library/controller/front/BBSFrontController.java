@@ -24,6 +24,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,10 +109,58 @@ public class BBSFrontController extends BaseController {
         ModelAndView mav = new ModelAndView("front/bbs/post-show");
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request, response, session));
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        Category category = categoryDao.getBySmpleId(categoryId);
+        mav.addObject("categoryId",categoryId);
+        mav.addObject("category",category);
 
-
-        accessLogDao.save("bbs/index.htm","发帖子","",session);
+        accessLogDao.save("bbs/index.htm","发主贴界面，栏目" + category.getName() ,categoryId,session);
         return mav;
+    }
+
+    /**发主题*/
+    @RequestMapping(value = "/post-submit.htm", method = RequestMethod.POST)
+    public void postSubmit(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        logger.info("[front] #postSubmit#" + request.getRequestURI());
+
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        String title = WebUtils.getRequestParameterAsString(request,"title");
+        String content = WebUtils.getRequestParameterAsString(request,"content");
+        StringBuffer result = new StringBuffer(100);
+        String errorMsg = null;
+        if (StringUtils.isBlank(categoryId)) {
+            errorMsg += "为选择发帖分类<br/>";
+        }
+        if (StringUtils.isBlank(title) || StringUtils.trim(title).length() < 10) {
+            errorMsg += "标题长度不能小于10个字符<br/>";
+        }
+        if (StringUtils.isBlank(content) || StringUtils.trim(content).length() < 10) {
+            errorMsg += "内容必须大于10个字符";
+        }
+
+        if (StringUtils.isNotBlank(errorMsg)) {
+            result.append("{pCode:0,pData:").append(errorMsg).append("}");
+            output(response,result.toString());
+        }
+        else {
+            Category category = categoryDao.getBySmpleId(categoryId);
+            UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+            BBSPost post = new BBSPost();
+            post.setCategoryId(categoryId);
+            post.setTitle(title);
+            post.setContent(content);
+            post.setUserId(userInfo.getUserId());
+            String postId = bbsPostDao.create(post);
+            if (StringUtils.isBlank(postId)) {
+                result.append("{pCode:1,pData:\"网络超时，请稍后重试\"}");
+                output(response,result.toString());
+            }
+            else {
+                result.append("{pCode:2,pData:\"发表成功\",postId:\"" + postId + "\"").append("}");
+                output(response,result.toString());
+                accessLogDao.save(userInfo.getUserId(),"bbs/post.htm","发帖成功，栏目" + category.getName() ,categoryId);
+            }
+        }
     }
 
     /**
@@ -230,5 +279,15 @@ public class BBSFrontController extends BaseController {
         mav.addObject("pageURL", "bbs/post-" + postId + ".htm?curPage=" + curPage);
 
         return mav;
+    }
+
+    private void output(HttpServletResponse response,String data) {
+        try {
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().print(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

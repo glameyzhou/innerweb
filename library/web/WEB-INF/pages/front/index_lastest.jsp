@@ -23,7 +23,7 @@
                     title: false,
                     iframe: {src: path + 'post-popdiv.htm'},
                     area : ['762px' , '100%'],
-                    time : 8,
+                    time : 80,
                     offset: ['10px',''],
                     success : function(){
                         layer.shift('top', 400)
