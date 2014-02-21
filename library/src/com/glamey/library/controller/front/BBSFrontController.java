@@ -2,6 +2,7 @@ package com.glamey.library.controller.front;
 
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.WebUtils;
+import com.glamey.framework.utils.json.JsonMapper;
 import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
@@ -25,8 +26,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/bbs")
@@ -46,6 +50,7 @@ public class BBSFrontController extends BaseController {
     @Resource
     private AccessLogDao accessLogDao;
 
+    private static final JsonMapper jsonMapper = JsonMapper.nonNullMapper();
     private static final int postTotal = 20;
     private static final int postTopTotal = 5;
     private static int postNormalTotal = 15;
@@ -103,13 +108,20 @@ public class BBSFrontController extends BaseController {
     }
 
     /**发帖子新增界面*/
-    @RequestMapping(value = "/post.htm", method = RequestMethod.GET)
-    public ModelAndView postShow(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+    @RequestMapping(value = "/post-{categoryId}-show.htm", method = RequestMethod.GET)
+    public ModelAndView postShow(
+            @PathVariable String categoryId,
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         logger.info("[front] #postShow#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("front/bbs/post-show");
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request, response, session));
-        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        if (StringUtils.isBlank(categoryId)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "无效操作");
+            mav.addObject("href", "mg/bbs/index.htm");
+            return mav;
+        }
         Category category = categoryDao.getBySmpleId(categoryId);
         mav.addObject("categoryId",categoryId);
         mav.addObject("category",category);
@@ -119,6 +131,7 @@ public class BBSFrontController extends BaseController {
     }
 
     /**发主题*/
+//    @ResponseBody
     @RequestMapping(value = "/post-submit.htm", method = RequestMethod.POST)
     public void postSubmit(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         logger.info("[front] #postSubmit#" + request.getRequestURI());
@@ -132,15 +145,17 @@ public class BBSFrontController extends BaseController {
             errorMsg += "为选择发帖分类<br/>";
         }
         if (StringUtils.isBlank(title) || StringUtils.trim(title).length() < 10) {
-            errorMsg += "标题长度不能小于10个字符<br/>";
+            errorMsg += "标题不能小于10个字符<br/>";
         }
         if (StringUtils.isBlank(content) || StringUtils.trim(content).length() < 10) {
-            errorMsg += "内容必须大于10个字符";
+            errorMsg += "内容不能小于10个字符";
         }
 
+        Map<String,String> resultMap = new HashMap<String, String>();
+        String pCode = "0", pData = "", postId = "";
         if (StringUtils.isNotBlank(errorMsg)) {
-            result.append("{pCode:0,pData:").append(errorMsg).append("}");
-            output(response,result.toString());
+            pCode = "1";
+            pData = errorMsg;
         }
         else {
             Category category = categoryDao.getBySmpleId(categoryId);
@@ -150,17 +165,73 @@ public class BBSFrontController extends BaseController {
             post.setTitle(title);
             post.setContent(content);
             post.setUserId(userInfo.getUserId());
-            String postId = bbsPostDao.create(post);
+            postId = bbsPostDao.create(post);
             if (StringUtils.isBlank(postId)) {
-                result.append("{pCode:1,pData:\"网络超时，请稍后重试\"}");
-                output(response,result.toString());
+                pCode = "2";
+                pData = "网络超时，请稍后重试";
             }
             else {
-                result.append("{pCode:2,pData:\"发表成功\",postId:\"" + postId + "\"").append("}");
-                output(response,result.toString());
+                pData = "发表成功";
                 accessLogDao.save(userInfo.getUserId(),"bbs/post.htm","发帖成功，栏目" + category.getName() ,categoryId);
             }
         }
+        resultMap.put("pCode", pCode);
+        resultMap.put("pData", pData);
+        resultMap.put("postId", postId);
+        output(response, jsonMapper.toJson(resultMap));
+
+//        return jsonMapper.toJson(resultMap);
+    }
+    /**回复帖子*/
+//    @ResponseBody
+    @RequestMapping(value = "/reply-{postId}-submit.htm", method = RequestMethod.POST)
+    public void replySubmit(
+            @PathVariable String postId,
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        logger.info("[front] #replySubmit#" + request.getRequestURI());
+
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        String content = WebUtils.getRequestParameterAsString(request,"content");
+        StringBuffer result = new StringBuffer(100);
+        String errorMsg = null;
+        if (StringUtils.isBlank(categoryId)) {
+            errorMsg += "请选择发帖分类<br/>";
+        }
+        if (StringUtils.isBlank(postId)) {
+            errorMsg += "请选择回帖的主题<br/>";
+        }
+        if (StringUtils.isBlank(content) || StringUtils.trim(content).length() < 10) {
+            errorMsg += "内容不能小于10个字符";
+        }
+
+        Map<String,String> resultMap = new HashMap<String, String>();
+        String pCode = "0", pData = "";
+        if (StringUtils.isNotBlank(errorMsg)) {
+            pCode = "1";
+            pData = errorMsg;
+        }
+        else {
+            Category category = categoryDao.getBySmpleId(categoryId);
+            UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+
+            BBSReply reply = new BBSReply();
+            reply.setUserId(userInfo.getUserId());
+            reply.setPostId(postId);
+            reply.setContent(content);
+
+            if (!bbsReplyDao.create(reply)) {
+                pCode = "2";
+                pData = "网络超时，请稍后重试";
+            }
+            else {
+                pData = "回复成功";
+                accessLogDao.save(userInfo.getUserId(),"bbs/post-" + postId + ".htm","回帖成功，栏目" + category.getName() ,categoryId);
+            }
+        }
+        resultMap.put("pCode", pCode);
+        resultMap.put("pData", pData);
+        resultMap.put("postId", postId);
+        output(response, jsonMapper.toJson(resultMap));
     }
 
     /**
@@ -204,7 +275,7 @@ public class BBSFrontController extends BaseController {
         query = new BBSPostQuery();
         query.setCategoryId(category.getId());
         query.setShowTop(0);
-        query.setStart(0);
+        query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
         if (StringUtils.equals("great",type))
             query.setShowGreat(1);
@@ -283,9 +354,13 @@ public class BBSFrontController extends BaseController {
 
     private void output(HttpServletResponse response,String data) {
         try {
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().print(data);
+//            response.setCharacterEncoding("UTF-8");
+//            response.setContentType("application/json");
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.print(data);
+            out.flush();
+            out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

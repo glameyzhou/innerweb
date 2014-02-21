@@ -818,7 +818,7 @@ public class UserInfoDao extends BaseDao {
                         @Override
                         public void setValues(PreparedStatement preparedStatement) throws SQLException {
                             preparedStatement.setString(1, username);
-                            preparedStatement.setString(1, passwd);
+                            preparedStatement.setString(2, passwd);
                         }
                     },
                     new UserInfoRowMapper());

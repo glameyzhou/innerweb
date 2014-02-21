@@ -45,14 +45,18 @@
                                 <ul>
                                     <li><a class="hide" href="javascript:void(0)"></a>
                                         <ul>
-                                            <li><a href="${basePath}bbs/post.htm?categoryId=${bbsPost.categoryId}">只发文字</a></li>
+                                            <li><a href="${basePath}bbs/post-${bbsPost.categoryId}-show.htm">只发文字</a></li>
                                             <li><a href="javascript:void(0)">发起投票</a></li>
                                         </ul>
                                     </li>
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0)" ><img src="${basePath}res/front/library/images/right-4.jpg" style="margin-top:10px;"/></a></li>
+                        <li>
+                            <a href="#replyArea" >
+                                <img src="${basePath}res/front/library/images/right-4.jpg" style="margin-top:10px;"/>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <%--楼主--%>
@@ -103,6 +107,7 @@
                     <span class="colorbule">下一主题</span>
                 </div>
                 <%--回帖区域--%>
+                <input id="categoryId" name="categoryId" value="${bbsPost.categoryId}" type="hidden"/>
                 <div class="tiezi-bianxie">
                         <link rel="stylesheet" href="${basePath}kindeditor/themes/default/default.css" />
                         <link rel="stylesheet" href="${basePath}kindeditor/plugins/code/prettify.css" />
@@ -111,7 +116,7 @@
                         <script charset="utf-8" src="${basePath}kindeditor/plugins/code/prettify.js"></script>
                         <script>
                             KindEditor.ready(function (K) {
-                                K.create('textarea[name="content"]', {
+                                K.create('textarea[name="postContent"]', {
                                     cssPath: '${basePath}kindeditor/plugins/code/prettify.css',
                                     uploadJson: '${basePath}kindeditor/jsp/upload_json.jsp',
                                     fileManagerJson: '${basePath}kindeditor/jsp/file_manager_json.jsp',
@@ -126,15 +131,19 @@
                                             self.sync();
                                             document.forms['jvForm'].submit();
                                         });
+                                    },
+                                    afterBlur: function () {
+                                        this.sync();
                                     }
                                 });
                                 prettyPrint();
                             });
                         </script>
-                        <textarea name="content" style="width:100%;height:250px;visibility:hidden;"></textarea>
+                        <a name="replyArea" id="replyArea"></a><%--锚点--%>
+                        <textarea name="postContent" id="postContent" style="width:100%;height:250px;visibility:hidden;"></textarea>
                 </div>
                 <div class="tiezi-tijiao">
-                    <input name="" type="button" value="发表回复" class="button-click" />
+                    <input type="button" value="发表回复" class="button-click" onclick="javascript:postSubmit();"/>&nbsp;&nbsp;
                 </div>
             </div>
         </div>
@@ -145,5 +154,63 @@
     <%@include file="../include/footer.jsp"%>
     <!--底部代码结束-->
 </div>
+<script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
+<script type="text/javascript">
+    var bastPath = '${basePath}';
+    var categoryId = '${category.id}';
+    var postId = '${bbsPost.id}';
+    function postSubmit(){
+        alert("xx");
+        var content = $("#postContent").val();
+        var errorMsg = '';
+        if (content == 0 || content.length < 10) {
+            errorMsg += '内容不能小于10个字符';
+        }
+        if (errorMsg.length > 0 ) {
+            layer.alert(errorMsg, 8);
+            return;
+        }
+        $.ajax({
+            type: "post",
+            url: bastPath + "bbs/reply-" + postId + "-submit.htm",
+            data: "content=" + content
+                    + "&categoryId=" + categoryId
+                    + "&r=" + Math.random(),
+            /*dataType: "json",*/
+            async: false,
+            success: function (msg) {
+                var returnResult = '';
+                if (typeof(JSON) == 'undefined'){
+                    returnResult = eval("(" + msg + ")");
+                }else{
+                    returnResult = JSON.parse(msg);
+                }
+                var code = returnResult.pCode;
+                var data = returnResult.pData;
+                if (code == 0) {
+                    var postId = returnResult.postId;
+                    $.layer({
+                        shade : [0.5 , '#000' , true],
+                        area : ['auto','auto'],
+                        dialog : {
+                            msg: data,
+                            btns : 1,
+                            type : 4,
+                            btn : ['查看'],
+                            yes : function(){
+                                window.location =  bastPath + 'bbs/post-' + postId + '.htm';
+                            }
+                        }
+                    });
+                } else {
+                    layer.alert(data, 8);
+                }
+            },
+            error:function(){
+                layer.alert('网络异常，请稍后重试。', 8);
+            }
+        });
+    }
+</script>
 </body>
 </html>

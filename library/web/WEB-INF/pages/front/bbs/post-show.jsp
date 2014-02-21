@@ -95,7 +95,7 @@
 <script type="text/javascript">
         var bastPath = '${basePath}';
         var categoryId = '${category.id}';
-        var isOK = true;
+        /*var isOK = true;
         function checkInput(itemName){
             var title = $("#" + itemName).val();
             if(title == 0 || title.length < 10){
@@ -107,16 +107,16 @@
                 $("#error_" + itemName).html("");
                 isOK = true;
             }
-        }
+        }*/
         function postSubmit(){
             var title = $("#title").val();
             var content = $("#postContent").val();
             var errorMsg = '';
             if (title == 0 || title.length < 10) {
-                errorMsg += '标题长度不能小于10个字符<br/>';
+                errorMsg += '标题不能小于10个字符<br/>';
             }
             if (content == 0 || content.length < 10) {
-                errorMsg += '内容必须大于10个字符';
+                errorMsg += '内容不能小于10个字符';
             }
             if (errorMsg.length > 0 ) {
                 layer.alert(errorMsg, 8);
@@ -129,21 +129,21 @@
                         + "&content=" + content
                         + "&categoryId=" + categoryId
                         + "&r=" + Math.random(),
-                dataType: "json",
+                /*dataType: "json",*/
                 async: false,
                 success: function (msg) {
-                    alert(eval('(' + msg + ')'));
                     var returnResult = '';
-                    if (typeof(JSON) == 'undefined') {
-                        returnResult = eval('(' + msg + ')');
-                    } else {
+                    if (typeof(JSON) == 'undefined'){
+                        returnResult = eval("(" + msg + ")");
+                    }else{
                         returnResult = JSON.parse(msg);
                     }
                     var code = returnResult.pCode;
                     var data = returnResult.pData;
-                    if (code == 2) {
+                    if (code == 0) {
+                        var postId = returnResult.postId;
                         $.layer({
-                            shade : [0], //不显示遮罩
+                            shade : [0.5 , '#000' , true],
                             area : ['auto','auto'],
                             dialog : {
                                 msg: data,
@@ -151,8 +151,7 @@
                                 type : 4,
                                 btn : ['查看'],
                                 yes : function(){
-                                    var postId = returnResult.postId;
-                                    Window.location = bastPath + 'bbs/post-' + postId + '.htm';
+                                    window.location =  bastPath + 'bbs/post-' + postId + '.htm';
                                 }
                             }
                         });
@@ -160,9 +159,9 @@
                         layer.alert(data, 8);
                     }
                 },
-                error:function(text){
-                    alert(text);
-                }
+                 error:function(){
+                     layer.alert('网络异常，请稍后重试。', 8);
+                 }
             });
         }
 </script>

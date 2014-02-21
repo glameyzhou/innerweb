@@ -57,7 +57,7 @@
                                 <ul>
                                     <li><a class="hide" href="javascript:void(0)"></a>
                                         <ul>
-                                            <li><a href="${basePath}bbs/post.htm?categoryId=${category.id}">只发文字</a></li>
+                                            <li><a href="${basePath}bbs/post-${category.id}-show.htm">只发文字</a></li>
                                             <li><a href="javascript:void(0)">发起投票</a></li>
                                         </ul>
                                     </li>
