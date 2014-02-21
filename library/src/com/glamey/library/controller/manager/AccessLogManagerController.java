@@ -54,6 +54,10 @@ public class AccessLogManagerController extends BaseController {
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean = new PageBean();
         pageBean.setCurPage(curPage);
+
+        String kw = null;
+
+
         AccessLogQuery query = new AccessLogQuery();
         query.setUserId(userId);
         String today = DateFormatUtils.format(new Date(), "yyyy-MM-dd");

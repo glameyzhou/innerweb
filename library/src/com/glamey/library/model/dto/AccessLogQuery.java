@@ -12,6 +12,7 @@ import java.io.Serializable;
  */
 public class AccessLogQuery implements Serializable {
     private String userId;
+    private String [] userIds;
     private String accessStartTime;
     private String accessEndTime;
     private String categoryId;
@@ -24,6 +25,14 @@ public class AccessLogQuery implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String[] getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(String[] userIds) {
+        this.userIds = userIds;
     }
 
     public String getAccessStartTime() {

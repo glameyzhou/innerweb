@@ -754,6 +754,38 @@ public class UserInfoDao extends BaseDao {
         }
     }
 
+    /**
+     * 根据用户名模糊查询对应所有userId
+     *
+     * @param username
+     * @return
+     */
+    public List<String> getUserIdByUserName(final String username) {
+        logger.info("[UserInfoDao] #getUserIdByUserName# userId=" + username);
+        List<String> userIdList = new ArrayList<String>();
+        StringBuffer sql = new StringBuffer("select user_id from tbl_user where user_name like ?");
+        try {
+            userIdList = jdbcTemplate.query(sql.toString(),
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                            preparedStatement.setString(1, "%" + username + "%");
+                        }
+                    },
+                    new RowMapper<String>() {
+                        @Override
+                        public String mapRow(ResultSet resultSet, int i) throws SQLException {
+                            return resultSet.getString("user_id");
+                        }
+                    }
+            );
+            return userIdList;
+        } catch (Exception e) {
+            logger.error("[UserInfoDao] #getUserIdByUserName# error " + username, e);
+            return userIdList;
+        }
+    }
+
     public UserInfo getUserSimpleById(final String userId) {
         logger.info("[UserInfoDao] #getUserById# userId=" + userId);
         List<UserInfo> userInfoList = new ArrayList<UserInfo>();
