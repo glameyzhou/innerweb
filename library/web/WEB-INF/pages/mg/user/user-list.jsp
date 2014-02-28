@@ -74,6 +74,7 @@
     </div>
     <form action="${basePath}mg/user/user-list.htm" method="get" style="padding-top:5px;">
         <div>
+            <input type="hidden" id="brandId" name="brandId" value="${brandId}"/>
             关键字(姓名、单位、职务)&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
             用户状态&nbsp;<select name="isLive" id="isLive">
             <option value="">请选择</option>

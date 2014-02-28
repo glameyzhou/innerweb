@@ -65,46 +65,98 @@
                         <li class="tiezi-mingcheng">
                             <img src="${basePath}res/front/library/images/right-5.jpg" align="absmiddle" style="margin-right:5px;"/>
                                 <B style="padding-right:20px;">${bbsPost.userInfo.nickname}</B>
-                                <span class="colorhui"><fmt:formatDate value="${bbsPost.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/> | 只看楼主</span>
+                                <span class="colorhui">
+                                    <fmt:formatDate value="${bbsPost.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/> |
+                                    <a class="colorhui" href="${basePath}bbs/post-${bbsPost.id}.htm?u=${bbsPost.userId}">只看楼主</a>
+                                </span>
+                                <span style="text-align: right;margin-left: 270px;">
+                                    <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
+                                    <span class="colorhui">回复</span>&nbsp;&nbsp;
+                                    <a href="#top" class="colorhui">TOP</a>&nbsp;&nbsp;
+                                    <span class="colorhui" style="width: 20px;">楼主</span>
+                                </span>
                         </li>
-                        <li class="minheight">${bbsPost.content}
+                        <li class="minheight">
+                            ${bbsPost.content}
+                            <c:if test="${bbsPost.publishTime ne bbsPost.updateTime}">
+                                <p style="margin-left: 10px;margin-top: 10px; color: #999;height: 20px;">
+                                    最后编辑与<fmt:formatDate value="${bbsPost.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                </p>
+                            </c:if>
                         </li>
-                        <li class="tiezi-huifu">
+                        <%--<li class="tiezi-huifu">
                             <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
-                            <span class="colorhui">回复</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#top">TOP</a>
-                        </li>
+                            <span class="colorhui">回复</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#top" class="colorhui">TOP</a>
+                        </li>--%>
                     </ul>
                 </div>
                 <%--回帖--%>
-                <c:forEach var="reply" items="${bbsReplyList}">
+                <c:forEach var="reply" items="${bbsReplyList}" varStatus="status">
                     <div class="right-tiezi-neirong">
                         <ul>
                             <li class="tiezi-mingcheng">
                                 <img src="${basePath}res/front/library/images/right-5.jpg" align="absmiddle" style="margin-right:5px;"/>
                                 <B style="padding-right:20px;">${reply.userInfo.nickname}</B>
-                                <span class="colorhui"><fmt:formatDate value="${reply.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/> | 只看该用户</span>
+                                <span class="colorhui">
+                                    <fmt:formatDate value="${reply.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/> |
+                                    <a class="colorhui" href="${basePath}bbs/post-${reply.postId}.htm?u=${reply.userId}">
+                                        <c:choose>
+                                            <c:when test="${reply.userId eq bbsPost.userId}">只看楼主</c:when>
+                                            <c:otherwise>只看该用户</c:otherwise>
+                                        </c:choose>
+                                    </a>
+                                </span>
+                                <span style="text-align: right;margin-left: 270px;">
+                                    <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
+                                    <span class="colorhui">回复</span>&nbsp;&nbsp;
+                                    <a class="colorhui" href="#top">TOP</a>&nbsp;&nbsp;
+                                    <span class="colorhui" style="width: 20px;">${status.index + 1 }楼</span>
+                                </span>
                             </li>
-                            <li class="minheight">${reply.content}</li>
-                            <li class="tiezi-huifu">
+                            <li class="minheight">
+                                ${reply.content}
+                                <c:if test="${reply.publishTime ne reply.updateTime}">
+                                    <p style="margin-left: 10px;margin-top: 10px; color: #999;height: 20px;">
+                                        最后编辑与<fmt:formatDate value="${reply.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                    </p>
+                                </c:if>
+                            </li>
+                            <%--<li class="tiezi-huifu">
                                 <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
-                                <span class="colorhui">回复</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#top">TOP</a>
-                            </li>
+                                <span class="colorhui">回复</span>&nbsp;&nbsp;
+                                <a class="colorhui" href="#top">TOP</a>&nbsp;&nbsp;
+                                <span class="colorhui">${status.index + 1 }楼</span>
+                            </li>--%>
                         </ul>
                     </div>
                 </c:forEach>
                 <%--<div class="right-tiezi-neirong">
                     <ul>
-                        <li class="tiezi-mingcheng"><img src="${basePath}res/front/library/images/right-5.jpg" align="absmiddle" style="margin-right:5px;"/><b style="padding-right:20px;">何巨</b><span class="colorhui">2012-12-03 12:10 | 只看该用户</span></li>
-                        <li class="minheight"><b>回复1# 陈含的帖子</b><br />和我去打野球吧哈哈</li>
-                        <li class="tiezi-huifu"><img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/><span class="colorhui">回复</span>&nbsp;&nbsp;&nbsp;&nbsp;<img src="${basePath}res/front/library/images/right-7.jpg" align="absmiddle" style="margin-right:5px;"/><span class="colorhui">引用</span>&nbsp;&nbsp;&nbsp;&nbsp;TOP</li>
+                        <li class="tiezi-mingcheng"><img src="${basePath}res/front/library/images/right-5.jpg"
+                                                         align="absmiddle" style="margin-right:5px;"/><b
+                                style="padding-right:20px;">何巨</b><span class="colorhui">2012-12-03 12:10 | 只看该用户</span>
+                        </li>
+                        <li class="minheight"><b>回复1# 陈含的帖子</b><br/>和我去打野球吧哈哈</li>
+                        <li class="tiezi-huifu"><img src="${basePath}res/front/library/images/right-6.jpg"
+                                                     align="absmiddle" style="margin-right:5px;"/><span
+                                class="colorhui">回复</span>&nbsp;&nbsp;&nbsp;&nbsp;<img
+                                src="${basePath}res/front/library/images/right-7.jpg" align="absmiddle"
+                                style="margin-right:5px;"/><span class="colorhui">引用</span>&nbsp;&nbsp;&nbsp;&nbsp;TOP
+                        </li>
                     </ul>
                 </div>--%>
-                <c:set var="pageURL" value="${basePath}bbs/post-${bbsPost.id}.htm?"/>
-                <%@include file="../../common/pages-front.jsp" %>
+                <c:if test="${pageBean.curPage > 1}">
+                    <c:set var="pageURL" value="${basePath}bbs/post-${bbsPost.id}.htm?u=${query.userId}&"/>
+                    <%@include file="../../common/pages-front.jsp" %>
+                </c:if>
                 <div class="tiezi-dibu">
-                    <span class="colorbule kuang" onclick="javascript:window.location='${basePath}bbs/brand-${bbsPost.categoryId}.htm';">返回列表</span>
-                    <span class="colorbule">上一主题</span>&nbsp;|&nbsp;
-                    <span class="colorbule">下一主题</span>
+                    <span class="colorbule kuang"><a href="${basePath}bbs/brand-${bbsPost.categoryId}.htm" class="colorbule">返回列表</a></span>
+                    <span class="colorbule">
+                        <c:if test="${postPre != null and postPre.id != null}"><a href="${basePath}bbs/post-${postPre.id}.htm" class="colorbule">上一主题</a></c:if>
+                    </span>&nbsp;|&nbsp;
+                    <span class="colorbule">
+                        <c:if test="${postSub != null and postSub.id != null}"><a href="${basePath}bbs/post-${postSub.id}.htm" class="colorbule">下一主题</a></c:if>
+                    </span>
                 </div>
                 <%--回帖区域--%>
                 <input id="categoryId" name="categoryId" value="${bbsPost.categoryId}" type="hidden"/>
@@ -160,7 +212,6 @@
     var categoryId = '${category.id}';
     var postId = '${bbsPost.id}';
     function postSubmit(){
-        alert("xx");
         var content = $("#postContent").val();
         var errorMsg = '';
         if (content == 0 || content.length < 10) {
@@ -173,7 +224,7 @@
         $.ajax({
             type: "post",
             url: bastPath + "bbs/reply-" + postId + "-submit.htm",
-            data: "content=" + content
+            data: "content=" + encodeURIComponent(content)
                     + "&categoryId=" + categoryId
                     + "&r=" + Math.random(),
             /*dataType: "json",*/

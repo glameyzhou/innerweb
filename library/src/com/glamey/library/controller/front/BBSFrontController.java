@@ -13,6 +13,7 @@ import com.glamey.library.model.domain.Category;
 import com.glamey.library.model.domain.UserInfo;
 import com.glamey.library.model.dto.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -138,9 +139,8 @@ public class BBSFrontController extends BaseController {
 
         String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
         String title = WebUtils.getRequestParameterAsString(request,"title");
-        String content = WebUtils.getRequestParameterAsString(request,"content");
-        StringBuffer result = new StringBuffer(100);
-        String errorMsg = null;
+        String content = WebUtils.getRequestParameterAsString(request,"postContent");
+        String errorMsg = "";
         if (StringUtils.isBlank(categoryId)) {
             errorMsg += "为选择发帖分类<br/>";
         }
@@ -192,8 +192,7 @@ public class BBSFrontController extends BaseController {
 
         String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
         String content = WebUtils.getRequestParameterAsString(request,"content");
-        StringBuffer result = new StringBuffer(100);
-        String errorMsg = null;
+        String errorMsg = "";
         if (StringUtils.isBlank(categoryId)) {
             errorMsg += "请选择发帖分类<br/>";
         }
@@ -215,6 +214,7 @@ public class BBSFrontController extends BaseController {
             UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
 
             BBSReply reply = new BBSReply();
+            reply.setCategoryId(categoryId);
             reply.setUserId(userInfo.getUserId());
             reply.setPostId(postId);
             reply.setContent(content);
@@ -315,8 +315,7 @@ public class BBSFrontController extends BaseController {
         }
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request, response, session));
-        //增加本主题的viewcount
-        bbsPostDao.addViewCount(postId);
+
         //主帖
         BBSPost bbsPost = bbsPostDao.getPostById(postId);
         if (bbsPost == null) {
@@ -324,7 +323,10 @@ public class BBSFrontController extends BaseController {
             mav.setViewName("common/errorPage");
             return mav;
         }
-
+        //增加本主题的viewcount
+        bbsPostDao.addViewCount(postId);
+        //查看用户
+        String userId = WebUtils.getRequestParameterAsString(request,"u");
         //回帖
         pageBean = new PageBean(Constants.rowsPerPageFront);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
@@ -334,6 +336,7 @@ public class BBSFrontController extends BaseController {
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
         query.setPostId(postId);
+        query.setUserId(userId);
 
         List<BBSReply> bbsReplyList = bbsReplyDao.getByQuery(query);
         pageBean.setMaxRowCount(bbsReplyDao.getCountByQuery(query));
@@ -343,11 +346,27 @@ public class BBSFrontController extends BaseController {
         //帖子栏目
         Category category = categoryDao.getById(bbsPost.getCategoryId());
 
+        //上一个主题
+        BBSPostQuery postQuery = new BBSPostQuery();
+        postQuery.setCategoryId(category.getId());
+        postQuery.setPublishEndTime(DateFormatUtils.format(bbsPost.getPublishTime().getTime() - 1,"yyyy-MM-dd HH:mm:ss"));
+        postQuery.setStart(0);
+        postQuery.setNum(1);
+        List<BBSPost> list = bbsPostDao.getByQuery(postQuery);
+        BBSPost postPre = CollectionUtils.isEmpty(list) ? null : list.get(0);
+        //下一个主题
+        postQuery.setPublishStartTime(DateFormatUtils.format(bbsPost.getPublishTime().getTime() + 1,"yyyy-MM-dd HH:mm:ss"));
+        list = bbsPostDao.getByQuery(postQuery);
+        BBSPost postSub = CollectionUtils.isEmpty(list) ? null : list.get(0);
+
         mav.addObject("category", category);
         mav.addObject("bbsPost", bbsPost);
         mav.addObject("bbsReplyList", bbsReplyList);
+        mav.addObject("query", query);
         mav.addObject("pageBean", pageBean);
         mav.addObject("pageURL", "bbs/post-" + postId + ".htm?curPage=" + curPage);
+        mav.addObject("postPre",postPre);
+        mav.addObject("postSub",postSub);
 
         return mav;
     }

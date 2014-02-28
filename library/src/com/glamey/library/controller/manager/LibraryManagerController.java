@@ -3,6 +3,7 @@ package com.glamey.library.controller.manager;
 import com.glamey.framework.utils.*;
 import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.controller.BaseController;
+import com.glamey.library.dao.BBSPostDao;
 import com.glamey.library.dao.CategoryDao;
 import com.glamey.library.dao.LibraryInfoDao;
 import com.glamey.library.model.domain.Category;
@@ -48,6 +49,8 @@ public class LibraryManagerController extends BaseController {
     private LibraryInfoDao libraryDao;
     @Resource
     private WebUploadUtils uploadUtils;
+    @Resource
+    private BBSPostDao bbsPostDao;
 
     /*通过父ID，列举所有的分类信息*/
     @RequestMapping(value = "/category-list.htm", method = RequestMethod.GET)
@@ -121,6 +124,12 @@ public class LibraryManagerController extends BaseController {
             category = categoryDao.getById(uniqueId);
             mav.addObject("message", "分类添加成功");
             mav.addObject("href", "mg/library/category-list.htm?pid=" + category.getParentId() + "&type=" + type);
+
+            //如果添加分类成功，需要同时添加一个tbl_bbs_manager的板块设置
+            if (StringUtils.isNotBlank(type)) {
+                bbsPostDao.addBBSBrandRow(uniqueId);
+            }
+
         } else {
             mav.addObject("message", "分类添加失败,请重试");
         }
@@ -174,6 +183,7 @@ public class LibraryManagerController extends BaseController {
         ModelAndView mav = new ModelAndView("common/message");
         String pid = WebUtils.getRequestParameterAsString(request, "pid", "0");
         String id = WebUtils.getRequestParameterAsString(request, "id");
+        String type = WebUtils.getRequestParameterAsString(request, "type",CategoryConstants.CATEGORY_LIBRARY);
         if (StringUtils.isBlank(id)) {
             mav.addObject("message", "无效操作");
             return mav;
@@ -185,7 +195,9 @@ public class LibraryManagerController extends BaseController {
         }
         if (categoryDao.deleteById(id, CategoryConstants.CATEGORY_LIBRARY)) {
             mav.addObject("message", "分类删除成功");
-            mav.addObject("href", "mg/library/category-list.htm?pid=" + pid);
+//            mav.addObject("href", "mg/library/category-list.htm?pid=" + pid);
+            mav.addObject("href", "mg/library/category-list.htm?pid=" + pid + "&type=" + type);
+            bbsPostDao.deleteBBSBrandRow(id);
         } else {
             mav.addObject("message", "分类删除失败,请重试");
         }

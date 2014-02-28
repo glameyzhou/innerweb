@@ -142,9 +142,9 @@ public class BBSPostDao extends BaseDao {
         try {
             String sql;
             if (addCount)
-                sql = "update tbl_bbs_post set reply_count = viw_count + 1 where id = ?";
+                sql = "update tbl_bbs_post set reply_count = reply_count + 1 where id = ?";
             else
-                sql = "update tbl_bbs_post set reply_count = viw_count - 1 where id = ?";
+            sql = "update tbl_bbs_post set reply_count = reply_count - 1 where id = ?";
 
             int count = jdbcTemplate.update(
                     sql,
@@ -484,22 +484,23 @@ public class BBSPostDao extends BaseDao {
         try {
             //发帖量
             String postSql = "select count(1) from tbl_bbs_post where category_id_fk = ?";
-            int postCount = jdbcTemplate.queryForInt(postSql, new String[]{categoryId});
+            int postCount = jdbcTemplate.queryForInt(postSql, new Object[]{categoryId});
             analyzer.setPostCount(postCount);
 
             //发帖量+回帖量
             String replySql = "select count(1) from tbl_bbs_reply where category_id_fk = ? ";
-            int replyCount = jdbcTemplate.queryForInt(replySql, new String[]{categoryId});
+            int replyCount = jdbcTemplate.queryForInt(replySql, new Object[]{categoryId});
             analyzer.setPostReplyCount(postCount + replyCount);
 
             //发帖量+回帖量 (当天总量)
-            String today = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
+            String todayStart = DateFormatUtils.format(new Date(), "yyyy-MM-dd") + " 00:00:00";
+            String todayEnd = DateFormatUtils.format(new Date(), "yyyy-MM-dd") + " 23:59:59";
             String postTodaySql = "select count(1) from tbl_bbs_post where category_id_fk = ? and publish_time >= ? and  publish_time <= ? ";
-            int postTodayCount = jdbcTemplate.queryForInt(postTodaySql, new String[]{categoryId, today + " 00:00:00", today + "23:59:59"});
+            int postTodayCount = jdbcTemplate.queryForInt(postTodaySql, new Object[]{categoryId, todayStart, todayEnd });
 
-            String replyTodaySql = "select count(1) from tbl_bbs_reply where post_id_fk = ? and publish_time >= ? and  publish_time <= ?";
-            int replyTodayCount = jdbcTemplate.queryForInt(replyTodaySql, new String[]{categoryId, today + " 00:00:00", today + "23:59:59"});
-            analyzer.setPostReplyCount(postTodayCount + replyTodayCount);
+            String replyTodaySql = "select count(1) from tbl_bbs_reply where category_id_fk = ? and publish_time >= ? and  publish_time <= ?";
+            int replyTodayCount = jdbcTemplate.queryForInt(replyTodaySql, new Object[]{categoryId, todayStart, todayEnd});
+            analyzer.setTodayPostReplyCount(postTodayCount + replyTodayCount);
 
         } catch (Exception e) {
             logger.error("[BBSPostDao] #getAnalyzer# error " + categoryId, e);
@@ -535,6 +536,41 @@ public class BBSPostDao extends BaseDao {
             logger.error("[BBSPostDao] #getBBSManager# error " + categoryId, e);
         }
         return null;
+    }
+
+    /**
+     * 添加栏目的时候，同时往版主表中添加一列
+     * @param categoryId
+     */
+    public void addBBSBrandRow(final String categoryId){
+        logger.info("[BBSPostDao] #addBBSBrandRow#" + categoryId);
+        try {
+            int count = jdbcTemplate.queryForInt("select count(1) from tbl_bbs_manager where category_id_fk = ? ",new Object[]{categoryId});
+            if (count == 0) {
+                String insert = "insert into tbl_bbs_manager(category_id_fk) values(?)";
+                jdbcTemplate.update(insert, new PreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                        preparedStatement.setString(1,categoryId);
+                    }
+                });
+            }
+        } catch (Exception e) {
+            logger.error("[BBSPostDao] #addBBSBrandRow# error " + categoryId, e);
+        }
+    }
+
+    /**
+     * 删除栏目的时候，同时删掉版主表中的栏目
+     * @param categoryId
+     */
+    public void deleteBBSBrandRow(final String categoryId){
+        logger.info("[BBSPostDao] #deleteBBSBrandRow#" + categoryId);
+        try {
+            jdbcTemplate.update("delete from tbl_bbs_manager where category_id_fk = ? ",new Object[]{categoryId});
+        } catch (Exception e) {
+            logger.error("[BBSPostDao] #deleteBBSBrandRow# error " + categoryId, e);
+        }
     }
 
     public boolean setBBSManager(final String categoryId, final String userId) {

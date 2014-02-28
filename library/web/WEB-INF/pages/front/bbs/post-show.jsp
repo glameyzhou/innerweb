@@ -110,23 +110,24 @@
         }*/
         function postSubmit(){
             var title = $("#title").val();
-            var content = $("#postContent").val();
+            var postContent = $("#postContent").val();
             var errorMsg = '';
             if (title == 0 || title.length < 10) {
                 errorMsg += '标题不能小于10个字符<br/>';
             }
-            if (content == 0 || content.length < 10) {
+            if (postContent == 0 || postContent.length < 10) {
                 errorMsg += '内容不能小于10个字符';
             }
             if (errorMsg.length > 0 ) {
                 layer.alert(errorMsg, 8);
                 return;
             }
+            alert(postContent);
             $.ajax({
                 type: "post",
                 url: bastPath + "bbs/post-submit.htm",
-                data: "title=" + title
-                        + "&content=" + content
+                data: "title=" + encodeURIComponent(title)
+                        + "&postContent=" + encodeURIComponent(postContent)
                         + "&categoryId=" + categoryId
                         + "&r=" + Math.random(),
                 /*dataType: "json",*/

@@ -98,8 +98,10 @@
                             </tr>
                         </c:forEach>
                     </table>
-                    <c:set var="pageURL" value="${basePath}bbs/brand-${category.id}.htm?type=${type}&"/>
-                    <%@include file="../../common/pages-front.jsp" %>
+                    <c:if test="${pageBean.curPage > 1}">
+                        <c:set var="pageURL" value="${basePath}bbs/brand-${category.id}.htm?type=${type}&"/>
+                        <%@include file="../../common/pages-front.jsp" %>
+                    </c:if>
                 </div>
             </div>
         </div>

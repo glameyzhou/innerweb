@@ -46,8 +46,8 @@ public class BBSReplyDao extends BaseDao {
         logger.info("[BBSReplyDao] #create# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_bbs_post(id,category_id_fk,post_id_fk,user_id_fk,publish_time,update_time,content) " +
-                            " values(?,?,?,?,?)",
+                    "insert into tbl_bbs_reply(id,category_id_fk,post_id_fk,user_id_fk,publish_time,update_time,content) " +
+                            " values(?,?,?,?,now(),now(),?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -56,8 +56,6 @@ public class BBSReplyDao extends BaseDao {
                             pstmt.setString(++i, info.getCategoryId());
                             pstmt.setString(++i, info.getPostId());
                             pstmt.setString(++i, info.getUserId());
-                            pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
-                            pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
                             pstmt.setString(++i, info.getContent());
 
                         }
@@ -172,7 +170,7 @@ public class BBSReplyDao extends BaseDao {
                 sql.append(" and  update_time <= ? ");
 
 
-            sql.append(" order by publish_time desc ");
+            sql.append(" order by publish_time asc ");
 
             sql.append(" limit ?,? ");
 
