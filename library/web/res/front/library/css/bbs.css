@@ -212,9 +212,11 @@ h2 {
     margin: 0 auto
 }
 
+/*
+  避免帖子内容中出现p,导致内容全部在同一行显示。
 .right-tiezi-neirong p {
     float: left
-}
+}*/
 
 .minheight {
     border-bottom: 1px solid #d3e0ec;

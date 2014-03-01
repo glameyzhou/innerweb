@@ -2,6 +2,7 @@ package com.glamey.library.controller.manager;
 
 import com.glamey.framework.utils.*;
 import com.glamey.library.constants.CategoryConstants;
+import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
 import com.glamey.library.dao.BBSPostDao;
 import com.glamey.library.dao.CategoryDao;
@@ -230,6 +231,9 @@ public class LibraryManagerController extends BaseController {
         query.setShowSugguest(showSugguest);
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
+        query.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
+        query.setOrderType(Constants.ORDERBYDESC);
+
 
         List<LibraryInfo> libraryList = libraryDao.getByQuery(query);
         pageBean.setMaxRowCount(libraryDao.getCountByQuery(query));

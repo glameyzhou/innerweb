@@ -349,13 +349,13 @@ public class BBSFrontController extends BaseController {
         //上一个主题
         BBSPostQuery postQuery = new BBSPostQuery();
         postQuery.setCategoryId(category.getId());
-        postQuery.setPublishEndTime(DateFormatUtils.format(bbsPost.getPublishTime().getTime() - 1,"yyyy-MM-dd HH:mm:ss"));
+        postQuery.setPublishEndTime(DateFormatUtils.format(bbsPost.getPublishTime().getTime() + 1,"yyyy-MM-dd HH:mm:ss"));
         postQuery.setStart(0);
         postQuery.setNum(1);
         List<BBSPost> list = bbsPostDao.getByQuery(postQuery);
         BBSPost postPre = CollectionUtils.isEmpty(list) ? null : list.get(0);
         //下一个主题
-        postQuery.setPublishStartTime(DateFormatUtils.format(bbsPost.getPublishTime().getTime() + 1,"yyyy-MM-dd HH:mm:ss"));
+        postQuery.setPublishStartTime(DateFormatUtils.format(bbsPost.getPublishTime().getTime() -1,"yyyy-MM-dd HH:mm:ss"));
         list = bbsPostDao.getByQuery(postQuery);
         BBSPost postSub = CollectionUtils.isEmpty(list) ? null : list.get(0);
 
