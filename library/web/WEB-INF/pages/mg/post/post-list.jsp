@@ -5,6 +5,8 @@
 <title>${categoryParent.name}列表</title>
 <%@include file="../../common/tagInclude.jsp" %>
 <%@include file="../../common/headerInclude.jsp" %>
+<script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		$("#jvForm").validate();
@@ -13,46 +15,50 @@
 		window.location = '${basePath}mg/post/post-show.htm?postId='+postId + "&categoryId=${category.id}";
 	}
 	function del(postId){
-		if(!confirm("确定要删除?")){
-			return ;
-		}
-        var locationURL = "${basePath}mg/post/post-del.htm?postId=" + postId + '&categoryId=${category.id}';
-		window.location = locationURL ;
+        layer.confirm('确定要删除所选的内容吗？',function(index){
+            layer.close(index);
+            var locationURL = "${basePath}mg/post/post-del.htm?postId=" + postId + '&categoryId=${category.id}';
+            window.location = locationURL ;
+        });
 	}
 	function delAll(itemName){
 		var all_checkbox = document.getElementsByName(itemName);
 		var len = all_checkbox.length;
 		if(isChecked(itemName) == false ){
-			alert('至少选择一项');
+            layer.alert('至少选择一项', 8);
 		}else{
-			if(!confirm('确认要执行操作?'))return;
-			var values = "";
-			for(var i=0;i<len ;i++){
-				if(all_checkbox[i].checked)
-					values += "," + all_checkbox[i].value;
-			}
-			if(values.length > 1)
-				values = values.substring(1);
-            var opURL = "${basePath}mg/post/post-del.htm?postId=" + values + '&categoryId=${category.id}';
-            window.location = opURL ;
+            layer.confirm('确认要执行操作？',function(index){
+                layer.close(index);
+                var values = "";
+                for(var i=0;i<len ;i++){
+                    if(all_checkbox[i].checked)
+                        values += "," + all_checkbox[i].value;
+                }
+                if(values.length > 1)
+                    values = values.substring(1);
+                var opURL = "${basePath}mg/post/post-del.htm?postId=" + values + '&categoryId=${category.id}';
+                window.location = opURL ;
+            });
 		}
 	}
     function setSelectContent(itemName,category,type,categoryId) {
         var all_checkbox = document.getElementsByName(itemName);
         var len = all_checkbox.length;
         if (isChecked(itemName) == false) {
-            alert('至少选择一项');
+            layer.alert('至少选择一项', 8);
         } else {
-            if (!confirm('确认要执行操作?'))return;
-            var values = "";
-            for (var i = 0; i < len; i++) {
-                if (all_checkbox[i].checked)
-                    values += "," + all_checkbox[i].value;
-            }
-            if (values.length > 1)
-                values = values.substring(1);
-            var opURL = "${basePath}mg/post/post-setSelectContent.htm?id=" + values + "&category=" + category + "&type=" + type + "&categoryId=" + categoryId;
-            window.location = opURL;
+            layer.confirm('确认要执行操作？',function(index){
+                layer.close(index);
+                var values = "";
+                for (var i = 0; i < len; i++) {
+                    if (all_checkbox[i].checked)
+                        values += "," + all_checkbox[i].value;
+                }
+                if (values.length > 1)
+                    values = values.substring(1);
+                var opURL = "${basePath}mg/post/post-setSelectContent.htm?id=" + values + "&category=" + category + "&type=" + type + "&categoryId=" + categoryId;
+                window.location = opURL;
+            });
         }
     }
 </script>

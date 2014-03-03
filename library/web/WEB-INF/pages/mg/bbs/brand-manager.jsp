@@ -9,8 +9,6 @@
         $(function () {
             $("#jvForm").validate();
         });
-        function setBrandManager(categoryId) {
-        }
     </script>
 </head>
 <body>

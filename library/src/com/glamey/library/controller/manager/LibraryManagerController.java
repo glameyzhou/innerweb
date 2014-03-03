@@ -514,11 +514,13 @@ public class LibraryManagerController extends BaseController {
         if (StringUtils.isNotBlank(ids)) {
             String arrays[] = StringUtils.split(ids, ",");
             try {
+                String categoryId = "";
                 for (String array : arrays) {
+                    categoryId = libraryDao.getById(array).getCategoryId();
                     logger.info(String.format("[library-del] id=%s result=%s", array, libraryDao.deleteById(array)));
                 }
                 mav.addObject("message", "删除成功");
-                mav.addObject("href", "mg/library/library-list.htm");
+                mav.addObject("href", "mg/library/library-list.htm?categoryId=" + categoryId);
             } catch (Exception e) {
                 mav.addObject("message", "删除失败");
                 logger.error("[library-del] error!", e);

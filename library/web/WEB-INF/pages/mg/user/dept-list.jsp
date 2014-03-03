@@ -5,6 +5,8 @@
     <title>栏目-${categoryParent.name}</title>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#jvForm").validate();
@@ -13,10 +15,10 @@
             window.location = '${basePath}mg/dept/dept-show.htm?categoryId=' + categoryId;
         }
         function del(categoryId) {
-            if (!confirm("确定要删除此部门?")) {
-                return;
-            }
-            window.location = '${basePath}mg/dept/dept-del.htm?categoryId=' + categoryId;
+            layer.confirm('确定要删除此部门？',function(index){
+                layer.close(index);
+                window.location = '${basePath}mg/dept/dept-del.htm?categoryId=' + categoryId;
+            });
         }
     </script>
 </head>

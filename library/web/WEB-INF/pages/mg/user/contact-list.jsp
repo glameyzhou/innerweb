@@ -5,6 +5,8 @@
     <title>系统通讯录</title>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#jvForm").validate();
@@ -21,7 +23,7 @@
                 window.location = '${basePath}mg/user/setContactOrder.htm?userId=' + userId + '&orderId=' + orderId;
             }
             else {
-                alert('必须为数字');
+                layer.alert('必须为数字', 8);
                 return;
             }
         }

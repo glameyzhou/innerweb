@@ -5,6 +5,8 @@
 <head>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#jvForm").validate();
@@ -13,10 +15,12 @@
             window.location = '${basePath}mg/library/library-show.htm?id=' + id;
         }
         function deleteSingle(postId,categoryId) {
-            if (!confirm('确定要删除吗？主帖和所有回帖将都被删除。')) return;
-            var opURL = "${basePath}mg/bbs/post-setSelectContent.htm?categoryId=" + categoryId + "&id=" + postId + "&type=delete&itemValue=1";
-            alert(opURL);
-            window.location = opURL;
+            layer.confirm('确定要删除吗？主帖和所有回帖将都被删除。',function(index){
+                layer.close(index);
+                var opURL = "${basePath}mg/bbs/post-setSelectContent.htm?categoryId=" + categoryId + "&id=" + postId + "&type=delete&itemValue=1";
+                alert(opURL);
+                window.location = opURL;
+            });
         }
         /**
         *
@@ -29,7 +33,7 @@
             var all_checkbox = document.getElementsByName(itemName);
             var len = all_checkbox.length;
             if (isChecked(itemName) == false) {
-                alert('至少选择一项');
+                layer.alert('至少选择一项', 8);
             } else {
                 var msg = '确认要执行操作?';
                 if  ( type == 'delete') {
@@ -43,19 +47,21 @@
                 } else if (type == 'showGreat' && itemValue == 0) {
                     msg = '确定要把所选的主帖的精华取消吗？';
                 }
-                if (!confirm(msg)) return;
-                var values = "";
-                alert(len);
-                for (var i = 0; i < len; i++) {
-                    alert(all_checkbox[i].checked + '  ' + all_checkbox[i].value);
-                    if (all_checkbox[i].checked)
-                        values += "," + all_checkbox[i].value;
-                }
-                if (values.length > 1)
-                    values = values.substring(1);
-                var opURL = "${basePath}mg/bbs/post-setSelectContent.htm?categoryId=" + categoryId + "&id=" + values + "&type=" + type + "&itemValue=" + itemValue;
-                alert(opURL);
-                window.location = opURL;
+                layer.confirm(msg,function(index){
+                    layer.close(index);
+                    var values = "";
+                    alert(len);
+                    for (var i = 0; i < len; i++) {
+                        alert(all_checkbox[i].checked + '  ' + all_checkbox[i].value);
+                        if (all_checkbox[i].checked)
+                            values += "," + all_checkbox[i].value;
+                    }
+                    if (values.length > 1)
+                        values = values.substring(1);
+                    var opURL = "${basePath}mg/bbs/post-setSelectContent.htm?categoryId=" + categoryId + "&id=" + values + "&type=" + type + "&itemValue=" + itemValue;
+                    alert(opURL);
+                    window.location = opURL;
+                });
             }
         }
     </script>

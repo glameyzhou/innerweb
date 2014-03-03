@@ -4,11 +4,19 @@
 <head>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <base href="${basePath}">
     <script>
         $(function () {
             $("#jvForm").validate();
         });
+        function del(fbId) {
+            layer.confirm('确定要删除？',function(index){
+                layer.close(index);
+                window.location = '${basePath}mg/feedback/delete.htm?fbId=' + fbId;
+            });
+        }
     </script>
     <title>在线留言</title>
 </head>
@@ -24,7 +32,7 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h">操作:</td>
                 <td width="85%" class="pn-fcontent"><a
-                        href="${basePath}mg/feedback/delete.htm?fbId=${fb.fbId}">删除</a>
+                        href="javascript:del('${fb.fbId}');">删除</a>
                 </td>
             </tr>
             <tr>

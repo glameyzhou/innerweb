@@ -6,6 +6,8 @@
     <title>系统角色管理</title>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#jvForm").validate();
@@ -14,10 +16,10 @@
             window.location = '${basePath}mg/user/role-show.htm?roleId=' + roleId;
         }
         function del(roleId) {
-            if (!confirm("确定要删除?")) {
-                return;
-            }
-            window.location = '${basePath}mg/user/role-del.htm?roleId=' + roleId;
+            layer.confirm('确定要删除？',function(index){
+                layer.close(index);
+                window.location = '${basePath}mg/user/role-del.htm?roleId=' + roleId;
+            });
         }
         function detail(roleId) {
             window.location = '${basePath}mg/user/user-list.htm?roleId=' + roleId;

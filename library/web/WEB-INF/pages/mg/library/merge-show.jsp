@@ -10,7 +10,9 @@
         });
     </script>
     <link rel="stylesheet" href="${basePath}res/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-    <script type="text/javascript" src="${basePath}res/ztree/js/jquery-1.4.4.min.js"></script>
+    <%--<script type="text/javascript" src="${basePath}res/ztree/js/jquery-1.4.4.min.js"></script>--%>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <script type="text/javascript" src="${basePath}res/ztree/js/jquery.ztree.core-3.5.js"></script>
     <script type="text/javascript" src="${basePath}res/ztree/js/jquery.ztree.excheck-3.5.js"></script>
     <SCRIPT type="text/javascript">
@@ -84,7 +86,7 @@
             srcObj = srcObj.replace(/^\s*/g, "").replace(/\s*$/g, "") ;
             destObj = destObj.replace(/^\s*/g, "").replace(/\s*$/g, "") ;
             if(srcObj == '' ||  destObj == ''){
-                alert("请选择分类");
+                layer.alert('请选择分类', 8);
                 return false;
             }
         }

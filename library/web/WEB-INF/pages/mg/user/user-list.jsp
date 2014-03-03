@@ -5,6 +5,8 @@
     <title>系统用户列表</title>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#jvForm").validate();
@@ -13,51 +15,55 @@
             window.location = '${basePath}mg/user/user-show.htm?userId=' + userId;
         }
         function del(userId) {
-            if (!confirm("确定要删除?")) {
-                return;
-            }
-            window.location = '${basePath}mg/user/user-del.htm?userId=' + userId;
+            layer.confirm('确定要删除？',function(index){
+                layer.close(index);
+                window.location = '${basePath}mg/user/user-del.htm?userId=' + userId;
+            });
         }
         function resePasswd(userId) {
-            if (!confirm("确定要重置密码?")) {
-                return;
-            }
-            window.location = '${basePath}mg/user/user-resetPasswd.htm?userId=' + userId;
+            layer.confirm('确定要重置密码？',function(index){
+                layer.close(index);
+                window.location = '${basePath}mg/user/user-resetPasswd.htm?userId=' + userId;
+            });
         }
         function delAll(itemName){
             var all_checkbox = document.getElementsByName(itemName);
             var len = all_checkbox.length;
             if(isChecked(itemName) == false ){
-                alert('至少选择一项');
+                layer.alert('至少选择一项', 8);
             }else{
-                if(!confirm('确认要执行操作?'))return;
-                var values = "";
-                for(var i=0;i<len ;i++){
-                    if(all_checkbox[i].checked)
-                        values += "," + all_checkbox[i].value;
-                }
-                if(values.length > 1)
-                    values = values.substring(1);
-                var opURL = '${basePath}mg/user/user-del.htm?userId=' + values;
-                window.location = opURL ;
+                layer.confirm('确认要执行操作？',function(index){
+                    layer.close(index);
+                    var values = "";
+                    for(var i=0;i<len ;i++){
+                        if(all_checkbox[i].checked)
+                            values += "," + all_checkbox[i].value;
+                    }
+                    if(values.length > 1)
+                        values = values.substring(1);
+                    var opURL = '${basePath}mg/user/user-del.htm?userId=' + values;
+                    window.location = opURL ;
+                });
             }
         }
         function setLive(itemName,flag){
             var all_checkbox = document.getElementsByName(itemName);
             var len = all_checkbox.length;
             if(isChecked(itemName) == false ){
-                alert('至少选择一项');
+                layer.alert('至少选择一项', 8);
             }else{
-                if(!confirm('确认要执行操作?'))return;
-                var values = "";
-                for(var i=0;i<len ;i++){
-                    if(all_checkbox[i].checked)
-                        values += "," + all_checkbox[i].value;
-                }
-                if(values.length > 1)
-                    values = values.substring(1);
-                var opURL = '${basePath}mg/user/user-setLive.htm?userId=' + values + '&flag=' + flag;
-                window.location = opURL ;
+                layer.confirm('确认要执行操作？',function(index){
+                    layer.close(index);
+                    var values = "";
+                    for(var i=0;i<len ;i++){
+                        if(all_checkbox[i].checked)
+                            values += "," + all_checkbox[i].value;
+                    }
+                    if(values.length > 1)
+                        values = values.substring(1);
+                    var opURL = '${basePath}mg/user/user-setLive.htm?userId=' + values + '&flag=' + flag;
+                    window.location = opURL ;
+                });
             }
         }
     </script>

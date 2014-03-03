@@ -4,6 +4,8 @@
 <head>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#jvForm").validate();
@@ -12,10 +14,10 @@
             window.location = '${basePath}mg/library/category-show.htm?pid=' + pid + '&id=' + id + '&type=${type}';
         }
         function del(pid,id) {
-            if (!confirm("确定要删除此栏目?")) {
-                return;
-            }
-            window.location = '${basePath}mg/library/category-del.htm?pid=' + pid + '&id=' + id + '&type=${type}';
+            layer.confirm('确定要删除此栏目？',function(index){
+                layer.close(index);
+                window.location = '${basePath}mg/library/category-del.htm?pid=' + pid + '&id=' + id + '&type=${type}';
+            });
         }
     </script>
 </head>

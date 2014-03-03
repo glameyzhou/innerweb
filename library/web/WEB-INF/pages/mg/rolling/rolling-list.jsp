@@ -6,6 +6,8 @@
     <title>${categoryParent.name}列表</title>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#jvForm").validate();
@@ -14,29 +16,30 @@
             window.location = '${basePath}mg/rolling/rolling-show.htm?id=' + id + "&categoryId=" + categoryId;
         }
         function del(id,categoryId) {
-            if (!confirm("确定要删除?")) {
-                return;
-            }
-            var locationURL = "${basePath}mg/rolling/rolling-del.htm?id=" + id + "&categoryId=" + categoryId;
-            window.location = locationURL;
+            layer.confirm('确定要删除？',function(index){
+                layer.close(index);
+                var locationURL = "${basePath}mg/rolling/rolling-del.htm?id=" + id + "&categoryId=" + categoryId;
+                window.location = locationURL;
+            });
         }
         function delSelect(itemName,categoryId) {
             var all_checkbox = document.getElementsByName(itemName);
             var len = all_checkbox.length;
             if (isChecked(itemName) == false) {
-                alert('至少选择一项');
+                layer.alert('至少选择一项', 8);
             } else {
-                if (!confirm('确认要执行操作?'))return;
-                var values = "";
-                for (var i = 0; i < len; i++) {
-                    if (all_checkbox[i].checked)
-                        values += "," + all_checkbox[i].value;
-                }
-                if (values.length > 1)
-                    values = values.substring(1);
-                var opURL = "${basePath}mg/rolling/rolling-del.htm?id=" + values + "&categoryId=" + categoryId;
-                alert(opURL);
-                window.location = opURL;
+                layer.confirm('确认要执行操作？',function(index){
+                    layer.close(index);
+                    var values = "";
+                    for (var i = 0; i < len; i++) {
+                        if (all_checkbox[i].checked)
+                            values += "," + all_checkbox[i].value;
+                    }
+                    if (values.length > 1)
+                        values = values.substring(1);
+                    var opURL = "${basePath}mg/rolling/rolling-del.htm?id=" + values + "&categoryId=" + categoryId;
+                    window.location = opURL;
+                });
             }
         }
     </script>

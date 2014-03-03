@@ -5,35 +5,40 @@
 <head>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#jvForm").validate();
         });
         function deleteSingle(replyId,postId,categoryId) {
-            if (!confirm('确定要删除吗？')) return;
-            var opURL = "${basePath}mg/bbs/reply-setSelectContent.htm?categoryId=" + categoryId + "&replyId=" + replyId + "&postId=" + postId;
-            window.location = opURL;
+            layer.confirm('确定要删除吗',function(index){
+                layer.close(index);
+                var opURL = "${basePath}mg/bbs/reply-setSelectContent.htm?categoryId=" + categoryId + "&replyId=" + replyId + "&postId=" + postId;
+                window.location = opURL;
+            });
         }
-        function setSelectContent(itemName,categoryId) {
+        function setSelectContent(itemName,categoryId,postId) {
             var all_checkbox = document.getElementsByName(itemName);
             var len = all_checkbox.length;
             if (isChecked(itemName) == false) {
-                alert('至少选择一项');
+                layer.alert('至少选择一项', 8);
             } else {
-                var msg = '确认要删除操作?';
-                if (!confirm(msg)) return;
-                var values = "";
-                alert(len);
-                for (var i = 0; i < len; i++) {
-                    alert(all_checkbox[i].checked + '  ' + all_checkbox[i].value);
-                    if (all_checkbox[i].checked)
-                        values += "," + all_checkbox[i].value;
-                }
-                if (values.length > 1)
-                    values = values.substring(1);
-                var opURL = "${basePath}mg/bbs/reply-setSelectContent.htm?categoryId=" + categoryId + "&replyId=" + values;
-                alert(opURL);
-                window.location = opURL;
+                layer.confirm('确认要删除操作？',function(index){
+                    layer.close(index);
+                    var values = "";
+                    alert(len);
+                    for (var i = 0; i < len; i++) {
+                        alert(all_checkbox[i].checked + '  ' + all_checkbox[i].value);
+                        if (all_checkbox[i].checked)
+                            values += "," + all_checkbox[i].value;
+                    }
+                    if (values.length > 1)
+                        values = values.substring(1);
+                    var opURL = "${basePath}mg/bbs/reply-setSelectContent.htm?categoryId=" + categoryId + "&postId=" + postId + "&replyId=" + values;
+                    alert(opURL);
+                    window.location = opURL;
+                });
             }
         }
     </script>
@@ -62,7 +67,7 @@
             <br/><br/>
             <a href="javascript:checkAll('replyId',true);">全选</a>&nbsp;&nbsp;<a
                 href="javascript:checkAll('replyId',false);">取消</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('replyId','${category.id}');">删除所选</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('replyId','${category.id}','${query.postId}');">删除所选</a>&nbsp;&nbsp;
         </div>
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
