@@ -30,6 +30,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -231,9 +232,6 @@ public class LibraryManagerController extends BaseController {
         query.setShowSugguest(showSugguest);
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
-        query.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
-        query.setOrderType(Constants.ORDERBYDESC);
-
 
         List<LibraryInfo> libraryList = libraryDao.getByQuery(query);
         pageBean.setMaxRowCount(libraryDao.getCountByQuery(query));

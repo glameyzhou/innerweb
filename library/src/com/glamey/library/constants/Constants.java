@@ -57,6 +57,8 @@ public class Constants {
 
     public static final String ORDERBYCOLUMNNAME_LIB_TIME = " lib_time " ;
     public static final String ORDERBYCOLUMNNAME_LIB_UPDATE_TIME = " lib_update_time " ;
+    public static final String ORDERBYCOLUMNNAME_LIB_ORDER = " lib_order " ;
+
 
     /*尾部友情链接显示的条数*/
     public static final int FRIENDLYLINKSCOUNT = 5;

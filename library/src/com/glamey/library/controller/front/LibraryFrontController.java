@@ -3,6 +3,7 @@ package com.glamey.library.controller.front;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -131,7 +132,7 @@ public class LibraryFrontController extends BaseController {
         }
     }
 
-    /*最新荐读*/
+    /*最新荐读--已经修改为近期收录*/
     @RequestMapping(value = "/library-newest.htm", method = RequestMethod.GET)
     public ModelAndView libNewest(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #libNewest#" + request.getRequestURI());
@@ -151,15 +152,26 @@ public class LibraryFrontController extends BaseController {
         libraryQuery.setShowSugguest(1);
         libraryQuery.setStart(pageBean.getStart());
         libraryQuery.setNum(pageBean.getRowsPerPage());
-        libraryQuery.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
-        libraryQuery.setOrderType(Constants.ORDERBYDESC);
+        libraryQuery.setOrderMap(new LinkedHashMap<String, String>() {
+            {
+                put(Constants.ORDERBYCOLUMNNAME_LIB_TIME, Constants.ORDERBYDESC);
+            }
+        });
         /*List<LibraryInfo> libraryInfoNewestList = StringUtils.isNotBlank(src) ? libraryInfoDao.getByQuery(libraryQuery) : libraryInfoDao.getFilterByQuery(libraryQuery);
         pageBean.setMaxRowCount(StringUtils.isNotBlank(src) ? libraryInfoDao.getCountByQuery(libraryQuery) : libraryInfoDao.getCountFileterByQuery(libraryQuery));*/
         //如果是左侧过来的数据，直接查询对应的栏目“行业资讯”，反之查询所有的图书内容（最新收录类型的）
-        if (StringUtils.isNotBlank(src))
+        if (StringUtils.isNotBlank(src)) {
             libraryQuery.setCategoryId(categoryId);
-        else
+            libraryQuery.setOrderMap(new LinkedHashMap<String, String>(){
+                {
+                    put(Constants.ORDERBYCOLUMNNAME_LIB_ORDER,Constants.ORDERBYDESC);
+                    put(Constants.ORDERBYCOLUMNNAME_LIB_TIME,Constants.ORDERBYDESC);
+                }
+            });
+        }
+        else {
             libraryQuery.setShowRecent(1);
+        }
 
         List<LibraryInfo> libraryInfoNewestList = libraryInfoDao.getByQuery(libraryQuery);
         pageBean.setMaxRowCount(libraryInfoDao.getCountByQuery(libraryQuery));

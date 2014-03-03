@@ -134,8 +134,6 @@ public class IncludeFront {
         LibraryQuery query = new LibraryQuery();
         query.setCategoryId(CategoryConstants.CATEGORY_HANGYEZIXUN);
         query.setShowIndex(1);
-        query.setOrderColumnName(Constants.ORDERBYCOLUMNNAME_LIB_TIME);
-        query.setOrderType(Constants.ORDERBYDESC);
         query.setStart(0);
         query.setNum(6);
         List<LibraryInfo> libraryInfoList = libraryInfoDao.getByQuery(query);

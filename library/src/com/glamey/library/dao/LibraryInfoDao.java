@@ -24,9 +24,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * 微型图书馆数据库操作类
@@ -249,10 +247,21 @@ public class LibraryInfoDao extends BaseDao {
             if (query.getShowRecent() > -1)
                 sql.append(" and lib_recent = ? ");
 
-            if (StringUtils.isNotBlank(query.getOrderColumnName()) && StringUtils.isNotBlank(query.getOrderType())) {
+            /*if (StringUtils.isNotBlank(query.getOrderColumnName()) && StringUtils.isNotBlank(query.getOrderType())) {
                 sql.append(" order by ").append(query.getOrderColumnName()).append(query.getOrderType());
             } else {
                 sql.append(" order by lib_order desc ");
+            }*/
+
+            LinkedHashMap<String,String> orderMap = query.getOrderMap();
+            if (orderMap != null && orderMap.size() > 0) {
+                StringBuffer subSql = new StringBuffer(20);
+                subSql.append(" order by ");
+                for (Map.Entry<String,String> entry  : orderMap.entrySet()) {
+                    subSql.append(entry.getKey()).append(" ").append(entry.getValue()).append(",");
+                }
+
+                sql.append(StringUtils.removeEnd(subSql.toString(),","));
             }
 
             sql.append(" limit ?,? ");
@@ -424,10 +433,20 @@ public class LibraryInfoDao extends BaseDao {
             if (query.getShowRecent() > -1)
                 sql.append(" and lib_recent = ? ");
 
-            if (StringUtils.isNotBlank(query.getOrderColumnName()) && StringUtils.isNotBlank(query.getOrderType())) {
+            /*if (StringUtils.isNotBlank(query.getOrderColumnName()) && StringUtils.isNotBlank(query.getOrderType())) {
                 sql.append(" order by ").append(query.getOrderColumnName()).append(query.getOrderType());
             } else {
                 sql.append(" order by lib_order desc ");
+            }*/
+            LinkedHashMap<String,String> orderMap = query.getOrderMap();
+            if (orderMap != null && orderMap.size() > 0) {
+                StringBuffer subSql = new StringBuffer(20);
+                subSql.append(" order by ");
+                for (Map.Entry<String,String> entry  : orderMap.entrySet()) {
+                    subSql.append(entry.getKey()).append(" ").append(entry.getValue()).append(",");
+                }
+
+                sql.append(StringUtils.removeEnd(subSql.toString(),","));
             }
 
             sql.append(" limit ?,? ");
