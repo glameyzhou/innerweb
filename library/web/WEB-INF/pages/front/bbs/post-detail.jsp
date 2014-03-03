@@ -35,7 +35,7 @@
             <div class="right-meitan">
                 <div class="right-meitan-tit tit-height">
                     <ul style="width:700px;">
-                        <li><h2>${bbsPost.title}</h2></li>
+                        <li><h2>${fmtString:substringAppend(bbsPost.title,35 ,'...' )}</h2></li>
                         <li style="padding-left:20px;">[<span class="colorju">${bbsPost.viewCount}</span> 查看 / <span class="colorju">${bbsPost.replyCount}</span> 回复 ]</li>
                     </ul>
                     <br /><br /><br />
