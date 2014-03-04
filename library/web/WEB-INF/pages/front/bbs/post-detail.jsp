@@ -76,10 +76,10 @@
                                 <span class="colorhui" style="width: 20px;">楼主</span>
                             </span>
                         </li>
-                        <li class="minheight">${bbsPost.content}</li>
-                        <c:if test="${bbsPost.publishTime ne bbsPost.updateTime}">
+                        <li class="minheight" id="content_0">${bbsPost.content}</li>
+                        <c:if test="${not empty bbsPost.lastedUpdateUserId and bbsPost.lastedUpdateUserInfo != null}">
                             <li style="margin-left: 10px;margin-top: 10px; color: #999;height: 20px;">
-                                最后编辑&nbsp;<fmt:formatDate value="${bbsPost.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                ${bbsPost.lastedUpdateUserInfo.nickname}&nbsp;最后编辑与&nbsp;<fmt:formatDate value="${bbsPost.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                             </li>
                         </c:if>
                         <%--<li class="tiezi-huifu">
@@ -106,15 +106,17 @@
                                 </span>
                                 <span style="text-align: right;margin-left: 270px;">
                                     <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
-                                    <span class="colorhui">回复</span>&nbsp;&nbsp;
+                                    <span class="colorhui">
+                                        <a href="javascript:floorReply('${status.index + 1 }','${reply.userInfo.nickname}');" class="colorhui">回复</a>
+                                    </span>&nbsp;&nbsp;
                                     <a class="colorhui" href="#top">TOP</a>&nbsp;&nbsp;
                                     <span class="colorhui" style="width: 20px;">${status.index + 1 }楼</span>
                                 </span>
                             </li>
-                            <li class="minheight">${reply.content}</li>
-                            <c:if test="${reply.publishTime ne reply.updateTime}">
+                            <li class="minheight" id="content_${status.index + 1 }">${reply.content}</li>
+                            <c:if test="${not empty reply.lastedUpdateUserId and reply.lastedUpdateUserInfo != null}">
                                 <li style="margin-left: 10px;margin-top: 10px; color: #999;height: 20px;">
-                                    最后编辑&nbsp;<fmt:formatDate value="${reply.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                    ${reply.lastedUpdateUserInfo.nickname}&nbsp;最后编辑&nbsp;<fmt:formatDate value="${reply.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                                 </li>
                             </c:if>
                             <%--<li class="tiezi-huifu">
@@ -180,8 +182,9 @@
                         <script charset="utf-8" src="${basePath}kindeditor/lang/zh_CN.js"></script>
                         <script charset="utf-8" src="${basePath}kindeditor/plugins/code/prettify.js"></script>
                         <script>
+                            var kindEditor;
                             KindEditor.ready(function (K) {
-                                K.create('textarea[name="postContent"]', {
+                                 kindEditor = K.create('textarea[name="postContent"]', {
                                     cssPath: '${basePath}kindeditor/plugins/code/prettify.css',
                                     uploadJson: '${basePath}kindeditor/jsp/upload_json.jsp',
                                     fileManagerJson: '${basePath}kindeditor/jsp/file_manager_json.jsp',
@@ -274,6 +277,13 @@
                 layer.alert('网络异常，请稍后重试。', 8);
             }
         });
+    }
+    function floorReply(floorId,userName){
+        //向kindEditor中赋值
+        /*var content = $("#content_" + floorId).html();*/
+        kindEditor.html('<p><b>回复' + floorId + '楼 ' + userName + '的帖子</b><br/></p>');
+        //跳转到回复区域
+        location.hash="replyArea";
     }
 </script>
 </body>

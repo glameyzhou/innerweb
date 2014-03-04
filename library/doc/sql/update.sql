@@ -94,3 +94,12 @@ update tbl_library b set b.lib_recent = 1;
 
 update tbl_library b set b.lib_recent = 0 where b.lib_category_id = 'EnQnii';
 
+
+#20140304#
+#最后更新的用户ID#
+ALTER TABLE `tbl_bbs_post`
+ADD COLUMN `lasted_update_userid`  varchar(32) NULL COMMENT '最后更新的人' AFTER `show_popular`;
+
+ALTER TABLE `tbl_bbs_reply`
+ADD COLUMN `lasted_update_userid`  varchar(32) NULL COMMENT '最后更新的用户ID' AFTER `content`;
+

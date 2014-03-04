@@ -92,7 +92,7 @@ public class BBSPostDao extends BaseDao {
         logger.info("[BBSPostDao] #update# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_bbs_post set category_id_fk=?,title=?,user_id_fk=?,publish_time=?,update_time=?,content=?,view_count=?,reply_count=?,show_top=?,show_great=?,show_popular=? where id = ?",
+                    "update tbl_bbs_post set category_id_fk=?,title=?,user_id_fk=?,publish_time=?,update_time=?,content=?,view_count=?,reply_count=?,show_top=?,show_great=?,show_popular=?,lasted_update_userid=? where id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -108,6 +108,7 @@ public class BBSPostDao extends BaseDao {
                             pstmt.setInt(++i, info.getShowTop());
                             pstmt.setInt(++i, info.getShowGreat());
                             pstmt.setInt(++i, info.getShowPopular());
+                            pstmt.setString(++i, info.getLastedUpdateUserId());
                             pstmt.setString(++i, info.getId());
                         }
                     });
@@ -142,9 +143,9 @@ public class BBSPostDao extends BaseDao {
         try {
             String sql;
             if (addCount)
-                sql = "update tbl_bbs_post set reply_count = reply_count + 1 where id = ?";
+                sql = "update tbl_bbs_post set reply_count = reply_count + 1,update_time = now() where id = ?";
             else
-            sql = "update tbl_bbs_post set reply_count = reply_count - 1 where id = ?";
+            sql = "update tbl_bbs_post set reply_count = reply_count - 1,update_time = now() where id = ?";
 
             int count = jdbcTemplate.update(
                     sql,
@@ -478,20 +479,19 @@ public class BBSPostDao extends BaseDao {
     }
 
     public BBSPost getBBSPost(String postId,String type) {
+        logger.error("[BBSPostDao] #getByQuery# error! postId=" + postId + " type=" + type);
         try {
             final BBSPost postCurrent = this.getPostById(postId) ;
-            Date publishDate = postCurrent.getPublishTime();
+            Date publishDate = postCurrent.getUpdateTime();
             StringBuffer sql = new StringBuffer("select * from tbl_bbs_post where category_id_fk = ? ");
-            String time;
+            final String time = DateFormatUtils.format(publishDate.getTime(), "yyyy-MM-dd HH:mm:ss");
             //上一篇
             if (StringUtils.equals(type,"pre")) {
-                time = DateFormatUtils.format(publishDate.getTime() - 1, "yyyy-MM-dd HH:mm:ss");
-                sql.append(" and publish_time <= '" + time + "' order by publish_time desc limit 1");
+                sql.append(" and update_time > ? order by update_time asc limit 1");
             }
-
+            //下一篇
             if (StringUtils.equals(type, "next")) {
-                time = DateFormatUtils.format(publishDate.getTime() + 1, "yyyy-MM-dd HH:mm:ss");
-                sql.append(" and publish_time >= '" + time + "' order by publish_time asc limit 1 ");
+                sql.append(" and update_time < ? order by update_time desc limit 1 ");
             }
 
             List<BBSPost> list = jdbcTemplate.query(sql.toString(),
@@ -500,6 +500,7 @@ public class BBSPostDao extends BaseDao {
                             public void setValues(PreparedStatement preparedstatement) throws SQLException {
                                 int i = 0;
                                 preparedstatement.setString(++i,postCurrent.getCategoryId());
+                                preparedstatement.setString(++i,time);
                             }
                         },
                         new BBSPostRowMapper());
@@ -652,6 +653,11 @@ public class BBSPostDao extends BaseDao {
             info.setShowGreat(rs.getInt("show_great"));
             info.setShowPopular(rs.getInt("show_popular"));
 
+            info.setLastedUpdateUserId(rs.getString("lasted_update_userid"));
+            if (StringUtils.isNotBlank(info.getLastedUpdateUserId())) {
+                UserInfo lastedUpdateUserInfo = userInfoDao.getUserSimpleById(info.getLastedUpdateUserId());
+                info.setLastedUpdateUserInfo(lastedUpdateUserInfo);
+            }
             return info;
         }
     }

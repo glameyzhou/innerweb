@@ -27,6 +27,8 @@ public class BBSPost implements Serializable {
     private int showTop;
     private int showGreat;
     private int showPopular;
+    private String lastedUpdateUserId;
+    private UserInfo lastedUpdateUserInfo;
 
     public String getId() {
         return id;
@@ -138,6 +140,22 @@ public class BBSPost implements Serializable {
 
     public void setShowPopular(int showPopular) {
         this.showPopular = showPopular;
+    }
+
+    public String getLastedUpdateUserId() {
+        return lastedUpdateUserId;
+    }
+
+    public void setLastedUpdateUserId(String lastedUpdateUserId) {
+        this.lastedUpdateUserId = lastedUpdateUserId;
+    }
+
+    public UserInfo getLastedUpdateUserInfo() {
+        return lastedUpdateUserInfo;
+    }
+
+    public void setLastedUpdateUserInfo(UserInfo lastedUpdateUserInfo) {
+        this.lastedUpdateUserInfo = lastedUpdateUserInfo;
     }
 
     @Override

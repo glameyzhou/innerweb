@@ -22,6 +22,8 @@ public class BBSReply {
     private Date publishTime;
     private Date updateTime;
     private String content;
+    private String lastedUpdateUserId;
+    private UserInfo lastedUpdateUserInfo;
 
     public String getCategoryId() {
         return categoryId;
@@ -85,6 +87,22 @@ public class BBSReply {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getLastedUpdateUserId() {
+        return lastedUpdateUserId;
+    }
+
+    public void setLastedUpdateUserId(String lastedUpdateUserId) {
+        this.lastedUpdateUserId = lastedUpdateUserId;
+    }
+
+    public UserInfo getLastedUpdateUserInfo() {
+        return lastedUpdateUserInfo;
+    }
+
+    public void setLastedUpdateUserInfo(UserInfo lastedUpdateUserInfo) {
+        this.lastedUpdateUserInfo = lastedUpdateUserInfo;
     }
 
     @Override

@@ -78,7 +78,7 @@ public class BBSReplyDao extends BaseDao {
         logger.info("[BBSReplyDao] #update# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_bbs_reply set post_id_fk = ? ,user_id_fk = ? ,publish_time = ? ,update_time = ? ,content = ?  where id = ?",
+                    "update tbl_bbs_reply set post_id_fk = ? ,user_id_fk = ? ,publish_time = ? ,update_time = ? ,content = ?,lasted_update_userid=?  where id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -88,6 +88,7 @@ public class BBSReplyDao extends BaseDao {
                             pstmt.setTimestamp(++i, new Timestamp(info.getPublishTime().getTime()));
                             pstmt.setTimestamp(++i, new Timestamp(info.getUpdateTime().getTime()));
                             pstmt.setString(++i, info.getContent());
+                            pstmt.setString(++i, info.getLastedUpdateUserId());
                             pstmt.setString(++i, info.getId());
                         }
                     });
@@ -280,6 +281,12 @@ public class BBSReplyDao extends BaseDao {
             info.setContent(rs.getString("content"));
 
             info.setPostId(rs.getString("post_id_fk"));
+
+            info.setLastedUpdateUserId(rs.getString("lasted_update_userid"));
+            if (StringUtils.isNotBlank(info.getLastedUpdateUserId())) {
+                UserInfo lastedUpdateUserInfo = userInfoDao.getUserSimpleById(info.getLastedUpdateUserId());
+                info.setLastedUpdateUserInfo(lastedUpdateUserInfo);
+            }
             return info;
         }
     }

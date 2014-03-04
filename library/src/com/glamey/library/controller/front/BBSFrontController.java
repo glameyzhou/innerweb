@@ -13,7 +13,6 @@ import com.glamey.library.model.domain.Category;
 import com.glamey.library.model.domain.UserInfo;
 import com.glamey.library.model.dto.*;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -33,6 +32,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 论坛前台管理
+ */
 @Controller
 @RequestMapping(value = "/bbs")
 public class BBSFrontController extends BaseController {

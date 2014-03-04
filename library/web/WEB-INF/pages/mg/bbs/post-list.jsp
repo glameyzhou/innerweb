@@ -111,10 +111,10 @@
                 <th width="4%"></th>
                 <th>标题</th>
                 <th width="8%">作者</th>
-                <th width="7%">发布时间</th>
+                <th width="12%">发布/更新时间</th>
                 <th width="4%">置顶</th>
                 <th width="4%">精华</th>
-                <th width="8%">回复/浏览</th>
+                <th width="8%">浏览/回复</th>
                 <th width="12%">操作</th>
             </tr>
             </thead>
@@ -124,14 +124,17 @@
                     <td align="center"><input type="checkbox" id="postId" name="postId" value="${post.id}"/></td>
                     <td align="left"><a href="${basePath}bbs/post-${post.id}.htm" target="_blank">${post.title}</a></td>
                     <td align="center">${post.userInfo.nickname}</td>
-                    <td align="center"><fmt:formatDate value="${post.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td align="center">
+                        <fmt:formatDate value="${post.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/><br/>
+                        <fmt:formatDate value="${post.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                    </td>
                     <td align="center">
                         <c:if test="${post.showTop == 1 }">是</c:if><c:if test="${post.showTop == 0}">否</c:if>
                     </td>
                     <td align="center">
                         <c:if test="${post.showGreat == 1 }">是</c:if><c:if test="${post.showGreat == 0}">否</c:if>
                     </td>
-                    <td align="center">${post.replyCount}/${post.viewCount}</td>
+                    <td align="center">${post.viewCount}/${post.replyCount}</td>
                     <td align="center">
                         <a href="${basePath}mg/bbs/post-show.htm?categoryId=${post.categoryId}&postId=${post.id}">编辑</a>&nbsp;
                         <a href="javascript:deleteSingle('${post.id}','${post.categoryId}');">删除</a>&nbsp;
