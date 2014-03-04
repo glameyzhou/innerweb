@@ -150,15 +150,25 @@
                         <a href="${basePath}bbs/brand-${bbsPost.categoryId}.htm" class="colorbule">返回列表</a>
                     </span>
                     <span class="colorbule">
-                        <c:if test="${postPre != null and postPre.id != null}">
-                            <a href="${basePath}bbs/post-${postPre.id}.htm" class="colorbule">上一主题</a>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${postPre != null and postPre.id != null}">
+                                <a href="${basePath}bbs/post-${postPre.id}.htm" class="colorbule">上一主题</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="##" class="colorbule">上一主题</a>
+                            </c:otherwise>
+                        </c:choose>
                     </span>
                     &nbsp;|&nbsp;
                     <span class="colorbule">
-                        <c:if test="${postSub != null and postSub.id != null}">
-                            <a href="${basePath}bbs/post-${postSub.id}.htm" class="colorbule">下一主题</a>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${postSub != null and postSub.id != null}">
+                                <a href="${basePath}bbs/post-${postSub.id}.htm" class="colorbule">下一主题</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="##" class="colorbule">下一主题</a>
+                            </c:otherwise>
+                        </c:choose>
                     </span>
                 </div>
                 <%--回帖区域--%>
@@ -217,8 +227,8 @@
     function postSubmit(){
         var content = $("#postContent").val();
         var errorMsg = '';
-        if (content == 0 || content.length < 10) {
-            errorMsg += '内容不能小于10个字符';
+        if (content == 0) {
+            errorMsg += '内容不能为空';
         }
         if (errorMsg.length > 0 ) {
             layer.alert(errorMsg, 8);

@@ -112,17 +112,16 @@
             var title = $("#title").val();
             var postContent = $("#postContent").val();
             var errorMsg = '';
-            if (title == 0 || title.length < 10) {
-                errorMsg += '标题不能小于10个字符<br/>';
+            if (title == 0) {
+                errorMsg += '标题不能为空<br/>';
             }
-            if (postContent == 0 || postContent.length < 10) {
-                errorMsg += '内容不能小于10个字符';
+            if (postContent == 0) {
+                errorMsg += '内容不能为空';
             }
             if (errorMsg.length > 0 ) {
                 layer.alert(errorMsg, 8);
                 return;
             }
-            alert(postContent);
             $.ajax({
                 type: "post",
                 url: bastPath + "bbs/post-submit.htm",

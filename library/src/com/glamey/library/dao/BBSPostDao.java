@@ -477,6 +477,38 @@ public class BBSPostDao extends BaseDao {
         return null;
     }
 
+    public BBSPost getBBSPost(String postId,String type) {
+        try {
+            final BBSPost postCurrent = this.getPostById(postId) ;
+            Date publishDate = postCurrent.getPublishTime();
+            StringBuffer sql = new StringBuffer("select * from tbl_bbs_post where category_id_fk = ? ");
+            String time;
+            //上一篇
+            if (StringUtils.equals(type,"pre")) {
+                time = DateFormatUtils.format(publishDate.getTime() - 1, "yyyy-MM-dd HH:mm:ss");
+                sql.append(" and publish_time <= '" + time + "' order by publish_time desc limit 1");
+            }
+
+            if (StringUtils.equals(type, "next")) {
+                time = DateFormatUtils.format(publishDate.getTime() + 1, "yyyy-MM-dd HH:mm:ss");
+                sql.append(" and publish_time >= '" + time + "' order by publish_time asc limit 1 ");
+            }
+
+            List<BBSPost> list = jdbcTemplate.query(sql.toString(),
+                        new PreparedStatementSetter() {
+                            @Override
+                            public void setValues(PreparedStatement preparedstatement) throws SQLException {
+                                int i = 0;
+                                preparedstatement.setString(++i,postCurrent.getCategoryId());
+                            }
+                        },
+                        new BBSPostRowMapper());
+            return CollectionUtils.isEmpty(list) ? null : list.get(0);
+        } catch (Exception e) {
+            logger.error("[BBSPostDao] #getByQuery# error! postId=" + postId + " type=" + type, e);
+        }
+        return null;
+    }
     public BBSAnalyzer getAnalyzer(final String categoryId) {
         logger.info("[BBSPostDao] #getAnalyzer#" + categoryId);
         BBSAnalyzer analyzer = new BBSAnalyzer();

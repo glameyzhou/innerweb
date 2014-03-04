@@ -144,11 +144,11 @@ public class BBSFrontController extends BaseController {
         if (StringUtils.isBlank(categoryId)) {
             errorMsg += "为选择发帖分类<br/>";
         }
-        if (StringUtils.isBlank(title) || StringUtils.trim(title).length() < 10) {
-            errorMsg += "标题不能小于10个字符<br/>";
+        if (StringUtils.isBlank(title) /*|| StringUtils.trim(title).length() < 10*/) {
+            errorMsg += "标题不能为空<br/>";
         }
-        if (StringUtils.isBlank(content) || StringUtils.trim(content).length() < 10) {
-            errorMsg += "内容不能小于10个字符";
+        if (StringUtils.isBlank(content)/* || StringUtils.trim(content).length() < 10*/) {
+            errorMsg += "内容不能为空";
         }
 
         Map<String,String> resultMap = new HashMap<String, String>();
@@ -199,8 +199,8 @@ public class BBSFrontController extends BaseController {
         if (StringUtils.isBlank(postId)) {
             errorMsg += "请选择回帖的主题<br/>";
         }
-        if (StringUtils.isBlank(content) || StringUtils.trim(content).length() < 10) {
-            errorMsg += "内容不能小于10个字符";
+        if (StringUtils.isBlank(content)/* || StringUtils.trim(content).length() < 10*/) {
+            errorMsg += "内容不能为空";
         }
 
         Map<String,String> resultMap = new HashMap<String, String>();
@@ -325,6 +325,7 @@ public class BBSFrontController extends BaseController {
         }
         //增加本主题的viewcount
         bbsPostDao.addViewCount(postId);
+        bbsPost.setViewCount(bbsPost.getViewCount() + 1);
         //查看用户
         String userId = WebUtils.getRequestParameterAsString(request,"u");
         //回帖
@@ -347,17 +348,9 @@ public class BBSFrontController extends BaseController {
         Category category = categoryDao.getById(bbsPost.getCategoryId());
 
         //上一个主题
-        BBSPostQuery postQuery = new BBSPostQuery();
-        postQuery.setCategoryId(category.getId());
-        postQuery.setPublishEndTime(DateFormatUtils.format(bbsPost.getPublishTime().getTime() + 1,"yyyy-MM-dd HH:mm:ss"));
-        postQuery.setStart(0);
-        postQuery.setNum(1);
-        List<BBSPost> list = bbsPostDao.getByQuery(postQuery);
-        BBSPost postPre = CollectionUtils.isEmpty(list) ? null : list.get(0);
+        BBSPost postPre = bbsPostDao.getBBSPost(postId,"pre");
         //下一个主题
-        postQuery.setPublishStartTime(DateFormatUtils.format(bbsPost.getPublishTime().getTime() -1,"yyyy-MM-dd HH:mm:ss"));
-        list = bbsPostDao.getByQuery(postQuery);
-        BBSPost postSub = CollectionUtils.isEmpty(list) ? null : list.get(0);
+        BBSPost postSub = bbsPostDao.getBBSPost(postId,"next");
 
         mav.addObject("category", category);
         mav.addObject("bbsPost", bbsPost);
