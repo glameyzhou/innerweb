@@ -70,10 +70,10 @@
                                     <a class="colorhui" href="${basePath}bbs/post-${bbsPost.id}.htm?u=${bbsPost.userId}">只看楼主</a>
                                 </span>
                                 <span style="text-align: right;margin-left: 270px;">
-                                    <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
+                                    <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;margin-bottom: 1px;"/>
                                     <span class="colorhui">回复</span>&nbsp;&nbsp;
                                     <a href="#top" class="colorhui">TOP</a>&nbsp;&nbsp;
-                                    <span class="colorhui" style="width: 20px;">楼主</span>
+                                    <span class="colorhui" style="width: 20px;">1<sup class="colorhui">#</sup></span>
                                 </span>
                             </li>
                             <li class="minheight" id="content_0">${bbsPost.content}</li>
@@ -91,7 +91,7 @@
                 </c:if>
                 <%--回帖--%>
                 <c:forEach var="reply" items="${bbsReplyList}" varStatus="status">
-                    <c:set var="replyFloor" value="${(pageBean.curPage - 1) * pageBean.rowsPerPage + (status.index + 1)}"/>
+                    <c:set var="replyFloor" value="${(pageBean.curPage - 1) * pageBean.rowsPerPage + (status.index + 2)}"/>
                     <div class="right-tiezi-neirong">
                         <ul>
                             <li class="tiezi-mingcheng">
@@ -107,12 +107,12 @@
                                     </a>
                                 </span>
                                 <span style="text-align: right;margin-left: 270px;">
-                                    <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
+                                    <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;margin-bottom: 1px;"/>
                                     <span class="colorhui">
                                         <a href="javascript:floorReply('${replyFloor}','${reply.userInfo.nickname}');" class="colorhui">回复</a>
                                     </span>&nbsp;&nbsp;
                                     <a class="colorhui" href="#top">TOP</a>&nbsp;&nbsp;
-                                    <span class="colorhui" style="width: 20px;">${replyFloor}楼</span>
+                                    <span class="colorhui" style="width: 20px;">${replyFloor}<sup class="colorhui">#</sup></span>
                                 </span>
                             </li>
                             <li class="minheight" id="content_${replyFloor}">${reply.content}</li>
