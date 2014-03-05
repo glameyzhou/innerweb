@@ -102,9 +102,3 @@ ADD COLUMN `lasted_update_userid`  varchar(32) NULL COMMENT '最后更新的人'
 
 ALTER TABLE `tbl_bbs_reply`
 ADD COLUMN `lasted_update_userid`  varchar(32) NULL COMMENT '最后更新的用户ID' AFTER `content`;
-
-#20140305#
-#论坛回帖楼层字段添加#
-ALTER TABLE `tbl_bbs_reply`
-ADD COLUMN `floor`  int NULL DEFAULT 0 COMMENT '楼层，从1开始' AFTER `lasted_update_userid`;
-

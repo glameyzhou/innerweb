@@ -28,7 +28,6 @@
         </div>
         <!--左半边代码结束-->
         <!--右半边代码开始-->
-        <form>
         <div class="center_right">
             <div class="right-top">
                 <span class="colorbule" style="color: #0099cc;"><a href="${basePath}bbs/index.htm">专题讨论区</a></span> >> <a href="${basePath}bbs/brand-${category.id}.htm">${category.name}</a> >> ${bbsPost.title}</div>
@@ -59,37 +58,40 @@
                         </li>
                     </ul>
                 </div>
-                <%--楼主--%>
-                <div class="right-tiezi-neirong">
-                    <ul>
-                        <li class="tiezi-mingcheng">
-                            <img src="${basePath}res/front/library/images/right-5.jpg" align="absmiddle" style="margin-right:5px;"/>
-                            <B style="padding-right:20px;">${bbsPost.userInfo.nickname}</B>
-                            <span class="colorhui">
-                                <fmt:formatDate value="${bbsPost.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/> |
-                                <a class="colorhui" href="${basePath}bbs/post-${bbsPost.id}.htm?u=${bbsPost.userId}">只看楼主</a>
-                            </span>
-                            <span style="text-align: right;margin-left: 270px;">
-                                <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
-                                <span class="colorhui">回复</span>&nbsp;&nbsp;
-                                <a href="#top" class="colorhui">TOP</a>&nbsp;&nbsp;
-                                <span class="colorhui" style="width: 20px;">楼主</span>
-                            </span>
-                        </li>
-                        <li class="minheight" id="content_0">${bbsPost.content}</li>
-                        <c:if test="${not empty bbsPost.lastedUpdateUserId and bbsPost.lastedUpdateUserInfo != null}">
-                            <li style="margin-left: 10px;margin-top: 10px; color: #999;height: 20px;">
-                                ${bbsPost.lastedUpdateUserInfo.nickname}&nbsp;最后编辑与&nbsp;<fmt:formatDate value="${bbsPost.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                <%--楼主 如果是非第一页的话，不再显示楼主信息--%>
+                <c:if test="${pageBean.curPage == 1}">
+                    <div class="right-tiezi-neirong">
+                        <ul>
+                            <li class="tiezi-mingcheng">
+                                <img src="${basePath}res/front/library/images/right-5.jpg" align="absmiddle" style="margin-right:5px;"/>
+                                <B style="padding-right:20px;">${bbsPost.userInfo.nickname}</B>
+                                <span class="colorhui">
+                                    <fmt:formatDate value="${bbsPost.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/> |
+                                    <a class="colorhui" href="${basePath}bbs/post-${bbsPost.id}.htm?u=${bbsPost.userId}">只看楼主</a>
+                                </span>
+                                <span style="text-align: right;margin-left: 270px;">
+                                    <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
+                                    <span class="colorhui">回复</span>&nbsp;&nbsp;
+                                    <a href="#top" class="colorhui">TOP</a>&nbsp;&nbsp;
+                                    <span class="colorhui" style="width: 20px;">楼主</span>
+                                </span>
                             </li>
-                        </c:if>
-                        <%--<li class="tiezi-huifu">
-                            <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
-                            <span class="colorhui">回复</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#top" class="colorhui">TOP</a>
-                        </li>--%>
-                    </ul>
-                </div>
+                            <li class="minheight" id="content_0">${bbsPost.content}</li>
+                            <c:if test="${not empty bbsPost.lastedUpdateUserId and bbsPost.lastedUpdateUserInfo != null}">
+                                <li style="margin-left: 10px;margin-top: 10px; color: #999;height: 20px;">
+                                    ${bbsPost.lastedUpdateUserInfo.nickname}&nbsp;最后编辑与&nbsp;<fmt:formatDate value="${bbsPost.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                </li>
+                            </c:if>
+                            <%--<li class="tiezi-huifu">
+                                <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
+                                <span class="colorhui">回复</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#top" class="colorhui">TOP</a>
+                            </li>--%>
+                        </ul>
+                    </div>
+                </c:if>
                 <%--回帖--%>
                 <c:forEach var="reply" items="${bbsReplyList}" varStatus="status">
+                    <c:set var="replyFloor" value="${(pageBean.curPage - 1) * pageBean.rowsPerPage + (status.index + 1)}"/>
                     <div class="right-tiezi-neirong">
                         <ul>
                             <li class="tiezi-mingcheng">
@@ -107,24 +109,18 @@
                                 <span style="text-align: right;margin-left: 270px;">
                                     <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
                                     <span class="colorhui">
-                                        <a href="javascript:floorReply('${reply.floor}','${reply.userInfo.nickname}');" class="colorhui">回复</a>
+                                        <a href="javascript:floorReply('${replyFloor}','${reply.userInfo.nickname}');" class="colorhui">回复</a>
                                     </span>&nbsp;&nbsp;
                                     <a class="colorhui" href="#top">TOP</a>&nbsp;&nbsp;
-                                    <span class="colorhui" style="width: 20px;">${reply.floor}楼</span>
+                                    <span class="colorhui" style="width: 20px;">${replyFloor}楼</span>
                                 </span>
                             </li>
-                            <li class="minheight" id="content_${reply.floor}">${reply.content}</li>
+                            <li class="minheight" id="content_${replyFloor}">${reply.content}</li>
                             <c:if test="${not empty reply.lastedUpdateUserId and reply.lastedUpdateUserInfo != null}">
                                 <li style="margin-left: 10px;margin-top: 10px; color: #999;height: 20px;">
-                                    ${reply.lastedUpdateUserInfo.nickname}&nbsp;最后编辑&nbsp;<fmt:formatDate value="${reply.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                    ${reply.lastedUpdateUserInfo.nickname}&nbsp;最后编辑与&nbsp;<fmt:formatDate value="${reply.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                                 </li>
                             </c:if>
-                            <%--<li class="tiezi-huifu">
-                                <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
-                                <span class="colorhui">回复</span>&nbsp;&nbsp;
-                                <a class="colorhui" href="#top">TOP</a>&nbsp;&nbsp;
-                                <span class="colorhui">${status.index + 1 }楼</span>
-                            </li>--%>
                         </ul>
                     </div>
                 </c:forEach>
@@ -143,7 +139,7 @@
                         </li>
                     </ul>
                 </div>--%>
-                <c:if test="${pageBean.curPage > 1}">
+                <c:if test="${pageBean.maxPage > 1}">
                     <c:set var="pageURL" value="${basePath}bbs/post-${bbsPost.id}.htm?u=${query.userId}&"/>
                     <%@include file="../../common/pages-front.jsp" %>
                 </c:if>
@@ -215,7 +211,6 @@
                 </div>
             </div>
         </div>
-        </form>
         <!--右半边代码结束-->
     </div>
     <!--底部代码开始-->
@@ -287,14 +282,18 @@
     }
 
     /**
-    *   返回BBS首页
+    *   返回列表页面
      */
     $('#returnBBSIndex').on('mouseover', function(){
-        layer.tips('跳转至<a href="${basePath}bbs/index.htm"><b>专题讨论区</b></a>', this, {
-            style: ['background-color:#0FA6D8; color:#fff', '#0FA6D8'],
-            maxWidth:150,
-            time: 2
-        });
+        layer.tips(
+                '跳转至<br/><a href="${basePath}bbs/index.htm"><b>专题讨论区</b></a><br/><a href="${basePath}bbs/brand-${category.id}.htm"><b>${category.name}</b></a>',
+                this,
+                {
+                    style: ['background-color:#0FA6D8; color:#fff', '#0FA6D8'],
+                    maxWidth: 150,
+                    time: 2
+                }
+        );
     });
 </script>
 </body>

@@ -193,7 +193,7 @@ public class BBSPostManagerController extends BaseController {
         String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
         Category category = categoryDao.getBySmpleId(categoryId);
 
-        pageBean = new PageBean();
+        pageBean = new PageBean(2);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);
 

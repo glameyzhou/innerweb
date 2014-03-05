@@ -24,7 +24,6 @@ public class BBSReply {
     private String content;
     private String lastedUpdateUserId;
     private UserInfo lastedUpdateUserInfo;
-    private int floor;
 
     public String getCategoryId() {
         return categoryId;
@@ -104,14 +103,6 @@ public class BBSReply {
 
     public void setLastedUpdateUserInfo(UserInfo lastedUpdateUserInfo) {
         this.lastedUpdateUserInfo = lastedUpdateUserInfo;
-    }
-
-    public int getFloor() {
-        return floor;
-    }
-
-    public void setFloor(int floor) {
-        this.floor = floor;
     }
 
     @Override

@@ -82,9 +82,10 @@
             </thead>
             <tbody class="pn-ltbody">
             <c:forEach items="${bbsReplyList}" var="reply" varStatus="status">
+                <c:set var="replyFloor" value="${(pageBean.curPage - 1) * pageBean.rowsPerPage + (status.index + 1)}"/>
                 <tr>
                     <td align="center"><input type="checkbox" id="replyId" name="replyId" value="${reply.id}"/></td>
-                    <td align="center">${reply.floor}楼</td>
+                    <td align="center">${replyFloor}楼</td>
                     <td align="center">${reply.userInfo.nickname}</td>
                     <td align="center"><fmt:formatDate value="${reply.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td align="center"><fmt:formatDate value="${reply.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>

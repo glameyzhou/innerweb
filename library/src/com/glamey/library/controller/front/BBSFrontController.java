@@ -186,7 +186,7 @@ public class BBSFrontController extends BaseController {
     }
     /**回复帖子*/
 //    @ResponseBody
-    @RequestMapping(value = "/reply-{postId}-submit.htm", method = RequestMethod.POST)
+        @RequestMapping(value = "/reply-{postId}-submit.htm", method = RequestMethod.POST)
     public void replySubmit(
             @PathVariable String postId,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
@@ -220,8 +220,6 @@ public class BBSFrontController extends BaseController {
             reply.setUserId(userInfo.getUserId());
             reply.setPostId(postId);
             reply.setContent(content);
-            int replyCount = bbsReplyDao.getReplyCountByPostId(postId);
-            reply.setFloor(replyCount + 1);
             if (!bbsReplyDao.create(reply)) {
                 pCode = "2";
                 pData = "网络超时，请稍后重试";
@@ -332,7 +330,8 @@ public class BBSFrontController extends BaseController {
         //查看用户
         String userId = WebUtils.getRequestParameterAsString(request,"u");
         //回帖
-        pageBean = new PageBean(Constants.rowsPerPageFront);
+//        pageBean = new PageBean(Constants.rowsPerPageFront);
+        pageBean = new PageBean(3);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);
 

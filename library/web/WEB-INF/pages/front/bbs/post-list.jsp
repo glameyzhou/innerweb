@@ -102,7 +102,7 @@
                             </tr>
                         </c:forEach>
                     </table>
-                    <c:if test="${pageBean.curPage > 1}">
+                    <c:if test="${pageBean.maxPage > 1}">
                         <c:set var="pageURL" value="${basePath}bbs/brand-${category.id}.htm?type=${type}&"/>
                         <%@include file="../../common/pages-front.jsp" %>
                     </c:if>
