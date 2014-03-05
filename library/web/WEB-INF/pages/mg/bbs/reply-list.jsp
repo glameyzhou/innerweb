@@ -73,16 +73,18 @@
             <thead class="pn-lthead">
             <tr>
                 <th width="4%"></th>
-                <th width="23%">作者</th>
-                <th width="23%">发布时间</th>
-                <th width="23%">更新时间</th>
-                <th width="23%">操作</th>
+                <th width="6%">楼层</th>
+                <th width="20%">作者</th>
+                <th width="20%">发布时间</th>
+                <th width="20%">更新时间</th>
+                <th width="20%">操作</th>
             </tr>
             </thead>
             <tbody class="pn-ltbody">
             <c:forEach items="${bbsReplyList}" var="reply" varStatus="status">
                 <tr>
                     <td align="center"><input type="checkbox" id="replyId" name="replyId" value="${reply.id}"/></td>
+                    <td align="center">${reply.floor}楼</td>
                     <td align="center">${reply.userInfo.nickname}</td>
                     <td align="center"><fmt:formatDate value="${reply.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td align="center"><fmt:formatDate value="${reply.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>

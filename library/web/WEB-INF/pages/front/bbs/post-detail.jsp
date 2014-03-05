@@ -107,13 +107,13 @@
                                 <span style="text-align: right;margin-left: 270px;">
                                     <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
                                     <span class="colorhui">
-                                        <a href="javascript:floorReply('${status.index + 1 }','${reply.userInfo.nickname}');" class="colorhui">回复</a>
+                                        <a href="javascript:floorReply('${reply.floor}','${reply.userInfo.nickname}');" class="colorhui">回复</a>
                                     </span>&nbsp;&nbsp;
                                     <a class="colorhui" href="#top">TOP</a>&nbsp;&nbsp;
-                                    <span class="colorhui" style="width: 20px;">${status.index + 1 }楼</span>
+                                    <span class="colorhui" style="width: 20px;">${reply.floor}楼</span>
                                 </span>
                             </li>
-                            <li class="minheight" id="content_${status.index + 1 }">${reply.content}</li>
+                            <li class="minheight" id="content_${reply.floor}">${reply.content}</li>
                             <c:if test="${not empty reply.lastedUpdateUserId and reply.lastedUpdateUserInfo != null}">
                                 <li style="margin-left: 10px;margin-top: 10px; color: #999;height: 20px;">
                                     ${reply.lastedUpdateUserInfo.nickname}&nbsp;最后编辑&nbsp;<fmt:formatDate value="${reply.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -149,7 +149,7 @@
                 </c:if>
                 <div class="tiezi-dibu">
                     <span class="colorbule kuang">
-                        <a href="${basePath}bbs/brand-${bbsPost.categoryId}.htm" class="colorbule">返回列表</a>
+                        <a href="${basePath}bbs/brand-${bbsPost.categoryId}.htm" class="colorbule" id="returnBBSIndex">返回列表</a>
                     </span>
                     <span class="colorbule">
                         <c:choose>
@@ -285,6 +285,17 @@
         //跳转到回复区域
         location.hash="replyArea";
     }
+
+    /**
+    *   返回BBS首页
+     */
+    $('#returnBBSIndex').on('mouseover', function(){
+        layer.tips('跳转至<a href="${basePath}bbs/index.htm"><b>专题讨论区</b></a>', this, {
+            style: ['background-color:#0FA6D8; color:#fff', '#0FA6D8'],
+            maxWidth:150,
+            time: 2
+        });
+    });
 </script>
 </body>
 </html>

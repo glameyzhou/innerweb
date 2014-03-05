@@ -46,8 +46,8 @@ public class BBSReplyDao extends BaseDao {
         logger.info("[BBSReplyDao] #create# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_bbs_reply(id,category_id_fk,post_id_fk,user_id_fk,publish_time,update_time,content) " +
-                            " values(?,?,?,?,now(),now(),?)",
+                    "insert into tbl_bbs_reply(id,category_id_fk,post_id_fk,user_id_fk,publish_time,update_time,content,floor) " +
+                            " values(?,?,?,?,now(),now(),?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -57,6 +57,7 @@ public class BBSReplyDao extends BaseDao {
                             pstmt.setString(++i, info.getPostId());
                             pstmt.setString(++i, info.getUserId());
                             pstmt.setString(++i, info.getContent());
+                            pstmt.setInt(++i, info.getFloor());
 
                         }
                     });
@@ -78,7 +79,7 @@ public class BBSReplyDao extends BaseDao {
         logger.info("[BBSReplyDao] #update# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_bbs_reply set post_id_fk = ? ,user_id_fk = ? ,publish_time = ? ,update_time = ? ,content = ?,lasted_update_userid=?  where id = ?",
+                    "update tbl_bbs_reply set post_id_fk = ? ,user_id_fk = ? ,publish_time = ? ,update_time = ? ,content = ?,lasted_update_userid=?,floor=?  where id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -89,6 +90,7 @@ public class BBSReplyDao extends BaseDao {
                             pstmt.setTimestamp(++i, new Timestamp(info.getUpdateTime().getTime()));
                             pstmt.setString(++i, info.getContent());
                             pstmt.setString(++i, info.getLastedUpdateUserId());
+                            pstmt.setInt(++i, info.getFloor());
                             pstmt.setString(++i, info.getId());
                         }
                     });
@@ -170,8 +172,11 @@ public class BBSReplyDao extends BaseDao {
             if (StringUtils.isNotBlank(query.getUpdateEndTime()))
                 sql.append(" and  update_time <= ? ");
 
-
-            sql.append(" order by publish_time asc ");
+            if (StringUtils.isNotBlank(query.getOrderColumn()) && StringUtils.isNotBlank(query.getOrderType())) {
+                sql.append(" order by ").append(query.getOrderColumn()).append(" ").append(query.getOrderType());
+            }else {
+                sql.append(" order by publish_time asc ");
+            }
 
             sql.append(" limit ?,? ");
 
@@ -261,6 +266,22 @@ public class BBSReplyDao extends BaseDao {
         return count;
     }
 
+    /**
+     * 查看当前主题有多少个回复，设置为同步方法
+     * @param postId
+     * @return
+     */
+    public synchronized int getReplyCountByPostId(final String postId) {
+        logger.info("[BBSReplyDao] #getReplyCountByPostId# postId=" + postId);
+        int count = 0;
+        try {
+            StringBuffer sql = new StringBuffer("select count(1) as total from tbl_bbs_reply where post_id_fk = ? ");
+            count = jdbcTemplate.queryForInt(sql.toString(), new Object[]{postId});
+        } catch (Exception e) {
+            logger.error("[BBSReplyDao] #getReplyCountByPostId# error! postId=" + postId, e);
+        }
+        return count;
+    }
 
     /**
      * @return
@@ -287,6 +308,7 @@ public class BBSReplyDao extends BaseDao {
                 UserInfo lastedUpdateUserInfo = userInfoDao.getUserSimpleById(info.getLastedUpdateUserId());
                 info.setLastedUpdateUserInfo(lastedUpdateUserInfo);
             }
+            info.setFloor(rs.getInt("floor"));
             return info;
         }
     }

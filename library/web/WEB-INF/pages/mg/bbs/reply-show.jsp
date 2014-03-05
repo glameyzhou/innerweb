@@ -54,6 +54,10 @@
                 </td>
             </tr>
             <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>楼层:</td>
+                <td width="85%" class="pn-fcontent">${bbsReply.floor}楼</td>
+            </tr>
+            <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>发布时间:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="publishTime" id="publishTime" class="required" size="35"

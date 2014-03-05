@@ -220,7 +220,8 @@ public class BBSFrontController extends BaseController {
             reply.setUserId(userInfo.getUserId());
             reply.setPostId(postId);
             reply.setContent(content);
-
+            int replyCount = bbsReplyDao.getReplyCountByPostId(postId);
+            reply.setFloor(replyCount + 1);
             if (!bbsReplyDao.create(reply)) {
                 pCode = "2";
                 pData = "网络超时，请稍后重试";

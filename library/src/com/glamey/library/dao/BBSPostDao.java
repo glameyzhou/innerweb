@@ -4,6 +4,7 @@
 package com.glamey.library.dao;
 
 import com.glamey.framework.utils.StringTools;
+import com.glamey.library.constants.Constants;
 import com.glamey.library.model.domain.BBSPost;
 import com.glamey.library.model.domain.BBSReply;
 import com.glamey.library.model.domain.Category;
@@ -479,7 +480,7 @@ public class BBSPostDao extends BaseDao {
     }
 
     public BBSPost getBBSPost(String postId,String type) {
-        logger.error("[BBSPostDao] #getByQuery# error! postId=" + postId + " type=" + type);
+        logger.info("[BBSPostDao] #getByQuery# error! postId=" + postId + " type=" + type);
         try {
             final BBSPost postCurrent = this.getPostById(postId) ;
             Date publishDate = postCurrent.getUpdateTime();
@@ -684,6 +685,8 @@ public class BBSPostDao extends BaseDao {
             query.setPostId(info.getPostId());
             query.setStart(0);
             query.setNum(1);
+            query.setOrderColumn("publish_time");
+            query.setOrderType(Constants.ORDERBYDESC);
             List<BBSReply> bbsReplyList = bbsReplyDao.getByQuery(query);
             if (!CollectionUtils.isEmpty(bbsReplyList)) {
                 BBSReply reply = bbsReplyList.get(0);
