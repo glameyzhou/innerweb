@@ -34,7 +34,7 @@
                     <ul>
                         <li style="text-align: left;width: 180px;">
                             <%--<h2 class="width180">--%>
-                            <a href="${basePath}bbs/brand-${category.id}.htm" style="font-weight: bold;font-size: 15px;color: #444444; text-align: left;">${category.name}</a>
+                            <a href="${basePath}bbs/brand-${category.id}.htm" style="font-weight: bold;font-size: 15px;color: #444444; text-align: left;" id="bbsIndex">${category.name}</a>
                             <%--</h2>--%>
                         </li>
                         <li class="width180">
@@ -79,7 +79,14 @@
                         <c:forEach var="post" items="${bbsPostDTOList_top}">
                             <tr>
                                 <td>
-                                    <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,30 ,'...' )}</a>
+                                    <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
+                                    <img src="${basePath}res/front/library/images/bbs_top.gif"/>
+                                    <c:if test="${post.replyCount >= 3}">
+                                        <img src="${basePath}res/front/library/images/bbs_hot.gif"/>
+                                    </c:if>
+                                    <c:if test="${post.showGreat == 1}">
+                                        <img src="${basePath}res/front/library/images/bbs_great.gif"/>
+                                    </c:if>
                                 </td>
                                 <td>${post.userInfo.nickname}<br/><span class="colorhui"><fmt:formatDate value="${post.postUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></td>
                                 <td style="text-align: center;"><span class="colorbule">${post.viewCount}</span>/${post.replyCount}</td>
@@ -94,7 +101,13 @@
                         <c:forEach var="post" items="${bbsPostDTOList_normal}">
                             <tr>
                                 <td>
-                                    <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,30 ,'...' )}</a>
+                                    <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
+                                    <c:if test="${post.replyCount >= 3}">
+                                        <img src="${basePath}res/front/library/images/bbs_hot.gif"/>
+                                    </c:if>
+                                    <c:if test="${post.showGreat == 1}">
+                                        <img src="${basePath}res/front/library/images/bbs_great.gif"/>
+                                    </c:if>
                                 </td>
                                 <td>${post.userInfo.nickname}<br/><span class="colorhui"><fmt:formatDate value="${post.postUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></td>
                                 <td style="text-align: center;"><span class="colorbule">${post.viewCount}</span>/${post.replyCount}</td>
@@ -115,5 +128,20 @@
     <%@include file="../include/footer.jsp"%>
     <!--底部代码结束-->
 </div>
+<script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
+<script type="text/javascript">
+    $('#bbsIndex').on('mouseover', function(){
+        layer.tips(
+                '跳转至<br/><a href="${basePath}bbs/index.htm"><b>专题讨论区</b></a>',
+                this,
+                {
+                    style: ['background-color:#0FA6D8; color:#fff', '#0FA6D8'],
+                    maxWidth: 150,
+                    guide: 2,
+                    time: 2
+                }
+        );
+    });
+</script>
 </body>
 </html>

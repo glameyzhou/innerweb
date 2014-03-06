@@ -83,18 +83,25 @@
                     <div class="right-tiezi">
                         <table width="100%" border="0" cellpadding="0" cellspacing="0">
                             <tr>
-                                <th style="padding-left:50px;">标题</th>
-                                <th>作者</th>
-                                <th>查看/回复</th>
-                                <th>最后发表</th>
+                                <th>标题</th>
+                                <th style="width: 17%;">作者</th>
+                                <th style="width: 20%;text-align: center;">查看/回复</th>
+                                <th style="width: 17%;">最后发表</th>
                             </tr>
                             <c:forEach var="post" items="${postList_top}">
                                 <tr>
                                     <td>
-                                        <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,30 ,'...' )}</a>
+                                        <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
+                                        <img src="${basePath}res/front/library/images/bbs_top.gif"/>
+                                        <c:if test="${post.replyCount >= 3}">
+                                            <img src="${basePath}res/front/library/images/bbs_hot.gif"/>
+                                        </c:if>
+                                        <c:if test="${post.showGreat == 1}">
+                                            <img src="${basePath}res/front/library/images/bbs_great.gif"/>
+                                        </c:if>
                                     </td>
                                     <td>${post.userInfo.nickname}<br/><span class="colorhui"><fmt:formatDate value="${post.postUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></td>
-                                    <td><span class="colorbule">${post.viewCount}</span>/${post.replyCount}</td>
+                                    <td style="text-align: center;"><span class="colorbule">${post.viewCount}</span>/${post.replyCount}</td>
                                     <td>${post.lastReplyUserInfo.nickname}<br /><span class="colorhui"><fmt:formatDate value="${post.lastReplyUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></td>
                                 </tr>
                             </c:forEach>
@@ -102,10 +109,16 @@
                             <c:forEach var="post" items="${postList_normal}">
                                 <tr>
                                     <td>
-                                        <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,30 ,'...' )}</a>
+                                        <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
+                                        <c:if test="${post.replyCount >= 3}">
+                                            <img src="${basePath}res/front/library/images/bbs_hot.gif"/>
+                                        </c:if>
+                                        <c:if test="${post.showGreat == 1}">
+                                            <img src="${basePath}res/front/library/images/bbs_great.gif"/>
+                                        </c:if>
                                     </td>
                                     <td>${post.userInfo.nickname}<br/><span class="colorhui"><fmt:formatDate value="${post.postUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></td>
-                                    <td><span class="colorbule">${post.viewCount}</span>/${post.replyCount}</td>
+                                    <td style="text-align: center;"><span class="colorbule">${post.viewCount}</span>/${post.replyCount}</td>
                                     <td>${post.lastReplyUserInfo.nickname}<br /><span class="colorhui"><fmt:formatDate value="${post.lastReplyUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></td>
                                 </tr>
                             </c:forEach>

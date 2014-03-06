@@ -78,3 +78,6 @@ OK 2、前端展示：除了最近收录（时间倒序），其他均是按照�
 20140306
 
 OK 1、焦点图按照时间倒序排列。
+http://www.miui.com/static/image/stamp/005.small.gif    置顶
+http://www.miui.com/static/image/stamp/002.small.gif    热帖
+http://www.miui.com/static/image/stamp/001.small.gif    精华
