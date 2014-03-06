@@ -47,8 +47,11 @@ public class Post implements Serializable {
 	private String content ;
 
     private UserInfo userInfo = new UserInfo();
-	
-	
+
+    /**
+     * 是否为最新的内容（用来显示标题前边的new字眼）
+     */
+    private int showisNew = 0;
 	public String getId() {
 		return id;
 	}
@@ -230,6 +233,14 @@ public class Post implements Serializable {
 
     public void setDeptCategory(Category deptCategory) {
         this.deptCategory = deptCategory;
+    }
+
+    public int getShowisNew() {
+        return showisNew;
+    }
+
+    public void setShowisNew(int showisNew) {
+        this.showisNew = showisNew;
     }
 
     @Override

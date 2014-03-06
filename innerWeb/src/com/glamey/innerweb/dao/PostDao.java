@@ -11,6 +11,7 @@ import com.glamey.innerweb.model.domain.Post;
 import com.glamey.innerweb.model.domain.UserInfo;
 import com.glamey.innerweb.model.dto.PostDTO;
 import com.glamey.innerweb.model.dto.PostQuery;
+import com.glamey.innerweb.util.DateUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -433,6 +434,7 @@ public class PostDao extends BaseDao {
             post.setImage(rs.getString("post_image"));
             post.setContent(rs.getString("post_content"));
 
+            post.setShowisNew(DateUtils.isDiffDays(3, DateUtils.format(post.getTime(),"yyyy-MM-dd HH:mm:ss")) ? 1 : 0);
 
             return post;
         }

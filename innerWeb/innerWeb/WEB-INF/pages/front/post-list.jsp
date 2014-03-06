@@ -42,14 +42,22 @@
                         <li><img src="${basePath}res/front/images/right_tit_biao3.png"/></li>
                         <c:choose>
                             <c:when test="${post.category.aliasName eq 'deptInnerNotices'}">
-                                <li><a href="${basePath}p-${post.id}.htm">[${post.deptCategory.name}]&nbsp;${post.title}</a>
+                                <li style="width: 720px;text-align: left;float: left;">
+                                    <a href="${basePath}p-${post.id}.htm">[${post.deptCategory.name}]&nbsp;${post.title}</a>
+                                    <c:if test="${post.showisNew == 1}">
+                                        <img src="${basePath}res/front/images/new.gif" style="float: none;padding-left: 2px;" align="absmiddle" />
+                                    </c:if>
                                 </li>
                                 <li style="float:right;">${fmtString:substring(post.time,10)}</li>
                             </c:when>
                             <c:otherwise>
-                                <li><a href="${basePath}p-${post.id}.htm">${post.title}</a></li>
-                                <li style="float:right;">
-                                    [${post.deptCategory.name}]&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substring(post.time,10)}</li>
+                                <li style="width: 720px;text-align: left;float: left;">
+                                    <a href="${basePath}p-${post.id}.htm">${post.title}</a>
+                                    <c:if test="${post.showisNew == 1}">
+                                        <img src="${basePath}res/front/images/new.gif" style="float: none;padding-left: 2px;" align="absmiddle" />
+                                    </c:if>
+                                </li>
+                                <li style="float:right;">[${post.deptCategory.name}]&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substring(post.time,10)}</li>
                             </c:otherwise>
                         </c:choose>
                     </ul>

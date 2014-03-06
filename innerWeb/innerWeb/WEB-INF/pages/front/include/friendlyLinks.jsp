@@ -3,7 +3,7 @@
     <div class="body_left_tit1">
         <ul class="tit_biao">
             <li><img src="${basePath}res/front/images/youlian.png"/></li>
-            <li style="padding-left:15px;">友情链接</li>
+            <li style="padding-left:15px;">常用链接</li>
         </ul>
     </div>
     <div style="padding-left:20px; width:1200px;">

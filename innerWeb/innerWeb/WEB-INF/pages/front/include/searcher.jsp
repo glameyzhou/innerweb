@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script type="text/javascript">
     function search(){
         var kw = document.getElementById("kw").value ;
@@ -26,8 +26,11 @@
 	</div>
 </div>
 <div class="left_guanggao">
-	<a href="${basePath}library.htm"><img src="${basePath}res/front/images/guanggao1.jpg" border="0"/></a>
+	<a href="http://library.chdi.ac.cn" target="_blank"><img src="${basePath}res/front/images/guanggao1.jpg" border="0"/></a>
 </div>
 <div class="left_guanggao">
 	<a href="${basePath}pl-news-MjiEVv.htm"><img src="${basePath}res/front/images/kyzy.jpg" border="0"/></a>
+</div>
+<div class="left_guanggao">
+	<a href="${basePath}pl-news-MniIby.htm"><img src="${basePath}res/front/images/ddqzlx.jpg" border="0"/></a>
 </div>
