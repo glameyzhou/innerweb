@@ -172,6 +172,11 @@ public class IndexFrontController extends BaseController {
         //焦点图
         List<LibraryInfo> libraryInfoFouceImageList = new ArrayList<LibraryInfo>(10);
         LibraryQuery queryFouceImage = new LibraryQuery();
+        queryFouceImage.setOrderMap(new LinkedHashMap<String, String>(){
+            {
+                put(Constants.ORDERBYCOLUMNNAME_LIB_TIME,Constants.ORDERBYDESC);
+            }
+        });
         queryFouceImage.setShowIndex(1);
         queryFouceImage.setNum(6);
         queryFouceImage.setType(2);
