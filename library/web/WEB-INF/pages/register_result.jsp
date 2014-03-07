@@ -28,7 +28,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link href="${basePath}res/front/library/css/register.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/library/css/style.css" rel="stylesheet" type="text/css"/>
-    <title>华电图书馆-您身边的能源行业情报秘书-游客注册结果</title>
+    <title>华电迷你图书馆-您身边的能源情报站-游客注册结果</title>
 </head>
 <body background="${basePath}res/front/library/images/register_bg.jpg" style="background-repeat:repeat-x;">
 <div class="register_logo">

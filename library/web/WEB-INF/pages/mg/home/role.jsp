@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>华电图书馆-您身边的能源行业情报秘书</title>
+    <title>华电迷你图书馆-您身边的能源情报站</title>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
     <script type="text/javascript">

@@ -6,7 +6,7 @@
 <head>
     <base href="${basePath}"/>
     <link rel="Shortcut Icon" href="${basePath}res/ico/favicon.ico"/>
-    <title>华电图书馆-您身边的能源行业情报秘书</title>
+    <title>华电迷你图书馆-您身边的能源情报站</title>
     <link href="${basePath}res/front/library/css/index.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/library/css/neiye.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/library/css/style.css" rel="stylesheet" type="text/css" />
