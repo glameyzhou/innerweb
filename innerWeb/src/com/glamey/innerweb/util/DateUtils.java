@@ -65,11 +65,10 @@ public class DateUtils {
     }
 
     public static void main(String[] args) throws ParseException {
-        String cur = "2013-12-31 01:14:52";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String cur = "2014-03-03 12:12:12";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date curDate = sdf.parse(cur);
-//        System.out.println(sdf.format(curDate));
-
-        System.out.println(isDiffDays(7,curDate));
+        System.out.println(sdf.format(curDate));
+        System.out.println(isDiffDays(4,curDate));
     }
 }

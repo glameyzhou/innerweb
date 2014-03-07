@@ -434,7 +434,7 @@ public class PostDao extends BaseDao {
             post.setImage(rs.getString("post_image"));
             post.setContent(rs.getString("post_content"));
 
-            post.setShowisNew(DateUtils.isDiffDays(3, DateUtils.format(post.getTime(),"yyyy-MM-dd HH:mm:ss")) ? 1 : 0);
+            post.setShowisNew(DateUtils.isDiffDays(3, DateUtils.format(post.getTime(),"yyyy-MM-dd")) ? 1 : 0);
 
             return post;
         }
