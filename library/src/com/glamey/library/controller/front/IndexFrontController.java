@@ -251,8 +251,7 @@ public class IndexFrontController extends BaseController {
         boolean isHasNotice = false;
         PostQuery query = new PostQuery();
         query.setIsValid(1);
-        query.setStartTime(DateFormatUtils.format(DateUtils.getDay(new Date(), -7), "yyyy-MM-dd HH:mm:ss"));
-        query.setEndTime(DateFormatUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+        query.setStartTime(DateFormatUtils.format(DateUtils.getDay(new Date(), -6), "yyyy-MM-dd") + " 00:00:00"); //七天之内
         query.setStart(0);
         query.setNum(1);
         query.setCategoryId(CategoryConstants.CATEGORY_TONGZHIGONGGAO);

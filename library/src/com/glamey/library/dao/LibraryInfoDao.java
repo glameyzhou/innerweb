@@ -594,7 +594,7 @@ public class LibraryInfoDao extends BaseDao {
             info.setContent(rs.getString("lib_content"));
             info.setImage(rs.getString("lib_image"));
             info.setTime(rs.getTimestamp("lib_time"));
-            info.setShowisNew(DateUtils.isDiffDays(10, info.getTime()) ? 1 : 0);
+            info.setShowisNew(DateUtils.isDiffDays(10, DateUtils.format(DateFormatUtils.format(info.getTime(),"yyyy-MM-dd"),"yyyy-MM-dd")) ? 1 : 0);
             info.setOrder(rs.getInt("lib_order"));
             info.setShowIndex(rs.getInt("lib_showindex"));
             info.setShowSugguest(rs.getInt("lib_sugguest"));
@@ -654,7 +654,7 @@ public class LibraryInfoDao extends BaseDao {
                             info.setType(resultSet.getInt("lib_type"));
                             info.setUrl(resultSet.getString("lib_url"));
                             info.setTime(resultSet.getTimestamp("lib_time"));
-                            info.setShowisNew(DateUtils.isDiffDays(10, info.getTime()) ? 1 : 0);
+                            info.setShowisNew(DateUtils.isDiffDays(10, DateUtils.format(DateFormatUtils.format(info.getTime(),"yyyy-MM-dd"),"yyyy-MM-dd")) ? 1 : 0);
                             return info;
                         }
                     });
