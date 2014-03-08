@@ -102,3 +102,8 @@ ADD COLUMN `lasted_update_userid`  varchar(32) NULL COMMENT '最后更新的人'
 
 ALTER TABLE `tbl_bbs_reply`
 ADD COLUMN `lasted_update_userid`  varchar(32) NULL COMMENT '最后更新的用户ID' AFTER `content`;
+
+#20140308#
+ALTER TABLE `tbl_bbs_post`
+ADD COLUMN `post_type`  tinyint(4) NULL DEFAULT 0 COMMENT '帖子类型 0=标准帖子 1=投票帖子' AFTER `category_id_fk`;
+

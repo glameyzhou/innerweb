@@ -58,7 +58,7 @@
                                     <li><a class="hide" href="javascript:void(0)"></a>
                                         <ul>
                                             <li><a href="${basePath}bbs/post-${category.id}-show.htm">只发文字</a></li>
-                                            <li><a href="javascript:void(0)">发起投票</a></li>
+                                            <li><a href="${basePath}bbs/post-${category.id}-voteShow.htm">发起投票</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -93,11 +93,11 @@
                                 <td>${post.lastReplyUserInfo.nickname}<br /><span class="colorhui"><fmt:formatDate value="${post.lastReplyUpdateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span></td>
                             </tr>
                         </c:forEach>
-                        <%--<c:if test="${fn:length(bbsPostDTOList_top) > 0}">
+                        <c:if test="${fn:length(bbsPostDTOList_top) > 0 and fn:length(bbsPostDTOList_normal) > 0}">
                             <tr style="height: 1px;">
-                                <td colspan="4" style="height: 1px;"><hr style="color: #0099cc;"/></td>
+                                <td colspan="4" style="height: 2px; background-color: #C8DCFF;"></td>
                             </tr>
-                        </c:if>--%>
+                        </c:if>
                         <c:forEach var="post" items="${bbsPostDTOList_normal}">
                             <tr>
                                 <td>

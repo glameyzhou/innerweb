@@ -45,7 +45,7 @@
                                     <li><a class="hide" href="javascript:void(0)"></a>
                                         <ul>
                                             <li><a href="${basePath}bbs/post-${bbsPost.categoryId}-show.htm">只发文字</a></li>
-                                            <li><a href="javascript:void(0)">发起投票</a></li>
+                                            <li><a href="${basePath}bbs/post-${bbsPost.categoryId}-voteShow.htm">发起投票</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -225,7 +225,7 @@
     function postSubmit(){
         var content = $("#postContent").val();
         var errorMsg = '';
-        if (content == 0) {
+        if ($.trim(content).length == 0) {
             errorMsg += '内容不能为空';
         }
         if (errorMsg.length > 0 ) {

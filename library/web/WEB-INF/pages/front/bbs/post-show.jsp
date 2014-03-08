@@ -112,10 +112,10 @@
             var title = $("#title").val();
             var postContent = $("#postContent").val();
             var errorMsg = '';
-            if (title == 0) {
+            if ($.trim(title).length == 0) {
                 errorMsg += '标题不能为空<br/>';
             }
-            if (postContent == 0) {
+            if ($.trim(postContent).length == 0) {
                 errorMsg += '内容不能为空';
             }
             if (errorMsg.length > 0 ) {

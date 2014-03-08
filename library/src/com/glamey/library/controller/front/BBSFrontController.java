@@ -1,18 +1,18 @@
 package com.glamey.library.controller.front;
 
 import com.glamey.framework.utils.PageBean;
+import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.framework.utils.json.JsonMapper;
 import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
 import com.glamey.library.dao.*;
-import com.glamey.library.model.domain.BBSPost;
-import com.glamey.library.model.domain.BBSReply;
-import com.glamey.library.model.domain.Category;
-import com.glamey.library.model.domain.UserInfo;
+import com.glamey.library.model.domain.*;
 import com.glamey.library.model.dto.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -27,10 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 论坛前台管理
@@ -52,6 +49,8 @@ public class BBSFrontController extends BaseController {
     private IncludeFront includeFront;
     @Resource
     private AccessLogDao accessLogDao;
+    @Resource
+    private BBSVoteDao voteDao;
 
     private static final JsonMapper jsonMapper = JsonMapper.nonNullMapper();
     private static final int postTotal = 20;
@@ -132,6 +131,29 @@ public class BBSFrontController extends BaseController {
         accessLogDao.save("bbs/index.htm","发主贴界面，栏目" + category.getName() ,categoryId,session);
         return mav;
     }
+    /**发帖子新增界面*/
+    @RequestMapping(value = "/post-{categoryId}-voteShow.htm", method = RequestMethod.GET)
+    public ModelAndView postVoteShow(
+            @PathVariable String categoryId,
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        logger.info("[front] #postShow#" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("front/bbs/post-vote-show");
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request, response, session));
+        if (StringUtils.isBlank(categoryId)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "无效操作");
+            mav.addObject("href", "mg/bbs/index.htm");
+            return mav;
+        }
+        Category category = categoryDao.getBySmpleId(categoryId);
+        mav.addObject("categoryId",categoryId);
+        mav.addObject("category",category);
+        mav.addObject("curDate", DateFormatUtils.format(new Date(),"yyyy-MM-dd"));
+        mav.addObject("voteEndDate", DateFormatUtils.format(DateUtils.addDays(new Date(),7),"yyyy-MM-dd"));
+        accessLogDao.save("bbs/index.htm", "发起投票界面，栏目" + category.getName(), categoryId, session);
+        return mav;
+    }
 
     /**发主题*/
 //    @ResponseBody
@@ -184,9 +206,108 @@ public class BBSFrontController extends BaseController {
 
 //        return jsonMapper.toJson(resultMap);
     }
+    @RequestMapping(value = "/post-vote-submit.htm", method = RequestMethod.POST)
+    public void postVoteSubmit(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        logger.info("[front] #postVoteSubmit#" + request.getRequestURI());
+
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        String title = WebUtils.getRequestParameterAsString(request,"title");
+        int votePropertiesValueSize = WebUtils.getRequestParameterAsInt(request,"votePropertiesValueSize",0);
+        List<String> votePropertiesValue = new ArrayList<String>();
+        if (votePropertiesValueSize > 0 ) {
+            for (int i = 1 ; i <= votePropertiesValueSize ; i ++) {
+                votePropertiesValue.add(WebUtils.getRequestParameterAsString(request,"input_properties_" + i));
+            }
+        }
+        String voteEndDate = WebUtils.getRequestParameterAsString(request,"voteEndDate",DateFormatUtils.format(DateUtils.addDays(new Date(),7),"yyyy-MM-dd"));
+        int isMultiVote = WebUtils.getRequestParameterAsInt(request, "isMultiVote", 0);
+        int multiVoteSize = 0 ;
+        if (isMultiVote == 1) {
+            multiVoteSize = WebUtils.getRequestParameterAsInt(request,"multiVoteSize",0);
+        }
+        int seeAfterVote = WebUtils.getRequestParameterAsInt(request, "seeAfterVote", 0);
+        int votePersonOut = WebUtils.getRequestParameterAsInt(request, "votePersonOut", 0);
+        String content = WebUtils.getRequestParameterAsString(request,"postContent");
+
+        /*var postData = "categoryId=" + categoryId
+                + "title=" + encodeURIComponent(title)
+                + "&votePropertiesValueSize=" + votePropertiesSize + "&" + votePropertiesValue
+                + "&voteEndDate=" + $("#voteEndDate").val()
+                + ($("#isMultiVote").attr('checked') ? ("&isMultiVote=1&multiVoteSize=" + $("#multiVoteSize").val()) : "&isMultiVote=0")
+                + ($("#seeAfterVote").attr('checked') ? "&seeAfterVote=1" : "&seeAfterVote=0")
+                + ($("#votePersonOut").attr('checked') ? "&votePersonOut=1" : "&votePersonOut=0")
+                + "&content=" + encodeURIComponent($("#postContent").val())
+                + "&r=" + Math.random();*/
+
+        String errorMsg = "";
+        if (StringUtils.isBlank(categoryId)) {
+            errorMsg += "为选择发帖分类<br/>";
+        }
+        if (StringUtils.isBlank(title)) {
+            errorMsg += "标题不能为空<br/>";
+        }
+        if (CollectionUtils.isEmpty(votePropertiesValue) || votePropertiesValue.size() < 2) {
+            errorMsg += "投票项不能少于2项<br/>";
+        }
+        if (isMultiVote == 1 && multiVoteSize > votePropertiesValue.size()) {
+            errorMsg += "投票可选项目数量大于投票设置项<br/>";
+        }
+        Map<String,String> resultMap = new HashMap<String, String>();
+        String pCode = "0", pData = "", postId = "";
+        if (StringUtils.isNotBlank(errorMsg)) {
+            pCode = "1";
+            pData = errorMsg;
+        }
+        else {
+
+            Category category = categoryDao.getBySmpleId(categoryId);
+            UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+            BBSPost post = new BBSPost();
+            post.setId(StringTools.getUniqueId());
+            post.setCategoryId(categoryId);
+            post.setTitle(title);
+            post.setContent(content);
+            post.setUserId(userInfo.getUserId());
+
+            BBSPostVote postVote = new BBSPostVote();
+            postVote.setPostId(post.getId());
+            postVote.setVoteId(StringTools.getUniqueId());
+            postVote.setVoteEndDate(voteEndDate);
+            postVote.setIsMultiVote(isMultiVote);
+            postVote.setMultiVoteSize(multiVoteSize);
+            postVote.setSeeAfterVote(seeAfterVote);
+            postVote.setVotePersonOut(votePersonOut);
+
+            List<BBSVoteProperty> votePropertyList = new ArrayList<BBSVoteProperty>();
+            BBSVoteProperty voteProperty = null;
+            int i = 0;
+            for (String property : votePropertiesValue) {
+                voteProperty = new BBSVoteProperty();
+                voteProperty.setVoteId(postVote.getVoteId());
+                voteProperty.setPropertyId(StringTools.getUniqueId());
+                voteProperty.setPropertyName(property);
+                voteProperty.setPropertyValue(0);
+                voteProperty.setProperOrder(++i);
+                votePropertyList.add(voteProperty);
+            }
+
+            boolean result = voteDao.create(post,postVote,votePropertyList);
+            if (result) {
+                pCode = "2";
+                pData = "网络超时，请稍后重试";
+            }
+            else {
+                pData = "发起投票成功";
+                accessLogDao.save(userInfo.getUserId(),"bbs/post-" + category.getId() + "-vote-show.htm","发起投票，栏目" + category.getName() ,categoryId);
+            }
+        }
+        resultMap.put("pCode", pCode);
+        resultMap.put("pData", pData);
+        resultMap.put("postId", postId);
+        output(response, jsonMapper.toJson(resultMap));
+    }
     /**回复帖子*/
-//    @ResponseBody
-        @RequestMapping(value = "/reply-{postId}-submit.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/reply-{postId}-submit.htm", method = RequestMethod.POST)
     public void replySubmit(
             @PathVariable String postId,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
