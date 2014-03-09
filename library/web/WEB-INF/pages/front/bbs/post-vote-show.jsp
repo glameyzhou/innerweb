@@ -157,7 +157,7 @@
                 votePropertiesValue += "&input_properties_" + i + "=" + encodeURIComponent($("#input_properties_" + i).val());
             }
             var postData = "categoryId=" + categoryId
-                    + "title=" + encodeURIComponent(title)
+                    + "&title=" + encodeURIComponent(title)
                     + "&votePropertiesValueSize=" + votePropertiesSize + "&" + votePropertiesValue
                     + "&voteEndDate=" + $("#voteEndDate").val()
                     + ($("#isMultiVote").attr('checked') ? ("&isMultiVote=1&multiVoteSize=" + $("#multiVoteSize").val()) : "&isMultiVote=0")
@@ -165,7 +165,6 @@
                     + ($("#votePersonOut").attr('checked') ? "&votePersonOut=1" : "&votePersonOut=0")
                     + "&content=" + encodeURIComponent($("#postContent").val())
                     + "&r=" + Math.random();
-            return;
             $.ajax({
                 type: "post",
                 url: bastPath + "bbs/post-vote-submit.htm",
@@ -191,7 +190,7 @@
                                 type : 4,
                                 btn : ['查看'],
                                 yes : function(){
-                                    window.location = 'http://www.baidu.com' /*bastPath + 'bbs/post-' + postId + '.htm'*/;
+                                    window.location = bastPath + 'bbs/post-vote-' + postId + '.htm';
                                 }
                             }
                         });

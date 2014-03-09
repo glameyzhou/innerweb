@@ -29,6 +29,12 @@ public class BBSPostDTO implements Serializable {
     private UserInfo lastReplyUserInfo;
     private Date lastReplyUpdateTime;
 
+    /**
+     * 0=普通帖子
+     * 1=投票帖子
+     */
+    private int postType;
+
     public String getPostId() {
         return postId;
     }
@@ -131,6 +137,14 @@ public class BBSPostDTO implements Serializable {
 
     public void setLastReplyUpdateTime(Date lastReplyUpdateTime) {
         this.lastReplyUpdateTime = lastReplyUpdateTime;
+    }
+
+    public int getPostType() {
+        return postType;
+    }
+
+    public void setPostType(int postType) {
+        this.postType = postType;
     }
 
     @Override

@@ -91,7 +91,14 @@
                             <c:forEach var="post" items="${postList_top}">
                                 <tr>
                                     <td>
-                                        <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
+                                        <c:choose>
+                                            <c:when test="${post.postType == 1}">
+                                                <a href="${basePath}bbs/post-vote-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <img src="${basePath}res/front/library/images/bbs_top.gif"/>
                                         <c:if test="${post.replyCount >= 3}">
                                             <img src="${basePath}res/front/library/images/bbs_hot.gif"/>
@@ -113,7 +120,14 @@
                             <c:forEach var="post" items="${postList_normal}">
                                 <tr>
                                     <td>
-                                        <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
+                                        <c:choose>
+                                            <c:when test="${post.postType == 1}">
+                                                <a href="${basePath}bbs/post-vote-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <c:if test="${post.replyCount >= 3}">
                                             <img src="${basePath}res/front/library/images/bbs_hot.gif"/>
                                         </c:if>

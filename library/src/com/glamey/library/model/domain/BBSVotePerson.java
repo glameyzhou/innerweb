@@ -15,6 +15,7 @@ public class BBSVotePerson implements Serializable {
     private String voteId;
     private String propertyId;
     private String voteUserId;
+    private UserInfo userInfo;
     private Date voteTime;
 
     public String getVoteId() {
@@ -47,6 +48,14 @@ public class BBSVotePerson implements Serializable {
 
     public void setVoteTime(Date voteTime) {
         this.voteTime = voteTime;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
     @Override

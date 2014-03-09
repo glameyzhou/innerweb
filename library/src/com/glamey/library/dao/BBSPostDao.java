@@ -654,6 +654,8 @@ public class BBSPostDao extends BaseDao {
             info.setShowGreat(rs.getInt("show_great"));
             info.setShowPopular(rs.getInt("show_popular"));
 
+            info.setPostType(rs.getInt("post_type"));
+
             info.setLastedUpdateUserId(rs.getString("lasted_update_userid"));
             if (StringUtils.isNotBlank(info.getLastedUpdateUserId())) {
                 UserInfo lastedUpdateUserInfo = userInfoDao.getUserSimpleById(info.getLastedUpdateUserId());
@@ -679,6 +681,8 @@ public class BBSPostDao extends BaseDao {
             info.setPostUpdateTime(rs.getTimestamp("update_time"));
             info.setViewCount(rs.getInt("view_count"));
             info.setReplyCount(rs.getInt("reply_count"));
+
+            info.setPostType(rs.getInt("post_type"));
 
             //最后一条回复记录
             BBSReplyQuery query = new BBSReplyQuery();

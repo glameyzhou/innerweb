@@ -30,6 +30,7 @@ public class BBSPost implements Serializable {
     private String lastedUpdateUserId;
     private UserInfo lastedUpdateUserInfo;
 
+    private int postType;
     public String getId() {
         return id;
     }
@@ -156,6 +157,14 @@ public class BBSPost implements Serializable {
 
     public void setLastedUpdateUserInfo(UserInfo lastedUpdateUserInfo) {
         this.lastedUpdateUserInfo = lastedUpdateUserInfo;
+    }
+
+    public int getPostType() {
+        return postType;
+    }
+
+    public void setPostType(int postType) {
+        this.postType = postType;
     }
 
     @Override

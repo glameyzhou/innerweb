@@ -4,6 +4,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +19,8 @@ public class BBSPostVote implements Serializable {
     private int multiVoteSize;
     private int seeAfterVote;
     private int votePersonOut;
+
+    private List<BBSVoteProperty> votePropertyList;
 
     public String getPostId() {
         return postId;
@@ -73,6 +76,14 @@ public class BBSPostVote implements Serializable {
 
     public void setVotePersonOut(int votePersonOut) {
         this.votePersonOut = votePersonOut;
+    }
+
+    public List<BBSVoteProperty> getVotePropertyList() {
+        return votePropertyList;
+    }
+
+    public void setVotePropertyList(List<BBSVoteProperty> votePropertyList) {
+        this.votePropertyList = votePropertyList;
     }
 
     @Override

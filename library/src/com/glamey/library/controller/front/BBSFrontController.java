@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -227,7 +228,7 @@ public class BBSFrontController extends BaseController {
         }
         int seeAfterVote = WebUtils.getRequestParameterAsInt(request, "seeAfterVote", 0);
         int votePersonOut = WebUtils.getRequestParameterAsInt(request, "votePersonOut", 0);
-        String content = WebUtils.getRequestParameterAsString(request,"postContent");
+        String content = WebUtils.getRequestParameterAsString(request,"content");
 
         /*var postData = "categoryId=" + categoryId
                 + "title=" + encodeURIComponent(title)
@@ -292,7 +293,7 @@ public class BBSFrontController extends BaseController {
             }
 
             boolean result = voteDao.create(post,postVote,votePropertyList);
-            if (result) {
+            if (!result) {
                 pCode = "2";
                 pData = "网络超时，请稍后重试";
             }
@@ -487,6 +488,157 @@ public class BBSFrontController extends BaseController {
         return mav;
     }
 
+    @RequestMapping(value = "/post-vote-{postId}.htm", method = RequestMethod.GET)
+    public ModelAndView postVoteDetail(
+            @PathVariable String postId,
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[front] #postVoteDetail#" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("front/bbs/post-vote-detail");
+        if (StringUtils.isBlank(postId)) {
+            mav.addObject("message", "操作无效");
+            mav.setViewName("common/errorPage");
+            return mav;
+        }
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request, response, session));
+
+        //主帖
+        BBSPost bbsPost = bbsPostDao.getPostById(postId);
+        if (bbsPost == null) {
+            mav.addObject("message", "操作无效");
+            mav.setViewName("common/errorPage");
+            return mav;
+        }
+        //增加本主题的viewcount
+        bbsPostDao.addViewCount(postId);
+        bbsPost.setViewCount(bbsPost.getViewCount() + 1);
+
+        Category category = categoryDao.getBySmpleId(bbsPost.getCategoryId());
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+
+        BBSPostVote postVote = voteDao.getPostVote(postId);
+        List<BBSVoteProperty> votePropertyList = voteDao.getVoteProperties(postVote.getVoteId());
+
+        boolean isVote = voteDao.isVote(userInfo.getUserId(),postVote.getVoteId());
+        int voteTotal = voteDao.getVoteToal(postVote.getVoteId());
+        int votePersonTotal = voteDao.getVotePersonToal(postVote.getVoteId());
+        mav.addObject("category", category);
+        mav.addObject("bbsPost", bbsPost);
+        mav.addObject("postVote", postVote);
+        mav.addObject("votePropertyList", votePropertyList);
+        mav.addObject("isVote", isVote);
+        mav.addObject("voteTotal", voteTotal);
+        mav.addObject("votePersonTotal", votePersonTotal);
+        return mav;
+    }
+    @RequestMapping(value = "/post-vote-{postId}-{voteId}-submit.htm", method = RequestMethod.POST)
+    public void postPersonVote(
+            @PathVariable String postId,
+            @PathVariable String voteId,
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[front] #postPersonVote#" + request.getRequestURI());
+        /*var data = "categoryId=" + categoryId
+                + "&postId=" + postId
+                + "&voteId=" + voteId
+                + "&voteProperties=" + voteProperties
+                + "&r=" + Math.random();*/
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        String voteProperties = WebUtils.getRequestParameterAsString(request,"voteProperties");
+        String errorMsg = "";
+        if (StringUtils.isBlank(categoryId)) {
+            errorMsg += "请选择投票分类<br/>";
+        }
+        if (StringUtils.isBlank(voteProperties)) {
+            errorMsg += "请选择投票项目<br/>";
+        }
+        BBSPostVote postVote = voteDao.getPostVote(postId);
+        String voteEndDate = postVote.getVoteEndDate();
+        try {
+            Date voteEndDate_date = DateUtils.parseDate(voteEndDate, new String[]{"yyyy-MM-dd"});
+            if (voteEndDate_date.before(new Date())) {
+                errorMsg += "投票时间已截止<br/>";
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Map<String,String> resultMap = new HashMap<String, String>();
+        String pCode = "0", pData = "";
+        if (StringUtils.isNotBlank(errorMsg)) {
+            pCode = "1";
+            pData = errorMsg;
+        }
+        else {
+            Category category = categoryDao.getBySmpleId(categoryId);
+            UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+
+            //本人是否应投过票
+            boolean isVote = voteDao.isVote(userInfo.getUserId(),voteId);
+            if (isVote) {
+                pCode = "3";
+                pData = "您已经投过票了";
+            }
+            else {
+                List<BBSVotePerson> votePersonList = new ArrayList<BBSVotePerson>();
+                String properties [] = StringUtils.split(voteProperties,",");
+                BBSVotePerson votePerson = null;
+                for (String property : properties) {
+                    votePerson = new BBSVotePerson();
+                    votePerson.setVoteId(voteId);
+                    votePerson.setPropertyId(property);
+                    votePerson.setVoteUserId(userInfo.getUserId());
+                    votePersonList.add(votePerson);
+                }
+                if (!voteDao.recordVote(votePersonList,postId)) {
+                    pCode = "2";
+                    pData = "网络超时，请稍后重试";
+                }
+                else {
+                    pData = "投票成功";
+                    accessLogDao.save(userInfo.getUserId(),"bbs/post-vote-" + postId + ".htm","投票成功，栏目" + category.getName() ,categoryId);
+                }
+            }
+        }
+        resultMap.put("pCode", pCode);
+        resultMap.put("pData", pData);
+        resultMap.put("postId", postId);
+        output(response, jsonMapper.toJson(resultMap));
+    }
+    @RequestMapping(value = "/votePerson-{postId}-{voteId}-{propertyId}.htm", method = RequestMethod.GET)
+    public ModelAndView seeVotePerson(
+            @PathVariable String postId,
+            @PathVariable String voteId,
+            @PathVariable String propertyId,
+            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        logger.info("[front] #seeVotePerson#" + request.getRequestURI());
+        ModelAndView mav = new ModelAndView("front/bbs/post-vote-person");
+        if (StringUtils.isBlank(postId)) {
+            mav.addObject("message", "操作无效");
+            mav.setViewName("common/errorPage");
+            return mav;
+        }
+        //包含页面
+        mav.addAllObjects(includeFront.allInclude(request, response, session));
+
+        //主帖
+        BBSPost bbsPost = bbsPostDao.getPostById(postId);
+        if (bbsPost == null) {
+            mav.addObject("message", "操作无效");
+            mav.setViewName("common/errorPage");
+            return mav;
+        }
+        Category category = categoryDao.getBySmpleId(bbsPost.getCategoryId());
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+
+        BBSPostVote postVote = voteDao.getPostVote(postId);
+        BBSVoteProperty voteProperty = voteDao.getVoteProperty(postVote.getVoteId(),propertyId);
+        List<BBSVotePerson> votePersonList = voteDao.getVotePersonList(postVote.getVoteId(),propertyId);
+        mav.addObject("category", category);
+        mav.addObject("bbsPost", bbsPost);
+        mav.addObject("postVote", postVote);
+        mav.addObject("voteProperty", voteProperty);
+        mav.addObject("votePersonList", votePersonList);
+        return mav;
+    }
     private void output(HttpServletResponse response,String data) {
         try {
 //            response.setCharacterEncoding("UTF-8");
