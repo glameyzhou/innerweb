@@ -51,8 +51,8 @@
                             <a href="javascript:void(0);" class="colorbule" id="delVoteProperties">-删除投票项</a>
                         </li>
                         <ul id="voteProperties">
-                            <li style="float: none;margin-left: 35px;" id="li_VoteProperties_1"><input name="input_properties_1" id="input_properties_1" type="text" class="tiezi-text" style="width: 500px;"/><img src="${basePath}res/front/library/images/bbs_del.gif" title="删除投票项" id="delImage_1" onmousemove='$(this).attr("src","${basePath}res/front/library/images/bbs_del_hover.gif");' onmouseout='$(this).attr("src","${basePath}res/front/library/images/bbs_del.gif");' onclick="deLiVoteProperties('1');" /></li>
-                            <li style="float: none;margin-left: 35px;" id="li_VoteProperties_2"><input name="input_properties_2" id="input_properties_2" type="text" class="tiezi-text" style="width: 500px;"/><img src="${basePath}res/front/library/images/bbs_del.gif" title="删除投票项" id="delImage_2" onmousemove='$(this).attr("src","${basePath}res/front/library/images/bbs_del_hover.gif");' onmouseout='$(this).attr("src","${basePath}res/front/library/images/bbs_del.gif");' onclick="deLiVoteProperties('2');" /></li>
+                            <li style="float: none;margin-left: 35px;" id="li_VoteProperties_1"><input name="input_properties_1" id="input_properties_1" type="text" class="tiezi-text" style="width: 500px;"/><%--<img src="${basePath}res/front/library/images/bbs_del.gif" title="删除投票项" id="delImage_1" onmousemove='$(this).attr("src","${basePath}res/front/library/images/bbs_del_hover.gif");' onmouseout='$(this).attr("src","${basePath}res/front/library/images/bbs_del.gif");' onclick="deLiVoteProperties('1');" />--%></li>
+                            <li style="float: none;margin-left: 35px;" id="li_VoteProperties_2"><input name="input_properties_2" id="input_properties_2" type="text" class="tiezi-text" style="width: 500px;"/><%--<img src="${basePath}res/front/library/images/bbs_del.gif" title="删除投票项" id="delImage_2" onmousemove='$(this).attr("src","${basePath}res/front/library/images/bbs_del_hover.gif");' onmouseout='$(this).attr("src","${basePath}res/front/library/images/bbs_del.gif");' onclick="deLiVoteProperties('2');" />--%></li>
                         </ul>
                         <br/>
                         <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
@@ -140,7 +140,6 @@
             for (var i = 1 ; i <= votePropertiesSize ; i ++) {
                 if ($.trim($("#input_properties_" + i).val()).length == 0) {
                     errorMsg += '投票选项不能为空<br/>';
-                    alert($("#input_properties_" + i).val());
                     break;
                 }
             }
@@ -211,11 +210,14 @@
             votePropertiesSize ++;
             var html = '<li style="float: none;margin-left: 35px;" id="li_VoteProperties_' + votePropertiesSize + '">'
                     + '<input name="input_properties_' + votePropertiesSize + '" id="input_properties_' + votePropertiesSize + '" type="text" class="tiezi-text" style="width: 500px;"/>'
+                    + '</li>';
+            /*var html = '<li style="float: none;margin-left: 35px;" id="li_VoteProperties_' + votePropertiesSize + '">'
+                    + '<input name="input_properties_' + votePropertiesSize + '" id="input_properties_' + votePropertiesSize + '" type="text" class="tiezi-text" style="width: 500px;"/>'
                     + '<img src="${basePath}res/front/library/images/bbs_del.gif" title="删除投票项" id="delImage_' + votePropertiesSize + '" '
                     + 'onmousemove=\'$(this).attr("src","${basePath}res/front/library/images/bbs_del_hover.gif");\' '
                     + 'onmouseout=\'$(this).attr("src","${basePath}res/front/library/images/bbs_del.gif");\' '
                     + 'onclick="deLiVoteProperties(' + votePropertiesSize + ');" />'
-                    + '</li>';
+                    + '</li>';*/
             voteProperties.append(html);
         });
         delVoteProperties.click(function(){
