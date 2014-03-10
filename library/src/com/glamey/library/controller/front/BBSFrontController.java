@@ -366,6 +366,17 @@ public class BBSFrontController extends BaseController {
             reply.setUserId(userInfo.getUserId());
             reply.setPostId(postId);
             reply.setContent(content);
+
+            String replyId = WebUtils.getRequestParameterAsString(request,"replyId");
+            if (StringUtils.isNotBlank(replyId)) {
+                BBSReply bbsReply = bbsReplyDao.getReplyById(replyId);
+                BBSPostReplyRef postReplyRef = new BBSPostReplyRef();
+                postReplyRef.setPostId(postId);
+                postReplyRef.setReplyId(replyId);
+                postReplyRef.setPostUserId(bbsReply.getUserId());
+                postReplyRef.setReplyUseId(userInfo.getUserId());
+                reply.setPostReplyRef(postReplyRef);
+            }
             if (!bbsReplyDao.create(reply)) {
                 pCode = "2";
                 pData = "网络超时，请稍后重试";
@@ -477,7 +488,7 @@ public class BBSFrontController extends BaseController {
         String userId = WebUtils.getRequestParameterAsString(request,"u");
         //回帖
 //        pageBean = new PageBean(Constants.rowsPerPageFront);
-        pageBean = new PageBean(3);
+        pageBean = new PageBean(20);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);
 

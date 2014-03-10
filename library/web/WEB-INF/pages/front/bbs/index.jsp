@@ -100,7 +100,7 @@
                                             </c:otherwise>
                                         </c:choose>
                                         <img src="${basePath}res/front/library/images/bbs_top.gif"/>
-                                        <c:if test="${post.replyCount >= 3}">
+                                        <c:if test="${post.replyCount >= 10}">
                                             <img src="${basePath}res/front/library/images/bbs_hot.gif"/>
                                         </c:if>
                                         <c:if test="${post.showGreat == 1}">
@@ -128,7 +128,7 @@
                                                 <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
                                             </c:otherwise>
                                         </c:choose>
-                                        <c:if test="${post.replyCount >= 3}">
+                                        <c:if test="${post.replyCount >= 10}">
                                             <img src="${basePath}res/front/library/images/bbs_hot.gif"/>
                                         </c:if>
                                         <c:if test="${post.showGreat == 1}">

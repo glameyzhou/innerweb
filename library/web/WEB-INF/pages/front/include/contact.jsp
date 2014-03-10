@@ -26,4 +26,10 @@
     <a href="${basePath}bbs/index.htm">
         <img src="${basePath}res/front/library/images/spical.jpg"/>
     </a>
+    <map name="Map" id="Map">
+        <area shape="rect" coords="7,60,82,203" href="${basePath}bbs/brand-FbeYFv.htm" />
+        <area shape="rect" coords="91,67,163,204" href="${basePath}bbs/brand-AzErIb.htm" />
+        <area shape="rect" coords="185,65,255,207" href="${basePath}bbs/brand-veumEn.htm" />
+        <%--<area shape="rect" coords="6,3,261,201" href="${basePath}bbs/index.htm" />--%>
+    </map>
 </div>

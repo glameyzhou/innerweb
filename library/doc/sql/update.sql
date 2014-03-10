@@ -103,7 +103,56 @@ ADD COLUMN `lasted_update_userid`  varchar(32) NULL COMMENT '最后更新的人'
 ALTER TABLE `tbl_bbs_reply`
 ADD COLUMN `lasted_update_userid`  varchar(32) NULL COMMENT '最后更新的用户ID' AFTER `content`;
 
+INSERT INTO `tbl_category` VALUES ('FbeYFv', '煤炭清洁利用', '煤炭清洁利用', 'meitanqingjieliyong', '煤炭清洁利用', '0', '1', '1', '0', '1', '0', 'bbs', null, '0', '2014-03-10 22:10:01');
+INSERT INTO `tbl_category` VALUES ('AzErIb', '区域能源', '区域能源', 'quyunengyuan', '区域能源', '0', '1', '1', '0', '2', '0', 'bbs', null, '0', '2014-03-10 22:10:14');
+INSERT INTO `tbl_category` VALUES ('veumEn', '页岩气、LNG', '页岩气、LNG', 'yeyanqi、LNG', '页岩气、LNG', '0', '1', '1', '0', '3', '0', 'bbs', null, '0', '2014-03-10 22:10:26');
+INSERT INTO `tbl_bbs_manager` VALUES ('FbeYFv', null);
+INSERT INTO `tbl_bbs_manager` VALUES ('AzErIb', null);
+INSERT INTO `tbl_bbs_manager` VALUES ('veumEn', null);
+
 #20140308#
 ALTER TABLE `tbl_bbs_post`
 ADD COLUMN `post_type`  tinyint(4) NULL DEFAULT 0 COMMENT '帖子类型 0=标准帖子 1=投票帖子' AFTER `category_id_fk`;
+
+#20140310
+DROP TABLE IF EXISTS `tbl_bbs_post_vote`;
+CREATE TABLE `tbl_bbs_post_vote` (
+  `vote_id` varchar(32) default '投票帖子主键',
+  `post_id_fk` varchar(32) default NULL COMMENT '帖子主键',
+  `vote_end_date` varchar(255) default NULL COMMENT '投票结束时间',
+  `is_multi_vote` tinyint(4) default '0' COMMENT '是否为多选投票 1=是',
+  `multi_vote_size` int(11) default NULL COMMENT '如果是多选投票的话，最多 可以选择的项总量',
+  `see_after_vote` tinyint(4) default '0' COMMENT '提交投票后结果才可见 1=是',
+  `vote_person_out` tinyint(4) default '0' COMMENT '投票人是否可见 1=是',
+  KEY `idx_vote_post_id_fk` (`post_id_fk`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='投票帖子主题部分';
+
+
+DROP TABLE IF EXISTS `tbl_bbs_post_vote_person`;
+CREATE TABLE `tbl_bbs_post_vote_person` (
+  `vote_id_fk` varchar(32) default NULL,
+  `vote_property_id_fk` varchar(32) default NULL,
+  `vote_user_id_fk` varchar(32) default NULL,
+  `vote_time` datetime default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='投票帖子对应的回复详情';
+
+DROP TABLE IF EXISTS `tbl_bbs_post_vote_property`;
+CREATE TABLE `tbl_bbs_post_vote_property` (
+  `vote_id_fk` varchar(32) default NULL COMMENT '投票主键',
+  `property_id` varchar(32) default NULL COMMENT '投票项唯一标识',
+  `vote_property_name` varchar(500) default NULL COMMENT '投票项名称',
+  `vote_value` int(11) default '0' COMMENT '本条投票项的投票总人数',
+  `property_order` int(11) default NULL COMMENT '投票项排序'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='投票帖子--对应的投票项目属性';
+
+
+DROP TABLE IF EXISTS `tbl_bbs_post_reply_ref`;
+CREATE TABLE `tbl_bbs_post_reply_ref` (
+  `post_id_fk` varchar(32) default NULL,
+  `reply_id_fk` varchar(32) default NULL,
+  `post_user_id_fk` varchar(32) default NULL,
+  `reply_user_id_fk` varchar(32) default NULL,
+  `reply_time` datetime default NULL,
+  KEY `idx_post_reply_ref_fk` (`post_id_fk`,`reply_id_fk`,`post_user_id_fk`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='每个楼层的相互会话关系表';
 

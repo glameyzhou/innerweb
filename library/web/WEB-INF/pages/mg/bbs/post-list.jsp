@@ -50,7 +50,6 @@
                 layer.confirm(msg,function(index){
                     layer.close(index);
                     var values = "";
-                    alert(len);
                     for (var i = 0; i < len; i++) {
                         alert(all_checkbox[i].checked + '  ' + all_checkbox[i].value);
                         if (all_checkbox[i].checked)
@@ -59,7 +58,6 @@
                     if (values.length > 1)
                         values = values.substring(1);
                     var opURL = "${basePath}mg/bbs/post-setSelectContent.htm?categoryId=" + categoryId + "&id=" + values + "&type=" + type + "&itemValue=" + itemValue;
-                    alert(opURL);
                     window.location = opURL;
                 });
             }
@@ -71,9 +69,9 @@
 <div class="body-box">
     <div class="rhead">
         <div class="rpos">当前位置: 首页 - 论坛 - ${category.name} - 列表</div>
-        <form class="ropt">
+        <%--<form class="ropt">
             <input type="button" value="发布主题" onclick="window.location='${basePath}bbs/post-show.htm?categoryId=${category.id}';">
-        </form>
+        </form>--%>
         <div class="clear">
         </div>
     </div>

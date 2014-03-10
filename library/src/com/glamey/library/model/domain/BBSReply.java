@@ -25,6 +25,8 @@ public class BBSReply {
     private String lastedUpdateUserId;
     private UserInfo lastedUpdateUserInfo;
 
+    private BBSPostReplyRef postReplyRef;
+
     public String getCategoryId() {
         return categoryId;
     }
@@ -103,6 +105,14 @@ public class BBSReply {
 
     public void setLastedUpdateUserInfo(UserInfo lastedUpdateUserInfo) {
         this.lastedUpdateUserInfo = lastedUpdateUserInfo;
+    }
+
+    public BBSPostReplyRef getPostReplyRef() {
+        return postReplyRef;
+    }
+
+    public void setPostReplyRef(BBSPostReplyRef postReplyRef) {
+        this.postReplyRef = postReplyRef;
     }
 
     @Override

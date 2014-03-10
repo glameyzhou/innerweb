@@ -4,14 +4,17 @@
 package com.glamey.library.dao;
 
 import com.glamey.framework.utils.StringTools;
+import com.glamey.library.model.domain.BBSPostReplyRef;
 import com.glamey.library.model.domain.BBSReply;
 import com.glamey.library.model.domain.UserInfo;
 import com.glamey.library.model.dto.BBSReplyQuery;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
@@ -62,6 +65,23 @@ public class BBSReplyDao extends BaseDao {
                     });
             if (count > 0) {
                 bbsPostDao.updateReplyCount(info.getPostId(), true);
+                final BBSPostReplyRef postReplyRef = info.getPostReplyRef();
+                if (postReplyRef != null) {
+                    jdbcTemplate.update(
+                            "insert into tbl_bbs_post_reply_ref(post_id_fk,reply_id_fk,post_user_id_fk,reply_user_id_fk,reply_time) " +
+                                    "values(?,?,?,?,now())",
+                            new PreparedStatementSetter() {
+                                @Override
+                                public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                                    int i = 0 ;
+                                    preparedStatement.setString(++i,postReplyRef.getPostId());
+                                    preparedStatement.setString(++i,postReplyRef.getReplyId());
+                                    preparedStatement.setString(++i,postReplyRef.getPostUserId());
+                                    preparedStatement.setString(++i,postReplyRef.getReplyUseId());
+                                }
+                            }
+                    );
+                }
             }
             return true;
         } catch (Exception e) {
@@ -289,7 +309,51 @@ public class BBSReplyDao extends BaseDao {
                 UserInfo lastedUpdateUserInfo = userInfoDao.getUserSimpleById(info.getLastedUpdateUserId());
                 info.setLastedUpdateUserInfo(lastedUpdateUserInfo);
             }
+
+            //此回复是否还有回复的内容
+            info.setPostReplyRef(getPostRelyRef(info.getPostId(),info.getId(),info.getUserId()));
             return info;
         }
+    }
+
+
+    public BBSPostReplyRef getPostRelyRef(final String postId, final String replyId, final String postUserId) {
+        List<BBSPostReplyRef> list = new ArrayList<BBSPostReplyRef>();
+        try {
+            String sql = "select * from tbl_bbs_post_reply_ref where post_id_fk = ? and reply_id_fk = ? and post_user_id_fk = ? limit 1";
+            list = this.jdbcTemplate.query(
+                    sql,
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                            int i = 0 ;
+                            preparedStatement.setString(++i, postId);
+                            preparedStatement.setString(++i, replyId);
+                            preparedStatement.setString(++i, postUserId);
+                        }
+                    },
+                    new RowMapper<BBSPostReplyRef>() {
+                        @Override
+                        public BBSPostReplyRef mapRow(ResultSet resultSet, int i) throws SQLException {
+                            BBSPostReplyRef ref = new BBSPostReplyRef();
+                            ref.setPostId(resultSet.getString("post_id_fk"));
+                            ref.setPostId(resultSet.getString("reply_id_fk"));
+                            ref.setPostId(resultSet.getString("post_user_id_fk"));
+                            ref.setPostId(resultSet.getString("reply_user_id_fk"));
+                            if (StringUtils.isNotBlank(ref.getPostUserId())) {
+                                ref.setPostUserInfo(userInfoDao.getUserSimpleById(ref.getPostUserId()));
+                            }
+                            if (StringUtils.isNotBlank(ref.getReplyUseId())) {
+                                ref.setReplyUserInfo(userInfoDao.getUserSimpleById(ref.getReplyUseId()));
+                            }
+                            ref.setReplyTime(resultSet.getTimestamp("reply_time"));
+                            return ref;
+                        }
+                    }
+            );
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return CollectionUtils.isEmpty(list) ? null : list.get(0);
     }
 }

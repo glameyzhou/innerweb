@@ -71,7 +71,7 @@
                                 </span>
                                 <span style="text-align: right;margin-left: 270px;">
                                     <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;margin-bottom: 1px;"/>
-                                    <span class="colorhui">回复</span>&nbsp;&nbsp;
+                                    <span class="colorhui"><a href="#replyArea" class="colorhui">回复</a></span>&nbsp;&nbsp;
                                     <a href="#top" class="colorhui">TOP</a>&nbsp;&nbsp;
                                     <span class="colorhui" style="width: 20px;">1<sup class="colorhui">#</sup></span>
                                 </span>
@@ -109,13 +109,18 @@
                                 <span style="text-align: right;margin-left: 270px;">
                                     <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;margin-bottom: 1px;"/>
                                     <span class="colorhui">
-                                        <a href="javascript:floorReply('${replyFloor}','${reply.userInfo.nickname}');" class="colorhui">回复</a>
+                                        <a href="javascript:floorReply('${reply.id}','${replyFloor}');" class="colorhui">回复</a>
                                     </span>&nbsp;&nbsp;
                                     <a class="colorhui" href="#top">TOP</a>&nbsp;&nbsp;
                                     <span class="colorhui" style="width: 20px;">${replyFloor}<sup class="colorhui">#</sup></span>
                                 </span>
                             </li>
-                            <li class="minheight" id="content_${replyFloor}">${reply.content}</li>
+                            <li class="minheight" id="content_${replyFloor}">
+                                <c:if test="${reply.postReplyRef != null}">
+                                    <b>回复${replyFloor}楼 ${reply.userInfo.nickname}的帖子</b><br/>
+                                </c:if>
+                            ${reply.content}
+                            </li>
                             <c:if test="${not empty reply.lastedUpdateUserId and reply.lastedUpdateUserInfo != null}">
                                 <li style="margin-left: 10px;margin-top: 10px; color: #999;height: 20px;">
                                     ${reply.lastedUpdateUserInfo.nickname}&nbsp;最后编辑与&nbsp;<fmt:formatDate value="${reply.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -204,6 +209,7 @@
                             });
                         </script>
                         <a name="replyArea" id="replyArea"></a><%--锚点--%>
+                        <input type="hidden" id="replyId" name="replyId" value=""/>
                         <textarea name="postContent" id="postContent" style="width:100%;height:250px;visibility:hidden;"></textarea>
                 </div>
                 <div class="tiezi-tijiao">
@@ -234,6 +240,7 @@
         }
         var data = "content=" + encodeURIComponent(content)
                 + "&categoryId=" + categoryId
+                + "&replyId=" + $("#replyId").val()
                 + "&r=" + Math.random();
         $.ajax({
             type: "post",
@@ -274,13 +281,38 @@
             }
         });
     }
-    function floorReply(floorId,userName){
+    /*function floorReply(floorId,userName){
         //向kindEditor中赋值
-        /*var content = $("#content_" + floorId).html();*/
+        *//*var content = $("#content_" + floorId).html();*//*
         kindEditor.html('<p><b>回复' + floorId + '楼 ' + userName + '的帖子</b><br/></p>');
         //跳转到回复区域
         location.hash="replyArea";
-    }
+    }*/
+    function floorReply(replyId,replyFloor){
+        layer.confirm('确定要回复' + replyFloor + '楼吗？',function(index){
+            layer.close(index);
+        });
+        $.layer({
+            shade : [0.5 , '#000' , true],
+            area : ['auto','auto'],
+            dialog : {
+                msg:'确定要回复' + replyFloor + '楼吗？',
+                btns : 2,
+                type : 4,
+                btn : ['确定','取消'],
+                yes : function(){
+                    layer.closeAll();
+                    $("#replyId").val(replyId);
+                    //跳转到回复区域
+                    location.hash="replyArea";
+                },
+                no : function(){
+                    $("#replyId").val("");
+                    layer.closeAll();
+                }
+            }
+        });
+     }
 
     /**
     *   返回列表页面

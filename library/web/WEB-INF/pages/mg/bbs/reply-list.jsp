@@ -48,9 +48,9 @@
 <div class="body-box">
     <div class="rhead">
         <div class="rpos">当前位置: 首页 - 论坛 - ${category.name} - 回复列表</div>
-        <form class="ropt">
+        <%--<form class="ropt">
             <input type="button" value="回帖" onclick="window.location='${basePath}bbs/reply-show.htm?categoryId=${category.id}&postId=${query.postId}';">
-        </form>
+        </form>--%>
         <div class="clear">
         </div>
     </div>
