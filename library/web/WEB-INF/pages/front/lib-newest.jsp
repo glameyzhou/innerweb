@@ -35,31 +35,63 @@
                     </c:choose>
                 </div>
                 <div class="neiye_right_con">
-                    <table width="99%" cellpadding="0" cellspacing="0" border="0">
-                        <tr>
-                            <c:forEach var="lib" items="${libraryInfoList}" varStatus="statusIndex">
-                                <c:choose>
-                                    <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                                        <c:set var="libHref" value="href=\"#\""/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:if test="${lib.type ==1 || lib.type == 3}">
-                                            <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
-                                        </c:if>
-                                        <c:if test="${lib.type ==2}">
-                                            <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
-                                        </c:if>
-                                    </c:otherwise>
-                                </c:choose>
-                                <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
-                                &nbsp;
-                                <img src="${basePath}res/front/library/images/right_tit_biao3.png"/>&nbsp;
-                                <a title="${lib.name}" ${libHref}>${lib.name}</a>
-                                <c:if test="${lib.showisNew == 1}"><img src="${basePath}res/front/library/images/new.gif"/></c:if>
-                                <br/><br/>
-                            </c:forEach>
-                        </tr>
-                    </table>
+                    <c:choose>
+                        <c:when test="${not empty src}">
+                            <table width="99%" cellpadding="0" cellspacing="0" border="0">
+                                <c:forEach var="lib" items="${libraryInfoList}" varStatus="statusIndex">
+                                    <c:choose>
+                                        <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
+                                            <c:set var="libHref" value="href=\"#\""/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:if test="${lib.type ==1 || lib.type == 3}">
+                                                <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
+                                            </c:if>
+                                            <c:if test="${lib.type ==2}">
+                                                <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
+                                            </c:if>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
+                                    <tr>
+                                        <td width="90%">
+                                            &nbsp;<img src="${basePath}res/front/library/images/right_tit_biao3.png"/>&nbsp;
+                                            <a title="${lib.name}" ${libHref}>${lib.name}</a>
+                                            <c:if test="${lib.showisNew == 1}"><img src="${basePath}res/front/library/images/new.gif"/></c:if>
+                                        </td>
+                                        <td width="10%"><fmt:formatDate value="${lib.time}" pattern="yyyy-MM-dd"/></td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </c:when>
+                        <c:otherwise>
+                            <table width="99%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <c:forEach var="lib" items="${libraryInfoList}" varStatus="statusIndex">
+                                        <c:choose>
+                                            <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
+                                                <c:set var="libHref" value="href=\"#\""/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:if test="${lib.type ==1 || lib.type == 3}">
+                                                    <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
+                                                </c:if>
+                                                <c:if test="${lib.type ==2}">
+                                                    <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
+                                                </c:if>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
+                                        &nbsp;
+                                        <img src="${basePath}res/front/library/images/right_tit_biao3.png"/>&nbsp;
+                                        <a title="${lib.name}" ${libHref}>${lib.name}</a>
+                                        <c:if test="${lib.showisNew == 1}"><img src="${basePath}res/front/library/images/new.gif"/></c:if>
+                                        <br/><br/>
+                                    </c:forEach>
+                                </tr>
+                            </table>
+                        </c:otherwise>
+                    </c:choose>
                     <c:set var="pageURL" value="${basePath}library-newest.htm?categoryId=${libraryQuery.categoryId}&src=${src}&"/>
                     <%@include file="../common/pages-front.jsp" %>
                 </div>
