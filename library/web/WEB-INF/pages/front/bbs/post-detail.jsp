@@ -232,12 +232,13 @@
             layer.alert(errorMsg, 8);
             return;
         }
+        var data = "content=" + encodeURIComponent(content)
+                + "&categoryId=" + categoryId
+                + "&r=" + Math.random();
         $.ajax({
             type: "post",
             url: bastPath + "bbs/reply-" + postId + "-submit.htm",
-            data: "content=" + encodeURIComponent(content)
-                    + "&categoryId=" + categoryId
-                    + "&r=" + Math.random(),
+            data: data,
             /*dataType: "json",*/
             async: false,
             success: function (msg) {

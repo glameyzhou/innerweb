@@ -22,7 +22,8 @@
     </a>
 </div>
 <div class="guanggao">
-    <a href="${basePath}library-list-7jee6v.htm">
+    <%--<a href="${basePath}library-list-7jee6v.htm">--%>
+    <a href="${basePath}bbs/index.htm">
         <img src="${basePath}res/front/library/images/spical.jpg"/>
     </a>
 </div>

@@ -117,6 +117,15 @@ public class BBSFrontController extends BaseController {
             HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         logger.info("[front] #postShow#" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("front/bbs/post-show");
+
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        if (userInfo != null && StringUtils.equals(userInfo.getUsername(),Constants.sysTouristUID)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "游客禁止发帖");
+            mav.addObject("href", "bbs/brand-" + categoryId + ".htm");
+            return mav;
+        }
+
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request, response, session));
         if (StringUtils.isBlank(categoryId)) {
@@ -147,6 +156,16 @@ public class BBSFrontController extends BaseController {
             mav.addObject("href", "mg/bbs/index.htm");
             return mav;
         }
+
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        if (userInfo != null && StringUtils.equals(userInfo.getUsername(),Constants.sysTouristUID)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "游客禁止发帖");
+            mav.addObject("href", "bbs/brand-" + categoryId + ".htm");
+            return mav;
+        }
+
+
         Category category = categoryDao.getBySmpleId(categoryId);
         mav.addObject("categoryId",categoryId);
         mav.addObject("category",category);
@@ -161,21 +180,25 @@ public class BBSFrontController extends BaseController {
     @RequestMapping(value = "/post-submit.htm", method = RequestMethod.POST)
     public void postSubmit(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         logger.info("[front] #postSubmit#" + request.getRequestURI());
-
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
         String title = WebUtils.getRequestParameterAsString(request,"title");
         String content = WebUtils.getRequestParameterAsString(request,"postContent");
         String errorMsg = "";
-        if (StringUtils.isBlank(categoryId)) {
-            errorMsg += "为选择发帖分类<br/>";
+        if (userInfo != null && !StringUtils.equalsIgnoreCase(userInfo.getUsername(),Constants.sysTouristUID)) {
+            if (StringUtils.isBlank(categoryId)) {
+                errorMsg += "为选择发帖分类<br/>";
+            }
+            if (StringUtils.isBlank(title) /*|| StringUtils.trim(title).length() < 10*/) {
+                errorMsg += "标题不能为空<br/>";
+            }
+            if (StringUtils.isBlank(content)/* || StringUtils.trim(content).length() < 10*/) {
+                errorMsg += "内容不能为空";
+            }
         }
-        if (StringUtils.isBlank(title) /*|| StringUtils.trim(title).length() < 10*/) {
-            errorMsg += "标题不能为空<br/>";
+        else {
+            errorMsg += "游客禁止发言";
         }
-        if (StringUtils.isBlank(content)/* || StringUtils.trim(content).length() < 10*/) {
-            errorMsg += "内容不能为空";
-        }
-
         Map<String,String> resultMap = new HashMap<String, String>();
         String pCode = "0", pData = "", postId = "";
         if (StringUtils.isNotBlank(errorMsg)) {
@@ -184,7 +207,6 @@ public class BBSFrontController extends BaseController {
         }
         else {
             Category category = categoryDao.getBySmpleId(categoryId);
-            UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
             BBSPost post = new BBSPost();
             post.setCategoryId(categoryId);
             post.setTitle(title);
@@ -313,20 +335,23 @@ public class BBSFrontController extends BaseController {
             @PathVariable String postId,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         logger.info("[front] #replySubmit#" + request.getRequestURI());
-
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
         String content = WebUtils.getRequestParameterAsString(request,"content");
         String errorMsg = "";
-        if (StringUtils.isBlank(categoryId)) {
+        if (userInfo != null && !StringUtils.equalsIgnoreCase(userInfo.getUsername(),Constants.sysTouristUID)) {
+            if (StringUtils.isBlank(categoryId)) {
             errorMsg += "请选择发帖分类<br/>";
+            }
+            if (StringUtils.isBlank(postId)) {
+                errorMsg += "请选择回帖的主题<br/>";
+            }
+            if (StringUtils.isBlank(content)/* || StringUtils.trim(content).length() < 10*/) {
+                errorMsg += "内容不能为空";
+            }
+        }else {
+            errorMsg += "游客禁止回复";
         }
-        if (StringUtils.isBlank(postId)) {
-            errorMsg += "请选择回帖的主题<br/>";
-        }
-        if (StringUtils.isBlank(content)/* || StringUtils.trim(content).length() < 10*/) {
-            errorMsg += "内容不能为空";
-        }
-
         Map<String,String> resultMap = new HashMap<String, String>();
         String pCode = "0", pData = "";
         if (StringUtils.isNotBlank(errorMsg)) {
@@ -335,7 +360,6 @@ public class BBSFrontController extends BaseController {
         }
         else {
             Category category = categoryDao.getBySmpleId(categoryId);
-            UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
 
             BBSReply reply = new BBSReply();
             reply.setCategoryId(categoryId);
@@ -537,6 +561,7 @@ public class BBSFrontController extends BaseController {
             @PathVariable String voteId,
             HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[front] #postPersonVote#" + request.getRequestURI());
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         /*var data = "categoryId=" + categoryId
                 + "&postId=" + postId
                 + "&voteId=" + voteId
@@ -545,11 +570,15 @@ public class BBSFrontController extends BaseController {
         String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
         String voteProperties = WebUtils.getRequestParameterAsString(request,"voteProperties");
         String errorMsg = "";
-        if (StringUtils.isBlank(categoryId)) {
-            errorMsg += "请选择投票分类<br/>";
-        }
-        if (StringUtils.isBlank(voteProperties)) {
-            errorMsg += "请选择投票项目<br/>";
+        if (userInfo != null && !StringUtils.equals(userInfo.getUsername(),Constants.sysTouristUID)) {
+            if (StringUtils.isBlank(categoryId)) {
+                errorMsg += "请选择投票分类<br/>";
+            }
+            if (StringUtils.isBlank(voteProperties)) {
+                errorMsg += "请选择投票项目<br/>";
+            }
+        } else {
+            errorMsg += "游客禁止投票<br/>";
         }
         BBSPostVote postVote = voteDao.getPostVote(postId);
         String voteEndDate = postVote.getVoteEndDate();
@@ -569,7 +598,6 @@ public class BBSFrontController extends BaseController {
         }
         else {
             Category category = categoryDao.getBySmpleId(categoryId);
-            UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
 
             //本人是否应投过票
             boolean isVote = voteDao.isVote(userInfo.getUserId(),voteId);
