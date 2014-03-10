@@ -39,7 +39,7 @@
         <div class="clear"></div>
     </div>
     <form method="post" action="${basePath}mg/bbs/post-update.htm" id="jvForm" enctype="multipart/form-data">
-        <input type="text" id="postId" name="postId" value="${bbsPost.id}"/>
+        <input type="hidden" id="postId" name="postId" value="${bbsPost.id}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
             <tr>
