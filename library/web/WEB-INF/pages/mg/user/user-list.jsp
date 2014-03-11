@@ -148,7 +148,7 @@
             </tbody>
         </table>
         <c:set var="pageURL"
-               value="${basePath}mg/user/user-list.htm?keyword=${fmtString:encoder(query.keyword)}&isLive=${query.isLive}&roleId=${query.roleId}&&startTime=${fmtString:encoder(query.startTime)}&endTime=${fmtString:encoder(query.endTime)}&"/>
+               value="${basePath}mg/user/user-list.htm?brandId=${brandId}&keyword=${fmtString:encoder(query.keyword)}&isLive=${query.isLive}&roleId=${query.roleId}&&startTime=${fmtString:encoder(query.startTime)}&endTime=${fmtString:encoder(query.endTime)}&"/>
         <%@include file="../../common/pages.jsp" %>
     </form>
 </div>
