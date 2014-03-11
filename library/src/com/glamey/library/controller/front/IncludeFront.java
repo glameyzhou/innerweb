@@ -9,6 +9,7 @@ import com.glamey.library.model.dto.FriendlyLinksDTO;
 import com.glamey.library.model.dto.LibraryQuery;
 import com.glamey.library.model.dto.LinksQuery;
 import com.glamey.library.model.dto.PostQuery;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 
@@ -146,6 +147,18 @@ public class IncludeFront {
 
         //图书信息分类
         List<Category> categoryList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY, 1);
+        //重置分类的访问URL地址
+        for (java.util.Iterator<Category> iterator = categoryList.iterator();iterator.hasNext();) {
+            Category category = iterator.next();
+            if (StringUtils.equals(category.getCategoryType(), CategoryConstants.CATEGORY_BBS)) {
+                if (StringUtils.equals(category.getParentId(), CategoryConstants.PARENTID))
+                    category.setAccessUrl("bbs/index.htm");
+                else
+                    category.setAccessUrl("bbs/brand-" + category.getId() + ".htm");
+            }
+            else
+                category.setAccessUrl("library-list-" + category.getId() + ".htm");
+        }
         map.put("libraryCategoryList", categoryList);
         return map;
     }

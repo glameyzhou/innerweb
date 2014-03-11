@@ -48,6 +48,8 @@ public class Category implements java.io.Serializable {
     private int hasChild = 0 ;
 
     private List<Category> children ;
+
+    private String accessUrl;
     public String getId() {
         return id;
     }
@@ -182,6 +184,14 @@ public class Category implements java.io.Serializable {
 
     public void setTreeOrder(int treeOrder) {
         this.treeOrder = treeOrder;
+    }
+
+    public String getAccessUrl() {
+        return accessUrl;
+    }
+
+    public void setAccessUrl(String accessUrl) {
+        this.accessUrl = accessUrl;
     }
 
     @Override

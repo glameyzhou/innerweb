@@ -35,10 +35,10 @@
         <c:forEach var="lib" items="${libraryCategoryList}" varStatus="vStatus">
         <c:choose>
         <c:when test="${lib.hasChild == 1}">
-        { id: "${lib.id}", pId: "${lib.parentId}", name: "${fmtString:substringAppend(lib.name,20,'..')}", open: false, url: "${basePath}library-list-${lib.id}.htm",target:"_self",icon:"${basePath}res/front/library/images/fenlei_con1.jpg"}<c:if test="${!vStatus.last}">,</c:if>
+        { id: "${lib.id}", pId: "${lib.parentId}", name: "${fmtString:substringAppend(lib.name,20,'..')}", open: false, url: "${basePath}${accessUrl}",target:"_self",icon:"${basePath}res/front/library/images/fenlei_con1.jpg"}<c:if test="${!vStatus.last}">,</c:if>
         </c:when>
         <c:otherwise>
-        { id: "${lib.id}", pId: "${lib.parentId}", name: "${fmtString:substringAppend(lib.name,20,'..')}", url: "${basePath}library-list-${lib.id}.htm",target:"_self", icon:"${basePath}res/front/library/images/notice_list.png"}<c:if test="${!vStatus.last}">,</c:if>
+        { id: "${lib.id}", pId: "${lib.parentId}", name: "${fmtString:substringAppend(lib.name,20,'..')}", url: "${basePath}${accessUrl}",target:"_self", icon:"${basePath}res/front/library/images/notice_list.png"}<c:if test="${!vStatus.last}">,</c:if>
         </c:otherwise>
         </c:choose>
         </c:forEach>
