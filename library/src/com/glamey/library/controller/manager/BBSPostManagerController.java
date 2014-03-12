@@ -155,7 +155,7 @@ public class BBSPostManagerController extends BaseController {
         ModelAndView mav = new ModelAndView("mg/bbs/brand-manager");
 
         Map<Category,UserInfo> result = new LinkedHashMap<Category, UserInfo>();
-        List<Category> bbsCategoryList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_BBS,0,Integer.MAX_VALUE);
+        List<Category> bbsCategoryList = categoryDao.getByParentId(CategoryConstants.CATEGORY_BBS_ROOT,CategoryConstants.CATEGORY_BBS,0,Integer.MAX_VALUE);
         for (Category category : bbsCategoryList) {
             UserInfo userInfo = bbsPostDao.getBBSManager(category.getId());
             result.put(category,userInfo);

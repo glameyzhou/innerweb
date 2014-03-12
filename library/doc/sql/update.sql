@@ -106,6 +106,7 @@ ADD COLUMN `lasted_update_userid`  varchar(32) NULL COMMENT '最后更新的用�
 INSERT INTO `tbl_category` VALUES ('FbeYFv', '煤炭清洁利用', '煤炭清洁利用', 'meitanqingjieliyong', '煤炭清洁利用', '0', '1', '1', '0', '1', '0', 'bbs', null, '0', '2014-03-10 22:10:01');
 INSERT INTO `tbl_category` VALUES ('AzErIb', '区域能源', '区域能源', 'quyunengyuan', '区域能源', '0', '1', '1', '0', '2', '0', 'bbs', null, '0', '2014-03-10 22:10:14');
 INSERT INTO `tbl_category` VALUES ('veumEn', '页岩气、LNG', '页岩气、LNG', 'yeyanqi、LNG', '页岩气、LNG', '0', '1', '1', '0', '3', '0', 'bbs', null, '0', '2014-03-10 22:10:26');
+INSERT INTO `tbl_category` VALUES ('3i2Q7v', '专题讨论区', '专题讨论区', 'zhuantitaolunqu', '专题讨论区', '0', '1', '1', '0', '1', '0', 'bbs', null, '1', '2014-03-10 22:10:01');
 INSERT INTO `tbl_bbs_manager` VALUES ('FbeYFv', null);
 INSERT INTO `tbl_bbs_manager` VALUES ('AzErIb', null);
 INSERT INTO `tbl_bbs_manager` VALUES ('veumEn', null);

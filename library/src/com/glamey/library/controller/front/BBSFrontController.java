@@ -67,7 +67,7 @@ public class BBSFrontController extends BaseController {
 
         List<BBSDTO> bbsdtoList = new ArrayList<BBSDTO>();
         BBSDTO bbsdto = null;
-        List<Category> bbsCategoryList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_BBS,0,Integer.MAX_VALUE);
+        List<Category> bbsCategoryList = categoryDao.getByParentId(CategoryConstants.CATEGORY_BBS_ROOT,CategoryConstants.CATEGORY_BBS,0,Integer.MAX_VALUE);
         for (Category category : bbsCategoryList) {
             //栏目帖子总量分析
             BBSAnalyzer analyzer = bbsPostDao.getAnalyzer(category.getId());

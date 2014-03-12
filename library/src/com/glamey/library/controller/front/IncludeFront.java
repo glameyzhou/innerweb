@@ -147,6 +147,7 @@ public class IncludeFront {
 
         //图书信息分类
         List<Category> categoryList = categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_LIBRARY, 1);
+        categoryList.addAll(categoryDao.getCategoryListByType(CategoryConstants.CATEGORY_BBS,1));
         //重置分类的访问URL地址
         for (java.util.Iterator<Category> iterator = categoryList.iterator();iterator.hasNext();) {
             Category category = iterator.next();

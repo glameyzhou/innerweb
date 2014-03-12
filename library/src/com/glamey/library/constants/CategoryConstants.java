@@ -97,4 +97,9 @@ public class CategoryConstants {
      * BBS_区域能源
      */
     public static final String CATEGORY_BBS_QUYUNENGYUAN  = "Evmqey";
+
+    /**
+     * BBS论坛的根结点ID
+     */
+    public static final String CATEGORY_BBS_ROOT = "3i2Q7v";
 }
