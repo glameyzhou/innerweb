@@ -53,8 +53,8 @@
                 <%--<th>名字引用</th>--%>
                 <c:if test="${!isBBS}">
                 <th>首页显示</th>
-                <th>树形结构显示</th>
                 </c:if>
+                <th>树形结构显示</th>
                 <th align="center">树排序</th>
                 <th align="center">分类排序</th>
                 <th>创建时间</th>
@@ -74,12 +74,12 @@
                                 <c:when test="${cate.showIndex == 0}">否</c:when><c:otherwise>是</c:otherwise>
                             </c:choose>
                         </td>
-                        <td align=center>
-                            <c:choose>
-                                <c:when test="${cate.showInTree == 0}">否</c:when><c:otherwise>是</c:otherwise>
-                            </c:choose>
-                        </td>
                     </c:if>
+                    <td align=center>
+                        <c:choose>
+                            <c:when test="${cate.showInTree == 0}">否</c:when><c:otherwise>是</c:otherwise>
+                        </c:choose>
+                    </td>
                     <td align="center">${cate.treeOrder}</td>
                     <td align="center">${cate.categoryOrder}</td>
                     <td align="center">${fmtString:substring(cate.categoryTime,16)}</td>
