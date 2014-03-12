@@ -13,8 +13,28 @@
     <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/library/css/bbs.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <style type="text/css">
+        .poll-percent {
+            float: left;
+            margin: 4px 10px 3px 0;
+            width: 164px;
+            height: 11px;
+            background: #F1F1F1;
+            overflow: hidden;
+        }
+        .poll-percent em {
+            float: left;
+            width: 0;
+            height: 9px;
+            border: 1px solid #71A322;
+            background-color: #71A322;
+            background-position: 0 -251px;
+            overflow: hidden;
+        }
+    </style>
 </head>
-<body><a name="top" id="top"></a><%--锚点--%>
+<body>
+<a name="top" id="top"></a><%--锚点--%>
 <div class="box">
     <!--头部代码开始-->
     <%@include file="../include/header.jsp"%>
@@ -94,19 +114,20 @@
                             <li class="minheight" style="margin-top: 5px;min-height: 5px;">
                                 <b>投票结果</b>&nbsp;&nbsp;投票总人数：<font style="color: red;font-weight: bold;">${votePersonTotal}</font>，投票总数：<font style="color: red;font-weight: bold;">${voteTotal}</font>
                                 <c:forEach var="property" items="${votePropertyList}" varStatus="status">
-                                    <p>
-                                            ${status.index + 1}、
-                                            ${property.propertyName}&nbsp;&nbsp;
-                                            <font style="color: red;font-weight: bolder;">
-                                                <c:choose>
-                                                    <c:when test="${postVote.votePersonOut == 1}">
-                                                        <a href="${basePath}bbs/votePerson-${bbsPost.id}-${postVote.voteId}-${property.propertyId}.htm" style="color: red;font-weight: bolder;" title="查看投票人">${property.propertyValue}&nbsp;[<fmt:formatNumber value="${property.propertyValue/voteTotal}" type="percent" minFractionDigits="2" />]</a>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        ${property.propertyValue}&nbsp;[<fmt:formatNumber value="${property.propertyValue/voteTotal}" type="percent" minFractionDigits="2" />]
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </font>
+                                    <p style="width: 100%">
+                                        <fmt:formatNumber value="${property.propertyValue/voteTotal}" type="percent" minFractionDigits="1" var="votePercent" />
+                                        <span style="width: 50%">${status.index + 1}、${property.propertyName}&nbsp;&nbsp;</span>
+                                        <span class="poll-percent"><em style="width:${votePercent};">&nbsp;</em></span>
+                                        <%--<font style="color: red;font-weight: bolder;">
+                                            <c:choose>
+                                                <c:when test="${postVote.votePersonOut == 1}">
+                                                    <a href="${basePath}bbs/votePerson-${bbsPost.id}-${postVote.voteId}-${property.propertyId}.htm" style="color: red;font-weight: bolder;" title="查看投票人">${property.propertyValue}&nbsp;[<fmt:formatNumber value="${property.propertyValue/voteTotal}" type="percent" minFractionDigits="1" />]</a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${property.propertyValue}&nbsp;[<fmt:formatNumber value="${property.propertyValue/voteTotal}" type="percent" minFractionDigits="1" />]
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </font>--%>
                                     </p>
                                 </c:forEach>
                             </li>
