@@ -13,26 +13,6 @@
     <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/library/css/bbs.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            var objStr = ".menu";
-            $(objStr).each(function(i){
-                $(this).click(function(){
-                    alert("show" + i);
-                    $($(objStr+" dd")[i]).show();
-                    $($(objStr+" dt")[i]).addClass("menu02");
-                });
-                $(this).hover(
-                        function(){},
-                        function(){
-                            alert("hide" + i);
-                            $($(objStr + " dd")[i]).hide();
-                            $($(objStr + " dt")[i]).removeClass("menu02");
-                        }
-                );
-            });
-        });
-    </script>
 </head>
 <body>
 <div class="box">
@@ -84,32 +64,17 @@
                                     </c:choose>
                                 </span>
                             </li>
-                            <%--<li>
+                            <li>
                                 <div class="menu">
                                     <ul>
-                                        <li><a class="hide" href="javascript:void(0)"></a>
+                                        <li><a class="hide" href="${basePath}bbs/post-${category.id}-show.htm"></a>
                                             <ul>
-                                                <li><a href="${basePath}bbs/post-${category.id}-show.htm">只发文字</a></li>
                                                 <li><a href="${basePath}bbs/post-${category.id}-voteShow.htm">发起投票</a></li>
                                             </ul>
                                         </li>
                                     </ul>
                                 </div>
-                            </li>--%>
-                            <div class="menu">
-                                <dl>
-                                    <dt>
-                                        <img src="${basePath}res/front/library/images/right-3.png" usemap="#VoteMap" border="0">
-                                        <map name="Map" id="VoteMap">
-                                            <area shape="rect" coords="3,6,72,37" href="${basePath}bbs/post-${category.id}-show.htm" />
-                                            <area shape="rect" coords="76,4,97,31" href="javascript:void(0)" />
-                                        </map>
-                                    </dt>
-                                    <dd>
-                                        <a href="${basePath}bbs/post-${category.id}-voteShow.htm">发起投票</a>
-                                    </dd>
-                                </dl>
-                            </div>
+                            </li>
                         </ul>
                     </div>
                     <p style="width: 700px;margin: 0 auto;background: #e6e7e1;height: 3px;"></p>

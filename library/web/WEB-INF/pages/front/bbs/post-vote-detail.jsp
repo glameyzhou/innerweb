@@ -62,9 +62,8 @@
                         <li>
                             <div class="menu menu-left">
                                 <ul>
-                                    <li><a class="hide" href="javascript:void(0)"></a>
+                                    <li><a class="hide" href="${basePath}bbs/post-${bbsPost.categoryId}-show.htm"></a>
                                         <ul>
-                                            <li><a href="${basePath}bbs/post-${bbsPost.categoryId}-show.htm">只发文字</a></li>
                                             <li><a href="${basePath}bbs/post-${bbsPost.categoryId}-voteShow.htm">发起投票</a></li>
                                         </ul>
                                     </li>
@@ -88,7 +87,31 @@
                         <c:if test="${not empty bbsPost.content}">
                             <li class="minheight" style="min-height:5px;">${bbsPost.content}</li>
                         </c:if>
-                        <li class="minheight" style="margin-top: 5px;">
+                        <%--不提交结果也可见 || 投票后结果才可见--%>
+                        <c:if test="${(postVote.seeAfterVote == 1 && isVote) || postVote.seeAfterVote == 0}">
+                            <li class="minheight" style="margin-top: 5px;min-height: 5px;">
+                                <b>投票结果</b>&nbsp;&nbsp;投票总人数：<font style="color: red;font-weight: bold;">${votePersonTotal}</font>，投票总数：<font style="color: red;font-weight: bold;">${voteTotal}</font>
+                                <c:forEach var="property" items="${votePropertyList}" varStatus="status">
+                                    <p style="width: 100%">
+                                        <fmt:formatNumber value="${property.propertyValue/voteTotal}" type="percent" minFractionDigits="1" var="votePercent" />
+                                        <span style="width: 5%">${votePercent}</span>
+                                        <span style="width: 45%">${property.propertyName}&nbsp;&nbsp;</span>
+                                        <span class="poll-percent"><em style="width:${votePercent};">&nbsp;</em></span>
+                                            <%--<font style="color: red;font-weight: bolder;">
+                                                <c:choose>
+                                                    <c:when test="${postVote.votePersonOut == 1}">
+                                                        <a href="${basePath}bbs/votePerson-${bbsPost.id}-${postVote.voteId}-${property.propertyId}.htm" style="color: red;font-weight: bolder;" title="查看投票人">${property.propertyValue}&nbsp;[<fmt:formatNumber value="${property.propertyValue/voteTotal}" type="percent" minFractionDigits="1" />]</a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${property.propertyValue}&nbsp;[<fmt:formatNumber value="${property.propertyValue/voteTotal}" type="percent" minFractionDigits="1" />]
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </font>--%>
+                                    </p>
+                                </c:forEach>
+                            </li>
+                        </c:if>
+                        <li class="minheight" style="margin-top: 5px;height: auto;">
                             <b>投票属性</b><br/>
                             <p>
                                 投票结束时间：${postVote.voteEndDate}<br/>
@@ -97,7 +120,9 @@
                                     <c:when test="${postVote.isMultiVote == 0}">只能选择一个选项</c:when>
                                     <c:otherwise>可以选择<font style="color: #ff0000;">${postVote.multiVoteSize}</font>个选项</c:otherwise>
                                 </c:choose>
-                            </p><br/>
+                            </p>
+                        </li>
+                        <li class="minheight" style="margin-top: 5px;">
                             <b>投票选项</b>
                             <c:forEach var="property" items="${votePropertyList}" varStatus="status">
                                 <p>
@@ -109,29 +134,6 @@
                                 <input type="button" value="提交投票" class="button-click" onclick="javascript:postSubmit();"/>&nbsp;&nbsp;
                             </div>
                         </li>
-                        <%--不提交结果也可见 || 投票后结果才可见--%>
-                        <c:if test="${(postVote.seeAfterVote == 1 && isVote) || postVote.seeAfterVote == 0}">
-                            <li class="minheight" style="margin-top: 5px;min-height: 5px;">
-                                <b>投票结果</b>&nbsp;&nbsp;投票总人数：<font style="color: red;font-weight: bold;">${votePersonTotal}</font>，投票总数：<font style="color: red;font-weight: bold;">${voteTotal}</font>
-                                <c:forEach var="property" items="${votePropertyList}" varStatus="status">
-                                    <p style="width: 100%">
-                                        <fmt:formatNumber value="${property.propertyValue/voteTotal}" type="percent" minFractionDigits="1" var="votePercent" />
-                                        <span style="width: 50%">${status.index + 1}、${property.propertyName}&nbsp;&nbsp;</span>
-                                        <span class="poll-percent"><em style="width:${votePercent};">&nbsp;</em></span>
-                                        <%--<font style="color: red;font-weight: bolder;">
-                                            <c:choose>
-                                                <c:when test="${postVote.votePersonOut == 1}">
-                                                    <a href="${basePath}bbs/votePerson-${bbsPost.id}-${postVote.voteId}-${property.propertyId}.htm" style="color: red;font-weight: bolder;" title="查看投票人">${property.propertyValue}&nbsp;[<fmt:formatNumber value="${property.propertyValue/voteTotal}" type="percent" minFractionDigits="1" />]</a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${property.propertyValue}&nbsp;[<fmt:formatNumber value="${property.propertyValue/voteTotal}" type="percent" minFractionDigits="1" />]
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </font>--%>
-                                    </p>
-                                </c:forEach>
-                            </li>
-                        </c:if>
                         <c:if test="${not empty bbsPost.lastedUpdateUserId and bbsPost.lastedUpdateUserInfo != null}">
                             <li style="margin-left: 10px;margin-top: 10px; color: #999;height: 20px;">
                                 ${bbsPost.lastedUpdateUserInfo.nickname}&nbsp;最后编辑与&nbsp;<fmt:formatDate value="${bbsPost.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -170,9 +172,7 @@
             layer.alert('最多选择' + multiVoteSize + '项', 8);
             return;
         }
-        var data = "categoryId=" + categoryId
-                + "&voteProperties=" + voteProperties
-                + "&r=" + Math.random();
+        var data = "categoryId=" + categoryId + "&voteProperties=" + voteProperties + "&r=" + Math.random();
         $.ajax({
             type: "post",
             url: bastPath + "bbs/post-vote-" + postId + "-" + voteId + "-submit.htm",

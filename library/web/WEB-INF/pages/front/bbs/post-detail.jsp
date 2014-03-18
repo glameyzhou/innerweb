@@ -40,12 +40,11 @@
                     <br /><br /><br />
                     <ul style="width:700px;">
                         <li>
-                            <div class="menu menu-left">
+                            <div class="menu">
                                 <ul>
-                                    <li><a class="hide" href="javascript:void(0)"></a>
+                                    <li><a class="hide" href="${basePath}bbs/post-${category.id}-show.htm"></a>
                                         <ul>
-                                            <li><a href="${basePath}bbs/post-${bbsPost.categoryId}-show.htm">只发文字</a></li>
-                                            <li><a href="${basePath}bbs/post-${bbsPost.categoryId}-voteShow.htm">发起投票</a></li>
+                                            <li><a href="${basePath}bbs/post-${category.id}-voteShow.htm">发起投票</a></li>
                                         </ul>
                                     </li>
                                 </ul>
