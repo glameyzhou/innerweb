@@ -276,7 +276,7 @@ public class BBSFrontController extends BaseController {
             errorMsg += "投票可选项目数量大于投票设置项<br/>";
         }
         Map<String,String> resultMap = new HashMap<String, String>();
-        String pCode = "0", pData = "", postId = "";
+        String pCode = "0", pData = "", postId = StringTools.getUniqueId();
         if (StringUtils.isNotBlank(errorMsg)) {
             pCode = "1";
             pData = errorMsg;
@@ -286,7 +286,7 @@ public class BBSFrontController extends BaseController {
             Category category = categoryDao.getBySmpleId(categoryId);
             UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
             BBSPost post = new BBSPost();
-            post.setId(StringTools.getUniqueId());
+            post.setId(postId);
             post.setCategoryId(categoryId);
             post.setTitle(title);
             post.setContent(content);
@@ -471,6 +471,8 @@ public class BBSFrontController extends BaseController {
             mav.setViewName("common/errorPage");
             return mav;
         }
+        //如果参数非空，说明为投票帖子
+        String t = WebUtils.getRequestParameterAsString(request,"t");
         //包含页面
         mav.addAllObjects(includeFront.allInclude(request, response, session));
 
@@ -484,10 +486,27 @@ public class BBSFrontController extends BaseController {
         //增加本主题的viewcount
         bbsPostDao.addViewCount(postId);
         bbsPost.setViewCount(bbsPost.getViewCount() + 1);
+        //帖子栏目
+        Category category = categoryDao.getById(bbsPost.getCategoryId());
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+
+        //投票内容
+        if (StringUtils.isNotBlank(t)) {
+            BBSPostVote postVote = voteDao.getPostVote(postId);
+            List<BBSVoteProperty> votePropertyList = voteDao.getVoteProperties(postVote.getVoteId());
+            boolean isVote = voteDao.isVote(userInfo.getUserId(),postVote.getVoteId());
+            int voteTotal = voteDao.getVoteToal(postVote.getVoteId());
+            int votePersonTotal = voteDao.getVotePersonToal(postVote.getVoteId());
+            mav.addObject("postVote", postVote);
+            mav.addObject("votePropertyList", votePropertyList);
+            mav.addObject("isVote", isVote);
+            mav.addObject("voteTotal", voteTotal);
+            mav.addObject("votePersonTotal", votePersonTotal);
+            mav.addObject("t",t);
+        }
         //查看用户
         String userId = WebUtils.getRequestParameterAsString(request,"u");
         //回帖
-//        pageBean = new PageBean(Constants.rowsPerPageFront);
         pageBean = new PageBean(20);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);
@@ -502,9 +521,6 @@ public class BBSFrontController extends BaseController {
         pageBean.setMaxRowCount(bbsReplyDao.getCountByQuery(query));
         pageBean.setMaxPage();
         pageBean.setPageNoList();
-
-        //帖子栏目
-        Category category = categoryDao.getById(bbsPost.getCategoryId());
 
         //上一个主题
         BBSPost postPre = bbsPostDao.getBBSPost(postId,"pre");
@@ -523,49 +539,6 @@ public class BBSFrontController extends BaseController {
         return mav;
     }
 
-    @RequestMapping(value = "/post-vote-{postId}.htm", method = RequestMethod.GET)
-    public ModelAndView postVoteDetail(
-            @PathVariable String postId,
-            HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        logger.info("[front] #postVoteDetail#" + request.getRequestURI());
-        ModelAndView mav = new ModelAndView("front/bbs/post-vote-detail");
-        if (StringUtils.isBlank(postId)) {
-            mav.addObject("message", "操作无效");
-            mav.setViewName("common/errorPage");
-            return mav;
-        }
-        //包含页面
-        mav.addAllObjects(includeFront.allInclude(request, response, session));
-
-        //主帖
-        BBSPost bbsPost = bbsPostDao.getPostById(postId);
-        if (bbsPost == null) {
-            mav.addObject("message", "操作无效");
-            mav.setViewName("common/errorPage");
-            return mav;
-        }
-        //增加本主题的viewcount
-        bbsPostDao.addViewCount(postId);
-        bbsPost.setViewCount(bbsPost.getViewCount() + 1);
-
-        Category category = categoryDao.getBySmpleId(bbsPost.getCategoryId());
-        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-
-        BBSPostVote postVote = voteDao.getPostVote(postId);
-        List<BBSVoteProperty> votePropertyList = voteDao.getVoteProperties(postVote.getVoteId());
-
-        boolean isVote = voteDao.isVote(userInfo.getUserId(),postVote.getVoteId());
-        int voteTotal = voteDao.getVoteToal(postVote.getVoteId());
-        int votePersonTotal = voteDao.getVotePersonToal(postVote.getVoteId());
-        mav.addObject("category", category);
-        mav.addObject("bbsPost", bbsPost);
-        mav.addObject("postVote", postVote);
-        mav.addObject("votePropertyList", votePropertyList);
-        mav.addObject("isVote", isVote);
-        mav.addObject("voteTotal", voteTotal);
-        mav.addObject("votePersonTotal", votePersonTotal);
-        return mav;
-    }
     @RequestMapping(value = "/post-vote-{postId}-{voteId}-submit.htm", method = RequestMethod.POST)
     public void postPersonVote(
             @PathVariable String postId,
@@ -633,7 +606,7 @@ public class BBSFrontController extends BaseController {
                 }
                 else {
                     pData = "投票成功";
-                    accessLogDao.save(userInfo.getUserId(),"bbs/post-vote-" + postId + ".htm","投票成功，栏目" + category.getName() ,categoryId);
+                    accessLogDao.save(userInfo.getUserId(),"bbs/post-" + postId + ".htm?t=" + System.currentTimeMillis(),"投票成功，栏目" + category.getName() ,categoryId);
                 }
             }
         }

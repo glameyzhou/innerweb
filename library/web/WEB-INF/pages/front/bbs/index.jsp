@@ -16,6 +16,8 @@
 </head>
 <body>
 <div class="box">
+    <jsp:useBean id="now" class="java.util.Date" />
+    <fmt:formatDate value="${now}" type="both" dateStyle="long" pattern="yyyyMMddHHmmss" var="currentTime"/>
     <!--头部代码开始-->
     <%@include file="../include/header.jsp"%>
     <!--头部代码结束-->
@@ -92,7 +94,7 @@
                                     <td>
                                         <c:choose>
                                             <c:when test="${post.postType == 1}">
-                                                <a href="${basePath}bbs/post-vote-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
+                                                <a href="${basePath}bbs/post-${post.postId}.htm?t=${currentTime}" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
                                             </c:when>
                                             <c:otherwise>
                                                 <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
@@ -121,7 +123,7 @@
                                     <td>
                                         <c:choose>
                                             <c:when test="${post.postType == 1}">
-                                                <a href="${basePath}bbs/post-vote-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
+                                                <a href="${basePath}bbs/post-${post.postId}.htm?t=${currentTime}" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>
                                             </c:when>
                                             <c:otherwise>
                                                 <a href="${basePath}bbs/post-${post.postId}.htm" title="${post.title}">${fmtString:substringAppend(post.title,50 ,'...' )}</a>

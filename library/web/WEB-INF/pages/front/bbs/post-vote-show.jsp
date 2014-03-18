@@ -189,7 +189,7 @@
                                 type : 4,
                                 btn : ['查看'],
                                 yes : function(){
-                                    window.location = bastPath + 'bbs/post-vote-' + postId + '.htm';
+                                    window.location = bastPath + 'bbs/post-' + postId + '.htm?t=' + Math.random();
                                 }
                             }
                         });
@@ -211,13 +211,6 @@
             var html = '<li style="float: none;margin-left: 35px;" id="li_VoteProperties_' + votePropertiesSize + '">'
                     + '<input name="input_properties_' + votePropertiesSize + '" id="input_properties_' + votePropertiesSize + '" type="text" class="tiezi-text" style="width: 500px;"/>'
                     + '</li>';
-            /*var html = '<li style="float: none;margin-left: 35px;" id="li_VoteProperties_' + votePropertiesSize + '">'
-                    + '<input name="input_properties_' + votePropertiesSize + '" id="input_properties_' + votePropertiesSize + '" type="text" class="tiezi-text" style="width: 500px;"/>'
-                    + '<img src="${basePath}res/front/library/images/bbs_del.gif" title="删除投票项" id="delImage_' + votePropertiesSize + '" '
-                    + 'onmousemove=\'$(this).attr("src","${basePath}res/front/library/images/bbs_del_hover.gif");\' '
-                    + 'onmouseout=\'$(this).attr("src","${basePath}res/front/library/images/bbs_del.gif");\' '
-                    + 'onclick="deLiVoteProperties(' + votePropertiesSize + ');" />'
-                    + '</li>';*/
             voteProperties.append(html);
         });
         delVoteProperties.click(function(){

@@ -13,6 +13,25 @@
     <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/library/css/bbs.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <style type="text/css">
+        .poll-percent {
+            float: left;
+            margin: 4px 10px 3px 0;
+            width: 164px;
+            height: 11px;
+            background: #F1F1F1;
+            overflow: hidden;
+        }
+        .poll-percent em {
+            float: left;
+            width: 0;
+            height: 9px;
+            border: 1px solid #71A322;
+            background-color: #71A322;
+            background-position: 0 -251px;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body><a name="top" id="top"></a><%--锚点--%>
 <div class="box">
@@ -66,7 +85,7 @@
                                 <B style="padding-right:20px;">${bbsPost.userInfo.nickname}</B>
                                 <span class="colorhui">
                                     <fmt:formatDate value="${bbsPost.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/> |
-                                    <a class="colorhui" href="${basePath}bbs/post-${bbsPost.id}.htm?u=${bbsPost.userId}">只看楼主</a>
+                                    <a class="colorhui" href="${basePath}bbs/post-${bbsPost.id}.htm?u=${bbsPost.userId}&t=${t}">只看楼主</a>
                                 </span>
                                 <span style="text-align: right;margin-left: 270px;">
                                     <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;margin-bottom: 1px;"/>
@@ -75,16 +94,58 @@
                                     <span class="colorhui" style="width: 20px;">1<sup class="colorhui">#</sup></span>
                                 </span>
                             </li>
-                            <li class="minheight" id="content_0">${bbsPost.content}</li>
+                            <li class="minheight" style="min-height: 10px;" id="content_0">${bbsPost.content}</li>
+                            <%--如果是投票的话，显示这些内容--%>
+                            <c:if test="${not empty t}">
+                                <%--不提交结果也可见 || 投票后结果才可见--%>
+                                <c:if test="${(postVote.seeAfterVote == 1 && isVote) || postVote.seeAfterVote == 0}">
+                                    <li class="minheight" style="margin-top: 5px;min-height: 5px;">
+                                        <b>投票结果</b>&nbsp;&nbsp;投票总人数：<font style="color: red;font-weight: bold;">${votePersonTotal}</font>，投票总数：<font style="color: red;font-weight: bold;">${voteTotal}</font>
+                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                            <c:forEach var="property" items="${votePropertyList}" varStatus="status">
+                                                <c:if test="${voteTotal == 0}">
+                                                    <c:set value="1" var="voteTotal"/>
+                                                </c:if>
+                                                <fmt:formatNumber value="${property.propertyValue/voteTotal}" type="percent" minFractionDigits="1" var="votePercent" />
+                                                <tr>
+                                                    <td style="width: 50%">${property.propertyName}</td>
+                                                    <td style="width: 27%">
+                                                        <span class="poll-percent"><em style="width:${votePercent};">&nbsp;</em></span>
+                                                    </td>
+                                                    <td style="width: 5%;">${votePercent}</td>
+                                                    <td style="width: 18%"><a href="javascript:person('${bbsPost.id}','${postVote.voteId}','${property.propertyId}');">查看投该选项的会员</a></td>
+                                                </tr>
+                                            </c:forEach>
+                                        </table>
+                                    </li>
+                                </c:if>
+                                <li class="minheight" style="margin-top: 5px;min-height: 5px;">
+                                    <b>投票属性</b><br/>
+                                    <p>
+                                        投票结束时间：${postVote.voteEndDate}<br/>
+                                        <c:if test="${postVote.seeAfterVote == 1}">提交投票后结果才可见<br/></c:if>
+                                        <c:choose>
+                                            <c:when test="${postVote.isMultiVote == 0}">只能选择一个选项</c:when>
+                                            <c:otherwise>可以选择<font style="color: #ff0000;">${postVote.multiVoteSize}</font>个选项</c:otherwise>
+                                        </c:choose>
+                                    </p>
+                                    <b>投票选项</b>
+                                    <c:forEach var="property" items="${votePropertyList}" varStatus="status">
+                                        <p>
+                                            <input type="checkbox" name="voteProperty" id="voteProperty" value="${property.propertyId}"/>&nbsp;
+                                                ${status.index + 1}、${property.propertyName}
+                                        </p>
+                                    </c:forEach>
+                                    <div class="tiezi-tijiao">
+                                        <input type="button" value="提交投票" class="button-click" onclick="javascript:voteSubmit();"/>&nbsp;&nbsp;
+                                    </div>
+                                </li>
+                            </c:if>
                             <c:if test="${not empty bbsPost.lastedUpdateUserId and bbsPost.lastedUpdateUserInfo != null}">
                                 <li style="margin-left: 10px;margin-top: 10px; color: #999;height: 20px;">
                                     ${bbsPost.lastedUpdateUserInfo.nickname}&nbsp;最后编辑与&nbsp;<fmt:formatDate value="${bbsPost.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                                 </li>
                             </c:if>
-                            <%--<li class="tiezi-huifu">
-                                <img src="${basePath}res/front/library/images/right-6.jpg" align="absmiddle" style="margin-right:5px;"/>
-                                <span class="colorhui">回复</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#top" class="colorhui">TOP</a>
-                            </li>--%>
                         </ul>
                     </div>
                 </c:if>
@@ -98,7 +159,7 @@
                                 <B style="padding-right:20px;">${reply.userInfo.nickname}</B>
                                 <span class="colorhui">
                                     <fmt:formatDate value="${reply.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/> |
-                                    <a class="colorhui" href="${basePath}bbs/post-${reply.postId}.htm?u=${reply.userId}">
+                                    <a class="colorhui" href="${basePath}bbs/post-${reply.postId}.htm?u=${reply.userId}&t=${t}">
                                         <c:choose>
                                             <c:when test="${reply.userId eq bbsPost.userId}">只看楼主</c:when>
                                             <c:otherwise>只看该用户</c:otherwise>
@@ -128,23 +189,8 @@
                         </ul>
                     </div>
                 </c:forEach>
-                <%--<div class="right-tiezi-neirong">
-                    <ul>
-                        <li class="tiezi-mingcheng"><img src="${basePath}res/front/library/images/right-5.jpg"
-                                                         align="absmiddle" style="margin-right:5px;"/><b
-                                style="padding-right:20px;">何巨</b><span class="colorhui">2012-12-03 12:10 | 只看该用户</span>
-                        </li>
-                        <li class="minheight"><b>回复1# 陈含的帖子</b><br/>和我去打野球吧哈哈</li>
-                        <li class="tiezi-huifu"><img src="${basePath}res/front/library/images/right-6.jpg"
-                                                     align="absmiddle" style="margin-right:5px;"/><span
-                                class="colorhui">回复</span>&nbsp;&nbsp;&nbsp;&nbsp;<img
-                                src="${basePath}res/front/library/images/right-7.jpg" align="absmiddle"
-                                style="margin-right:5px;"/><span class="colorhui">引用</span>&nbsp;&nbsp;&nbsp;&nbsp;TOP
-                        </li>
-                    </ul>
-                </div>--%>
                 <c:if test="${pageBean.maxPage > 1}">
-                    <c:set var="pageURL" value="${basePath}bbs/post-${bbsPost.id}.htm?u=${query.userId}&"/>
+                    <c:set var="pageURL" value="${basePath}bbs/post-${bbsPost.id}.htm?u=${query.userId}&t=${t}&"/>
                     <%@include file="../../common/pages-front.jsp" %>
                 </c:if>
                 <div class="tiezi-dibu">
@@ -227,6 +273,11 @@
     var bastPath = '${basePath}';
     var categoryId = '${category.id}';
     var postId = '${bbsPost.id}';
+
+    var voteId = '${postVote.voteId}';
+    var isMultiVote = '${postVote.isMultiVote}';
+    var multiVoteSize = '${postVote.multiVoteSize}';
+
     function postSubmit(){
         var content = $("#postContent").val();
         var errorMsg = '';
@@ -267,7 +318,7 @@
                             type : 4,
                             btn : ['查看'],
                             yes : function(){
-                                window.location =  bastPath + 'bbs/post-' + postId + '.htm';
+                                window.location =  bastPath + 'bbs/post-' + postId + '.htm?t=${t}';
                             }
                         }
                     });
@@ -280,13 +331,6 @@
             }
         });
     }
-    /*function floorReply(floorId,userName){
-        //向kindEditor中赋值
-        *//*var content = $("#content_" + floorId).html();*//*
-        kindEditor.html('<p><b>回复' + floorId + '楼 ' + userName + '的帖子</b><br/></p>');
-        //跳转到回复区域
-        location.hash="replyArea";
-    }*/
     function floorReply(replyId,replyFloor){
         layer.confirm('确定要回复' + replyFloor + '楼吗？',function(index){
             layer.close(index);
@@ -327,6 +371,75 @@
                 }
         );
     });
+    function voteSubmit(){
+        var voteProperties = "";
+        $("input[name='voteProperty']:checked").each(function () {
+            voteProperties += "," + this.value;
+        });
+        if (voteProperties.length == 0) {
+            layer.alert('请选择一个', 8);
+            return;
+        }
+        voteProperties = voteProperties.substring(1);
+        var checkedSize = $("input[name='voteProperty']:checked").length;
+        if (isMultiVote == '1' && checkedSize > parseInt(multiVoteSize)) {
+            layer.alert('最多选择' + multiVoteSize + '项', 8);
+            return;
+        }
+        var data = "categoryId=" + categoryId + "&voteProperties=" + voteProperties + "&r=" + Math.random();
+        $.ajax({
+            type: "post",
+            url: bastPath + "bbs/post-vote-" + postId + "-" + voteId + "-submit.htm",
+            data: data,
+            /*dataType: "json",*/
+            async: false,
+            success: function (msg) {
+                var returnResult = '';
+                if (typeof(JSON) == 'undefined'){
+                    returnResult = eval("(" + msg + ")");
+                }else{
+                    returnResult = JSON.parse(msg);
+                }
+                var code = returnResult.pCode;
+                var data = returnResult.pData;
+                if (code == 0) {
+                    var postId = returnResult.postId;
+                    $.layer({
+                        shade : [0.5 , '#000' , true],
+                        area : ['auto','auto'],
+                        dialog : {
+                            msg: data,
+                            btns : 1,
+                            type : 4,
+                            btn : ['查看'],
+                            yes : function(){
+                                window.location =  bastPath + 'bbs/post-vote-' + postId + '.htm';
+                            }
+                        }
+                    });
+                } else {
+                    layer.alert(data, 8);
+                }
+            },
+            error:function(){
+                layer.alert('网络异常，请稍后重试。', 8);
+            }
+        });
+    }
+    function person(postId,voteId,propertyId) {
+        <%--${(postVote.seeAfterVote == 1 && isVote) || postVote.seeAfterVote == 0}--%>
+        var seeAfterVote = ${postVote.seeAfterVote};
+        var isVote = ${isVote};
+        if ((seeAfterVote == 1 && isVote)) {
+            window.location = '${basePath}bbs/votePerson-' + postId + '-' + voteId + '-' + propertyId + '.htm';
+        }
+        else if (seeAfterVote == 0) {
+            layer.alert('无权限查看投票人', 8);
+        }
+        else {
+            layer.alert('投票之后才可见', 8);
+        }
+    }
 </script>
 </body>
 </html>
