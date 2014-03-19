@@ -98,7 +98,7 @@
                             <%--如果是投票的话，显示这些内容--%>
                             <c:if test="${not empty t}">
                                 <%--不提交结果也可见 || 投票后结果才可见--%>
-                                <c:if test="${(postVote.seeAfterVote == 1 && isVote) || postVote.seeAfterVote == 0}">
+                                <c:if test="${(postVote.seeAfterVote == 1 && isVote) || postVote.votePersonOut == 1}">
                                     <li class="minheight" style="margin-top: 5px;min-height: 5px;">
                                         <b>投票结果</b>&nbsp;&nbsp;投票总人数：<font style="color: red;font-weight: bold;">${votePersonTotal}</font>，投票总数：<font style="color: red;font-weight: bold;">${voteTotal}</font>
                                         <table width="100%" cellspacing="0" cellpadding="0">
@@ -221,7 +221,7 @@
                 </div>
                 <%--回帖区域--%>
                 <input id="categoryId" name="categoryId" value="${bbsPost.categoryId}" type="hidden"/>
-                <div class="tiezi-bianxie">
+                <div class="tiezi-bianxie" style="float: left;margin-left: 10px;">
                         <link rel="stylesheet" href="${basePath}kindeditor/themes/default/default.css" />
                         <link rel="stylesheet" href="${basePath}kindeditor/plugins/code/prettify.css" />
                         <script charset="utf-8" src="${basePath}kindeditor/kindeditor.js"></script>
@@ -258,7 +258,7 @@
                         <textarea name="postContent" id="postContent" style="width:100%;height:250px;visibility:hidden;"></textarea>
                 </div>
                 <div class="tiezi-tijiao">
-                    <input type="button" value="发表回复" class="button-click" onclick="javascript:postSubmit();"/>&nbsp;&nbsp;
+                    <input type="button" value="发表回复" class="button-click" onclick="javascript:postSubmit();" style="margin-top: 5px;"/>&nbsp;&nbsp;
                 </div>
             </div>
         </div>
@@ -427,17 +427,17 @@
         });
     }
     function person(postId,voteId,propertyId) {
-        <%--${(postVote.seeAfterVote == 1 && isVote) || postVote.seeAfterVote == 0}--%>
-        var seeAfterVote = ${postVote.seeAfterVote};
-        var isVote = ${isVote};
-        if ((seeAfterVote == 1 && isVote)) {
+        var seeAfterVote = '${postVote.seeAfterVote}';
+        var isVote = '${isVote}';
+        var personOut = '${postVote.votePersonOut}';
+        if (seeAfterVote == '1' && isVote == 'true') {
             window.location = '${basePath}bbs/votePerson-' + postId + '-' + voteId + '-' + propertyId + '.htm';
         }
-        else if (seeAfterVote == 0) {
-            layer.alert('无权限查看投票人', 8);
+        else if (personOut == '0') {
+            layer.alert('无权查看投票人', 8);
         }
         else {
-            layer.alert('投票之后才可见', 8);
+            layer.alert('投票之后才能查看投票人', 8);
         }
     }
 </script>
