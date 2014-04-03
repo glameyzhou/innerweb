@@ -26,7 +26,13 @@ public class BBSReply {
     private UserInfo lastedUpdateUserInfo;
 
     private BBSPostReplyRef postReplyRef;
-
+    /**
+     * 是否已经删除
+     *
+     * 1=删除
+     * 0=未删除
+     */
+    private int isDelete = -1;
     public String getCategoryId() {
         return categoryId;
     }
@@ -114,7 +120,13 @@ public class BBSReply {
     public void setPostReplyRef(BBSPostReplyRef postReplyRef) {
         this.postReplyRef = postReplyRef;
     }
+    public int getIsDelete() {
+        return isDelete;
+    }
 
+    public void setIsDelete(int delete) {
+        isDelete = delete;
+    }
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);

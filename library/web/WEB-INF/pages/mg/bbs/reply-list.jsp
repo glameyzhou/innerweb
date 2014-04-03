@@ -27,16 +27,16 @@
                 layer.confirm('确认要删除操作？',function(index){
                     layer.close(index);
                     var values = "";
-                    alert(len);
+//                    alert(len);
                     for (var i = 0; i < len; i++) {
-                        alert(all_checkbox[i].checked + '  ' + all_checkbox[i].value);
+//                        alert(all_checkbox[i].checked + '  ' + all_checkbox[i].value);
                         if (all_checkbox[i].checked)
                             values += "," + all_checkbox[i].value;
                     }
                     if (values.length > 1)
                         values = values.substring(1);
                     var opURL = "${basePath}mg/bbs/reply-setSelectContent.htm?categoryId=" + categoryId + "&postId=" + postId + "&replyId=" + values;
-                    alert(opURL);
+//                    alert(opURL);
                     window.location = opURL;
                 });
             }
@@ -59,6 +59,12 @@
             <input type="hidden" id="postId" name="postId" value="${query.postId}"/>
             <input type="hidden" id="categoryId" name="categoryId" value="${category.id}"/>
             关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${query.kw}"/>&nbsp;&nbsp;
+            是否已删除&nbsp;
+            <select name="isDelete" id="isDelete">
+                <option value="-1">所有</option>
+                <option value="1" <c:if test="${query.isDelete == 1}">selected="selected"</c:if>>是</option>
+                <option value="0" <c:if test="${query.isDelete == 0}">selected="selected"</c:if>>否</option>
+            </select>&nbsp;&nbsp;
             开始&nbsp;<input type="text" maxlength="100" name="startTime" id="startTime" class="required" size="18" value="${query.publishStartTime}"
                            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;
             结束&nbsp;<input type="text" maxlength="100" name="endTime" id="endTime" class="required" size="18" value="${query.publishEndTime}"
@@ -75,9 +81,10 @@
                 <th width="4%"></th>
                 <th width="6%">楼层</th>
                 <th width="20%">作者</th>
-                <th width="20%">发布时间</th>
-                <th width="20%">更新时间</th>
-                <th width="20%">操作</th>
+                <th width="15%">是否已删除</th>
+                <th width="15%">发布时间</th>
+                <th width="15%">更新时间</th>
+                <th width="15%">操作</th>
             </tr>
             </thead>
             <tbody class="pn-ltbody">
@@ -87,11 +94,23 @@
                     <td align="center"><input type="checkbox" id="replyId" name="replyId" value="${reply.id}"/></td>
                     <td align="center">${replyFloor}楼</td>
                     <td align="center">${reply.userInfo.nickname}</td>
+                    <td align="center">
+                        <c:choose>
+                            <c:when test="${reply.isDelete == 1}">是</c:when>
+                            <c:otherwise>否</c:otherwise>
+                        </c:choose>
+                    </td>
                     <td align="center"><fmt:formatDate value="${reply.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td align="center"><fmt:formatDate value="${reply.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td align="center">
-                        <a href="${basePath}mg/bbs/reply-show.htm?replyId=${reply.id}&categoryId=${category.id}&postId=${reply.postId}">编辑</a>&nbsp;
-                        <a href="javascript:deleteSingle('${reply.id}','${reply.postId}','${reply.categoryId}');">删除</a>&nbsp;
+                        <c:choose>
+                            <c:when test="${reply.isDelete == 0}">
+                                <a href="${basePath}mg/bbs/reply-show.htm?replyId=${reply.id}&categoryId=${category.id}&postId=${reply.postId}">编辑</a>&nbsp;
+                                <a href="javascript:deleteSingle('${reply.id}','${reply.postId}','${reply.categoryId}');">删除</a>&nbsp;
+                            </c:when>
+                            <c:otherwise>暂无</c:otherwise>
+                        </c:choose>
+
                     </td>
                 </tr>
             </c:forEach>

@@ -53,10 +53,10 @@
                     <input type="hidden" id="userId" name="userId" value="${bbsReply.userId}" class="required" readonly="readonly"/>
                 </td>
             </tr>
-            <tr>
+            <%--<tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>楼层:</td>
                 <td width="85%" class="pn-fcontent">${bbsReply.floor}楼</td>
-            </tr>
+            </tr>--%>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>发布时间:</td>
                 <td width="85%" class="pn-fcontent">

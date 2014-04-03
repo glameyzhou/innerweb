@@ -193,13 +193,13 @@ public class BBSPostManagerController extends BaseController {
         String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
         Category category = categoryDao.getBySmpleId(categoryId);
 
-        pageBean = new PageBean(2);
+        pageBean = new PageBean(15);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);
 
         String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
         keyword = StringTools.converISO2UTF8(keyword);
-
+        int isDelete = WebUtils.getRequestParameterAsInt(request, "isDelete",-1);
         /*String today = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
         String startTime = WebUtils.getRequestParameterAsString(request, "startTime", today + " 00:00:00");
         String endTime = WebUtils.getRequestParameterAsString(request,"endTime",today + " 23:59:59");*/
@@ -212,6 +212,7 @@ public class BBSPostManagerController extends BaseController {
         query.setPublishStartTime(startTime);
         query.setPublishEndTime(endTime);
         query.setKw(keyword);
+        query.setIsDelete(isDelete);
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
 

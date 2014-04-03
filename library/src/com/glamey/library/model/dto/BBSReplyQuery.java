@@ -25,6 +25,14 @@ public class BBSReplyQuery implements Serializable {
     private String orderColumn;
     private String orderType;
 
+    /**
+     * 是否已经删除
+     *
+     * 1=删除
+     * 0=未删除
+     */
+    private int isDelete = -1;
+
     public String getKw() {
         return kw;
     }
@@ -111,6 +119,14 @@ public class BBSReplyQuery implements Serializable {
 
     public void setOrderType(String orderType) {
         this.orderType = orderType;
+    }
+
+    public int getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(int delete) {
+        isDelete = delete;
     }
 
     @Override

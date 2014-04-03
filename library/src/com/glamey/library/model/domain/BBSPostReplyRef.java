@@ -15,10 +15,14 @@ public class BBSPostReplyRef implements Serializable {
 
     private String postId;
     private String replyId;
-    private String postUserId;
-    private UserInfo postUserInfo;
-    private String replyUseId;
+    private int replyFloor;
+    private String replyUserId;
     private UserInfo replyUserInfo;
+
+    private String curReplyId;
+    private String curReplyUserId;
+    private UserInfo curReplyUserInfo;
+
     private Date replyTime;
 
     public String getPostId() {
@@ -37,28 +41,54 @@ public class BBSPostReplyRef implements Serializable {
         this.replyId = replyId;
     }
 
-    public String getPostUserId() {
-        return postUserId;
+    public int getReplyFloor() {
+        return replyFloor;
     }
 
-    public void setPostUserId(String postUserId) {
-        this.postUserId = postUserId;
+    public void setReplyFloor(int replyFloor) {
+        this.replyFloor = replyFloor;
     }
 
-    public UserInfo getPostUserInfo() {
-        return postUserInfo;
+    public String getReplyUserId() {
+        return replyUserId;
     }
 
-    public void setPostUserInfo(UserInfo postUserInfo) {
-        this.postUserInfo = postUserInfo;
+    public void setReplyUserId(String replyUserId) {
+        this.replyUserId = replyUserId;
     }
 
-    public String getReplyUseId() {
-        return replyUseId;
+
+    public String getCurReplyId() {
+        return curReplyId;
     }
 
-    public void setReplyUseId(String replyUseId) {
-        this.replyUseId = replyUseId;
+    public void setCurReplyId(String curReplyId) {
+        this.curReplyId = curReplyId;
+    }
+
+    public String getCurReplyUserId() {
+        return curReplyUserId;
+    }
+
+    public void setCurReplyUserId(String curReplyUserId) {
+        this.curReplyUserId = curReplyUserId;
+    }
+
+
+    public Date getReplyTime() {
+        return replyTime;
+    }
+
+    public void setReplyTime(Date replyTime) {
+        this.replyTime = replyTime;
+    }
+
+    public UserInfo getCurReplyUserInfo() {
+        return curReplyUserInfo;
+    }
+
+    public void setCurReplyUserInfo(UserInfo curReplyUserInfo) {
+        this.curReplyUserInfo = curReplyUserInfo;
     }
 
     public UserInfo getReplyUserInfo() {
@@ -67,14 +97,6 @@ public class BBSPostReplyRef implements Serializable {
 
     public void setReplyUserInfo(UserInfo replyUserInfo) {
         this.replyUserInfo = replyUserInfo;
-    }
-
-    public Date getReplyTime() {
-        return replyTime;
-    }
-
-    public void setReplyTime(Date replyTime) {
-        this.replyTime = replyTime;
     }
 
     @Override

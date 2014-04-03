@@ -157,3 +157,20 @@ CREATE TABLE `tbl_bbs_post_reply_ref` (
   KEY `idx_post_reply_ref_fk` (`post_id_fk`,`reply_id_fk`,`post_user_id_fk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='每个楼层的相互会话关系表';
 
+#20140402
+ALTER TABLE `tbl_bbs_reply`
+ADD COLUMN `is_delete`  tinyint(1) NULL DEFAULT 0 COMMENT '是否已经删除 1=已经删除 0=未删除' AFTER `lasted_update_userid`;
+
+ALTER TABLE `tbl_bbs_post_reply_ref`
+ADD COLUMN `reply_floor`  int NULL AFTER `reply_time`;
+
+CREATE TABLE `tbl_bbs_post_reply_ref` (
+  `post_id_fk` varchar(32) default NULL,
+  `reply_id_fk` varchar(32) default NULL,
+  `reply_floor` int(11) default NULL,
+  `reply_user_id_fk` varchar(32) default NULL,
+  `cur_reply_id_fk` varchar(32) default NULL,
+  `cur_reply_user_id_fk` varchar(32) default NULL,
+  `reply_time` datetime default NULL,
+  KEY `idx_post_reply_ref_fk` USING BTREE (`post_id_fk`,`cur_reply_id_fk`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='每个楼层的相互会话关系表';

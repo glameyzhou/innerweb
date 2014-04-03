@@ -55,7 +55,7 @@ public class BBSReplyDao extends BaseDao {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
-                            pstmt.setString(++i, StringTools.getUniqueId());
+                            pstmt.setString(++i, info.getId());
                             pstmt.setString(++i, info.getCategoryId());
                             pstmt.setString(++i, info.getPostId());
                             pstmt.setString(++i, info.getUserId());
@@ -68,16 +68,20 @@ public class BBSReplyDao extends BaseDao {
                 final BBSPostReplyRef postReplyRef = info.getPostReplyRef();
                 if (postReplyRef != null) {
                     jdbcTemplate.update(
-                            "insert into tbl_bbs_post_reply_ref(post_id_fk,reply_id_fk,post_user_id_fk,reply_user_id_fk,reply_time) " +
-                                    "values(?,?,?,?,now())",
+                            "insert into tbl_bbs_post_reply_ref(post_id_fk,reply_id_fk,reply_floor,reply_user_id_fk,cur_reply_id_fk,cur_reply_user_id_fk,reply_time) " +
+                                    "values(?,?,?,?,?,?,now())",
                             new PreparedStatementSetter() {
                                 @Override
                                 public void setValues(PreparedStatement preparedStatement) throws SQLException {
                                     int i = 0 ;
                                     preparedStatement.setString(++i,postReplyRef.getPostId());
                                     preparedStatement.setString(++i,postReplyRef.getReplyId());
-                                    preparedStatement.setString(++i,postReplyRef.getPostUserId());
-                                    preparedStatement.setString(++i,postReplyRef.getReplyUseId());
+                                    preparedStatement.setInt(++i,postReplyRef.getReplyFloor());
+                                    preparedStatement.setString(++i,postReplyRef.getReplyUserId());
+
+                                    preparedStatement.setString(++i,postReplyRef.getCurReplyId());
+                                    preparedStatement.setString(++i,postReplyRef.getCurReplyUserId());
+
                                 }
                             }
                     );
@@ -129,7 +133,8 @@ public class BBSReplyDao extends BaseDao {
         logger.info("[BBSReplyDao] #delete#" + replyId);
         try {
             String sql[] = new String[2];
-            sql[0] = "delete from tbl_bbs_reply where id = '" + replyId + "'";
+//            sql[0] = "delete from tbl_bbs_reply where id = '" + replyId + "'";
+            sql[0] = "update tbl_bbs_reply set is_delete = 1 where id = '" + replyId + "'";
             sql[1] = "update tbl_bbs_post set reply_count = reply_count -1 where id = '" + postId + "'";
 
             int count[] = jdbcTemplate.batchUpdate(sql);
@@ -190,6 +195,10 @@ public class BBSReplyDao extends BaseDao {
             if (StringUtils.isNotBlank(query.getUpdateEndTime()))
                 sql.append(" and  update_time <= ? ");
 
+
+            if (query.getIsDelete() > -1)
+                sql.append(" and is_delete = ? ");
+
             if (StringUtils.isNotBlank(query.getOrderColumn()) && StringUtils.isNotBlank(query.getOrderType())) {
                 sql.append(" order by ").append(query.getOrderColumn()).append(" ").append(query.getOrderType());
             }else {
@@ -223,7 +232,8 @@ public class BBSReplyDao extends BaseDao {
                                 preparedstatement.setString(++i, query.getUpdateStartTime());
                             if (StringUtils.isNotBlank(query.getUpdateEndTime()))
                                 preparedstatement.setString(++i, query.getUpdateEndTime());
-
+                            if (query.getIsDelete() > -1)
+                                preparedstatement.setInt(++i, query.getIsDelete());
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
 
@@ -276,7 +286,10 @@ public class BBSReplyDao extends BaseDao {
                 sql.append(" and  update_time <= ? ");
                 params.add(query.getUpdateEndTime());
             }
-
+            if (query.getIsDelete() > -1) {
+                sql.append(" and is_delete = ? ");
+                params.add(query.getIsDelete());
+            }
             count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
         } catch (Exception e) {
             logger.error("[BBSReplyDao] #getCountByQuery# error! query=" + query, e);
@@ -301,7 +314,7 @@ public class BBSReplyDao extends BaseDao {
             info.setPublishTime(rs.getTimestamp("publish_time"));
             info.setUpdateTime(rs.getTimestamp("update_time"));
             info.setContent(rs.getString("content"));
-
+            info.setIsDelete(rs.getInt("is_delete"));
             info.setPostId(rs.getString("post_id_fk"));
 
             info.setLastedUpdateUserId(rs.getString("lasted_update_userid"));
@@ -311,16 +324,16 @@ public class BBSReplyDao extends BaseDao {
             }
 
             //此回复是否还有回复的内容
-            info.setPostReplyRef(getPostRelyRef(info.getPostId(),info.getId(),info.getUserId()));
+            info.setPostReplyRef(getPostRelyRef(info.getPostId(),info.getId()));
             return info;
         }
     }
 
 
-    public BBSPostReplyRef getPostRelyRef(final String postId, final String replyId, final String postUserId) {
+    public BBSPostReplyRef getPostRelyRef(final String postId, final String replyId) {
         List<BBSPostReplyRef> list = new ArrayList<BBSPostReplyRef>();
         try {
-            String sql = "select * from tbl_bbs_post_reply_ref where post_id_fk = ? and reply_id_fk = ? and post_user_id_fk = ? limit 1";
+            String sql = "select * from tbl_bbs_post_reply_ref where post_id_fk = ? and cur_reply_id_fk = ? limit 1";
             list = this.jdbcTemplate.query(
                     sql,
                     new PreparedStatementSetter() {
@@ -329,7 +342,6 @@ public class BBSReplyDao extends BaseDao {
                             int i = 0 ;
                             preparedStatement.setString(++i, postId);
                             preparedStatement.setString(++i, replyId);
-                            preparedStatement.setString(++i, postUserId);
                         }
                     },
                     new RowMapper<BBSPostReplyRef>() {
@@ -337,14 +349,14 @@ public class BBSReplyDao extends BaseDao {
                         public BBSPostReplyRef mapRow(ResultSet resultSet, int i) throws SQLException {
                             BBSPostReplyRef ref = new BBSPostReplyRef();
                             ref.setPostId(resultSet.getString("post_id_fk"));
-                            ref.setPostId(resultSet.getString("reply_id_fk"));
-                            ref.setPostId(resultSet.getString("post_user_id_fk"));
-                            ref.setPostId(resultSet.getString("reply_user_id_fk"));
-                            if (StringUtils.isNotBlank(ref.getPostUserId())) {
-                                ref.setPostUserInfo(userInfoDao.getUserSimpleById(ref.getPostUserId()));
-                            }
-                            if (StringUtils.isNotBlank(ref.getReplyUseId())) {
-                                ref.setReplyUserInfo(userInfoDao.getUserSimpleById(ref.getReplyUseId()));
+                            ref.setReplyId(resultSet.getString("reply_id_fk"));
+                            ref.setReplyFloor(resultSet.getInt("reply_floor"));
+                            ref.setReplyUserId(resultSet.getString("reply_user_id_fk"));
+                            ref.setCurReplyId(resultSet.getString("cur_reply_id_fk"));
+                            ref.setCurReplyUserId(resultSet.getString("cur_reply_user_id_fk"));
+
+                            if (StringUtils.isNotBlank(ref.getReplyUserId())) {
+                                ref.setReplyUserInfo(userInfoDao.getUserSimpleById(ref.getReplyUserId()));
                             }
                             ref.setReplyTime(resultSet.getTimestamp("reply_time"));
                             return ref;

@@ -360,21 +360,28 @@ public class BBSFrontController extends BaseController {
         }
         else {
             Category category = categoryDao.getBySmpleId(categoryId);
-
+            String dbReplySeq = StringTools.getUniqueId();
             BBSReply reply = new BBSReply();
+            reply.setId(dbReplySeq);
             reply.setCategoryId(categoryId);
             reply.setUserId(userInfo.getUserId());
             reply.setPostId(postId);
             reply.setContent(content);
 
+            //要进行回复的回复ID
             String replyId = WebUtils.getRequestParameterAsString(request,"replyId");
+            int replyFloor = WebUtils.getRequestParameterAsInt(request,"replyFloor",0);
             if (StringUtils.isNotBlank(replyId)) {
                 BBSReply bbsReply = bbsReplyDao.getReplyById(replyId);
                 BBSPostReplyRef postReplyRef = new BBSPostReplyRef();
                 postReplyRef.setPostId(postId);
                 postReplyRef.setReplyId(replyId);
-                postReplyRef.setPostUserId(bbsReply.getUserId());
-                postReplyRef.setReplyUseId(userInfo.getUserId());
+                postReplyRef.setReplyUserId(bbsReply.getUserId());
+                postReplyRef.setReplyFloor(replyFloor);
+
+                postReplyRef.setCurReplyUserId(userInfo.getUserId());
+                postReplyRef.setCurReplyId(dbReplySeq);
+
                 reply.setPostReplyRef(postReplyRef);
             }
             if (!bbsReplyDao.create(reply)) {
