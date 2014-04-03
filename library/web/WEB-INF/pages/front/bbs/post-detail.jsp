@@ -428,7 +428,7 @@
                             type : 4,
                             btn : ['查看'],
                             yes : function(){
-                                window.location =  bastPath + 'bbs/post-vote-' + postId + '.htm';
+                                window.location =  bastPath + 'bbs/post-' + postId + '.htm?t=' + Math.random();;
                             }
                         }
                     });

@@ -141,10 +141,18 @@
 
     <li><a href="javascript:divDisplay('bbs_div');">论坛管理</a></li>
     <ul id="bbs_div" style="display: none">
-        <li><a href="${basePath}mg/library/category-list.htm?pid=3i2Q7v&type=bbs" target="mainFrame">板块设置</a></li>
-        <li><a href="${basePath}mg/bbs/brand-manager.htm" target="mainFrame">版主设置</a></li>
+        <c:if test="${fmtString:hasRightsList(rightsList,'12')}">
+            <li><a href="${basePath}mg/library/category-list.htm?pid=3i2Q7v&type=bbs" target="mainFrame">板块设置</a></li>
+        </c:if>
+        <c:if test="${fmtString:hasRightsList(rightsList,'13')}">
+            <li><a href="${basePath}mg/bbs/brand-manager.htm" target="mainFrame">版主设置</a></li>
+        </c:if>
         <c:forEach var="bbs" items="${categoryBBSList}">
-            <li><a href="${basePath}mg/bbs/post-list.htm?categoryId=${bbs.id}" target="mainFrame">${bbs.name}-主帖管理</a></li>
+            <c:set var="bbsCateId" value="14_${bbs.id}"/>
+            <c:set var="curbrandUser" value="${brandManagerMap[bbs.id]}"/>
+            <c:if test="${fmtString:hasRightsList(rightsList,bbsCateId) or curbrandUser eq sessionUserInfo.userId}">
+                <li><a href="${basePath}mg/bbs/post-list.htm?categoryId=${bbs.id}" target="mainFrame">${bbs.name}-主帖管理</a></li>
+            </c:if>
         </c:forEach>
     </ul>
 </ul>

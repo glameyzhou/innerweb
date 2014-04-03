@@ -179,6 +179,34 @@
                             </td>
                             <td>访问日志</td>
                         </tr>
+                        <tr>
+                            <td style="font-weight: bold;text-align: right;width: 20%">专题讨论区管理</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td width="10%" align="right" >
+                                <input type="checkbox" id="rightsId" name="rightsId" value="12"
+                                       <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'12')}">checked="checked"</c:if>/>
+                            </td>
+                            <td>板块设置</td>
+                        </tr>
+                        <tr>
+                            <td width="10%" align="right" >
+                                <input type="checkbox" id="rightsId" name="rightsId" value="13"
+                                       <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'13')}">checked="checked"</c:if>/>
+                            </td>
+                            <td>版主设置</td>
+                        </tr>
+                        <c:forEach var="bbs" items="${bbsCategoryList}">
+                            <c:set var="bbsId" value="14_${bbs.id}"/>
+                            <tr>
+                                <td width="10%" align="right" >
+                                    <input type="checkbox" id="rightsId" name="rightsId" value="${bbsId}"
+                                           <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,bbsId)}">checked="checked"</c:if>/>
+                                </td>
+                                <td>板块 >> ${bbs.name}</td>
+                            </tr>
+                        </c:forEach>
                     </table>
                 </td>
             </tr>

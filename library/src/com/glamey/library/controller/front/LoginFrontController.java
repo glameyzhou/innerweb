@@ -113,8 +113,8 @@ public class LoginFrontController extends BaseController {
             String dbPasswd = bf.decryptString(userInfo.getPasswd());
             if (StringUtils.equals(password, dbPasswd)) {
                 session.setAttribute(Constants.SESSIN_USERID, userInfo);
-//                mav.setViewName("redirect:/index.htm");
-                mav.setViewName("redirect:/bbs/index.htm");
+                mav.setViewName("redirect:/index.htm");
+//                mav.setViewName("redirect:/bbs/index.htm");
 
                 /*设置用户cookies*/
                 if(StringUtils.equals(remeberUser,"1")){

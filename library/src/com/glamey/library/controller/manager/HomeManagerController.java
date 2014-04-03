@@ -4,12 +4,15 @@
 package com.glamey.library.controller.manager;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.glamey.library.dao.BBSPostDao;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +43,8 @@ public class HomeManagerController extends BaseController {
     private CategoryDao categoryDao ;
 //    @Resource
 //    private UserInfoDao userInfoDao;
+    @Autowired
+    private BBSPostDao bbsPostDao;
     /**
      * 后台管理系统首页
      */
@@ -159,6 +164,19 @@ public class HomeManagerController extends BaseController {
         List<Category> categoryBBSList = categoryDao.getByParentId(CategoryConstants.CATEGORY_BBS_ROOT,CategoryConstants.CATEGORY_BBS,0,Integer.MAX_VALUE);
         mav.addObject("categoryBBSList",categoryBBSList);
 
+        /**
+         * 板块对应的版主
+         */
+        Map<String,String> brandManagerMap = new LinkedHashMap<String, String>();
+        for (Category category : categoryBBSList) {
+            UserInfo userInfo1 = bbsPostDao.getBBSManager(category.getId());
+            if (userInfo1 != null)
+                brandManagerMap.put(category.getId(),userInfo1.getUserId());
+        }
+        mav.addObject("brandManagerMap",brandManagerMap);
+
+        UserInfo sessionUserInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        mav.addObject("sessionUserInfo",sessionUserInfo);
         return mav ;
     }
 

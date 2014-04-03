@@ -290,6 +290,10 @@ public class UserInfoManagerController extends BaseController {
         List<Category> libCategoryList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
         mav.addObject("libCategoryList",libCategoryList);
 
+        /*专题讨论区分类*/
+        List<Category> bbsCategoryList = categoryDao.getByParentId(CategoryConstants.CATEGORY_BBS_ROOT,CategoryConstants.CATEGORY_BBS,0,Integer.MAX_VALUE);
+        mav.addObject("bbsCategoryList",bbsCategoryList);
+
         return mav;
     }
 
