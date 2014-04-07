@@ -20,6 +20,9 @@ public class Category implements java.io.Serializable {
      * 枚举类型
      */
     private String type;
+    /**
+     * 排序，越大越靠前
+     */
     private int order;
     /**
      * 是否显示

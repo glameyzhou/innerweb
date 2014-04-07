@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2014-04-08 00:14:55
+Date: 2014-04-08 01:38:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,7 +23,7 @@ CREATE TABLE `tbl_category` (
   `id` varchar(32) NOT NULL,
   `cate_pid` varchar(32) NOT NULL COMMENT '父ID',
   `cate_type` varchar(255) default NULL COMMENT '分类类别-用于区分类的类别',
-  `cate_order` int(11) default NULL,
+  `cate_order` int(11) default '0' COMMENT '越大越靠前',
   `cate_is_show` tinyint(4) default '1' COMMENT '是否显示0=否，1=是',
   `cate_is_list` tinyint(4) default '1' COMMENT '是否为列表0=否，1=是',
   `cate_has_children` tinyint(4) default '0' COMMENT '是否有孩子 1=是 0=否',
@@ -72,6 +72,7 @@ CREATE TABLE `tbl_post` (
   `publish_time` datetime default NULL COMMENT '发布时间',
   `update_time` datetime default NULL COMMENT '修改时间',
   `out_link` varchar(100) default '' COMMENT '外链地址（如果非空，直接跳转到对应的连接地址）',
+  `post_order` int(11) default '0' COMMENT '排序，越大越靠前',
   `is_show_index` tinyint(4) default '1' COMMENT '是否首页显示0=否 1=是',
   `is_show_list` tinyint(4) default '1' COMMENT '是否列表也显示0=否，1=是',
   `is_valid` tinyint(4) default NULL COMMENT '是否有效，0=已经删除 1=有效',

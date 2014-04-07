@@ -6,6 +6,8 @@ package com.glamey.chec_cn.model.dto;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import java.util.List;
+
 /**
  * 分类信息查询对象
  *
@@ -13,12 +15,30 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public class CategoryQuery implements java.io.Serializable {
 
+    private String pid;
+    private List<String> idList;
     private String kw;
     private String type;
     private int isShow = -1;
     private int isList = -1;
     private int start;
     private int num;
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public List<String> getIdList() {
+        return idList;
+    }
+
+    public void setIdList(List<String> idList) {
+        this.idList = idList;
+    }
 
     public String getKw() {
         return kw;

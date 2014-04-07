@@ -19,6 +19,10 @@ public class Post {
     private Date publishTime;
     private Date updateTime;
     private String outLink;
+    /**
+     * 排序越大越靠前
+     */
+    private int order;
     private int showIndex;
     private int showList;
     private int isValid;
@@ -105,6 +109,14 @@ public class Post {
 
     public void setOutLink(String outLink) {
         this.outLink = outLink;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     public int getShowIndex() {
