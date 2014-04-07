@@ -90,3 +90,8 @@ CREATE TABLE `post` (
 -- ----------------------------
 -- Records of post
 -- ----------------------------
+
+#20140407#
+ALTER TABLE `category`
+ADD COLUMN `cate_has_children`  tinyint NULL DEFAULT 0 COMMENT '是否有孩子 1=是 0=否' AFTER `cate_is_list`;
+

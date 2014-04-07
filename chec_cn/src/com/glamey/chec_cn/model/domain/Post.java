@@ -1,39 +1,62 @@
-/**
- * 
- */
 package com.glamey.chec_cn.model.domain;
 
-import java.io.Serializable;
-
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import java.util.Date;
 
 /**
- * 主题内容
- * 
- * @author zy
- * 
+ * 正文内容
+ * Created with IntelliJ IDEA.
+ * User: zy
+ * To change this template use File | Settings | File Templates.
  */
-public class Post implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private String id;
-	private String title ;
-	private String author ;
-	private String source ;
-	private String time ;
-	private String summary ;
-	private String image ;
-	private String content ;
-    private int isValid ;
-    private UserInfo userInfo = new UserInfo();
-    private String categoryId;
+public class Post {
+    private String id;
+    private String cateId;
+    private String cateType;
     private Category category;
+    private String title;
+    private String author;
+    private String source;
+    private Date publishTime;
+    private Date updateTime;
+    private String outLink;
+    private int showIndex;
+    private int showList;
+    private int isValid;
+    private int isFoucs;
+    private String foucsImg;
+    private String summary;
+    private String content;
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCateId() {
+        return cateId;
+    }
+
+    public void setCateId(String cateId) {
+        this.cateId = cateId;
+    }
+
+    public String getCateType() {
+        return cateType;
+    }
+
+    public void setCateType(String cateType) {
+        this.cateType = cateType;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getTitle() {
@@ -60,36 +83,44 @@ public class Post implements Serializable {
         this.source = source;
     }
 
-    public String getTime() {
-        return time;
+    public Date getPublishTime() {
+        return publishTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setPublishTime(Date publishTime) {
+        this.publishTime = publishTime;
     }
 
-    public String getSummary() {
-        return summary;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public String getImage() {
-        return image;
+    public String getOutLink() {
+        return outLink;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setOutLink(String outLink) {
+        this.outLink = outLink;
     }
 
-    public String getContent() {
-        return content;
+    public int getShowIndex() {
+        return showIndex;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setShowIndex(int showIndex) {
+        this.showIndex = showIndex;
+    }
+
+    public int getShowList() {
+        return showList;
+    }
+
+    public void setShowList(int showList) {
+        this.showList = showList;
     }
 
     public int getIsValid() {
@@ -100,33 +131,35 @@ public class Post implements Serializable {
         isValid = valid;
     }
 
-    public UserInfo getUserInfo() {
-        return userInfo;
+    public int getIsFoucs() {
+        return isFoucs;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
+    public void setIsFoucs(int foucs) {
+        isFoucs = foucs;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getFoucsImg() {
+        return foucsImg;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setFoucsImg(String foucsImg) {
+        this.foucsImg = foucsImg;
     }
 
-    public Category getCategory() {
-        return category;
+    public String getSummary() {
+        return summary;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
-    @Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this,
-				ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

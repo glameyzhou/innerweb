@@ -7,82 +7,65 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 分类查询对象
+ * 分类信息查询对象
  *
  * @author zy
  */
-public class CategoryQuery {
-    private String categoryId ;
-    private String parentId ;
-    private String keyword ;
-    private int showType = -1;
-    private int showIndex = -1;
-    private int showInTree = -1 ;
-    private String categoryType;
-    private String categoryImage ;
+public class CategoryQuery implements java.io.Serializable {
 
-    public String getCategoryId() {
-        return categoryId;
+    private String kw;
+    private String type;
+    private int isShow = -1;
+    private int isList = -1;
+    private int start;
+    private int num;
+
+    public String getKw() {
+        return kw;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setKw(String kw) {
+        this.kw = kw;
     }
 
-    public String getParentId() {
-        return parentId;
+    public String getType() {
+        return type;
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getKeyword() {
-        return keyword;
+    public int getIsShow() {
+        return isShow;
     }
 
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
+    public void setIsShow(int show) {
+        isShow = show;
     }
 
-    public int getShowType() {
-        return showType;
+    public int getIsList() {
+        return isList;
     }
 
-    public void setShowType(int showType) {
-        this.showType = showType;
+    public void setIsList(int list) {
+        isList = list;
     }
 
-    public int getShowIndex() {
-        return showIndex;
+    public int getStart() {
+        return start;
     }
 
-    public void setShowIndex(int showIndex) {
-        this.showIndex = showIndex;
+    public void setStart(int start) {
+        this.start = start;
     }
 
-    public int getShowInTree() {
-        return showInTree;
+    public int getNum() {
+        return num;
     }
 
-    public void setShowInTree(int showInTree) {
-        this.showInTree = showInTree;
-    }
-
-    public String getCategoryType() {
-        return categoryType;
-    }
-
-    public void setCategoryType(String categoryType) {
-        this.categoryType = categoryType;
-    }
-
-    public String getCategoryImage() {
-        return categoryImage;
-    }
-
-    public void setCategoryImage(String categoryImage) {
-        this.categoryImage = categoryImage;
+    public void setNum(int num) {
+        this.num = num;
     }
 
     @Override
