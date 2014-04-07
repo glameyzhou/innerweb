@@ -30,7 +30,7 @@ public class CategoryDao extends BaseDao{
         try {
             final String id = StringTools.getUniqueId();
             int count = jdbcTemplate.update(
-                    "insert into category(id,cate_pid,cate_type,cate_order,cate_is_show,cate_is_list,cate_has_children,cate_name,cate_alias_name,cate_img,cate_flv,cate_desc) " +
+                    "insert into tbl_category(id,cate_pid,cate_type,cate_order,cate_is_show,cate_is_list,cate_has_children,cate_name,cate_alias_name,cate_img,cate_flv,cate_desc) " +
                             "alues(?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
@@ -77,7 +77,7 @@ public class CategoryDao extends BaseDao{
         logger.info("[CategoryDao] #update# " + category);
         try {
             int count = jdbcTemplate.update(
-                    "update category cate_pid = ?,cate_type = ?,cate_order = ?,cate_is_show = ?,cate_is_list = ?,cate_has_children = ?,cate_name = ?,cate_alias_name = ?,cate_img = ?,cate_flv = ?,cate_desc = ? where id = ?",
+                    "update tbl_category cate_pid = ?,cate_type = ?,cate_order = ?,cate_is_show = ?,cate_is_list = ?,cate_has_children = ?,cate_name = ?,cate_alias_name = ?,cate_img = ?,cate_flv = ?,cate_desc = ? where id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {

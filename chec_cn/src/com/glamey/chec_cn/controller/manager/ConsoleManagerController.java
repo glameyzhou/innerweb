@@ -3,15 +3,15 @@
  */
 package com.glamey.chec_cn.controller.manager;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.glamey.chec_cn.constants.CategoryConstants;
+import com.glamey.chec_cn.constants.Constants;
+import com.glamey.chec_cn.controller.BaseController;
+import com.glamey.chec_cn.dao.CategoryDao;
+import com.glamey.chec_cn.dao.UserInfoDao;
+import com.glamey.chec_cn.model.domain.Category;
+import com.glamey.chec_cn.model.domain.UserInfo;
+import com.glamey.chec_cn.util.WebCookieUtils;
+import com.glamey.framework.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.glamey.framework.utils.WebUtils;
-import com.glamey.chec_cn.constants.CategoryConstants;
-import com.glamey.chec_cn.constants.Constants;
-import com.glamey.chec_cn.controller.BaseController;
-import com.glamey.chec_cn.dao.CategoryDao;
-import com.glamey.chec_cn.model.domain.Category;
-import com.glamey.chec_cn.model.domain.UserInfo;
-import com.glamey.chec_cn.model.dto.LibraryInfoDTO;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 后台管理系统--首页内容
@@ -36,16 +36,34 @@ import com.glamey.chec_cn.model.dto.LibraryInfoDTO;
  */
 @Controller
 @RequestMapping(value = "/mg")
-public class HomeManagerController extends BaseController {
+public class ConsoleManagerController extends BaseController {
 
     @Autowired
     private CategoryDao categoryDao ;
-//    @Resource
-//    private UserInfoDao userInfoDao;
-    @Autowired
-    private BBSPostDao bbsPostDao;
+    @Resource
+    private UserInfoDao userInfoDao;
+    @Resource
+    private WebCookieUtils webCookieUtils ;
+
     /**
-     * 后台管理系统首页
+     * 登陆界面
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/console.htm", method = RequestMethod.GET)
+    public ModelAndView loginShow(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("login");
+        boolean isCookieLogin = webCookieUtils.isCookieLogin(request, response);
+        if(isCookieLogin){
+            mav.setViewName("redirect:/index.htm");
+        }
+        return mav;
+    }
+    /**
+     * 后台管理首页
      */
     @RequestMapping(value = "/home.htm", method = RequestMethod.GET)
     public ModelAndView managerHome(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
