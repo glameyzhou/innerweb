@@ -14,7 +14,7 @@
     http://www.springframework.org/schema/context 
     http://www.springframework.org/schema/context/spring-context.xsd" default-lazy-init="false">
 
-    <context:component-scan base-package="com.glamey.chec_ne"/>
+    <context:component-scan base-package="com.glamey.chec_cn"/>
     <!-- 允许上传的图片 -->
     <bean id="allowedUploadImages" class="java.util.ArrayList">
         <constructor-arg>
@@ -41,27 +41,4 @@
         <property name="defaultEncoding" value="UTF-8"/>
         <property name="maxUploadSize" value="100000000"/>
     </bean>
-
-    <!--发送邮件-->
-
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="219.143.126.11"/>
-        <property name="username" value="chdtsg@chdi.ac.cn"/>
-        <property name="password" value="chdtsg6662"/>
-        <property name="defaultEncoding" value="UTF-8" />
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.smtp.auth">true</prop>
-                <prop key="mail.smtp.timeout">25000</prop>
-            </props>
-        </property>
-    </bean>
-
-    <bean id="libraryMail" class="com.glamey.library.util.MailUtils">
-        <property name="javaMailSender" ref="mailSender"/>
-        <property name="encoding" value="UTF-8"/>
-        <property name="title" value="注册用户激活--华电迷你图书馆--您身边的能源行业情报秘书"/>
-        <property name="from" value="chdtsg@chdi.ac.cn"/>
-    </bean>
-
 </beans>

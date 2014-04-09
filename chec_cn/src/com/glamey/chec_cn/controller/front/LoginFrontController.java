@@ -10,7 +10,6 @@ import com.glamey.chec_cn.dao.AccessLogDao;
 import com.glamey.chec_cn.dao.UserInfoDao;
 import com.glamey.chec_cn.model.domain.RoleInfo;
 import com.glamey.chec_cn.model.domain.UserInfo;
-import com.glamey.chec_cn.util.MailUtils;
 import com.glamey.chec_cn.util.WebCookieUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;

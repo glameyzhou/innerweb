@@ -20,7 +20,7 @@ public class Constants {
      */
     public static final String SECRET_KEY = "<glameyzhou>";
 
-    public static final String COOKIES_ID = "LIBRARY_COOKIES_ID" ;
+    public static final String COOKIES_ID = "CHEC_CN_COOKIES_ID" ;
 
     /**
      * 每页显示的条数（针对前台）
@@ -74,23 +74,4 @@ public class Constants {
     /*微型图书馆-每月一讲|行业研究报告-分类--首页显示的条数*/
     public static final int CATEGORY_LIBRARY_LENGTITLE_LEN = 3 ;
 
-
-
-    /*------------------邮件相关信息 -----------------------*/
-    /**
-     * 接收者
-     */
-    public static final String MAIL_TO = "MAIL_TO" ;
-    /**
-     * 接收者名称
-     */
-    public static final String MAIL_NICKNAME = "MAIL_NICKNAME" ;
-    /**
-     * 激活链接
-     */
-    public static final String MAIL_ACTIVE_URL = "MAIL_ACTIVEURL" ;
-    /**
-     * 激活随机码
-     */
-    public static final String MAIL_ACTIVE_RANDOM = "MAIL_ACTIVE_RANDOM" ;
 }
