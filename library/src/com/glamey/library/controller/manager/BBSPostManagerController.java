@@ -64,6 +64,7 @@ public class BBSPostManagerController extends BaseController {
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean.setCurPage(curPage);
 
+        String userId = WebUtils.getRequestParameterAsString(request, "userId");
         String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
         Category category = categoryDao.getBySmpleId(categoryId);
 
@@ -82,6 +83,7 @@ public class BBSPostManagerController extends BaseController {
         String endTime = WebUtils.getRequestParameterAsString(request,"endTime");
 
         BBSPostQuery query = new BBSPostQuery();
+        query.setUserId(userId);
         query.setCategoryId(categoryId);
         query.setShowTop(showTop);
         query.setShowGreat(showGreat);

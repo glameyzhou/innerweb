@@ -66,9 +66,19 @@
     <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
+<c:choose>
+    <c:when test="${not empty query.categoryId}">
+       <c:set value="false" var="isPersonPost"/>
+       <c:set value="${category.name}" var="postCategoryName"/>
+    </c:when>
+    <c:otherwise>
+        <c:set value="true" var="isPersonPost"/>
+        <c:set value="帖子管理" var="postCategoryName"/>
+    </c:otherwise>
+</c:choose>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - 论坛 - ${category.name} - 列表</div>
+        <div class="rpos">当前位置: 首页 - 论坛 - ${postCategoryName} - 列表</div>
         <%--<form class="ropt">
             <input type="button" value="发布主题" onclick="window.location='${basePath}bbs/post-show.htm?categoryId=${category.id}';">
         </form>--%>
@@ -78,6 +88,7 @@
     <form action="${basePath}mg/bbs/post-list.htm" method="get" style="padding-top:5px;" enctype="multipart/form-data">
         <div>
             <input type="hidden" id="categoryId" name="categoryId" value="${query.categoryId}"/>
+            <input type="hidden" id="userId" name="userId" value="${query.userId}"/>
             关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${query.kw}"/>&nbsp;&nbsp;
             是否置顶&nbsp;<select id="showTop" name="showTop">
                 <option value="-1">请选择</option>
@@ -98,10 +109,12 @@
             <a href="javascript:checkAll('postId',true);">全选</a>&nbsp;&nbsp;<a
                 href="javascript:checkAll('postId',false);">取消</a>&nbsp;&nbsp;
             <a href="javascript:setSelectContent('postId','delete',1,'${category.id}');">删除所选</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('postId','showTop',1,'${category.id}');">设置置顶</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('postId','showTop',0,'${category.id}');">取消置顶</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('postId','showGreat',1,'${category.id}');">设置精华</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('postId','showGreat',0,'${category.id}');">取消精华</a>&nbsp;&nbsp;
+            <c:if test="${!isPersonPost}">
+                <a href="javascript:setSelectContent('postId','showTop',1,'${category.id}');">设置置顶</a>&nbsp;&nbsp;
+                <a href="javascript:setSelectContent('postId','showTop',0,'${category.id}');">取消置顶</a>&nbsp;&nbsp;
+                <a href="javascript:setSelectContent('postId','showGreat',1,'${category.id}');">设置精华</a>&nbsp;&nbsp;
+                <a href="javascript:setSelectContent('postId','showGreat',0,'${category.id}');">取消精华</a>&nbsp;&nbsp;
+            </c:if>
         </div>
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
@@ -136,14 +149,16 @@
                     <td align="center">
                         <a href="${basePath}mg/bbs/post-show.htm?categoryId=${post.categoryId}&postId=${post.id}">编辑</a>&nbsp;
                         <a href="javascript:deleteSingle('${post.id}','${post.categoryId}');">删除</a>&nbsp;
-                        <a href="${basePath}mg/bbs/reply-list.htm?postId=${post.id}&categoryId=${post.categoryId}">查看回帖</a>&nbsp;
+                        <c:if test="${!isPersonPost}">
+                            <a href="${basePath}mg/bbs/reply-list.htm?postId=${post.id}&categoryId=${post.categoryId}">查看回帖</a>&nbsp;
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
         <c:set var="pageURL"
-               value="${basePath}mg/bbs/post-list.htm?categoryId=${query.categoryId}&keyword=${fmtString:encoder(query.kw)}&showTop=${query.showTop}&showGreat=${query.showGreat}&startTime=${fmtString:encoder(query.publishStartTime)}&endTime=${fmtString:encoder(query.publishEndTime)}&"/>
+               value="${basePath}mg/bbs/post-list.htm?userId=${query.userId}&categoryId=${query.categoryId}&keyword=${fmtString:encoder(query.kw)}&showTop=${query.showTop}&showGreat=${query.showGreat}&startTime=${fmtString:encoder(query.publishStartTime)}&endTime=${fmtString:encoder(query.publishEndTime)}&"/>
         <%@include file="../../common/pages.jsp" %>
     </form>
 </div>

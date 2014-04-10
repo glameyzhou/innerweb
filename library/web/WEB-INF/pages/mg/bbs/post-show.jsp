@@ -35,7 +35,7 @@
 <body>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - 论坛 - ${category.name} - ${bbsPost.title} 修改</div>
+        <div class="rpos">当前位置: 首页 - 论坛 - ${category.name} - ${bbsPost.title} - 修改</div>
         <div class="clear"></div>
     </div>
     <form method="post" action="${basePath}mg/bbs/post-update.htm" id="jvForm" enctype="multipart/form-data">
