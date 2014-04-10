@@ -4,8 +4,6 @@ package com.glamey.chec_cn.constants;
  * 大分类标识
  * Created with IntelliJ IDEA.
  * User: zy
- * Date: 13-5-9
- * Time: 下午5:42
  * To change this template use File | Settings | File Templates.
  */
 public class CategoryConstants {
