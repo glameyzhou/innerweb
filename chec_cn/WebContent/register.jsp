@@ -27,7 +27,7 @@
     <link href="${basePath}res/front/library/css/register.css" rel="stylesheet" type="text/css"/>
     <link href="${basePath}res/front/library/css/style.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="${basePath}res/ztree/js/jquery-1.4.4.min.js"></script>
-    <title>华电迷你图书馆-您身边的能源情报站-游客注册</title>
+    <title>中国华电工程（集团）有限公司-游客注册</title>
     <%--<script type="text/javascript" src="${basePath}res/common/js/register.js"></script>--%>
     <script type="text/javascript">
         var submitStatus = '0' ;

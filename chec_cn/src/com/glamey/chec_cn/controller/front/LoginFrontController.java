@@ -39,19 +39,12 @@ public class LoginFrontController extends BaseController {
     private UserInfoDao userInfoDao;
 	@Resource
 	private WebCookieUtils webCookieUtils ;
-    @Resource
-    private UserRegisterVerifyDao verifyDao ;
 
-    @Resource
-    private MailUtils libraryMail ;
-    @Resource
-    private AccessLogDao accessLogDao;
     /**
      * 显示登陆界面
      */
-    @RequestMapping(value = "/login.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/console", method = RequestMethod.GET)
     public ModelAndView loginShow(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        accessLogDao.save("","login.htm","登陆界面","");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
         
@@ -65,13 +58,12 @@ public class LoginFrontController extends BaseController {
     /**
      * 登出操作
      */
-    @RequestMapping(value = "/mg/logout.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/mg/logout.do", method = RequestMethod.GET)
     public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-        accessLogDao.save("mg/logout.htm","用户登出","",session);
         session.removeAttribute(Constants.SESSIN_USERID);
         session.invalidate();
         webCookieUtils.cookieRemove(request, response);
-        return "redirect:/home.jsp";
+        return "redirect:/consle";
     }
 
 

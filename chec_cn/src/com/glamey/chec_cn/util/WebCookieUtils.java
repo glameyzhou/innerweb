@@ -25,8 +25,7 @@ public class WebCookieUtils {
     @Resource
     private UserInfoDao userInfoDao;
 
-    public boolean isCookieLogin(HttpServletRequest request,
-                                 HttpServletResponse response) {
+    public boolean isCookieLogin(HttpServletRequest request,HttpServletResponse response) {
         BlowFish bf = new BlowFish(Constants.SECRET_KEY);
         String value = null;
         Cookie cookies[] = request.getCookies();

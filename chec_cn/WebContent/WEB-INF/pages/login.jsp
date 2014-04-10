@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="${basePath}res/front/library/css/style.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/library/css/login.css" rel="stylesheet" type="text/css" />
-    <title>华电迷你图书馆-您身边的能源情报站</title>
+    <title>中国华电工程（集团）有限公司</title>
     <script type="text/javascript">
         function changeCode() {
             var currentTime = Math.round(Math.random() * 10000);
