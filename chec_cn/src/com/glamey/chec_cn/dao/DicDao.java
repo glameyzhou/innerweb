@@ -4,7 +4,7 @@
 package com.glamey.chec_cn.dao;
 
 import com.glamey.chec_cn.model.domain.Category;
-import com.glamey.chec_cn.model.domain.MetaInfo;
+import com.glamey.chec_cn.model.domain.Dic;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -26,137 +26,142 @@ import java.util.Map;
  * @author zy
  */
 @Repository
-public class MetaInfoDao extends BaseDao {
-    private static final Logger logger = Logger.getLogger(MetaInfoDao.class);
+public class DicDao extends BaseDao {
+    private static final Logger logger = Logger.getLogger(DicDao.class);
     @Resource
     private CategoryDao categoryDao;
 
     /**
-     * @param meta
+     * @param dic
      * @return 0=成功  1=失败 2=已存在
      */
-    public int create(final MetaInfo meta) {
-        logger.info("[MetaInfoDao] #create# " + meta);
+    public int create(final Dic dic) {
+        logger.info("[dicInfoDao] #create# " + dic);
         try {
-            if (this.getByName(meta.getName()) != null) {
+            if (this.getByName(dic.getKey()) != null) {
                 return 2;
             }
             int count = jdbcTemplate.update(
-                    "insert into tbl_meta(meta_name,meta_value) values(?,?) ",
+                    "insert into tbl_dic(key,value) values(?,?) ",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
-                            pstmt.setString(++i, meta.getName());
-                            pstmt.setString(++i, meta.getValue());
+                            pstmt.setString(++i, dic.getKey());
+                            pstmt.setString(++i, dic.getValue());
                         }
-                    });
+                    }
+            );
             return 0;
         } catch (Exception e) {
-            logger.error("[MetaInfoDao] #create# error " + meta, e);
+            logger.error("[dicInfoDao] #create# error " + dic, e);
             return 1;
         }
     }
 
-    public boolean update(final MetaInfo meta) {
-        logger.info("[MetaInfoDao] #update# " + meta);
+    public boolean update(final Dic dic) {
+        logger.info("[dicInfoDao] #update# " + dic);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_meta set meta_value=? where meta_name=?",
+                    "update tbl_dic set value=? where key=?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
-                            pstmt.setString(++i, meta.getValue());
-                            pstmt.setString(++i, meta.getName());
+                            pstmt.setString(++i, dic.getValue());
+                            pstmt.setString(++i, dic.getKey());
                         }
-                    });
+                    }
+            );
             return count > 0;
         } catch (Exception e) {
-            logger.error("[MetaInfoDao] #update# error! " + meta, e);
+            logger.error("[dicInfoDao] #update# error! " + dic, e);
             return false;
         }
     }
 
-    public boolean deleteByName(final String name) {
-        logger.info("[MetaInfoDao] #deleteByName#" + name);
+    public boolean deleteByName(final String key) {
+        logger.info("[dicInfoDao] #deleteByName#" + key);
         try {
-            int count = jdbcTemplate.update("delete from tbl_meta where meta_name = ?",
+            int count = jdbcTemplate.update("delete from tbl_dic where key = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement preparedstatement)
                                 throws SQLException {
-                            preparedstatement.setString(1, name);
+                            preparedstatement.setString(1, key);
                         }
-                    });
+                    }
+            );
             return count > 0;
         } catch (Exception e) {
-            logger.error("[MetaInfoDao] #deleteByName# error " + name, e);
+            logger.error("[dicInfoDao] #deleteByName# error " + key, e);
         }
         return false;
     }
 
-    public MetaInfo getByName(final String name) {
-        logger.info("[MetaInfoDao] #getByName#" + name);
+    public Dic getByName(final String key) {
+        logger.info("[dicInfoDao] #getByName#" + key);
         try {
-            List<MetaInfo> list = jdbcTemplate.query("select * from tbl_meta where meta_name = ? limit 1",
+            List<Dic> list = jdbcTemplate.query("select * from tbl_dic where key = ? limit 1",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(
                                 PreparedStatement preparedstatement)
                                 throws SQLException {
-                            preparedstatement.setString(1, name);
+                            preparedstatement.setString(1, key);
                         }
                     },
-                    new MetaRowMapper());
+                    new DicRowMapper()
+            );
             if (list != null && list.size() > 0) {
                 return list.get(0);
             }
         } catch (Exception e) {
-            logger.error("[MetaInfoDao] #getByName# error! " + name, e);
+            logger.error("[dicInfoDao] #getByName# error! " + key, e);
         }
         return null;
     }
 
-    public Map<String, String> getMetaMap() {
-        logger.info("[MetaInfoDao] #getMetaMap#");
+    public Map<String, String> getDicMap() {
+        logger.info("[dicInfoDao] #getdicMap#");
         Map<String, String> map = new HashMap<String, String>();
         try {
-            List<MetaInfo> list = jdbcTemplate.query("select * from tbl_meta", new MetaRowMapper());
-            for (MetaInfo metaInfo : list) {
-                map.put(metaInfo.getName(), metaInfo.getValue());
+            List<Dic> list = jdbcTemplate.query("select * from tbl_dic", new DicRowMapper());
+            for (Dic dic : list) {
+                map.put(dic.getKey(), dic.getValue());
             }
         } catch (Exception e) {
-            logger.error("[MetaInfoDao] #getMetaMap# error! ", e);
+            logger.error("[dicInfoDao] #getDicMap# error! ", e);
         }
         return null;
     }
 
     /**
      * 根据配置对象，获取旗下的所有分类信息
-     * @param metaInfo
+     *
+     * @param dic
      * @return
      */
-    public List<Category> getCategoryListByMetaName(final MetaInfo metaInfo){
+    public List<Category> getCategoryListBydicName(final Dic dic) {
         List<Category> categoryList = new ArrayList<Category>();
-        if (metaInfo != null && StringUtils.isNotBlank(metaInfo.getValue())) {
-            for (String a : StringUtils.split(metaInfo.getValue(), ",")) {
+        if (dic != null && StringUtils.isNotBlank(dic.getKey())) {
+            for (String a : StringUtils.split(dic.getValue(), ",")) {
                 categoryList.add(categoryDao.getById(a));
             }
         }
-        return categoryList ;
+        return categoryList;
     }
 
     /**
      * @return
      */
-    class MetaRowMapper implements RowMapper<MetaInfo> {
+    class DicRowMapper implements RowMapper<Dic> {
         @Override
-        public MetaInfo mapRow(ResultSet rs, int i) throws SQLException {
-            MetaInfo meta = new MetaInfo();
-            meta.setName(rs.getString("meta_name"));
-            meta.setValue(rs.getString("meta_value"));
-            return meta;
+        public Dic mapRow(ResultSet rs, int i) throws SQLException {
+            Dic dic = new Dic();
+            dic.setKey(rs.getString("key"));
+            dic.setValue(rs.getString("value"));
+            return dic;
         }
     }
 }

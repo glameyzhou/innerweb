@@ -1,15 +1,13 @@
 package com.glamey.framework.utils.tld;
 
+import com.glamey.chec_cn.model.domain.Category;
+import com.glamey.framework.utils.StringTools;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.util.PatternMatchUtils;
+
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.glamey.chec_cn.model.domain.Category;
-import com.glamey.chec_cn.model.domain.LibraryInfo;
-import org.apache.commons.lang.StringUtils;
-import com.glamey.framework.utils.StringTools;
-import org.springframework.util.PatternMatchUtils;
 
 
 public class StringTld {

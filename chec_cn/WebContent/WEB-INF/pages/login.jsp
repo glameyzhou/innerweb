@@ -21,8 +21,8 @@
         <div class="login_con">
             <div class="landing_con">
                 <ul>
-                    <li>用户名：</li>
-                    <li><input name="username" id="username" type="text"  class="login_text"/></li>
+                    <li>用户名：<input name="username" id="username" type="text"  class="login_text"/></li>
+                    <li></li>
                 </ul>
             </div>
             <div class="landing_con">
@@ -52,8 +52,6 @@
             </div>
             <p style="float:left; margin-top:10px;">
                 <input name="" type="button" class="login_botton1" onclick="javascript:loginSubmit();"/>
-                <input name="" type="button" class="login_botton2" onclick="javascrip:loginRegistry();"/>
-                <input name="" type="button" class="login_botton3" onclick="javascript:loginBrower();"/>
             </p>
         </div>
     </div>
@@ -62,18 +60,9 @@
     window.onload = function () {
         document.body.onkeydown = function (event) {
             if (event.keyCode == 13) {
-                loginSubmit();
+                document.getElementById("loginForm").submit();
             }
         }
-    }
-    function loginSubmit() {
-        document.getElementById("loginForm").submit();
-    }
-    function loginRegistry(){
-        window.location = '${basePath}register.jsp' ;
-    }
-    function loginBrower(){
-        window.location = '${basePath}tourist.htm'
     }
 </script>
 </body>

@@ -3,11 +3,9 @@ package com.glamey.chec_cn.controller.front;
 import com.glamey.chec_cn.constants.Constants;
 import com.glamey.chec_cn.controller.BaseController;
 import com.glamey.chec_cn.dao.UserInfoDao;
-import com.glamey.chec_cn.model.domain.RoleInfo;
 import com.glamey.chec_cn.model.domain.UserInfo;
 import com.glamey.chec_cn.util.WebCookieUtils;
 import com.glamey.framework.utils.BlowFish;
-import com.glamey.framework.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -20,9 +18,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 内网系统登陆管理
@@ -41,7 +36,7 @@ public class LoginFrontController extends BaseController {
     /**
      * 显示登陆界面
      */
-    @RequestMapping(value = "/console", method = RequestMethod.GET)
+    @RequestMapping(value = "/console.htm", method = RequestMethod.GET)
     public ModelAndView loginShow(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
@@ -61,14 +56,14 @@ public class LoginFrontController extends BaseController {
         session.removeAttribute(Constants.SESSIN_USERID);
         session.invalidate();
         webCookieUtils.cookieRemove(request, response);
-        return "redirect:/consle";
+        return "redirect:/console";
     }
 
 
     /**
      * 用户登陆
      */
-    @RequestMapping(value = "/manager.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/login.do", method = RequestMethod.POST)
     public ModelAndView manager(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         ModelAndView mav = new ModelAndView("login");
         String username = request.getParameter("username");
@@ -100,7 +95,6 @@ public class LoginFrontController extends BaseController {
             if (StringUtils.equals(password, dbPasswd)) {
                 session.setAttribute(Constants.SESSIN_USERID, userInfo);
                 mav.setViewName("redirect:/index.htm");
-//                mav.setViewName("redirect:/bbs/index.htm");
 
                 /*设置用户cookies*/
                 if (StringUtils.equals(remeberUser, "1")) {
@@ -118,62 +112,6 @@ public class LoginFrontController extends BaseController {
         mav.addObject("message", "登陆校验失败,请重试!");
         return mav;
     }
-
-    @RequestMapping(value = "/register_userExist.htm", method = RequestMethod.POST)
-    public void registry_userExist(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        response.setContentType("text/html;charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setHeader("pragma", "no-cache");
-        response.setHeader("cache-control", "no-cache");
-        response.setHeader("expires", "0");
-        String username = WebUtils.getRequestParameterAsString(request, "username");
-
-        String result = "";
-
-        if (StringUtils.isBlank(username)) {
-            result = "{\"regStatus\":\"empty\",\"regMessage\":\"用户名不能为空\"}";
-        } else if (userInfoDao.isUserExist(username)) {
-            result = "{\"regStatus\":\"exist\",\"regMessage\":\"用户名已经被占用\"}";
-        } else {
-            result = "{\"regStatus\":\"ok\",\"regMessage\":\"恭喜您," + username + "可以使用\"}";
-        }
-        response.getOutputStream().write(result.getBytes("UTF-8"));
-    }
-
-
-
-    @RequestMapping(value = "/tourist.htm", method = RequestMethod.GET)
-    public ModelAndView tourist(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
-        logger.info("[tourist]" + request.getRequestURI());
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("redirect:/index.htm");
-
-        //设置权限功能
-        List<RoleInfo> roleInfoList = new ArrayList<RoleInfo>();
-        RoleInfo roleInfo = new RoleInfo();
-        roleInfo.setRoleId(Constants.sysTouristRoleId);
-        roleInfo.setRoleName("游客");
-        roleInfo.setRoleRightsIds("00");
-        List<String> rigthsList = new ArrayList<String>();
-        rigthsList.add("00");
-        roleInfo.setRightsList(rigthsList);
-        roleInfoList.add(roleInfo);
-
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUserId("000000");
-        userInfo.setUsername(Constants.sysTouristUID);
-        userInfo.setRightsList(rigthsList);
-        List<String> roleIdList = new ArrayList<String>();
-        roleIdList.add(Constants.sysTouristRoleId);
-        userInfo.setRoleIdList(roleIdList);
-        userInfo.setRoleInfoList(roleInfoList);
-        userInfo.setIsLive(1);
-
-
-        session.setAttribute(Constants.SESSIN_USERID, userInfo);
-        return mav;
-    }
-
 
     @RequestMapping(value = "/onBusy.htm", method = RequestMethod.GET)
     public ModelAndView onBusy(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -45,7 +45,7 @@ public class PostManagerController extends BaseController {
     private WebUploadUtils uploadUtils;
 
 
-    @RequestMapping(value = "/post-show.htm", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/post-show.htm", method = RequestMethod.GET)
     public ModelAndView postShow(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-post-postShow]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("mg/post/post-show");
@@ -65,13 +65,13 @@ public class PostManagerController extends BaseController {
         mav.addObject("category", category);
         return mav;
     }
-    /*文章创建*/
+    *//*文章创建*//*
     @RequestMapping(value = "/post-create.htm", method = RequestMethod.POST)
     public ModelAndView postCreate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-post-create]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         Post post = new Post();
-        /*图片上传*/
+        *//*图片上传*//*
         UploadInfo ui = uploadUtils.doUpload(request, response);
         if (ui.getResultCode() == 2)
             return ui.getModelAndView();
@@ -105,7 +105,7 @@ public class PostManagerController extends BaseController {
         return mav;
     }
 
-    /*文章更新*/
+    *//*文章更新*//*
     @RequestMapping(value = "/post-update.htm", method = RequestMethod.POST)
     public ModelAndView postUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-post-update]" + request.getRequestURI());
@@ -118,7 +118,7 @@ public class PostManagerController extends BaseController {
             return mav;
         }
         post = postDao.getByPostId(postId);
-        /*图片上传*/
+        *//*图片上传*//*
         UploadInfo ui = uploadUtils.doUpload(request, response);
         if (ui.getResultCode() == 2)
             return ui.getModelAndView();
@@ -151,7 +151,7 @@ public class PostManagerController extends BaseController {
         return mav;
     }
 
-    /*获取指定分类下的所有文章*/
+    *//*获取指定分类下的所有文章*//*
     @RequestMapping(value = "/post-list.htm", method = RequestMethod.GET)
     public ModelAndView postList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-post-list]" + request.getRequestURI());
@@ -216,7 +216,7 @@ public class PostManagerController extends BaseController {
     }
 
 
-    /*设置图书的属性*/
+    *//*设置图书的属性*//*
     @RequestMapping(value = "/post-setSelectContent.htm", method = RequestMethod.GET)
     public ModelAndView setSelectContent(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("common/message");
@@ -257,6 +257,6 @@ public class PostManagerController extends BaseController {
             logger.info("[manager-post-post-setSelectContent] error!", e);
         }
         return mav;
-    }
+    }*/
 
 }

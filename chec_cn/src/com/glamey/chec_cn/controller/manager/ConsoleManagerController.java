@@ -3,12 +3,10 @@
  */
 package com.glamey.chec_cn.controller.manager;
 
-import com.glamey.chec_cn.constants.CategoryConstants;
 import com.glamey.chec_cn.constants.Constants;
 import com.glamey.chec_cn.controller.BaseController;
 import com.glamey.chec_cn.dao.CategoryDao;
 import com.glamey.chec_cn.dao.UserInfoDao;
-import com.glamey.chec_cn.model.domain.Category;
 import com.glamey.chec_cn.model.domain.UserInfo;
 import com.glamey.chec_cn.util.WebCookieUtils;
 import com.glamey.framework.utils.WebUtils;
@@ -24,10 +22,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 后台管理系统--首页内容
@@ -110,87 +105,6 @@ public class ConsoleManagerController extends BaseController {
         //权限List
         List<String> rightsList = userInfo.getRightsList();
         mav.addObject("rightsList",rightsList);
-
-
-        /*新闻分类管理*/
-        Category categoryNews = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NEWS);
-        List<Category> categoryNewsList = categoryDao.getByParentId(categoryNews.getId(), categoryNews.getCategoryType(),0,Integer.MAX_VALUE);
-        mav.addObject("categoryNews",categoryNews);
-        mav.addObject("categoryNewsList",categoryNewsList);
-
-        /*通知通告分类管理*/
-        Category categoryNotices = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NOTICES);
-        List<Category> categoryNoticesList = categoryDao.getByParentId(categoryNotices.getId(),categoryNotices.getCategoryType(),0,Integer.MAX_VALUE);
-        mav.addObject("categoryNotices",categoryNotices);
-        mav.addObject("categoryNoticesList",categoryNoticesList);
-
-        /*安全管理分类管理*/
-        Category categorySafe = categoryDao.getByAliasName(CategoryConstants.CATEGORY_SAFE);
-        List<Category> categorySafeList = categoryDao.getByParentId(categorySafe.getId(),categorySafe.getCategoryType(),0,Integer.MAX_VALUE);
-        mav.addObject("categorySafe",categorySafe);
-        mav.addObject("categorySafeList",categorySafeList);
-
-        //快捷入口管理
-        Category outLinksCategory = categoryDao.getByAliasName(CategoryConstants.CATEGORY_OUTFASTENTRANCE);
-        Category inLinksCategory = categoryDao.getByAliasName(CategoryConstants.CATEGORY_INFASTENTRANCE);
-        mav.addObject("outLinksCategory",outLinksCategory);
-        mav.addObject("inLinksCategory",inLinksCategory);
-
-        /*友情链接分类管理*/
-        Category categoryFriendlyLinks = categoryDao.getByAliasName(CategoryConstants.CATEOGRY_FRIENDLYLINKS);
-        List<Category> categoryFriendlyLinksList = categoryDao.getByParentId(categoryFriendlyLinks.getId(),categoryFriendlyLinks.getCategoryType(),0,Integer.MAX_VALUE);
-        mav.addObject("categoryFriendlyLinks",categoryFriendlyLinks);
-        mav.addObject("categoryFriendlyLinksList",categoryFriendlyLinksList);
-
-        /*常用链接分类管理*/
-        Category categoryOfenLinks = categoryDao.getByAliasName(CategoryConstants.CATEGORY_OFENLINKS);
-        List<Category> categoryOfenLinksList = categoryDao.getByParentId(categoryOfenLinks.getId(),categoryOfenLinks.getCategoryType(),0,Integer.MAX_VALUE);
-        mav.addObject("categoryOfenLinks",categoryOfenLinks);
-        mav.addObject("categoryOfenLinksList",categoryOfenLinksList);
-
-        /*滚动图片*/
-        Category categoryRollingImages = categoryDao.getByAliasName(CategoryConstants.CATEGORY_ROLLINGIMAGE);
-        List<Category> categoryRollingImagesList = categoryDao.getByParentId(categoryRollingImages.getId(),categoryRollingImages.getCategoryType(),0,Integer.MAX_VALUE);
-        mav.addObject("categoryRollingImages",categoryRollingImages);
-        mav.addObject("categoryRollingImagesList",categoryRollingImagesList);
-
-        List<LibraryInfoDTO> libraryInfoDTOList = new ArrayList<LibraryInfoDTO>();
-        List<Category> rootList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
-        for (Category rootCategory : rootList) {
-            /*父类、子类、子类下内容*/
-            LibraryInfoDTO dto = new LibraryInfoDTO();
-            dto.setCategory(rootCategory);
-
-            List<LibraryInfoDTO> libDTOList = new ArrayList<LibraryInfoDTO>();
-            LibraryInfoDTO libDTO = null ;
-            /*获取对应的子分类信息以及子分类下的连接数量*/
-            List<Category> categoryList = categoryDao.getByParentId(rootCategory.getId(),CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
-            for (Category category : categoryList) {
-                libDTO = new LibraryInfoDTO();
-                libDTO.setCategory(category);
-
-                libDTOList.add(libDTO);
-            }
-            dto.setLibraryInfoDTOList(libDTOList);
-            libraryInfoDTOList.add(dto);
-        }
-
-        mav.addObject("libraryInfoDTOList",libraryInfoDTOList);
-
-        /*专题讨论区*/
-        List<Category> categoryBBSList = categoryDao.getByParentId(CategoryConstants.CATEGORY_BBS_ROOT,CategoryConstants.CATEGORY_BBS,0,Integer.MAX_VALUE);
-        mav.addObject("categoryBBSList",categoryBBSList);
-
-        /**
-         * 板块对应的版主
-         */
-        Map<String,String> brandManagerMap = new LinkedHashMap<String, String>();
-        for (Category category : categoryBBSList) {
-            UserInfo userInfo1 = bbsPostDao.getBBSManager(category.getId());
-            if (userInfo1 != null)
-                brandManagerMap.put(category.getId(),userInfo1.getUserId());
-        }
-        mav.addObject("brandManagerMap",brandManagerMap);
 
         UserInfo sessionUserInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         mav.addObject("sessionUserInfo",sessionUserInfo);
