@@ -50,7 +50,7 @@
                     </c:if>
                 </ul>
             </div>
-            <p style="float:left; margin-top:10px;">
+            <p style="float:left; margin-top:10px;text-align: center;">
                 <input name="" type="button" class="login_botton1" onclick="javascript:loginSubmit();"/>
             </p>
         </div>
