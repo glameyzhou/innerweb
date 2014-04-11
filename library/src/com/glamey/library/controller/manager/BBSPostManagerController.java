@@ -1,33 +1,30 @@
 package com.glamey.library.controller.manager;
 
-import com.glamey.framework.utils.*;
+import com.glamey.framework.utils.PageBean;
+import com.glamey.framework.utils.StringTools;
+import com.glamey.framework.utils.WebUtils;
 import com.glamey.library.constants.CategoryConstants;
 import com.glamey.library.constants.Constants;
 import com.glamey.library.controller.BaseController;
 import com.glamey.library.dao.*;
-import com.glamey.library.model.domain.*;
+import com.glamey.library.model.domain.BBSPost;
+import com.glamey.library.model.domain.BBSReply;
+import com.glamey.library.model.domain.Category;
+import com.glamey.library.model.domain.UserInfo;
 import com.glamey.library.model.dto.BBSPostQuery;
 import com.glamey.library.model.dto.BBSReplyQuery;
-import com.glamey.library.model.dto.LibraryQuery;
 import com.glamey.library.util.DateUtils;
 import com.glamey.library.util.WebUploadUtils;
-import org.apache.commons.collections.map.LinkedMap;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -106,6 +103,55 @@ public class BBSPostManagerController extends BaseController {
         return mav;
     }
 
+    /*个人主帖管理*/
+    @RequestMapping(value = "/personal/post-list.htm", method = RequestMethod.GET)
+    public ModelAndView postList4Personal(HttpServletRequest request, HttpSession session) {
+        ModelAndView mav = new ModelAndView("mg/bbs/personal/post-list");
+
+        pageBean = new PageBean();
+        int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
+        pageBean.setCurPage(curPage);
+
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        String userId = userInfo.getUserId();
+
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        Category category = categoryDao.getBySmpleId(categoryId);
+
+        int showTop = WebUtils.getRequestParameterAsInt(request,"showTop",-1);
+        int showGreat = WebUtils.getRequestParameterAsInt(request,"showGreat",-1);
+        int showPopular = WebUtils.getRequestParameterAsInt(request,"showPopular",-1);
+
+        String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
+        keyword = StringTools.converISO2UTF8(keyword);
+
+        String startTime = WebUtils.getRequestParameterAsString(request, "startTime");
+        String endTime = WebUtils.getRequestParameterAsString(request,"endTime");
+
+        BBSPostQuery query = new BBSPostQuery();
+        query.setUserId(userId);
+        query.setCategoryId(categoryId);
+        query.setShowTop(showTop);
+        query.setShowGreat(showGreat);
+        query.setShowPopular(showPopular);
+        query.setKw(keyword);
+        query.setPublishStartTime(startTime);
+        query.setPublishEndTime(endTime);
+        query.setStart(pageBean.getStart());
+        query.setNum(pageBean.getRowsPerPage());
+
+        List<BBSPost> bbsPostList = bbsPostDao.getByQuery(query);
+        pageBean.setMaxRowCount(bbsPostDao.getCountByQuery(query));
+        pageBean.setMaxPage();
+        pageBean.setPageNoList();
+
+        mav.addObject("bbsPostList", bbsPostList);
+        mav.addObject("pageBean", pageBean);
+        mav.addObject("query", query);
+        mav.addObject("category", category);
+        return mav;
+    }
+
     /*设置主帖的删除、置顶、精华等等操作*/
     @RequestMapping(value = "/post-setSelectContent.htm", method = RequestMethod.GET)
     public ModelAndView setSelectContent(HttpServletRequest request) {
@@ -140,8 +186,11 @@ public class BBSPostManagerController extends BaseController {
                         bbsPostDao.update(Arrays.asList(arrays),type,Integer.valueOf(itemValue))));
             }
 
+            String isPersonal = WebUtils.getRequestParameterAsString(request,"isPersonal");
+            String jumpUrl = StringUtils.equals(isPersonal, "y") ? "mg/bbs/personal/post-list.htm" : ("mg/bbs/post-list.htm?categoryId=" + categoryId);
+
             mav.addObject("message", "操作成功");
-            mav.addObject("href", "mg/bbs/post-list.htm?categoryId=" + categoryId);
+            mav.addObject("href", jumpUrl);
 
         } catch (Exception e) {
             mav.addObject("message", "设置失败");
@@ -184,6 +233,44 @@ public class BBSPostManagerController extends BaseController {
         return mav;
     }
 
+    /*个人回帖列表*/
+    @RequestMapping(value = "/personal/reply-list.htm", method = RequestMethod.GET)
+    public ModelAndView replyList4Personal(HttpServletRequest request,HttpSession session) {
+        ModelAndView mav = new ModelAndView("mg/bbs/personal/reply-list");
+
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        String userId = userInfo.getUserId();
+
+        pageBean = new PageBean();
+        int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
+        pageBean.setCurPage(curPage);
+
+        String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
+        keyword = StringTools.converISO2UTF8(keyword);
+        int isDelete = WebUtils.getRequestParameterAsInt(request, "isDelete",-1);
+        String startTime = WebUtils.getRequestParameterAsString(request, "startTime");
+        String endTime = WebUtils.getRequestParameterAsString(request,"endTime");
+
+        BBSReplyQuery query = new BBSReplyQuery();
+        query.setUserId(userId);
+        query.setKw(keyword);
+        query.setPublishStartTime(startTime);
+        query.setPublishEndTime(endTime);
+        query.setIsDelete(isDelete);
+        query.setStart(pageBean.getStart());
+        query.setNum(pageBean.getRowsPerPage());
+
+        List<BBSReply> bbsReplyList = bbsReplyDao.getPersonalByQuery(query);
+        pageBean.setMaxRowCount(bbsReplyDao.getPersonalCountByQuery(query));
+        pageBean.setMaxPage();
+        pageBean.setPageNoList();
+
+        mav.addObject("bbsReplyList", bbsReplyList);
+        mav.addObject("pageBean", pageBean);
+        mav.addObject("query", query);
+        return mav;
+    }
+
     /*主帖-回帖列表*/
     @RequestMapping(value = "/reply-list.htm", method = RequestMethod.GET)
     public ModelAndView replyLis(HttpServletRequest request) {
@@ -202,9 +289,6 @@ public class BBSPostManagerController extends BaseController {
         String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
         keyword = StringTools.converISO2UTF8(keyword);
         int isDelete = WebUtils.getRequestParameterAsInt(request, "isDelete",-1);
-        /*String today = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
-        String startTime = WebUtils.getRequestParameterAsString(request, "startTime", today + " 00:00:00");
-        String endTime = WebUtils.getRequestParameterAsString(request,"endTime",today + " 23:59:59");*/
         String startTime = WebUtils.getRequestParameterAsString(request, "startTime");
         String endTime = WebUtils.getRequestParameterAsString(request,"endTime");
 
@@ -254,8 +338,11 @@ public class BBSPostManagerController extends BaseController {
                 logger.info(String.format("[bbs] reply-delete categoryId=%s,replyId=%s,postId=%s,result=%s",categoryId,id,postId,bbsReplyDao.deleteById(id,postId)));
             }
 
+            String isPersonal = WebUtils.getRequestParameterAsString(request,"isPersonal");
+            String jumpUrl = StringUtils.equals(isPersonal, "y") ? "mg/bbs/personal/reply-list.htm" : ("mg/bbs/reply-list.htm?categoryId=" + categoryId + "&postId=" +  postId);
+
             mav.addObject("message", "删除成功");
-            mav.addObject("href", "mg/bbs/reply-list.htm?categoryId=" + categoryId + "&postId=" +  postId);
+            mav.addObject("href", jumpUrl);
 
         } catch (Exception e) {
             mav.addObject("message", "设置失败");
@@ -275,6 +362,7 @@ public class BBSPostManagerController extends BaseController {
 
         mav.addObject("category", category);
         mav.addObject("bbsPost", bbsPost);
+        mav.addObject("isPersonal", WebUtils.getRequestParameterAsString(request,"isPersonal"));
         return mav;
     }
 
@@ -282,8 +370,8 @@ public class BBSPostManagerController extends BaseController {
     @RequestMapping(value = "/post-update.htm", method = RequestMethod.POST)
     public ModelAndView postUpdate(HttpServletRequest request,HttpSession session) {
         ModelAndView mav = new ModelAndView("common/message");
-        String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
         String postId = WebUtils.getRequestParameterAsString(request, "postId");
+        String categoryId = null;
         try {
             String title = WebUtils.getRequestParameterAsString(request,"title");
             String userId = WebUtils.getRequestParameterAsString(request,"userId");
@@ -294,6 +382,7 @@ public class BBSPostManagerController extends BaseController {
             String content = WebUtils.getRequestParameterAsString(request,"content");
 
             BBSPost bbsPost = bbsPostDao.getPostById(postId);
+            categoryId = bbsPost.getCategoryId();
             bbsPost.setTitle(title);
             bbsPost.setUserId(userId);
             bbsPost.setPublishTime(DateUtils.format(publishTime, "yyyy-MM-dd HH:mm:ss"));
@@ -304,8 +393,12 @@ public class BBSPostManagerController extends BaseController {
             bbsPost.setLastedUpdateUserId(((UserInfo)session.getAttribute(Constants.SESSIN_USERID)).getUserId());
 
             bbsPostDao.update(bbsPost);
+
+            String isPersonal = WebUtils.getRequestParameterAsString(request,"isPersonal");
+            String jumpUrl = StringUtils.equals(isPersonal, "y") ? "mg/bbs/personal/post-list.htm" : ("mg/bbs/post-list.htm?categoryId=" + categoryId);
+
             mav.addObject("message", "修改成功");
-            mav.addObject("href", "mg/bbs/post-list.htm?categoryId=" + categoryId);
+            mav.addObject("href", jumpUrl);
         } catch (Exception e) {
             mav.addObject("message", "修改失败");
             logger.error(String.format("[bbs] post-update error categoryId=%s,postId=%s",categoryId,postId),e);
@@ -327,6 +420,7 @@ public class BBSPostManagerController extends BaseController {
         mav.addObject("category", category);
         mav.addObject("bbsPost", bbsPost);
         mav.addObject("bbsReply", bbsReply);
+        mav.addObject("isPersonal",WebUtils.getRequestParameterAsString(request, "isPersonal"));
         return mav;
     }
 
@@ -348,9 +442,12 @@ public class BBSPostManagerController extends BaseController {
             bbsReply.setContent(content);
             bbsReply.setLastedUpdateUserId(((UserInfo)session.getAttribute(Constants.SESSIN_USERID)).getUserId());
 
+
+            String isPersonal = WebUtils.getRequestParameterAsString(request,"isPersonal");
+            String jumpUrl = StringUtils.equals(isPersonal, "y") ? "mg/bbs/personal/reply-list.htm" : ("mg/bbs/reply-list.htm?categoryId=" + categoryId + "&postId=" + postId);
             bbsReplyDao.update(bbsReply);
             mav.addObject("message", "修改成功");
-            mav.addObject("href", "mg/bbs/reply-list.htm?categoryId=" + categoryId + "&postId=" + postId);
+            mav.addObject("href", jumpUrl);
         } catch (Exception e) {
             mav.addObject("message", "修改失败");
             logger.error(String.format("[bbs] post-update error categoryId=%s,postId=%s,replyId=%s",categoryId,postId,replyId),e);

@@ -3,8 +3,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <%@include file="../../common/tagInclude.jsp" %>
-    <%@include file="../../common/headerInclude.jsp" %>
+    <%@include file="../../../common/tagInclude.jsp" %>
+    <%@include file="../../../common/headerInclude.jsp" %>
     <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
     <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <script type="text/javascript">
@@ -17,7 +17,7 @@
         function deleteSingle(postId,categoryId) {
             layer.confirm('确定要删除吗？主帖和所有回帖将都被删除。',function(index){
                 layer.close(index);
-                var opURL = "${basePath}mg/bbs/post-setSelectContent.htm?categoryId=" + categoryId + "&id=" + postId + "&type=delete&itemValue=1";
+                var opURL = "${basePath}mg/bbs/post-setSelectContent.htm?categoryId=" + categoryId + "&id=" + postId + "&type=delete&itemValue=1&isPersonal=y";
                 window.location = opURL;
             });
         }
@@ -67,14 +67,14 @@
 <body>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - 论坛 - ${category.name} - 列表</div>
+        <div class="rpos">当前位置: 首页 - 论坛 - 个人主帖管理 - 列表</div>
         <%--<form class="ropt">
             <input type="button" value="发布主题" onclick="window.location='${basePath}bbs/post-show.htm?categoryId=${category.id}';">
         </form>--%>
         <div class="clear">
         </div>
     </div>
-    <form action="${basePath}mg/bbs/post-list.htm" method="get" style="padding-top:5px;" enctype="multipart/form-data">
+    <form action="${basePath}mg/bbs/personal/post-list.htm" method="get" style="padding-top:5px;" enctype="multipart/form-data">
         <div>
             <input type="hidden" id="categoryId" name="categoryId" value="${query.categoryId}"/>
             <input type="hidden" id="userId" name="userId" value="${query.userId}"/>
@@ -95,13 +95,9 @@
                            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;
             <input type="submit" value="查询">
             <br/><br/>
-            <a href="javascript:checkAll('postId',true);">全选</a>&nbsp;&nbsp;
-            <a href="javascript:checkAll('postId',false);">取消</a>&nbsp;&nbsp;
+            <a href="javascript:checkAll('postId',true);">全选</a>&nbsp;&nbsp;<a
+                href="javascript:checkAll('postId',false);">取消</a>&nbsp;&nbsp;
             <a href="javascript:setSelectContent('postId','delete',1,'${category.id}');">删除所选</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('postId','showTop',1,'${category.id}');">设置置顶</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('postId','showTop',0,'${category.id}');">取消置顶</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('postId','showGreat',1,'${category.id}');">设置精华</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('postId','showGreat',0,'${category.id}');">取消精华</a>&nbsp;&nbsp;
         </div>
         <table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
             <thead class="pn-lthead">
@@ -118,9 +114,17 @@
             </thead>
             <tbody class="pn-ltbody">
             <c:forEach items="${bbsPostList}" var="post" varStatus="status">
+                <c:choose>
+                    <c:when test="${post.postType == 1}">
+                        <c:set var="hrefParam" value="?t=isVote"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="hrefParam" value=""/>
+                    </c:otherwise>
+                </c:choose>
                 <tr>
                     <td align="center"><input type="checkbox" id="postId" name="postId" value="${post.id}"/></td>
-                    <td align="left"><a href="${basePath}bbs/post-${post.id}.htm" target="_blank">${post.title}</a></td>
+                    <td align="left"><a href="${basePath}bbs/post-${post.id}.htm${hrefParam}" target="_blank" title="${post.title}">${post.title}</a></td>
                     <td align="center">${post.userInfo.nickname}</td>
                     <td align="center">
                         <fmt:formatDate value="${post.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/><br/>
@@ -134,9 +138,8 @@
                     </td>
                     <td align="center">${post.viewCount}/${post.replyCount}</td>
                     <td align="center">
-                        <a href="${basePath}mg/bbs/post-show.htm?categoryId=${post.categoryId}&postId=${post.id}">编辑</a>&nbsp;
+                        <a href="${basePath}mg/bbs/post-show.htm?categoryId=${post.categoryId}&postId=${post.id}&isPersonal=y">编辑</a>&nbsp;
                         <a href="javascript:deleteSingle('${post.id}','${post.categoryId}');">删除</a>&nbsp;
-                        <a href="${basePath}mg/bbs/reply-list.htm?postId=${post.id}&categoryId=${post.categoryId}">查看回帖</a>&nbsp;
                     </td>
                 </tr>
             </c:forEach>
@@ -144,7 +147,7 @@
         </table>
         <c:set var="pageURL"
                value="${basePath}mg/bbs/post-list.htm?userId=${query.userId}&categoryId=${query.categoryId}&keyword=${fmtString:encoder(query.kw)}&showTop=${query.showTop}&showGreat=${query.showGreat}&startTime=${fmtString:encoder(query.publishStartTime)}&endTime=${fmtString:encoder(query.publishEndTime)}&"/>
-        <%@include file="../../common/pages.jsp" %>
+        <%@include file="../../../common/pages.jsp" %>
     </form>
 </div>
 </body>

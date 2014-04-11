@@ -141,7 +141,8 @@
 
     <li><a href="javascript:divDisplay('bbs_div');">论坛管理</a></li>
     <ul id="bbs_div" style="display: none;">
-        <li><a href="${basePath}mg/bbs/post-list.htm?userId=${userInfo.userId}" target="mainFrame">个人帖子管理</a></li>
+        <li><a href="${basePath}mg/bbs/personal/post-list.htm" target="mainFrame">我的主帖管理</a></li>
+        <li><a href="${basePath}mg/bbs/personal/reply-list.htm" target="mainFrame">我的回复管理</a></li>
 
         <c:if test="${fmtString:hasRightsList(rightsList,'12')}">
             <li><a href="${basePath}mg/library/category-list.htm?pid=3i2Q7v&type=bbs" target="mainFrame">板块设置</a></li>

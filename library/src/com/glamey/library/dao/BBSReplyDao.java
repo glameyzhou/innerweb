@@ -3,7 +3,7 @@
  */
 package com.glamey.library.dao;
 
-import com.glamey.framework.utils.StringTools;
+import com.glamey.library.model.domain.BBSPost;
 import com.glamey.library.model.domain.BBSPostReplyRef;
 import com.glamey.library.model.domain.BBSReply;
 import com.glamey.library.model.domain.UserInfo;
@@ -22,7 +22,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -237,7 +236,6 @@ public class BBSReplyDao extends BaseDao {
                             preparedstatement.setInt(++i, query.getStart());
                             preparedstatement.setInt(++i, query.getNum());
 
-                            System.out.println(preparedstatement.toString());
                         }
                     },
                     new BBSReplyRowMapper());
@@ -297,6 +295,123 @@ public class BBSReplyDao extends BaseDao {
         return count;
     }
 
+
+    public List<BBSReply> getPersonalByQuery(final BBSReplyQuery query) {
+        logger.info("[BBSReplyDao] #getPersonalByQuery# query=" + query);
+        List<BBSReply> list = new ArrayList<BBSReply>();
+        try {
+            StringBuffer sql = new StringBuffer("select * from tbl_bbs_reply where 1=1 ");
+
+            if (StringUtils.isNotBlank(query.getUserId()))
+                sql.append(" and user_id_fk = ? ");
+
+            if (StringUtils.isNotBlank(query.getKw()))
+                sql.append(" and  content like ? ");
+
+            if (StringUtils.isNotBlank(query.getPublishStartTime()))
+                sql.append(" and  publish_time >= ? ");
+            if (StringUtils.isNotBlank(query.getPublishEndTime()))
+                sql.append(" and  publish_time <= ? ");
+            if (StringUtils.isNotBlank(query.getUpdateStartTime()))
+                sql.append(" and  update_time >= ? ");
+            if (StringUtils.isNotBlank(query.getUpdateEndTime()))
+                sql.append(" and  update_time <= ? ");
+
+
+            if (query.getIsDelete() > -1)
+                sql.append(" and is_delete = ? ");
+
+            /*if (StringUtils.isNotBlank(query.getOrderColumn()) && StringUtils.isNotBlank(query.getOrderType())) {
+                sql.append(" order by ").append(query.getOrderColumn()).append(" ").append(query.getOrderType());
+            }else {
+                sql.append(" order by publish_time asc ");
+            }*/
+            sql.append(" order by publish_time desc ");
+
+
+            sql.append(" limit ?,? ");
+
+
+            list = jdbcTemplate.query(sql.toString(),
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedstatement)
+                                throws SQLException {
+                            int i = 0;
+
+                            if (StringUtils.isNotBlank(query.getUserId()))
+                                preparedstatement.setString(++i, query.getUserId());
+
+                            if (StringUtils.isNotBlank(query.getKw())) {
+                                preparedstatement.setString(++i, "%" + query.getKw() + "%");
+                            }
+                            if (StringUtils.isNotBlank(query.getPublishStartTime()))
+                                preparedstatement.setString(++i, query.getPublishStartTime());
+                            if (StringUtils.isNotBlank(query.getPublishEndTime()))
+                                preparedstatement.setString(++i, query.getPublishEndTime());
+                            if (StringUtils.isNotBlank(query.getUpdateStartTime()))
+                                preparedstatement.setString(++i, query.getUpdateStartTime());
+                            if (StringUtils.isNotBlank(query.getUpdateEndTime()))
+                                preparedstatement.setString(++i, query.getUpdateEndTime());
+                            if (query.getIsDelete() > -1)
+                                preparedstatement.setInt(++i, query.getIsDelete());
+                            preparedstatement.setInt(++i, query.getStart());
+                            preparedstatement.setInt(++i, query.getNum());
+
+                        }
+                    },
+                    new BBSReplySimpleRowMapper());
+            return list;
+        } catch (Exception e) {
+            logger.error("[BBSReplyDao] #getByQuery# error! query=" + query, e);
+        }
+        return null;
+    }
+
+    public int getPersonalCountByQuery(final BBSReplyQuery query) {
+        logger.info("[BBSReplyDao] #getCountPersonalByQuery# query=" + query);
+        int count = 0;
+        try {
+            List<Object> params = new ArrayList<Object>();
+            StringBuffer sql = new StringBuffer("select count(1) as total from tbl_bbs_reply where 1=1 ");
+
+            if (StringUtils.isNotBlank(query.getUserId())) {
+                sql.append(" and user_id_fk = ? ");
+                params.add(query.getUserId());
+            }
+
+            if (StringUtils.isNotBlank(query.getKw())) {
+                sql.append(" and content like ? ");
+                params.add(query.getKw());
+            }
+
+            if (StringUtils.isNotBlank(query.getPublishStartTime())) {
+                sql.append(" and  publish_time >= ? ");
+                params.add(query.getPublishStartTime());
+            }
+            if (StringUtils.isNotBlank(query.getPublishEndTime())) {
+                sql.append(" and  publish_time <= ? ");
+                params.add(query.getPublishEndTime());
+            }
+            if (StringUtils.isNotBlank(query.getUpdateStartTime())) {
+                sql.append(" and  update_time >= ? ");
+                params.add(query.getUpdateStartTime());
+            }
+            if (StringUtils.isNotBlank(query.getUpdateEndTime())) {
+                sql.append(" and  update_time <= ? ");
+                params.add(query.getUpdateEndTime());
+            }
+            if (query.getIsDelete() > -1) {
+                sql.append(" and is_delete = ? ");
+                params.add(query.getIsDelete());
+            }
+            count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
+        } catch (Exception e) {
+            logger.error("[BBSReplyDao] #getCountPersonalByQuery# error! query=" + query, e);
+        }
+        return count;
+    }
+
     /**
      * @return
      */
@@ -325,6 +440,34 @@ public class BBSReplyDao extends BaseDao {
 
             //此回复是否还有回复的内容
             info.setPostReplyRef(getPostRelyRef(info.getPostId(),info.getId()));
+            return info;
+        }
+    }
+
+    class BBSReplySimpleRowMapper implements RowMapper<BBSReply> {
+        @Override
+        public BBSReply mapRow(ResultSet rs, int i) throws SQLException {
+            BBSReply info = new BBSReply();
+            info.setId(rs.getString("id"));
+            info.setCategoryId(rs.getString("category_id_fk"));
+
+            info.setUserId(rs.getString("user_id_fk"));
+            UserInfo userInfo = userInfoDao.getUserSimpleById(info.getUserId());
+            info.setUserInfo(userInfo);
+
+            info.setPublishTime(rs.getTimestamp("publish_time"));
+            info.setUpdateTime(rs.getTimestamp("update_time"));
+            info.setContent(rs.getString("content"));
+            info.setIsDelete(rs.getInt("is_delete"));
+            info.setPostId(rs.getString("post_id_fk"));
+            info.setLastedUpdateUserId(rs.getString("lasted_update_userid"));
+
+            BBSPost post = bbsPostDao.getPostSimpleById(info.getPostId());
+            if (post != null && StringUtils.isNotBlank(post.getTitle())) {
+                info.setPostTitle(post.getTitle());
+                info.setPostUserName(post.getUserInfo().getNickname());
+                info.setPostType(post.getPostType());
+            }
             return info;
         }
     }

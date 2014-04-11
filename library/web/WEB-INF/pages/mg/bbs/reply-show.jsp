@@ -41,6 +41,7 @@
     <form method="post" action="${basePath}mg/bbs/reply-update.htm" id="jvForm" enctype="multipart/form-data">
         <input type="hidden" id="postId" name="postId" value="${bbsPost.id}"/>
         <input type="hidden" id="replyId" name="replyId" value="${bbsReply.id}"/>
+        <input type="hidden" id="isPersonal" name="isPersonal" value="${isPersonal}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
             <tr>

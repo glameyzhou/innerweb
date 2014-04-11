@@ -16,6 +16,9 @@ public class BBSReply {
      */
     private String categoryId;
     private String postId;
+    private int postType;
+    private String postTitle;
+    private String postUserName;
     private String id;
     private String userId;
     private UserInfo userInfo;
@@ -47,6 +50,30 @@ public class BBSReply {
 
     public void setPostId(String postId) {
         this.postId = postId;
+    }
+
+    public int getPostType() {
+        return postType;
+    }
+
+    public void setPostType(int postType) {
+        this.postType = postType;
+    }
+
+    public String getPostTitle() {
+        return postTitle;
+    }
+
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
+    }
+
+    public String getPostUserName() {
+        return postUserName;
+    }
+
+    public void setPostUserName(String postUserName) {
+        this.postUserName = postUserName;
     }
 
     public String getId() {

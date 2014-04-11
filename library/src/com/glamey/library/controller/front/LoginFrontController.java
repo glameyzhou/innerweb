@@ -9,7 +9,6 @@ import com.glamey.library.controller.BaseController;
 import com.glamey.library.dao.AccessLogDao;
 import com.glamey.library.dao.UserInfoDao;
 import com.glamey.library.dao.UserRegisterVerifyDao;
-import com.glamey.library.model.domain.RightsInfo;
 import com.glamey.library.model.domain.RoleInfo;
 import com.glamey.library.model.domain.UserInfo;
 import com.glamey.library.model.domain.UserRegisterVerify;
@@ -113,8 +112,8 @@ public class LoginFrontController extends BaseController {
             String dbPasswd = bf.decryptString(userInfo.getPasswd());
             if (StringUtils.equals(password, dbPasswd)) {
                 session.setAttribute(Constants.SESSIN_USERID, userInfo);
-//                mav.setViewName("redirect:/index.htm");
-                mav.setViewName("redirect:/bbs/index.htm");
+                mav.setViewName("redirect:/index.htm");
+//                mav.setViewName("redirect:/bbs/index.htm");
 
                 /*设置用户cookies*/
                 if(StringUtils.equals(remeberUser,"1")){

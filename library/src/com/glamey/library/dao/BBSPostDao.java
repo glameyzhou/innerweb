@@ -21,7 +21,6 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
-import sun.util.resources.TimeZoneNames_sv;
 
 import javax.annotation.Resource;
 import java.sql.PreparedStatement;
@@ -253,6 +252,27 @@ public class BBSPostDao extends BaseDao {
             }
         } catch (Exception e) {
             logger.error("[BBSPostDao] #getPostById# error " + postId, e);
+        }
+        return null;
+    }
+    public BBSPost getPostSimpleById(final String postId) {
+        logger.info("[BBSPostDao] #getPostSimpleById#" + postId);
+        try {
+            List<BBSPost> list = jdbcTemplate.query("select * from tbl_bbs_post where id = ? ",
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(
+                                PreparedStatement preparedstatement)
+                                throws SQLException {
+                            preparedstatement.setString(1, postId);
+                        }
+                    },
+                    new BBSPostSimpleRowMapper());
+            if (list != null && list.size() > 0) {
+                return list.get(0);
+            }
+        } catch (Exception e) {
+            logger.error("[BBSPostDao] #getPostSimpleById# error " + postId, e);
         }
         return null;
     }
@@ -661,6 +681,22 @@ public class BBSPostDao extends BaseDao {
                 UserInfo lastedUpdateUserInfo = userInfoDao.getUserSimpleById(info.getLastedUpdateUserId());
                 info.setLastedUpdateUserInfo(lastedUpdateUserInfo);
             }
+            return info;
+        }
+    }
+    class BBSPostSimpleRowMapper implements RowMapper<BBSPost> {
+        @Override
+        public BBSPost mapRow(ResultSet rs, int i) throws SQLException {
+            BBSPost info = new BBSPost();
+            info.setId(rs.getString("id"));
+            info.setPostType(rs.getInt("post_type"));
+            info.setCategoryId(rs.getString("category_id_fk"));
+            Category category = categoryDao.getById(info.getCategoryId());
+            info.setCategory(category);
+            info.setTitle(rs.getString("title"));
+            info.setUserId(rs.getString("user_id_fk"));
+            UserInfo userInfo = userInfoDao.getUserSimpleById(info.getUserId());
+            info.setUserInfo(userInfo);
             return info;
         }
     }

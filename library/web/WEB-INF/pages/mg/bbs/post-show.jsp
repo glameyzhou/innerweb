@@ -40,6 +40,7 @@
     </div>
     <form method="post" action="${basePath}mg/bbs/post-update.htm" id="jvForm" enctype="multipart/form-data">
         <input type="hidden" id="postId" name="postId" value="${bbsPost.id}"/>
+        <input type="hidden" id="isPersonal" name="isPersonal" value="${isPersonal}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
             <tr>
@@ -80,24 +81,26 @@
                            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">
                 </td>
             </tr>--%>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>置顶:</td>
-                <td width="85%" class="pn-fcontent">
-                    <select id="showTop" name="showTop">
-                        <option value="1" <c:if test="${bbsPost.showTop == 1}">selected="selected"</c:if> >是</option>
-                        <option value="0" <c:if test="${bbsPost.showTop == 0}">selected="selected"</c:if> >否</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>精华:</td>
-                <td width="85%" class="pn-fcontent">
-                    <select id="showGreat" name="showGreat">
-                        <option value="1" <c:if test="${bbsPost.showGreat == 1}">selected="selected"</c:if> >是</option>
-                        <option value="0" <c:if test="${bbsPost.showGreat == 0}">selected="selected"</c:if> >否</option>
-                    </select>
-                </td>
-            </tr>
+            <c:if test="${isPersonal ne 'y'}">
+                <tr>
+                    <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>置顶:</td>
+                    <td width="85%" class="pn-fcontent">
+                        <select id="showTop" name="showTop">
+                            <option value="1" <c:if test="${bbsPost.showTop == 1}">selected="selected"</c:if> >是</option>
+                            <option value="0" <c:if test="${bbsPost.showTop == 0}">selected="selected"</c:if> >否</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>精华:</td>
+                    <td width="85%" class="pn-fcontent">
+                        <select id="showGreat" name="showGreat">
+                            <option value="1" <c:if test="${bbsPost.showGreat == 1}">selected="selected"</c:if> >是</option>
+                            <option value="0" <c:if test="${bbsPost.showGreat == 0}">selected="selected"</c:if> >否</option>
+                        </select>
+                    </td>
+                </tr>
+            </c:if>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>内容:</td>
                 <td width="85%" class="pn-fcontent"><span class="pn-frequired">内容不能为空!</span></td>
