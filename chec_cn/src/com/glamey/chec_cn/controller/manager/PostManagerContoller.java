@@ -12,6 +12,7 @@ import com.glamey.chec_cn.model.dto.PostQuery;
 import com.glamey.chec_cn.util.DateUtils;
 import com.glamey.chec_cn.util.WebUploadUtils;
 import com.glamey.framework.utils.PageBean;
+import com.glamey.framework.utils.RegexUtils;
 import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
@@ -50,8 +51,9 @@ public class PostManagerContoller extends BaseController {
 
     /*获取指定分类下的所有文章*/
     @RequestMapping(value = "/post-list.do", method = RequestMethod.GET)
-    public ModelAndView postList(HttpServletRequest request) {
+    public ModelAndView postList(HttpServletRequest request, HttpSession session) {
         logger.info("[manager-post-list]" + request.getRequestURI());
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         ModelAndView mav = new ModelAndView();
         //请求参数获取
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
@@ -77,9 +79,12 @@ public class PostManagerContoller extends BaseController {
             if (CollectionUtils.isEmpty(list)) {
                 post.setCategoryId(categoryId);
                 post.setCategoryType(category.getCategoryType());
-            }
-            else {
+                post.setPublishTime(new Date());
+                post.setAuthor(userInfo.getNickname());
+            } else {
                 post = postDao.getByPostId(list.get(0).getId());
+                if (StringUtils.isBlank(post.getAuthor()))
+                    post.setAuthor(userInfo.getNickname());
             }
             mav.setViewName("mg/post/post-show");
             mav.addObject("post", post);
@@ -128,17 +133,22 @@ public class PostManagerContoller extends BaseController {
 
     /*添加-修改页面*/
     @RequestMapping(value = "/post-show.do", method = RequestMethod.GET)
-    public ModelAndView postShow(HttpServletRequest request) {
+    public ModelAndView postShow(HttpServletRequest request, HttpSession session) {
         logger.info("[manager-post-postShow]" + request.getRequestURI());
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         ModelAndView mav = new ModelAndView("mg/post/post-show");
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
         Category category = categoryDao.getById(categoryId);
         Category pCategory = new Category();
         String opt = "create";
         Post post = new Post();
+        post.setPublishTime(new Date());
+        post.setAuthor(userInfo.getNickname());
         String postId = WebUtils.getRequestParameterAsString(request, "postId");
         if (StringUtils.isNotBlank(postId)) {
             post = postDao.getByPostId(postId);
+            if (StringUtils.isBlank(post.getAuthor()))
+                post.setAuthor(userInfo.getNickname());
             pCategory = categoryDao.getBySmpleId(category.getParentId());
             opt = "update";
         }
@@ -189,6 +199,11 @@ public class PostManagerContoller extends BaseController {
         post.setContent(content);
         post.setPublishTime(StringUtils.isNotBlank(publishTime) ? new Date() : DateUtils.format(publishTime, "yyyy-MM-dd HH:mm:ss"));
         post.setCategoryId(WebUtils.getRequestParameterAsString(request, "categoryId"));
+
+        //从正文中提取第一张图片作为焦点图
+        String focusImage = getContentImage(request, post.getContent());
+        if (StringUtils.isNotBlank(focusImage))
+            post.setFocusImage(focusImage);
 
         String returnPostId = postDao.createReturnId(post);
         if (StringUtils.isBlank(returnPostId)) {
@@ -250,6 +265,11 @@ public class PostManagerContoller extends BaseController {
         post.setPublishTime(StringUtils.isBlank(publishTime) ? new Date() : DateUtils.format(publishTime, "yyyy-MM-dd HH:mm:ss"));
         post.setCategoryId(WebUtils.getRequestParameterAsString(request, "categoryId"));
 
+        //从正文中提取第一张图片作为焦点图
+        String focusImage = getContentImage(request, post.getContent());
+        if (StringUtils.isNotBlank(focusImage))
+            post.setFocusImage(focusImage);
+
         if (!postDao.update(post)) {
             message = "文章更新失败,请稍后重试!";
         } else {
@@ -258,5 +278,27 @@ public class PostManagerContoller extends BaseController {
         }
         mav.addObject("message", message);
         return mav;
+    }
+
+
+    private static String getContentImage(HttpServletRequest request, String source) {
+        if (StringUtils.isBlank(source)) {
+            return null;
+        }
+        String image = null;
+        String reg = "<img\\s*.+?src=[\"|'| ](.+?(jpg|jpeg|png|bmp|gif|ico))[\"|'| ].+?>";
+        List<String> images = RegexUtils.getStringGoup1(source, reg);
+        if (images != null && images.size() > 0) {
+            /*int size = images.size();
+            image = images.get(size - 1);*/
+            image = images.get(0);
+
+            if (image.toLowerCase().startsWith("http")) {
+                return image;
+            }
+            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+            return basePath + image;
+        }
+        return image;
     }
 }

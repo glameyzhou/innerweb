@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.glamey.chec_cn.model.dto;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -6,21 +9,14 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import java.io.Serializable;
 
 /**
- * Created with IntelliJ IDEA.
- * User: zy
- * Date: 13-5-8 Time: 下午7:27
- * To change this template use File | Settings | File Templates.
+ * @author zy
  */
-public class LinksQuery implements Serializable {
-    private static final long serialVersionUID = 8123860852124264495L;
+public class ResumeQuery implements Serializable {
     private String kw;
-    private String categoryId;
+    private String startTime;
+    private String endTime;
     private int start;
     private int num;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getKw() {
         return kw;
@@ -30,12 +26,20 @@ public class LinksQuery implements Serializable {
         this.kw = kw;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public int getStart() {
@@ -56,7 +60,6 @@ public class LinksQuery implements Serializable {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this,
-                ToStringStyle.SHORT_PREFIX_STYLE);
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

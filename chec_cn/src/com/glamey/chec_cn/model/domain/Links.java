@@ -1,30 +1,30 @@
 package com.glamey.chec_cn.model.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
  * User: zy
- * Date: 13-5-8
- * Time: 下午3:42
  * To change this template use File | Settings | File Templates.
  */
 public class Links implements Serializable {
-	private static final long serialVersionUID = 923284796005722626L;
-	private String id;
+    private static final long serialVersionUID = 923284796005722626L;
+    private String id;
     private String name;
     private String url;
     private String categoryId;
-    private String categoryType;
+    private Category category;
     private String image;
     private int order;
-    private int showIndex = 1 ;
-    private Date latestDate;
-    private Category category ;
+    private Date publishTime;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public String getId() {
         return id;
@@ -58,12 +58,12 @@ public class Links implements Serializable {
         this.categoryId = categoryId;
     }
 
-    public String getCategoryType() {
-        return categoryType;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryType(String categoryType) {
-        this.categoryType = categoryType;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getImage() {
@@ -82,31 +82,15 @@ public class Links implements Serializable {
         this.order = order;
     }
 
-    public int getShowIndex() {
-        return showIndex;
+    public Date getPublishTime() {
+        return publishTime;
     }
 
-    public void setShowIndex(int showIndex) {
-        this.showIndex = showIndex;
+    public void setPublishTime(Date publishTime) {
+        this.publishTime = publishTime;
     }
 
-    public Date getLatestDate() {
-        return latestDate;
-    }
-
-    public void setLatestDate(Date latestDate) {
-        this.latestDate = latestDate;
-    }
-
-    public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	@Override
+    @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
     }

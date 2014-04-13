@@ -10,9 +10,10 @@ import java.io.Serializable;
  */
 public class MetaInfo implements Serializable {
 
-	private static final long serialVersionUID = 5280120721851184908L;
-	private String name ;
-    private String value ;
+    private static final long serialVersionUID = 5280120721851184908L;
+    private String name;
+    private String aliasName;
+    private String value;
 
     public String getName() {
         return name;
@@ -20,6 +21,15 @@ public class MetaInfo implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public String getAliasName() {
+        return aliasName;
+    }
+
+    public void setAliasName(String aliasName) {
+        this.aliasName = aliasName;
     }
 
     public String getValue() {

@@ -62,7 +62,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/rights-list.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/rights-list.do", method = RequestMethod.GET)
     public ModelAndView rightsList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-rights-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
@@ -94,7 +94,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/rights-show.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/rights-show.do", method = RequestMethod.GET)
     public ModelAndView rightsShow(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-rights-show]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
@@ -119,7 +119,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/rights-create.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/rights-create.do", method = RequestMethod.POST)
     public ModelAndView rightsCreate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-rights-create]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
@@ -130,7 +130,7 @@ public class UserInfoManagerController extends BaseController {
         rightsInfo.setRightsValue(WebUtils.getRequestParameterAsString(request, "rightsValue"));
         if (userInfoDao.createRights(rightsInfo)) {
             mav.addObject("message", "创建功能权限成功");
-            mav.addObject("href", "mg/user/rights-list.htm");
+            mav.addObject("href", "mg/user/rights-list.do");
         } else {
             mav.addObject("message", "创建用户失败");
         }
@@ -145,7 +145,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/rights-update.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/rights-update.do", method = RequestMethod.POST)
     public ModelAndView rightsUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-rights-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
@@ -162,7 +162,7 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.updateRights(rightsInfo)) {
             mav.addObject("message", "更新功能权限成功");
-            mav.addObject("href", "mg/user/rights-list.htm");
+            mav.addObject("href", "mg/user/rights-list.do");
         } else {
             mav.addObject("message", "更新功能权限失败");
         }
@@ -177,7 +177,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/rights-del.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/rights-del.do", method = RequestMethod.GET)
     public ModelAndView rightsDel(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-rights-delete]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
@@ -211,7 +211,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/role-list.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/role-list.do", method = RequestMethod.GET)
     public ModelAndView roleList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-role-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
@@ -244,7 +244,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/role-show.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/role-show.do", method = RequestMethod.GET)
     public ModelAndView roleShow(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-role-show]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
@@ -305,7 +305,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/role-create.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/role-create.do", method = RequestMethod.POST)
     public ModelAndView roleCreate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-role-create]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
@@ -327,7 +327,7 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.createRole(roleInfo)) {
             mav.addObject("message", "创建系统角色成功");
-            mav.addObject("href", "mg/user/role-list.htm");
+            mav.addObject("href", "mg/user/role-list.do");
         } else {
             mav.addObject("message", "创建系统角色失败");
         }
@@ -342,7 +342,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/role-update.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/role-update.do", method = RequestMethod.POST)
     public ModelAndView roleUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-role-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
@@ -367,7 +367,7 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.updateRole(roleInfo)) {
             mav.addObject("message", "更新系统角色成功");
-            mav.addObject("href", "mg/user/role-list.htm");
+            mav.addObject("href", "mg/user/role-list.do");
         } else {
             mav.addObject("message", "更新系统角色失败");
         }
@@ -382,7 +382,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/role-del.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/role-del.do", method = RequestMethod.GET)
     public ModelAndView roleDel(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-role-delete]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
@@ -412,7 +412,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/user-list.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/user-list.do", method = RequestMethod.GET)
     public ModelAndView userList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
@@ -466,7 +466,7 @@ public class UserInfoManagerController extends BaseController {
         mav.setViewName("mg/user/user-list");
         return mav;
     }
-    @RequestMapping(value = "/user-detail.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/user-detail.do", method = RequestMethod.GET)
     public ModelAndView userDetail(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-detail]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
@@ -491,7 +491,7 @@ public class UserInfoManagerController extends BaseController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/user-show.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/user-show.do", method = RequestMethod.GET)
     public ModelAndView userShow(HttpServletRequest request, HttpServletResponse response) {
         logger.info("[manager-user-show]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
@@ -536,7 +536,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/user-create.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/user-create.do", method = RequestMethod.POST)
     public ModelAndView userCreate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-create]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
@@ -590,7 +590,7 @@ public class UserInfoManagerController extends BaseController {
         if (userInfoDao.createUser(userInfo)) {
             //比较变态的需求，新建用户之后，以该用户登陆系统
             mav.addObject("message", "创建系统用户成功");
-            mav.addObject("href", "mg/user/user-list.htm");
+            mav.addObject("href", "mg/user/user-list.do");
         } else {
             mav.addObject("message", "创建系统用户失败");
         }
@@ -605,7 +605,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/user-update.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/user-update.do", method = RequestMethod.POST)
     public ModelAndView userUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
@@ -659,7 +659,7 @@ public class UserInfoManagerController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/user-del.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/user-del.do", method = RequestMethod.GET)
     public ModelAndView userDel(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
@@ -674,7 +674,7 @@ public class UserInfoManagerController extends BaseController {
                 logger.info("[manager-rights-delete]" + request.getRequestURI() + " roleId=" + array + " result=" + userInfoDao.delUser(array));
             }
             mav.addObject("message", "删除系统用户成功");
-            mav.addObject("href","mg/user/user-list.htm");
+            mav.addObject("href","mg/user/user-list.do");
         } catch (Exception e) {
             logger.error("[manager-rights-delete] error " + request.getRequestURI() + " " + userId);
             mav.addObject("message", "删除系统用户失败");
@@ -683,7 +683,7 @@ public class UserInfoManagerController extends BaseController {
     }
 
     //查看个人信息
-    @RequestMapping(value = "/user-psersonal-show.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/user-personal-show.do", method = RequestMethod.GET)
     public ModelAndView personalShow(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-personalShow]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
@@ -711,7 +711,7 @@ public class UserInfoManagerController extends BaseController {
 
     /*通过部门查询所有的成员*/
     @ResponseBody
-    @RequestMapping(value = "/getUserByDeptId.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/getUserByDeptId.do", method = RequestMethod.GET)
     public void getUserByDeptId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-getUserByDeptId]" + request.getRequestURI());
         String deptId = WebUtils.getRequestParameterAsString(request, "deptId");
@@ -734,7 +734,7 @@ public class UserInfoManagerController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/user-setLive.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/user-setLive.do", method = RequestMethod.GET)
     public ModelAndView setLive(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
@@ -748,7 +748,7 @@ public class UserInfoManagerController extends BaseController {
             String arrays[] = StringUtils.split(userId, ",");
             if(userInfoDao.setUserLive(arrays,Integer.valueOf(flag))){
                 message = "设置成功" ;
-                mav.addObject("href","mg/user/user-list.htm");
+                mav.addObject("href","mg/user/user-list.do");
             }
             mav.addObject("message", message);
         } catch (Exception e) {
@@ -758,7 +758,7 @@ public class UserInfoManagerController extends BaseController {
         return mav;
     }
 
-    @RequestMapping(value = "/user-resetPasswd.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/user-resetPasswd.do", method = RequestMethod.GET)
     public ModelAndView resetPasswd(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");

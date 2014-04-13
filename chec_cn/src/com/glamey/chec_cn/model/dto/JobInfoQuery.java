@@ -7,19 +7,23 @@ import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
- * User: zy
- * Date: 13-5-8 Time: 下午7:27
+ * User:zy
  * To change this template use File | Settings | File Templates.
  */
-public class LinksQuery implements Serializable {
-    private static final long serialVersionUID = 8123860852124264495L;
-    private String kw;
+public class JobInfoQuery implements Serializable {
     private String categoryId;
+    private String kw;
+    private String publishStartTime;
+    private String publishEndTime;
     private int start;
     private int num;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getKw() {
@@ -30,12 +34,20 @@ public class LinksQuery implements Serializable {
         this.kw = kw;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getPublishStartTime() {
+        return publishStartTime;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setPublishStartTime(String publishStartTime) {
+        this.publishStartTime = publishStartTime;
+    }
+
+    public String getPublishEndTime() {
+        return publishEndTime;
+    }
+
+    public void setPublishEndTime(String publishEndTime) {
+        this.publishEndTime = publishEndTime;
     }
 
     public int getStart() {
@@ -56,7 +68,6 @@ public class LinksQuery implements Serializable {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this,
-                ToStringStyle.SHORT_PREFIX_STYLE);
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

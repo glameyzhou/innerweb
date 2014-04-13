@@ -18,6 +18,7 @@ public class PostQuery implements Serializable {
 
     private String categoryId;
     private List<String> categoryIds;
+    private String categoryType;
 
     private String publishStartTime;
     private String publishEndTime;
@@ -56,6 +57,14 @@ public class PostQuery implements Serializable {
 
     public void setCategoryIds(List<String> categoryIds) {
         this.categoryIds = categoryIds;
+    }
+
+    public String getCategoryType() {
+        return categoryType;
+    }
+
+    public void setCategoryType(String categoryType) {
+        this.categoryType = categoryType;
     }
 
     public String getPublishStartTime() {

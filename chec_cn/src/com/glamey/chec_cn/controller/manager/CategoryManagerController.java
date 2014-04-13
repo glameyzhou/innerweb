@@ -7,7 +7,6 @@ import com.glamey.chec_cn.model.domain.Category;
 import com.glamey.framework.utils.Pinyin4jUtils;
 import com.glamey.framework.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,7 +37,7 @@ public class CategoryManagerController extends BaseController {
     /*通过父ID，列举所有的分类信息*/
     @RequestMapping(value = "/category-list.do", method = RequestMethod.GET)
     public ModelAndView categoryList(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("mg/library/category-list");
+        ModelAndView mav = new ModelAndView("mg/category/category-list");
         String pid = WebUtils.getRequestParameterAsString(request, "pid", "0");
         String type = WebUtils.getRequestParameterAsString(request, "type");
         Category pCategory = new Category();
@@ -61,7 +60,7 @@ public class CategoryManagerController extends BaseController {
     /*分类修改、创建页面*/
     @RequestMapping(value = "/category-show.do", method = RequestMethod.GET)
     public ModelAndView categoryShow(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mav = new ModelAndView("mg/library/category-show");
+        ModelAndView mav = new ModelAndView("mg/category/category-show");
         String pid = WebUtils.getRequestParameterAsString(request, "pid");
         String type = WebUtils.getRequestParameterAsString(request, "type");
         String id = WebUtils.getRequestParameterAsString(request, "id");

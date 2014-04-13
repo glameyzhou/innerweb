@@ -3,9 +3,7 @@
  */
 package com.glamey.chec_cn.dao;
 
-import com.glamey.chec_cn.model.domain.Category;
 import com.glamey.chec_cn.model.domain.MetaInfo;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,7 +13,6 @@ import javax.annotation.Resource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +45,7 @@ public class MetaInfoDao extends BaseDao {
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
                             pstmt.setString(++i, meta.getName());
+                            pstmt.setString(++i, meta.getAliasName());
                             pstmt.setString(++i, meta.getValue());
                         }
                     });
@@ -133,21 +131,6 @@ public class MetaInfoDao extends BaseDao {
     }
 
     /**
-     * 根据配置对象，获取旗下的所有分类信息
-     * @param metaInfo
-     * @return
-     */
-    public List<Category> getCategoryListByMetaName(final MetaInfo metaInfo){
-        List<Category> categoryList = new ArrayList<Category>();
-        if (metaInfo != null && StringUtils.isNotBlank(metaInfo.getValue())) {
-            for (String a : StringUtils.split(metaInfo.getValue(), ",")) {
-                categoryList.add(categoryDao.getById(a));
-            }
-        }
-        return categoryList ;
-    }
-
-    /**
      * @return
      */
     class MetaRowMapper implements RowMapper<MetaInfo> {
@@ -155,6 +138,7 @@ public class MetaInfoDao extends BaseDao {
         public MetaInfo mapRow(ResultSet rs, int i) throws SQLException {
             MetaInfo meta = new MetaInfo();
             meta.setName(rs.getString("meta_name"));
+            meta.setAliasName(rs.getString("meta_aliasname"));
             meta.setValue(rs.getString("meta_value"));
             return meta;
         }

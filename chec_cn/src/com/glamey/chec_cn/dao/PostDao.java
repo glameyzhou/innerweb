@@ -182,6 +182,9 @@ public class PostDao extends BaseDao {
         try {
             StringBuffer sql = new StringBuffer("select * from tbl_post where 1=1 ");
 
+            if (StringUtils.isNotBlank(query.getCategoryType()))
+                sql.append(" and post_category_type = ? ");
+
             if (StringUtils.isNotBlank(query.getCategoryId()))
                 sql.append(" and post_category_id_fk = ? ");
 
@@ -234,6 +237,8 @@ public class PostDao extends BaseDao {
                         public void setValues(PreparedStatement preparedstatement)
                                 throws SQLException {
                             int i = 0;
+                            if (StringUtils.isNotBlank(query.getCategoryType()))
+                                preparedstatement.setString(++i,query.getCategoryType());
 
                             if (StringUtils.isNotBlank(query.getCategoryId()))
                                 preparedstatement.setString(++i, query.getCategoryId());
@@ -289,6 +294,11 @@ public class PostDao extends BaseDao {
         try {
             List<Object> params = new ArrayList<Object>();
             StringBuffer sql = new StringBuffer("select count(1) as total from tbl_post where 1=1 ");
+
+            if (StringUtils.isNotBlank(query.getCategoryType())) {
+                sql.append(" and post_category_type = ? ");
+                params.add(query.getCategoryType());
+            }
 
             if (StringUtils.isNotBlank(query.getCategoryId())) {
                 sql.append(" and post_category_id_fk = ? ");

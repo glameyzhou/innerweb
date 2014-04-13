@@ -118,6 +118,35 @@ public class HomeManagerController extends BaseController {
         mav.addObject("categoryPerformance",categoryPerformance);
         mav.addObject("categoryList_performance",categoryList_performance);
 
+        /**
+         * 企业文化
+         */
+        Category categoryCulture = categoryDao.getByAliasName(CategoryConstants.CATEGORY_CULTURE);
+        List<Category> categoryList_culture = categoryDao.getByParentId(categoryCulture.getId(),categoryCulture.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryCulture",categoryCulture);
+        mav.addObject("categoryList_culture",categoryList_culture);
+
+        /**
+         * 人力资源
+         */
+        Category categoryHr = categoryDao.getByAliasName(CategoryConstants.CATEGORY_HR);
+        List<Category> categoryList_hr = categoryDao.getByParentId(categoryHr.getId(),categoryHr.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryHr",categoryHr);
+        mav.addObject("categoryList_hr",categoryList_hr);
+        /**
+         * 招聘部门
+         */
+        Category categoryDept = categoryDao.getByAliasName(CategoryConstants.CATEGORY_DEPT);
+        mav.addObject("categoryDept",categoryDept);
+
+
+        /**
+         * 链接
+         */
+        Category categoryLinks = categoryDao.getByAliasName(CategoryConstants.CATEGORY_LINKS);
+        List<Category> categoryList_links = categoryDao.getByParentId(categoryLinks.getId(),categoryLinks.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryLinks",categoryLinks);
+        mav.addObject("categoryList_links",categoryList_links);
 
         return mav ;
     }

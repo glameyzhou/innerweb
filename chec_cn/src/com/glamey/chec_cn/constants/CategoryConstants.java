@@ -36,18 +36,24 @@ public class CategoryConstants {
     /**
      * 人力资源
      */
-    public static final String CATEGORY_hr = "hr";
+    public static final String CATEGORY_HR = "HR";
 
-    /*对外连接*/
-    public static final String CATEGORY_LINKS = "links";
+    /*连接*/
+    public static final String CATEGORY_LINKS = "LINKS";
+
     /*部门*/
-    public static final String CATEGORY_DEPT = "dept";
+    public static final String CATEGORY_DEPT = "DEPT";
 
 
 
 
 
-
+    /*要闻快递*/
+    public static final String CATEGORY_ID_YAOWENKUAIDI= "FnQNjm";
+    /*公司新闻*/
+    public static final String CATEGORY_ID_GONGSIXINWEN= "6ZBZRj";
+    /*公司简介*/
+    public static final String CATEGORY_ID_GONGSIJIANJIE = "VBvABv";
 
 
 
