@@ -1,50 +1,65 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css" />
-<%--<script type="text/javascript" src="${basePath}res/common/js/jquery.js"></script>--%>
-<script type="text/javascript" src="${basePath}res/common/js/header.js"></script>
 <script type="text/javascript">
-    function search(){
-        var kw = document.getElementById("kw").value ;
-        window.location = "${basePath}search.htm?kw=" + encodeURI(kw) ;
+    function search() {
+        var kw = document.getElementById("kw").value;
+        window.location = "${basePath}search.htm?kw=" + encodeURI(kw);
     }
 </script>
 <div class="header">
-    <div class="logo">
-        <img src="${basePath}res/front/library/images/logo.jpg" onclick="window.location='${basePath}index.htm';"
-                           onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='default'"/>
+    <div class="header-logo">
+        <div class="logo"><img src="${basePath}res/front/chec_cn/images/logo.jpg"/></div>
+        <div class="logo-right">
+            <div class="logo-nav">
+                <ul>
+                    <li><a href="javascript:void(0)">企业邮箱</a></li>
+                    <li>|</li>
+                    <li><a href="javascript:void(0)">VIP链接</a></li>
+                    <li>|</li>
+                    <li><a href="javascript:void(0)">华电内网</a></li>
+                    <li style="margin-left:16px;_margin-left:16px;" class="bghui"><a href="javascript:void(0)">中文版</a>
+                    </li>
+                    <li><a href="http://en.chec.com.cn" target="_blank">ENGLISH</a></li>
+                </ul>
+            </div>
+            <br/><br/><br/>
+            <div class="search">
+                关键词搜索<input name="" type="text" class="text"/>
+                <input name="" class="go-btn" type="button"/>
+            </div>
+        </div>
     </div>
-    <div class="logo_right">
-        <ul>
-            <li style="margin-left:10px;"><a href="${basePath}index.htm">返回首页</a></li>
-            <li><a href="http://www.chdi.ac.cn" target="_blank">总院首页</a></li>
-            <c:choose>
-                <c:when test="${(not empty sessionUserInfo) && (sessionUserInfo.username != 'lib_Tourist_uid')}">
-                            <li><b><a href="${basePath}mg/home.htm" target="_blank"><c:out value="${sessionUserInfo.nickname}"/></a></b></li>
-                            <li><a href="${basePath}mg/logout.htm">退&nbsp;&nbsp;出</a></li>
-                </c:when>
-                <c:otherwise>
-                    <li><a href="${basePath}register.jsp">注&nbsp;&nbsp;册</a></li>
-                    <li><a href="${basePath}login.htm">登&nbsp;&nbsp;录</a></li>
-                </c:otherwise>
-            </c:choose>
-        </ul>
-        <ul class="logo_search">
-            <li>搜索</li>
-            <li><input name="kw" id="kw" value="${kw}" type="text" class="searchtext" /></li>
-            <li><img src="${basePath}res/front/library/images/search_button.png" onclick="javascript:search();"/></li>
-            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${basePath}post-QbINfy.htm">通知公告</a></li>
-        </ul>
+    <div class="menu">
+        <div class="menu_left"></div>
+        <TABLE>
+            <TBODY>
+            <TR>
+                <TD><A href="${basePath}index.htm">首 页</A></TD>
+                <TD class="line"></TD>
+                <TD><A href="${basePath}default-INTRODUCE.htm">公司介绍</A></TD>
+                <TD class="line"></TD>
+                <TD><A href="${basePath}default-NEWS.htm">公司新闻</A></TD>
+                <TD class="line"></TD>
+                <TD><A href="${basePath}default-BUSINESS.htm">业务概况</A></TD>
+                <TD class="line"></TD>
+                <TD><A href="${basePath}default-PERFORMANCE.htm">公司业绩</A></TD>
+                <TD class="line"></TD>
+                <TD><A href="${basePath}default-CULTURE.htm">企业文化</A></TD>
+                <TD class="line"></TD>
+                <TD><A href="${basePath}default-HR.htm">人力资源</A></TD>
+            </TR>
+            </TBODY>
+        </TABLE>
+        <div class="menu_right"></div>
     </div>
 </div>
-<%--<div class="nav"><img src="${basePath}res/front/library/images/nav.jpg" /></div>--%>
 <div class="nav">
     <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
-            codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="1020"
-            height="277">
-        <param name="movie" value="${basePath}res/front/library/flash/top.swf"/>
+            codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="1002"
+            height="317">
+        <param name="movie" value="${basePath}res/front/chec_cn/flash/top.swf"/>
         <param name="quality" value="high"/>
         <param name="wmode" value="transparent"/>
-        <embed src="${basePath}res/front/library/flash/top.swf" width="1020" height="277" quality="high"
+        <embed src="${basePath}res/front/chec_cn/flash/top.swf" width="1002" height="317" quality="high"
                pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"
                wmode="transparent"></embed>
     </object>
