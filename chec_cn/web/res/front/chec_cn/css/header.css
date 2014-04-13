@@ -1,0 +1,19 @@
+@charset "utf-8";
+/* CSS Document */
+.header{height:110px; background:#FFF; width:1002px;}
+.header-logo{background:url(../images/header-bg.jpg) no-repeat; height:83px; width:1002px;}
+.logo{padding-top:12px; height:71px; width:391px; float:left}
+.logo-right{height:75px; float:left; padding-top:8px; padding-left:245px;}
+.logo-nav{ float:left; height:30px;}
+.search{float:left; color:#9f9f9f; padding-left:100px;}
+.logo-nav li{float:left; padding:2px 8px;}
+.bghui{background:#afbac3; display:block; padding:5px 8px; color:#FFF}
+.bghui a{color:#FFF}
+.menu{background: rgb(255, 255, 255); float:left; margin: 0px auto; padding: 0px 1px; width: 1000px; height: 29px;}
+.menu_left {background: url("../images/main_nav_left.jpg") no-repeat left top; width: 2px; height: 29px; float: left;}
+.menu_right {background: url("../images/main_nav_right_bg.jpg") no-repeat left top; width: 2px; height: 29px; float: right;}
+.menu table {width: 996px; float: left; border-collapse: collapse;}
+.menu table td {background: url("../images/mian_nav_bg.jpg") repeat-x left top; height: 29px; text-align: center;}
+.menu table td.line {background: url("../images/main_line.jpg") no-repeat left top; width: 2px; height: 29px;}
+.menu table td a {font: bold 14px/29px simsun; height: 29px; color: rgb(36, 61, 125); display: block; font-size-adjust: none; font-stretch: normal;}
+.menu table td a:hover {background: url("../images/main_hover.jpg") repeat-x left top; height:29px; color: rgb(255, 255, 255); text-decoration: none;}

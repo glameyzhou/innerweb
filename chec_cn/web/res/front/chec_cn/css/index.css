@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* CSS Document */
+.content{width:1002px; height:auto; border-top:3px solid #48c0e2; background:
+#FFF; float:left}
+.content-left{margin-top:5px; margin-left:3px; float:left; width:780px;}
+.new{float:left; width:309px;}
+.Tab{float:left; width:458px; margin-left:2px; _margin-left:2px; position:relative;}
+.Tab .Tab_main{width:446px;height:168px; margin-top:21px; line-height:21px; background:url(../images/Tab_bg.jpg) no-repeat left top; color:#616065; padding:10px;}
+.Tab h2 span{float:left; display:block; width:107px; height:21px; line-height:21px; background:url(../images/tit_bg.jpg) no-repeat left top; text-align:center; font-size:12px; cursor:pointer;}
+.Tab h2 span li{ line-height:21px;}
+h1{font-size:16px; text-align:center; font-family:"微软雅黑"; border-bottom:1px solid #999; padding-bottom:6px;}
+.Tab h2 span.current{background:url(../images/tit_hover.jpg) no-repeat left top; color:#616065;}
+.Tab .Tab_main .more{ position:absolute; left:420px; top:5px;}
+#tabthree{margin-left:8px;}
+.height115{height:115px;line-height:21px; background:url(../images/Tab_bg1.jpg) no-repeat left top;color:#616065; padding:10px;margin-top:21px; padding-bottom:0px;}
+.width390{width:388px;}
+.Tab .height115 .more{ position:absolute; left:340px; top:5px;}
+#tabthreet{margin-left:8px;}
+
+.content-right{background:url(../images/content-right.jpg) no-repeat; margin-right:3px; padding:10px 12px; margin-top:5px; width:192px; height:326px; float:left}
+.content-right li{padding-bottom:10px;}
