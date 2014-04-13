@@ -17,7 +17,7 @@
         <div class="rpos">当前位置: 首页 - 用户管理 - 用户详情</div>
         <div class="clear"></div>
     </div>
-    <form method="post" action="${basePath}mg/user/user-${opt}.htm" id="jvForm">
+    <form method="post" action="${basePath}mg/user/user-${opt}.do" id="jvForm">
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
             <tr>

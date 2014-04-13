@@ -6,19 +6,36 @@
     <%@include file="../../common/headerInclude.jsp" %>
     <base href="${basePath}">
     <script>
+        KindEditor.ready(function (K) {
+            var editor1 = K.create('textarea[name="value"]', {
+                cssPath: '${basePath}kindeditor/plugins/code/prettify.css',
+                uploadJson: '${basePath}kindeditor/jsp/upload_json.jsp',
+                fileManagerJson: '${basePath}kindeditor/jsp/file_manager_json.jsp',
+                allowFileManager: true,
+                afterCreate: function () {
+                    var self = this;
+                    K.ctrl(document, 13, function () {
+                        self.sync();
+                        document.forms['jvForm'].submit();
+                    });
+                    K.ctrl(self.edit.doc, 13, function () {
+                        self.sync();
+                        document.forms['jvForm'].submit();
+                    });
+                }
+            });
+            prettyPrint();
+        });
         $(function () {
             $("#jvForm").validate();
         });
     </script>
-    <title>${title}</title>
+    <title>全局配置 - ${metaInfo.aliasName}</title>
 </head>
 <body>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - ${title} </div>
-        <%--<form class="ropt">
-            <input type="button" value="添加" onclick="javascript:window.location='${basePath}mg/dept/dept-show.htm';">
-        </form>--%>
+        <div class="rpos">当前位置: 首页 - 全局配置 - ${metaInfo.aliasName}</div>
         <form class="ropt">
             <font color="red" size="3">
                 <c:if test="${not empty message}">
@@ -39,7 +56,7 @@
             <tr>
                 <td width="100%" class="pn-fcontent" colspan="2" align="center">
                     <textarea name="value" cols="100" rows="8"
-                              style="width:95%;height:300px;">${metaInfo.value}</textarea>
+                              style="width:95%;height:300px;visibility:hidden;">${metaInfo.value}</textarea>
                 </td>
             </tr>
             <tr>

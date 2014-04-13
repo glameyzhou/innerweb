@@ -1,3 +1,5 @@
+<%@ page import="org.apache.commons.lang.time.DateFormatUtils" %>
+<%@ page import="java.util.Date" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -26,13 +28,15 @@
 </p>
 <ul id="lmenu">
     <hr style="color: gray;">
+    现在时间：<%=DateFormatUtils.format(new Date(),"yyyy年MM月dd日")%>
+    <hr style="color: gray;">
     <li><a href="${basePath}mg/home/webInfo.do" target="mainFrame">欢迎界面</a></li>
 
     <hr style="color: gray;">
-    <li><a href="${basePath}mg/user/user-psersonal-show.do?userId=${userInfo.userId}" target="mainFrame">个人信息管理</a></li>
+    <li><a href="${basePath}mg/user/user-personal-show.do?userId=${userInfo.userId}" target="mainFrame">个人信息管理</a></li>
 
     <%--公司简介--%>
-    <hr style="color: gray;">
+    <hr style="color: gray;"/>
     <li><a href="${basePath}mg/category/category-list.do?pid=${categoryIntroduce.id}&type=${categoryIntroduce.categoryType}" target="mainFrame">分类管理-公司介绍</a></li>
     <c:forEach var="introduce" items="${categoryList_introduce}">
         <c:choose>
@@ -124,101 +128,96 @@
         </c:choose>
     </c:forEach>
 
-
-    <%--行业资讯管理，已经废弃，转移到图书管理分类中--%>
-    <%--<c:if test="${fmtString:hasRightsList(rightsList,'10')}">
-        <li><a href="${basePath}mg/post/post-list.htm?categoryId=73aANz" target="mainFrame">行业资讯管理</a></li>
-    </c:if>--%>
-
-
-    <%--微型图书馆管理--%>
-    <%--<c:if test="${fmtString:hasRightsList(rightsList,'05_category_manage')}">
-        <li><a href="${basePath}mg/library/category-list.htm?pid=0" target="mainFrame">微型图书馆&nbsp;-&nbsp;分类栏目管理</a></li>
-    </c:if>
-    <c:if test="${fmtString:hasRightsList(rightsList,'05_category_move')}">
-        <li><a href="${basePath}mg/library/library-merge-show.htm" target="mainFrame">微型图书馆&nbsp;-&nbsp;分类转移合并</a></li>
-    </c:if>
-
-    <li><a href="javascript:divDisplay('lib_p_div');" target="mainFrame">微型图书馆&nbsp;-&nbsp;内容管理</a></li>
-    <ul id="lib_p_div" style="display: none;">
-        <c:forEach var="dto" items="${libraryInfoDTOList}">
-            <c:set var="libId" value="05_${dto.category.id}"/>
-            <c:if test="${fmtString:hasRightsList(rightsList,libId)}">
-                <c:choose>
-                    <c:when test="${dto.category.hasChild == 1}">
-                        <li><a href="javascript:divDisplay('lib_p_c_${dto.category.id}_div');" target="mainFrame">${dto.category.name}</a></li>
-                    </c:when>
-                    <c:otherwise>
+    <%--企业文化--%>
+    <hr style="color: gray;">
+    <li><a href="${basePath}mg/category/category-list.do?pid=${categoryCulture.id}&type=${categoryCulture.categoryType}" target="mainFrame">分类管理-企业文化</a></li>
+    <c:forEach var="culture" items="${categoryList_culture}">
+        <c:choose>
+            <c:when test="${culture.hasChild == 1}">
+                <li><a href="javascript:divDisplay('culture_div_${culture.id}');">${culture.name}</a></li>
+                <ul id="culture_div_${culture.id}" style="display: none;">
+                    <c:forEach var="child" items="${culture.children}">
                         <li>
-                            <a href="${basePath}mg/library/library-list.htm?categoryId=${dto.category.id}" target="mainFrame">
-                                <font style="font-size: 8px;">${dto.category.name}</font>
-                            </a>
-                        </li>
-                    </c:otherwise>
-                </c:choose>
-                <ul id="lib_p_c_${dto.category.id}_div" style="display: none">
-                    <c:forEach var="dtocate" items="${dto.libraryInfoDTOList}">
-                        <li>
-                            <a href="${basePath}mg/library/library-list.htm?categoryId=${dtocate.category.id}" target="mainFrame">
-                        <font style="font-size: 8px;">${dtocate.category.name}</font>
-                            </a>
+                            <a href="${basePath}mg/post/post-list.do?categoryId=${child.id}&type=${child.categoryType}" target="mainFrame">${child.name}</a>
                         </li>
                     </c:forEach>
                 </ul>
-            </c:if>
-        </c:forEach>
-    </ul>--%>
+            </c:when>
+            <c:otherwise>
+                <li>
+                    <a href="${basePath}mg/post/post-list.do?categoryId=${culture.id}&type=${culture.categoryType}" target="mainFrame">${culture.name}</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
 
-    <%--友情链接分类管理--%>
-    <%--<c:if test="${fmtString:hasRightsList(rightsList,'02')}">
-        <li><a href="${basePath}mg/links/${categoryFriendlyLinks.aliasName}/category-list.htm" target="mainFrame">友情链接 - 分类管理</a></li>
-        <li><a href="javascript:divDisplay('${categoryFriendlyLinks.id}_div');">${categoryFriendlyLinks.name} - 链接管理</a></li>
-        <ul id="${categoryFriendlyLinks.id}_div" style="display: none">
-            <c:forEach var="cate" items="${categoryFriendlyLinksList}">
-                <li><a href="${basePath}mg/links/${categoryFriendlyLinks.aliasName}/links-list.htm?categoryId=${cate.id}" target="mainFrame">${cate.name}</a></li>
-            </c:forEach>
-        </ul>
-    </c:if>--%>
+    <%--人力资源--%>
+    <hr style="color: gray;">
+    <li><a href="${basePath}mg/category/category-list.do?pid=${categoryHr.id}&type=${categoryHr.categoryType}" target="mainFrame">分类管理-人力资源</a></li>
+    <c:forEach var="hr" items="${categoryList_hr}">
+        <c:choose>
+            <c:when test="${hr.hasChild == 1}">
+                <li><a href="javascript:divDisplay('hr_div_${hr.id}');">${hr.name}</a></li>
+                <ul id="hr_div_${hr.id}" style="display: none;">
+                    <c:forEach var="child" items="${hr.children}">
+                        <li>
+                            <a href="${basePath}mg/post/post-list.do?categoryId=${child.id}&type=${child.categoryType}" target="mainFrame">${child.name}</a>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </c:when>
+            <c:otherwise>
+                <li>
+                    <a href="${basePath}mg/post/post-list.do?categoryId=${hr.id}&type=${hr.categoryType}" target="mainFrame">${hr.name}</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+    <li>
+        <a href="${basePath}mg/category/category-list.do?pid=${categoryDept.id}&type=${categoryDept.categoryType}" target="mainFrame">分类管理-招聘部门</a>
+    </li>
+    <li>
+        <a href="${basePath}mg/job/job-list.do" target="mainFrame">招聘岗位管理</a>
+    </li>
+    <li>
+        <a href="${basePath}mg/job/resume-list.do" target="mainFrame">简历管理</a>
+    </li>
 
-    <%--常用链接管理--%>
-    <%--<c:if test="${fmtString:hasRightsList(rightsList,'08')}">
-        <li><a href="${basePath}mg/links/${categoryOfenLinks.aliasName}/category-list.htm" target="mainFrame">常用链接 - 分类管理</a></li>
-        <li><a href="javascript:divDisplay('${categoryOfenLinks.id}_div');">${categoryOfenLinks.name} - 链接管理</a></li>
-        <ul id="${categoryOfenLinks.id}_div" style="display: none">
-            <c:forEach var="cate" items="${categoryOfenLinksList}">
-                <li><a href="${basePath}mg/links/${categoryOfenLinks.aliasName}/links-list.htm?categoryId=${cate.id}" target="mainFrame">${cate.name}</a></li>
-            </c:forEach>
-        </ul>
-    </c:if>--%>
 
-    <%--滚动图片--%>
-    <%--<c:if test="${fmtString:hasRightsList(rightsList,'09')}">
-        <li><a href="${basePath}mg/links/${categoryRollingImages.aliasName}/category-list.htm" target="mainFrame">${categoryRollingImages.name} - 分类管理</a></li>
-        <li><a href="javascript:divDisplay('${categoryRollingImages.id}_div');">${categoryRollingImages.name} - 链接管理</a></li>
-        <ul id="${categoryRollingImages.id}_div" style="display: none">
-            <c:forEach var="cate" items="${categoryRollingImagesList}">
-                <li><a href="${basePath}mg/rolling/rolling-list.htm?categoryId=${cate.id}" target="mainFrame">${cate.name}</a></li>
-            </c:forEach>
-        </ul>
-    </c:if>--%>
-
-
-    <%--<c:if test="${fmtString:hasRightsList(rightsList,'07')}">
-        <li><a href="${basePath}mg/feedback/list.htm" target="mainFrame">在线留言管理</a></li>
-    </c:if>--%>
+    <%--链接管理--%>
+    <hr style="color: gray;">
+    <li><a href="${basePath}mg/category/category-list.do?pid=${categoryLinks.id}&type=${categoryLinks.categoryType}" target="mainFrame">分类管理-链接</a></li>
+    <c:forEach var="links" items="${categoryList_links}">
+        <c:choose>
+            <c:when test="${links.hasChild == 1}">
+                <li><a href="javascript:divDisplay('links_div_${links.id}');">${links.name}</a></li>
+                <ul id="links_div_${links.id}" style="display: none;">
+                    <c:forEach var="child" items="${links.children}">
+                        <li>
+                            <a href="${basePath}mg/links/links-list.do?categoryId=${child.id}" target="mainFrame">${child.name}</a>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </c:when>
+            <c:otherwise>
+                <li>
+                    <a href="${basePath}mg/links/links-list.do?categoryId=${links.id}" target="mainFrame">${links.name}</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
 
 
     <hr style="color: gray;">
-    <%--系统功能权限配置
-    <li><a href="${basePath}mg/user/rights-list.htm" target="mainFrame">功能权限配置</a></li>--%>
-        <li><a href="${basePath}mg/user/role-list.htm" target="mainFrame">系统角色配置</a></li>
-        <li><a href="${basePath}mg/user/user-list.htm" target="mainFrame">系统用户配置</a></li>
+    <%--系统功能权限配置--%>
+    <li><a href="${basePath}mg/user/role-list.do" target="mainFrame">系统角色配置</a></li>
+    <li><a href="${basePath}mg/user/user-list.do" target="mainFrame">系统用户配置</a></li>
 
     <%--全局配置--%>
-        <li><a href="${basePath}mg/sys/sys-list.htm" target="mainFrame">全局配置</a></li>
-
+    <hr style="color: gray;">
+    <li><a href="${basePath}mg/sys/meta/contact_us/meta-show.do" target="mainFrame">联系我们</a></li>
     <%--accessLog--%>
-        <li><a href="${basePath}mg/sys/accessLog/list.htm" target="mainFrame">访问日志</a></li>
+    <%--<li><a href="${basePath}mg/sys/accessLog/list.do" target="mainFrame">访问日志</a></li>--%>
 
 </ul>
 </body>

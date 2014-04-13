@@ -13,16 +13,16 @@
             $("#jvForm").validate();
         });
         function edit(roleId) {
-            window.location = '${basePath}mg/user/role-show.htm?roleId=' + roleId;
+            window.location = '${basePath}mg/user/role-show.do?roleId=' + roleId;
         }
         function del(roleId) {
             layer.confirm('确定要删除？',function(index){
                 layer.close(index);
-                window.location = '${basePath}mg/user/role-del.htm?roleId=' + roleId;
+                window.location = '${basePath}mg/user/role-del.do?roleId=' + roleId;
             });
         }
         function detail(roleId) {
-            window.location = '${basePath}mg/user/user-list.htm?roleId=' + roleId;
+            window.location = '${basePath}mg/user/user-list.do?roleId=' + roleId;
         }
     </script>
 </head>
@@ -31,11 +31,11 @@
     <div class="rhead">
         <div class="rpos">当前位置: 首页 - 系统角色 - 管理</div>
         <form class="ropt">
-            <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/user/role-show.htm';">
+            <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/user/role-show.do';">
         </form>
         <div class="clear"></div>
     </div>
-    <form action="${basePath}mg/user/role-list.htm" method="get" style="padding-top:5px;">
+    <form action="${basePath}mg/user/role-list.do" method="get" style="padding-top:5px;">
         <div>
             关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${keyword}"/>&nbsp;&nbsp
             <input type="submit" value="查询">
@@ -65,7 +65,7 @@
             </tbody>
         </table>
         <c:set var="pageURL"
-               value="${basePath}mg/user/role-list.htm?keyword=${fmtString:encoder(query.keyword)}&roleId=${query.roleId}&isLive=${query.isLive}&"/>
+               value="${basePath}mg/user/role-list.do?keyword=${fmtString:encoder(query.keyword)}&roleId=${query.roleId}&isLive=${query.isLive}&"/>
         <%@include file="../../common/pages.jsp" %>
     </form>
 </div>

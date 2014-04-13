@@ -12,12 +12,12 @@
             $("#jvForm").validate();
         });
         function edit(categoryId) {
-            window.location = '${basePath}mg/dept/dept-show.htm?categoryId=' + categoryId;
+            window.location = '${basePath}mg/dept/dept-show.do?categoryId=' + categoryId;
         }
         function del(categoryId) {
             layer.confirm('确定要删除此部门？',function(index){
                 layer.close(index);
-                window.location = '${basePath}mg/dept/dept-del.htm?categoryId=' + categoryId;
+                window.location = '${basePath}mg/dept/dept-del.do?categoryId=' + categoryId;
             });
         }
     </script>
@@ -27,11 +27,11 @@
     <div class="rhead">
         <div class="rpos">当前位置: 首页 - ${categoryParent.name} - 部门列表</div>
         <form class="ropt">
-            <input type="button" value="添加" onclick="javascript:window.location='${basePath}mg/dept/dept-show.htm';">
+            <input type="button" value="添加" onclick="javascript:window.location='${basePath}mg/dept/dept-show.do';">
         </form>
         <div class="clear"></div>
     </div>
-    <form action="${basePath}mg/dept/dept-list.htm" method="get" style="padding-top:5px;">
+    <form action="${basePath}mg/dept/dept-list.do" method="get" style="padding-top:5px;">
         <div>
             关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
             <input type="submit" value="查询">
@@ -49,7 +49,7 @@
             <c:forEach items="${deptList}" var="cate" varStatus="status">
                 <tr>
                     <td align="center">${cate.name}</td>
-                    <td align="center"><a href="${basePath}mg/user/user-list.htm?deptId=${cate.id}">详情</a></td>
+                    <td align="center"><a href="${basePath}mg/user/user-list.do?deptId=${cate.id}">详情</a></td>
                     <td align="center">${fmtString:substring(cate.categoryTime,16)}</td>
                     <td align=center>
                         <a href="javascript:edit('${cate.id}');">编辑</a>&nbsp;&nbsp;

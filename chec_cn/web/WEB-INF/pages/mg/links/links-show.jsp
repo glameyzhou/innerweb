@@ -29,18 +29,6 @@
         $(function () {
             $("#jvForm").validate();
         });
-        function delImage(linksId) {
-            if (!confirm('确认要删除指定图片?'))return;
-            var url = '${basePath}mg/links/${categoryParent.categoryType}/links-delImage.htm';
-            var pars = 'linksId=' + linksId;
-            var myAjax = new Ajax.Request(
-                    url,
-                    {method: 'get', parameters: pars, onComplete: showResponse}
-            );
-        }
-        function showResponse(originalRequest) {
-            $('imageOpr').innerHTML = '<input type="file" maxlength="100" name="image" id="image" size="80" value="">';
-        }
     </script>
     <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
     <title>${categoryParent.name }
@@ -52,13 +40,12 @@
 <body>
 <div class="body-box">
     <div class="rhead">
-        <div class="rpos">当前位置: 首页 - ${categoryParent.name } <c:if
-                test="${categoryParent.id eq category.parentId}">- ${category.name} - </c:if> 内容<c:choose><c:when
+        <div class="rpos">当前位置: 首页 - 链接管理 - ${category.name} - 内容<c:choose><c:when
                 test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose>
         </div>
         <div class="clear"></div>
     </div>
-    <form method="POST" action="${basePath}mg/links/${categoryParent.categoryType}/links-${opt}.htm" id="jvForm" enctype="multipart/form-data">
+    <form method="POST" action="${basePath}mg/links/links-${opt}.do" id="jvForm" enctype="multipart/form-data">
         <input type="hidden" id="linksId" name="linksId" value="${links.id}"/>
         <input type="hidden" id="categoryId" name="categoryId" value="${category.id}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
@@ -82,37 +69,7 @@
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="order" id="order" class="required" size="80"
                            value="${links.order}">
-                    &nbsp;<font color="red">数字越小越靠前</font>
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>是否首页显示:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="showIndex" id="showIndex" value="0"
-                           <c:if test="${links.showIndex == 0}">checked="checked"</c:if> />否&nbsp;
-                    <input type="radio" name="showIndex" id="showIndex" value="1"
-                           <c:if test="${links.showIndex == 1}">checked="checked"</c:if> />是&nbsp;
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>链接图片:</td>
-                <td width="85%" class="pn-fcontent" id="imageOpr">
-                    <c:choose>
-                        <c:when test="${opt == 'update'}">
-                            <c:choose>
-                                <c:when test="${!empty links.image}">
-                                    <img src="${basePath}${links.image}" width="104"
-                                         height="100"/>&nbsp;<a href="javascript:delImage(${links.id});">删除</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <input type="file" maxlength="100" name="image" id="image" size="80" value=""/>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:when>
-                        <c:otherwise>
-                            <input type="file" maxlength="100" name="image" id="image" size="80" value=""/>
-                        </c:otherwise>
-                    </c:choose>
+                    &nbsp;<font color="red">数字越大越靠前</font>
                 </td>
             </tr>
             <tr>

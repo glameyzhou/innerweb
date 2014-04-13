@@ -66,7 +66,7 @@
                 test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
         <div class="clear"></div>
     </div>
-    <form method="post" action="${basePath}mg/user/user-${opt}.htm" id="jvForm" onsubmit="onFormSubmit();">
+    <form method="post" action="${basePath}mg/user/user-${opt}.do" id="jvForm" onsubmit="onFormSubmit();">
         <input type="hidden" id="userId" name="userId" value="${userInfo.userId}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>

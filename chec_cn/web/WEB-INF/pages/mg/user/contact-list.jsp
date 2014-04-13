@@ -20,7 +20,7 @@
             var orderId = document.getElementById("showOrder").value;
             var userId = document.getElementById("userId").value;
             if (orderId != '' && !isNaN(orderId)) {
-                window.location = '${basePath}mg/user/setContactOrder.htm?userId=' + userId + '&orderId=' + orderId;
+                window.location = '${basePath}mg/user/setContactOrder.do?userId=' + userId + '&orderId=' + orderId;
             }
             else {
                 layer.alert('必须为数字', 8);
@@ -38,7 +38,7 @@
     <div class="rhead">
         ${contactHeader.value}
     </div>
-    <form action="${basePath}mg/user/contact.htm" method="get" style="padding-top:5px;">
+    <form action="${basePath}mg/user/contact.do" method="get" style="padding-top:5px;">
         <div>
             关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
             部门&nbsp;<select name="deptId" id="deptId">
@@ -87,7 +87,7 @@
             </tbody>
         </table>
         <c:set var="pageURL"
-               value="${basePath}mg/user/contact.htm?keyword=${fmtString:encoder(query.keyword)}&deptId=${query.deptId}&"/>
+               value="${basePath}mg/user/contact.do?keyword=${fmtString:encoder(query.keyword)}&deptId=${query.deptId}&"/>
         <%@include file="../../common/pages.jsp" %>
     </form>
 </div>

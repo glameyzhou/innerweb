@@ -19,7 +19,7 @@
                 test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
         <div class="clear"></div>
     </div>
-    <form method="post" action="${basePath}mg/dept/dept-${opt}.htm" id="jvForm">
+    <form method="post" action="${basePath}mg/dept/dept-${opt}.do" id="jvForm">
         <input type="hidden" id="categoryId" name="categoryId" value="${category.id}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>

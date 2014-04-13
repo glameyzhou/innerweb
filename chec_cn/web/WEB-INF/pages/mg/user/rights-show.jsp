@@ -19,7 +19,7 @@
         </div>
         <div class="clear"></div>
     </div>
-    <form method="post" action="${basePath}mg/user/rights-${opt}.htm" id="jvForm">
+    <form method="post" action="${basePath}mg/user/rights-${opt}.do" id="jvForm">
         <input type="hidden" id="rightsId" name="rightsId" value="${rightsInfo.rightsId}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>

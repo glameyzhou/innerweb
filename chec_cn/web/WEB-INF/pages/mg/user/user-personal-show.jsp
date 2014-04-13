@@ -20,7 +20,7 @@
         <div class="rpos">当前位置: 首页 - 用户管理 - 个人信息修改</div>
         <div class="clear"></div>
     </div>
-    <form method="post" action="${basePath}mg/user/user-${opt}.htm" id="jvForm">
+    <form method="post" action="${basePath}mg/user/user-${opt}.do" id="jvForm">
         <input type="hidden" id="userId" name="userId" value="${userInfo.userId}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
@@ -50,7 +50,7 @@
                     <tr>
                         <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>密码:</td>
                         <td width="85%" class="pn-fcontent">
-                            <input type="text" maxlength="100" name="passwd" id="passwd" size="80"
+                            <input type="text" maxlength="100" name="passwd" size="80"
                                    value="">&nbsp;<font color="red">留空不更新密码</font>
                         </td>
                     </tr>
@@ -132,9 +132,9 @@
                 <tr>
                     <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>用户状态:</td>
                     <td width="85%" class="pn-fcontent">
-                        <input type="radio" name="isLive" id="isLive" value="0"
+                        <input type="radio" name="isLive" value="0"
                                <c:if test="${userInfo.isLive == 0}">checked="checked"</c:if> />禁用&nbsp;
-                        <input type="radio" name="isLive" id="isLive" value="1"
+                        <input type="radio" name="isLive" value="1"
                                <c:if test="${userInfo.isLive == 1}">checked="checked"</c:if> />启用&nbsp;
                     </td>
                 </tr>

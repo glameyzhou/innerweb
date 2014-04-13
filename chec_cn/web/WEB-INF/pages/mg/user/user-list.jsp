@@ -12,18 +12,18 @@
             $("#jvForm").validate();
         });
         function edit(userId) {
-            window.location = '${basePath}mg/user/user-show.htm?userId=' + userId;
+            window.location = '${basePath}mg/user/user-show.do?userId=' + userId;
         }
         function del(userId) {
             layer.confirm('确定要删除？',function(index){
                 layer.close(index);
-                window.location = '${basePath}mg/user/user-del.htm?userId=' + userId;
+                window.location = '${basePath}mg/user/user-del.do?userId=' + userId;
             });
         }
         function resePasswd(userId) {
             layer.confirm('确定要重置密码？',function(index){
                 layer.close(index);
-                window.location = '${basePath}mg/user/user-resetPasswd.htm?userId=' + userId;
+                window.location = '${basePath}mg/user/user-resetPasswd.do?userId=' + userId;
             });
         }
         function delAll(itemName){
@@ -41,7 +41,7 @@
                     }
                     if(values.length > 1)
                         values = values.substring(1);
-                    var opURL = '${basePath}mg/user/user-del.htm?userId=' + values;
+                    var opURL = '${basePath}mg/user/user-del.do?userId=' + values;
                     window.location = opURL ;
                 });
             }
@@ -61,7 +61,7 @@
                     }
                     if(values.length > 1)
                         values = values.substring(1);
-                    var opURL = '${basePath}mg/user/user-setLive.htm?userId=' + values + '&flag=' + flag;
+                    var opURL = '${basePath}mg/user/user-setLive.do?userId=' + values + '&flag=' + flag;
                     window.location = opURL ;
                 });
             }
@@ -74,11 +74,11 @@
     <div class="rhead">
         <div class="rpos">当前位置: 首页 - 系统用户 - 管理</div>
         <form class="ropt">
-            <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/user/user-show.htm';">
+            <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/user/user-show.do';">
         </form>
         <div class="clear"></div>
     </div>
-    <form action="${basePath}mg/user/user-list.htm" method="get" style="padding-top:5px;">
+    <form action="${basePath}mg/user/user-list.do" method="get" style="padding-top:5px;">
         <div>
             <input type="hidden" id="brandId" name="brandId" value="${brandId}"/>
             关键字(姓名、单位、职务)&nbsp;<input type="text" name="keyword" id="keyword" value="${query.keyword}"/>&nbsp;&nbsp;
@@ -137,10 +137,10 @@
                     <td align=center>
                         <a href="javascript:edit('${user.userId}');">编辑</a>&nbsp;
                         <a href="javascript:del('${user.userId}');">删除</a>&nbsp;
-                        <a href="${basePath}mg/user/user-detail.htm?userId=${user.userId}">详情</a>&nbsp;
+                        <a href="${basePath}mg/user/user-detail.do?userId=${user.userId}">详情</a>&nbsp;
                         <a href="javascript:resePasswd('${user.userId}');">密码重置</a>&nbsp;
                         <c:if test="${not empty brandId}">
-                            <a href="${basePath}mg/bbs/brand-manager-set.htm?brandId=${brandId}&userId=${user.userId}">设置版主</a>
+                            <a href="${basePath}mg/bbs/brand-manager-set.do?brandId=${brandId}&userId=${user.userId}">设置版主</a>
                         </c:if>
                     </td>
                 </tr>
@@ -148,7 +148,7 @@
             </tbody>
         </table>
         <c:set var="pageURL"
-               value="${basePath}mg/user/user-list.htm?brandId=${brandId}&keyword=${fmtString:encoder(query.keyword)}&isLive=${query.isLive}&roleId=${query.roleId}&&startTime=${fmtString:encoder(query.startTime)}&endTime=${fmtString:encoder(query.endTime)}&"/>
+               value="${basePath}mg/user/user-list.do?brandId=${brandId}&keyword=${fmtString:encoder(query.keyword)}&isLive=${query.isLive}&roleId=${query.roleId}&&startTime=${fmtString:encoder(query.startTime)}&endTime=${fmtString:encoder(query.endTime)}&"/>
         <%@include file="../../common/pages.jsp" %>
     </form>
 </div>

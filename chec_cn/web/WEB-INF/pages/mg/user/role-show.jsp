@@ -19,7 +19,7 @@
         </div>
         <div class="clear"></div>
     </div>
-    <form method="post" action="${basePath}mg/user/role-${opt}.htm" id="jvForm">
+    <form method="post" action="${basePath}mg/user/role-${opt}.do" id="jvForm">
         <input type="hidden" id="roleId" name="roleId" value="${roleInfo.roleId}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
@@ -65,21 +65,21 @@
                         </tr>--%>
                         <tr>
                             <td width="10%" align="right">
-                                <input type="checkbox" id="rightsId" name="rightsId" value="00"
+                                <input type="checkbox" name="rightsId" value="00"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'00')}">checked="checked"</c:if>/>
                             </td>
                             <td>游客</td>
                         </tr>
                         <tr>
                             <td width="10%" align="right">
-                                <input type="checkbox" id="rightsId" name="rightsId" value="01"
+                                <input type="checkbox" name="rightsId" value="01"
                                    <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'01')}">checked="checked"</c:if>/>
                             </td>
                             <td>通知公告管理</td>
                         </tr>
                         <%--<tr>
                             <td width="10%" align="right">
-                                <input type="checkbox" id="rightsId" name="rightsId" value="10"
+                                <input type="checkbox" name="rightsId" value="10"
                                    <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'10')}">checked="checked"</c:if>/>
                             </td>
                             <td>行业资讯管理</td>
@@ -87,7 +87,7 @@
                         <%--友情链接管理--%>
                         <tr>
                             <td width="10%" align="right">
-                                <input type="checkbox" id="rightsId" name="rightsId" value="02"
+                                <input type="checkbox" name="rightsId" value="02"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'02')}">checked="checked"</c:if>/>
                             </td>
                             <td>友情链接管理</td>
@@ -95,7 +95,7 @@
 
                         <tr>
                             <td width="10%" align="right">
-                                <input type="checkbox" id="rightsId" name="rightsId" value="08"
+                                <input type="checkbox" name="rightsId" value="08"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'08')}">checked="checked"</c:if>/>
                             </td>
                             <td>常用链接管理</td>
@@ -103,7 +103,7 @@
 
                         <tr>
                             <td width="10%" align="right">
-                                <input type="checkbox" id="rightsId" name="rightsId" value="09"
+                                <input type="checkbox" name="rightsId" value="09"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'09')}">checked="checked"</c:if>/>
                             </td>
                             <td>滚动图片</td>
@@ -112,7 +112,7 @@
 
                         <tr>
                             <td width="10%" align="right">
-                                <input type="checkbox" id="rightsId" name="rightsId" value="03"
+                                <input type="checkbox" name="rightsId" value="03"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'03')}">checked="checked"</c:if>/>
                             </td>
                             <td>系统角色管理</td>
@@ -121,7 +121,7 @@
 
                         <tr>
                             <td width="10%" align="right">
-                                <input type="checkbox" id="rightsId" name="rightsId" value="04"
+                                <input type="checkbox" name="rightsId" value="04"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'04')}">checked="checked"</c:if>/>
                             </td>
                             <td>系统用户管理</td>
@@ -134,14 +134,14 @@
                         </tr>
                         <tr>
                             <td width="10%" align="right">
-                                <input type="checkbox" id="rightsId" name="rightsId" value="05_category_move"
+                                <input type="checkbox" name="rightsId" value="05_category_move"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'05_category_move')}">checked="checked"</c:if>/>
                             </td>
                             <td>分类转移合并</td>
                         </tr>
                         <tr>
                             <td width="10%" align="right">
-                                <input type="checkbox" id="rightsId" name="rightsId" value="05_category_manage"
+                                <input type="checkbox" name="rightsId" value="05_category_manage"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'05_category_manage')}">checked="checked"</c:if>/>
                             </td>
                             <td>分类栏目管理</td>
@@ -150,7 +150,7 @@
                             <c:set var="libId" value="05_${lib.id}"/>
                             <tr>
                                 <td width="10%" align="right" >
-                                    <input type="checkbox" id="rightsId" name="rightsId" value="05_${lib.id}"
+                                    <input type="checkbox" name="rightsId" value="05_${lib.id}"
                                            <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,libId)}">checked="checked"</c:if>/>
                                 </td>
                                 <td>图书 >> ${lib.name}</td>
@@ -158,7 +158,7 @@
                         </c:forEach>
                         <tr>
                             <td width="10%" align="right" >
-                                <input type="checkbox" id="rightsId" name="rightsId" value="06"
+                                <input type="checkbox" name="rightsId" value="06"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'06')}">checked="checked"</c:if>/>
                             </td>
                             <td>全局设置</td>
@@ -166,7 +166,7 @@
 
                          <tr>
                             <td width="10%" align="right" >
-                                <input type="checkbox" id="rightsId" name="rightsId" value="07"
+                                <input type="checkbox" name="rightsId" value="07"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'07')}">checked="checked"</c:if>/>
                             </td>
                             <td>在线留言</td>
@@ -174,7 +174,7 @@
 
                         <tr>
                             <td width="10%" align="right" >
-                                <input type="checkbox" id="rightsId" name="rightsId" value="11"
+                                <input type="checkbox" name="rightsId" value="11"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'11')}">checked="checked"</c:if>/>
                             </td>
                             <td>访问日志</td>
@@ -185,14 +185,14 @@
                         </tr>
                         <tr>
                             <td width="10%" align="right" >
-                                <input type="checkbox" id="rightsId" name="rightsId" value="12"
+                                <input type="checkbox" name="rightsId" value="12"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'12')}">checked="checked"</c:if>/>
                             </td>
                             <td>板块设置</td>
                         </tr>
                         <tr>
                             <td width="10%" align="right" >
-                                <input type="checkbox" id="rightsId" name="rightsId" value="13"
+                                <input type="checkbox" name="rightsId" value="13"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'13')}">checked="checked"</c:if>/>
                             </td>
                             <td>版主设置</td>
@@ -201,7 +201,7 @@
                             <c:set var="bbsId" value="14_${bbs.id}"/>
                             <tr>
                                 <td width="10%" align="right" >
-                                    <input type="checkbox" id="rightsId" name="rightsId" value="${bbsId}"
+                                    <input type="checkbox" name="rightsId" value="${bbsId}"
                                            <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,bbsId)}">checked="checked"</c:if>/>
                                 </td>
                                 <td>板块 >> ${bbs.name}</td>

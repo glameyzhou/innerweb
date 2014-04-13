@@ -12,12 +12,12 @@
             $("#jvForm").validate();
         });
         function edit(rightsId) {
-            window.location = '${basePath}mg/user/rights-show.htm?rightsId=' + rightsId;
+            window.location = '${basePath}mg/user/rights-show.do?rightsId=' + rightsId;
         }
         function del(rightsId) {
             layer.confirm('确定要删除？',function(index){
                 layer.close(index);
-                window.location = '${basePath}mg/user/rights-del.htm?rightsId=' + rightsId;
+                window.location = '${basePath}mg/user/rights-del.do?rightsId=' + rightsId;
             });
         }
         function delSel(itemName) {
@@ -35,7 +35,7 @@
                     }
                     if (values.length > 1)
                         values = values.substring(1);
-                    var opURL = "${basePath}mg/user/rights-del.htm?rightsId=" + values;
+                    var opURL = "${basePath}mg/user/rights-del.do?rightsId=" + values;
                     window.location = opURL;
                 });
             }
@@ -47,11 +47,11 @@
     <div class="rhead">
         <div class="rpos">当前位置: 首页 - 功能权限 - 管理</div>
         <form class="ropt">
-            <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/user/rights-show.htm';">
+            <input type="submit" value="添加" onclick="this.form.action='${basePath}mg/user/rights-show.do';">
         </form>
         <div class="clear"></div>
     </div>
-    <form action="${basePath}mg/user/rights-list.htm" method="get" style="padding-top:5px;">
+    <form action="${basePath}mg/user/rights-list.do" method="get" style="padding-top:5px;">
         <div>
             关键字&nbsp;<input type="text" name="keyword" id="keyword" value="${keyword}"/>&nbsp;&nbsp
             <input type="submit" value="查询">
@@ -90,7 +90,7 @@
             </tbody>
         </table>
         <c:set var="pageURL"
-               value="${basePath}mg/user/rights-list.htm?keyword=${fmtString:encoder(keyword)}&"/>
+               value="${basePath}mg/user/rights-list.do?keyword=${fmtString:encoder(keyword)}&"/>
         <%@include file="../../common/pages.jsp" %>
     </form>
 </div>

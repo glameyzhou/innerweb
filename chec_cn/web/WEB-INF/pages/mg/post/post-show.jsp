@@ -72,7 +72,8 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>发布人:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" name="author" id="author" value="${post.author}">
+                    <input type="text" name="author" id="author" value="${post.author}">&nbsp;
+                    <font color="red">默认为当前用户</font>
                 </td>
             </tr>
             <tr>
@@ -108,6 +109,7 @@
                            <c:if test="${post.showFocusImage == 0}">checked="checked"</c:if> />否&nbsp;
                     <input type="radio" name="showFocusImage" value="1"
                            <c:if test="${post.showFocusImage == 1}">checked="checked"</c:if> />是&nbsp;
+                    <font color="red">选中"是"后，会从正文中提取第一张图片作为焦点图</font>
                 </td>
             </tr>
             <tr>
