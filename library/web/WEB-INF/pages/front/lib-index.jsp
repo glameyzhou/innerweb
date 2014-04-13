@@ -15,9 +15,6 @@
     <script type="text/javascript" src="${basePath}/res/common/js/library-showDiv.js"></script>
 </head>
 <body>
-<c:if test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-    <c:set  var="isT" value="true"/>
-</c:if>
 <div class="box">
 <!--头部代码开始-->
 <%@include file="include/header.jsp"%>
@@ -52,19 +49,12 @@
                 <table width="98%" border="0" cellspacing="0">
                     <tr>
                         <c:forEach var="lib" items="${lib_cat.libraryInfoList}" varStatus="statusIndex">
-                            <c:choose>
-                                <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                                    <c:set var="libHref" value="href=\"#\""/>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:if test="${lib.type ==1 || lib.type == 3}">
-                                        <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
-                                    </c:if>
-                                    <c:if test="${lib.type ==2}">
-                                        <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
-                                    </c:if>
-                                </c:otherwise>
-                            </c:choose>
+                            <c:if test="${lib.type ==1 || lib.type == 3}">
+                                <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
+                            </c:if>
+                            <c:if test="${lib.type ==2}">
+                                <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
+                            </c:if>
                             <c:choose>
                                 <c:when test="${category.id == 'beqiMn' or category.id == 'mMN7Vz' or category.id == 'ZjYZR3'}">
                                     <c:set var="imageSize" value=" width=\"283\" height=\"57\" "/>

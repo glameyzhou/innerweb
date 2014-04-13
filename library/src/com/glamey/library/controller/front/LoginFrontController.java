@@ -238,7 +238,7 @@ public class LoginFrontController extends BaseController {
         roleInfoList.add(roleInfo);
 
         UserInfo userInfo = new UserInfo();
-        userInfo.setUserId("000000");
+        userInfo.setUserId(Constants.sysTouristUID);
         userInfo.setUsername(Constants.sysTouristUID);
         userInfo.setRightsList(rigthsList);
         List<String> roleIdList = new ArrayList<String>();
@@ -285,10 +285,10 @@ public class LoginFrontController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/onBusy.htm",method = RequestMethod.GET)
+    @RequestMapping(value = "/noFound.htm",method = RequestMethod.GET)
     public ModelAndView onBusy(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView mav = new ModelAndView("common/message");
-        mav.addObject("message","服务器繁忙，请稍后重试!");
+        mav.addObject("message","您访问的地址不存在!");
         return mav ;
     }
 

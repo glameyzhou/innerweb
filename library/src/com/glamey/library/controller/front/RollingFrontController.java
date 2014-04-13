@@ -10,6 +10,7 @@ import com.glamey.library.model.domain.Category;
 import com.glamey.library.model.domain.RollingImageInfo;
 import com.glamey.library.model.domain.UserInfo;
 import com.glamey.library.model.dto.RollingImageQuery;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -72,7 +73,9 @@ public class RollingFrontController extends BaseController {
         pageBean.setMaxPage();
         pageBean.setPageNoList();
 
-        Category category = categoryDao.getById(categoryId);
+        Category category = new Category();
+        if (StringUtils.isNotBlank(categoryId))
+            category = categoryDao.getById(categoryId);
 
         mav.addObject("pageBean", pageBean);
         mav.addObject("query", query);
@@ -81,7 +84,7 @@ public class RollingFrontController extends BaseController {
         mav.addObject("categoryList", categoryList);
 
 
-        accessLogDao.save("rolling-" + categoryId + ".htm", "滚动图片列表（" + category.getName() + "）", categoryId, session);
+        accessLogDao.save("rolling-" + categoryId + ".htm", "滚动图片列表（" + (StringUtils.isNotBlank(category.getName()) ? category.getName() : "") + "）", categoryId, session);
 
         return mav;
     }

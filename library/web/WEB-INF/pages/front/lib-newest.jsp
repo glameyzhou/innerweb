@@ -39,19 +39,12 @@
                         <c:when test="${not empty src}">
                             <table width="99%" cellpadding="0" cellspacing="0" border="0">
                                 <c:forEach var="lib" items="${libraryInfoList}" varStatus="statusIndex">
-                                    <c:choose>
-                                        <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                                            <c:set var="libHref" value="href=\"#\""/>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:if test="${lib.type ==1 || lib.type == 3}">
-                                                <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
-                                            </c:if>
-                                            <c:if test="${lib.type ==2}">
-                                                <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
-                                            </c:if>
-                                        </c:otherwise>
-                                    </c:choose>
+                                    <c:if test="${lib.type ==1 || lib.type == 3}">
+                                        <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
+                                    </c:if>
+                                    <c:if test="${lib.type ==2}">
+                                        <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
+                                    </c:if>
                                     <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
                                     <tr>
                                         <td width="90%">
@@ -68,19 +61,12 @@
                             <table width="99%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <c:forEach var="lib" items="${libraryInfoList}" varStatus="statusIndex">
-                                        <c:choose>
-                                            <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                                                <c:set var="libHref" value="href=\"#\""/>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:if test="${lib.type ==1 || lib.type == 3}">
-                                                    <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
-                                                </c:if>
-                                                <c:if test="${lib.type ==2}">
-                                                    <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
-                                                </c:if>
-                                            </c:otherwise>
-                                        </c:choose>
+                                        <c:if test="${lib.type ==1 || lib.type == 3}">
+                                            <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
+                                        </c:if>
+                                        <c:if test="${lib.type ==2}">
+                                            <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
+                                        </c:if>
                                         <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
                                         &nbsp;
                                         <img src="${basePath}res/front/library/images/right_tit_biao3.png"/>&nbsp;

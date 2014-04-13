@@ -16,20 +16,22 @@
     <script type="text/javascript">
         var path = '${basePath}';
         var hasNotice = ${isHasNotice};
-        if (hasNotice)
-            $().ready(function () {
-                $.layer({
-                    type: 2,
-                    title: false,
-                    iframe: {src: path + 'post-popdiv.htm'},
-                    area : ['762px' , '50%'],
-                    time : 8,
-                    offset: ['10px',''],
-                    success : function(){
-                        layer.shift('top', 400)
-                    }
+        <c:if test="${(not empty sessionUserInfo) && (sessionUserInfo.userId ne 'lib_Tourist_uid')}">
+            if (hasNotice)
+                $().ready(function () {
+                    $.layer({
+                        type: 2,
+                        title: false,
+                        iframe: {src: path + 'post-popdiv.htm'},
+                        area : ['762px' , '50%'],
+                        time : 8,
+                        offset: ['10px',''],
+                        success : function(){
+                            layer.shift('top', 400)
+                        }
+                    });
                 });
-            });
+        </c:if>
     </script>
     <style type="text/css">
         .zixun_kuang_con li {
@@ -251,19 +253,12 @@
                                         </c:if>
                                         <ul>
                                             <c:forEach var="libCateDetail2" items="${libCateDetail.libraryInfoList}">
-                                                <c:choose>
-                                                    <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                                                        <c:set var="libHref" value="href=\"#\""/>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <c:if test="${libCateDetail2.type ==1 || libCateDetail2.type == 3}">
-                                                            <c:set var="libHref" value="href=\"${libCateDetail2.url}\" target=\"_blank\""/>
-                                                        </c:if>
-                                                        <c:if test="${libCateDetail2.type ==2}">
-                                                            <c:set var="libHref" value="href=\"${basePath}library-detail-${libCateDetail2.id}.htm\""/>
-                                                        </c:if>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                                <c:if test="${libCateDetail2.type ==1 || libCateDetail2.type == 3}">
+                                                    <c:set var="libHref" value="href=\"${libCateDetail2.url}\" target=\"_blank\""/>
+                                                </c:if>
+                                                <c:if test="${libCateDetail2.type ==2}">
+                                                    <c:set var="libHref" value="href=\"${basePath}library-detail-${libCateDetail2.id}.htm\""/>
+                                                </c:if>
                                                 <%--如果是华电技术的话，仅仅显示一个图片，并且图片设置大小为三行文字的大小--%>
                                                 <c:set var="xxxCss" value=""/>
                                                 <c:if test="${libCateDetail2.categoryId eq '3AzAv2'}">

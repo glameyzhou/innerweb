@@ -42,7 +42,7 @@ public class Constants {
 
     public static final String sysTouristUID = "lib_Tourist_uid" ;
 
-    public static final String sysTouristPwd = "lib_Tourist_uid" ;
+    public static final String sysTouristPwd = "lib_Tourist_pwd" ;
 
     /**
      * 通告是否需要审核

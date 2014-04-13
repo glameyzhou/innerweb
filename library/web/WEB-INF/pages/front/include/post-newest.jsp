@@ -37,39 +37,17 @@
                 UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
                 String libHref = "";
                 for (LibraryInfo info : includePostList) {
-                    if (StringUtils.equals(userInfo.getUserId(),"lib_Tourist_uid")){
-                        libHref = "href=\"#\"";
+                    if (info.getType() == 1 || info.getType() == 3) {
+                        libHref = "href=\"" + info.getUrl() + "\" target=\"_blank\"";
                     }
                     else {
-                        if (info.getType() == 1 || info.getType() == 3) {
-                            libHref = "href=\"" + info.getUrl() + "\" target=\"_blank\"";
-                        }
-                        else {
-                            libHref = "href=\"" + request.getContextPath() + "library-detail-" + info.getId() + ".htm\"";
-                        }
+                        libHref = "href=\"" + request.getContextPath() + "library-detail-" + info.getId() + ".htm\"";
                     }
              %>
                 <li><a class="postTitle_a" <%=libHref%> title="<%=info.getName()%>"><%=info.getName()%></a></li>
              <%
                 }
             %>
-            <%--<c:forEach var="lib" items="${includePostList}" varStatus="statusIndex">
-                <c:choose>
-                    <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                        <c:set var="libHref" value="href=\"#\""/>
-                    </c:when>
-                    <c:otherwise>
-                        <c:if test="${lib.type ==1 || lib.type == 3}">
-                            <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
-                        </c:if>
-                        <c:if test="${lib.type ==2}">
-                            <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
-                        </c:if>
-                    </c:otherwise>
-                </c:choose>
-                &lt;%&ndash;1、正常情况，外链 2、自定义内容，内部使用 3、图片链接&ndash;%&gt;
-                <li><a ${libHref} title="${lib.name}" style="color: #0000ff;">${fmtString:substringAppend(lib.name,17,'...')}</a></li>
-            </c:forEach>--%>
         </ul>
     </div>
     <div class="notice_bottom"></div>

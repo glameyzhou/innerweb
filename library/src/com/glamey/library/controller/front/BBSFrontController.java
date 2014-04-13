@@ -121,7 +121,7 @@ public class BBSFrontController extends BaseController {
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         if (userInfo != null && StringUtils.equals(userInfo.getUsername(),Constants.sysTouristUID)) {
             mav.setViewName("common/message");
-            mav.addObject("message", "游客禁止发帖");
+            mav.addObject("message", "游客禁止访问!");
             mav.addObject("href", "bbs/brand-" + categoryId + ".htm");
             return mav;
         }
@@ -160,7 +160,7 @@ public class BBSFrontController extends BaseController {
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         if (userInfo != null && StringUtils.equals(userInfo.getUsername(),Constants.sysTouristUID)) {
             mav.setViewName("common/message");
-            mav.addObject("message", "游客禁止发帖");
+            mav.addObject("message", "游客禁止访问!");
             mav.addObject("href", "bbs/brand-" + categoryId + ".htm");
             return mav;
         }

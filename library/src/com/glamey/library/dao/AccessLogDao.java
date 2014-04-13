@@ -118,7 +118,7 @@ public class AccessLogDao extends BaseDao {
         logger.info("[AccessLogDao] #getByQuery# query=" + query);
         List<AccessLog> list = new ArrayList<AccessLog>();
         try {
-            StringBuffer sql = new StringBuffer("select * from tbl_access_log where 1=1 ");
+            StringBuffer sql = new StringBuffer("select * from tbl_access_log where (user_id_fk <> '') ");
 
             if (StringUtils.isNotBlank(query.getCategoryId()))
                 sql.append(" and page_category_id = ? ");
@@ -174,7 +174,7 @@ public class AccessLogDao extends BaseDao {
         int count = 0;
         try {
             List<Object> params = new ArrayList<Object>();
-            StringBuffer sql = new StringBuffer("select count(1) as total from tbl_access_log where 1=1 ");
+            StringBuffer sql = new StringBuffer("select count(1) as total from tbl_access_log where (user_id_fk <> '') ");
 
             if (StringUtils.isNotBlank(query.getCategoryId())) {
                 sql.append(" and page_category_id = ? ");

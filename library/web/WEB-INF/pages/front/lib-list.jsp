@@ -33,36 +33,16 @@
                 <div class="neirong_tit">${category.name}</div>
                 <div class="seat">目录 : ${category.categoryParent.name} >> ${category.name}</div>
                 <div class="neiye_right_con">
-                    <%--<c:forEach var="lib" items="${libraryInfoList}" varStatus="statusIndex">
-                        <ul class="con_neiye">
-                            <li><img src="${basePath}res/front/library/images/notice_list.png"/></li>
-                            <c:choose>
-                                <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                                    <li><a href="#" title="${lib.name}">${fmtString:substringAppend(lib.name,40 ,'...' )}</a></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><a href="${basePath}library-detail-${lib.id}.htm" title="${lib.name}">${fmtString:substringAppend(lib.name,40 ,'...' )}</a></li>
-                                </c:otherwise>
-                            </c:choose>
-                            <li style="float:right;"><fmt:formatDate value="${lib.time}" pattern="yyyy-MM-dd"/></li>
-                        </ul>
-                    </c:forEach>--%>
                     <table width="99%" cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <c:forEach var="lib" items="${libraryInfoList}" varStatus="statusIndex">
-                                <c:choose>
-                                    <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                                        <c:set var="libHref" value="href=\"#\""/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:if test="${lib.type ==1 || lib.type == 3}">
-                                            <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
-                                        </c:if>
-                                        <c:if test="${lib.type ==2}">
-                                            <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
-                                        </c:if>
-                                    </c:otherwise>
-                                </c:choose>
+                                <c:if test="${lib.type ==1 || lib.type == 3}">
+                                    <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
+                                </c:if>
+                                <c:if test="${lib.type ==2}">
+                                    <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
+                                </c:if>
+
                                 <c:choose>
                                     <c:when test="${category.categoryParent.id == 'beqiMn' or category.categoryParent.id == 'mMN7Vz' or category.categoryParent.id == 'ZjYZR3'}">
                                         <c:set var="imageSize" value=" width=\"283\" height=\"57\" "/>
