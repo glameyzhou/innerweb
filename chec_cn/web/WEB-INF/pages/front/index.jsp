@@ -5,155 +5,165 @@
 <head>
     <link rel="Shortcut Icon" href="${basePath}res/ico/favicon.ico"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link href="${basePath}res/front/library/css/style.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/library/css/index.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/library/css/header.css" rel="stylesheet" type="text/css"/>
-    <link href="${basePath}res/front/library/css/footer.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
-    <script type="text/javascript" src="${basePath}/res/common/js/library-showDiv.js"></script>
-    <style type="text/css">
-        .zixun_kuang_con li {
-            height: 20px;
-            padding-left: 6px;
-            width:260px;
-            white-space:nowrap;
-            word-break:keep-all;
-            overflow:hidden;
-            text-overflow:ellipsis;
-        }
-    </style>
     <title>中国华电工程（集团）有限公司</title>
+    <link href="${basePath}res/front/chec_cn/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="${basePath}res/front/chec_cn/css/index.css" rel="stylesheet" type="text/css" />
+    <link href="${basePath}res/front/chec_cn/css/header.css" rel="stylesheet" type="text/css" />
+    <link href="${basePath}res/front/chec_cn/css/footer.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="${basePath}res/front/chec_cn/javascript/pptBox.js" />
+    <%--<script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js" />--%>
+    <script type="text/javascript">
+        function changeTabs(model,index) {
+            var spanObj = document.getElementById("model_" + model).getElementsByTagName('span');
+            alert(spanObj.length);
+            var len = spanObj.length + 1;
+            for (var i = 1 ; i < len; i ++) {
+                spanObj[i].className = (index == i ? "current" : "") ;
+                document.getElementById("model_" + model + "_box_" + index).style.display = (index == i ? "block" : "none");
+            }
+        }
+    </script>
 </head>
-<body>
+<body bgcolor="#e3e8ec" background="${basePath}res/front/chec_cn/images/bg.jpg" style="background-repeat:repeat-x" >
 <div class="box">
-    <%--头部--%>
-    <%@include file="include/header.jsp" %>
-    <div class="center">
-        <!--左半边代码开始-->
-        <div class="center_left">
-            <%--最新资讯公告--%>
-            <%@include file="include/post-newest.jsp" %>
-            <%@include file="include/library-category.jsp" %>
-            <%@include file="include/contact.jsp" %>
-        </div>
-        <!--左半边代码结束-->
-        <!--右半边代码开始-->
-        <div class="center_right">
-            <div class="focus">
-                <div class="focus_title">
+    <%@include file="include/header.jsp"%>
+    <!--content-->
+    <div class="content">
+        <div class="content-left">
+            <%@include file="include/focusImages.jsp"%>
+            <div class="Tab">
+                <h2 style="margin-left: 8px;" id="model_1">
+                    <span name="model_1_span_1" onMouseOver="javascript:changeTabs(1,1);" class="current">要闻快递</span>
+                    <span id="model_1_span_2" onMouseOver="javascript:changeTabs(1,2);" style="margin-left: -1px;">公司新闻</span>
+                </h2>
+                <div id="model_1_box_1" class="Tab_main">
+                    <a href="#" class="more" target="_blank">
+                        <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more"/>
+                    </a>
+                    <c:if test="${fn:length(yaowenkuaidiList) > 0}">
+                        <c:set var="yaowenkuaidiObj" value="${yaowenkuaidiList[0]}"/>
+                    </c:if>
                     <ul>
-                        <li><img src="${basePath}res/front/library/images/focus_title1.jpg"/></li>
-                        <li>图书馆简介&nbsp;ABOUTS</li>
-                        <li style="background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体'; margin-top:5px; padding-left:15px;">
-                            <a href="${basePath}library-aboutus.htm">更多</a>
-                        </li>
+                        <span>
+                            <h1>
+                                <a href="${basePath}post-${yaowenkuaidiObj.id}.htm" title="${yaowenkuaidiObj.title}">${yaowenkuaidiObj.title}</a>
+                            </h1>
+                            <ul style="padding:3px;">
+                                <c:forEach var="yaowenkuaidi" items="${yaowenkuaidiList}">
+                                    <li>
+                                        <span style="float:right">[<fmt:formatDate value="${yaowenkuaidi.publishTime}" pattern="yyyy-MM-dd"/>]</span>
+                                        ${yaowenkuaidi.title}</li>
+                                </c:forEach>
+                            </ul>
+                        </span>
                     </ul>
                 </div>
-                <div class="focus_content">
-                    <div class="focus_pic"><img src="${basePath}res/front/library/images/focus_pic1.jpg"/></div>
-                    <div class="focus_news">${libraryHeadContent}</div>
+
+                <div id="model_1_box_2" class="Tab_main" style="display: none;">
+                    <a href="#" class="more" target="_blank">
+                        <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" />
+                    </a>
+                    <c:if test="${fn:length(gongsixinwenList) > 0}">
+                        <c:set var="gongsixinwen" value="${gongsixinwenList[0]}"/>
+                    </c:if>
+                    <ul style="color:#616065;">
+                        <span>
+                            <h1>
+                                <a href="${basePath}post-${gongsixinwen.id}.htm" title="${gongsixinwen.title}">${gongsixinwen.title}</a>
+                            </h1>
+                            <ul style="padding:3px;">
+                                <c:forEach var="gongsixinwen" items="${gongsixinwenList}">
+                                    <li>
+                                        <span style="float:right">
+                                            [<fmt:formatDate value="${gongsixinwen.publishTime}" pattern="yyyy-MM-dd"/>]</span>
+                                            ${gongsixinwen.title}
+                                     </li>
+                                </c:forEach>
+                            </ul>
+                        </span>
+                    </ul>
                 </div>
             </div>
-            <%--<%@include file="include/library-index.jsp" %>--%>
-            <%--图书馆首页内容显示--%>
-            <div class="zixun">
-                <c:forEach var="dto" items="${libraryInfoDTOList}" varStatus="libStatus">
-                    <%--整体方框div的布局设置开始--%>
-                    <%--第二个div方框--%>
-                    <c:if test="${libStatus.index == 1}">
-                        <c:set var="libListStyle" value=" style=\"margin-left:10px; _margin-left:10px;\""/>
-                    </c:if>
-                    <%--从第三个方框开始,并且是偶数的，主要是左侧方框--%>
-                    <c:if test="${libStatus.index > 1 && libStatus.index %2 == 0}">
-                        <c:set var="libListStyle" value=" style=\"margin-top:10px;\""/>
-                    </c:if>
-                    <%--从第四个方框开始,并且是奇数的，主要是右侧方框--%>
-                    <c:if test="${libStatus.index > 1 && libStatus.index %2 != 0}">
-                        <c:set var="libListStyle" value=" style=\"margin-top:10px; margin-left:10px; _margin-left:10px;\""/>
-                    </c:if>
-                    <%--整体方框div的布局设置结束--%>
-                    <c:if test="${libStatus.index % 2 == 0}">
-                        <c:set var="libTitleStyle" value=" class=\"zixun_kuang_tit\""/>
-                    </c:if>
-                    <c:if test="${libStatus.index % 2 != 0}">
-                        <c:set var="libTitleStyle" value=" class=\"zixun_kuang_tit2\""/>
-                    </c:if>
-                <div class="zixun_kuang" ${libListStyle}>
-                    <div ${libTitleStyle}>
-                        <ul>
-                            <li>${dto.category.name}</li>
-                            <li style="list-style-type:none;background-image:url(${basePath}res/front/library/images/focus_title2.png); float:right; line-height:normal; font-size:12px; font-family:'新宋体'; font-weight:normal; margin-top:8px; padding-right:10px;">
-                                <a href="${basePath}library-list-${dto.category.id}.htm">更多</a>
-                        </ul>
-                    </div>
-                    <div class="zixun_kuang_con">
-                        <c:forEach var="cat_dto" items="${dto.libraryInfoDTOList}" varStatus="cate_status">
-                        <p>
-                                <c:if test="${not empty cat_dto.category.name}">
-                                <span style="float: left;width: 250px;">${cat_dto.category.name}</span>
-                                    <span style="float:right;">
-                                        <a href="${basePath}library-list-${cat_dto.category.id}.htm">
-                                            <img src="${basePath}res/front/library/images/zixun_more.jpg"/>
-                                        </a>
-                                    </span>
-                                </c:if>
-                                <c:if test="${empty cat_dto.category.name}">
-                                    <span style="float:right;">
-                                        <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg" style="display: none;"/></a>
-                                    </span>
-                                </c:if>
-                        </p>
-                        <c:if test="${empty cat_dto.category.name}">
-                                <span style="float:right;">
-                                    <a href="#"><img src="${basePath}res/front/library/images/zixun_more.jpg" style="display: none;"/></a>
-                                </span>
-                        </c:if>
-                        <ul>
-                            <c:forEach var="lib" items="${cat_dto.libraryInfoList}" varStatus="statusIndex">
-                                <c:choose>
-                                    <c:when test="${sessionUserInfo.username eq 'lib_Tourist_uid'}">
-                                        <c:set var="libHref" value="href=\"#\""/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:if test="${lib.type ==1 || lib.type == 3}">
-                                            <c:set var="libHref" value="href=\"${lib.url}\" target=\"_blank\""/>
-                                        </c:if>
-                                        <c:if test="${lib.type ==2}">
-                                            <c:set var="libHref" value="href=\"${basePath}library-detail-${lib.id}.htm\""/>
-                                        </c:if>
-                                    </c:otherwise>
-                                </c:choose>
-                                <li>
-                                    <%--1、正常情况，外链 2、自定义内容，内部使用 3、图片链接--%>
-                                    <c:if test="${lib.type == 1}">
-                                        <a title="${lib.name}" ${libHref}>${lib.name}</a>
-                                    </c:if>
-                                    <c:if test="${lib.type == 2}">
-                                        <a title="${lib.name}" ${libHref}>${lib.name}</a>
-                                    </c:if>
-                                    <c:if test="${lib.type == 3}">
-                                        <a ${libHref}>
-                                           <img width="130px;" height="35px" border="0" src="${basePath}${lib.image}"
-                                                onmouseout="closeTxDiv();" onmouseover="showTxDiv(this,'${lib.image}','${lib.name}');"/>
-                                        </a>
-                                    </c:if>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                        </c:forEach>
-                    </div>
+            <div class="Tab width390">
+                <h2 style="margin-left: 8px;">
+                    <span>公司简介</span></h2>
+                <div class="height115">
+                    <a href="${basePath}post-${gongsijianjie.id}.htm" class="more" target="_blank"><img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" /></a>
+                    <ul>
+                        <a href="${basePath}post-${gongsijianjie.id}.htm" target="_blank">
+                            <span><p>&nbsp;&nbsp;&nbsp;&nbsp;${gongsijianjie.summary}</p></span>
+                        </a>
+                    </ul>
                 </div>
-                </c:forEach>
             </div>
-            <%@include file="include/friendlyLinks.jsp" %>
+            <div class="Tab width390">
+                <h2 style="margin-left: 8px;" id="model_2">
+                    <span id="model_2_span_1" onMouseOver="changeTabs(2,1);" class="current"> 公司业绩</span>
+                    <span id="model_2_span_2" onMouseOver="changeTabs(2,2);" style="margin-left: -1px;">发展战略</span>
+                    <span id="model_2_span_3" onMouseOver="changeTabs(2,3);" style="margin-left: -1px;">资质</span>
+                </h2>
+                <div id="model_2_box_1" class="height115">
+                    <a href="#" class="more" target="_blank">
+                        <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" />
+                    </a>
+                    <ul>
+                        <a href="#" target="_blank"><span><p>&nbsp;&nbsp;&nbsp;&nbsp; 华电工程主要从事重工、环保水务、工程总承包、、清洁能源、能源服务五大板块业务，产品和服务涵盖电力、煤炭、石油、化工、冶金、矿山、建材、市政、港口、进出口贸易等十多个领域，遍布全国31个省、市…</span></a>
+                    </ul>
+                </div>
+                <div id="model_2_box_2" class="height115" style="display: none;">
+                    <a href="#" class="more" target="_blank">
+                        <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" />
+                    </a>
+                    <ul style="color:#616065;">
+                        <a href="/templates/T_Common/index.aspx?nodeid=8" target="_blank"><span><p>&nbsp;&nbsp;&nbsp; adawdqaweq华电工程已通过ISO9001, ISO14001, OHSAS18001体系认证，具有进出口权和外经权及对外承包工程经营资格。是国家级高新技术企业和3A级信用等级单位。</p></span></a>
+                    </ul>
+                </div>
+                <div id="model_2_box_3" class="height115" style="display: none;">
+                    <a href="#" class="more" target="_blank">
+                        <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" /></a>
+                    <ul style="color:#616065;">
+                        <a href="/templates/T_Common/index.aspx?nodeid=8" target="_blank"><span><p>&nbsp;&nbsp;&nbsp; 华电工程已通过ISO9001, ISO14001, OHSAS18001体系认证，具有进出口权和外经权及对外承包工程经营资格。是国家级高新技术企业和3A级信用等级单位。</p></span></a>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <!--右半边代码结束-->
+        <div class="content-right">
+            <ul>
+                <li><img src="${basePath}res/front/chec_cn/images/right1.jpg" /></li>
+                <li><img src="${basePath}res/front/chec_cn/images/right2.jpg" /></li>
+                <li><img src="${basePath}res/front/chec_cn/images/right3.jpg" /></li>
+                <c:forEach var="linksEntry" items="${linksMap}">
+                    <c:set var="linksCate" value="${linksEntry.key}"/>
+                    <c:set var="linksList" value="${linksEntry.value}"/>
+                    <li>
+                        <select name="" class="xiala" onchange="jump(this.value);this.selectedIndex = 0;">
+                            <option value="">---${linksCate.name}---</option>
+                            <c:forEach var="links" items="${linksList}">
+                                <option value="${links.url}">${links.name}</option>
+                            </c:forEach>
+                        </select>
+                    </li>
+                </c:forEach>
+            </ul>
+        </div>
     </div>
-    <!--底部代码开始-->
-    <%@include file="include/footer.jsp" %>
-    <!--底部代码结束-->
-    <%--图片弹出层--%>
-    <%@include file="include/library-showDiv.jsp" %>
+    <!--content END-->
+    <!--footer-->
+    <%@include file="include/footer.jsp"%>
+    <!--footer END-->
 </div>
+<script type="text/javascript">
+    function jump(url) {
+        if(url != ''){
+            if(url.substring(0,1).toLowerCase() =='/')
+                window.open(url, '');
+            if(url.length > 7){
+                if(url.substring(0,7).toLowerCase() !='http://')
+                    window.open('http://'+url, '');
+                else window.open(url, '');
+            }
+        }
+    }
+</script>
 </body>
 </html>
