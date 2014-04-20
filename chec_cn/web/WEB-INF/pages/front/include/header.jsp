@@ -40,7 +40,7 @@
             <TR>
                 <TD><A href="${basePath}">首 页</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="#">公司介绍</A></TD>
+                <TD><A href="${basePath}introduce.htm">公司介绍</A></TD>
                 <TD class="line"></TD>
                 <TD><A href="#">公司新闻</A></TD>
                 <TD class="line"></TD>
