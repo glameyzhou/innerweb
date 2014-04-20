@@ -2,21 +2,34 @@
 /* CSS Document */
 .content{width:1002px; height:auto; border-top:3px solid #48c0e2; padding-top:4px; background:#FFF; float:left}
 /*/////////////////左边样式开始//////////////////////////*/
-.neiye-left{ float:left;width:192px; margin-left:3px; _margin-left:3px;}
 .left-tit{background:url(../images/tit.jpg) repeat-x; width:172px; height:30px; color:#FFF; font-size:14px; font-weight:bold; line-height:30px; padding-left:20px;}
+.neiye-left{ float:left;width:192px; margin-left:3px; _margin-left:3px;}
 .left-con{background:url(../images/neiye-left-bg.jpg) repeat-x; width:187px; padding-left:5px;}
 .left-con li{padding:8px; }
-.lanmu{width:160px; padding: 16px; margin:0 auto}
-.lanmu li{display:block; height:30px; padding:0px; padding-left:10px; line-height:30px; margin-right:10px; font-weight:bold;border-bottom:1px dashed #CCC}
-.lanmu li img{padding-right:5px;}
-.lanmu-hover{background:url(../images/neirong.png) no-repeat; width:160px; height:25px; color:#5a6fa6}
 /*/////////////////左边样式结束//////////////////////////*/
+/*/////////////////右边样式开始//////////////////////////*/
 .neiye-right{width:796px; float:left; margin-left:5px; _margin-left:5px;}
 .weizhi{border-bottom:1px solid #dedede; height:30px; line-height:30px; width:796px; text-align:right; margin-bottom:5px;}
 .weizhi a{color:#616065}
 .right-con{background:url(../images/neiye-right-bg.jpg) repeat-x; width:796px;}
-.right-con li{line-height:23px; padding:0 8px;}
+.right-con li{line-height:23px; padding:0 8px; height:23px;}
+.right-con li img{padding-right:5px; line-height:23px;}
 .right-con ul p{float:right; height:50px; line-height:50px; color:#616065}
 .right-con ul p span{color:#F00}
 .right-con ul p a{color:#616065}
-.right-con p{text-indent:2em; line-height:25px; padding:10px;}
+.conline p,.right-con p{text-indent:2em; line-height:25px; padding:10px;}
+.conline h3,.right-con h3{color:#666; font-weight:normal;text-indent:2em; line-height:25px; padding:0 10px;}
+.conline{border-bottom:1px solid #EEE;width:796px;}
+/*/////////////////右边样式结束//////////////////////////*/
+/*/////////////////表单样式开始//////////////////////////*/
+.right-con td span{color:#F00}
+.bg1{background:#ecedf2; height:27px; line-height:27px}
+.bg2{background:#f4f5f9}
+.text60{width:60px;}
+.text90{width:90px; margin:0px}
+.text50{width:50px; margin:0px}
+.padding3{padding-left:5px;}
+.margin0{margin:0px}
+.padding5{padding:5px;}
+.button_reset,.button_submit{background:none; background:url(../images/button_submit.gif); width:52px; height:18px;}
+.button_reset{background:url(../images/button_reset.gif); margin-left:10px;_margin-left:10px;}

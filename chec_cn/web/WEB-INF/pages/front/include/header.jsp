@@ -11,20 +11,25 @@
         <div class="logo-right">
             <div class="logo-nav">
                 <ul>
-                    <li><a href="javascript:void(0)">企业邮箱</a></li>
+                    <li><a href="http://mail.chec.com.cn/">企业邮箱</a></li>
                     <li>|</li>
-                    <li><a href="javascript:void(0)">VIP链接</a></li>
+                    <li><a href="http://vpn.chec.com.cn/">VIP链接</a></li>
                     <li>|</li>
-                    <li><a href="javascript:void(0)">华电内网</a></li>
-                    <li style="margin-left:16px;_margin-left:16px;" class="bghui"><a href="javascript:void(0)">中文版</a>
+                    <li><a href="http://office.chec.com.cn/">华电内网</a></li>
+                    <li style="margin-left:16px;_margin-left:16px;" class="bghui">
+                        <a href="javascript:void(0)">中文版</a>
                     </li>
-                    <li><a href="http://en.chec.com.cn" target="_blank">ENGLISH</a></li>
+                    <li><a href="http://en.chec.com.cn/" target="_blank">ENGLISH</a></li>
                 </ul>
             </div>
             <br/><br/><br/>
+
             <div class="search">
-                关键词搜索<input name="" type="text" class="text"/>
-                <input name="" class="go-btn" type="button"/>
+                <ul>
+                    <li>关键词搜索</li>
+                    <li><input name="" type="text" class="text" style="height:16px"/></li>
+                    <li><input name="" class="go-btn" type="button"/></li>
+                </ul>
             </div>
         </div>
     </div>
@@ -33,19 +38,19 @@
         <TABLE>
             <TBODY>
             <TR>
-                <TD><A href="${basePath}index.htm">首 页</A></TD>
+                <TD><A href="${basePath}">首 页</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="${basePath}default-INTRODUCE.htm">公司介绍</A></TD>
+                <TD><A href="#">公司介绍</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="${basePath}default-NEWS.htm">公司新闻</A></TD>
+                <TD><A href="#">公司新闻</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="${basePath}default-BUSINESS.htm">业务概况</A></TD>
+                <TD><A href="#">业务概况</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="${basePath}default-PERFORMANCE.htm">公司业绩</A></TD>
+                <TD><A href="#">公司业绩</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="${basePath}default-CULTURE.htm">企业文化</A></TD>
+                <TD><A href="#">企业文化</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="${basePath}default-HR.htm">人力资源</A></TD>
+                <TD><A href="#">人力资源</A></TD>
             </TR>
             </TBODY>
         </TABLE>

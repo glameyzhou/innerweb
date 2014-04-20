@@ -60,7 +60,7 @@ public class IndexFrontController extends BaseController {
         query.setStart(0);
         query.setNum(6);
         query.setCategoryType(CategoryConstants.CATEGORY_NEWS);
-        query.setCategoryType(CategoryConstants.CATEGORY_ID_YAOWENKUAIDI);
+        query.setCategoryId(CategoryConstants.CATEGORY_ID_YAOWENKUAIDI);
         List<Post> yaowenkuaidiList = postDao.getByQuery(query);
         mav.addObject("yaowenkuaidiList",yaowenkuaidiList);
 
@@ -69,7 +69,7 @@ public class IndexFrontController extends BaseController {
         query.setStart(0);
         query.setNum(6);
         query.setCategoryType(CategoryConstants.CATEGORY_NEWS);
-        query.setCategoryType(CategoryConstants.CATEGORY_ID_GONGSIXINWEN);
+        query.setCategoryId(CategoryConstants.CATEGORY_ID_GONGSIXINWEN);
         List<Post> gongsixinwenList = postDao.getByQuery(query);
         mav.addObject("gongsixinwenList",gongsixinwenList);
 
