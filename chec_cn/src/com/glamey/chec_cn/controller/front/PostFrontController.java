@@ -46,6 +46,61 @@ public class PostFrontController extends BaseController {
     @Autowired
     private LinksDao linksDao;
 
+    @RequestMapping(value = {"/band-{rootCategoryName}.htm"}, method = RequestMethod.GET)
+    public ModelAndView bandCategoryPage(
+            @PathVariable String rootCategoryName,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView("front/band/band");
+        if (StringUtils.isBlank(rootCategoryName)){
+            return pageNotFound(request,response);
+        }
+        Category rootCategory = categoryDao.getByAliasName(rootCategoryName);
+        if (rootCategory == null || StringUtils.isBlank(rootCategory.getId())) {
+            return pageNotFound(request,response);
+        }
+        List<Category> categoryList = categoryDao.getByParentId(1, rootCategory.getId(), rootCategory.getCategoryType(), 0, Integer.MAX_VALUE);
+        String curCategory = WebUtils.getRequestParameterAsString(request, "cate");
+        Category defaultCategory = new Category();
+
+        if (StringUtils.isBlank(curCategory)) {
+            if (!CollectionUtils.isEmpty(categoryList)) {
+                defaultCategory = categoryList.get(0);
+            }
+        }
+        else {
+            defaultCategory = categoryDao.getById(curCategory);
+        }
+
+        int curPage = WebUtils.getRequestParameterAsInt(request,"curPage",1);
+        pageBean = new PageBean();
+        PostQuery postQuery = new PostQuery();
+        postQuery.setCategoryId(defaultCategory.getId());
+        postQuery.setCategoryType(defaultCategory.getCategoryType());
+
+        //列表显示
+        if (defaultCategory.getShowType() == 0) {
+            postQuery.setShowList(1);
+            postQuery.setStart(pageBean.getStart());
+            postQuery.setNum(pageBean.getRowsPerPage());
+        }
+        //详情显示
+        else {
+            postQuery.setStart(0);
+            postQuery.setNum(1);
+        }
+        pageBean.setCurPage(curPage);
+        List<Post> postList = postDao.getByQuery(postQuery);
+        pageBean.setMaxRowCount(postDao.getCountByQuery(postQuery));
+        pageBean.setMaxPage();
+        pageBean.setPageNoList();
+
+        mav.addObject("rootCategory",rootCategory);
+        mav.addObject("categoryList",categoryList);
+        mav.addObject("defaultCategory",defaultCategory);
+        mav.addObject("postList",postList);
+        mav.addObject("pageBean",pageBean);
+        return mav;
+    }
 
     @RequestMapping(value = {"/default-{aliasName}.htm"}, method = RequestMethod.GET)
     public ModelAndView loginShow(

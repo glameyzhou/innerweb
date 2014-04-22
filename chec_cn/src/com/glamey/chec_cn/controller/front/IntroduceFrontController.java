@@ -41,7 +41,7 @@ public class IntroduceFrontController extends BaseController {
     private LinksDao linksDao;
 
 
-    @RequestMapping(value = {"/introduce.htm"}, method = RequestMethod.GET)
+    /*@RequestMapping(value = {"/introduce.htm"}, method = RequestMethod.GET)
     public ModelAndView loginShow(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView mav = new ModelAndView("front/introduce/introduce");
 
@@ -88,5 +88,5 @@ public class IntroduceFrontController extends BaseController {
         mav.addObject("postList",postList);
         mav.addObject("pageBean",pageBean);
         return mav;
-    }
+    }*/
 }

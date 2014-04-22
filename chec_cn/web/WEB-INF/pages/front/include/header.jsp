@@ -40,17 +40,17 @@
             <TR>
                 <TD><A href="${basePath}">首 页</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="${basePath}introduce.htm">公司介绍</A></TD>
+                <TD><A href="${basePath}band-INTRODUCE.htm">公司介绍</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="#">公司新闻</A></TD>
+                <TD><A href="${basePath}band-NEWS.htm">公司新闻</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="#">业务概况</A></TD>
+                <TD><A href="${basePath}band-BUSINESS.htm">业务概况</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="#">公司业绩</A></TD>
+                <TD><A href="${basePath}band-PERFORMANCE.htm">公司业绩</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="#">企业文化</A></TD>
+                <TD><A href="${basePath}band-CULTURE.htm">企业文化</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="#">人力资源</A></TD>
+                <TD><A href="${basePath}band-HR.htm">人力资源</A></TD>
             </TR>
             </TBODY>
         </TABLE>

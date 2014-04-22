@@ -4,6 +4,11 @@
 package com.glamey.chec_cn.controller;
 
 import com.glamey.framework.utils.PageBean;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author zy
@@ -36,4 +41,10 @@ public class BaseController {
 	public void setPageBean(PageBean pageBean) {
 		this.pageBean = pageBean;
 	}
+
+    public ModelAndView pageNotFound(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView("common/message");
+        mav.addObject("message", "访问页面不存在");
+        return mav;
+    }
 }
