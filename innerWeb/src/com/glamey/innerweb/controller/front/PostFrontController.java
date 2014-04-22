@@ -182,6 +182,8 @@ public class PostFrontController extends BaseController {
         mav.addObject("pageBean", pageBean);
         mav.addObject("categoryParent", categoryParent);
         mav.addObject("category", category);
+        mav.addObject("categoryType", categoryType);
+        mav.addObject("categoryId", categoryId);
 
         return mav;
     }

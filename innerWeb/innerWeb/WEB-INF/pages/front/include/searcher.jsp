@@ -34,3 +34,6 @@
 <div class="left_guanggao">
 	<a href="${basePath}pl-news-MniIby.htm"><img src="${basePath}res/front/images/ddqzlx.jpg" border="0"/></a>
 </div>
+<div class="left_guanggao">
+	<a href="${basePath}pl-news-UnMjyy.htm"><img src="${basePath}res/front/images/kyxm.jpg" border="0"/></a>
+</div>
