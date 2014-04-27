@@ -11,6 +11,7 @@ import com.glamey.chec_cn.model.domain.UserInfo;
 import com.glamey.chec_cn.model.dto.PostQuery;
 import com.glamey.chec_cn.util.DateUtils;
 import com.glamey.chec_cn.util.WebUploadUtils;
+import com.glamey.chec_cn.util.XMLUtils;
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.RegexUtils;
 import com.glamey.framework.utils.StringTools;
@@ -211,6 +212,15 @@ public class PostManagerContoller extends BaseController {
         } else {
             message = "文章新建成功.";
             mav.addObject("href", "mg/post/post-list.do?categoryId=" + post.getCategoryId() + "&type=" + category.getCategoryType());
+
+            //进行焦点图的更新
+            PostQuery query = new PostQuery();
+            query.setShowIndex(1);
+            query.setShowFocusImage(1);
+            query.setStart(0);
+            query.setNum(10);
+            List<Post> list = postDao.getByQuery(query);
+            XMLUtils.buildXML(list,request);
         }
         mav.addObject("message", message);
         mav.addObject("post", post);
@@ -275,6 +285,15 @@ public class PostManagerContoller extends BaseController {
         } else {
             message = "文章更新成功.";
             mav.addObject("href", "mg/post/post-list.do?categoryId=" + post.getCategoryId() + "&type=" + category.getCategoryType());
+
+            //进行焦点图的更新
+            PostQuery query = new PostQuery();
+            query.setShowIndex(1);
+            query.setShowFocusImage(1);
+            query.setStart(0);
+            query.setNum(10);
+            List<Post> list = postDao.getByQuery(query);
+            XMLUtils.buildXML(list,request);
         }
         mav.addObject("message", message);
         return mav;

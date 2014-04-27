@@ -45,13 +45,17 @@
             <%@include file="../include/frame-images.jsp"%>
         </div>
         <div class="neiye-right">
-            <div class="weizhi">您所在的位置：<a href="${basePath}">首页</a>&nbsp;>&nbsp;<a href="${basePath}introduce.htm">${rootCategory.name}</a>&nbsp;>&nbsp;<a href="${basePath}introduce.htm?cate=${defaultCategory.id}">${defaultCategory.name}</a></div>
+            <div class="weizhi">您所在的位置：<a href="${basePath}">首页</a>&nbsp;>&nbsp;<a href="${basePath}band-${rootCategory.categoryType}.htm">${rootCategory.name}</a>&nbsp;>&nbsp;<a href="${basePath}band-${rootCategory.categoryType}.htm?cate=${defaultCategory.id}">${defaultCategory.name}</a></div>
             <div class="right-con">
                 <c:choose>
                     <c:when test="${defaultCategory.showType == 0}">
                         <ul style="padding:0px 30px 8px 30px">
                             <c:forEach var="post" items="${postList}">
-                                <li><span style="float:right; color:#919191">[<fmt:formatDate value="${post.publishTime}" pattern="yyyy-MM-dd"/>]</span><img src="${basePath}res/front/chec_cn/images/liebiao-biao.png" align="middle" /><a href="#">${post.title}</a></li>
+                                <li style="height: 30px;">
+                                    <span style="float:right; color:#919191">[<fmt:formatDate value="${post.publishTime}" pattern="yyyy-MM-dd"/>]</span>
+                                    <img src="${basePath}res/front/chec_cn/images/liebiao-biao.png" align="middle" />
+                                    <a href="${basePath}post-${post.categoryType}-${post.categoryId}-${post.id}.htm" title="${post.title}">${post.title}</a>
+                                </li>
                             </c:forEach>
                         </ul>
                         <c:set var="pageURL" value="${basePath}band-${rootCategory.categoryTime}?cate=${defaultCategory.id}&"/>

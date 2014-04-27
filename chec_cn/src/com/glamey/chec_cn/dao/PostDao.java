@@ -1,12 +1,16 @@
 package com.glamey.chec_cn.dao;
 
+import com.glamey.chec_cn.constants.CategoryConstants;
 import com.glamey.chec_cn.model.domain.Category;
 import com.glamey.chec_cn.model.domain.Post;
+import com.glamey.chec_cn.model.dto.LuceneEntry;
 import com.glamey.chec_cn.model.dto.PostQuery;
 import com.glamey.framework.utils.StringTools;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -73,7 +77,8 @@ public class PostDao extends BaseDao {
                             pstmt.setInt(++i, post.getShowTop());
                             pstmt.setInt(++i, post.getTopOrder());
                         }
-                    });
+                    }
+            );
             return postId;
         } catch (Exception e) {
             logger.error("[PostDao] #createReturnId# error " + post, e);
@@ -118,7 +123,8 @@ public class PostDao extends BaseDao {
                             pstmt.setInt(++i, post.getTopOrder());
                             pstmt.setString(++i, post.getId());
                         }
-                    });
+                    }
+            );
             return count > 0;
         } catch (Exception e) {
             logger.error("[PostDao] #update# error " + post, e);
@@ -166,7 +172,8 @@ public class PostDao extends BaseDao {
                             preparedstatement.setString(1, postId);
                         }
                     },
-                    new PostRowMapper());
+                    new PostRowMapper()
+            );
             if (list != null && list.size() > 0) {
                 return list.get(0);
             }
@@ -238,7 +245,7 @@ public class PostDao extends BaseDao {
                                 throws SQLException {
                             int i = 0;
                             if (StringUtils.isNotBlank(query.getCategoryType()))
-                                preparedstatement.setString(++i,query.getCategoryType());
+                                preparedstatement.setString(++i, query.getCategoryType());
 
                             if (StringUtils.isNotBlank(query.getCategoryId()))
                                 preparedstatement.setString(++i, query.getCategoryId());
@@ -280,7 +287,8 @@ public class PostDao extends BaseDao {
                             System.out.println(preparedstatement.toString());
                         }
                     },
-                    new PostRowMapper());
+                    new PostRowMapper()
+            );
             return list;
         } catch (Exception e) {
             logger.error("[PostDao] #getByQuery# error! query=" + query, e);
@@ -356,6 +364,45 @@ public class PostDao extends BaseDao {
             logger.error("[PostDao] #getCountByQuery# error! query=" + query, e);
         }
         return count;
+    }
+
+    public List<LuceneEntry> getPostLuceneEntry() {
+        List<LuceneEntry> entries = new ArrayList<LuceneEntry>(1000);
+        try {
+            LuceneEntry entry = null;
+            List<Post> postList = new ArrayList<Post>(1000);
+            String sql = "select id,post_category_id_fk,post_category_type,post_title,post_publish_time,post_summary,post_content from tbl_post where post_category_type = '" + CategoryConstants.CATEGORY_NEWS + "'";
+            postList = jdbcTemplate.query(sql,
+                    new RowMapper<Post>() {
+                        @Override
+                        public Post mapRow(ResultSet resultSet, int i) throws SQLException {
+                            Post post = new Post();
+                            post.setId(resultSet.getString("id"));
+                            post.setCategoryId(resultSet.getString("post_category_id_fk"));
+                            post.setCategoryType(resultSet.getString("post_category_type"));
+                            post.setTitle(resultSet.getString("post_title"));
+                            post.setPublishTime(resultSet.getTimestamp("post_publish_time"));
+                            post.setSummary(resultSet.getString("post_summary"));
+                            post.setContent(resultSet.getString("post_content"));
+                            return post;
+                        }
+                    }
+            );
+            for (Post obj : postList) {
+                entry = new LuceneEntry();
+                entry.setId(obj.getId());
+                entry.setHref("post-" + obj.getCategoryType() + "-" + obj.getCategoryId() + "-" + entry.getId() + ".htm");
+                entry.setTitle(obj.getTitle());
+                entry.setContent(obj.getContent());
+                entry.setTime(DateFormatUtils.format(obj.getPublishTime(),"yyyy-MM-dd HH:mm:ss"));
+                entry.setModel(obj.getCategoryId());
+                entry.setModelName(obj.getCategoryType());
+                entries.add(entry);
+            }
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return entries;
     }
 
     class PostRowMapper implements RowMapper<Post> {

@@ -39,38 +39,84 @@ public class HomeManagerController extends BaseController {
      */
     @RequestMapping(value = "/home.do", method = RequestMethod.GET)
     public ModelAndView managerHome(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
-    	String opt = WebUtils.getRequestParameterAsString(request, "opt");
-    	ModelAndView mav = new ModelAndView("mg/home");
-    	mav.addObject("opt", opt);
+    	ModelAndView mav = new ModelAndView("mg/home/index");
+        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
+        mav.addObject("userInfo", userInfo);
+
+        /**
+         * 公司介绍
+         */
+        Category categoryIntroduce = categoryDao.getByAliasName(CategoryConstants.CATEGORY_INTRODUCE);
+        List<Category> categoryList_introduce = categoryDao.getByParentId(categoryIntroduce.getId(),categoryIntroduce.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryIntroduce",categoryIntroduce);
+        mav.addObject("categoryList_introduce",categoryList_introduce);
+
+        /**
+         * 公司新闻
+         */
+        Category categoryNews = categoryDao.getByAliasName(CategoryConstants.CATEGORY_NEWS);
+        List<Category> categoryList_news = categoryDao.getByParentId(categoryNews.getId(),categoryNews.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryNews",categoryNews);
+        mav.addObject("categoryList_news",categoryList_news);
+
+        /**
+         * 业务概况
+         */
+        Category categoryBusiness = categoryDao.getByAliasName(CategoryConstants.CATEGORY_BUSINESS);
+        List<Category> categoryList_business = categoryDao.getByParentId(categoryBusiness.getId(),categoryBusiness.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryBusiness",categoryBusiness);
+        mav.addObject("categoryList_business",categoryList_business);
+
+        /**
+         * 公司业绩
+         */
+        Category categoryPerformance = categoryDao.getByAliasName(CategoryConstants.CATEGORY_PERFORMANCE);
+        List<Category> categoryList_performance = categoryDao.getByParentId(categoryPerformance.getId(),categoryPerformance.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryPerformance",categoryPerformance);
+        mav.addObject("categoryList_performance",categoryList_performance);
+
+        /**
+         * 企业文化
+         */
+        Category categoryCulture = categoryDao.getByAliasName(CategoryConstants.CATEGORY_CULTURE);
+        List<Category> categoryList_culture = categoryDao.getByParentId(categoryCulture.getId(),categoryCulture.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryCulture",categoryCulture);
+        mav.addObject("categoryList_culture",categoryList_culture);
+
+        /**
+         * 人力资源
+         */
+        Category categoryHr = categoryDao.getByAliasName(CategoryConstants.CATEGORY_HR);
+        List<Category> categoryList_hr = categoryDao.getByParentId(categoryHr.getId(),categoryHr.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryHr",categoryHr);
+        mav.addObject("categoryList_hr",categoryList_hr);
+        /**
+         * 招聘部门
+         */
+        Category categoryDept = categoryDao.getByAliasName(CategoryConstants.CATEGORY_DEPT);
+        mav.addObject("categoryDept",categoryDept);
+
+
+        /**
+         * 链接
+         */
+        Category categoryLinks = categoryDao.getByAliasName(CategoryConstants.CATEGORY_LINKS);
+        List<Category> categoryList_links = categoryDao.getByParentId(categoryLinks.getId(),categoryLinks.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryLinks",categoryLinks);
+        mav.addObject("categoryList_links",categoryList_links);
+
+
         return mav ;
     }
-    /*头部信息*/
-    @RequestMapping(value = "/home/top.do", method = RequestMethod.GET)
+    /*默认页面*/
+    @RequestMapping(value = "/home/webInfo.do", method = RequestMethod.GET)
     public ModelAndView manageTop(HttpSession session) throws Exception {
+        ModelAndView mav = new ModelAndView("mg/home/webInfo");
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        ModelAndView mav = new ModelAndView("mg/home/top");
         mav.addObject("userInfo", userInfo);
         return mav;
     }
 
-    /**
-     * 首页
-     */
-    @RequestMapping(value = "/home/content.do", method = RequestMethod.GET)
-    public ModelAndView homeContent(HttpServletRequest request, HttpSession session) throws Exception {
-    	ModelAndView mav = new ModelAndView("mg/home/content");
-    	String opt = WebUtils.getRequestParameterAsString(request, "opt");
-    	//默认首页
-    	String defaultPage = "mg/home/webInfo.do" ;
-    	if(StringUtils.equals(opt, "message")){
-    		defaultPage = "mg/message/message-list.do" ;
-    	}
-    	if(StringUtils.equals(opt, "contact")){
-    		defaultPage = "mg/user/contact.do" ;
-    	}
-    	mav.addObject("defaultPage", defaultPage);
-        return mav ;
-    }
 
     /**
      * 用户角色权限
@@ -149,13 +195,5 @@ public class HomeManagerController extends BaseController {
         mav.addObject("categoryList_links",categoryList_links);
 
         return mav ;
-    }
-
-    /**
-     * 首页--网站信息
-     */
-    @RequestMapping(value = "/home/webInfo.do")
-    public String webInfo() throws Exception {
-        return "mg/home/webInfo";
     }
 }

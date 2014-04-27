@@ -45,13 +45,12 @@ public class LoginFrontController extends BaseController {
      */
     @RequestMapping(value = "/console.htm", method = RequestMethod.GET)
     public ModelAndView loginShow(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        accessLogDao.save("", "login.do", "登陆界面", "");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
 
         boolean isCookieLogin = webCookieUtils.isCookieLogin(request, response);
         if (isCookieLogin) {
-            mav.setViewName("redirect:/index.do");
+            mav.setViewName("redirect:/mg/home.do");
         }
         return mav;
     }
@@ -65,7 +64,7 @@ public class LoginFrontController extends BaseController {
         session.removeAttribute(Constants.SESSIN_USERID);
         session.invalidate();
         webCookieUtils.cookieRemove(request, response);
-        return "redirect:/home.jsp";
+        return "redirect:/console.htm";
     }
 
 

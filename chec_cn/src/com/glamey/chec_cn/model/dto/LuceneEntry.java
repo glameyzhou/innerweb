@@ -4,6 +4,7 @@
 package com.glamey.chec_cn.model.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;

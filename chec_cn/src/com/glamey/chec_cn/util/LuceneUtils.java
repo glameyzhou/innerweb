@@ -64,7 +64,7 @@ public class LuceneUtils extends LuceneConstants {
                 doc = new Document();
                 doc.add(new Field(flID, String.valueOf(entry.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
                 doc.add(new Field(flModel, entry.getModel(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-//                doc.add(new Field(flModelName, entry.getModelName(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+                doc.add(new Field(flModelName, entry.getModelName(), Field.Store.YES, Field.Index.NOT_ANALYZED));
                 doc.add(new Field(flHref, entry.getHref(), Field.Store.YES, Field.Index.NOT_ANALYZED));
                 doc.add(new Field(flTime, entry.getTime(), Field.Store.YES, Field.Index.NOT_ANALYZED));
                 doc.add(new Field(flTitle, StringUtils.isBlank(entry.getTitle()) ? "" : entry.getTitle(), Field.Store.YES, Field.Index.ANALYZED));

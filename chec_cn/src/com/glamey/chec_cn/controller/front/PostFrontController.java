@@ -1,33 +1,49 @@
 package com.glamey.chec_cn.controller.front;
 
-import com.glamey.chec_cn.constants.CategoryConstants;
+import com.glamey.chec_cn.constants.Constants;
+import com.glamey.chec_cn.constants.LuceneConstants;
 import com.glamey.chec_cn.controller.BaseController;
 import com.glamey.chec_cn.dao.CategoryDao;
 import com.glamey.chec_cn.dao.LinksDao;
 import com.glamey.chec_cn.dao.PostDao;
 import com.glamey.chec_cn.dao.UserInfoDao;
 import com.glamey.chec_cn.model.domain.Category;
-import com.glamey.chec_cn.model.domain.Links;
 import com.glamey.chec_cn.model.domain.Post;
-import com.glamey.chec_cn.model.dto.LinksQuery;
+import com.glamey.chec_cn.model.dto.LuceneEntry;
 import com.glamey.chec_cn.model.dto.PostQuery;
+import com.glamey.chec_cn.util.LuceneUtils;
+import com.glamey.framework.utils.FileUtils;
 import com.glamey.framework.utils.PageBean;
+import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.lf5.viewer.categoryexplorer.CategoryAbstractCellEditor;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopScoreDocCollector;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.LockObtainFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.wltea.analyzer.lucene.IKQueryParser;
+import org.wltea.analyzer.lucene.IKSimilarity;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.LinkedHashMap;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -45,6 +61,9 @@ public class PostFrontController extends BaseController {
     private PostDao postDao;
     @Autowired
     private LinksDao linksDao;
+    private LuceneUtils lu = new LuceneUtils();
+    private static Directory directory = null;
+    private static IndexSearcher isearcher = null;
 
     @RequestMapping(value = {"/band-{rootCategoryName}.htm"}, method = RequestMethod.GET)
     public ModelAndView bandCategoryPage(
@@ -72,7 +91,8 @@ public class PostFrontController extends BaseController {
         }
 
         int curPage = WebUtils.getRequestParameterAsInt(request,"curPage",1);
-        pageBean = new PageBean();
+        pageBean = new PageBean(Constants.rowsPerPageFront);
+        pageBean.setCurPage(curPage);
         PostQuery postQuery = new PostQuery();
         postQuery.setCategoryId(defaultCategory.getId());
         postQuery.setCategoryType(defaultCategory.getCategoryType());
@@ -88,7 +108,6 @@ public class PostFrontController extends BaseController {
             postQuery.setStart(0);
             postQuery.setNum(1);
         }
-        pageBean.setCurPage(curPage);
         List<Post> postList = postDao.getByQuery(postQuery);
         pageBean.setMaxRowCount(postDao.getCountByQuery(postQuery));
         pageBean.setMaxPage();
@@ -102,64 +121,101 @@ public class PostFrontController extends BaseController {
         return mav;
     }
 
-    @RequestMapping(value = {"/default-{aliasName}.htm"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/post-{rootCategoryName}-{curCategoryId}-{postId}.htm"}, method = RequestMethod.GET)
     public ModelAndView loginShow(
-            @PathVariable String aliasName,
+            @PathVariable String rootCategoryName,
+            @PathVariable String curCategoryId,
+            @PathVariable String postId,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ModelAndView mav = new ModelAndView("front/p-default");
+        ModelAndView mav = new ModelAndView("front/band/post");
 
-        if (StringUtils.isBlank(aliasName)) {
-            mav.setViewName("common/message");
-            mav.addObject("message","您查看的页面不存在！");
-            return mav;
+        if (StringUtils.isBlank(rootCategoryName) || StringUtils.isBlank(curCategoryId) || StringUtils.isBlank(postId)) {
+            return pageNotFound(request, response);
         }
 
-        Category root = categoryDao.getByAliasName(aliasName);
-        if (root == null || StringUtils.isBlank(root.getId())) {
-            mav.setViewName("common/message");
-            mav.addObject("message","您查看的页面不存在！");
-            return mav;
-        }
-        List<Category> categoryList = categoryDao.getByParentId(root.getId(),root.getCategoryType(),0,Integer.MAX_VALUE);
-        //默认页面
-        if (!CollectionUtils.isEmpty(categoryList)){
-            Category firstCategory = categoryList.get(0);
-            int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
-            pageBean = new PageBean(20);
-            pageBean.setCurPage(curPage);
-            PostQuery postQuery = new PostQuery();
-            postQuery.setCategoryId(firstCategory.getId());
-            postQuery.setCategoryType(firstCategory.getCategoryType());
-            postQuery.setStart(pageBean.getStart());
-            postQuery.setNum(pageBean.getRowsPerPage());
-            List<Post> postList = postDao.getByQuery(postQuery);
-            pageBean.setMaxRowCount(postDao.getCountByQuery(postQuery));
-            pageBean.setMaxPage();
-            pageBean.setPageNoList();
+        Category rootCategory = categoryDao.getByAliasName(rootCategoryName);
+        List<Category> categoryList = categoryDao.getByParentId(1,rootCategory.getId(),rootCategory.getCategoryType(),0,Integer.MAX_VALUE);
 
-            mav.addObject("pageBean",pageBean);
-            mav.addObject("postList",postList);
-            mav.addObject("pageBean",pageBean);
-            mav.addObject("firstCategory",firstCategory);
+        if (rootCategory == null || StringUtils.isBlank(rootCategory.getId())) {
+            return pageNotFound(request, response);
         }
-        mav.addObject("root",root);
+        Post postInfo = postDao.getByPostId(postId);
+        Category defaultCategory = postInfo.getCategory();
+        mav.addObject("rootCategory",rootCategory);
         mav.addObject("categoryList",categoryList);
+        mav.addObject("postInfo",postInfo);
+        mav.addObject("defaultCategory",defaultCategory);
         return mav;
     }
 
-    @RequestMapping(value = {"/post-{postId}.htm"}, method = RequestMethod.GET)
-    public ModelAndView adsf(
-            @PathVariable String postId,
+    @RequestMapping(value = "/search.htm", method = RequestMethod.GET)
+    public ModelAndView search(
+            @RequestParam(value = "kw", required = false, defaultValue = "") String kw,
+            @RequestParam(value = "curPage", required = false, defaultValue = "1") String pg,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ModelAndView mav = new ModelAndView("front/index");
 
-        if (StringUtils.isBlank(postId)) {
-            mav.setViewName("common/message");
-            mav.addObject("message","您查看的页面不存在！");
-            return mav;
+        ModelAndView mav = new ModelAndView("front/band/search");
+        int curPage = Integer.parseInt(pg);
+        kw = StringTools.converISO2UTF8(kw);
+        pageBean = new PageBean(Constants.rowsPerPageFront);
+        pageBean.setCurPage(curPage);
+        List<LuceneEntry> entries = new ArrayList<LuceneEntry>();
+        FileUtils.mkdirs(LuceneConstants.INDEXDIR);
+        try {
+            directory = FSDirectory.open(LuceneConstants.INDEXDIR);
+            isearcher = new IndexSearcher(directory);
+            isearcher.setSimilarity(new IKSimilarity());
+            String fieldNames[] = {LuceneConstants.flTitle,LuceneConstants.flSummary, LuceneConstants.flContent};
+            Query query = IKQueryParser.parseMultiField(fieldNames, kw);
+            TopScoreDocCollector topCollector = TopScoreDocCollector.create(isearcher.maxDoc(), true);
+            isearcher.search(query, topCollector);
+
+            int maxRowCount = topCollector.getTotalHits();
+            pageBean.setMaxRowCount(maxRowCount);
+            pageBean.setMaxPage();
+            pageBean.setPageNoList();
+
+            ScoreDoc docs[] = topCollector.topDocs(pageBean.getStart(), pageBean.getRowsPerPage()).scoreDocs;
+            LuceneEntry entry = null;
+            String title = "";
+            for (ScoreDoc sDoc : docs) {
+                entry = new LuceneEntry();
+                Document doc = isearcher.doc(sDoc.doc);
+                title = doc.get(LuceneConstants.flTitle);
+                // 高亮显示
+                title = LuceneUtils.getHighlighter(query, doc, LuceneConstants.flTitle, kw, null,null);
+                entry.setId(doc.get(LuceneConstants.flID));
+                entry.setModel(doc.get(LuceneConstants.flModel));
+                entry.setHref(doc.get(LuceneConstants.flHref));
+                entry.setTitle(title);
+                entry.setContent(doc.get(LuceneConstants.flContent));
+                entry.setTime(doc.get(LuceneConstants.flTime));
+                entries.add(entry);
+            }
+        } catch (CorruptIndexException e) {
+            e.printStackTrace();
+        } catch (LockObtainFailedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (isearcher != null)
+                try {
+                    isearcher.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            if (directory != null) {
+                try {
+                    directory.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
-        Post post = postDao.getByPostId(postId);
+        mav.addObject("entries", entries);
+        mav.addObject("pageBean", pageBean);
+        mav.addObject("kw", kw);
         return mav;
     }
 }

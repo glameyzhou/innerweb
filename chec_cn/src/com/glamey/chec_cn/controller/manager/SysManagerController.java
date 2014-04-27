@@ -6,8 +6,11 @@ package com.glamey.chec_cn.controller.manager;
 import com.glamey.chec_cn.controller.BaseController;
 import com.glamey.chec_cn.dao.CategoryDao;
 import com.glamey.chec_cn.dao.MetaInfoDao;
+import com.glamey.chec_cn.dao.PostDao;
 import com.glamey.chec_cn.dao.UserInfoDao;
 import com.glamey.chec_cn.model.domain.MetaInfo;
+import com.glamey.chec_cn.model.dto.LuceneEntry;
+import com.glamey.chec_cn.util.LuceneUtils;
 import com.glamey.framework.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 后台管理系统--系统设置
@@ -37,11 +42,13 @@ public class SysManagerController extends BaseController {
     private MetaInfoDao metaInfoDao;
     @Autowired
     private UserInfoDao userInfoDao;
-
-    @RequestMapping(value = "/sys-list.do", method = RequestMethod.GET)
+    @Autowired
+    private PostDao postDao;
+    private LuceneUtils lu = new LuceneUtils();
+    /*@RequestMapping(value = "/sys-list.do", method = RequestMethod.GET)
     public String managerHome(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
         return "mg/sys/index";
-    }
+    }*/
 
     @RequestMapping(value = "/meta/{name}/meta-show.do", method = RequestMethod.GET)
     public ModelAndView metaShow(
@@ -81,6 +88,28 @@ public class SysManagerController extends BaseController {
             mav.addObject("message", "修改失败");
         }
         mav.addObject("metaInfo", metaInfo);
+        return mav;
+    }
+
+    @RequestMapping(value = "/buildLucene.do", method = RequestMethod.GET)
+    public ModelAndView buildLucene(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("mg/sys/buildLucene");
+        return mav;
+    }
+
+    @RequestMapping(value = "/buildLuceneDo.do", method = RequestMethod.GET)
+    public ModelAndView buildLuceneDo(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+        ModelAndView mav = new ModelAndView("common/message");
+        List<LuceneEntry> entries = new ArrayList<LuceneEntry>(1000);
+        entries.addAll(postDao.getPostLuceneEntry());
+        try {
+            lu.createIndex(true, entries);
+            message = "索引建立成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+            message = "索引建立失败";
+        }
+        mav.addObject("message", message);
         return mav;
     }
 }

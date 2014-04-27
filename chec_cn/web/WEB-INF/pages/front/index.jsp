@@ -38,7 +38,12 @@
     <div class="content">
         <div class="content-left">
             <div class="new">
-                <img src="${basePath}res/front/chec_cn/images/new.jpg" />
+                <c:set var="bcastrURL" value="${basePath}res/front/chec_cn/flash/bcastr4.xml"/>
+                <object id="bcastr4"
+                    data="${basePath}res/front/chec_cn/flash/bcastr4.swf?xml=${fmtString:encoder(bcastrURL)}"
+                    type="application/x-shockwave-flash" width="305" height="195">
+                    <param name="movie" value="${basePath}res/front/chec_cn/flash/bcastr4.swf?xml=${fmtString:encoder(bcastrURL)}" />
+                </object>
             </div>
             <div class="Tab">
                 <h2 id="news-box-0-h">
@@ -54,10 +59,13 @@
                              <c:set var="yaowenkuaidiObj" value="${yaowenkuaidiList[0]}" />
                          </c:if>
                          <span>
-                             <h1>${yaowenkuaidiObj.title}</h1>
+                             <h1>${fmtString:substringAppend(yaowenkuaidiObj.title,30,'..' )}</h1>
                              <ul style="padding:3px;">
                                  <c:forEach var="yaowenkuaidi" items="${yaowenkuaidiList}">
-                                     <li><span style="float:right">[ <fmt:formatDate value="${yaowenkuaidi.publishTime}" pattern="yyyy-M-dd"/>]</span>${yaowenkuaidi.title}</li>
+                                     <li>
+                                         <span style="float:right">[ <fmt:formatDate value="${yaowenkuaidi.publishTime}" pattern="yyyy-M-dd"/>]</span>
+                                         <a href="${basePath}post-${yaowenkuaidi.categoryType}-${yaowenkuaidi.categoryId}-${yaowenkuaidi.id}.htm" title="${yaowenkuaidi.title}">${fmtString:substringAppend(yaowenkuaidi.title,30,'..' )}</a>
+                                     </li>
                                  </c:forEach>
                              </ul>
                          </span>
@@ -72,10 +80,13 @@
                             <c:set var="gongsixinwenObj" value="${gongsixinwenList[0]}" />
                         </c:if>
                          <span>
-                             <h1>${gongsixinwenObj.title}</h1>
+                             <h1>${fmtString:substringAppend(gongsixinwenObj.title,30,'..' )}</h1>
                              <ul style="padding:3px;">
                                  <c:forEach var="gongsixinwen" items="${gongsixinwenList}">
-                                     <li><span style="float:right">[ <fmt:formatDate value="${gongsixinwen.publishTime}" pattern="yyyy-M-dd"/>]</span>${gongsixinwen.title}</li>
+                                     <li>
+                                         <span style="float:right">[ <fmt:formatDate value="${gongsixinwen.publishTime}" pattern="yyyy-M-dd"/>]</span>
+                                         <a href="${basePath}post-${gongsixinwen.categoryType}-${gongsixinwen.categoryId}-${gongsixinwen.id}.htm" title="${gongsixinwen.title}">${fmtString:substringAppend(gongsixinwen.title,30,'..' )}</a>
+                                     </li>
                                  </c:forEach>
                              </ul>
                          </span>
@@ -126,9 +137,21 @@
         </div>
         <div class="content-right">
             <ul>
-                <li><img src="${basePath}res/front/chec_cn/images/right1.jpg" /></li>
-                <li><img src="${basePath}res/front/chec_cn/images/right2.jpg" /></li>
-                <li><img src="${basePath}res/front/chec_cn/images/right3.jpg" /></li>
+                <li>
+                    <a href="http://www.chec.com.cn/qzlx/index.asp" target="_blank">
+                        <img src="${basePath}res/front/chec_cn/images/right2.jpg" border="0"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="${basePath}res/front/chec_cn/images/right1.jpg" />
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="${basePath}res/front/chec_cn/images/right3.jpg" />
+                    </a>
+                </li>
 
                 <c:forEach var="links" items="${linksMap}">
                     <c:set var="linksList" value="${links.value}"/>

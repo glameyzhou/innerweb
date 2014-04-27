@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <script type="text/javascript">
     function search() {
-        var kw = document.getElementById("kw").value;
+        var kw = document.getElementById("headerKw").value;
         window.location = "${basePath}search.htm?kw=" + encodeURI(kw);
     }
 </script>
@@ -27,8 +27,8 @@
             <div class="search">
                 <ul>
                     <li>关键词搜索</li>
-                    <li><input name="" type="text" class="text" style="height:16px"/></li>
-                    <li><input name="" class="go-btn" type="button"/></li>
+                    <li><input name="headerKw" id="headerKw" type="text" class="text" style="height:16px" value="${kw}"/></li>
+                    <li><input name="" class="go-btn" type="button" onclick="search();"/></li>
                 </ul>
             </div>
         </div>

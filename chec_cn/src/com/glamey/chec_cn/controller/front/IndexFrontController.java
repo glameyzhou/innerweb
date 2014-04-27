@@ -49,6 +49,7 @@ public class IndexFrontController extends BaseController {
         /*焦点图*/
         PostQuery query = new PostQuery();
         query.setShowFocusImage(1);
+        query.setShowIndex(1);
         query.setStart(0);
         query.setNum(6);
         query.setCategoryType(CategoryConstants.CATEGORY_NEWS);
