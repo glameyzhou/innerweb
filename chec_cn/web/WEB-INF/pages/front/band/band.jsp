@@ -31,7 +31,15 @@
                         </c:choose>
                         <li ${liCss}>
                             <img src="${basePath}res/front/chec_cn/images/daiti-biao1.png"/>
-                            <a href="${basePath}band-${rootCategory.categoryType}.htm?cate=${category.id}">${category.name}</a>
+                            <c:choose>
+                                <%--如果是资质荣誉--%>
+                                <c:when test="${category.id eq 'beYjum'}">
+                                    <a href="${basePath}introduce-zzry.htm">${category.name}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="${basePath}band-${rootCategory.categoryType}.htm?cate=${category.id}">${category.name}</a>
+                                </c:otherwise>
+                            </c:choose>
                         </li>
                     </c:forEach>
                     <c:if test="${rootCategory.categoryType eq 'HR'}">
@@ -58,7 +66,7 @@
                                 </li>
                             </c:forEach>
                         </ul>
-                        <c:set var="pageURL" value="${basePath}band-${rootCategory.categoryTime}?cate=${defaultCategory.id}&"/>
+                        <c:set var="pageURL" value="${basePath}band-${rootCategory.categoryType}.htm?cate=${defaultCategory.id}&"/>
                         <%@include file="../../common/pages.jsp"%>
                     </c:when>
                     <c:otherwise>

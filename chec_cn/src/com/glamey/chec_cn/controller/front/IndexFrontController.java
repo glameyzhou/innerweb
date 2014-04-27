@@ -11,6 +11,7 @@ import com.glamey.chec_cn.model.domain.Links;
 import com.glamey.chec_cn.model.domain.Post;
 import com.glamey.chec_cn.model.dto.LinksQuery;
 import com.glamey.chec_cn.model.dto.PostQuery;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -83,6 +84,37 @@ public class IndexFrontController extends BaseController {
         List<Post> gongsijianjieList = postDao.getByQuery(query);
         Post gongsijianjie = CollectionUtils.isEmpty(gongsijianjieList) ? new Post() : gongsijianjieList.get(0);
         mav.addObject("gongsijianjie",gongsijianjie);
+
+        /**
+         * 公司业绩描述
+         */
+        Category rootBusiness = categoryDao.getByAliasName(CategoryConstants.CATEGORY_BUSINESS);
+        String businessContent = rootBusiness.getDescribe();
+        if (StringUtils.isNotBlank(businessContent))
+            businessContent = businessContent.replaceAll("<.+?>","").replaceAll("&nbsp;","");
+        rootBusiness.setDescribe(businessContent);
+        mav.addObject("rootBusiness",rootBusiness);
+
+        /*发展战略*/
+        query = new PostQuery();
+        query.setStart(0);
+        query.setNum(1);
+        query.setCategoryId(CategoryConstants.CATEGORY_ID_FAZHANZHALUE);
+        query.setCategoryType(CategoryConstants.CATEGORY_INTRODUCE);
+        List<Post> fazhanzhanlue_list = postDao.getByQuery(query);
+        Post fazhanzhanlue = CollectionUtils.isEmpty(fazhanzhanlue_list) ? new Post() : fazhanzhanlue_list.get(0);
+        mav.addObject("fazhanzhanlue",fazhanzhanlue);
+
+        /**
+         * 资质荣誉描述
+         */
+        Category zizhirongyu = categoryDao.getById(CategoryConstants.CATEGORY_ID_ZIZHIRONGYU);
+        String zzryContent = zizhirongyu.getDescribe();
+        if (StringUtils.isNotBlank(zzryContent))
+            zzryContent = zzryContent.replaceAll("<.+?>","").replaceAll("&nbsp;","");
+        zizhirongyu.setDescribe(zzryContent);
+        mav.addObject("zizhirongyu",zizhirongyu);
+
 
         /*所有链接*/
         Category categoryLinks = categoryDao.getByAliasName(CategoryConstants.CATEGORY_LINKS);

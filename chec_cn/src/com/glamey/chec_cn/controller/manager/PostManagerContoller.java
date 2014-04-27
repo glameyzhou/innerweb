@@ -1,5 +1,6 @@
 package com.glamey.chec_cn.controller.manager;
 
+import com.glamey.chec_cn.constants.CategoryConstants;
 import com.glamey.chec_cn.constants.Constants;
 import com.glamey.chec_cn.controller.BaseController;
 import com.glamey.chec_cn.dao.CategoryDao;
@@ -99,7 +100,7 @@ public class PostManagerContoller extends BaseController {
          */
         else {
             int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
-            pageBean = new PageBean(2);
+            pageBean = new PageBean(Constants.rowsPerPageFront);
             pageBean.setCurPage(curPage);
 
             String keyword = WebUtils.getRequestParameterAsString(request, "kw");
@@ -214,13 +215,15 @@ public class PostManagerContoller extends BaseController {
             mav.addObject("href", "mg/post/post-list.do?categoryId=" + post.getCategoryId() + "&type=" + category.getCategoryType());
 
             //进行焦点图的更新
-            PostQuery query = new PostQuery();
-            query.setShowIndex(1);
-            query.setShowFocusImage(1);
-            query.setStart(0);
-            query.setNum(10);
-            List<Post> list = postDao.getByQuery(query);
-            XMLUtils.buildXML(list,request);
+            if (StringUtils.equals(post.getCategoryType(), CategoryConstants.CATEGORY_NEWS)) {
+                PostQuery query = new PostQuery();
+                query.setShowIndex(1);
+                query.setShowFocusImage(1);
+                query.setStart(0);
+                query.setNum(10);
+                List<Post> list = postDao.getByQuery(query);
+                XMLUtils.buildXML(list, request);
+            }
         }
         mav.addObject("message", message);
         mav.addObject("post", post);
@@ -287,13 +290,15 @@ public class PostManagerContoller extends BaseController {
             mav.addObject("href", "mg/post/post-list.do?categoryId=" + post.getCategoryId() + "&type=" + category.getCategoryType());
 
             //进行焦点图的更新
-            PostQuery query = new PostQuery();
-            query.setShowIndex(1);
-            query.setShowFocusImage(1);
-            query.setStart(0);
-            query.setNum(10);
-            List<Post> list = postDao.getByQuery(query);
-            XMLUtils.buildXML(list,request);
+            if (StringUtils.equals(post.getCategoryType(), CategoryConstants.CATEGORY_NEWS)) {
+                PostQuery query = new PostQuery();
+                query.setShowIndex(1);
+                query.setShowFocusImage(1);
+                query.setStart(0);
+                query.setNum(10);
+                List<Post> list = postDao.getByQuery(query);
+                XMLUtils.buildXML(list, request);
+            }
         }
         mav.addObject("message", message);
         return mav;
@@ -315,8 +320,9 @@ public class PostManagerContoller extends BaseController {
             if (image.toLowerCase().startsWith("http")) {
                 return image;
             }
-            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-            return basePath + image;
+            /*String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+            return basePath + image;*/
+            return image;
         }
         return image;
     }

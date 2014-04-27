@@ -8,6 +8,7 @@ import com.glamey.chec_cn.model.dto.CategoryQuery;
 import com.glamey.framework.utils.StringTools;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,9 @@ import java.util.List;
 @Repository
 public class CategoryDao extends BaseDao {
     private static final Logger logger = Logger.getLogger(CategoryDao.class);
+
+    @Autowired
+    private PostDao postDao;
 
     /**
      * 创建分类信息
@@ -209,50 +213,8 @@ public class CategoryDao extends BaseDao {
                 }
             }
 
-            int cateContentCount = 0;
-            /*//通告、新闻 tbl_post
-            if (StringUtils.equals(categoryType, CategoryConstants.CATEGORY_NEWS) || StringUtils.equals(categoryType, CategoryConstants.CATEGORY_NOTICES)) {
-                cateContentCount = jdbcTemplate.update("update tbl_post set post_category_id=? where post_category_id=? and post_category_type =?",
-                        new PreparedStatementSetter() {
-                            @Override
-                            public void setValues(PreparedStatement preparedstatement)
-                                    throws SQLException {
-                                preparedstatement.setString(1, "");
-                                preparedstatement.setString(2, categoryId);
-                                preparedstatement.setString(3, categoryType);
-                            }
-
-                        });
-            }
-            //友情链接 tbl_links
-            if (StringUtils.equals(categoryType, CategoryConstants.CATEOGRY_FRIENDLYLINKS)) {
-                cateContentCount = jdbcTemplate.update("update tbl_links set links_category_id=? where links_category_id=? and links_category_type =?",
-                        new PreparedStatementSetter() {
-                            @Override
-                            public void setValues(PreparedStatement preparedstatement)
-                                    throws SQLException {
-                                preparedstatement.setString(1, "");
-                                preparedstatement.setString(2, categoryId);
-                                preparedstatement.setString(3, categoryType);
-                            }
-
-                        });
-            }
-            //微型图书馆,如果删除了分类
-            if (StringUtils.equals(categoryType, CategoryConstants.CATEGORY_LIBRARY)) {
-                cateContentCount = jdbcTemplate.update("update tbl_library set lib_category_id = ? where lib_category_id = ? ",
-                        new PreparedStatementSetter() {
-                            @Override
-                            public void setValues(PreparedStatement preparedstatement)
-                                    throws SQLException {
-                                preparedstatement.setString(1, "");
-                                preparedstatement.setString(2, categoryId);
-                            }
-
-                        });
-            }
-            return cateCount > 0 && cateContentCount >= 0;*/
-            return cateCount > 0;
+            boolean delPost = postDao.deleteByCategoryId(categoryId);
+            return cateCount > 0 && delPost;
         } catch (Exception e) {
             logger.info("[CategoryDao] #deleteById# error! " + String.format("categoryId=%s,categoryType=%s", categoryId, categoryType));
         }

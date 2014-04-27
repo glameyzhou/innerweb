@@ -63,7 +63,7 @@
                               	</table>
                             </td>
                         </tr>--%>
-                        <tr>
+                        <%--<tr>
                             <td width="10%" align="right">
                                 <input type="checkbox" name="rightsId" value="00"
                                        <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'00')}">checked="checked"</c:if>/>
@@ -77,14 +77,14 @@
                             </td>
                             <td>通知公告管理</td>
                         </tr>
-                        <%--<tr>
+                        &lt;%&ndash;<tr>
                             <td width="10%" align="right">
                                 <input type="checkbox" name="rightsId" value="10"
                                    <c:if test="${fmtString:hasRightsList(roleInfo.rightsList,'10')}">checked="checked"</c:if>/>
                             </td>
                             <td>行业资讯管理</td>
-                        </tr>--%>
-                        <%--友情链接管理--%>
+                        </tr>&ndash;%&gt;
+                        &lt;%&ndash;友情链接管理&ndash;%&gt;
                         <tr>
                             <td width="10%" align="right">
                                 <input type="checkbox" name="rightsId" value="02"
@@ -206,7 +206,7 @@
                                 </td>
                                 <td>板块 >> ${bbs.name}</td>
                             </tr>
-                        </c:forEach>
+                        </c:forEach>--%>
                     </table>
                 </td>
             </tr>

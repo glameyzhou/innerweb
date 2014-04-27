@@ -176,6 +176,7 @@ public class StringTools {
         System.out.println(URLUtils.getShort("专题讨论区"));
         System.out.println(URLUtils.getShort("招聘部门"));
         System.out.println(URLUtils.getShort("链接"));
+        System.out.println(URLUtils.getShort("监察审计"));
 
     }
 }

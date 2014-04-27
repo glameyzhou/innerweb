@@ -60,6 +60,14 @@ public class HomeManagerController extends BaseController {
         mav.addObject("categoryList_news",categoryList_news);
 
         /**
+         * 监察审计
+         */
+        Category categoryJcsj = categoryDao.getByAliasName(CategoryConstants.CATEGORY_JCSJ);
+        List<Category> categoryList_jcsj = categoryDao.getByParentId(categoryJcsj.getId(),categoryJcsj.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryJcsj",categoryJcsj);
+        mav.addObject("categoryList_jcsj",categoryList_jcsj);
+
+        /**
          * 业务概况
          */
         Category categoryBusiness = categoryDao.getByAliasName(CategoryConstants.CATEGORY_BUSINESS);

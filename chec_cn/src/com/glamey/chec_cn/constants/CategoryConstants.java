@@ -44,6 +44,11 @@ public class CategoryConstants {
     /*部门*/
     public static final String CATEGORY_DEPT = "DEPT";
 
+    /**
+     * 监察审计
+     */
+    public static final String CATEGORY_JCSJ = "JCSJ";
+
 
 
 
@@ -54,6 +59,27 @@ public class CategoryConstants {
     public static final String CATEGORY_ID_GONGSIXINWEN= "6ZBZRj";
     /*公司简介*/
     public static final String CATEGORY_ID_GONGSIJIANJIE = "VBvABv";
+    /**
+     * 发展战略
+     */
+    public static final String CATEGORY_ID_FAZHANZHALUE = "ZjMb22";
+    /**
+     * 资质荣誉
+     */
+    public static final String CATEGORY_ID_ZIZHIRONGYU = "beYjum";
+
+    /*审计监察--监审动态*/
+    public static final String CATEGORY_ID_JCSJ_JIANSHENDONGTAI = "MVRR3m";
+    /*审计监察--案例分析*/
+    public static final String CATEGORY_ID_JCSJ_ANLIFENXI = "MrYJJ3";
+    /*审计监察--法规制度*/
+    public static final String CATEGORY_ID_JCSJ_FAGUIZHIDU= "ayuuAf";
+
+    /**
+     * 公司资质荣誉
+     */
+    public static final String CATEGORY_ID_INTRODUCE_ZZRY_ZIZHI= "V7VVre";
+    public static final String CATEGORY_ID_INTRODUCE_ZZRY_RONGYU= "yyMNj2";
 
 
 

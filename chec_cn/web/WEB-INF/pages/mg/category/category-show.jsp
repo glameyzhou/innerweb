@@ -5,6 +5,26 @@
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
     <script type="text/javascript">
+        KindEditor.ready(function (K) {
+            var editor1 = K.create('textarea[name="describe"]', {
+                cssPath: '${basePath}kindeditor/plugins/code/prettify.css',
+                uploadJson: '${basePath}kindeditor/jsp/upload_json.jsp',
+                fileManagerJson: '${basePath}kindeditor/jsp/file_manager_json.jsp',
+                allowFileManager: true,
+                afterCreate: function () {
+                    var self = this;
+                    K.ctrl(document, 13, function () {
+                        self.sync();
+                        document.forms['jvForm'].submit();
+                    });
+                    K.ctrl(self.edit.doc, 13, function () {
+                        self.sync();
+                        document.forms['jvForm'].submit();
+                    });
+                }
+            });
+            prettyPrint();
+        });
         $(function () {
             $("#jvForm").validate();
         });
@@ -74,9 +94,13 @@
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>描述:</td>
-                <td width="85%" class="pn-fcontent">
-                    <textarea rows="10" cols="50" name="describe" id="describe">${category.describe}</textarea>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>描述:</td>
+                <td width="85%" class="pn-fcontent"><span class="pn-frequired">内容不能为空!</span></td>
+            </tr>
+            <tr>
+                <td width="100%" class="pn-fcontent" colspan="2" align="center">
+                    <textarea name="describe" cols="100" rows="8"
+                              style="width:95%;height:300px;visibility:hidden;">${category.describe}</textarea>
                 </td>
             </tr>
             <tr>

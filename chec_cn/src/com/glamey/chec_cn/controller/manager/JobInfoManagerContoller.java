@@ -56,7 +56,7 @@ public class JobInfoManagerContoller extends BaseController {
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         ModelAndView mav = new ModelAndView();
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
-        pageBean = new PageBean(2);
+        pageBean = new PageBean();
         pageBean.setCurPage(curPage);
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
         String keyword = WebUtils.getRequestParameterAsString(request, "kw");

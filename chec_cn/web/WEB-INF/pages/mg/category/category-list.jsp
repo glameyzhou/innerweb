@@ -14,7 +14,7 @@
             window.location = '${basePath}mg/category/category-show.do?pid=' + pid + '&id=' + id + '&type=${type}';
         }
         function del(pid,id) {
-            layer.confirm('确定要删除此栏目？',function(index){
+            layer.confirm('确定要删除此栏目？<br/>旗下的所有文章将删除.',function(index){
                 layer.close(index);
                 window.location = '${basePath}mg/category/category-del.do?pid=' + pid + '&id=' + id + '&type=${type}';
             });

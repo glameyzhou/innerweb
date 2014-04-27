@@ -3,6 +3,7 @@ package com.glamey.chec_cn.controller.manager;
 import com.glamey.chec_cn.constants.CategoryConstants;
 import com.glamey.chec_cn.controller.BaseController;
 import com.glamey.chec_cn.dao.CategoryDao;
+import com.glamey.chec_cn.dao.PostDao;
 import com.glamey.chec_cn.model.domain.Category;
 import com.glamey.framework.utils.Pinyin4jUtils;
 import com.glamey.framework.utils.WebUtils;
@@ -33,6 +34,8 @@ public class CategoryManagerController extends BaseController {
 
     @Autowired
     private CategoryDao categoryDao;
+    @Autowired
+    private PostDao postDao;
 
     /*通过父ID，列举所有的分类信息*/
     @RequestMapping(value = "/category-list.do", method = RequestMethod.GET)
@@ -163,5 +166,60 @@ public class CategoryManagerController extends BaseController {
         }
         return mav;
     }
+
+    /*删除分类*/
+    @RequestMapping(value = "/category-del.do", method = RequestMethod.GET)
+    public ModelAndView categoryDel(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("common/message");
+//        pid=' + pid + '&id=' + id + '&type=${type}
+        String pid = WebUtils.getRequestParameterAsString(request, "pid", "0");
+        String id = WebUtils.getRequestParameterAsString(request, "id", "0");
+        String type = WebUtils.getRequestParameterAsString(request, "type");
+
+        Category category = categoryDao.getById(id);
+        if (category.getHasChild() ==1 ) {
+            mav.addObject("message","需要先清空子分类");
+            return mav;
+        }
+
+        boolean result = categoryDao.deleteById(id,type);
+        if (result) {
+            mav.addObject("message", "分类删除成功");
+            mav.addObject("href", "mg/category/category-list.do?pid=" + pid + "&type=" + type);
+        }
+        else {
+            mav.addObject("message", "分类删除失败");
+        }
+        return mav;
+    }
+
+    /*根结点内容修改*/
+    @RequestMapping(value = "/root-category-show.do", method = RequestMethod.GET)
+    public ModelAndView rootCategoryShow(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("mg/category/root-category-show");
+        String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId", "0");
+        Category category = category = categoryDao.getById(categoryId);
+        mav.addObject("category",category);
+        return mav;
+    }
+    /*根结点内容修改*/
+    @RequestMapping(value = "/root-category-update.do", method = RequestMethod.POST)
+    public ModelAndView rootCategoryUpdate(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("mg/category/root-category-show");
+        String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId", "0");
+        String describe = WebUtils.getRequestParameterAsString(request, "describe");
+        Category category = category = categoryDao.getById(categoryId);
+        category.setDescribe(describe);
+
+        if (categoryDao.update(category)) {
+            mav.addObject("message","分类描述修改成功!");
+        }
+        else {
+            mav.addObject("message","分类描述修改失败!");
+        }
+        mav.addObject("category",category);
+        return mav;
+    }
+
 
 }

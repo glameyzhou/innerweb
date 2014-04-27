@@ -45,7 +45,7 @@
         </form>
         <div class="clear"></div>
     </div>
-    <form method="post" action="${basePath}mg/sys/meta/${metaInfo.name}/meta-update.htm" id="jvForm">
+    <form method="post" action="${basePath}mg/sys/meta/${metaInfo.name}/meta-update.do" id="jvForm">
         <input type="hidden" id="name" name="name" value="${metaInfo.name}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>

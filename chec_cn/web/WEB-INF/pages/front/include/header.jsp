@@ -13,7 +13,7 @@
                 <ul>
                     <li><a href="http://mail.chec.com.cn/">企业邮箱</a></li>
                     <li>|</li>
-                    <li><a href="http://vpn.chec.com.cn/">VIP链接</a></li>
+                    <li><a href="http://vpn.chec.com.cn/">VPN链接</a></li>
                     <li>|</li>
                     <li><a href="http://office.chec.com.cn/">华电内网</a></li>
                     <li style="margin-left:16px;_margin-left:16px;" class="bghui">
@@ -44,7 +44,7 @@
                 <TD class="line"></TD>
                 <TD><A href="${basePath}band-NEWS.htm">公司新闻</A></TD>
                 <TD class="line"></TD>
-                <TD><A href="${basePath}band-BUSINESS.htm">业务概况</A></TD>
+                <TD><A href="${basePath}business.htm">业务概况</A></TD>
                 <TD class="line"></TD>
                 <TD><A href="${basePath}band-PERFORMANCE.htm">公司业绩</A></TD>
                 <TD class="line"></TD>
@@ -57,7 +57,7 @@
         <div class="menu_right"></div>
     </div>
 </div>
-<div class="nav">
+<%--<div class="nav">
     <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
             codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="1002"
             height="317">
@@ -68,4 +68,5 @@
                pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"
                wmode="transparent"></embed>
     </object>
-</div>
+</div>--%>
+<%@include file="../../common/header_nav_logo.jsp"%>

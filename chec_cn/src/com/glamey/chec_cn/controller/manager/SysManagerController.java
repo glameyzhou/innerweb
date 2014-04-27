@@ -79,7 +79,7 @@ public class SysManagerController extends BaseController {
             mav.addObject("message", "操作无效");
             return mav;
         }
-        MetaInfo metaInfo = new MetaInfo();
+        MetaInfo metaInfo = metaInfoDao.getByName(name);
         metaInfo.setName(name);
         metaInfo.setValue(value);
         if (metaInfoDao.update(metaInfo)) {

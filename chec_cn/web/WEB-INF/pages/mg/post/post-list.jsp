@@ -101,8 +101,8 @@
 			<a href="javascript:checkAll('postId',true);">全选</a>&nbsp;&nbsp;
             <a href="javascript:checkAll('postId',false);">取消</a>&nbsp;&nbsp;
 		    <a href="javascript:delAll('postId');">删除所选</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('postId','valid',1,'${category.id}');">设置${categoryNameType}</a>&nbsp;&nbsp;
-            <a href="javascript:setSelectContent('postId','valid',0,'${category.id}');">取消${categoryNameType}</a>&nbsp;&nbsp;
+            <%--<a href="javascript:setSelectContent('postId','valid',1,'${category.id}');">设置${categoryNameType}</a>&nbsp;&nbsp;
+            <a href="javascript:setSelectContent('postId','valid',0,'${category.id}');">取消${categoryNameType}</a>&nbsp;&nbsp;--%>
 		</div>
 		<table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
 			<thead class="pn-lthead">

@@ -156,6 +156,29 @@ public class PostDao extends BaseDao {
     }
 
     /**
+     * delete the post by postId
+     *
+     * @param categoryId
+     * @return
+     */
+    public boolean deleteByCategoryId(final String categoryId) {
+        logger.info("[PostDao] #deleteByCategoryId#" + categoryId);
+        try {
+            int count = jdbcTemplate.update("update tbl_post set post_category_id_fk = '-1' where post_category_id_fk = ?", new PreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement preparedstatement)
+                        throws SQLException {
+                    preparedstatement.setString(1, categoryId);
+                }
+            });
+            return count >= 0;
+        } catch (Exception e) {
+            logger.error("[PostDao] #deleteByCategoryId# id=" + categoryId + " error ", e);
+        }
+        return false;
+    }
+
+    /**
      * get post by postId
      *
      * @param postId

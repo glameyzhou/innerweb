@@ -12,7 +12,7 @@
             </a>
         </li>
         <li>
-            <a href="#" target="_blank">
+            <a href="${basePath}band-JCSJ.htm">
                 <img src="${basePath}res/front/chec_cn/images/right3.jpg" width="165"/>
             </a>
         </li>
