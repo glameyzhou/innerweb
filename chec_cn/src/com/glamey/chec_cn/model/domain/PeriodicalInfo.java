@@ -1,5 +1,6 @@
 package com.glamey.chec_cn.model.domain;
 
+import com.glamey.framework.utils.NumberUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -20,7 +21,9 @@ public class PeriodicalInfo implements Serializable {
     private int periodical;
     private int periodicalAll;
     private String filePath;
+    private String fileName;
     private long fileSize;
+    private String fileShowSize;
     private Date createTime;
 
     public String getId() {
@@ -87,12 +90,28 @@ public class PeriodicalInfo implements Serializable {
         this.filePath = filePath;
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     public long getFileSize() {
         return fileSize;
     }
 
     public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
+    }
+
+    public String getFileShowSize() {
+        return NumberUtils.getFileSize(fileSize);
+    }
+
+    public void setFileShowSize(String fileShowSize) {
+        this.fileShowSize = fileShowSize;
     }
 
     public Date getCreateTime() {

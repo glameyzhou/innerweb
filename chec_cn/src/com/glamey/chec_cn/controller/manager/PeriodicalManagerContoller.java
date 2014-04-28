@@ -1,16 +1,13 @@
 package com.glamey.chec_cn.controller.manager;
 
-import com.glamey.chec_cn.constants.Constants;
 import com.glamey.chec_cn.controller.BaseController;
 import com.glamey.chec_cn.dao.PeriodicalDao;
 import com.glamey.chec_cn.model.domain.PeriodicalInfo;
 import com.glamey.chec_cn.model.domain.UploadInfo;
-import com.glamey.chec_cn.model.domain.UserInfo;
 import com.glamey.chec_cn.model.dto.PeriodicalQuery;
 import com.glamey.chec_cn.util.UploadType;
 import com.glamey.chec_cn.util.WebUploadUtils;
 import com.glamey.framework.utils.PageBean;
-import com.glamey.framework.utils.RegexUtils;
 import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
@@ -45,8 +42,7 @@ public class PeriodicalManagerContoller extends BaseController {
 
     @RequestMapping(value = "/list.do", method = RequestMethod.GET)
     public ModelAndView list(HttpServletRequest request, HttpSession session) {
-        UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
-        ModelAndView mav = new ModelAndView();
+        ModelAndView mav = new ModelAndView("mg/periodical/list");
         //请求参数获取
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
         pageBean = new PageBean();
@@ -54,13 +50,13 @@ public class PeriodicalManagerContoller extends BaseController {
 
         String keyword = WebUtils.getRequestParameterAsString(request, "kw");
         keyword = StringTools.converISO2UTF8(keyword);
-        int yeasStart = WebUtils.getRequestParameterAsInt(request, "yeasStart", -1);
-        int yeasEnd = WebUtils.getRequestParameterAsInt(request, "yeasEnd", -2);
+        int yearsStart = WebUtils.getRequestParameterAsInt(request, "yearsStart", 2000);
+        int yearsEnd = WebUtils.getRequestParameterAsInt(request, "yearsEnd", 2015);
 
         PeriodicalQuery query = new PeriodicalQuery();
         query.setKw(keyword);
-        query.setYearsStart(yeasStart);
-        query.setYeasEnd(yeasEnd);
+        query.setYearsStart(yearsStart);
+        query.setYearsEnd(yearsEnd);
         query.setStart(pageBean.getStart());
         query.setNum(pageBean.getRowsPerPage());
 
@@ -72,7 +68,6 @@ public class PeriodicalManagerContoller extends BaseController {
         mav.addObject("list", list);
         mav.addObject("pageBean", pageBean);
         mav.addObject("query", query);
-        mav.setViewName("mg/periodical/list");
         return mav;
     }
 
@@ -94,22 +89,22 @@ public class PeriodicalManagerContoller extends BaseController {
 
     @RequestMapping(value = "/create.do", method = RequestMethod.POST)
     public ModelAndView postCreate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        logger.info("[manager-post-create]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         PeriodicalInfo info = new PeriodicalInfo();
         /*图片上传*/
-        UploadInfo uploadImage = uploadUtils.doUpload(request, response, UploadType.IMAGE, "image");
+        UploadInfo uploadImage = uploadUtils.doUpload(request, response, UploadType.IMAGE, "pdfImage");
         if (uploadImage.getResultCode() == 2)
             return uploadImage.getModelAndView();
         if (StringUtils.isNotBlank(uploadImage.getFilePath()))
             info.setImages(uploadImage.getFilePath());
 
         /*附件上传*/
-        UploadInfo uploadPdf = uploadUtils.doUpload(request, response, UploadType.PDF, "file");
+        UploadInfo uploadPdf = uploadUtils.doUpload(request, response, UploadType.PDF, "pdfFile");
         if (uploadPdf.getResultCode() == 2)
             return uploadPdf.getModelAndView();
         if (StringUtils.isNotBlank(uploadPdf.getFilePath())) {
             info.setFileSize(uploadPdf.getFileSize());
+            info.setFileName(uploadPdf.getFileName());
             info.setFilePath(uploadPdf.getFilePath());
         }
         String title = WebUtils.getRequestParameterAsString(request, "title");
@@ -136,9 +131,8 @@ public class PeriodicalManagerContoller extends BaseController {
         return mav;
     }
 
-    /*文章更新*/
-    @RequestMapping(value = "/post-update.do", method = RequestMethod.POST)
-    public ModelAndView postUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    @RequestMapping(value = "/update.do", method = RequestMethod.POST)
+    public ModelAndView update(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-post-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         String id = WebUtils.getRequestParameterAsString(request, "id");
@@ -161,6 +155,7 @@ public class PeriodicalManagerContoller extends BaseController {
             return uploadPdf.getModelAndView();
         if (StringUtils.isNotBlank(uploadPdf.getFilePath())) {
             info.setFileSize(uploadPdf.getFileSize());
+            info.setFileName(uploadPdf.getFileName());
             info.setFilePath(uploadPdf.getFilePath());
         }
         String title = WebUtils.getRequestParameterAsString(request, "title");
@@ -206,23 +201,5 @@ public class PeriodicalManagerContoller extends BaseController {
             mav.addObject("message", "删除失败!");
         }
         return mav;
-    }
-
-    private static String getContentImage(HttpServletRequest request, String source) {
-        if (StringUtils.isBlank(source)) {
-            return null;
-        }
-        String image = null;
-        String reg = "<img\\s*.+?src=[\"|'| ](.+?(jpg|jpeg|png|bmp|gif|ico))[\"|'| ].+?>";
-        List<String> images = RegexUtils.getStringGoup1(source, reg);
-        if (images != null && images.size() > 0) {
-            image = images.get(0);
-
-            if (image.toLowerCase().startsWith("http")) {
-                return image;
-            }
-            return image;
-        }
-        return image;
     }
 }

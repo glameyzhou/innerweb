@@ -170,13 +170,17 @@ public class StringTools {
         }*/
 
 
-        System.out.println(URLUtils.getShort("通知公告"));
+        /*System.out.println(URLUtils.getShort("通知公告"));
         System.out.println(URLUtils.getShort("行业资讯"));
         System.out.println(URLUtils.getShort("BBS_煤炭清洁利用"));
         System.out.println(URLUtils.getShort("专题讨论区"));
         System.out.println(URLUtils.getShort("招聘部门"));
         System.out.println(URLUtils.getShort("链接"));
-        System.out.println(URLUtils.getShort("监察审计"));
+        System.out.println(URLUtils.getShort("监察审计"));*/
+
+
+        System.out.println(StringTools.getUniqueId());
+        System.out.println(38410*1024);
 
     }
 }

@@ -17,7 +17,7 @@
 	function del(postId){
         layer.confirm('确定要删除所选的内容吗？',function(index){
             layer.close(index);
-            var locationURL = "${basePath}mg/post/post-del.do?postId=" + postId + '&categoryId=${category.id}';
+            var locationURL = "${basePath}mg/post/post-del.do?postId=" + postId + '&categoryId=${category.id}&type=${category.categoryType}';
             window.location = locationURL ;
         });
 	}
@@ -36,7 +36,7 @@
                 }
                 if(values.length > 1)
                     values = values.substring(1);
-                var opURL = "${basePath}mg/post/post-del.do?postId=" + values + '&categoryId=${category.id}';
+                var opURL = "${basePath}mg/post/post-del.do?postId=" + values + '&categoryId=${category.id}&type=${category.categoryType}';
                 window.location = opURL ;
             });
 		}

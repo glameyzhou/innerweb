@@ -37,7 +37,7 @@ public class WebUploadUtils {
     @Resource
     private Map<String, List<String>> allowdUpladMap;
 
-    public UploadInfo doUpload(HttpServletRequest request, HttpServletResponse response, UploadType uploadType,String inputName) {
+    public UploadInfo doUpload(HttpServletRequest request, HttpServletResponse response, UploadType uploadType, String inputName) {
         UploadInfo ui = new UploadInfo();
         ModelAndView modelAndView = new ModelAndView("common/message");
         try {
@@ -59,11 +59,12 @@ public class WebUploadUtils {
             }
 
             if (!isAllowed(originalFilename, uploadType)) {
-                modelAndView.addObject("message", "上传文件类型不符合,必须是以下几种<br/>" + this.allowdUpladMap.get(uploadType.code).toString());
+                modelAndView.addObject("message", "上传文件类型不符合,必须是以下几种：<br/>" + this.allowdUpladMap.get(uploadType.code).toString());
                 ui.setResultCode(2);
                 ui.setModelAndView(modelAndView);
                 return ui;
             }
+            ui.setFileName(originalFilename);
             long fileSize = multipartFile.getSize();
             ui.setFileSize(fileSize);
 

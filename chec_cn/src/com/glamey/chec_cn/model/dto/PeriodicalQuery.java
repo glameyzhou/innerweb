@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class PeriodicalQuery implements Serializable {
     private String kw;
     private int yearsStart;
-    private int yeasEnd;
+    private int yearsEnd;
     private int start;
     private int num;
 
@@ -33,12 +33,12 @@ public class PeriodicalQuery implements Serializable {
         this.yearsStart = yearsStart;
     }
 
-    public int getYeasEnd() {
-        return yeasEnd;
+    public int getYearsEnd() {
+        return yearsEnd;
     }
 
-    public void setYeasEnd(int yeasEnd) {
-        this.yeasEnd = yeasEnd;
+    public void setYearsEnd(int yearsEnd) {
+        this.yearsEnd = yearsEnd;
     }
 
     public int getStart() {

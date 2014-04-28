@@ -7,7 +7,7 @@
     <base href="${basePath}">
     <script>
         KindEditor.ready(function (K) {
-            var editor1 = K.create('textarea[name="content"]', {
+            var editor1 = K.create('textarea[name="summary"]', {
                 cssPath: '${basePath}kindeditor/plugins/code/prettify.css',
                 uploadJson: '${basePath}kindeditor/jsp/upload_json.jsp',
                 fileManagerJson: '${basePath}kindeditor/jsp/file_manager_json.jsp',
@@ -50,81 +50,82 @@
         <div class="rpos">当前位置: 首页 中国华电工程期刊 - 内容<c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
         <div class="clear"></div>
     </div>
-    <form method="periodical" action="${basePath}mg/periodical/${opt}.do" id="jvForm" enctype="multipart/form-data">
+    <form method="post" action="${basePath}mg/periodical/${opt}.do" id="jvForm" enctype="multipart/form-data">
         <input type="hidden" id="id" name="id" value="${periodical.id}"/>
-        <input type="hidden" id="categoryId" name="categoryId" value="${category.id}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>标题:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="title" id="title" class="required" size="80"
+                    <input type="text" maxlength="100" name="title" class="required" size="80"
                            value="${periodical.title}">
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>来源:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>年份:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" id="source" name="source" value="${periodical.source}" class="required"/>
+                    <input type="text" maxlength="100" name="years" class="digits" min="2000" size="30" value="${periodical.years}">
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>发布人:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>期刊（第几期）:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" name="author" id="author" value="${periodical.author}">&nbsp;
-                    <font color="red">默认为当前用户</font>
+                    <input type="text" maxlength="100" name="periodical" class="digits" min="1" size="30" value="${periodical.periodical}">
                 </td>
             </tr>
             <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>发布时间:</td>
+                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>总期刊:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="publishTime" id="publishTime" class="required"
-                           value='<fmt:formatDate value="${periodical.publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/>'
-                           onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">
+                    <input type="text" maxlength="100" name="periodicalAll" class="digits" min="1" size="30" value="${periodical.periodicalAll}">
                 </td>
             </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>首页显示:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="showIndex" value="0"
-                           <c:if test="${periodical.showIndex == 0}">checked="checked"</c:if> />否&nbsp;
-                    <input type="radio" name="showIndex" value="1"
-                           <c:if test="${periodical.showIndex == 1}">checked="checked"</c:if> />是&nbsp;
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>列表页显示:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="showList" value="0"
-                           <c:if test="${periodical.showList == 0}">checked="checked"</c:if> />否&nbsp;
-                    <input type="radio" name="showList" value="1"
-                           <c:if test="${periodical.showList == 1}">checked="checked"</c:if> />是&nbsp;
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>焦点图显示:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="showFocusImage" value="0"
-                           <c:if test="${periodical.showFocusImage == 0}">checked="checked"</c:if> />否&nbsp;
-                    <input type="radio" name="showFocusImage" value="1"
-                           <c:if test="${periodical.showFocusImage == 1}">checked="checked"</c:if> />是&nbsp;
-                    <font color="red">选中"是"后，会从正文中提取第一张图片作为焦点图</font>
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>摘要描述:</td>
-                <td width="85%" class="pn-fcontent">
-                    <textarea rows="5" cols="50" name="summary" id="summary">${periodical.summary}</textarea>
-                </td>
-            </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>内容:</td>
-                <td width="85%" class="pn-fcontent"><span class="pn-frequired">内容不能为空!</span></td>
-            </tr>
+            <c:choose>
+                <c:when test="${opt eq 'update'}">
+                    <tr>
+                        <td width="15%" class="pn-flabel pn-flabel-h">封面图:</td>
+                        <td width="85%" class="pn-fcontent">
+                            <input type="file" name="pdfImage"/>
+                            <c:if test="${not empty periodical.images}">
+                                &nbsp;&nbsp;&nbsp;<a href="${basePath}${periodical.images}" target="_blank">点击查看大图</a>
+                            </c:if>
+                        </td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <tr>
+                        <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>封面图:</td>
+                        <td width="85%" class="pn-fcontent">
+                            <input type="file" name="pdfImage" class="required"/>
+                        </td>
+                    </tr>
+                </c:otherwise>
+            </c:choose>
+
+            <c:choose>
+                <c:when test="${opt eq 'update'}">
+                    <tr>
+                        <td width="15%" class="pn-flabel pn-flabel-h">附件:</td>
+                        <td width="85%" class="pn-fcontent">
+                            <input type="file" name="pdfFile"/>
+                            <c:if test="${not empty periodical.filePath}">
+                                &nbsp;&nbsp;&nbsp;${periodical.fileName}(${periodical.fileShowSize})
+                            </c:if>
+                        </td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <tr>
+                        <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>附件:</td>
+                        <td width="85%" class="pn-fcontent">
+                            <input type="file" name="pdfFile" class="required"/>
+                        </td>
+                    </tr>
+                </c:otherwise>
+            </c:choose>
+            <tr><td colspan="2" align="center" style="font-size: 14px;font-weight: bold;">目录内容(非必填项)</td></tr>
             <tr>
                 <td width="100%" class="pn-fcontent" colspan="2" align="center">
-                    <textarea name="content" cols="100" rows="8"
-                              style="width:95%;height:300px;visibility:hidden;">${periodical.content}</textarea>
+                    <textarea name="summary" cols="100" rows="8" style="width:95%;height:300px;visibility:hidden;">${periodical.summary}</textarea>
                 </td>
             </tr>
             <tr>

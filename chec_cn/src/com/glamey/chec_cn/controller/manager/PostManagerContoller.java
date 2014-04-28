@@ -7,6 +7,7 @@ import com.glamey.chec_cn.dao.CategoryDao;
 import com.glamey.chec_cn.dao.PostDao;
 import com.glamey.chec_cn.dao.UserInfoDao;
 import com.glamey.chec_cn.model.domain.Category;
+import com.glamey.chec_cn.model.domain.JobInfo;
 import com.glamey.chec_cn.model.domain.Post;
 import com.glamey.chec_cn.model.domain.UserInfo;
 import com.glamey.chec_cn.model.dto.PostQuery;
@@ -325,5 +326,37 @@ public class PostManagerContoller extends BaseController {
             return image;
         }
         return image;
+    }
+
+
+    @RequestMapping(value = "/post-del.do", method = RequestMethod.GET)
+    public ModelAndView jobDel(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("common/message");
+        String postId = WebUtils.getRequestParameterAsString(request, "postId");
+        String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
+        String type = WebUtils.getRequestParameterAsString(request, "type");
+        if (StringUtils.isBlank(postId)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "获取不到对应的信息");
+            return mav;
+        }
+        boolean result = false;
+        try {
+            String arrays[] = StringUtils.split(postId, ",");
+            for (String array : arrays) {
+                postDao.deleteById(array);
+            }
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!result) {
+            message = "内容删除失败,请稍后重试!";
+        } else {
+            message = "内容删除成功";
+            mav.addObject("href", "mg/post/post-list.do?categoryId=" + categoryId + "&type=" + type);
+        }
+        mav.addObject("message", message);
+        return mav;
     }
 }

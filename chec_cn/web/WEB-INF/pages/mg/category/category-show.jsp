@@ -89,7 +89,7 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>分类排列顺序:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="categoryOrder" id="categoryOrder" class="required" size="80" value="${category.categoryOrder}">
+                    <input type="text" maxlength="100" name="categoryOrder" id="categoryOrder" class="digits" size="80" value="${category.categoryOrder}">
                     &nbsp;<font color="red">数字越小越靠前</font>
                 </td>
             </tr>

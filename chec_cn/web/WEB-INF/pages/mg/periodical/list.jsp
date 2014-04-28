@@ -113,7 +113,7 @@
 			</c:forEach>
 			</tbody>
 		</table>
-		<c:set var="pageURL" value="${basePath}mg/periodical/list.do?kw=${fmtString:encoder(query.kw)}&yearsStart=${query.yearsStart}&yearEnd=${query.yeasEnd}&"/>
+		<c:set var="pageURL" value="${basePath}mg/periodical/list.do?kw=${fmtString:encoder(query.kw)}&yearsStart=${query.yearsStart}&yearEnd=${query.yearsEnd}&"/>
 		<%@include file="../../common/pages.jsp"%>
 	</form>
 </div>

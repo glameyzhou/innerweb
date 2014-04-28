@@ -79,7 +79,7 @@ html,body {
 						<li><a href="#culture">企业文化</a></li>
 						<li><a href="#hr">人力资源</a></li>
 						<li><a href="#links">系统链接</a></li>
-						<li><a href="#periodcal">华电工程期刊</a></li>
+						<li><a href="#periodical">华电期刊</a></li>
 						<li><a href="#setting">系统管理</a></li>
 						<%--<li><a href="${basePath}front/index.do" target="_blank">前台预览</a></li>--%>
 					</ul>
@@ -327,9 +327,9 @@ html,body {
                         </c:choose>
                     </c:forEach>
                 </dl>
-                <dl id="periodcal" class="default" style="display: none;">
+                <dl id="periodical" class="default" style="display: none;">
                     <dt>期刊管理</dt>
-                    <dd><a href="${basePath}mg/periodcal/list.do" target="iframe">期刊管理</a></dd>
+                    <dd><a href="${basePath}mg/periodical/list.do" target="iframe">期刊管理</a></dd>
                 </dl>
                 <dl id="setting" class="default" style="display: none;">
                     <dt>用户管理</dt>

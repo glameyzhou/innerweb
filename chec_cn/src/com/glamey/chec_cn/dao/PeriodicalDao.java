@@ -34,8 +34,8 @@ public class PeriodicalDao extends BaseDao {
         final String id = StringTools.getUniqueId();
         try {
             int count = jdbcTemplate.update(
-                    "insert into tbl_periodical (id,title,summary,image,years,periodical,periodical_all,filepath,filesize,createtime)" +
-                            " values(?,?,?,?,?,?,?,?,?,now())",
+                    "insert into tbl_periodical (id,title,summary,image,years,periodical,periodical_all,filepath,filename,filesize,createtime)" +
+                            " values(?,?,?,?,?,?,?,?,?,?,now())",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -48,6 +48,7 @@ public class PeriodicalDao extends BaseDao {
                             pstmt.setInt(++i, info.getPeriodical());
                             pstmt.setInt(++i, info.getPeriodicalAll());
                             pstmt.setString(++i, info.getFilePath());
+                            pstmt.setString(++i, info.getFileName());
                             pstmt.setLong(++i, info.getFileSize());
                         }
                     }
@@ -67,7 +68,7 @@ public class PeriodicalDao extends BaseDao {
         logger.info("[PeriodicalDao] #update# " + info);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_periodical set title = ?,summary = ?,image = ?,years = ?,periodical = ?,periodical_all = ?,filepath = ?,filesize = ?,createtime = now() where id = ?",
+                    "update tbl_periodical set title = ?,summary = ?,image = ?,years = ?,periodical = ?,periodical_all = ?,filepath = ?,filename = ?,filesize = ? where id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -79,6 +80,7 @@ public class PeriodicalDao extends BaseDao {
                             pstmt.setInt(++i, info.getPeriodical());
                             pstmt.setInt(++i, info.getPeriodicalAll());
                             pstmt.setString(++i, info.getFilePath());
+                            pstmt.setString(++i, info.getFileName());
                             pstmt.setLong(++i, info.getFileSize());
                             pstmt.setString(++i, info.getId());
                         }
@@ -154,7 +156,7 @@ public class PeriodicalDao extends BaseDao {
             if (query.getYearsStart() > -1)
                 sql.append(" and years >= ? ");
 
-            if (query.getYeasEnd() >= query.getYearsStart())
+            if (query.getYearsEnd() >= query.getYearsStart())
                 sql.append(" and years <= ? ");
 
             sql.append(" order by periodical_all desc limit ?,? ");
@@ -173,8 +175,8 @@ public class PeriodicalDao extends BaseDao {
                             if (query.getYearsStart() > -1)
                                 preparedstatement.setInt(++i, query.getYearsStart());
 
-                            if (query.getYeasEnd() >= query.getYearsStart())
-                                preparedstatement.setInt(++i, query.getYeasEnd());
+                            if (query.getYearsEnd() >= query.getYearsStart())
+                                preparedstatement.setInt(++i, query.getYearsEnd());
 
 
                             preparedstatement.setInt(++i, query.getStart());
@@ -198,14 +200,6 @@ public class PeriodicalDao extends BaseDao {
             List<Object> params = new ArrayList<Object>();
             StringBuffer sql = new StringBuffer("select count(1) as total from tbl_periodical where 1=1 ");
 
-            /*if (StringUtils.isNotBlank(query.getKw()))
-                sql.append(" and (title like ? or summary like ? ) ");
-
-            if (query.getYearsStart() > -1)
-                sql.append(" and years >= ? ");
-
-            if (query.getYeasEnd() >= query.getYearsStart())
-                sql.append(" and years <= ? ");*/
             if (StringUtils.isNotBlank(query.getKw())) {
                 sql.append(" and (title like ? or summary like ?) ");
                 params.add(query.getKw());
@@ -217,9 +211,9 @@ public class PeriodicalDao extends BaseDao {
                 params.add(query.getYearsStart());
             }
 
-            if (query.getYeasEnd() >= query.getYearsStart()) {
+            if (query.getYearsEnd() >= query.getYearsStart()) {
                 sql.append(" and years <= ? ");
-                params.add(query.getYeasEnd());
+                params.add(query.getYearsEnd());
             }
             count = jdbcTemplate.queryForInt(sql.toString(), params.toArray());
         } catch (Exception e) {
@@ -242,6 +236,7 @@ public class PeriodicalDao extends BaseDao {
             info.setPeriodical(rs.getInt("periodical"));
             info.setPeriodicalAll(rs.getInt("periodical_all"));
             info.setFilePath(rs.getString("filepath"));
+            info.setFileName(rs.getString("filename"));
             info.setFileSize(rs.getLong("filesize"));
             info.setCreateTime(rs.getTimestamp("createtime"));
             return info;
