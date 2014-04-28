@@ -154,7 +154,7 @@
         <div class="content-right">
             <ul>
                 <li>
-                    <a href="http://www.chec.com.cn/qzlx/index.asp" target="_blank">
+                    <a href="http://office.chec.com.cn/qzlx/index.asp" target="_blank">
                         <img src="${basePath}res/front/chec_cn/images/right2.jpg" border="0"/>
                     </a>
                 </li>

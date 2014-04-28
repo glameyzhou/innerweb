@@ -2,7 +2,7 @@
 <div class="left-con" style="background:none;">
     <ul>
         <li>
-            <a href="http://www.chec.com.cn/qzlx/index.asp" target="_blank">
+            <a href="http://office.chec.com.cn/qzlx/index.asp" target="_blank">
                 <img src="${basePath}res/front/chec_cn/images/right2.jpg" width="165"/>
             </a>
         </li>
