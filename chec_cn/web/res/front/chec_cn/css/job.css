@@ -1,0 +1,313 @@
+@charset "utf-8";
+/* CSS Document */
+/*left*/
+.job_k {
+    text-align: left;
+    background: #F4F4F4;
+    padding: 10px 10px 25px;
+    color: #858585;
+    zoom: 1
+}
+
+.job_k select {
+    color: #858585;
+    font-size: 12px;
+}
+
+#tableJob {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    background: none
+}
+
+#tableJob th {
+    background: #858585;
+    color: #fff;
+    font-weight: bold;
+}
+
+#tableJob th, #tableJob td {
+    line-height: 20px;
+    padding: 6px 5px 5px 15px;
+    text-align: left;
+}
+
+#tableJob td {
+    color: #525252;
+    border-bottom: 1px #CACACA solid
+}
+
+#tableJob th a, #tableJob td a {
+    color: #525252;
+    text-decoration: none
+}
+
+#tableJob th a, #tableJob td a:hover {
+    color: #B91400;
+    text-decoration: none
+}
+
+/*2*/
+.acc_job_k {
+    text-align: left;
+    background: none;
+    padding: 0;
+    color: #464646;
+    zoom: 1
+}
+
+.acc_job_k td {
+    color: #464646;
+}
+
+.acc_job_k H2 {
+    font-size: 13px;
+    color: #474747;
+    margin: 0px;
+    padding: 0 0 7px;
+}
+
+.shichang_box1 {
+}
+
+.shichang_box1 H3 {
+    font-size: 12px;
+    color: #474747;
+    line-height: 20px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0px 0 0;
+}
+
+.acc_line {
+    height: 15px;
+    line-height: 0;
+    font-size: 0;
+    border-top: 1px #E8E8E8 solid
+}
+
+.box1_cont {
+    padding: 6px 0px 10px 0px;
+    line-height: 20px;
+    zoom: 1
+}
+
+.acc_buttonDiv {
+    padding: 20px 0 0
+}
+
+.acc_button {
+    display: block;
+    background: url(../images/application.gif) no-repeat left top;
+    cursor: pointer;
+    width: 72px;
+    height: 20px;
+    float: left;
+}
+
+.acc_button_en {
+    display: block;
+    background: url(../images/application_en.gif) no-repeat left top;
+    cursor: pointer;
+    width: 86px;
+    height: 20px;
+    float: left;
+}
+
+.acc_view {
+    color: #CF431D;
+    padding: 0 0;
+    line-height: 20px;
+    text-decoration: underline
+}
+
+.acc_view a {
+    color: #CF431D;
+    text-decoration: underline
+}
+
+.acc_view a:hover {
+    color: #CF431D;
+    text-decoration: none
+}
+
+/*3*/
+.acc_application03 {
+    padding: 0 0;
+    background: #fff;
+    zoom: 1
+}
+
+h2.acc_application {
+    padding: 6px 0 0;
+    margin: 0;
+    font-size: 14px;
+    color: #0E0E0E;
+    text-align: center;
+}
+
+p.acc_notice {
+    text-align: right;
+    margin: 0 auto;
+    width: 722px;
+    height: 20px;
+    padding: 0 0 3px;
+    color: #4D4D4D;
+    border-bottom: 1px #C5C6C9 solid
+}
+
+.acc_red {
+    color: #f00;
+}
+
+.w58 {
+    width: 58px;
+}
+
+.w62 {
+    width: 62px;
+}
+
+.w81 {
+    width: 81px;
+}
+
+.w165 {
+    width: 165px;
+}
+
+.w190 {
+    width: 190px;
+}
+
+.w230 {
+    width: 230px;
+}
+
+.w302 {
+    width: 302px;
+}
+
+#acc_application {
+    width: 724px;
+    margin: 1px auto;
+}
+
+#acc_application table {
+    width: 724px;
+    border-collapse: collapse
+}
+
+#acc_application th {
+    width: 100px;
+    text-align: right;
+    font-weight: normal;
+    background: #EAEDF1;
+    padding: 0 5px;
+    height: 30px;
+}
+
+#acc_application th p {
+    padding: 0;
+    margin: 0;
+}
+
+#acc_application th p.wordNum {
+    color: #000;
+    padding-right: 5px;
+}
+
+#acc_application th p.noticeCnt {
+    color: #777;
+    line-height: 18px;
+    padding-right: 5px;
+}
+
+#acc_application td {
+    padding: 0 0 0 10px;
+    background: #F3F5F9;
+}
+
+#acc_application th, #acc_application td {
+    color: #5A5A5A;
+    border: 1px #fff solid;
+}
+
+#acc_application td td {
+    border: none;
+    padding: 0;
+    width: auto;
+    text-align: left
+}
+
+#acc_application .input {
+    color: #80817D;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 18px;
+    line-height: 18px;
+    border: 1px #B9B9B9 solid
+}
+
+#acc_application select {
+    color: #323232;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#acc_application textarea {
+    width: 474px;
+    height: 150px;
+    border: 1px #B9B9B9 solid;
+    color: #323232;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#acc_application .buttonTD {
+    text-align: center;
+    padding: 0;
+}
+
+#acc_application .verticalTop {
+    vertical-align: top;
+    padding-top: 8px;
+}
+
+#acc_application .verticalTop2 {
+    vertical-align: top;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+#acc_application .lightGrey {
+    color: #999;
+}
+
+#acc_application td td.small_tit {
+    color: #80817D;
+}
+
+.page_k {
+    text-align: right;
+    padding: 10px 5px 0;
+}
+
+.page {
+    font-size: 12px;
+    color: #7C8185;
+    text-decoration: none
+}
+
+.page a {
+    font-size: 12px;
+    color: #7C8185;
+    text-decoration: none
+}
+
+.page a:hover {
+    font-size: 12px;
+    color: #ff0000;
+    text-decoration: none
+}
