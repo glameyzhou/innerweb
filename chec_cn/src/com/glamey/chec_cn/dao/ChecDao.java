@@ -73,6 +73,26 @@ public class ChecDao {
                     post.setCategoryId(CategoryConstants.CATEGORY_ID_INTRODUCE_ZZRY_ZIZHI);
                     post.setCategoryType(CategoryConstants.CATEGORY_INTRODUCE);
                 }
+                //企业文化--精神文明
+                if (StringUtils.equals(nodeId,"21")) {
+                    post.setCategoryId(CategoryConstants.CATEGORY_ID_CULUTRE_JINGSHENWENMING);
+                    post.setCategoryType(CategoryConstants.CATEGORY_CULTURE);
+                }
+                //企业文化--党建工作
+                if (StringUtils.equals(nodeId,"22")) {
+                    post.setCategoryId(CategoryConstants.CATEGORY_ID_CULUTRE_DANGJIANGONGZUO);
+                    post.setCategoryType(CategoryConstants.CATEGORY_CULTURE);
+                }
+                //企业文化--工会活动
+                if (StringUtils.equals(nodeId,"23")) {
+                    post.setCategoryId(CategoryConstants.CATEGORY_ID_CULUTRE_GONGHUIHUODONG);
+                    post.setCategoryType(CategoryConstants.CATEGORY_CULTURE);
+                }
+                //企业文化--精神文明
+                if (StringUtils.equals(nodeId,"54")) {
+                    post.setCategoryId(CategoryConstants.CATEGORY_ID_CULUTRE_TUANQINGGONGZUO);
+                    post.setCategoryType(CategoryConstants.CATEGORY_CULTURE);
+                }
                 list.add(post);
             }
             conn.close();

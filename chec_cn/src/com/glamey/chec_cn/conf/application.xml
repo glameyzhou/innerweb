@@ -36,6 +36,22 @@
             </list>
         </constructor-arg>
     </bean>
+    <bean id="allowedUploadPDF" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <value>pdf</value>
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="allowdUpladMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="sourceMap">
+            <map>
+                <entry key="image" value-ref="allowedUploadImages"/>
+                <entry key="flash" value-ref="allowedUploadFlash"/>
+                <entry key="pdf" value-ref="allowedUploadPDF"/>
+            </map>
+        </property>
+    </bean>
     <!-- 文件上传 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="UTF-8"/>

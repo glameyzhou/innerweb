@@ -114,6 +114,14 @@ public class MetaFrontController extends BaseController {
         List<Category> categoryList_links = categoryDao.getByParentId(categoryLinks.getId(),categoryLinks.getCategoryType(),0,Integer.MAX_VALUE);
         mav.addObject("categoryLinks",categoryLinks);
         mav.addObject("categoryList_links",categoryList_links);
+
+        /**
+         * 监察审计
+         */
+        Category categoryJcsj = categoryDao.getByAliasName(CategoryConstants.CATEGORY_JCSJ);
+        List<Category> categoryList_jcsj = categoryDao.getByParentId(categoryJcsj.getId(),categoryJcsj.getCategoryType(),0,Integer.MAX_VALUE);
+        mav.addObject("categoryJcsj",categoryJcsj);
+        mav.addObject("categoryList_jcsj",categoryList_jcsj);
         return mav;
     }
 }

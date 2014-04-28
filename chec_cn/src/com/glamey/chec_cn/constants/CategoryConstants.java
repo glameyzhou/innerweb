@@ -8,9 +8,11 @@ package com.glamey.chec_cn.constants;
  */
 public class CategoryConstants {
 
-    public static final String PARENTID = "0" ;
+
+    /*****************************************************************[开始]*************************************************************************/
+    public static final String PARENTID = "0";
     /*未知分类*/
-    public static final String CATEGORY_UNKNOW = "000000" ;
+    public static final String CATEGORY_UNKNOW = "000000";
     /**
      * 首页
      */
@@ -50,13 +52,10 @@ public class CategoryConstants {
     public static final String CATEGORY_JCSJ = "JCSJ";
 
 
-
-
-
     /*要闻快递*/
-    public static final String CATEGORY_ID_YAOWENKUAIDI= "FnQNjm";
+    public static final String CATEGORY_ID_YAOWENKUAIDI = "FnQNjm";
     /*公司新闻*/
-    public static final String CATEGORY_ID_GONGSIXINWEN= "6ZBZRj";
+    public static final String CATEGORY_ID_GONGSIXINWEN = "6ZBZRj";
     /*公司简介*/
     public static final String CATEGORY_ID_GONGSIJIANJIE = "VBvABv";
     /**
@@ -73,24 +72,27 @@ public class CategoryConstants {
     /*审计监察--案例分析*/
     public static final String CATEGORY_ID_JCSJ_ANLIFENXI = "MrYJJ3";
     /*审计监察--法规制度*/
-    public static final String CATEGORY_ID_JCSJ_FAGUIZHIDU= "ayuuAf";
+    public static final String CATEGORY_ID_JCSJ_FAGUIZHIDU = "ayuuAf";
 
     /**
      * 公司资质荣誉
      */
-    public static final String CATEGORY_ID_INTRODUCE_ZZRY_ZIZHI= "V7VVre";
-    public static final String CATEGORY_ID_INTRODUCE_ZZRY_RONGYU= "yyMNj2";
+    public static final String CATEGORY_ID_INTRODUCE_ZZRY_ZIZHI = "V7VVre";
+    public static final String CATEGORY_ID_INTRODUCE_ZZRY_RONGYU = "yyMNj2";
 
 
+    /**
+     * 企业文化-精神文明
+     */
+    public static final String CATEGORY_ID_CULUTRE_JINGSHENWENMING = "3I7RZj";
+    /*企业文化-党建工作*/
+    public static final String CATEGORY_ID_CULUTRE_DANGJIANGONGZUO = "QBZZRv";
+    /*企业文化-工会活动*/
+    public static final String CATEGORY_ID_CULUTRE_GONGHUIHUODONG = "eiUBrm";
+    /*企业文化-团青工作*/
+    public static final String CATEGORY_ID_CULUTRE_TUANQINGGONGZUO = "VbAZ7v";
 
-
-
-
-
-
-
-
-
+    /*****************************************************************[结束]*************************************************************************/
 
 
 
@@ -98,19 +100,19 @@ public class CategoryConstants {
 
 
     /*外部快捷入口*/
-    public static final String CATEGORY_OUTFASTENTRANCE = "outfastentrance" ;
+    public static final String CATEGORY_OUTFASTENTRANCE = "outfastentrance";
     /*内部快捷入口*/
-    public static final String CATEGORY_INFASTENTRANCE = "infastentrance" ;
+    public static final String CATEGORY_INFASTENTRANCE = "infastentrance";
     /*友情链接*/
     public static final String CATEOGRY_FRIENDLYLINKS = "friendlyLinks";
     /*常用链接*/
-    public static final String CATEGORY_OFENLINKS = "ofenLinks" ;
+    public static final String CATEGORY_OFENLINKS = "ofenLinks";
 
     /*滚动图片*/
-    public static final String CATEGORY_ROLLINGIMAGE = "rollingImage" ;
+    public static final String CATEGORY_ROLLINGIMAGE = "rollingImage";
 
     /*所有通知(公司内部通告)*/
-    public static final String  CATEGORY_ALLNOTICES = "deptInnerNotices" ;
+    public static final String CATEGORY_ALLNOTICES = "deptInnerNotices";
 
 
     public static final String CATEGORY_BBS = "bbs";
@@ -162,7 +164,7 @@ public class CategoryConstants {
     /**
      * 行业资讯（图书类别）
      */
-    public static final String CATEGORY_HANGYEZIXUN  = "EnQnii";
+    public static final String CATEGORY_HANGYEZIXUN = "EnQnii";
 
 
     /**
@@ -173,7 +175,7 @@ public class CategoryConstants {
     /**
      * BBS_区域能源
      */
-    public static final String CATEGORY_BBS_QUYUNENGYUAN  = "Evmqey";
+    public static final String CATEGORY_BBS_QUYUNENGYUAN = "Evmqey";
 
     /**
      * BBS论坛的根结点ID

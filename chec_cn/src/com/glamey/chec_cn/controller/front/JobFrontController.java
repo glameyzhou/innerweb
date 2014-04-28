@@ -9,6 +9,7 @@ import com.glamey.chec_cn.dao.PostDao;
 import com.glamey.chec_cn.dao.ResumeDao;
 import com.glamey.chec_cn.model.domain.*;
 import com.glamey.chec_cn.model.dto.JobInfoQuery;
+import com.glamey.chec_cn.util.UploadType;
 import com.glamey.chec_cn.util.WebUploadUtils;
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.WebUtils;
@@ -119,7 +120,7 @@ public class JobFrontController extends BaseController {
         ResumeInfo resume = new ResumeInfo();
 
         // TODO 图片上传
-        UploadInfo ui = uploadUtils.doUpload(request, response);
+        UploadInfo ui = uploadUtils.doUpload(request, response, UploadType.IMAGE,"image");
         if (StringUtils.isNotBlank(ui.getFilePath()))
             resume.setImage(ui.getFilePath());
 

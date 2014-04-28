@@ -44,8 +44,9 @@
                                 <a href="${basePath}brand-${categoryIntroduce.categoryType}.htm">${categoryIntroduce.name}</a>&nbsp;
                             </td>
                             <td style="text-align: left;" valign="middle">
-                                <c:forEach var="cate" items="${categoryList_introduce}">
-                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a><br/><br/>
+                                <c:forEach var="cate" items="${categoryList_introduce}" varStatus="status">
+                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a>
+                                    <c:if test="${!status.last}"><br/><br/></c:if>
                                 </c:forEach>
                             </td>
                             <td style="text-align: left;">&nbsp;</td>
@@ -55,8 +56,9 @@
                                 <a href="${basePath}brand-${categoryNews.categoryType}.htm">${categoryNews.name}</a>&nbsp;
                             </td>
                             <td style="text-align: left;" valign="middle">
-                                <c:forEach var="cate" items="${categoryList_news}">
-                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a><br/><br/>
+                                <c:forEach var="cate" items="${categoryList_news}" varStatus="status">
+                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a>
+                                    <c:if test="${!status.last}"><br/><br/></c:if>
                                 </c:forEach>
                             </td>
                             <td style="text-align: left;">&nbsp;</td>
@@ -66,8 +68,9 @@
                                 <a href="${basePath}brand-${categoryBusiness.categoryType}.htm">${categoryBusiness.name}</a>&nbsp;
                             </td>
                             <td style="text-align: left;" valign="middle">
-                                <c:forEach var="cate" items="${categoryList_business}">
-                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a><br/><br/>
+                                <c:forEach var="cate" items="${categoryList_business}" varStatus="status">
+                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a>
+                                    <c:if test="${!status.last}"><br/><br/></c:if>
                                 </c:forEach>
                             </td>
                             <td style="text-align: left;">&nbsp;</td>
@@ -77,8 +80,9 @@
                                 <a href="${basePath}brand-${categoryPerformance.categoryType}.htm">${categoryPerformance.name}</a>&nbsp;
                             </td>
                             <td style="text-align: left;" valign="middle">
-                                <c:forEach var="cate" items="${categoryList_performance}">
-                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a><br/><br/>
+                                <c:forEach var="cate" items="${categoryList_performance}" varStatus="status">
+                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a>
+                                    <c:if test="${!status.last}"><br/><br/></c:if>
                                 </c:forEach>
                             </td>
                             <td style="text-align: left;">&nbsp;</td>
@@ -88,8 +92,21 @@
                                 <a href="${basePath}brand-${categoryCulture.categoryType}.htm">${categoryCulture.name}</a>&nbsp;
                             </td>
                             <td style="text-align: left;" valign="middle">
-                                <c:forEach var="cate" items="${categoryList_culture}">
-                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a><br/><br/>
+                                <c:forEach var="cate" items="${categoryList_culture}" varStatus="status">
+                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a>
+                                    <c:if test="${!status.last}"><br/><br/></c:if>
+                                </c:forEach>
+                            </td>
+                            <td style="text-align: left;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right">
+                                <a href="${basePath}brand-${categoryHr.categoryType}.htm">${categoryHr.name}</a>&nbsp;
+                            </td>
+                            <td style="text-align: left;" valign="middle">
+                                <c:forEach var="cate" items="${categoryList_hr}" varStatus="status">
+                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a>
+                                    <c:if test="${!status.last}"><br/><br/></c:if>
                                 </c:forEach>
                             </td>
                             <td style="text-align: left;">&nbsp;</td>
@@ -102,19 +119,40 @@
                                 <c:forEach var="cate" items="${categoryList_hr}">
                                     <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a><br/><br/>
                                 </c:forEach>
+                                <a href="${basePath}jobs.htm">招聘公告</a>
                             </td>
                             <td style="text-align: left;">&nbsp;</td>
                         </tr>
                         <tr>
                             <td style="text-align: right">
-                                <a href="${basePath}brand-${categoryHr.categoryType}.htm">${categoryHr.name}</a>&nbsp;
+                                <a href="${basePath}brand-${categoryJcsj.categoryType}.htm">${categoryJcsj.name}</a>&nbsp;
                             </td>
                             <td style="text-align: left;" valign="middle">
-                                <c:forEach var="cate" items="${categoryList_hr}">
-                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a><br/><br/>
+                                <c:forEach var="cate" items="${categoryList_jcsj}" varStatus="staus">
+                                    <a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a>
+                                    <c:if test="${!status.last}"><br/><br/></c:if>
                                 </c:forEach>
-                                <a href="${basePath}jobs.htm">招聘公告</a><br/><br/>
                             </td>
+                            <td style="text-align: left;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style=" text-align: right"><a href="http://office.chec.com.cn/qzlx/index.asp">党的群众路线教育实践活动</a>&nbsp;</td>
+                            <td style="text-align: left;">&nbsp;</td>
+                            <td style="text-align: left;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style=" text-align: right"><a href="#">中国华电工程</a>&nbsp;</td>
+                            <td style="text-align: left;">&nbsp;</td>
+                            <td style="text-align: left;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style=" text-align: right"><a href="${basePath}meta-contact_us.htm">联系我们</a>&nbsp;</td>
+                            <td style="text-align: left;">&nbsp;</td>
+                            <td style="text-align: left;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style=" text-align: right"><a href="${basePath}meta-website.htm">网站地图</a>&nbsp;</td>
+                            <td style="text-align: left;">&nbsp;</td>
                             <td style="text-align: left;">&nbsp;</td>
                         </tr>
                     </table>

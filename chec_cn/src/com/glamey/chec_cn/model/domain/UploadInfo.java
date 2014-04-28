@@ -12,6 +12,7 @@ public class UploadInfo {
     /*成功状态码 0=成功 1=上传图片失败*/
     private int resultCode ;
     private String filePath ;
+    private long fileSize;
     private ModelAndView modelAndView ;
 
     public int getResultCode() {
@@ -28,6 +29,14 @@ public class UploadInfo {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
     }
 
     public ModelAndView getModelAndView() {
