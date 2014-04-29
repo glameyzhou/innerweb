@@ -109,10 +109,10 @@ public class StringTools {
 	}
 	public static void main(String[] args) throws UnsupportedEncodingException {
 		/*String str = "<a>aa</a>";
-		System.out.println(substring(str, 2, ".."));*/
+		System.out.println(substring(str, 2, ".."));*//*
 		System.out.println(getUUID());
 		System.out.println(getUUID().length());
-		/*System.out.println("a3,");*/
+		*//*System.out.println("a3,");*//*
 		System.out.println(substring("2011-05-11 14:42:03", 16, ""));
 		System.out.println(getUniqueId());
 
@@ -122,7 +122,7 @@ public class StringTools {
         for (char c1 : c) {
             System.out.println(c1 + " 数字：" + Character.isDigit(c1) + " 字母：" + Character.isLetter(c1) + " " + Character.isLowerCase(c1));
         }
-        /*StringBuffer result = new StringBuffer();
+        *//*StringBuffer result = new StringBuffer();
         int subLen = 8 ;
         double subIndex = 0 ;
         int len = c.length ;
@@ -139,7 +139,7 @@ public class StringTools {
                 break;
             }
         }
-        System.out.println(result);*/
+        System.out.println(result);*//*
         System.out.println("+++++++++++++++++++++++++++");
         str = "中国人、assbABS123--+" ;
         str = "2013-2018年中国电力产业发展规划与投资战略部署专题研究报告";
@@ -165,12 +165,12 @@ public class StringTools {
             System.out.println(s + " " + s.getBytes("UTF-8").length);
         }
         System.out.println(result);
-        /*for (String s : ss) {
+        *//*for (String s : ss) {
             System.out.println(s + " length = " + s.getBytes().length);
-        }*/
+        }*//*
 
 
-        /*System.out.println(URLUtils.getShort("通知公告"));
+        *//*System.out.println(URLUtils.getShort("通知公告"));
         System.out.println(URLUtils.getShort("行业资讯"));
         System.out.println(URLUtils.getShort("BBS_煤炭清洁利用"));
         System.out.println(URLUtils.getShort("专题讨论区"));
@@ -180,7 +180,6 @@ public class StringTools {
 
 
         System.out.println(StringTools.getUniqueId());
-        System.out.println(38410*1024);
-
+        System.out.println(52810*1024);
     }
 }

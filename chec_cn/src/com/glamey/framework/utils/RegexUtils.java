@@ -26,6 +26,22 @@ public class RegexUtils {
 		}
 		return list;
 	}
+    public static String getGroup1(String source, String reg) {
+		if (StringUtils.isBlank(reg))
+			throw new IllegalArgumentException(
+					"regex must contain group 1 at least.");
+		if (StringUtils.isBlank(source))
+			throw new IllegalArgumentException("source can`t be null.");
+//		Pattern p = Pattern.compile(reg, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL) ;
+//		Pattern p = Pattern.compile(reg, Pattern.MULTILINE | Pattern.DOTALL);
+		Pattern p = Pattern.compile(reg,Pattern.CASE_INSENSITIVE);
+		Matcher m;
+
+		m = p.matcher(source);
+        if (m.find())
+            return m.group(1);
+		return null;
+	}
 
     public static boolean isMatch(String source, String reg) {
         if (StringUtils.isBlank(reg))

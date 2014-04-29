@@ -1,9 +1,6 @@
 package com.glamey.framework.utils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -56,5 +53,27 @@ public class HttpConnection {
             response = "";
         }
         return response;
+    }
+
+
+    public static String getSource(String pageUrl) {
+        StringBuffer source = new StringBuffer();
+        try {
+            URL url = new URL(pageUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            InputStream is = connection.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            String line;
+            while ((line = br.readLine()) != null) {
+                source.append(line).append(System.getProperty("line.separator"));
+            }
+            br.close();
+            is.close();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return source.toString();
     }
 }
