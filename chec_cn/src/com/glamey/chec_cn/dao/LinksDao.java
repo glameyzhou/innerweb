@@ -72,7 +72,7 @@ public class LinksDao extends BaseDao {
         logger.info("[LinksDao] #update# " + links);
         try {
             int count = jdbcTemplate.update(
-                    "update tbl_links set links_name=?,links_url=?,links_category_id_fk=?,links_image=?,links_order=?,where id = ?",
+                    "update tbl_links set links_name=?,links_url=?,links_category_id_fk=?,links_image=?,links_order=? where id = ?",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
