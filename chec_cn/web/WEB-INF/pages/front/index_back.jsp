@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>中国华电工程（集团）有限公司</title>
     <link href="${basePath}res/front/chec_cn/css/style.css" rel="stylesheet" type="text/css" />
-    <link href="${basePath}res/front/chec_cn/css/index_0429.css" rel="stylesheet" type="text/css" />
+    <link href="${basePath}res/front/chec_cn/css/index.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/chec_cn/css/header.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/chec_cn/css/footer.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
@@ -47,7 +47,8 @@
             </div>
             <div class="Tab">
                 <h2 id="news-box-0-h">
-                    <span id="news-box-0-h-span-0" class="current">要闻快递</span>
+                    <span id="news-box-0-h-span-0" onMouseOver="changeTabs(0,0);" class="current">要闻快递</span>
+                    <%--<span id="news-box-0-h-span-1" onMouseOver="changeTabs(0,1);" style="margin-left: -1px;">公司新闻</span>--%>
                 </h2>
                 <div id="news-box-0-0" class="Tab_main" style="display: block;">
                     <a href="${basePath}band-NEWS.htm?cate=FnQNjm" class="more" target="_blank">
@@ -70,10 +71,32 @@
                          </span>
                     </ul>
                 </div>
+                <%--<div id="news-box-0-1" class="Tab_main" style="display: none;">
+                    <a href="${basePath}band-NEWS.htm?cate=6ZBZRj" class="more" target="_blank">
+                        <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" />
+                    </a>
+                    <ul>
+                        <c:if test="${fn:length(gongsixinwenList) > 0}">
+                            <c:set var="gongsixinwenObj" value="${gongsixinwenList[0]}" />
+                        </c:if>
+                         <span>
+                             <h1>${fmtString:substringAppend(gongsixinwenObj.title,25,'..' )}</h1>
+                             <ul style="padding:3px;">
+                                 <c:forEach var="gongsixinwen" items="${gongsixinwenList}">
+                                     <li>
+                                         <span style="float:right">[ <fmt:formatDate value="${gongsixinwen.publishTime}" pattern="yyyy-M-dd"/>]</span>
+                                         <a href="${basePath}post-${gongsixinwen.categoryType}-${gongsixinwen.categoryId}-${gongsixinwen.id}.htm" title="${gongsixinwen.title}">${fmtString:substringAppend(gongsixinwen.title,27,'..' )}</a>
+                                     </li>
+                                 </c:forEach>
+                             </ul>
+                         </span>
+                    </ul>
+                </div>--%>
             </div>
             <div class="Tab width390">
-                <h2><span class="current">公司新闻</span></h2>
-                <div class="Tab_mainm">
+                <h2 style="margin-left:8px;"><span class="current">公司新闻</span></h2>
+
+                <div class="height115">
                     <a href="${basePath}band-NEWS.htm?cate=6ZBZRj" class="more" target="_blank">
                         <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" border="0"/></a>
                     <ul>
@@ -108,7 +131,7 @@
                     <ul>
                         <a href="${basePath}band-${gongsijianjie.categoryType}.htm?cate=${gongsijianjie.categoryId}" target="_blank">
                             <span>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(gongsijianjie.summary,200 ,'...' )}</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(gongsijianjie.summary,100 ,'...' )}</p>
                             </span>
                         </a>
                     </ul>
@@ -120,7 +143,7 @@
                     <ul>
                         <a href="${basePath}business.htm" target="_blank">
                             <span>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(rootBusiness.describe,200 ,'...' )}</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(rootBusiness.describe,100 ,'...' )}</p>
                             </span>
                         </a>
                     </ul>
@@ -132,7 +155,7 @@
                     <ul style="color:#616065;">
                         <a href="${basePath}band-${fazhanzhanlue.categoryType}.htm?cate=${fazhanzhanlue.categoryId}" target="_blank">
                             <span>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(fazhanzhanlue.summary,200 ,'...' )}</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(fazhanzhanlue.summary,100 ,'...' )}</p>
                             </span>
                         </a>
                     </ul>
@@ -143,7 +166,7 @@
                     <ul style="color:#616065;">
                         <a href="${basePath}introduce-zzry.htm" target="_blank">
                             <span>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(zizhirongyu.describe,200 ,'...' )}</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(zizhirongyu.describe,100 ,'...' )}</p>
                             </span>
                         </a>
                     </ul>

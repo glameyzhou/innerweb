@@ -69,7 +69,7 @@ public class IndexFrontController extends BaseController {
         /*公司新闻*/
         query = new PostQuery();
         query.setStart(0);
-        query.setNum(6);
+        query.setNum(7);
         query.setCategoryType(CategoryConstants.CATEGORY_NEWS);
         query.setCategoryId(CategoryConstants.CATEGORY_ID_GONGSIXINWEN);
         List<Post> gongsixinwenList = postDao.getByQuery(query);

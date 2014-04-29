@@ -20,6 +20,7 @@
     width: 309px;
 }
 
+/* 开始滑动 */
 .Tab {
     float: left;
     width: 458px;
@@ -28,6 +29,7 @@
     position: relative;
 }
 
+/* 内容体  div */
 .Tab .Tab_main {
     width: 446px;
     height: 168px;
@@ -38,10 +40,11 @@
     padding: 10px;
 }
 
+/* 标题  */
 .Tab h2 span {
     float: left;
     display: block;
-    width: 107px;
+    width: 80px;
     height: 21px;
     line-height: 21px;
     background: url(../images/tit_bg.jpg) no-repeat left top;
@@ -73,8 +76,9 @@ h1 {
     top: 5px;
 }
 
-/*.Tab_mainm {
-    height: 165px;
+/* //////////////////////////////4.29修改菜单滑动  左下 div*/
+.Tab_mainm {
+    height: 165px; /* //////////////////////////////4.29 修改//////////////////////// */
     line-height: 21px;
     background: url(../images/Tab_bg1.jpg) no-repeat left top;
     color: #616065;
@@ -87,10 +91,11 @@ h1 {
     position: absolute;
     left: 340px;
     top: 5px;
-}*/
+}
 
+/* //////////////////////////////4.29修改 菜单滑动  右下 div*/
 .height115 {
-    height: 115px;
+    height: 165px;
     line-height: 21px;
     background: url(../images/Tab_bg1.jpg) no-repeat left top;
     color: #616065;
@@ -115,10 +120,12 @@ h1 {
     padding: 10px 12px;
     margin-top: 5px;
     width: 192px;
-    height: 326px;
+    height: 376px; /* //////////////////////////////4.29 修改//////////////////////// */
     float: left
 }
 
 .content-right li {
-    padding-bottom: 10px;
+    padding-bottom: 16px;
 }
+
+/* 菜单滑动  左边 */
