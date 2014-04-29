@@ -1,0 +1,369 @@
+@charset "utf-8";
+/* CSS Document */
+
+h4.acc_titleBar {
+    margin: 0;
+    padding: 0 0 0 2px;
+    font-size: 14px;
+    color: #424E53;
+    text-align: left;
+    text-indent: 8px;
+    background: url(../images/titleBg.gif) repeat-x left top;
+    height: 24px;
+    line-height: 24px;
+    border-bottom: 1px #fff solid;
+}
+
+.acc_publ_Layout {
+    margin: 16px 10px 0;
+    text-align: left;
+    zoom: 1
+}
+
+.acc_publ_Layout table {
+}
+
+h5.acc_pubListTit {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: #8D5E01;
+    text-align: left;
+}
+
+h5.acc_pubListTit a {
+    font-size: 14px;
+    color: #8D5E01;
+}
+
+.acc_Brief {
+    color: #666;
+    line-height: 18px;
+    padding: 3px 0;
+}
+
+.acc_more {
+    margin: 0 0 10px;
+}
+
+.acc_more a {
+    color: #003399;
+    text-decoration: underline
+}
+
+.acc_more a:hover {
+    color: #003399;
+    text-decoration: none
+}
+
+.acc_publ_Layout h6 {
+    margin: 0 15px 0 0;
+    color: #424E53;
+    font-size: 12px;
+    border-bottom: 1px #D5D5D5 solid;
+    padding: 4px 0 2px
+}
+
+.acc_zzList {
+    margin: 4px 10px 10px 0
+}
+
+.acc_zzList td {
+    padding: 5px 0
+}
+
+.acc_zzList td a {
+    background: url(../images/images_w/listIcon.gif) no-repeat left 3px;
+    padding-left: 15px;
+    color: #003399;
+    text-decoration: underline
+}
+
+.acc_zzList td a:hover {
+    color: #003399;
+    text-decoration: none
+}
+
+/*qikan2*/
+
+h1.acc_publicationTit {
+    margin: 0;
+    padding: 0 0 5px 2px;
+    font-size: 16px;
+    color: #424E53;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: none;
+    height: 24px;
+    line-height: 24px;
+}
+
+h2.acc_pubListTit {
+    font-size: 12px;
+    color: #8D5E01;
+    font-weight: bold;
+    margin: 0 0 0;
+    padding: 2px 0 0 0;
+    background: #EAEAEA url(../images/titBg.jpg) repeat-y left top;
+    height: 18px;
+    line-height: 18px;
+    text-indent: 10px;
+    text-align: left;
+}
+
+h2.acc_pubListTit a {
+    font-size: 12px;
+    color: #8D5E01;
+    font-weight: bold;
+    text-decoration: none
+}
+
+.acc_mainNav {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow: hidden;
+    text-align: left;
+    zoom: 1
+}
+
+.acc_mainNav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.acc_mainNav li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    float: left;
+    border: 1px #fff solid;
+    border-width: 0 1px 1px 0;
+}
+
+.acc_mainNav li a {
+    height: 24px;
+    line-height: 24px;
+    padding: 0;
+    float: left;
+    color: #424E53;
+    display: block;
+    padding: 0 10px;
+    background: url(../images/dh_off.jpg) repeat-x left top;
+    text-decoration: none
+}
+
+.acc_mainNav li a:hover {
+    color: #fff;
+    background: url(../images/dh_on.jpg) repeat-x left top;
+}
+
+.acc_mainNav li a.selected {
+    display: block;
+    height: 24px;
+    line-height: 24px;
+    color: #fff;
+    background: url(../images/dh_on.jpg) repeat-x left top;
+}
+
+.acc_publication_Layout {
+    padding: 34px 10px 0;
+    text-align: left;
+    zoom: 1
+}
+
+.acc_contentArea {
+    padding: 8px 10px 16px;
+    text-align: left;
+}
+
+.acc_profile2 {
+    color: #666;
+    line-height: 18px;
+}
+
+.acc_newsTit {
+    padding: 0 0 2px;
+}
+
+.acc_newsTit a {
+    color: #003399;
+    text-decoration: underline
+}
+
+.acc_newsTit a:hover {
+    color: #003399;
+    text-decoration: none
+}
+
+.bookTit {
+    border-top: 1px #fff solid;
+    background: #E6E6E6;
+    color: #464646;
+    padding: 4px 0;
+}
+
+.bookTit a {
+    color: #464646;
+}
+
+.bookTit a:hover {
+    color: #464646;
+    text-decoration: underline
+}
+
+.select {
+    width: 134px;
+    color: #5A5A5A;
+}
+
+.acc_zzList2 {
+    margin: 4px 10px 10px 0;
+    zoom: 1
+}
+
+.acc_zzList2 td {
+    padding: 5px 0
+}
+
+.acc_zzList2 td a {
+    background: url(../images/images_w/listIcon.gif) no-repeat left 3px;
+    padding-left: 15px;
+    color: #003399;
+    text-decoration: underline
+}
+
+.acc_zzList2 td a:hover {
+    color: #003399;
+    text-decoration: none
+}
+
+/*qikan3*/
+
+h1.acc_mainTit {
+    margin: 0;
+    padding: 0 0 8px 2px;
+    font-size: 14px;
+    color: #424E53;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: none;
+    height: 24px;
+    line-height: 24px;
+}
+
+h1.acc_mainTit .selectRight {
+    float: right;
+}
+
+h1.acc_mainTit .selectRight select {
+    color: #5A5A5A;
+    width: 136px;
+}
+
+h2.acc_subTit {
+    font-size: 12px;
+    color: #003399;
+    font-weight: normal;
+    margin: 0 0 0;
+    padding: 2px 0 0 0;
+    background: #F9F9F9 url(../images/icon.jpg) no-repeat 5px center;
+    height: 18px;
+    line-height: 18px;
+    text-indent: 15px;
+    text-decoration: underline
+}
+
+h2.acc_subTit a {
+    font-size: 12px;
+    color: #003399;
+    font-weight: normal;
+    text-decoration: underline
+}
+
+h2.acc_subTit a:hover {
+    font-size: 12px;
+    color: #003399;
+    font-weight: normal;
+    text-decoration: none
+}
+
+.acc_mainWrapper {
+    padding: 22px 0 0;
+    text-align: left;
+    zoom: 1
+}
+
+.acc_profile3 {
+    color: #666;
+    line-height: 22px;
+    padding: 11px 15px 20px;
+    background: none;
+}
+
+/*qikan4=qikan3*/
+
+/*qikan5*/
+.main_k {
+    padding: 10px 10px;
+    text-align: left;
+    zoom: 1
+}
+
+h1.mainTit {
+    margin: 0;
+    padding: 0 0 8px 2px;
+    font-size: 14px;
+    color: #424E53;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: none;
+    height: 24px;
+    line-height: 24px;
+}
+
+h1.mainTit .selectRight {
+    float: right;
+}
+
+h1.mainTit .selectRight select {
+    color: #5A5A5A;
+    width: 136px;
+}
+
+h2.searchBg {
+    border-left: 2px #BC1430 solid;
+    font-size: 12px;
+    color: #039;
+    font-weight: normal;
+    margin: 0 0 0;
+    padding: 1px 0 0 0;
+    background: #F9F9F9 url(../images/searchResultBg.jpg) repeat-x 5px center;
+    height: 23px;
+    line-height: 23px;
+    text-indent: 10px;
+    text-decoration: underline
+}
+
+h2.searchBg a {
+    font-size: 12px;
+    color: #039;
+    font-weight: normal;
+    text-decoration: underline
+}
+
+h2.searchBg a:hover {
+    font-size: 12px;
+    color: #039;
+    font-weight: normal;
+    text-decoration: none
+}
+
+.acc_othertit {
+    padding: 20px 0 0 0;
+    font-size: 12px;
+    color: #000;
+    font-weight: bold;
+}

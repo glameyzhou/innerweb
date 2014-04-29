@@ -141,7 +141,7 @@
                             <td style="text-align: left;">&nbsp;</td>
                         </tr>
                         <tr>
-                            <td style=" text-align: right"><a href="#">中国华电工程</a>&nbsp;</td>
+                            <td style=" text-align: right"><a href="${basePath}periodical.htm">中国华电工程</a>&nbsp;</td>
                             <td style="text-align: left;">&nbsp;</td>
                             <td style="text-align: left;">&nbsp;</td>
                         </tr>

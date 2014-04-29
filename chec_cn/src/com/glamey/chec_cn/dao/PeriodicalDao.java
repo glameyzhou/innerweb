@@ -222,6 +222,26 @@ public class PeriodicalDao extends BaseDao {
         return count;
     }
 
+    public List<Integer> getYearsList() {
+        logger.info("[PeriodicalDao] #getYearsList# ");
+        List<Integer> list = new ArrayList<Integer>();
+        try {
+            List<Object> params = new ArrayList<Object>();
+            StringBuffer sql = new StringBuffer("select distinct(years) as years from tbl_periodical order by years desc");
+            list = jdbcTemplate.query(sql.toString(),
+                    new RowMapper<Integer>() {
+                        @Override
+                        public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
+                            return resultSet.getInt("years");
+                        }
+                    }
+            );
+        } catch (Exception e) {
+            logger.error("[PeriodicalDao] #getYearsList# error!", e);
+        }
+        return list;
+    }
+
 
     class PeriodicalRowMapper implements RowMapper<PeriodicalInfo> {
         @Override

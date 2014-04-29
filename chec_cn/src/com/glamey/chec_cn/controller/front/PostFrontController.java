@@ -4,13 +4,12 @@ import com.glamey.chec_cn.constants.CategoryConstants;
 import com.glamey.chec_cn.constants.Constants;
 import com.glamey.chec_cn.constants.LuceneConstants;
 import com.glamey.chec_cn.controller.BaseController;
-import com.glamey.chec_cn.dao.CategoryDao;
-import com.glamey.chec_cn.dao.LinksDao;
-import com.glamey.chec_cn.dao.PostDao;
-import com.glamey.chec_cn.dao.UserInfoDao;
+import com.glamey.chec_cn.dao.*;
 import com.glamey.chec_cn.model.domain.Category;
+import com.glamey.chec_cn.model.domain.PeriodicalInfo;
 import com.glamey.chec_cn.model.domain.Post;
 import com.glamey.chec_cn.model.dto.LuceneEntry;
+import com.glamey.chec_cn.model.dto.PeriodicalQuery;
 import com.glamey.chec_cn.model.dto.PostQuery;
 import com.glamey.chec_cn.util.LuceneUtils;
 import com.glamey.framework.utils.FileUtils;
@@ -60,6 +59,9 @@ public class PostFrontController extends BaseController {
     private PostDao postDao;
     @Autowired
     private LinksDao linksDao;
+    @Autowired
+    private PeriodicalDao periodicalDao;
+
     private LuceneUtils lu = new LuceneUtils();
     private static Directory directory = null;
     private static IndexSearcher isearcher = null;
@@ -248,6 +250,61 @@ public class PostFrontController extends BaseController {
         mav.addObject("categoryList", categoryList);
         mav.addObject("defaultCategory", defaultCategory);
         mav.addObject("defaultChild", defaultChild);
+        return mav;
+    }
+
+    /*中国华电工程期刊*/
+    @RequestMapping(value = {"/periodical.htm"}, method = RequestMethod.GET)
+    public ModelAndView periodicalIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView("front/band/periodical-index");
+        int years = WebUtils.getRequestParameterAsInt(request,"years",-1);
+        PeriodicalQuery query = new PeriodicalQuery();
+        query.setYearsStart(years);
+        query.setYearsEnd(years == -1 ? -2 : years);
+        query.setStart(0);
+        query.setNum(Integer.MAX_VALUE);
+
+        List<PeriodicalInfo> list = periodicalDao.getByQuery(query);
+
+        PeriodicalInfo periodical = new PeriodicalInfo();
+        if (!CollectionUtils.isEmpty(list))
+            periodical = list.get(0);
+
+        mav.addObject("periodical", periodical);
+        mav.addObject("list", list);
+        return mav;
+    }
+    /*中国华电工程期刊-detail*/
+    @RequestMapping(value = {"/periodical-{periodicalId}.htm"}, method = RequestMethod.GET)
+    public ModelAndView periodicalDetail(
+            @PathVariable String periodicalId,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView("front/band/periodical-detail");
+        if (StringUtils.isBlank(periodicalId)) {
+            mav.setViewName("common/message");
+            mav.addObject("message","访问的内容不存在，请稍后重试!");
+            return mav;
+        }
+        PeriodicalInfo periodical = periodicalDao.getById(periodicalId);
+        List<Integer> yearsList = periodicalDao.getYearsList();
+        mav.addObject("periodical", periodical);
+        mav.addObject("yearsList", yearsList);
+        return mav;
+    }
+
+    /*中国华电工程期刊-目录*/
+    @RequestMapping(value = {"/periodical/summary-{periodicalId}.htm"}, method = RequestMethod.GET)
+    public ModelAndView periodicalSummary(
+            @PathVariable String periodicalId,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView("front/band/periodical-summary");
+        if (StringUtils.isBlank(periodicalId)) {
+            mav.setViewName("common/message");
+            mav.addObject("message","访问的内容不存在，请稍后重试!");
+            return mav;
+        }
+        PeriodicalInfo periodical = periodicalDao.getById(periodicalId);
+        mav.addObject("periodical", periodical);
         return mav;
     }
 }

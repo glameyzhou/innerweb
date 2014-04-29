@@ -12,8 +12,8 @@ import java.io.Serializable;
  */
 public class PeriodicalQuery implements Serializable {
     private String kw;
-    private int yearsStart;
-    private int yearsEnd;
+    private int yearsStart = -1;
+    private int yearsEnd = -2;
     private int start;
     private int num;
 

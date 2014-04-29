@@ -159,7 +159,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="${basePath}periodical.htm">
                         <img src="${basePath}res/front/chec_cn/images/right1.jpg" />
                     </a>
                 </li>

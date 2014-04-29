@@ -7,7 +7,7 @@
             </a>
         </li>
         <li>
-            <a href="#" target="_blank">
+            <a href="${basePath}periodical.htm">
                 <img src="${basePath}res/front/chec_cn/images/right1.jpg" width="165" border="0"/>
             </a>
         </li>
