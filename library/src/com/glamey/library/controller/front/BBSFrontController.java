@@ -54,9 +54,9 @@ public class BBSFrontController extends BaseController {
     private BBSVoteDao voteDao;
 
     private static final JsonMapper jsonMapper = JsonMapper.nonNullMapper();
-    private static final int postTotal = 20;
+    private static final int postTotal = 10;
     private static final int postTopTotal = 5;
-    private static int postNormalTotal = 15;
+    private static int postNormalTotal = 10;
 
     @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {

@@ -33,6 +33,7 @@
             modify by zy 20140217 行业资讯从tbl_post转移到tbl_library中。
             --%>
             <%
+                String basePath = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort()) + request.getContextPath() + "/";
                 List<LibraryInfo> includePostList = (List<LibraryInfo>) request.getAttribute("includePostList");
                 UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
                 String libHref = "";
@@ -41,7 +42,7 @@
                         libHref = "href=\"" + info.getUrl() + "\" target=\"_blank\"";
                     }
                     else {
-                        libHref = "href=\"" + request.getContextPath() + "library-detail-" + info.getId() + ".htm\"";
+                        libHref = "href=\"" + basePath + "library-detail-" + info.getId() + ".htm\"";
                     }
              %>
                 <li><a class="postTitle_a" <%=libHref%> title="<%=info.getName()%>"><%=info.getName()%></a></li>
