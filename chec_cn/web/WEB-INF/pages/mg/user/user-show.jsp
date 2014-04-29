@@ -54,6 +54,8 @@
                 if (!tempOption.selected) {
                     tempOption.selected = true;
                 }
+
+                /*alert(tempOption.text + " " + tempOption.value);*/
             }
             document.getElementById("jvForm").submit();
         }

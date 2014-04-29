@@ -506,18 +506,21 @@ public class UserInfoDao extends BaseDao {
             });
             //重新建立新的角色内容
             final List<String> roleIdList = userInfo.getRoleIdList();
-            if(roleIdList != null && roleIdList.size() > 0){
-                jdbcTemplate.batchUpdate("insert into tbl_user_role(user_id_fk,role_id_fk) values(?,?)",new BatchPreparedStatementSetter() {
-                    @Override
-                    public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
-                        preparedStatement.setString(1,userId);
-                        preparedStatement.setString(2,roleIdList.get(i));
-                    }
-                    @Override
-                    public int getBatchSize() {
-                        return roleIdList.size();
-                    }
-                });
+            if (roleIdList != null && roleIdList.size() > 0) {
+                jdbcTemplate.batchUpdate("insert into tbl_user_role(user_id_fk,role_id_fk) values(?,?)",
+                        new BatchPreparedStatementSetter() {
+                            @Override
+                            public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                                preparedStatement.setString(1, userId);
+                                preparedStatement.setString(2, roleIdList.get(i));
+                            }
+
+                            @Override
+                            public int getBatchSize() {
+                                return roleIdList.size();
+                            }
+                        }
+                );
             }
             return count > 0;
         } catch (Exception e) {

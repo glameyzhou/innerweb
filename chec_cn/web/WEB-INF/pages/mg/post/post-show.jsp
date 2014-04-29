@@ -102,16 +102,25 @@
                            <c:if test="${post.showList == 1}">checked="checked"</c:if> />是&nbsp;
                 </td>
             </tr>
-            <tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>焦点图显示:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="showFocusImage" value="0"
-                           <c:if test="${post.showFocusImage == 0}">checked="checked"</c:if> />否&nbsp;
-                    <input type="radio" name="showFocusImage" value="1"
-                           <c:if test="${post.showFocusImage == 1}">checked="checked"</c:if> />是&nbsp;
-                    <font color="red">选中"是"后，会从正文中提取第一张图片作为焦点图</font>
-                </td>
-            </tr>
+            <%--只有是新闻状态，才有焦点图的显示--%>
+            <c:choose>
+                <c:when test="${'NEWS' eq category.categoryType}">
+                    <tr>
+                        <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>焦点图显示:</td>
+                        <td width="85%" class="pn-fcontent">
+                            <input type="radio" name="showFocusImage" value="0"
+                                   <c:if test="${post.showFocusImage == 0}">checked="checked"</c:if> />否&nbsp;
+                            <input type="radio" name="showFocusImage" value="1"
+                                   <c:if test="${post.showFocusImage == 1}">checked="checked"</c:if> />是&nbsp;
+                            <font color="red">选中"是"后，会从正文中提取第一张图片作为焦点图</font>
+                        </td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <input type="hidden" name="showFocusImage" value="0"/>
+                </c:otherwise>
+            </c:choose>
+
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>摘要描述:</td>
                 <td width="85%" class="pn-fcontent">

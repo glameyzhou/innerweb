@@ -9,8 +9,6 @@ import com.glamey.chec_cn.controller.BaseController;
 import com.glamey.chec_cn.dao.CategoryDao;
 import com.glamey.chec_cn.model.domain.Category;
 import com.glamey.chec_cn.model.domain.UserInfo;
-import com.glamey.framework.utils.WebUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -43,6 +41,10 @@ public class HomeManagerController extends BaseController {
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         mav.addObject("userInfo", userInfo);
 
+        /*当前权限*/
+        //权限List
+        List<String> rightsList = userInfo.getRightsList();
+        mav.addObject("rightsList", rightsList);
         /**
          * 公司介绍
          */

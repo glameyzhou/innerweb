@@ -506,11 +506,16 @@ public class UserInfoManagerController extends BaseController {
         if (StringUtils.isNotBlank(userId)) {
             userInfo = userInfoDao.getUserById(userId);
             destRoleInfoList.addAll(userInfo.getRoleInfoList());
-            srcRoleInfoList.addAll(roleInfoList);
+            /*srcRoleInfoList.addAll(roleInfoList);
             for(Iterator<RoleInfo> it = srcRoleInfoList.iterator();it.hasNext();){
                 RoleInfo r = it.next();
                 if(destRoleInfoList.contains(r)){
                     it.remove();
+                }
+            }*/
+            for (RoleInfo roleInfo : roleInfoList) {
+                if(!destRoleInfoList.contains(roleInfo)){
+                    srcRoleInfoList.add(roleInfo);
                 }
             }
             opt = "update";
@@ -645,6 +650,7 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.updateUser(userInfo)) {
             mav.addObject("message", "更新系统用户成功");
+            mav.addObject("href","mg/user/user-list.do");
         } else {
             mav.addObject("message", "更新系统用户失败");
         }

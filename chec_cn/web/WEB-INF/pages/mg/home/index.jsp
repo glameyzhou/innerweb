@@ -71,16 +71,36 @@ html,body {
 				<div id="nav" class="nav">
 					<ul>
 						<li><a href="#index">首页</a></li>
-						<li><a href="#introduce">公司介绍</a></li>
-						<li><a href="#news">公司新闻</a></li>
-						<li><a href="#jcsj">监察审计</a></li>
-						<li><a href="#business">业务概况</a></li>
-						<li><a href="#performance">公司业绩</a></li>
-						<li><a href="#culture">企业文化</a></li>
-						<li><a href="#hr">人力资源</a></li>
-						<li><a href="#links">系统链接</a></li>
-						<li><a href="#periodical">华电期刊</a></li>
-						<li><a href="#setting">系统管理</a></li>
+                        <c:if test="${fmtString:hasRightsList(rightsList,'1-')}">
+                            <li><a href="#introduce">公司介绍</a></li>
+                        </c:if>
+                        <c:if test="${fmtString:hasRightsList(rightsList,'2-')}">
+                            <li><a href="#news">公司新闻</a></li>
+                        </c:if>
+                        <c:if test="${fmtString:hasRightsList(rightsList,'3-')}">
+                            <li><a href="#jcsj">监察审计</a></li>
+                        </c:if>
+                        <c:if test="${fmtString:hasRightsList(rightsList,'4-')}">
+                            <li><a href="#business">业务概况</a></li>
+                        </c:if>
+                        <c:if test="${fmtString:hasRightsList(rightsList,'5-')}">
+                            <li><a href="#performance">公司业绩</a></li>
+                        </c:if>
+                        <c:if test="${fmtString:hasRightsList(rightsList,'6-')}">
+                            <li><a href="#culture">企业文化</a></li>
+                        </c:if>
+                        <c:if test="${fmtString:hasRightsList(rightsList,'7-')}">
+                            <li><a href="#hr">人力资源</a></li>
+                        </c:if>
+                        <c:if test="${fmtString:hasRightsList(rightsList,'8-')}">
+                            <li><a href="#links">系统链接</a></li>
+                        </c:if>
+                        <c:if test="${fmtString:hasRightsList(rightsList,'9-')}">
+                            <li><a href="#periodical">华电期刊</a></li>
+                        </c:if>
+                        <c:if test="${fmtString:hasRightsList(rightsList,'10-')}">
+                            <li><a href="#setting">系统管理</a></li>
+                        </c:if>
 						<%--<li><a href="${basePath}front/index.do" target="_blank">前台预览</a></li>--%>
 					</ul>
 				</div>
