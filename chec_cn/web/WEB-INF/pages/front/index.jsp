@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>中国华电工程（集团）有限公司</title>
     <link href="${basePath}res/front/chec_cn/css/style.css" rel="stylesheet" type="text/css" />
-    <link href="${basePath}res/front/chec_cn/css/index_0429.css" rel="stylesheet" type="text/css" />
+    <link href="${basePath}res/front/chec_cn/css/index_v2.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/chec_cn/css/header.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}res/front/chec_cn/css/footer.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
@@ -108,7 +108,7 @@
                     <ul>
                         <a href="${basePath}band-${gongsijianjie.categoryType}.htm?cate=${gongsijianjie.categoryId}" target="_blank">
                             <span>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(gongsijianjie.summary,200 ,'...' )}</p>
+                                <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(gongsijianjie.summary,200 ,'...' )}</p>
                             </span>
                         </a>
                     </ul>
@@ -120,7 +120,7 @@
                     <ul>
                         <a href="${basePath}business.htm" target="_blank">
                             <span>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(rootBusiness.describe,200 ,'...' )}</p>
+                                <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(rootBusiness.describe,200 ,'...' )}</p>
                             </span>
                         </a>
                     </ul>
@@ -132,7 +132,7 @@
                     <ul style="color:#616065;">
                         <a href="${basePath}band-${fazhanzhanlue.categoryType}.htm?cate=${fazhanzhanlue.categoryId}" target="_blank">
                             <span>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(fazhanzhanlue.summary,200 ,'...' )}</p>
+                                <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(fazhanzhanlue.summary,200 ,'...' )}</p>
                             </span>
                         </a>
                     </ul>
@@ -143,7 +143,7 @@
                     <ul style="color:#616065;">
                         <a href="${basePath}introduce-zzry.htm" target="_blank">
                             <span>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(zizhirongyu.describe,200 ,'...' )}</p>
+                                <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(zizhirongyu.describe,200 ,'...' )}</p>
                             </span>
                         </a>
                     </ul>
