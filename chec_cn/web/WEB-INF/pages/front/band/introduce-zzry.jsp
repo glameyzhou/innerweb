@@ -56,15 +56,26 @@
             <div class="weizhi">您所在的位置：<a href="${basePath}">首页</a>&nbsp;>&nbsp;<a href="${basePath}band-${rootCategory.categoryType}.htm">${rootCategory.name}</a>&nbsp;>&nbsp;<a href="${basePath}band-${rootCategory.categoryType}.htm?cate=${defaultCategory.id}">${defaultCategory.name}</a></div>
             <div class="right-con">
                 <p>${defaultCategory.describe}</p>
-                <%--<p style="text-align: center;">--%>
-                    <table width="40%"cellspacing="0" cellpadding="0" style="font-size: 14px;font-weight: bold;margin-left: 40px;text-align: center;">
-                        <tr>
+                    <table width="40%"cellspacing="0" cellpadding="0" style="font-size: 14px;font-weight: bold;margin-left: 40px;">
+                        <%--<tr>
                             <c:forEach var="cate" items="${defaultChild}">
                                 <td><a href="${basePath}band-${cate.categoryType}.htm?cate=${cate.id}">${cate.name}</a></td>
                             </c:forEach>
+                        </tr>--%>
+                        <tr>
+                            <td align="right">
+                                <a href="${basePath}band-INTRODUCE.htm?cate=V7VVre" alt="公司资质">
+                                    <img src="${basePath}res/front/chec_cn/images/zz.jpg" alt="公司资质" border="0"/>
+                                </a>
+                            </td>
+                            <td align="right" width="4%"></td>
+                            <td align="left">
+                                <a href="${basePath}band-INTRODUCE.htm?cate=yyMNj2" alt="公司荣誉">
+                                    <img src="${basePath}res/front/chec_cn/images/ry.jpg" alt="公司荣誉" border="0"/>
+                                </a>
+                            </td>
                         </tr>
                     </table>
-                <%--</p>--%>
             </div>
         </div>
     </div>
