@@ -35,7 +35,7 @@
                 <div class="job_k">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tableJob">
                         <tr>
-                            <td style=" text-align: right"><a href="${basePath}">首页</a>&nbsp;</td>
+                            <td style="text-align: right;width: 30%;"><a href="${basePath}">首页</a>&nbsp;</td>
                             <td style="text-align: left;">&nbsp;</td>
                             <td style="text-align: left;">&nbsp;</td>
                         </tr>
