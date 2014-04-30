@@ -37,6 +37,13 @@ a:hover{
 	line-height:23px;
 	width:195px;
 }
+.xiala_notFirst{
+	margin-top:2px;
+	border:1px solid #C0C0C0;
+	height:18px;
+	line-height:23px;
+	width:195px;
+}
 .xiala1{border:1px solid #C0C0C0;height:18px;margin-left:8px; margin-right:8px;}
 .danxuan{margin-left:8px; margin-right:8px;}
 .text{border:1px solid #C0C0C0; height:18px; width:150px; margin-left:8px; margin-right:8px;}

@@ -167,11 +167,18 @@
                         <img src="${basePath}res/front/chec_cn/images/right3.jpg" />
                     </a>
                 </li>
-
-                <c:forEach var="links" items="${linksMap}">
+                <c:forEach var="links" items="${linksMap}" varStatus="status">
                     <c:set var="linksList" value="${links.value}"/>
+                    <c:choose>
+                        <c:when test="${status.first}">
+                            <c:set var="selectCss" value="xiala"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="selectCss" value="xiala_notFirst"/>
+                        </c:otherwise>
+                    </c:choose>
                     <li>
-                        <select name="" class="xiala" onchange="jump(this.value);">
+                        <select name="" class="${selectCss}" onchange="jump(this.value);">
                             <option value="">----${links.key.name}----</option>
                             <c:forEach var="l" items="${linksList}">
                                 <option value="${l.url}">${l.name}</option>
