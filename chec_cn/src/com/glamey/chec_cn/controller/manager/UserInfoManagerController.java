@@ -394,6 +394,7 @@ public class UserInfoManagerController extends BaseController {
                 logger.info("[manager-rights-delete]" + request.getRequestURI() + " roleId=" + array + " result=" + userInfoDao.delRole(array));
             }
             mav.addObject("message", "删除系统角色成功");
+            mav.addObject("href", "mg/user/role-list.do");
         } catch (Exception e) {
             logger.error("[manager-rights-delete] error " + request.getRequestURI() + " " + roleId);
             mav.addObject("message", "删除系统角色失败");
@@ -629,11 +630,17 @@ public class UserInfoManagerController extends BaseController {
         }
 
 
-        String roleIds [] = WebUtils.getRequestParameterAsStringArrs(request,"sltTarget");
+        /*String roleIds [] = WebUtils.getRequestParameterAsStringArrs(request,"sltTarget");
         if(roleIds == null || roleIds.length == 0){
             mav.addObject("message", "角色必须选择一项");
             return mav;
+        }*/
+        String roleIdSelected = WebUtils.getRequestParameterAsString(request,"roleIdSelected");
+        if (StringUtils.isBlank(roleIdSelected)) {
+            mav.addObject("message", "角色必须选择一项");
+            return mav;
         }
+        String roleIds [] = StringUtils.split(roleIdSelected,",");
         List<String> roleIdList = Arrays.asList(roleIds);
         userInfo.setRoleIdList(roleIdList);
         String nickName = WebUtils.getRequestParameterAsString(request, "nickname");

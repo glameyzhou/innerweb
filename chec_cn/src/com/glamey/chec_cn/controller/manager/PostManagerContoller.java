@@ -200,7 +200,7 @@ public class PostManagerContoller extends BaseController {
         post.setShowTop(showTop);
         post.setSummary(summary);
         post.setContent(content);
-        post.setPublishTime(StringUtils.isNotBlank(publishTime) ? new Date() : DateUtils.format(publishTime, "yyyy-MM-dd HH:mm:ss"));
+        post.setPublishTime(StringUtils.isBlank(publishTime) ? new Date() : DateUtils.format(publishTime, "yyyy-MM-dd HH:mm:ss"));
         post.setCategoryId(WebUtils.getRequestParameterAsString(request, "categoryId"));
 
         //从正文中提取第一张图片作为焦点图

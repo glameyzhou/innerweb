@@ -4,60 +4,54 @@
 <head>
     <%@include file="../../common/tagInclude.jsp" %>
     <%@include file="../../common/headerInclude.jsp" %>
+    <script type="text/javascript" src="${basePath}res/common/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
     <title>用户<c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></title>
     <script type="text/javascript">
         $(function () {
             $("#jvForm").validate();
         });
-        function removeItem(){
-            var sltSrc=document.getElementById('sltSrc');
-            var sltTarget=document.getElementById('sltTarget');
-            for(var i=0;i<sltSrc.options.length;i++)
-            {
-                var tempOption=sltSrc.options[i];
-                if(tempOption.selected){
+        function removeItem() {
+            var sltSrc = document.getElementById('sltSrc');
+            var sltTarget = document.getElementById('sltTarget');
+            for (var i = 0; i < sltSrc.options.length; i++) {
+                var tempOption = sltSrc.options[i];
+                if (tempOption.selected) {
                     sltSrc.removeChild(tempOption);
                     sltTarget.appendChild(tempOption);
                 }
             }
         }
-        function addItem(){
-            var sltSrc=document.getElementById('sltSrc');
-            var sltTarget=document.getElementById('sltTarget');
-            for(var i=0;i<sltTarget.options.length;i++)
-            {
-                var tempOption=sltTarget.options[i];
-                if(tempOption.selected){
+        function addItem() {
+            var sltSrc = document.getElementById('sltSrc');
+            var sltTarget = document.getElementById('sltTarget');
+            for (var i = 0; i < sltTarget.options.length; i++) {
+                var tempOption = sltTarget.options[i];
+                if (tempOption.selected) {
                     sltTarget.removeChild(tempOption);
                     sltSrc.appendChild(tempOption);
                 }
             }
         }
-
-        /*function pageLoad(){
-            var opt = ${opt};
-            if(opt == 'update'){
-                alert("asdfasfd");
-                var content = '' ;
-                var srcUserSelect = document.getElementById("sltTarget");
-                <c:forEach var="destRole" items="${destRoleInfoList}">
-                content +='<option value="${destRole.roleId}">${destRole.roleName}</option>';
-                </c:forEach>
-                alert(content);
-                srcUserSelect.innerHTML = content ;
-            }
-        }*/
         function onFormSubmit() {
             var sltTarget = document.getElementById('sltTarget');
+            var roleIdSelected = "";
             for (var i = 0; i < sltTarget.options.length; i++) {
                 var tempOption = sltTarget.options[i];
-                if (!tempOption.selected) {
+                /*if (!tempOption.selected) {
                     tempOption.selected = true;
                 }
-
-                /*alert(tempOption.text + " " + tempOption.value);*/
+                alert(tempOption.text + " " + tempOption.value);*/
+                roleIdSelected += "," + tempOption.value;
             }
-            document.getElementById("jvForm").submit();
+            if ($.trim(roleIdSelected).length == 0) {
+                layer.alert('角色不能为空', 8);
+                return false;
+            } else {
+                roleIdSelected = roleIdSelected.substring(1);
+                $("#roleIdSelected").val(roleIdSelected);
+                $("#jvForm").submit();
+            }
         }
     </script>
 </head>
@@ -70,6 +64,7 @@
     </div>
     <form method="post" action="${basePath}mg/user/user-${opt}.do" id="jvForm" onsubmit="onFormSubmit();">
         <input type="hidden" id="userId" name="userId" value="${userInfo.userId}"/>
+        <input type="hidden" id="roleIdSelected" name="roleIdSelected" style="width: 300px;"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
             <tr>
@@ -114,7 +109,7 @@
                     <tr>
                         <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>密码:</td>
                         <td width="85%" class="pn-fcontent">
-                            <input type="text" maxlength="100" name="passwd" id="passwd" size="80"
+                            <input type="text" maxlength="100" name="passwd" size="80"
                                    value="">&nbsp;<font color="red">留空不更新密码</font>
                         </td>
                     </tr>
@@ -123,14 +118,14 @@
                     <tr>
                         <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>密码:</td>
                         <td width="85%" class="pn-fcontent">
-                            <input type="password" maxlength="100" name="passwd" id="passwd" class="required" size="80"
+                            <input type="password" maxlength="100" name="passwd" class="required" size="80"
                                    value="">
                         </td>
                     </tr>
                     <tr>
                         <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>确认密码:</td>
                         <td width="85%" class="pn-fcontent">
-                            <input type="password" maxlength="100" name="passwdRp" id="passwdRp" class="required"
+                            <input type="password" maxlength="100" name="passwdRp" class="required"
                                    size="80"
                                    value="">
                         </td>
@@ -195,9 +190,9 @@
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>用户状态:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="radio" name="isLive" id="isLive" value="0"
+                    <input type="radio" name="isLive" value="0"
                            <c:if test="${userInfo.isLive == 0}">checked="checked"</c:if> />禁用&nbsp;
-                    <input type="radio" name="isLive" id="isLive" value="1"
+                    <input type="radio" name="isLive" value="1"
                            <c:if test="${userInfo.isLive == 1}">checked="checked"</c:if> />启用&nbsp;
                 </td>
             </tr>
