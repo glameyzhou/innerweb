@@ -72,29 +72,6 @@
                 </div>
             </div>
             <div class="Tab width390">
-                <h2><span class="current">公司新闻</span></h2>
-                <div class="Tab_mainm">
-                    <a href="${basePath}band-NEWS.htm?cate=6ZBZRj" class="more" target="_blank">
-                        <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" border="0"/></a>
-                    <ul>
-                        <%--<c:if test="${fn:length(gongsixinwenList) > 0}">
-                            <c:set var="gongsixinwenObj" value="${gongsixinwenList[0]}" />
-                        </c:if>--%>
-                         <span>
-                             <%--<h1>${fmtString:substringAppend(gongsixinwenObj.title,25,'..' )}</h1>--%>
-                             <ul style="padding:3px;">
-                                 <c:forEach var="gongsixinwen" items="${gongsixinwenList}">
-                                     <li>
-                                         <span style="float:right">[ <fmt:formatDate value="${gongsixinwen.publishTime}" pattern="yyyy-M-dd"/>]</span>
-                                         <a href="${basePath}post-${gongsixinwen.categoryType}-${gongsixinwen.categoryId}-${gongsixinwen.id}.htm" title="${gongsixinwen.title}">${fmtString:substringAppend(gongsixinwen.title,22,'..' )}</a>
-                                     </li>
-                                 </c:forEach>
-                             </ul>
-                         </span>
-                    </ul>
-                </div>
-            </div>
-            <div class="Tab width390">
                 <h2 id="news-box-1-h">
                     <span id="news-box-1-h-span-0" onMouseOver="changeTabs(1,0)" class="current">公司简介</span>
                     <span id="news-box-1-h-span-1" onMouseOver="changeTabs(1,1)" style="margin-left: -1px;">公司业绩</span>
@@ -146,6 +123,29 @@
                                 <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(zizhirongyu.describe,200 ,'...' )}</p>
                             </span>
                         </a>
+                    </ul>
+                </div>
+            </div>
+            <div class="Tab width390">
+                <h2><span class="current">公司新闻</span></h2>
+                <div class="Tab_mainm">
+                    <a href="${basePath}band-NEWS.htm?cate=6ZBZRj" class="more" target="_blank">
+                        <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" border="0"/></a>
+                    <ul>
+                        <%--<c:if test="${fn:length(gongsixinwenList) > 0}">
+                            <c:set var="gongsixinwenObj" value="${gongsixinwenList[0]}" />
+                        </c:if>--%>
+                         <span>
+                             <%--<h1>${fmtString:substringAppend(gongsixinwenObj.title,25,'..' )}</h1>--%>
+                             <ul style="padding:3px;">
+                                 <c:forEach var="gongsixinwen" items="${gongsixinwenList}">
+                                     <li>
+                                         <span style="float:right">[ <fmt:formatDate value="${gongsixinwen.publishTime}" pattern="yyyy-M-dd"/>]</span>
+                                         <a href="${basePath}post-${gongsixinwen.categoryType}-${gongsixinwen.categoryId}-${gongsixinwen.id}.htm" title="${gongsixinwen.title}">${fmtString:substringAppend(gongsixinwen.title,22,'..' )}</a>
+                                     </li>
+                                 </c:forEach>
+                             </ul>
+                         </span>
                     </ul>
                 </div>
             </div>
