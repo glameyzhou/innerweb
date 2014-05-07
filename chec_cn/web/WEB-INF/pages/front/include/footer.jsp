@@ -3,4 +3,10 @@
     <a href="${basePath}meta-contact_us.htm">&nbsp;联系我们&nbsp;</a>|
     <a href="${basePath}meta-website.htm">&nbsp;网站地图&nbsp;</a>
     <span>版权申明 中国华电工程（集团）有限公司 京ICP备05036019号</span>
+    <span style="display: none;">
+        <%
+        out.println("contextPath=" + request.getContextPath());
+        out.println("host.port=" + request.getServerName() + " " + request.getServerPort());
+        %>
+    </span>
 </div>
