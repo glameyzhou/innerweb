@@ -117,7 +117,7 @@
 				<th width="3%">序列</th>
 				<th>标题</th>
 				<th width="10%">发布人</th>
-				<th width="10%">来源</th>
+				<%--<th width="10%">来源</th>--%>
 				<th width="5%">首页显示</th>
 				<th width="8%">列表页显示</th>
                 <c:if test="${'NEWS' eq category.categoryType}">
@@ -133,7 +133,7 @@
 				<td align="center"><input type="checkbox" id="postId" name="postId" value="${post.id}"/></td>
 				<td title="${post.title}">${fmtString:substringAppend(post.title,35,'')}</td>
                 <td align="center">${post.author}</td>
-				<td align="center">${post.source}</td>
+				<%--<td align="center">${post.source}</td>--%>
 				<td align=center><c:choose><c:when test="${post.showIndex == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
 				<td align=center><c:choose><c:when test="${post.showList == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
                 <c:if test="${'NEWS' eq category.categoryType}">

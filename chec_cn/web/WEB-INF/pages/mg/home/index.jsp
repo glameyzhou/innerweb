@@ -101,6 +101,9 @@ html,body {
                         <c:if test="${fmtString:hasRightsList(rightsList,'10-')}">
                             <li><a href="#setting">系统管理</a></li>
                         </c:if>
+                        <%--<c:if test="${fmtString:hasRightsList(rightsList,'10-')}">--%>
+                            <li><a href="#websiteInfo">站外消息</a></li>
+                        <%--</c:if>--%>
 						<%--<li><a href="${basePath}front/index.do" target="_blank">前台预览</a></li>--%>
 					</ul>
 				</div>
@@ -358,6 +361,11 @@ html,body {
                     <dt>全局配置</dt>
                     <dd><a href="${basePath}mg/sys/buildLucene.do" target="iframe">建立索引</a></dd>
                     <dd><a href="${basePath}mg/sys/meta/contact_us/meta-show.do" target="iframe">联系我们</a></dd>
+                </dl>
+                <dl id="websiteInfo" class="default" style="display: none;">
+                    <dd><a href="${basePath}mg/websiteInfo/website/list.do" target="iframe">分站信息</a></dd>
+                    <dd><a href="${basePath}mg/websiteInfo/content/show.do" target="iframe">新增消息</a></dd>
+                    <dd><a href="${basePath}mg/websiteInfo/content/list.do" target="iframe">消息列表</a></dd>
                 </dl>
 			</td>
 			<td>

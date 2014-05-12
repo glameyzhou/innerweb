@@ -7,7 +7,6 @@ import com.glamey.chec_cn.dao.CategoryDao;
 import com.glamey.chec_cn.dao.PostDao;
 import com.glamey.chec_cn.dao.UserInfoDao;
 import com.glamey.chec_cn.model.domain.Category;
-import com.glamey.chec_cn.model.domain.JobInfo;
 import com.glamey.chec_cn.model.domain.Post;
 import com.glamey.chec_cn.model.domain.UserInfo;
 import com.glamey.chec_cn.model.dto.PostQuery;
@@ -330,7 +329,7 @@ public class PostManagerContoller extends BaseController {
 
 
     @RequestMapping(value = "/post-del.do", method = RequestMethod.GET)
-    public ModelAndView jobDel(HttpServletRequest request) {
+    public ModelAndView postDel(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("common/message");
         String postId = WebUtils.getRequestParameterAsString(request, "postId");
         String categoryId = WebUtils.getRequestParameterAsString(request, "categoryId");
@@ -355,6 +354,20 @@ public class PostManagerContoller extends BaseController {
         } else {
             message = "内容删除成功";
             mav.addObject("href", "mg/post/post-list.do?categoryId=" + categoryId + "&type=" + type);
+
+            //进行焦点图的更新
+            if (StringUtils.isNotBlank(categoryId)) {
+                Category category = categoryDao.getById(categoryId);
+                if (StringUtils.equals(category.getCategoryType(), CategoryConstants.CATEGORY_NEWS)) {
+                    PostQuery query = new PostQuery();
+                    query.setShowIndex(1);
+                    query.setShowFocusImage(1);
+                    query.setStart(0);
+                    query.setNum(10);
+                    List<Post> list = postDao.getByQuery(query);
+                    XMLUtils.buildXML(list, request);
+                }
+            }
         }
         mav.addObject("message", message);
         return mav;

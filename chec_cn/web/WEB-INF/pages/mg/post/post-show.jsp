@@ -63,12 +63,12 @@
                            value="${post.title}">
                 </td>
             </tr>
-            <tr>
+            <%--<tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>来源:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="text" id="source" name="source" value="${post.source}" class="required"/>
                 </td>
-            </tr>
+            </tr>--%>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>发布人:</td>
                 <td width="85%" class="pn-fcontent">
