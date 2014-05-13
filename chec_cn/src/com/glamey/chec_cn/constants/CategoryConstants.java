@@ -20,6 +20,8 @@ public class CategoryConstants {
 
     /*新闻*/
     public static final String CATEGORY_NEWS = "NEWS";
+    /*新闻-要闻快递*/
+    public static final String CATEGORY_NEWS_YAOWENKUAIDI = "FnQNjm";
     /*公司简介*/
     public static final String CATEGORY_INTRODUCE = "INTRODUCE";
     /**

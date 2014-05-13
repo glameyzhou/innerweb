@@ -18,7 +18,7 @@ import java.util.List;
 public class XMLUtils {
 
     public static void buildXML(List<Post> list, HttpServletRequest request) {
-        String basePath = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() == 80 ? "" : request.getServerPort()) + request.getContextPath();
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + (request.getServerPort() == 80 ? "" : request.getServerPort()) + request.getContextPath();
 
         Document document = DocumentHelper.createDocument();
         Element rootElement = document.addElement("data");

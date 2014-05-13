@@ -79,54 +79,56 @@
                     <span id="news-box-1-h-span-3" onMouseOver="changeTabs(1,3)" style="margin-left: -1px;">资质荣誉</span>
                 </h2>
                 <div id="news-box-1-0" class="height115" style="display: block;">
-                    <a href="${basePath}band-${gongsijianjie.categoryType}.htm?cate=${gongsijianjie.categoryId}" class="more" target="_blank">
+                    <%--<a href="${basePath}band-${gongsijianjie.categoryType}.htm?cate=${gongsijianjie.categoryId}" class="more" target="_blank">
                         <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" />
-                    </a>
+                    </a>--%>
                     <ul>
                         <a href="${basePath}band-${gongsijianjie.categoryType}.htm?cate=${gongsijianjie.categoryId}" target="_blank">
                             <span>
-                                <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(gongsijianjie.summary,200 ,'...' )}</p>
+                                <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(gongsijianjie.summary,150 ,'...' )}</p>
                             </span>
                         </a>
                     </ul>
                 </div>
                 <div id="news-box-1-1" class="height115" style="display: none;">
-                    <a href="${basePath}business.htm" class="more" target="_blank">
+                    <%--<a href="${basePath}business.htm" class="more" target="_blank">
                         <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" />
-                    </a>
+                    </a>--%>
                     <ul>
                         <a href="${basePath}business.htm" target="_blank">
                             <span>
-                                <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(rootBusiness.describe,200 ,'...' )}</p>
+                                <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(rootBusiness.describe,150 ,'...' )}</p>
                             </span>
                         </a>
                     </ul>
                 </div>
                 <div id="news-box-1-2" class="height115" style="display: none;">
-                    <a href="${basePath}band-${fazhanzhanlue.categoryType}.htm?cate=${fazhanzhanlue.id}" class="more" target="_blank">
+                    <%--<a href="${basePath}band-${fazhanzhanlue.categoryType}.htm?cate=${fazhanzhanlue.id}" class="more" target="_blank">
                         <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" border="0"/>
-                    </a>
+                    </a>--%>
                     <ul style="color:#616065;">
                         <a href="${basePath}band-${fazhanzhanlue.categoryType}.htm?cate=${fazhanzhanlue.categoryId}" target="_blank">
                             <span>
-                                <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(fazhanzhanlue.summary,200 ,'...' )}</p>
+                                <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(fazhanzhanlue.summary,150 ,'...' )}</p>
                             </span>
                         </a>
                     </ul>
                 </div>
                 <div id="news-box-1-3" class="height115" style="display: none;">
-                    <a href="${basePath}introduce-zzry.htm" class="more" target="_blank">
-                        <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" border="0" /></a>
+                    <%--<a href="${basePath}introduce-zzry.htm" class="more" target="_blank">
+                        <img src="${basePath}res/front/chec_cn/images/more.jpg" alt="more" border="0" />
+                    </a>--%>
                     <ul style="color:#616065;">
                         <a href="${basePath}introduce-zzry.htm" target="_blank">
                             <span>
-                                <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(zizhirongyu.describe,200 ,'...' )}</p>
+                                <p>&nbsp;&nbsp;&nbsp;${fmtString:substringAppend(zizhirongyu.describe,150 ,'...' )}</p>
                             </span>
                         </a>
                     </ul>
                 </div>
             </div>
-            <div class="Tab width390">
+            <%--<div class="Tab width390">--%>
+            <div class="Tab" style="width:457px;">
                 <h2><span class="current">公司新闻</span></h2>
                 <div class="Tab_mainm">
                     <a href="${basePath}band-NEWS.htm?cate=6ZBZRj" class="more" target="_blank">
@@ -141,7 +143,7 @@
                                  <c:forEach var="gongsixinwen" items="${gongsixinwenList}">
                                      <li>
                                          <span style="float:right">[ <fmt:formatDate value="${gongsixinwen.publishTime}" pattern="yyyy-M-dd"/>]</span>
-                                         <a href="${basePath}post-${gongsixinwen.categoryType}-${gongsixinwen.categoryId}-${gongsixinwen.id}.htm" title="${gongsixinwen.title}">${fmtString:substringAppend(gongsixinwen.title,22,'..' )}</a>
+                                         <a href="${basePath}post-${gongsixinwen.categoryType}-${gongsixinwen.categoryId}-${gongsixinwen.id}.htm" title="${gongsixinwen.title}">${fmtString:substringAppend(gongsixinwen.title,30,'..' )}</a>
                                      </li>
                                  </c:forEach>
                              </ul>

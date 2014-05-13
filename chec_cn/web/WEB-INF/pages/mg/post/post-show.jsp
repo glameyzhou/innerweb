@@ -103,7 +103,7 @@
                 </td>
             </tr>
             <%--只有是新闻状态，才有焦点图的显示--%>
-            <c:choose>
+            <%--<c:choose>
                 <c:when test="${'NEWS' eq category.categoryType}">
                     <tr>
                         <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>焦点图显示:</td>
@@ -119,7 +119,7 @@
                 <c:otherwise>
                     <input type="hidden" name="showFocusImage" value="0"/>
                 </c:otherwise>
-            </c:choose>
+            </c:choose>--%>
 
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>摘要描述:</td>

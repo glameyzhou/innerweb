@@ -202,6 +202,9 @@ public class PostManagerContoller extends BaseController {
         post.setPublishTime(StringUtils.isBlank(publishTime) ? new Date() : DateUtils.format(publishTime, "yyyy-MM-dd HH:mm:ss"));
         post.setCategoryId(WebUtils.getRequestParameterAsString(request, "categoryId"));
 
+        if (StringUtils.equalsIgnoreCase(post.getCategoryId(),CategoryConstants.CATEGORY_NEWS_YAOWENKUAIDI))
+            post.setShowFocusImage(1);
+
         //从正文中提取第一张图片作为焦点图
         String focusImage = getContentImage(request, post.getContent());
         if (StringUtils.isNotBlank(focusImage))
@@ -214,14 +217,20 @@ public class PostManagerContoller extends BaseController {
             message = "文章新建成功.";
             mav.addObject("href", "mg/post/post-list.do?categoryId=" + post.getCategoryId() + "&type=" + category.getCategoryType());
 
-            //进行焦点图的更新
-            if (StringUtils.equals(post.getCategoryType(), CategoryConstants.CATEGORY_NEWS)) {
+            //进行焦点图的更新（新闻-要闻快递）
+            if (StringUtils.equals(post.getCategoryType(), CategoryConstants.CATEGORY_NEWS) && StringUtils.equalsIgnoreCase(post.getCategoryId(),CategoryConstants.CATEGORY_NEWS_YAOWENKUAIDI)) {
                 PostQuery query = new PostQuery();
+                query.setCategoryId(CategoryConstants.CATEGORY_NEWS_YAOWENKUAIDI);
                 query.setShowIndex(1);
                 query.setShowFocusImage(1);
                 query.setStart(0);
-                query.setNum(10);
+                query.setNum(20);
                 List<Post> list = postDao.getByQuery(query);
+                for (java.util.Iterator<Post> iterator = list.iterator();iterator.hasNext();) {
+                    Post p = iterator.next();
+                    if (StringUtils.isBlank(p.getFocusImage()))
+                        iterator.remove();
+                }
                 XMLUtils.buildXML(list, request);
             }
         }
@@ -277,7 +286,8 @@ public class PostManagerContoller extends BaseController {
         post.setContent(content);
         post.setPublishTime(StringUtils.isBlank(publishTime) ? new Date() : DateUtils.format(publishTime, "yyyy-MM-dd HH:mm:ss"));
         post.setCategoryId(WebUtils.getRequestParameterAsString(request, "categoryId"));
-
+        if (StringUtils.equalsIgnoreCase(post.getCategoryId(),CategoryConstants.CATEGORY_NEWS_YAOWENKUAIDI))
+            post.setShowFocusImage(1);
         //从正文中提取第一张图片作为焦点图
         String focusImage = getContentImage(request, post.getContent());
         if (StringUtils.isNotBlank(focusImage))
@@ -289,14 +299,20 @@ public class PostManagerContoller extends BaseController {
             message = "文章更新成功.";
             mav.addObject("href", "mg/post/post-list.do?categoryId=" + post.getCategoryId() + "&type=" + category.getCategoryType());
 
-            //进行焦点图的更新
-            if (StringUtils.equals(post.getCategoryType(), CategoryConstants.CATEGORY_NEWS)) {
+            //进行焦点图的更新（新闻-要闻快递）
+            if (StringUtils.equals(post.getCategoryType(), CategoryConstants.CATEGORY_NEWS) && StringUtils.equalsIgnoreCase(post.getCategoryId(),CategoryConstants.CATEGORY_NEWS_YAOWENKUAIDI)) {
                 PostQuery query = new PostQuery();
+                query.setCategoryId(CategoryConstants.CATEGORY_NEWS_YAOWENKUAIDI);
                 query.setShowIndex(1);
                 query.setShowFocusImage(1);
                 query.setStart(0);
-                query.setNum(10);
+                query.setNum(20);
                 List<Post> list = postDao.getByQuery(query);
+                for (java.util.Iterator<Post> iterator = list.iterator();iterator.hasNext();) {
+                    Post p = iterator.next();
+                    if (StringUtils.isBlank(p.getFocusImage()))
+                        iterator.remove();
+                }
                 XMLUtils.buildXML(list, request);
             }
         }
@@ -355,18 +371,22 @@ public class PostManagerContoller extends BaseController {
             message = "内容删除成功";
             mav.addObject("href", "mg/post/post-list.do?categoryId=" + categoryId + "&type=" + type);
 
-            //进行焦点图的更新
-            if (StringUtils.isNotBlank(categoryId)) {
-                Category category = categoryDao.getById(categoryId);
-                if (StringUtils.equals(category.getCategoryType(), CategoryConstants.CATEGORY_NEWS)) {
-                    PostQuery query = new PostQuery();
-                    query.setShowIndex(1);
-                    query.setShowFocusImage(1);
-                    query.setStart(0);
-                    query.setNum(10);
-                    List<Post> list = postDao.getByQuery(query);
-                    XMLUtils.buildXML(list, request);
+            //进行焦点图的更新（新闻-要闻快递）
+            Category category = categoryDao.getById(categoryId);
+            if (StringUtils.equals(category.getCategoryType(), CategoryConstants.CATEGORY_NEWS) && StringUtils.equalsIgnoreCase(category.getId(),CategoryConstants.CATEGORY_NEWS_YAOWENKUAIDI)) {
+                PostQuery query = new PostQuery();
+                query.setCategoryId(CategoryConstants.CATEGORY_NEWS_YAOWENKUAIDI);
+                query.setShowIndex(1);
+                query.setShowFocusImage(1);
+                query.setStart(0);
+                query.setNum(20);
+                List<Post> list = postDao.getByQuery(query);
+                for (java.util.Iterator<Post> iterator = list.iterator();iterator.hasNext();) {
+                    Post p = iterator.next();
+                    if (StringUtils.isBlank(p.getFocusImage()))
+                        iterator.remove();
                 }
+                XMLUtils.buildXML(list, request);
             }
         }
         mav.addObject("message", message);

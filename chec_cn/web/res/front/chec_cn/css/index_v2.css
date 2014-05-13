@@ -86,10 +86,10 @@ h1 {
     margin-top: 21px;
     padding-bottom: 0px;
 }
-
+/* //////////////////////////////5.12修改 more位置调整 /////////////////////////////*/
 .Tab .Tab_mainm .more {
     position: absolute;
-    left: 340px;
+    left: 405px;
     top: 5px;
 }
 
@@ -104,8 +104,9 @@ h1 {
     padding-bottom: 0px;
 }
 
+/* //////////////////////////////5.12修改 div长度 /////////////////////////////*/
 .width390 {
-    width: 388px;
+    width: 319px;
 }
 
 .Tab .height115 .more {
