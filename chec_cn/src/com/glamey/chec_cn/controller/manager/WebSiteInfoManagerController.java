@@ -269,9 +269,8 @@ public class WebSiteInfoManagerController extends BaseController {
     }
 
     @RequestMapping(value = "/content/showSynch.do")
-    public ModelAndView showContentSynch(HttpServletRequest request)
-            throws Exception {
-        ModelAndView mav = new ModelAndView("super/synch/content-showSynch");
+    public ModelAndView showContentSynch(HttpServletRequest request)throws Exception {
+        ModelAndView mav = new ModelAndView("mg/websiteInfo/content-show-synch");
         String contentIds = WebUtils.getRequestParameterAsString(request, "contentId");
         if (StringUtils.isBlank(contentIds)) {
             mav.addObject("message", "请选择要同步的文章!");

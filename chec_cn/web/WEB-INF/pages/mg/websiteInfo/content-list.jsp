@@ -35,7 +35,7 @@
                     }
                     if (values.length > 1)
                         values = values.substring(1);
-                    window.location = '${basePath}mg/websiteInfo/content/del.do?contentId='+values;
+                    window.location = '${basePath}mg/websiteInfocontent/del.do?contentId='+values;
                     window.location = opURL;
                 });
 
@@ -88,7 +88,7 @@
             发布人&nbsp;<select name="userId" id="userId">
             <option value="">请选择</option>
             <c:forEach var="userInfo" items="${userInfoList}">
-                <%--<option value="${userInfo.userId}" <c:if test="${(content.userId + '') eq userInfo.userId}">selected</c:if> >${userInfo.nickname}</option>--%>
+                <option value="${userInfo.userId}" <c:if test="${(content.userId + '') eq userInfo.userId}">selected</c:if> >${userInfo.nickname}</option>
             </c:forEach>
         </select>&nbsp;&nbsp;
             来源&nbsp;<select name="websiteId" id="websiteId">
@@ -122,7 +122,7 @@
                     <td>${content.title}</td>
                     <td width="10%" align="center">${content.websiteInfo.name}</td>
                     <td width="10%" align="center">
-                        <c:if test="${content.websiteInfo.isSelf==1}">${content.userInfo.realName}</c:if>
+                        <c:if test="${content.websiteInfo.isSelf==1}">${content.userInfo.nickname}</c:if>
                     </td>
                     <td width="15%" align="center">${content.publishTime}</td>
                     <td width="8%" align="center"><a href="javascript:editForUse('${content.websiteId}','${content.contentId}');">编辑采用</a></td>

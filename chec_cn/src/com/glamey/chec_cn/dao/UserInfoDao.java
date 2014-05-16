@@ -1,14 +1,13 @@
 package com.glamey.chec_cn.dao;
 
 
-import com.glamey.framework.utils.BlowFish;
-import com.glamey.framework.utils.StringTools;
 import com.glamey.chec_cn.constants.Constants;
 import com.glamey.chec_cn.model.domain.RightsInfo;
 import com.glamey.chec_cn.model.domain.RoleInfo;
 import com.glamey.chec_cn.model.domain.UserInfo;
 import com.glamey.chec_cn.model.dto.UserQuery;
-import com.sun.crypto.provider.BlowfishCipher;
+import com.glamey.framework.utils.BlowFish;
+import com.glamey.framework.utils.StringTools;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
@@ -410,8 +409,8 @@ public class UserInfoDao extends BaseDao {
     public boolean createUser(final UserInfo userInfo) {
         logger.info("[UserInfoDao] #createUser# " + userInfo);
         try {
-            final String userId = StringTools.getUniqueId() ;
             //插入用户基础信息
+            final int userId = Math.abs(Long.valueOf(System.currentTimeMillis()).hashCode());
             int count = jdbcTemplate.update(
                     "insert into tbl_user(user_id,user_name,user_passwd,user_nickname,user_nicknamepinyin,user_question,user_answer,user_company,user_dept,user_duty,user_address," +
                             "user_phone,user_mobile,user_email,user_islive,user_time)" +
@@ -420,7 +419,7 @@ public class UserInfoDao extends BaseDao {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
-                            pstmt.setString(++i, userId);
+                            pstmt.setInt(++i, userId);
                             pstmt.setString(++i, userInfo.getUsername());
                             pstmt.setString(++i, userInfo.getPasswd());
                             pstmt.setString(++i, userInfo.getNickname());
@@ -444,7 +443,7 @@ public class UserInfoDao extends BaseDao {
                 jdbcTemplate.batchUpdate("insert into tbl_user_role(user_id_fk,role_id_fk) values(?,?)",new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
-                        preparedStatement.setString(1,userId);
+                        preparedStatement.setInt(1, userId);
                         preparedStatement.setString(2,roleIdList.get(i));
                     }
                     @Override
@@ -469,7 +468,7 @@ public class UserInfoDao extends BaseDao {
     public boolean updateUser(final UserInfo userInfo) {
         logger.info("[UserInfoDao] #updateUser# " + userInfo);
         try {
-            final String userId = userInfo.getUserId() ;
+            final int userId = userInfo.getUserId() ;
             //更新用户内容
             int count = jdbcTemplate.update(
                     "update tbl_user set user_name=?,user_passwd=?,user_nickname=?,user_nicknamepinyin=?,user_question=?,user_answer=?,user_company=?,user_dept=?,user_duty=?," +
@@ -493,7 +492,7 @@ public class UserInfoDao extends BaseDao {
                             pstmt.setString(++i, userInfo.getEmail());
                             pstmt.setInt(++i, userInfo.getIsLive());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
-                            pstmt.setString(++i, userId);
+                            pstmt.setInt(++i, userId);
 
                         }
                     });
@@ -501,7 +500,7 @@ public class UserInfoDao extends BaseDao {
             jdbcTemplate.update("delete from tbl_user_role where user_id_fk =?",new PreparedStatementSetter() {
                 @Override
                 public void setValues(PreparedStatement preparedStatement) throws SQLException {
-                    preparedStatement.setString(1,userId);
+                    preparedStatement.setInt(1, userId);
                 }
             });
             //重新建立新的角色内容
@@ -511,7 +510,7 @@ public class UserInfoDao extends BaseDao {
                         new BatchPreparedStatementSetter() {
                             @Override
                             public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
-                                preparedStatement.setString(1, userId);
+                                preparedStatement.setInt(1, userId);
                                 preparedStatement.setString(2, roleIdList.get(i));
                             }
 
@@ -535,7 +534,7 @@ public class UserInfoDao extends BaseDao {
      * @param userId
      * @return
      */
-    public boolean delUser(final String userId) {
+    public boolean delUser(final int userId) {
         logger.info("[UserInfoDao] #delUser# " + userId);
         try {
             //删除用户
@@ -544,7 +543,7 @@ public class UserInfoDao extends BaseDao {
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
-                            pstmt.setString(1, userId);
+                            pstmt.setInt(1, userId);
 
                         }
                     });
@@ -552,7 +551,7 @@ public class UserInfoDao extends BaseDao {
             jdbcTemplate.update("delete from tbl_user_role where user_id_fk =?",new PreparedStatementSetter() {
                 @Override
                 public void setValues(PreparedStatement preparedStatement) throws SQLException {
-                    preparedStatement.setString(1,userId);
+                    preparedStatement.setInt(1, userId);
                 }
             });
             return count > 0;
@@ -568,7 +567,7 @@ public class UserInfoDao extends BaseDao {
      * @param flag
      * @return
      */
-    public boolean setUserLive(final String [] userIds,final int flag) {
+    public boolean setUserLive(final Integer [] userIds,final int flag) {
         try {
 
             String sql = "update tbl_user set user_islive = ? where user_id = ?" ;
@@ -577,7 +576,7 @@ public class UserInfoDao extends BaseDao {
                 @Override
                 public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
                     preparedStatement.setInt(1,flag);
-                    preparedStatement.setString(2,userIds[i]);
+                    preparedStatement.setInt(2, userIds[i]);
                 }
 
                 @Override
@@ -587,12 +586,12 @@ public class UserInfoDao extends BaseDao {
             }) ;
             return total.length > 0;
         } catch (Exception e) {
-            logger.error("[UserInfoDao] #setUserLive# error " + Arrays.deepToString(userIds) + " " + flag, e);
+            logger.error("[UserInfoDao] #setUserLive# error " + userIds + " " + flag, e);
             return false;
         }
     }
 
-    public boolean resetPasswd(final String userId) {
+    public boolean resetPasswd(final int userId) {
         try {
             BlowFish bf = new BlowFish(Constants.SECRET_KEY);
             final String passwd = bf.encryptString("adminadmin");
@@ -601,7 +600,7 @@ public class UserInfoDao extends BaseDao {
                 @Override
                 public void setValues(PreparedStatement preparedStatement) throws SQLException {
                     preparedStatement.setString(1,passwd);
-                    preparedStatement.setString(2,userId);
+                    preparedStatement.setInt(2, userId);
                 }
             });
             return count > 0;
@@ -737,7 +736,7 @@ public class UserInfoDao extends BaseDao {
      * @param userId
      * @return
      */
-    public UserInfo getUserById(final String userId) {
+    public UserInfo getUserById(final int userId) {
         logger.info("[UserInfoDao] #getUserById# userId=" + userId);
         List<UserInfo> userInfoList = new ArrayList<UserInfo>();
         StringBuffer sql = new StringBuffer("select * from tbl_user where user_id = ?");
@@ -746,7 +745,7 @@ public class UserInfoDao extends BaseDao {
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement preparedStatement) throws SQLException {
-                            preparedStatement.setString(1, userId);
+                            preparedStatement.setInt(1, userId);
                         }
                     },
                     new UserInfoRowMapper());
@@ -763,9 +762,9 @@ public class UserInfoDao extends BaseDao {
      * @param username
      * @return
      */
-    public List<String> getUserIdByUserName(final String username) {
+    public List<Integer> getUserIdByUserName(final String username) {
         logger.info("[UserInfoDao] #getUserIdByUserName# userId=" + username);
-        List<String> userIdList = new ArrayList<String>();
+        List<Integer> userIdList = new ArrayList<Integer>();
         StringBuffer sql = new StringBuffer("select user_id from tbl_user where user_name like ?");
         try {
             userIdList = jdbcTemplate.query(sql.toString(),
@@ -775,10 +774,10 @@ public class UserInfoDao extends BaseDao {
                             preparedStatement.setString(1, "%" + username + "%");
                         }
                     },
-                    new RowMapper<String>() {
+                    new RowMapper<Integer>() {
                         @Override
-                        public String mapRow(ResultSet resultSet, int i) throws SQLException {
-                            return resultSet.getString("user_id");
+                        public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
+                            return resultSet.getInt("user_id");
                         }
                     }
             );
@@ -789,7 +788,7 @@ public class UserInfoDao extends BaseDao {
         }
     }
 
-    public UserInfo getUserSimpleById(final String userId) {
+    public UserInfo getUserSimpleById(final int userId) {
         logger.info("[UserInfoDao] #getUserById# userId=" + userId);
         List<UserInfo> userInfoList = new ArrayList<UserInfo>();
         StringBuffer sql = new StringBuffer("select * from tbl_user where user_id = ?");
@@ -798,7 +797,7 @@ public class UserInfoDao extends BaseDao {
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement preparedStatement) throws SQLException {
-                            preparedStatement.setString(1, userId);
+                            preparedStatement.setInt(1, userId);
                         }
                     },
                     new UserInfoSimpleRowMapper());
@@ -871,7 +870,7 @@ public class UserInfoDao extends BaseDao {
      * @param orderId
      * @return
      */
-    public boolean setContactOrder(final String userId, final int orderId) {
+    public boolean setContactOrder(final int userId, final int orderId) {
         logger.info("[UserInfoDao] #setContactOrder# " + String.format("userId=%s,orderId=%d", userId, orderId));
         String sql = "update tbl_user set user_showorder = ? where user_id = ?";
         try {
@@ -880,7 +879,7 @@ public class UserInfoDao extends BaseDao {
                         @Override
                         public void setValues(PreparedStatement preparedStatement) throws SQLException {
                             preparedStatement.setInt(1, orderId);
-                            preparedStatement.setString(2, userId);
+                            preparedStatement.setInt(2, userId);
                         }
                     });
             return count > 0;
@@ -894,7 +893,7 @@ public class UserInfoDao extends BaseDao {
         @Override
         public UserInfo mapRow(ResultSet rs, int i) throws SQLException {
             UserInfo userInfo = new UserInfo();
-            userInfo.setUserId(rs.getString("user_id"));
+            userInfo.setUserId(rs.getInt("user_id"));
             userInfo.setUsername(rs.getString("user_name"));
             userInfo.setPasswd(rs.getString("user_passwd"));
             userInfo.setNickname(rs.getString("user_nickname"));
@@ -927,7 +926,7 @@ public class UserInfoDao extends BaseDao {
         @Override
         public UserInfo mapRow(ResultSet rs, int i) throws SQLException {
             UserInfo userInfo = new UserInfo();
-            userInfo.setUserId(rs.getString("user_id"));
+            userInfo.setUserId(rs.getInt("user_id"));
             userInfo.setUsername(rs.getString("user_name"));
             userInfo.setNickname(rs.getString("user_nickname"));
             userInfo.setNicknamePinyin(rs.getString("user_nicknamepinyin"));
@@ -974,14 +973,14 @@ public class UserInfoDao extends BaseDao {
      * @param userId
      * @return
      */
-    public List<RoleInfo> getRoleListByUserId(final String userId){
+    public List<RoleInfo> getRoleListByUserId(final int userId){
         List<RoleInfo> roleInfoList = new ArrayList<RoleInfo>();
         try {
         StringBuffer sql = new StringBuffer("select r.* from tbl_user_role ur,tbl_role r where ur.role_id_fk = r.role_id and ur.user_id_fk=?");
         roleInfoList = jdbcTemplate.query(sql.toString(),new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement preparedStatement) throws SQLException {
-                preparedStatement.setString(1,userId);
+                preparedStatement.setInt(1, userId);
             }
         }, new RoleInfoRowMapper());
         }catch (Exception ex){

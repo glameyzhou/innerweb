@@ -200,7 +200,7 @@ public class ContentInfoDao extends BaseDao {
             content.setUserId(rs.getInt("content_userid_fk"));
 
             content.setWebsiteInfo(websiteInfoDao.getWebsite(content.getWebsiteId()));
-            content.setUserInfo(userInfoDao.getUserById(String.valueOf(content.getUserId())));
+            content.setUserInfo(userInfoDao.getUserById(content.getUserId()));
             return content;
         }
     }

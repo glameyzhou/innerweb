@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -114,6 +115,12 @@ public class PostManagerContoller extends BaseController {
             query.setShowList(WebUtils.getRequestParameterAsInt(request, "showList", -1));
             query.setShowFocusImage(WebUtils.getRequestParameterAsInt(request, "showFocusImage", -1));
             query.setShowTop(WebUtils.getRequestParameterAsInt(request, "showTop", -1));
+            query.setOrderMap(new LinkedHashMap<String, String>(){
+                {
+                    put(Constants.ORDERBYCOLUMNNAME_POST_ORDER,Constants.ORDERBYDESC);
+                    put(Constants.ORDERBYCOLUMNNAME_POST_PUBLIS_TIME,Constants.ORDERBYDESC);
+                }
+            });
 
             query.setStart(pageBean.getStart());
             query.setNum(pageBean.getRowsPerPage());
@@ -183,6 +190,7 @@ public class PostManagerContoller extends BaseController {
         int showIndex = WebUtils.getRequestParameterAsInt(request, "showIndex", 1);
         int showList = WebUtils.getRequestParameterAsInt(request, "showList", 1);
         int showFocusImage = WebUtils.getRequestParameterAsInt(request, "showFocusImage", 0);
+        int postOrder = WebUtils.getRequestParameterAsInt(request, "postOrder", 0);
         int showTop = WebUtils.getRequestParameterAsInt(request, "showTop", 0);
         String summary = WebUtils.getRequestParameterAsString(request, "summary");
         String content = WebUtils.getRequestParameterAsString(request, "content");
@@ -196,6 +204,7 @@ public class PostManagerContoller extends BaseController {
         post.setShowIndex(showIndex);
         post.setShowList(showList);
         post.setShowFocusImage(showFocusImage);
+        post.setPostOrder(postOrder);
         post.setShowTop(showTop);
         post.setSummary(summary);
         post.setContent(content);
@@ -268,6 +277,7 @@ public class PostManagerContoller extends BaseController {
         int showIndex = WebUtils.getRequestParameterAsInt(request, "showIndex", 1);
         int showList = WebUtils.getRequestParameterAsInt(request, "showList", 1);
         int showFocusImage = WebUtils.getRequestParameterAsInt(request, "showFocusImage", 0);
+        int postOrder = WebUtils.getRequestParameterAsInt(request, "postOrder", 0);
         int showTop = WebUtils.getRequestParameterAsInt(request, "showTop", 0);
         String summary = WebUtils.getRequestParameterAsString(request, "summary");
         String content = WebUtils.getRequestParameterAsString(request, "content");
@@ -281,6 +291,7 @@ public class PostManagerContoller extends BaseController {
         post.setShowIndex(showIndex);
         post.setShowList(showList);
         post.setShowFocusImage(showFocusImage);
+        post.setPostOrder(postOrder);
         post.setShowTop(showTop);
         post.setSummary(summary);
         post.setContent(content);

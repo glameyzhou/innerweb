@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class AccessLog implements Serializable {
     private String id;
-    private String userId;
+    private int userId;
     private UserInfo userInfo;
     private Date accessTime;
     private String pageUrl;
@@ -29,11 +29,11 @@ public class AccessLog implements Serializable {
         this.id = id;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 

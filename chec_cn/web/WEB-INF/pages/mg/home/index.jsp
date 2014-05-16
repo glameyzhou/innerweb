@@ -101,9 +101,9 @@ html,body {
                         <c:if test="${fmtString:hasRightsList(rightsList,'10-')}">
                             <li><a href="#setting">系统管理</a></li>
                         </c:if>
-                        <%--<c:if test="${fmtString:hasRightsList(rightsList,'10-')}">--%>
+                        <c:if test="${fmtString:hasRightsList(rightsList,'10-')}">
                             <li><a href="#websiteInfo">站外消息</a></li>
-                        <%--</c:if>--%>
+                        </c:if>
 						<%--<li><a href="${basePath}front/index.do" target="_blank">前台预览</a></li>--%>
 					</ul>
 				</div>

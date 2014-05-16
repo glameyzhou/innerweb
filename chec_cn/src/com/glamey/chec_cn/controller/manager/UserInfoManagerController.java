@@ -1,21 +1,19 @@
 package com.glamey.chec_cn.controller.manager;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.print.attribute.standard.JobOriginatingUserName;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.glamey.chec_cn.constants.SystemConstants;
+import com.glamey.chec_cn.constants.CategoryConstants;
+import com.glamey.chec_cn.constants.Constants;
+import com.glamey.chec_cn.controller.BaseController;
+import com.glamey.chec_cn.dao.CategoryDao;
 import com.glamey.chec_cn.dao.MetaInfoDao;
-import com.glamey.chec_cn.model.domain.*;
+import com.glamey.chec_cn.dao.UserInfoDao;
+import com.glamey.chec_cn.model.domain.Category;
+import com.glamey.chec_cn.model.domain.RightsInfo;
+import com.glamey.chec_cn.model.domain.RoleInfo;
+import com.glamey.chec_cn.model.domain.UserInfo;
+import com.glamey.chec_cn.model.dto.UserQuery;
+import com.glamey.framework.utils.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,17 +21,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.glamey.framework.utils.BlowFish;
-import com.glamey.framework.utils.PageBean;
-import com.glamey.framework.utils.Pinyin4jUtils;
-import com.glamey.framework.utils.StringTools;
-import com.glamey.framework.utils.WebUtils;
-import com.glamey.chec_cn.constants.CategoryConstants;
-import com.glamey.chec_cn.constants.Constants;
-import com.glamey.chec_cn.controller.BaseController;
-import com.glamey.chec_cn.dao.CategoryDao;
-import com.glamey.chec_cn.dao.UserInfoDao;
-import com.glamey.chec_cn.model.dto.UserQuery;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 用户管理
@@ -50,7 +45,7 @@ public class UserInfoManagerController extends BaseController {
     @Resource
     private UserInfoDao userInfoDao;
     @Resource
-    private MetaInfoDao metaInfoDao ;
+    private MetaInfoDao metaInfoDao;
 
 
     /****************************************************************【开始】功能权限操作*************************************************************************/
@@ -287,12 +282,12 @@ public class UserInfoManagerController extends BaseController {
         mav.addObject("categorySafeList", categorySafeList);*/
 
         /*图书馆一级分类*/
-        List<Category> libCategoryList = categoryDao.getByParentId(CategoryConstants.PARENTID,CategoryConstants.CATEGORY_LIBRARY,0,Integer.MAX_VALUE);
-        mav.addObject("libCategoryList",libCategoryList);
+        List<Category> libCategoryList = categoryDao.getByParentId(CategoryConstants.PARENTID, CategoryConstants.CATEGORY_LIBRARY, 0, Integer.MAX_VALUE);
+        mav.addObject("libCategoryList", libCategoryList);
 
         /*专题讨论区分类*/
-        List<Category> bbsCategoryList = categoryDao.getByParentId(CategoryConstants.CATEGORY_BBS_ROOT,CategoryConstants.CATEGORY_BBS,0,Integer.MAX_VALUE);
-        mav.addObject("bbsCategoryList",bbsCategoryList);
+        List<Category> bbsCategoryList = categoryDao.getByParentId(CategoryConstants.CATEGORY_BBS_ROOT, CategoryConstants.CATEGORY_BBS, 0, Integer.MAX_VALUE);
+        mav.addObject("bbsCategoryList", bbsCategoryList);
 
         return mav;
     }
@@ -419,7 +414,7 @@ public class UserInfoManagerController extends BaseController {
         ModelAndView mav = new ModelAndView();
 
         //设置论坛版主的条件
-        String brandId = WebUtils.getRequestParameterAsString(request,"brandId","");
+        String brandId = WebUtils.getRequestParameterAsString(request, "brandId", "");
 
         UserInfo userInfo = (UserInfo) session.getAttribute(Constants.SESSIN_USERID);
         boolean isSuper = userInfoDao.isSuper(userInfo);
@@ -431,7 +426,7 @@ public class UserInfoManagerController extends BaseController {
         String keyword = WebUtils.getRequestParameterAsString(request, "keyword");
         keyword = StringTools.converISO2UTF8(keyword);
         int isLive = WebUtils.getRequestParameterAsInt(request, "isLive", -1);
-        String roleId = WebUtils.getRequestParameterAsString(request,"roleId");
+        String roleId = WebUtils.getRequestParameterAsString(request, "roleId");
         UserQuery query = new UserQuery();
         query.setKeyword(keyword);
         query.setIsLive(isLive);
@@ -467,16 +462,17 @@ public class UserInfoManagerController extends BaseController {
         mav.setViewName("mg/user/user-list");
         return mav;
     }
+
     @RequestMapping(value = "/user-detail.do", method = RequestMethod.GET)
-    public ModelAndView userDetail(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public ModelAndView userDetail(HttpServletRequest request) {
         logger.info("[manager-user-detail]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
 
-        String userId = WebUtils.getRequestParameterAsString(request,"userId");
-        if(StringUtils.isBlank(userId)){
+        int userId = WebUtils.getRequestParameterAsInt(request, "userId", 0);
+        if (userId <= 0) {
             mav.setViewName("common/message");
-            mav.addObject("message","查询用户不存在");
-            return mav ;
+            mav.addObject("message", "查询用户不存在");
+            return mav;
         }
 
         UserInfo userInfo = userInfoDao.getUserById(userId);
@@ -489,11 +485,10 @@ public class UserInfoManagerController extends BaseController {
      * 系统用户--编辑、创建页面
      *
      * @param request
-     * @param response
      * @return
      */
     @RequestMapping(value = "/user-show.do", method = RequestMethod.GET)
-    public ModelAndView userShow(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView userShow(HttpServletRequest request) {
         logger.info("[manager-user-show]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
 
@@ -501,10 +496,10 @@ public class UserInfoManagerController extends BaseController {
         String opt = "create";
         //获取所有角色
         List<RoleInfo> roleInfoList = userInfoDao.getRoleList(null, 0, Integer.MAX_VALUE);
-        String userId = WebUtils.getRequestParameterAsString(request, "userId");
+        int userId = WebUtils.getRequestParameterAsInt(request, "userId", 0);
         List<RoleInfo> srcRoleInfoList = new ArrayList<RoleInfo>();
         List<RoleInfo> destRoleInfoList = new ArrayList<RoleInfo>();
-        if (StringUtils.isNotBlank(userId)) {
+        if (userId > 0) {
             userInfo = userInfoDao.getUserById(userId);
             destRoleInfoList.addAll(userInfo.getRoleInfoList());
             /*srcRoleInfoList.addAll(roleInfoList);
@@ -515,7 +510,7 @@ public class UserInfoManagerController extends BaseController {
                 }
             }*/
             for (RoleInfo roleInfo : roleInfoList) {
-                if(!destRoleInfoList.contains(roleInfo)){
+                if (!destRoleInfoList.contains(roleInfo)) {
                     srcRoleInfoList.add(roleInfo);
                 }
             }
@@ -562,17 +557,17 @@ public class UserInfoManagerController extends BaseController {
             mav.addObject("message", "两次密码不一致");
             return mav;
         }
-        String roleIds [] = WebUtils.getRequestParameterAsStringArrs(request,"sltTarget");
-        if(roleIds == null || roleIds.length == 0){
+        String roleIds[] = WebUtils.getRequestParameterAsStringArrs(request, "sltTarget");
+        if (roleIds == null || roleIds.length == 0) {
             mav.addObject("message", "角色必须选择一项");
             return mav;
         }
         List<String> roleIdList = Arrays.asList(roleIds);
-        String question = WebUtils.getRequestParameterAsString(request ,"question");
-        String answer = WebUtils.getRequestParameterAsString(request ,"answer");
-        if((StringUtils.isNotBlank(question) && StringUtils.isBlank(answer))
+        String question = WebUtils.getRequestParameterAsString(request, "question");
+        String answer = WebUtils.getRequestParameterAsString(request, "answer");
+        if ((StringUtils.isNotBlank(question) && StringUtils.isBlank(answer))
                 ||
-                (StringUtils.isBlank(question) && StringUtils.isNotBlank(answer))){
+                (StringUtils.isBlank(question) && StringUtils.isNotBlank(answer))) {
             mav.addObject("message", "问题和答案都需要填写");
             return mav;
         }
@@ -615,8 +610,8 @@ public class UserInfoManagerController extends BaseController {
     public ModelAndView userUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
-        String userId = WebUtils.getRequestParameterAsString(request, "userId");
-        if (StringUtils.isBlank(userId)) {
+        int userId = WebUtils.getRequestParameterAsInt(request, "userId", 0);
+        if (userId <= 0) {
             mav.addObject("message", "操作无效");
             return mav;
         }
@@ -635,12 +630,12 @@ public class UserInfoManagerController extends BaseController {
             mav.addObject("message", "角色必须选择一项");
             return mav;
         }*/
-        String roleIdSelected = WebUtils.getRequestParameterAsString(request,"roleIdSelected");
+        String roleIdSelected = WebUtils.getRequestParameterAsString(request, "roleIdSelected");
         if (StringUtils.isBlank(roleIdSelected)) {
             mav.addObject("message", "角色必须选择一项");
             return mav;
         }
-        String roleIds [] = StringUtils.split(roleIdSelected,",");
+        String roleIds[] = StringUtils.split(roleIdSelected, ",");
         List<String> roleIdList = Arrays.asList(roleIds);
         userInfo.setRoleIdList(roleIdList);
         String nickName = WebUtils.getRequestParameterAsString(request, "nickname");
@@ -657,7 +652,7 @@ public class UserInfoManagerController extends BaseController {
 
         if (userInfoDao.updateUser(userInfo)) {
             mav.addObject("message", "更新系统用户成功");
-            mav.addObject("href","mg/user/user-list.do");
+            mav.addObject("href", "mg/user/user-list.do");
         } else {
             mav.addObject("message", "更新系统用户失败");
         }
@@ -684,10 +679,11 @@ public class UserInfoManagerController extends BaseController {
         try {
             String arrays[] = StringUtils.split(userId, ",");
             for (String array : arrays) {
-                logger.info("[manager-rights-delete]" + request.getRequestURI() + " roleId=" + array + " result=" + userInfoDao.delUser(array));
+                if (org.apache.commons.lang.math.NumberUtils.isNumber(array))
+                    logger.info("[manager-rights-delete]" + request.getRequestURI() + " roleId=" + array + " result=" + userInfoDao.delUser(Integer.valueOf(array).intValue()));
             }
             mav.addObject("message", "删除系统用户成功");
-            mav.addObject("href","mg/user/user-list.do");
+            mav.addObject("href", "mg/user/user-list.do");
         } catch (Exception e) {
             logger.error("[manager-rights-delete] error " + request.getRequestURI() + " " + userId);
             mav.addObject("message", "删除系统用户失败");
@@ -700,8 +696,8 @@ public class UserInfoManagerController extends BaseController {
     public ModelAndView personalShow(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         logger.info("[manager-user-personalShow]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
-        String userId = WebUtils.getRequestParameterAsString(request, "userId");
-        if (StringUtils.isBlank(userId)) {
+        int userId = WebUtils.getRequestParameterAsInt(request, "userId", 0);
+        if (userId <= 0) {
             mav.addObject("message", "操作无效");
             return mav;
         }
@@ -714,10 +710,10 @@ public class UserInfoManagerController extends BaseController {
         mav.addObject("opt", "update");
         mav.setViewName("mg/user/user-personal-show");
 
-        boolean isSuper = userInfoDao.isSuper((UserInfo)session.getAttribute(Constants.SESSIN_USERID));
-        mav.addObject("isSuper",isSuper);
-        boolean isGroupLeader = userInfoDao.isGroupLeader((UserInfo)session.getAttribute(Constants.SESSIN_USERID));
-        mav.addObject("isGroupLeader",isGroupLeader);
+        boolean isSuper = userInfoDao.isSuper((UserInfo) session.getAttribute(Constants.SESSIN_USERID));
+        mav.addObject("isSuper", isSuper);
+        boolean isGroupLeader = userInfoDao.isGroupLeader((UserInfo) session.getAttribute(Constants.SESSIN_USERID));
+        mav.addObject("isGroupLeader", isGroupLeader);
 
         return mav;
     }
@@ -748,20 +744,25 @@ public class UserInfoManagerController extends BaseController {
     }
 
     @RequestMapping(value = "/user-setLive.do", method = RequestMethod.GET)
-    public ModelAndView setLive(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public ModelAndView setLive(HttpServletRequest request) {
         logger.info("[manager-user-update]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView("common/message");
         String userId = WebUtils.getRequestParameterAsString(request, "userId");
-        String flag = WebUtils.getRequestParameterAsString(request,"flag");
+        String flag = WebUtils.getRequestParameterAsString(request, "flag");
         if (StringUtils.isBlank(userId) || StringUtils.isBlank(flag)) {
             mav.addObject("message", "操作无效");
             return mav;
         }
         try {
             String arrays[] = StringUtils.split(userId, ",");
-            if(userInfoDao.setUserLive(arrays,Integer.valueOf(flag))){
-                message = "设置成功" ;
-                mav.addObject("href","mg/user/user-list.do");
+            List<Integer> ids = new ArrayList<Integer>(arrays.length);
+            for (String array : arrays) {
+                if (NumberUtils.isNumber(array))
+                    ids.add(Integer.valueOf(array).intValue());
+            }
+            if (userInfoDao.setUserLive(ids.toArray(new Integer[ids.size()]), Integer.valueOf(flag))) {
+                message = "设置成功";
+                mav.addObject("href", "mg/user/user-list.do");
             }
             mav.addObject("message", message);
         } catch (Exception e) {
@@ -782,11 +783,14 @@ public class UserInfoManagerController extends BaseController {
         }
         try {
             String arrays[] = StringUtils.split(userId, ",");
-            if(userInfoDao.resetPasswd(userId)){
-                message = "重置成功，新密码为\"adminadmin\"" ;
-            }
-            else{
-                message = "重置失败，请稍后重试" ;
+            for (String array : arrays) {
+                if (NumberUtils.isNumber(array)) {
+                    if (userInfoDao.resetPasswd(Integer.valueOf(array).intValue())) {
+                        message = "重置成功，新密码为\"adminadmin\"";
+                    } else {
+                        message = "重置失败，请稍后重试";
+                    }
+                }
             }
             mav.addObject("message", message);
         } catch (Exception e) {

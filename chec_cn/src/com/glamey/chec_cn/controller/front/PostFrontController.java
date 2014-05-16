@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -102,6 +103,12 @@ public class PostFrontController extends BaseController {
             postQuery.setShowList(1);
             postQuery.setStart(pageBean.getStart());
             postQuery.setNum(pageBean.getRowsPerPage());
+            postQuery.setOrderMap(new LinkedHashMap<String, String>(){
+                {
+                    put(Constants.ORDERBYCOLUMNNAME_POST_ORDER,Constants.ORDERBYDESC);
+                    put(Constants.ORDERBYCOLUMNNAME_POST_PUBLIS_TIME,Constants.ORDERBYDESC);
+                }
+            });
         }
         //详情显示
         else {
@@ -122,7 +129,7 @@ public class PostFrontController extends BaseController {
     }
 
     @RequestMapping(value = {"/post-{rootCategoryName}-{curCategoryId}-{postId}.htm"}, method = RequestMethod.GET)
-    public ModelAndView loginShow(
+    public ModelAndView brandPostList(
             @PathVariable String rootCategoryName,
             @PathVariable String curCategoryId,
             @PathVariable String postId,

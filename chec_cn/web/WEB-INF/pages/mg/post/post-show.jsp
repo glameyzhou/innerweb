@@ -121,6 +121,20 @@
                 </c:otherwise>
             </c:choose>--%>
 
+            <c:choose>
+                <c:when test="${'NEWS' eq category.categoryType}">
+                    <tr>
+                        <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>排序:</td>
+                        <td width="85%" class="pn-fcontent">
+                            <input type="text" name="postOrder" value="${post.postOrder}" class="digits"/>&nbsp;<font color="red">数字越大越靠前</font>
+                        </td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <input type="text" name="postOrder" value="${post.postOrder}"/>
+                </c:otherwise>
+            </c:choose>
+
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>摘要描述:</td>
                 <td width="85%" class="pn-fcontent">

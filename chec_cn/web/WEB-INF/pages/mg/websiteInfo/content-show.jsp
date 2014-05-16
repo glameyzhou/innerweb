@@ -40,7 +40,7 @@
         <div class="rpos">当前位置: 首页 - 站外消息 - 消息<c:choose><c:when test="${opt == 'update'}">修改</c:when><c:otherwise>添加</c:otherwise></c:choose></div>
         <div class="clear"></div>
     </div>
-    <form method="post" action="${basePath}super/content/content-${opt}.do" id="jvForm">
+    <form method="post" action="${basePath}mg/websiteInfo/content/${opt}.do" id="jvForm">
         <input type="hidden" id="contentId" name="contentId" value="${content.contentId}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>

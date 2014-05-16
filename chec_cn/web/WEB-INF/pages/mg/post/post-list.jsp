@@ -124,6 +124,9 @@
                 <%--<c:if test="${'NEWS' eq category.categoryType}">
                     <th width="5%">焦点图</th>
                 </c:if>--%>
+                <c:if test="${'NEWS' eq category.categoryType}">
+                    <th width="5%">排序</th>
+                </c:if>
 				<th width="10%">发布时间</th>
 				<th width="10%">操作</th>
 			</tr>
@@ -140,6 +143,9 @@
                 <%--<c:if test="${'NEWS' eq category.categoryType}">
                     <td align=center><c:choose><c:when test="${post.showFocusImage == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
                 </c:if>--%>
+                <c:if test="${'NEWS' eq category.categoryType}">
+                    <td align=center>${post.postOrder}</td>
+                </c:if>
 				<td align=center><fmt:formatDate value="${post.publishTime}" type="both"/></td>
 				<td align=center>
 					    <a href="javascript:edit('${post.id}');">编辑</a>&nbsp;

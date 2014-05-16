@@ -11,19 +11,19 @@ import java.io.Serializable;
  * To change this template use File | Settings | File Templates.
  */
 public class AccessLogQuery implements Serializable {
-    private String userId;
-    private String [] userIds;
+    private int userId;
+    private String[] userIds;
     private String accessStartTime;
     private String accessEndTime;
     private String categoryId;
     private int start;
     private int num;
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 

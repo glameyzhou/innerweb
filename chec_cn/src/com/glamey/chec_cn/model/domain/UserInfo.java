@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class UserInfo implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String userId;
+    private int userId;
     private String username;
     private String passwd;
     private String nickname;
@@ -35,11 +35,11 @@ public class UserInfo implements Serializable {
     private List<RoleInfo> roleInfoList ;
     private List<String> rightsList ;
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 

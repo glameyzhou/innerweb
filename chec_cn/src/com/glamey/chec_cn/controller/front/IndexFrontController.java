@@ -1,6 +1,7 @@
 package com.glamey.chec_cn.controller.front;
 
 import com.glamey.chec_cn.constants.CategoryConstants;
+import com.glamey.chec_cn.constants.Constants;
 import com.glamey.chec_cn.controller.BaseController;
 import com.glamey.chec_cn.dao.CategoryDao;
 import com.glamey.chec_cn.dao.LinksDao;
@@ -54,6 +55,12 @@ public class IndexFrontController extends BaseController {
         query.setStart(0);
         query.setNum(6);
         query.setCategoryType(CategoryConstants.CATEGORY_NEWS);
+        query.setOrderMap(new LinkedHashMap<String, String>(){
+            {
+                put(Constants.ORDERBYCOLUMNNAME_POST_ORDER,Constants.ORDERBYDESC);
+                put(Constants.ORDERBYCOLUMNNAME_POST_PUBLIS_TIME,Constants.ORDERBYDESC);
+            }
+        });
         List<Post> focusImageList = postDao.getByQuery(query);
         mav.addObject("focusImageList",focusImageList);
 
@@ -63,6 +70,12 @@ public class IndexFrontController extends BaseController {
         query.setNum(6);
         query.setCategoryType(CategoryConstants.CATEGORY_NEWS);
         query.setCategoryId(CategoryConstants.CATEGORY_ID_YAOWENKUAIDI);
+        query.setOrderMap(new LinkedHashMap<String, String>(){
+            {
+                put(Constants.ORDERBYCOLUMNNAME_POST_ORDER,Constants.ORDERBYDESC);
+                put(Constants.ORDERBYCOLUMNNAME_POST_PUBLIS_TIME,Constants.ORDERBYDESC);
+            }
+        });
         List<Post> yaowenkuaidiList = postDao.getByQuery(query);
         mav.addObject("yaowenkuaidiList",yaowenkuaidiList);
 
@@ -72,6 +85,12 @@ public class IndexFrontController extends BaseController {
         query.setNum(7);
         query.setCategoryType(CategoryConstants.CATEGORY_NEWS);
         query.setCategoryId(CategoryConstants.CATEGORY_ID_GONGSIXINWEN);
+        query.setOrderMap(new LinkedHashMap<String, String>(){
+            {
+                put(Constants.ORDERBYCOLUMNNAME_POST_ORDER,Constants.ORDERBYDESC);
+                put(Constants.ORDERBYCOLUMNNAME_POST_PUBLIS_TIME,Constants.ORDERBYDESC);
+            }
+        });
         List<Post> gongsixinwenList = postDao.getByQuery(query);
         mav.addObject("gongsixinwenList",gongsixinwenList);
 
@@ -81,6 +100,12 @@ public class IndexFrontController extends BaseController {
         query.setNum(1);
         query.setCategoryId(CategoryConstants.CATEGORY_ID_GONGSIJIANJIE);
         query.setCategoryType(CategoryConstants.CATEGORY_INTRODUCE);
+        query.setOrderMap(new LinkedHashMap<String, String>(){
+            {
+                put(Constants.ORDERBYCOLUMNNAME_POST_ORDER,Constants.ORDERBYDESC);
+                put(Constants.ORDERBYCOLUMNNAME_POST_PUBLIS_TIME,Constants.ORDERBYDESC);
+            }
+        });
         List<Post> gongsijianjieList = postDao.getByQuery(query);
         Post gongsijianjie = CollectionUtils.isEmpty(gongsijianjieList) ? new Post() : gongsijianjieList.get(0);
         mav.addObject("gongsijianjie",gongsijianjie);
@@ -101,6 +126,12 @@ public class IndexFrontController extends BaseController {
         query.setNum(1);
         query.setCategoryId(CategoryConstants.CATEGORY_ID_FAZHANZHALUE);
         query.setCategoryType(CategoryConstants.CATEGORY_INTRODUCE);
+        query.setOrderMap(new LinkedHashMap<String, String>(){
+            {
+                put(Constants.ORDERBYCOLUMNNAME_POST_ORDER,Constants.ORDERBYDESC);
+                put(Constants.ORDERBYCOLUMNNAME_POST_PUBLIS_TIME,Constants.ORDERBYDESC);
+            }
+        });
         List<Post> fazhanzhanlue_list = postDao.getByQuery(query);
         Post fazhanzhanlue = CollectionUtils.isEmpty(fazhanzhanlue_list) ? new Post() : fazhanzhanlue_list.get(0);
         mav.addObject("fazhanzhanlue",fazhanzhanlue);

@@ -3,12 +3,12 @@
  */
 package com.glamey.chec_cn.dao;
 
-import com.glamey.framework.utils.StringTools;
 import com.glamey.chec_cn.constants.Constants;
 import com.glamey.chec_cn.model.domain.AccessLog;
 import com.glamey.chec_cn.model.domain.Category;
 import com.glamey.chec_cn.model.domain.UserInfo;
 import com.glamey.chec_cn.model.dto.AccessLogQuery;
+import com.glamey.framework.utils.StringTools;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -54,13 +54,14 @@ public class AccessLogDao extends BaseDao {
                         public void setValues(PreparedStatement pstmt) throws SQLException {
                             int i = 0;
                             pstmt.setString(++i, StringTools.getUniqueId());
-                            pstmt.setString(++i, info.getUserId());
+                            pstmt.setInt(++i, info.getUserId());
                             pstmt.setTimestamp(++i, new Timestamp(new Date().getTime()));
                             pstmt.setString(++i, info.getPageUrl());
                             pstmt.setString(++i, info.getPageTitle());
                             pstmt.setString(++i, info.getCategoryId());
                         }
-                    });
+                    }
+            );
             return count > 0;
         } catch (Exception e) {
             logger.error("[AccessLogDao] #create# error " + info, e);
@@ -68,13 +69,14 @@ public class AccessLogDao extends BaseDao {
         }
     }
 
-    public void save(final String userId, final String pageUrl, final String pageTitle, final String categoryId) {
+    public void save(final int userId, final String pageUrl, final String pageTitle, final String categoryId) {
         AccessLog log = new AccessLog();
         log.setUserId(userId);
         log.setPageUrl(pageUrl);
         log.setCategoryId(categoryId);
         create(log);
     }
+
     public void save(final String pageUrl, final String pageTitle, final String categoryId, HttpSession session) {
         AccessLog log = new AccessLog();
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
@@ -104,7 +106,8 @@ public class AccessLogDao extends BaseDao {
                             preparedstatement.setString(1, logId);
                         }
                     },
-                    new AccessLogRowMapper());
+                    new AccessLogRowMapper()
+            );
             if (list != null && list.size() > 0) {
                 return list.get(0);
             }
@@ -123,7 +126,7 @@ public class AccessLogDao extends BaseDao {
             if (StringUtils.isNotBlank(query.getCategoryId()))
                 sql.append(" and page_category_id = ? ");
 
-            if (StringUtils.isNotBlank(query.getUserId()))
+            if (query.getUserId() > 0)
                 sql.append(" and user_id_fk = ? ");
 
             if (StringUtils.isNotBlank(query.getAccessStartTime()))
@@ -147,8 +150,8 @@ public class AccessLogDao extends BaseDao {
                             if (StringUtils.isNotBlank(query.getCategoryId()))
                                 preparedstatement.setString(++i, query.getCategoryId());
 
-                            if (StringUtils.isNotBlank(query.getUserId()))
-                                preparedstatement.setString(++i, query.getUserId());
+                            if (query.getUserId() > 0)
+                                preparedstatement.setInt(++i, query.getUserId());
 
                             if (StringUtils.isNotBlank(query.getAccessStartTime()))
                                 preparedstatement.setString(++i, query.getAccessStartTime());
@@ -161,7 +164,8 @@ public class AccessLogDao extends BaseDao {
 
                         }
                     },
-                    new AccessLogRowMapper());
+                    new AccessLogRowMapper()
+            );
             return list;
         } catch (Exception e) {
             logger.error("[AccessLogDao] #getByQuery# error! query=" + query, e);
@@ -181,7 +185,7 @@ public class AccessLogDao extends BaseDao {
                 params.add(query.getCategoryId());
             }
 
-            if (StringUtils.isNotBlank(query.getUserId())) {
+            if (query.getUserId() > 0) {
                 sql.append(" and user_id_fk = ? ");
                 params.add(query.getUserId());
             }
@@ -213,7 +217,7 @@ public class AccessLogDao extends BaseDao {
             AccessLog info = new AccessLog();
             info.setId(rs.getString("id"));
 
-            info.setUserId(rs.getString("user_id_fk"));
+            info.setUserId(rs.getInt("user_id_fk"));
             UserInfo userInfo = userInfoDao.getUserSimpleById(info.getUserId());
             info.setUserInfo(userInfo);
 

@@ -62,7 +62,7 @@
 <div class="body-box">
 	<div class="rhead">
 		<div class="rpos">当前位置: 首页  - 系统管理 - 访问日志 &nbsp;
-            <c:if test="${not empty query.userId}">
+            <c:if test="${query.userId > 0}">
                 (<font color="red">${userInfo.nickname}</font>)
             </c:if>
         </div>
@@ -77,7 +77,7 @@
 			结束&nbsp;<input type="text" maxlength="100" name="endTime" id="endTime" class="required" size="18" value="${query.accessEndTime}"
 					onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;
 			<input type="submit" value="查询">
-            <c:if test="${not empty query.userId}">
+            <c:if test="${query.userId > 0}">
                 &nbsp;&nbsp;<input type="button" value="所有人" onclick="javascript:window.location='${basePath}mg/sys/accessLog/list.htm';">
             </c:if>
 		</div>
@@ -97,7 +97,7 @@
 			<tr>
 				<%--<td align="center">${log.id}</td>--%>
 				<td align="center">
-                    <c:if test="${not empty log.userId}">
+                    <c:if test="${log.userId > 0}">
                         <a href="${basePath}mg/sys/accessLog/list.htm?userId=${log.userId}&categoryId=${query.categoryId}&startTime=${fmtString:encoder(query.accessStartTime)}&endTime=${fmtString:encoder(query.accessEndTime)}">${log.userInfo.nickname}</a>
                     </c:if>
 				</td>

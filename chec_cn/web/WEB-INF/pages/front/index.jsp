@@ -143,7 +143,7 @@
                                  <c:forEach var="gongsixinwen" items="${gongsixinwenList}">
                                      <li>
                                          <span style="float:right">[ <fmt:formatDate value="${gongsixinwen.publishTime}" pattern="yyyy-M-dd"/>]</span>
-                                         <a href="${basePath}post-${gongsixinwen.categoryType}-${gongsixinwen.categoryId}-${gongsixinwen.id}.htm" title="${gongsixinwen.title}">${fmtString:substringAppend(gongsixinwen.title,30,'..' )}</a>
+                                         <a href="${basePath}post-${gongsixinwen.categoryType}-${gongsixinwen.categoryId}-${gongsixinwen.id}.htm" title="${gongsixinwen.title}">${fmtString:substringAppend(gongsixinwen.title,25,'..' )}</a>
                                      </li>
                                  </c:forEach>
                              </ul>

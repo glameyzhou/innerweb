@@ -44,8 +44,8 @@ public class AccessLogManagerController extends BaseController {
         logger.info("[manager-accessLog-list]" + request.getRequestURI());
         ModelAndView mav = new ModelAndView();
         //请求参数获取
-        String userId = WebUtils.getRequestParameterAsString(request, "userId");
-        if (StringUtils.isNotBlank(userId)) {
+        int userId = WebUtils.getRequestParameterAsInt(request,"userId",0);
+        if (userId > 0) {
             UserInfo userInfo = userInfoDao.getUserSimpleById(userId);
             mav.addObject("userInfo",userInfo);
         }
