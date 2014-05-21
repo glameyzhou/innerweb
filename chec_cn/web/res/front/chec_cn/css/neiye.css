@@ -15,14 +15,14 @@
 .right-con li{line-height:23px; padding:0 8px; height:23px;}
 .right-con li img{padding-right:5px; line-height:23px;}
 .right-con ul p{float:right; height:50px; line-height:50px; color:#616065}
-.right-con ul p span{color:#F00}
+/*.right-con ul p span{color:#F00}*/
 .right-con ul p a{color:#616065}
 .conline p,.right-con p{text-indent:2em; line-height:25px; padding:10px;}
 .conline h3,.right-con h3{color:#666; font-weight:normal;text-indent:2em; line-height:25px; padding:0 10px;}
 .conline{border-bottom:1px solid #EEE;width:796px;}
 /*/////////////////右边样式结束//////////////////////////*/
 /*/////////////////表单样式开始//////////////////////////*/
-.right-con td span{color:#F00}
+/*.right-con td span{color:#F00}*/
 .bg1{background:#ecedf2; height:27px; line-height:27px}
 .bg2{background:#f4f5f9}
 .text60{width:60px;}

@@ -87,8 +87,8 @@
 					<option value="0" <c:if test="${query.showList == 0}">selected="selected" </c:if>>否</option>
 					<option value="1" <c:if test="${query.showList == 1}">selected="selected" </c:if>>是</option>
 				</select>&nbsp;&nbsp;
-            <%--<c:choose>
-                <c:when test="${'NEWS' eq category.categoryType}">
+            <c:choose>
+                <c:when test="${'NEWS' eq category.categoryType and 'FnQNjm' eq category.id}">
                     焦点图&nbsp;<select name="showFocusImage" id="showFocusImage">
                     <option value="" <c:if test="${query.showFocusImage == -1}">selected="selected" </c:if>>请选择</option>
                     <option value="0" <c:if test="${query.showFocusImage == 0}">selected="selected" </c:if>>否</option>
@@ -98,7 +98,7 @@
                 <c:otherwise>
                     <input type="hidden" name="showFocusImage" value="-1"/>
                 </c:otherwise>
-            </c:choose>--%>
+            </c:choose>
             <input type="hidden" name="showFocusImage" value="-1"/>
 			开始&nbsp;<input type="text" maxlength="100" name="startTime" id="startTime" class="required" size="18" value="${query.publishStartTime}"
 					onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" readonly="readonly">&nbsp;&nbsp;
@@ -121,9 +121,9 @@
 				<%--<th width="10%">来源</th>--%>
 				<th width="5%">首页显示</th>
 				<th width="8%">列表页显示</th>
-                <%--<c:if test="${'NEWS' eq category.categoryType}">
+                <c:if test="${'NEWS' eq category.categoryType and 'FnQNjm' eq category.id}">
                     <th width="5%">焦点图</th>
-                </c:if>--%>
+                </c:if>
                 <c:if test="${'NEWS' eq category.categoryType}">
                     <th width="5%">排序</th>
                 </c:if>
@@ -140,9 +140,9 @@
 				<%--<td align="center">${post.source}</td>--%>
 				<td align=center><c:choose><c:when test="${post.showIndex == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
 				<td align=center><c:choose><c:when test="${post.showList == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
-                <%--<c:if test="${'NEWS' eq category.categoryType}">
+                <c:if test="${'NEWS' eq category.categoryType and 'FnQNjm' eq category.id}">
                     <td align=center><c:choose><c:when test="${post.showFocusImage == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
-                </c:if>--%>
+                </c:if>
                 <c:if test="${'NEWS' eq category.categoryType}">
                     <td align=center>${post.postOrder}</td>
                 </c:if>

@@ -28,6 +28,14 @@
         });
         $(function () {
             $("#jvForm").validate();
+            $("#displayY").click(function(){
+                $("#focusImageSpan").css("display","block");
+            });
+            $("#displayN").click(function(){
+                $("#focusImageSpan").css("display","none");
+            });
+            var showDiv = '${post.showFocusImage}';
+            $("#focusImageSpan").css("display",showDiv == '1' ? "block" : "none");
         });
         function delImage(postId) {
             if (!confirm('确认要删除指定图片?'))return;
@@ -63,12 +71,6 @@
                            value="${post.title}">
                 </td>
             </tr>
-            <%--<tr>
-                <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>来源:</td>
-                <td width="85%" class="pn-fcontent">
-                    <input type="text" id="source" name="source" value="${post.source}" class="required"/>
-                </td>
-            </tr>--%>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>发布人:</td>
                 <td width="85%" class="pn-fcontent">
@@ -102,25 +104,6 @@
                            <c:if test="${post.showList == 1}">checked="checked"</c:if> />是&nbsp;
                 </td>
             </tr>
-            <%--只有是新闻状态，才有焦点图的显示--%>
-            <%--<c:choose>
-                <c:when test="${'NEWS' eq category.categoryType}">
-                    <tr>
-                        <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>焦点图显示:</td>
-                        <td width="85%" class="pn-fcontent">
-                            <input type="radio" name="showFocusImage" value="0"
-                                   <c:if test="${post.showFocusImage == 0}">checked="checked"</c:if> />否&nbsp;
-                            <input type="radio" name="showFocusImage" value="1"
-                                   <c:if test="${post.showFocusImage == 1}">checked="checked"</c:if> />是&nbsp;
-                            <font color="red">选中"是"后，会从正文中提取第一张图片作为焦点图</font>
-                        </td>
-                    </tr>
-                </c:when>
-                <c:otherwise>
-                    <input type="hidden" name="showFocusImage" value="0"/>
-                </c:otherwise>
-            </c:choose>--%>
-
             <c:choose>
                 <c:when test="${'NEWS' eq category.categoryType}">
                     <tr>
@@ -131,10 +114,36 @@
                     </tr>
                 </c:when>
                 <c:otherwise>
-                    <input type="text" name="postOrder" value="${post.postOrder}"/>
+                    <input type="text" name="postOrder" value="${post.postOrder}" style="display: none;"/>
                 </c:otherwise>
             </c:choose>
-
+            <c:choose>
+                <c:when test="${'NEWS' eq category.categoryType and 'FnQNjm' eq category.id}">
+                    <tr>
+                        <td width="15%" class="pn-flabel pn-flabel-h">焦点图显示:</td>
+                        <td width="85%" class="pn-fcontent">
+                            <input type="radio" name="showFocusImage" value="0" id="displayN"
+                                   <c:if test="${post.showFocusImage == 0}">checked="checked"</c:if> />否&nbsp;
+                            <input type="radio" name="showFocusImage" value="1" id="displayY"
+                                   <c:if test="${post.showFocusImage == 1}">checked="checked"</c:if> />是&nbsp;
+                            <br/>
+                            <table width="40%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td id="focusImageSpan" style="display: none;width: 10%"><input type="file" name="file" id="file"/></td>
+                                    <td>
+                                        <c:if test="${opt eq 'update' and not empty post.focusImage}">
+                                            <a href="${basePath}${post.focusImage}" target="_blank" style="color:blue;">查看图片</a>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <input type="radio" name="showFocusImage" value="0" style="display: none;"/>
+                </c:otherwise>
+            </c:choose>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired"></span>摘要描述:</td>
                 <td width="85%" class="pn-fcontent">
