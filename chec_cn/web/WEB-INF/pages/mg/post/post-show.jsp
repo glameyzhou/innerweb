@@ -104,7 +104,7 @@
                            <c:if test="${post.showList == 1}">checked="checked"</c:if> />是&nbsp;
                 </td>
             </tr>
-            <c:choose>
+            <%--<c:choose>
                 <c:when test="${'NEWS' eq category.categoryType}">
                     <tr>
                         <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>排序:</td>
@@ -116,7 +116,8 @@
                 <c:otherwise>
                     <input type="text" name="postOrder" value="${post.postOrder}" style="display: none;"/>
                 </c:otherwise>
-            </c:choose>
+            </c:choose>--%>
+            <input type="text" name="postOrder" value="${post.postOrder}" style="display: none;"/>
             <c:choose>
                 <c:when test="${'NEWS' eq category.categoryType and 'FnQNjm' eq category.id}">
                     <tr>

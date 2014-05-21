@@ -6,6 +6,7 @@ import com.glamey.chec_cn.model.domain.Post;
 import com.glamey.chec_cn.model.dto.LuceneEntry;
 import com.glamey.chec_cn.model.dto.PostQuery;
 import com.glamey.framework.utils.StringTools;
+import com.sun.syndication.io.impl.RSS091UserlandGenerator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
@@ -14,11 +15,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.io.Serializable;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -73,7 +73,8 @@ public class PostDao extends BaseDao {
                             pstmt.setInt(++i, post.getShowList());
                             pstmt.setInt(++i, post.getShowFocusImage());
                             pstmt.setString(++i, post.getFocusImage());
-                            pstmt.setInt(++i, post.getPostOrder());
+                            /*pstmt.setInt(++i, post.getPostOrder());*/
+                            pstmt.setInt(++i, getMaxId());
                             pstmt.setInt(++i, post.getShowTop());
                             pstmt.setInt(++i, post.getTopOrder());
                         }
@@ -417,7 +418,7 @@ public class PostDao extends BaseDao {
                 entry.setHref("post-" + obj.getCategoryType() + "-" + obj.getCategoryId() + "-" + entry.getId() + ".htm");
                 entry.setTitle(obj.getTitle());
                 entry.setContent(obj.getContent());
-                entry.setTime(DateFormatUtils.format(obj.getPublishTime(),"yyyy-MM-dd HH:mm:ss"));
+                entry.setTime(DateFormatUtils.format(obj.getPublishTime(), "yyyy-MM-dd HH:mm:ss"));
                 entry.setModel(obj.getCategoryId());
                 entry.setModelName(obj.getCategoryType());
                 entries.add(entry);
@@ -426,6 +427,50 @@ public class PostDao extends BaseDao {
             e.printStackTrace();
         }
         return entries;
+    }
+
+
+    public boolean setOrder(final String postId, String orderType) {
+        logger.info("[PostDao] #setOrder# postId=" + postId + " orderType=" + orderType);
+        try {
+            Post post = this.getByPostId(postId);
+            final int orderId = post.getPostOrder();
+            String sql = "";
+            /*下移*/
+            if (StringUtils.equalsIgnoreCase(orderType, "down")) {
+                sql = "select id,post_order from tbl_post where post_order <= " + orderId + " and id <> '" + postId + "' order by post_order desc,post_publish_time desc limit 1";
+
+            }
+            if (StringUtils.equals(orderType, "up")) {
+                sql = "select id,post_order from tbl_post where post_order >= " + orderId + " and id <> '" + postId + "' order by post_order asc,post_publish_time asc limit 1";
+            }
+            List<SimplePost> simplePostList = jdbcTemplate.query(
+                    sql,
+                    new RowMapper<SimplePost>() {
+                        @Override
+                        public SimplePost mapRow(ResultSet resultSet, int i) throws SQLException {
+                            SimplePost simplePost = new SimplePost();
+                            simplePost.setId(resultSet.getString("id"));
+                            simplePost.setPostOrder(resultSet.getInt("post_order"));
+                            return simplePost;
+                        }
+                    }
+            );
+            if (CollectionUtils.isEmpty(simplePostList)) {
+                logger.info("[PostDao] #setOrder# postId=" + postId + " orderType=" + orderType + " 设置失败，没有查询到对应的排序ID");
+                return true;
+            }
+            SimplePost simplePost = simplePostList.get(0);
+
+            String batchSql[] = new String[2];
+            batchSql[0] = "update tbl_post set post_order = " + simplePost.getPostOrder() + " where id = '" + postId + "'";
+            batchSql[1] = "update tbl_post set post_order = " + post.getPostOrder() + " where id = '" + simplePost.getId() + "'";
+            int batchCount[] = jdbcTemplate.batchUpdate(batchSql);
+            return batchCount.length > 0;
+        } catch (Exception e) {
+            logger.error("[PostDao] #getByPostId# postId=" + postId + " error!", e);
+        }
+        return false;
     }
 
     class PostRowMapper implements RowMapper<Post> {
@@ -461,4 +506,100 @@ public class PostDao extends BaseDao {
         }
     }
 
+    class SimplePost implements Serializable {
+        private String id;
+        private int postOrder;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public int getPostOrder() {
+            return postOrder;
+        }
+
+        public void setPostOrder(int postOrder) {
+            this.postOrder = postOrder;
+        }
+    }
+    /**
+     * 获取最大值
+     *
+     * @return
+     */
+    public synchronized int getMaxId() {
+        logger.info("[PostDao] #getMaxId#");
+        int maxId = 0;
+        try {
+            maxId = jdbcTemplate.queryForInt("select max(post_max_id) + 1 as count from tbl_post");
+            return maxId;
+        } catch (Exception e) {
+            logger.info("[PostDao] #getMaxId# error,", e);
+        }
+        return maxId;
+    }
+
+    public static void main(String[] args) {
+        String sql = "SELECT id, post_max_id,post_category_id_fk,post_category_type,post_order,post_publish_time,post_update_time " +
+                "FROM tbl_post b " +
+                "order by " +
+                "post_order ASC," +
+                "post_publish_time asc";
+
+        Connection conn = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/chec_cn?useUnicode=true&amp;characterEncoding=utf8",
+                    "root",
+                    "root");
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int i = 0;
+            String id = "";
+            List<String> sqlList = new ArrayList<String>();
+            while (resultSet.next()) {
+                id = resultSet.getString("id");
+                if (StringUtils.isBlank(id))
+                    continue;
+                int index = ++i;
+                sqlList.add("update tbl_post set post_max_id = " + index + ",post_order = " + index + " where id = '" + id + "'");
+            }
+            resultSet.close();
+            preparedStatement.close();
+            conn.close();
+
+
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/chec_cn?useUnicode=true&amp;characterEncoding=utf8",
+                    "root",
+                    "root");
+            conn.setAutoCommit(false);
+            Statement statement = conn.createStatement();
+            for (String s : sqlList) {
+                statement.addBatch(s);
+            }
+            int batchCount[] = statement.executeBatch();
+            conn.commit();
+            System.out.println(batchCount.length);
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

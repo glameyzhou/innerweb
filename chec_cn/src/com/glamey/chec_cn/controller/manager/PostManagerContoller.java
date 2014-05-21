@@ -403,4 +403,30 @@ public class PostManagerContoller extends BaseController {
         mav.addObject("message", message);
         return mav;
     }
+
+    @RequestMapping(value = "/post-setOrder.do", method = RequestMethod.GET)
+    public ModelAndView postSetOrder(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("common/message");
+        String postId = WebUtils.getRequestParameterAsString(request, "postId");
+        String orderType = WebUtils.getRequestParameterAsString(request,"orderType");
+        String categoryId = WebUtils.getRequestParameterAsString(request,"categoryId");
+        String categoryType = WebUtils.getRequestParameterAsString(request,"categoryType");
+
+        if (StringUtils.isBlank(postId)) {
+            mav.setViewName("common/message");
+            mav.addObject("message", "获取不到对应的信息");
+            return mav;
+        }
+
+        boolean result = postDao.setOrder(postId,orderType);
+        if (result) {
+            message = "排序成功";
+            mav.addObject("href", "mg/post/post-list.do?categoryId=" + categoryId + "&type=" + categoryType);
+        }
+        else
+            message = "排序失败";
+
+        mav.addObject("message",message);
+        return mav;
+    }
 }

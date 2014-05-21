@@ -9,7 +9,7 @@
 <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		$("#jvForm").validate();
+        $("#jvForm").validate();
 	});
 	function edit(postId){
 		window.location = '${basePath}mg/post/post-show.do?postId='+postId + "&categoryId=${category.id}";
@@ -61,8 +61,40 @@
             });
         }
     }
+
+    /**
+     * 文章排序
+     *
+    * @param postId
+    * @param orderType
+    */
+    function setOrder(postId,orderType,categoryId,categoryType) {
+        var msg = "确定要将文章<font color='red'>" + (orderType == "up" ? "上移" : "下移"  + "</font>？");
+        layer.confirm(msg,function(index){
+            layer.close(index);
+            var jumpUrl = "${basePath}mg/post/post-setOrder.do?postId=" + postId + "&orderType=" + orderType + "&categoryId=" + categoryId + "&categoryType=" + categoryType;
+            /*alert(jumpUrl);*/
+            window.location = jumpUrl;
+        });
+    }
 </script>
 <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
+<%--<script type="text/javascript">
+    $(function(){
+        $('#helpTips').on('mouseover', function () {
+            layer.tips(
+                    '先按照序列倒序排列，如果序列相同按照时间倒序排列',
+                    this, {
+                        style: ['background-color:#0FA6D8; color:#fff', '#0FA6D8'],
+                        maxWidth: 150
+                    }
+            );
+        });
+        $('#helpTips').on('mouseout', function () {
+            layer.closeTips();
+        });
+    });
+</script>--%>
 </head>
 <body>
 <div class="body-box">
@@ -124,6 +156,9 @@
                 <c:if test="${'NEWS' eq category.categoryType and 'FnQNjm' eq category.id}">
                     <th width="5%">焦点图</th>
                 </c:if>
+                <%--<c:if test="${'NEWS' eq category.categoryType}">
+                    <th width="5%">排序&nbsp;<img src="${basePath}res/front/chec_cn/images/help_tips.jpg" alt="" id="helpTips"/></th>
+                </c:if>--%>
                 <c:if test="${'NEWS' eq category.categoryType}">
                     <th width="5%">排序</th>
                 </c:if>
@@ -133,8 +168,8 @@
 			</thead>
 			<tbody class="pn-ltbody">
 			<c:forEach items="${postList}" var="post" varStatus="status">
-			<tr>
-				<td align="center"><input type="checkbox" id="postId" name="postId" value="${post.id}"/></td>
+			<tr onmousemove="this.style.backgroundColor='#a9a9a9'" onmouseout="this.style.backgroundColor=''">
+				<td align="center"><input type="checkbox" id="postId" name="postId" value="${post.id}"/><%--${post.postOrder}--%></td>
 				<td title="${post.title}">${fmtString:substringAppend(post.title,35,'')}</td>
                 <td align="center">${post.author}</td>
 				<%--<td align="center">${post.source}</td>--%>
@@ -144,7 +179,23 @@
                     <td align=center><c:choose><c:when test="${post.showFocusImage == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
                 </c:if>
                 <c:if test="${'NEWS' eq category.categoryType}">
-                    <td align=center>${post.postOrder}</td>
+                    <%--<td align=center>${post.postOrder}</td>--%>
+                    <td align="center">
+                        <c:choose>
+                            <c:when test="${pageBean.curPage == 1 and status.first}">
+                                <a href="javascript:setOrder('${post.id}','down','${post.categoryId}','${post.categoryType}');"><img src="${basePath}res/front/chec_cn/images/down.gif" border="0" title="下移"/></a>&nbsp;&nbsp;
+                            </c:when>
+                            <c:when test="${pageBean.curPage == pageBean.maxPage and status.last}">
+                                <a href="javascript:setOrder('${post.id}','up','${post.categoryId}','${post.categoryType}');"><img src="${basePath}res/front/chec_cn/images/up.gif" border="0" title="上移"/></a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="javascript:setOrder('${post.id}','up','${post.categoryId}','${post.categoryType}');"><img src="${basePath}res/front/chec_cn/images/up.gif" border="0" title="上移"/></a>
+                                &nbsp;&nbsp;
+                                <a href="javascript:setOrder('${post.id}','down','${post.categoryId}','${post.categoryType}');"><img src="${basePath}res/front/chec_cn/images/down.gif" border="0" title="下移"/></a>
+                            </c:otherwise>
+                        </c:choose>
+
+                    </td>
                 </c:if>
 				<td align=center><fmt:formatDate value="${post.publishTime}" type="both"/></td>
 				<td align=center>
