@@ -418,7 +418,7 @@ public class PostManagerContoller extends BaseController {
             return mav;
         }
 
-        boolean result = postDao.setOrder(postId,orderType);
+        boolean result = postDao.setOrder(postId,orderType,categoryType,categoryId);
         if (result) {
             message = "排序成功";
             mav.addObject("href", "mg/post/post-list.do?categoryId=" + categoryId + "&type=" + categoryType);

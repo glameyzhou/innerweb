@@ -432,7 +432,7 @@ public class PostDao extends BaseDao {
     }
 
 
-    public boolean setOrder(final String postId, String orderType) {
+    public boolean setOrder(final String postId, String orderType, final String categoryType, final String categoryId) {
         logger.info("[PostDao] #setOrder# postId=" + postId + " orderType=" + orderType);
         try {
             Post post = this.getByPostId(postId);
@@ -440,14 +440,22 @@ public class PostDao extends BaseDao {
             String sql = "";
             /*下移*/
             if (StringUtils.equalsIgnoreCase(orderType, "down")) {
-                sql = "select id,post_order from tbl_post where post_order <= " + orderId + " and id <> '" + postId + "' order by post_order desc,post_publish_time desc limit 1";
+                sql = "select id,post_order from tbl_post where post_order < ? and post_category_type = ? and post_category_id_fk = ? order by post_order desc limit 1";
 
             }
             if (StringUtils.equals(orderType, "up")) {
-                sql = "select id,post_order from tbl_post where post_order >= " + orderId + " and id <> '" + postId + "' order by post_order asc,post_publish_time asc limit 1";
+                sql = "select id,post_order from tbl_post where post_order > ?  and post_category_type = ? and post_category_id_fk = ? order by post_order asc limit 1";
             }
             List<SimplePost> simplePostList = jdbcTemplate.query(
                     sql,
+                    new PreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                            preparedStatement.setInt(1,orderId);
+                            preparedStatement.setString(2,categoryType);
+                            preparedStatement.setString(3, categoryId);
+                        }
+                    },
                     new RowMapper<SimplePost>() {
                         @Override
                         public SimplePost mapRow(ResultSet resultSet, int i) throws SQLException {
