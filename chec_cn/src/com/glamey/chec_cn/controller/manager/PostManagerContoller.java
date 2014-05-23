@@ -296,7 +296,7 @@ public class PostManagerContoller extends BaseController {
         post.setCategoryId(WebUtils.getRequestParameterAsString(request, "categoryId"));
 
 
-        if (showFocusImage == 1) {
+        if (showFocusImage == 1 && StringUtils.isBlank(post.getFocusImage())) {
             UploadInfo ui = uploadUtils.doUpload(request, response, UploadType.IMAGE, "file");
             if (ui.getResultCode() > 0)
                 return ui.getModelAndView();
@@ -426,6 +426,20 @@ public class PostManagerContoller extends BaseController {
         else
             message = "排序失败";
 
+        mav.addObject("message",message);
+        return mav;
+    }
+
+    @RequestMapping(value = "/post-resetOrder4Test.do", method = RequestMethod.GET)
+    public ModelAndView resetPostOrder4Test() {
+        ModelAndView mav = new ModelAndView("common/message");
+        try {
+            postDao.resetPostOrder4Test();
+            message = "成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+            message = "排失败";
+        }
         mav.addObject("message",message);
         return mav;
     }

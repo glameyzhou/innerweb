@@ -9,6 +9,18 @@
 <script type="text/javascript" src="${basePath}res/common/js/layer/layer.min.js"></script>
 <script type="text/javascript">
 	$(function() {
+        $('#helpTips').on('mouseover', function () {
+            layer.tips(
+                    '先按照"序列"倒序排列，如果"序列"相同按照"时间"倒序排列',
+                    this, {
+                        style: ['background-color:#0FA6D8; color:#fff', '#0FA6D8'],
+                        maxWidth: 150
+                    }
+            );
+        });
+        $('#helpTips').on('mouseout', function () {
+            layer.closeAll();
+        });
         $("#jvForm").validate();
 	});
 	function edit(postId){
@@ -79,22 +91,6 @@
     }
 </script>
 <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
-<%--<script type="text/javascript">
-    $(function(){
-        $('#helpTips').on('mouseover', function () {
-            layer.tips(
-                    '先按照序列倒序排列，如果序列相同按照时间倒序排列',
-                    this, {
-                        style: ['background-color:#0FA6D8; color:#fff', '#0FA6D8'],
-                        maxWidth: 150
-                    }
-            );
-        });
-        $('#helpTips').on('mouseout', function () {
-            layer.closeTips();
-        });
-    });
-</script>--%>
 </head>
 <body>
 <div class="body-box">
@@ -147,6 +143,7 @@
 		<table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
 			<thead class="pn-lthead">
 			<tr>
+				<th width="3%"></th>
 				<th width="3%">序列</th>
 				<th>标题</th>
 				<th width="10%">发布人</th>
@@ -156,12 +153,12 @@
                 <c:if test="${'NEWS' eq category.categoryType and 'FnQNjm' eq category.id}">
                     <th width="5%">焦点图</th>
                 </c:if>
-                <%--<c:if test="${'NEWS' eq category.categoryType}">
-                    <th width="5%">排序&nbsp;<img src="${basePath}res/front/chec_cn/images/help_tips.jpg" alt="" id="helpTips"/></th>
-                </c:if>--%>
                 <c:if test="${'NEWS' eq category.categoryType}">
-                    <th width="5%">排序</th>
+                    <th width="5%">排序&nbsp;<img src="${basePath}res/front/chec_cn/images/help_tips.jpg" alt="" id="helpTips"/></th>
                 </c:if>
+                <%--<c:if test="${'NEWS' eq category.categoryType}">
+                    <th width="5%">排序</th>
+                </c:if>--%>
 				<th width="10%">发布时间</th>
 				<th width="10%">操作</th>
 			</tr>
@@ -169,7 +166,8 @@
 			<tbody class="pn-ltbody">
 			<c:forEach items="${postList}" var="post" varStatus="status">
 			<tr onmousemove="this.style.backgroundColor='#a9a9a9'" onmouseout="this.style.backgroundColor=''">
-				<td align="center"><input type="checkbox" id="postId" name="postId" value="${post.id}"/><%--${post.postOrder}--%></td>
+				<td align="center"><input type="checkbox" id="postId" name="postId" value="${post.id}"/></td>
+                <td align="center">${post.postOrder}</td>
 				<td title="${post.title}">${fmtString:substringAppend(post.title,35,'')}</td>
                 <td align="center">${post.author}</td>
 				<%--<td align="center">${post.source}</td>--%>
@@ -197,7 +195,7 @@
 
                     </td>
                 </c:if>
-				<td align=center><fmt:formatDate value="${post.publishTime}" type="both"/></td>
+				<td align=center><fmt:formatDate value="${post.publishTime}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td align=center>
 					    <a href="javascript:edit('${post.id}');">编辑</a>&nbsp;
                         <a href="javascript:del('${post.id}');">删除</a>

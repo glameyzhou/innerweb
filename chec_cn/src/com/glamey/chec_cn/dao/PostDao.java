@@ -12,6 +12,8 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -543,63 +545,47 @@ public class PostDao extends BaseDao {
         return maxId;
     }
 
-    public static void main(String[] args) {
-        String sql = "SELECT id, post_max_id,post_category_id_fk,post_category_type,post_order,post_publish_time,post_update_time " +
+    public void resetPostOrder4Test() {
+        String sql = "SELECT id/*, post_max_id,post_category_id_fk,post_category_type,post_order,post_publish_time,post_update_time*/ " +
                 "FROM tbl_post b " +
                 "order by " +
                 "post_order ASC," +
                 "post_publish_time asc";
-
-        Connection conn = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/chec_cn?useUnicode=true&amp;characterEncoding=utf8",
-                    "root",
-                    "root");
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            int i = 0;
-            String id = "";
-            List<String> sqlList = new ArrayList<String>();
-            while (resultSet.next()) {
-                id = resultSet.getString("id");
-                if (StringUtils.isBlank(id))
-                    continue;
-                int index = ++i;
-                sqlList.add("update tbl_post set post_max_id = " + index + ",post_order = " + index + " where id = '" + id + "'");
-            }
-            resultSet.close();
-            preparedStatement.close();
-            conn.close();
+            final List<String> idList = jdbcTemplate.query(
+                    sql,
+                    new RowMapper<String>() {
+                        @Override
+                        public String mapRow(ResultSet resultSet, int i) throws SQLException {
+                            return resultSet.getString("id");
+                        }
+                    }
+            );
+            if (CollectionUtils.isEmpty(idList))
+                return;
 
+            sql = "update tbl_post set post_max_id = ? , post_order = ? where id = ?";
 
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/chec_cn?useUnicode=true&amp;characterEncoding=utf8",
-                    "root",
-                    "root");
-            conn.setAutoCommit(false);
-            Statement statement = conn.createStatement();
-            for (String s : sqlList) {
-                statement.addBatch(s);
-            }
-            int batchCount[] = statement.executeBatch();
-            conn.commit();
+            int batchCount[] = jdbcTemplate.batchUpdate(
+                    sql, new BatchPreparedStatementSetter() {
+                        @Override
+                        public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                            String id = idList.get(i);
+                            int index = i + 1;
+                            preparedStatement.setInt(1, index);
+                            preparedStatement.setInt(2, index);
+                            preparedStatement.setString(3, id);
+                        }
+
+                        @Override
+                        public int getBatchSize() {
+                            return idList.size();
+                        }
+                    }
+            );
             System.out.println(batchCount.length);
-            statement.close();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 }
