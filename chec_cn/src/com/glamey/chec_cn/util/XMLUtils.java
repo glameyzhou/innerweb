@@ -34,13 +34,13 @@ public class XMLUtils {
             link.addText(basePath + "/post-" + post.getCategoryType() + "-" + post.getCategoryId() + "-" + post.getId() + ".htm");
 
             Element image = item.addElement("image");
-            if (StringUtils.isNotBlank(pic) && pic.startsWith("http")) {
+            if (StringUtils.isNotBlank(pic) && pic.toLowerCase().startsWith("http")) {
                 image.addText(pic);
             } else {
                 if (pic.startsWith("/chec_cn"))
                     image.addText(request.getScheme() + ":" + request.getServerName() + (request.getServerPort() == 80 ? "" : request.getServerPort()) + pic);
                 else
-                    image.addText(basePath + pic);
+                    image.addText(basePath + (pic.toLowerCase().startsWith("/") ? pic : "/" + pic));
             }
             Element title = item.addElement("title");
             title.addText(post.getTitle());
