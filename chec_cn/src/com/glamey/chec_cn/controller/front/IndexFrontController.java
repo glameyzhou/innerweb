@@ -9,6 +9,7 @@ import com.glamey.chec_cn.dao.PostDao;
 import com.glamey.chec_cn.dao.UserInfoDao;
 import com.glamey.chec_cn.model.domain.Category;
 import com.glamey.chec_cn.model.domain.Links;
+import com.glamey.chec_cn.model.domain.PeriodicalInfo;
 import com.glamey.chec_cn.model.domain.Post;
 import com.glamey.chec_cn.model.dto.LinksQuery;
 import com.glamey.chec_cn.model.dto.PostQuery;
@@ -16,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -159,6 +161,14 @@ public class IndexFrontController extends BaseController {
             linksMap.put(category,list);
         }
         mav.addObject("linksMap", linksMap);
+        return mav;
+    }
+
+    @RequestMapping(value = {"/404.htm"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView periodicalSummary(HttpServletRequest request) throws Exception {
+        ModelAndView mav = new ModelAndView("common/message");
+        mav.addObject("message", "请求的资源不存在，点击返回首页");
+        mav.addObject("href", "index.htm");
         return mav;
     }
 }

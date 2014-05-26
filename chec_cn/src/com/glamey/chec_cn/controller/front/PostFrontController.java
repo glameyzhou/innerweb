@@ -16,6 +16,7 @@ import com.glamey.framework.utils.FileUtils;
 import com.glamey.framework.utils.PageBean;
 import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
@@ -158,12 +159,12 @@ public class PostFrontController extends BaseController {
     @RequestMapping(value = "/search.htm", method = RequestMethod.GET)
     public ModelAndView search(
             @RequestParam(value = "kw", required = false, defaultValue = "") String kw,
-            @RequestParam(value = "curPage", required = false, defaultValue = "1") String pg,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+            @RequestParam(value = "curPage", required = false, defaultValue = "1") String pg) throws Exception {
 
         ModelAndView mav = new ModelAndView("front/band/search");
         int curPage = Integer.parseInt(pg);
         kw = StringTools.converISO2UTF8(kw);
+        kw = StringEscapeUtils.unescapeHtml(kw);
         pageBean = new PageBean(Constants.rowsPerPageFront);
         pageBean.setCurPage(curPage);
         List<LuceneEntry> entries = new ArrayList<LuceneEntry>();
@@ -222,7 +223,8 @@ public class PostFrontController extends BaseController {
         }
         mav.addObject("entries", entries);
         mav.addObject("pageBean", pageBean);
-        mav.addObject("kw", kw);
+        mav.addObject("kw", StringEscapeUtils.escapeHtml(kw));
+        mav.addObject("kw_input", kw);
         return mav;
     }
 
@@ -302,8 +304,7 @@ public class PostFrontController extends BaseController {
     /*中国华电工程期刊-目录*/
     @RequestMapping(value = {"/periodical/summary-{periodicalId}.htm"}, method = RequestMethod.GET)
     public ModelAndView periodicalSummary(
-            @PathVariable String periodicalId,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+            @PathVariable String periodicalId) throws Exception {
         ModelAndView mav = new ModelAndView("front/band/periodical-summary");
         if (StringUtils.isBlank(periodicalId)) {
             mav.setViewName("common/message");
@@ -314,4 +315,9 @@ public class PostFrontController extends BaseController {
         mav.addObject("periodical", periodical);
         return mav;
     }
+
+    /*public static void main(String[] args) {
+        System.out.println(StringEscapeUtils.escapeHtml("kw=\"><script>confirm(3263)</script>"));
+        System.out.println(StringEscapeUtils.unescapeHtml(StringEscapeUtils.escapeHtml("kw=\"><script>confirm(3263)</script>")));
+    }*/
 }
