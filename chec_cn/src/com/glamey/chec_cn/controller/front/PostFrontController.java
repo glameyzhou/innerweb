@@ -224,7 +224,6 @@ public class PostFrontController extends BaseController {
         mav.addObject("entries", entries);
         mav.addObject("pageBean", pageBean);
         mav.addObject("kw", StringEscapeUtils.escapeHtml(kw));
-        mav.addObject("kw_input", kw);
         return mav;
     }
 
