@@ -52,8 +52,8 @@ public class PostDao extends BaseDao {
             int count = jdbcTemplate.update(
                     "insert into tbl_post" +
                             "(id,post_category_id_fk,post_category_type,post_title,post_author,post_source,post_publish_time,post_update_time,post_summary,post_content," +
-                            "post_user_id_fk,post_show_index,post_show_list,post_show_focusimage,post_focusimage,post_order,post_show_top,post_toporder)" +
-                            " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                            "post_user_id_fk,post_show_index,post_show_list,post_show_focusimage,post_focusimage,post_order,post_show_top,post_toporder,post_max_id)" +
+                            " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -75,10 +75,10 @@ public class PostDao extends BaseDao {
                             pstmt.setInt(++i, post.getShowList());
                             pstmt.setInt(++i, post.getShowFocusImage());
                             pstmt.setString(++i, post.getFocusImage());
-                            /*pstmt.setInt(++i, post.getPostOrder());*/
-                            pstmt.setInt(++i, getMaxId());
+                            pstmt.setInt(++i, post.getPostOrder());
                             pstmt.setInt(++i, post.getShowTop());
                             pstmt.setInt(++i, post.getTopOrder());
+                            pstmt.setInt(++i, post.getPostOrder());
                         }
                     }
             );

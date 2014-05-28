@@ -188,7 +188,6 @@ public class PostManagerContoller extends BaseController {
         int showIndex = WebUtils.getRequestParameterAsInt(request, "showIndex", 1);
         int showList = WebUtils.getRequestParameterAsInt(request, "showList", 1);
         int showFocusImage = WebUtils.getRequestParameterAsInt(request, "showFocusImage", 0);
-        int postOrder = WebUtils.getRequestParameterAsInt(request, "postOrder", 0);
         int showTop = WebUtils.getRequestParameterAsInt(request, "showTop", 0);
         String summary = WebUtils.getRequestParameterAsString(request, "summary");
         String content = WebUtils.getRequestParameterAsString(request, "content");
@@ -202,7 +201,7 @@ public class PostManagerContoller extends BaseController {
         post.setShowIndex(showIndex);
         post.setShowList(showList);
         post.setShowFocusImage(showFocusImage);
-        post.setPostOrder(postOrder);
+        post.setPostOrder(postDao.getMaxId());
         post.setShowTop(showTop);
         post.setSummary(summary);
         post.setContent(content);
@@ -222,7 +221,6 @@ public class PostManagerContoller extends BaseController {
         /*String focusImage = getContentImage(request, post.getContent());
         if (StringUtils.isNotBlank(focusImage))
             post.setFocusImage(focusImage);*/
-
         String returnPostId = postDao.createReturnId(post);
         if (StringUtils.isBlank(returnPostId)) {
             message = "文章新建失败,请稍后重试!";
@@ -274,7 +272,7 @@ public class PostManagerContoller extends BaseController {
         int showIndex = WebUtils.getRequestParameterAsInt(request, "showIndex", 1);
         int showList = WebUtils.getRequestParameterAsInt(request, "showList", 1);
         int showFocusImage = WebUtils.getRequestParameterAsInt(request, "showFocusImage", 0);
-        int postOrder = WebUtils.getRequestParameterAsInt(request, "postOrder", 0);
+//        int postOrder = WebUtils.getRequestParameterAsInt(request, "postOrder", 0);
         int showTop = WebUtils.getRequestParameterAsInt(request, "showTop", 0);
         String summary = WebUtils.getRequestParameterAsString(request, "summary");
         String content = WebUtils.getRequestParameterAsString(request, "content");
@@ -288,7 +286,7 @@ public class PostManagerContoller extends BaseController {
         post.setShowIndex(showIndex);
         post.setShowList(showList);
         post.setShowFocusImage(showFocusImage);
-        post.setPostOrder(postOrder);
+//        post.setPostOrder(postOrder);
         post.setShowTop(showTop);
         post.setSummary(summary);
         post.setContent(content);
