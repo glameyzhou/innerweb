@@ -152,4 +152,3 @@ public class TypeComparator implements Comparator {
 		}
 	}
 }
-%>
