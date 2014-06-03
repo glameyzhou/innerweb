@@ -92,35 +92,38 @@ public class PostFrontController extends BaseController {
             defaultCategory = categoryDao.getById(curCategory);
         }
 
-        int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
-        pageBean = new PageBean(Constants.rowsPerPageFront);
-        pageBean.setCurPage(curPage);
-        PostQuery postQuery = new PostQuery();
-        postQuery.setCategoryId(defaultCategory.getId());
-        postQuery.setCategoryType(defaultCategory.getCategoryType());
+        List<Post> postList = new ArrayList<Post>();
+        //如果有孩子的话，直接提取栏目的描述，作为首页显示,反之该出现什么就出现什么
+        if (defaultCategory.getHasChild() == 0) {
+            int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
+            pageBean = new PageBean(Constants.rowsPerPageFront);
+            pageBean.setCurPage(curPage);
+            PostQuery postQuery = new PostQuery();
+            postQuery.setCategoryId(defaultCategory.getId());
+            postQuery.setCategoryType(defaultCategory.getCategoryType());
 
-        //列表显示
-        if (defaultCategory.getShowType() == 0) {
-            postQuery.setShowList(1);
-            postQuery.setStart(pageBean.getStart());
-            postQuery.setNum(pageBean.getRowsPerPage());
-            postQuery.setOrderMap(new LinkedHashMap<String, String>(){
-                {
-                    put(Constants.ORDERBYCOLUMNNAME_POST_ORDER,Constants.ORDERBYDESC);
-                    put(Constants.ORDERBYCOLUMNNAME_POST_PUBLIS_TIME,Constants.ORDERBYDESC);
-                }
-            });
+            //列表显示
+            if (defaultCategory.getShowType() == 0) {
+                postQuery.setShowList(1);
+                postQuery.setStart(pageBean.getStart());
+                postQuery.setNum(pageBean.getRowsPerPage());
+                postQuery.setOrderMap(new LinkedHashMap<String, String>() {
+                    {
+                        put(Constants.ORDERBYCOLUMNNAME_POST_ORDER, Constants.ORDERBYDESC);
+                        put(Constants.ORDERBYCOLUMNNAME_POST_PUBLIS_TIME, Constants.ORDERBYDESC);
+                    }
+                });
+            }
+            //详情显示
+            else {
+                postQuery.setStart(0);
+                postQuery.setNum(1);
+            }
+            postList = postDao.getByQuery(postQuery);
+            pageBean.setMaxRowCount(postDao.getCountByQuery(postQuery));
+            pageBean.setMaxPage();
+            pageBean.setPageNoList();
         }
-        //详情显示
-        else {
-            postQuery.setStart(0);
-            postQuery.setNum(1);
-        }
-        List<Post> postList = postDao.getByQuery(postQuery);
-        pageBean.setMaxRowCount(postDao.getCountByQuery(postQuery));
-        pageBean.setMaxPage();
-        pageBean.setPageNoList();
-
         mav.addObject("rootCategory", rootCategory);
         mav.addObject("categoryList", categoryList);
         mav.addObject("defaultCategory", defaultCategory);

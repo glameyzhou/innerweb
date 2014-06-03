@@ -56,28 +56,33 @@
             <div class="weizhi">您所在的位置：<a href="${basePath}">首页</a>&nbsp;>&nbsp;<a href="${basePath}band-${rootCategory.categoryType}.htm">${rootCategory.name}</a>&nbsp;>&nbsp;<a href="${basePath}band-${rootCategory.categoryType}.htm?cate=${defaultCategory.id}">${defaultCategory.name}</a></div>
             <div class="right-con">
                 <c:choose>
-                    <c:when test="${defaultCategory.showType == 0}">
-                        <ul style="padding:0px 30px 8px 30px">
-                            <c:forEach var="post" items="${postList}">
-                                <li style="height: 30px;">
-                                    <span style="float:right; color:#919191">[<fmt:formatDate value="${post.publishTime}" pattern="yyyy-MM-dd"/>]</span>
-                                    <img src="${basePath}res/front/chec_cn/images/liebiao-biao.png" align="middle" />
-                                    <a href="${basePath}post-${post.categoryType}-${post.categoryId}-${post.id}.htm" title="${post.title}">${post.title}</a>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                        <c:set var="pageURL" value="${basePath}band-${rootCategory.categoryType}.htm?cate=${defaultCategory.id}&"/>
-                        <%@include file="../../common/pages.jsp"%>
+                    <%--如果有孩子，那么直接显示当前分类的描述，在分类描述中添加对应的内容即可--%>
+                    <c:when test="${defaultCategory.hasChild == 1}">
+                        <p>${defaultCategory.describe}</p>
                     </c:when>
                     <c:otherwise>
-                        <%--<p>
-                            <h3>中国华电工程（集团）有限公司（简称华电工程，英文缩写CHEC）是中国华电集团公司下属的全资企业，是中国华电集团公司工程技术产业板块的重要组成部分和发展平台。</h3>
-                        </p>--%>
-                        <p>
-                            <c:if test="${fn:length(postList) > 0}">
-                                ${postList[0].content}
-                            </c:if>
-                        </p>
+                        <c:choose>
+                            <c:when test="${defaultCategory.showType == 0}">
+                                <ul style="padding:0px 30px 8px 30px">
+                                    <c:forEach var="post" items="${postList}">
+                                        <li style="height: 30px;">
+                                            <span style="float:right; color:#919191">[<fmt:formatDate value="${post.publishTime}" pattern="yyyy-MM-dd"/>]</span>
+                                            <img src="${basePath}res/front/chec_cn/images/liebiao-biao.png" align="middle" />
+                                            <a href="${basePath}post-${post.categoryType}-${post.categoryId}-${post.id}.htm" title="${post.title}">${post.title}</a>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                                <c:set var="pageURL" value="${basePath}band-${rootCategory.categoryType}.htm?cate=${defaultCategory.id}&"/>
+                                <%@include file="../../common/pages.jsp"%>
+                            </c:when>
+                            <c:otherwise>
+                                <p>
+                                    <c:if test="${fn:length(postList) > 0}">
+                                        ${postList[0].content}
+                                    </c:if>
+                                </p>
+                            </c:otherwise>
+                        </c:choose>
                     </c:otherwise>
                 </c:choose>
             </div>
