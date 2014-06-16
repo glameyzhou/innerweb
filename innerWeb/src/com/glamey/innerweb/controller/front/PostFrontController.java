@@ -172,6 +172,12 @@ public class PostFrontController extends BaseController {
             }
             query.setSource(whoCanSee);
         }
+
+        //如果是通告的话，需要设置是否需要审核通过 modify by zy 20140616
+        if (StringUtils.equals(categoryType,CategoryConstants.CATEGORY_NOTICES)) {
+            query.setApply(1);
+        }
+
         List<Post> postList = postDao.getByCategoryId(query);
         pageBean.setMaxRowCount(postDao.getCountByCategoryId(query));
         pageBean.setMaxPage();

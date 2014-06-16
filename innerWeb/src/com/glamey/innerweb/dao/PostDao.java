@@ -391,6 +391,12 @@ public class PostDao extends BaseDao {
                 }
                 query.setStart(0);
                 query.setNum(5);
+
+                //如果是通告的话，需要设置是否需要审核通过 modify by zy 20140616
+                if (StringUtils.equals(cate.getCategoryType(),CategoryConstants.CATEGORY_NOTICES)) {
+                    query.setApply(1);
+                }
+
                 List<Post> postList = getByCategoryId(query);
                 if (postList == null || postList.size() == 0) {
                     postList = Collections.emptyList();
