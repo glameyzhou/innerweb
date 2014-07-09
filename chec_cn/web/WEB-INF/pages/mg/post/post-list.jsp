@@ -153,9 +153,9 @@
                 <c:if test="${'NEWS' eq category.categoryType and 'FnQNjm' eq category.id}">
                     <th width="5%">焦点图</th>
                 </c:if>
-                <c:if test="${'NEWS' eq category.categoryType or 'PERFORMANCE' eq category.categoryType}">
+                <%--<c:if test="${'NEWS' eq category.categoryType or 'PERFORMANCE' eq category.categoryType}">--%>
                     <th width="5%">排序&nbsp;<img src="${basePath}res/front/chec_cn/images/help_tips.jpg" alt="" id="helpTips"/></th>
-                </c:if>
+                <%--</c:if>--%>
                 <%--<c:if test="${'NEWS' eq category.categoryType}">
                     <th width="5%">排序</th>
                 </c:if>--%>
@@ -176,7 +176,7 @@
                 <c:if test="${'NEWS' eq category.categoryType and 'FnQNjm' eq category.id}">
                     <td align=center><c:choose><c:when test="${post.showFocusImage == 1}">是</c:when><c:otherwise>否</c:otherwise></c:choose></td>
                 </c:if>
-                <c:if test="${'NEWS' eq category.categoryType or 'PERFORMANCE' eq category.categoryType}">
+                <%--<c:if test="${'NEWS' eq category.categoryType or 'PERFORMANCE' eq category.categoryType}">--%>
                     <%--<td align=center>${post.postOrder}</td>--%>
                     <td align="center">
                         <c:choose>
@@ -194,7 +194,7 @@
                         </c:choose>
 
                     </td>
-                </c:if>
+                <%--</c:if>--%>
 				<td align=center><fmt:formatDate value="${post.publishTime}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td align=center>
 					    <a href="javascript:edit('${post.id}');">编辑</a>&nbsp;
