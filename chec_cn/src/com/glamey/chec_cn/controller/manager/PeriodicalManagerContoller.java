@@ -8,11 +8,9 @@ import com.glamey.chec_cn.model.dto.PeriodicalQuery;
 import com.glamey.chec_cn.util.UploadType;
 import com.glamey.chec_cn.util.WebUploadUtils;
 import com.glamey.framework.utils.PageBean;
-import com.glamey.framework.utils.RegexUtils;
 import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -85,6 +82,12 @@ public class PeriodicalManagerContoller extends BaseController {
             periodical = periodicalDao.getById(id);
             opt = "update";
         }
+        else {
+            int result [] = periodicalDao.getMaxPeriodical();
+            periodical.setYears(result[0]);
+            periodical.setPeriodical(result[1]);
+            periodical.setPeriodicalAll(result[2]);
+        }
         mav.addObject("opt", opt);
         mav.addObject("periodical", periodical);
         return mav;
@@ -116,7 +119,7 @@ public class PeriodicalManagerContoller extends BaseController {
         int periodical = WebUtils.getRequestParameterAsInt(request, "periodical", 0);
         int periodicalAll = WebUtils.getRequestParameterAsInt(request, "periodicalAll", 0);
 
-        info.setTitle(title);
+        info.setTitle(years + "年第" + periodical + "期 总第" + periodicalAll + "期");
         info.setSummary(summary);
         info.setYears(years);
         info.setPeriodical(periodical);
@@ -205,7 +208,7 @@ public class PeriodicalManagerContoller extends BaseController {
         }
         return mav;
     }
-    @RequestMapping(value = "/getMax.do", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/getMax.do", method = RequestMethod.POST)
     public ModelAndView getPeriodicalMax(HttpServletRequest request,HttpServletResponse response) {
         StringBuilder values = new StringBuilder("");
         String title = request.getParameter("title");
@@ -232,5 +235,5 @@ public class PeriodicalManagerContoller extends BaseController {
         }
 
         return null;
-    }
+    }*/
 }

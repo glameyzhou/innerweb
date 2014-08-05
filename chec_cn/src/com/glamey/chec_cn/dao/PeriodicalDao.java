@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -243,31 +244,36 @@ public class PeriodicalDao extends BaseDao {
     }
 
     /**
-     * 根据年份获取期刊默认的“本年度期刊数”、“总期刊数”
-     * @param year
+     * 获取期刊默认的"年"、“本年度期刊数”、“总期刊数”
      * @return
      */
-    public int[] getMaxPeriodical(int year) {
-        logger.info("[PeriodicalDao] #getMaxPeriodical# year=" + year);
+    public int[] getMaxPeriodical() {
+        logger.info("[PeriodicalDao] #getMaxPeriodical# ");
         try {
-            int periodical = jdbcTemplate.queryForInt(
-                    "SELECT max(b.periodical) as periodical FROM tbl_periodical b where b.years = ?",
-                    new Object[]{year}
-            ) + 1;
+            List<PeriodicalInfo> list = jdbcTemplate.query("SELECT * from tbl_periodical order by years desc,createtime desc limit 1",new PeriodicalRowMapper());
+            if (CollectionUtils.isEmpty(list)) {
+                return new int[3];
+            }
+            int result  [] = new int[3];
+            PeriodicalInfo periodicalInfo = list.get(0);
+            int y = periodicalInfo.getYears();
+            int p = periodicalInfo.getPeriodical();
+            int pa = periodicalInfo.getPeriodicalAll();
 
-            int periodical_all = jdbcTemplate.queryForInt(
-                    "SELECT max(b.periodical_all) periodical_all FROM tbl_periodical b where b.years = ?",
-                    new Object[]{year}
-            ) + 1;
-
-            int result [] = new int[2];
-            result[0] = periodical;
-            result[1] = periodical_all;
+            if (p >= 6) {
+                result[0] = y + 1;
+                result[1] = 1;
+                result[2] = pa + 1;
+            } else {
+                result[0] = y;
+                result[1] = p + 1;
+                result[2] = pa + 1;
+            }
             return result;
         } catch (Exception e) {
             logger.error("[PeriodicalDao] #getYearsList# error!", e);
         }
-        return new int[2];
+        return new int[3];
     }
 
     class PeriodicalRowMapper implements RowMapper<PeriodicalInfo> {

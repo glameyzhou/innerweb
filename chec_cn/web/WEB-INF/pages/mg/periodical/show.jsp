@@ -45,7 +45,7 @@
         function showResponse(originalRequest) {
             $('imageOpr').innerHTML = '<input type="file" maxlength="100" name="image" id="image" size="80" value="">';
         }
-        function getPeriodicalMax(obj) {
+        /*function getPeriodicalMax(obj) {
             var url = '${basePath}mg/periodical/getMax.do';
             var pars = 'title=' + obj;
             new Ajax.Request(
@@ -64,7 +64,7 @@
                         }
                     }
             );
-        }
+        }*/
     </script>
     <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript" src="${basePath}res/jeecms/js/prototype-1.6.0.3.js"></script>
@@ -79,17 +79,14 @@
         <input type="hidden" id="id" name="id" value="${periodical.id}"/>
         <table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
             <tbody>
-            <tr>
+            <%--<tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>标题:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="title" class="required" size="80"
-                           value="${periodical.title}"
-                                <c:if test="${opt ne 'update'}">onblur="getPeriodicalMax(this.value);"</c:if>
-                            />
+                           value="${periodical.title}" />
 
-                    <br/><font style="color: red;">标题内容需要包含"xxxx年"的字样，例如"2014年华电期刊"。<br/>(添加期刊时，会根据标题中的年份自动填充下边三个属性值)</font>
                 </td>
-            </tr>
+            </tr>--%>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>年份:</td>
                 <td width="85%" class="pn-fcontent">
