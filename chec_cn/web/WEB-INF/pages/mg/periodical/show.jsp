@@ -33,16 +33,41 @@
             if (!confirm('确认要删除指定图片?'))return;
             var url = '${basePath}mg/periodical/periodical-delImage.htm';
             var pars = 'id=' + id;
-            var myAjax = new Ajax.Request(
+            new Ajax.Request(
                     url,
-                    {method: 'get', parameters: pars, onComplete: showResponse}
+                    {
+                        method: 'get',
+                        parameters: pars,
+                        onComplete: showResponse
+                    }
             );
         }
         function showResponse(originalRequest) {
             $('imageOpr').innerHTML = '<input type="file" maxlength="100" name="image" id="image" size="80" value="">';
         }
+        function getPeriodicalMax(obj) {
+            var url = '${basePath}mg/periodical/getMax.do';
+            var pars = 'title=' + obj;
+            new Ajax.Request(
+                    url,
+                    {
+                        method: 'post',
+                        parameters: pars,
+                        onComplete: function(resp){
+                            var result = resp.responseText;
+                            var y = result.split(",")[0];
+                            var p = result.split(",")[1];
+                            var pa = result.split(",")[2];
+                            document.getElementById("years").value = y;
+                            document.getElementById("periodical").value = p;
+                            document.getElementById("periodicalAll").value = pa;
+                        }
+                    }
+            );
+        }
     </script>
     <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="${basePath}res/jeecms/js/prototype-1.6.0.3.js"></script>
 </head>
 <body>
 <div class="body-box">
@@ -58,25 +83,29 @@
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>标题:</td>
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="title" class="required" size="80"
-                           value="${periodical.title}">
+                           value="${periodical.title}"
+                                <c:if test="${opt ne 'update'}">onblur="getPeriodicalMax(this.value);"</c:if>
+                            />
+
+                    <br/><font style="color: red;">标题内容需要包含"xxxx年"的字样，例如"2014年华电期刊"。<br/>(添加期刊时，会根据标题中的年份自动填充下边三个属性值)</font>
                 </td>
             </tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>年份:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="years" class="digits" min="2000" size="30" value="${periodical.years}">
+                    <input type="text" maxlength="100" name="years" id="years" class="digits" min="2000" size="30" value="${periodical.years}">
                 </td>
             </tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>期刊（第几期）:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="periodical" class="digits" min="1" size="30" value="${periodical.periodical}">
+                    <input type="text" maxlength="100" name="periodical" id="periodical" class="digits" min="1" size="30" value="${periodical.periodical}">
                 </td>
             </tr>
             <tr>
                 <td width="15%" class="pn-flabel pn-flabel-h"><span class="pn-frequired">*</span>总期刊:</td>
                 <td width="85%" class="pn-fcontent">
-                    <input type="text" maxlength="100" name="periodicalAll" class="digits" min="1" size="30" value="${periodical.periodicalAll}">
+                    <input type="text" maxlength="100" name="periodicalAll" id="periodicalAll" class="digits" min="1" size="30" value="${periodical.periodicalAll}">
                 </td>
             </tr>
             <c:choose>

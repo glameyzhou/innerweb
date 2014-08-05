@@ -1,9 +1,14 @@
 package com.glamey.chec_cn.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Properties;
 
 /**
  * Created with IntelliJ IDEA.
@@ -72,5 +77,27 @@ public class DateUtils {
         System.out.println(isDiffDays(3,curDate));
 
         System.out.println(getDay(new Date(),-6));
+
+        InputStream is = null;
+        try {
+            File home = new File("c:/cps");
+            File conf = new File(home, "properties");
+            File propertiesFile = new File(conf, "test.properties");
+            is = new FileInputStream(propertiesFile);
+            Properties properties = new Properties();
+            properties.load(is);
+            Enumeration enumeration = properties.propertyNames();
+            while (enumeration.hasMoreElements()) {
+                String name = (String) enumeration.nextElement();
+                String value = properties.getProperty(name);
+                if (value != null) {
+                    System.setProperty(name, value);
+                }
+            }
+        } catch (Throwable t) {
+        }
+
+        System.out.println("tst1=" + System.getProperty("test.a"));
+        System.out.println("test2=" + System.getProperty("test.b"));
     }
 }

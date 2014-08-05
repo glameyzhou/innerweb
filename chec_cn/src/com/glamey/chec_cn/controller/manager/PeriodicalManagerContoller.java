@@ -8,9 +8,11 @@ import com.glamey.chec_cn.model.dto.PeriodicalQuery;
 import com.glamey.chec_cn.util.UploadType;
 import com.glamey.chec_cn.util.WebUploadUtils;
 import com.glamey.framework.utils.PageBean;
+import com.glamey.framework.utils.RegexUtils;
 import com.glamey.framework.utils.StringTools;
 import com.glamey.framework.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -72,7 +75,7 @@ public class PeriodicalManagerContoller extends BaseController {
     }
 
     @RequestMapping(value = "/show.do", method = RequestMethod.GET)
-    public ModelAndView show(HttpServletRequest request, HttpSession session) {
+    public ModelAndView show(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("mg/periodical/show");
         String id = WebUtils.getRequestParameterAsString(request, "id");
         String opt = "create";
@@ -201,5 +204,33 @@ public class PeriodicalManagerContoller extends BaseController {
             mav.addObject("message", "删除失败!");
         }
         return mav;
+    }
+    @RequestMapping(value = "/getMax.do", method = RequestMethod.POST)
+    public ModelAndView getPeriodicalMax(HttpServletRequest request,HttpServletResponse response) {
+        StringBuilder values = new StringBuilder("");
+        String title = request.getParameter("title");
+        if (StringUtils.isNotBlank(title)) {
+            String regex = "(\\d+)年";
+            String result = RegexUtils.getGroup1(title,regex);
+            if (StringUtils.isNotBlank(result) && NumberUtils.isNumber(result.trim())) {
+                int max [] = periodicalDao.getMaxPeriodical(Integer.valueOf(result.trim()));
+                values.append(Integer.valueOf(result.trim())).append(",").append(max[0]).append(",").append(max[1]);
+            }
+            else {
+                values.append("0,0,0");
+            }
+        }
+        else {
+            values.append("0,0,0");
+        }
+
+        try {
+            response.getWriter().print(values);
+            response.getWriter().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

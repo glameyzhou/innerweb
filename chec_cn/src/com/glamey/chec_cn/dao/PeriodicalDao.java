@@ -242,6 +242,33 @@ public class PeriodicalDao extends BaseDao {
         return list;
     }
 
+    /**
+     * 根据年份获取期刊默认的“本年度期刊数”、“总期刊数”
+     * @param year
+     * @return
+     */
+    public int[] getMaxPeriodical(int year) {
+        logger.info("[PeriodicalDao] #getMaxPeriodical# year=" + year);
+        try {
+            int periodical = jdbcTemplate.queryForInt(
+                    "SELECT max(b.periodical) as periodical FROM tbl_periodical b where b.years = ?",
+                    new Object[]{year}
+            ) + 1;
+
+            int periodical_all = jdbcTemplate.queryForInt(
+                    "SELECT max(b.periodical_all) periodical_all FROM tbl_periodical b where b.years = ?",
+                    new Object[]{year}
+            ) + 1;
+
+            int result [] = new int[2];
+            result[0] = periodical;
+            result[1] = periodical_all;
+            return result;
+        } catch (Exception e) {
+            logger.error("[PeriodicalDao] #getYearsList# error!", e);
+        }
+        return new int[2];
+    }
 
     class PeriodicalRowMapper implements RowMapper<PeriodicalInfo> {
         @Override
