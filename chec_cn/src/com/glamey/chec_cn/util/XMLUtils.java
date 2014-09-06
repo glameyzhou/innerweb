@@ -13,18 +13,23 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class XMLUtils {
 
     public static void buildXML(List<Post> list, HttpServletRequest request) {
+        List<Post> postList = new ArrayList<Post>();
+        if (list != null && list.size() >= 6) {
+            postList = list.subList(0,6);
+        }
         String basePath = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort()) + request.getContextPath();
 
         Document document = DocumentHelper.createDocument();
         Element rootElement = document.addElement("data");
         Element channel = rootElement.addElement("channel");
 
-        for (Post post : list) {
+        for (Post post : postList) {
             String pic = post.getFocusImage();
             if (StringUtils.isBlank(pic))
                 continue;
