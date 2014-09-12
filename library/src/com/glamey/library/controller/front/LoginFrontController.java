@@ -285,13 +285,7 @@ public class LoginFrontController extends BaseController {
         verifyDao.update(verify);
 
         MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.meta_registry_active);
-        if (metaInfo == null && StringUtils.equals(metaInfo.getValue(),"0")) {
-
-            mav.setViewName("common/message");
-            mav.addObject("message","注册用户激活成功，但需要管理员审核后才能登录，请联系管理员。");
-            return mav;
-        }
-        else {
+        if (metaInfo == null || StringUtils.equals(metaInfo.getValue(),"0")) {
             //设置用户已经被激活
             String username = verify.getUsername() ;
             UserInfo userInfo = userInfoDao.getUserByName(username);
@@ -300,6 +294,11 @@ public class LoginFrontController extends BaseController {
 
             session.setAttribute(Constants.SESSIN_USERID, userInfo);
             mav.setViewName("redirect:/index.htm");
+        }
+        else {
+            mav.setViewName("common/message");
+            mav.addObject("message","注册用户激活成功，但需要管理员审核后才能登录，请联系管理员。");
+            return mav;
         }
 
         return mav;
