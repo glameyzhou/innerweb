@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.glamey.library.model.domain.UserInfo;
 import org.apache.commons.lang.StringUtils;
+import org.apache.lucene.queryParser.FastCharStream;
 import org.springframework.stereotype.Repository;
 
 import com.glamey.library.constants.Constants;
@@ -60,12 +61,15 @@ public class UserLoginFilter implements Filter {
                 UserInfo userInfo = (UserInfo) obj;
                 String userId = userInfo.getUserId();
                 //如果session非空，并且是游客的话，禁止访问如下页面
-                if (StringUtils.equals(userId,Constants.sysTouristUID)
+                if (
+                        (StringUtils.equals(userId,Constants.sysTouristUID)
                         &&
                         (request.getRequestURI().contains("library-detail-") || //图书详情
                                 request.getRequestURI().contains("bbs/post-") || //帖子详情
                                 request.getRequestURI().contains("p-"))         //公告详情
                         )
+                    )
+
                 {
                     response.sendRedirect(request.getScheme() + "://"
                             + request.getServerName() + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort())

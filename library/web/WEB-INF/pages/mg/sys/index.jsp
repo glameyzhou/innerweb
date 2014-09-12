@@ -69,6 +69,14 @@
                 <td align="left">联系我们</td>
                 <td align=center><a href="${basePath}mg/sys/meta/contact-us/show.htm">设置</a></td>
             </tr>
+            <tr>
+                <td align="left">注册用户是否需要审核</td>
+                <td align=center><a href="${basePath}mg/sys/meta/radio/registry_active/show.htm">设置</a></td>
+            </tr>
+            <tr>
+                <td align="left">游客功能开关</td>
+                <td align=center><a href="${basePath}mg/sys/meta/radio/allow_tourist_access/show.htm">设置</a></td>
+            </tr>
             </tbody>
         </table>
     </form>

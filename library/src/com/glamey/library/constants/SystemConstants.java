@@ -22,4 +22,13 @@ public class SystemConstants {
     public static final String meta_library_title = "library_title" ;
     /*图书馆头部内容详情*/
     public static final String meta_library_content = "library_content" ;
+
+    /**
+     *注册用户默认激活
+     */
+    public static final String meta_registry_active = "registry_active" ;
+    /**
+     * 是否允许用户访问
+     */
+    public static final String meta_allow_tourist_access = "allow_tourist_access" ;
 }

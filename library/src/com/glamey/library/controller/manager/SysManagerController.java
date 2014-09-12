@@ -3,15 +3,13 @@
  */
 package com.glamey.library.controller.manager;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.glamey.framework.utils.WebUtils;
+import com.glamey.library.constants.SystemConstants;
+import com.glamey.library.controller.BaseController;
+import com.glamey.library.dao.CategoryDao;
+import com.glamey.library.dao.MetaInfoDao;
 import com.glamey.library.dao.UserInfoDao;
-import com.glamey.library.model.domain.RoleInfo;
+import com.glamey.library.model.domain.MetaInfo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,15 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.glamey.framework.utils.WebUtils;
-import com.glamey.library.constants.CategoryConstants;
-import com.glamey.library.constants.Constants;
-import com.glamey.library.constants.SystemConstants;
-import com.glamey.library.controller.BaseController;
-import com.glamey.library.dao.CategoryDao;
-import com.glamey.library.dao.MetaInfoDao;
-import com.glamey.library.model.domain.Category;
-import com.glamey.library.model.domain.MetaInfo;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * 后台管理系统--系统设置
@@ -331,6 +323,45 @@ public class SysManagerController extends BaseController {
         MetaInfo metaInfoContent = new MetaInfo();
         metaInfoContent.setName(SystemConstants.meta_contact_us);
         metaInfoContent.setValue(contactusContent);
+
+        if (metaInfoDao.update(metaInfoContent)){
+            mav.addObject("message","设置成功");
+        }
+        else {
+            mav.addObject("message","设置失败");
+        }
+        return mav ;
+    }
+
+    @RequestMapping(value = "/meta/radio/{meta}/show.htm", method = RequestMethod.GET)
+    public ModelAndView radioShow(@PathVariable String meta) throws Exception {
+        ModelAndView mav = new ModelAndView("mg/sys/show-radio");
+        MetaInfo content = metaInfoDao.getByName(meta);
+        mav.addObject("content", content);
+        String title = "";
+        if (StringUtils.equals(meta,SystemConstants.meta_allow_tourist_access)) {
+            title = "游客功能开关是否打开";
+        }
+        if (StringUtils.equals(meta,SystemConstants.meta_registry_active)) {
+            title = "注册用户是否需要审核";
+        }
+        mav.addObject("title", title);
+        mav.addObject("meta", meta);
+        return mav;
+    }
+
+    @RequestMapping(value = "/meta/radio/{meta}/update.htm", method = RequestMethod.POST)
+    public ModelAndView radioUpdate(
+            @PathVariable String meta,HttpServletRequest request) throws Exception {
+        ModelAndView mav = new ModelAndView("common/message");
+        String content = WebUtils.getRequestParameterAsString(request,"content","");
+        if(StringUtils.isBlank(content)){
+            mav.addObject("message","内容不能为空");
+            return mav ;
+        }
+        MetaInfo metaInfoContent = new MetaInfo();
+        metaInfoContent.setName(meta);
+        metaInfoContent.setValue(content);
 
         if (metaInfoDao.update(metaInfoContent)){
             mav.addObject("message","设置成功");

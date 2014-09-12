@@ -5,10 +5,13 @@ import com.glamey.framework.utils.Pinyin4jUtils;
 import com.glamey.framework.utils.TimeUtils;
 import com.glamey.framework.utils.WebUtils;
 import com.glamey.library.constants.Constants;
+import com.glamey.library.constants.SystemConstants;
 import com.glamey.library.controller.BaseController;
 import com.glamey.library.dao.AccessLogDao;
+import com.glamey.library.dao.MetaInfoDao;
 import com.glamey.library.dao.UserInfoDao;
 import com.glamey.library.dao.UserRegisterVerifyDao;
+import com.glamey.library.model.domain.MetaInfo;
 import com.glamey.library.model.domain.RoleInfo;
 import com.glamey.library.model.domain.UserInfo;
 import com.glamey.library.model.domain.UserRegisterVerify;
@@ -49,6 +52,9 @@ public class LoginFrontController extends BaseController {
     private MailUtils libraryMail ;
     @Resource
     private AccessLogDao accessLogDao;
+
+    @Resource
+    private MetaInfoDao metaInfoDao;
     /**
      * 显示登陆界面
      */
@@ -57,7 +63,12 @@ public class LoginFrontController extends BaseController {
         accessLogDao.save("","login.htm","登陆界面","");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
-        
+
+        MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.meta_allow_tourist_access);
+        if (metaInfo != null && StringUtils.equals(metaInfo.getValue(),"1")) {
+            mav.addObject("allowTouristAcess","1");
+        }
+
         boolean isCookieLogin = webCookieUtils.isCookieLogin(request, response);
         if(isCookieLogin){
             mav.setViewName("redirect:/index.htm");
@@ -273,14 +284,24 @@ public class LoginFrontController extends BaseController {
         verify.setStatus(0);
         verifyDao.update(verify);
 
-        //设置用户已经被激活
-        String username = verify.getUsername() ;
-        UserInfo userInfo = userInfoDao.getUserByName(username);
-        userInfo.setIsLive(1);
-        userInfoDao.updateUser(userInfo);
+        MetaInfo metaInfo = metaInfoDao.getByName(SystemConstants.meta_registry_active);
+        if (metaInfo == null && StringUtils.equals(metaInfo.getValue(),"0")) {
 
-        session.setAttribute(Constants.SESSIN_USERID, userInfo);
-        mav.setViewName("redirect:/index.htm");
+            mav.setViewName("common/message");
+            mav.addObject("message","注册用户激活成功，但需要管理员审核后才能登录，请联系管理员。");
+            return mav;
+        }
+        else {
+            //设置用户已经被激活
+            String username = verify.getUsername() ;
+            UserInfo userInfo = userInfoDao.getUserByName(username);
+            userInfo.setIsLive(1);
+            userInfoDao.updateUser(userInfo);
+
+            session.setAttribute(Constants.SESSIN_USERID, userInfo);
+            mav.setViewName("redirect:/index.htm");
+        }
+
         return mav;
     }
 
