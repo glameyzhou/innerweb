@@ -36,7 +36,7 @@ public class IndexFrontController extends BaseController {
     private IncludeFront includeFront;
 
     @RequestMapping(value = "/index.htm", method = RequestMethod.GET)
-    public ModelAndView index(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) throws Exception {
+    public ModelAndView index(HttpServletRequest request, HttpSession session) throws Exception {
         logger.info("[front] #index#");
         ModelAndView mav = new ModelAndView("front/index");
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
@@ -91,6 +91,8 @@ public class IndexFrontController extends BaseController {
 
         //尾部页面
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
+        //生日祝福语
+        mav.addObject(SystemConstants.birthday, includeFront.getBirthdayContent(userInfo));
         return mav;
     }
 

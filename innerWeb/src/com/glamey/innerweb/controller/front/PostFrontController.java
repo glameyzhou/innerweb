@@ -89,7 +89,8 @@ public class PostFrontController extends BaseController {
             return mav;
         }
         Object obj = session.getAttribute(Constants.SESSIN_USERID);
-        String userId = ((UserInfo) obj).getUserId();
+        UserInfo userInfo = (UserInfo) obj;
+        String userId =  userInfo.getUserId();
 
         Post post = postDao.getByPostId(postId);
         mav.addObject("post", post);
@@ -105,7 +106,6 @@ public class PostFrontController extends BaseController {
 
         List<UserInfo> postReadUserList = postReadInfoDao.getUserListByPostId(postId);
         mav.addObject("postReadUserList", postReadUserList);
-
         return mav;
     }
 
@@ -190,7 +190,6 @@ public class PostFrontController extends BaseController {
         mav.addObject("category", category);
         mav.addObject("categoryType", categoryType);
         mav.addObject("categoryId", categoryId);
-
         return mav;
     }
 
@@ -216,10 +215,6 @@ public class PostFrontController extends BaseController {
             mav.setViewName("common/errorPage");
             return mav;
         }
-
-        Object obj = session.getAttribute(Constants.SESSIN_USERID);
-        String userId = ((UserInfo) obj).getUserId();
-
 
         pageBean = new PageBean(Constants.rowsPerPageFront);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);
@@ -258,9 +253,6 @@ public class PostFrontController extends BaseController {
             mav.setViewName("common/errorPage");
             return mav;
         }
-
-        Object obj = session.getAttribute(Constants.SESSIN_USERID);
-        String userId = ((UserInfo) obj).getUserId();
 
         pageBean = new PageBean(Constants.rowsPerPageFront);
         int curPage = WebUtils.getRequestParameterAsInt(request, "curPage", 1);

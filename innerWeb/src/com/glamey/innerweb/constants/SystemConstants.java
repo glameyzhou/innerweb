@@ -25,6 +25,12 @@ public class SystemConstants {
 
     //页尾内容
     public static final String page_foot = "page_foot" ;
+    //生日祝福语
+    public static final String birthday = "birthday_content" ;
+
+    public static final String birthday_nickName = "nickname" ;
+
+
 
     /*通告是否可见、如果可见的话，那些部门可见所有*/
     public static final String notices_can_see = "notices_can_see" ;

@@ -10,6 +10,7 @@
             $("#jvForm").validate();
         });
     </script>
+    <script type="text/javascript" src="${basePath}res/common/js/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 <div class="body-box">
@@ -84,6 +85,13 @@
                 <td width="85%" class="pn-fcontent">
                     <input type="text" maxlength="100" name="address" id="address" size="100"
                            value="${userInfo.address}">
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="pn-flabel pn-flabel-h">出生日期:</td>
+                <td width="85%" class="pn-fcontent">
+                    <input type="text" maxlength="100" name="birthday" id="birthday" class="required" size="18" value="${userInfo.birthday}"
+                           onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" readonly="readonly">
                 </td>
             </tr>
             <tr>

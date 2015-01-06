@@ -2,6 +2,7 @@ package com.glamey.innerweb.controller.manager;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import com.glamey.innerweb.constants.SystemConstants;
 import com.glamey.innerweb.dao.MetaInfoDao;
 import com.glamey.innerweb.model.domain.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -539,6 +541,7 @@ public class UserInfoManagerController extends BaseController {
         userInfo.setIsLive(WebUtils.getRequestParameterAsInt(request, "isLive", 0));
         userInfo.setShowInContact(WebUtils.getRequestParameterAsInt(request, "showInContact", 1));
         userInfo.setShowOrder(WebUtils.getRequestParameterAsInt(request, "showOrder", 0));
+        userInfo.setBirthday(WebUtils.getRequestParameterAsString(request, "birthday", DateFormatUtils.format(new Date(),"yyyy-MM-dd")));
 
         if (userInfoDao.createUser(userInfo)) {
             //比较变态的需求，新建用户之后，以该用户登陆系统
@@ -595,6 +598,7 @@ public class UserInfoManagerController extends BaseController {
         userInfo.setIsLive(WebUtils.getRequestParameterAsInt(request, "isLive", 0));
         userInfo.setShowInContact(WebUtils.getRequestParameterAsInt(request, "showInContact", 1));
         /*userInfo.setShowOrder(WebUtils.getRequestParameterAsInt(request, "showOrder", 0));*/
+        userInfo.setBirthday(WebUtils.getRequestParameterAsString(request, "birthday", DateFormatUtils.format(new Date(),"yyyy-MM-dd")));
 
         if (userInfoDao.updateUser(userInfo)) {
             mav.addObject("message", "更新系统用户成功");

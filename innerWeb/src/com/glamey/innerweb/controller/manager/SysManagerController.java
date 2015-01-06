@@ -315,6 +315,8 @@ public class SysManagerController extends BaseController {
         if (StringUtils.equals(name, "contact_header")) {
             title = "通讯录头部" ;
         }
+        if (StringUtils.equals(name,"birthday_content"))
+            title = "生日祝福语";
         mav.addObject("title", title);
         return mav;
     }

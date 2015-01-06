@@ -86,7 +86,8 @@ public class LinksFrontController extends BaseController{
         mav.addObject("unReadMessage", includeFront.unReadMessage(userInfo.getUserId()));
         mav.addAllObjects(includeFront.ofenLinks());
         mav.addObject(SystemConstants.page_foot, includeFront.getMetaByName(SystemConstants.page_foot));
-        
+        mav.addObject(SystemConstants.birthday, includeFront.getBirthdayContent(userInfo));
+
         return mav;
     }
 }

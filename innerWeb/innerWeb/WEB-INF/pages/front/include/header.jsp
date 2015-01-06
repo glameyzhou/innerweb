@@ -30,9 +30,10 @@
     <div class="header_top">
         <div class="header_top_logo"><img src="${basePath}res/front/images/logo.png"/></div>
         <div class="header_top_login">
-            <p id="weather"></p>
+            <p id="weather" style="text-align:right"></p>
             <p style="margin-top:10px;">
             <ul>
+                <li><marquee align="left" direction="left" width="200">${birthday_content}</marquee></li>
                 <li><img src="${basePath}res/front/images/header_login.png"/></li>
                 <li>
                     <span>欢迎您：<%=sessionUserInfo.getNickname()%></span>

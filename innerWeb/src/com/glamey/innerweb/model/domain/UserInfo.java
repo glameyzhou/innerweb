@@ -23,6 +23,7 @@ public class UserInfo implements Serializable {
     private String email;
     private String address;
     private String deptId;
+    private String birthday;
     /**
      * 员工职务
      */
@@ -181,6 +182,14 @@ public class UserInfo implements Serializable {
 
     public void setDuties(String duties) {
         this.duties = duties;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getBirthday() {
+        return birthday;
     }
 
     @Override

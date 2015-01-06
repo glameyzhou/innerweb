@@ -1,6 +1,7 @@
 package com.glamey.innerweb.controller.front;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.glamey.innerweb.constants.SystemConstants;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 
@@ -178,6 +181,24 @@ public class IncludeFront {
 
         /*页面尾部*/
         map.put("page_foot",getMetaByName(SystemConstants.page_foot));
+
+        //生日祝福语
+        map.put(SystemConstants.birthday, getBirthdayContent(userInfo));
         return map;
+    }
+
+    /**
+     * 获取用户生日祝福语
+     * @param userInfo
+     * @return
+     */
+    public String getBirthdayContent(UserInfo userInfo){
+        MetaInfo info = metaInfoDao.getByName(SystemConstants.birthday);
+        if (info != null && StringUtils.isNotBlank(info.getValue()) && StringUtils.isNotBlank(userInfo.getNickname())) {
+            String curDate = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
+            if (StringUtils.equals(curDate,userInfo.getBirthday()))
+                return StringUtils.replace(info.getValue(),SystemConstants.birthday_nickName,userInfo.getNickname());
+        }
+        return "";
     }
 }

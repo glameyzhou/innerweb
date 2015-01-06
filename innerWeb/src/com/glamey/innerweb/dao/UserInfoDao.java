@@ -416,8 +416,8 @@ public class UserInfoDao extends BaseDao {
         try {
             int count = jdbcTemplate.update(
                     "insert into tbl_user(user_id,user_name,user_passwd,user_nickname,user_phone,user_mobile,user_email,user_address,user_dept_id,user_duties,user_role_id,user_islive,user_time," +
-                            "user_nicknamepinyin,user_showorder,user_isincontact)" +
-                            " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                            "user_nicknamepinyin,user_showorder,user_isincontact,user_birthday)" +
+                            " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -438,6 +438,7 @@ public class UserInfoDao extends BaseDao {
                             pstmt.setString(++i, userInfo.getNicknamePinyin());
                             pstmt.setInt(++i, userInfo.getShowOrder());
                             pstmt.setInt(++i, userInfo.getShowInContact());
+                            pstmt.setString(++i, userInfo.getBirthday());
                         }
                     });
             return count > 0;
@@ -458,7 +459,7 @@ public class UserInfoDao extends BaseDao {
         try {
             int count = jdbcTemplate.update(
                     "update tbl_user set user_passwd=?,user_nickname=?,user_phone=?,user_mobile=?,user_email=?,user_address=?,user_dept_id=?,user_duties=?,user_role_id=?,user_islive=? ,user_time=?" +
-                            ",user_nicknamepinyin=?,user_showorder=?,user_isincontact=? where user_id = ? ",
+                            ",user_nicknamepinyin=?,user_showorder=?,user_isincontact=?,user_birthday=? where user_id = ? ",
                     new PreparedStatementSetter() {
                         @Override
                         public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -477,6 +478,7 @@ public class UserInfoDao extends BaseDao {
                             pstmt.setString(++i, userInfo.getNicknamePinyin());
                             pstmt.setInt(++i, userInfo.getShowOrder());
                             pstmt.setInt(++i, userInfo.getShowInContact());
+                            pstmt.setString(++i, userInfo.getBirthday());
                             pstmt.setString(++i, userInfo.getUserId());
 
                         }
@@ -738,6 +740,7 @@ public class UserInfoDao extends BaseDao {
         public UserInfo mapRow(ResultSet rs, int i) throws SQLException {
             UserInfo userInfo = new UserInfo();
             userInfo.setUserId(rs.getString("user_id"));
+            userInfo.setBirthday(rs.getString("user_birthday"));
             userInfo.setUsername(rs.getString("user_name"));
             userInfo.setPasswd(rs.getString("user_passwd"));
             userInfo.setNickname(rs.getString("user_nickname"));
