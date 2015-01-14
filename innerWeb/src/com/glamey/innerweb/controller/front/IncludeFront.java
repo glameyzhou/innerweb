@@ -195,8 +195,10 @@ public class IncludeFront {
     public String getBirthdayContent(UserInfo userInfo){
         MetaInfo info = metaInfoDao.getByName(SystemConstants.birthday);
         if (info != null && StringUtils.isNotBlank(info.getValue()) && StringUtils.isNotBlank(userInfo.getNickname())) {
-            String curDate = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
-            if (StringUtils.equals(curDate,userInfo.getBirthday()))
+            String curDate = DateFormatUtils.format(new Date(),"MM-dd");
+            String userBirthday = userInfo.getBirthday();
+            userBirthday = StringUtils.isNotBlank(userBirthday) && userBirthday.length() == 10 ? userBirthday.substring(5) : userBirthday;
+            if (StringUtils.equals(curDate,userBirthday))
                 return StringUtils.replace(info.getValue(),SystemConstants.birthday_nickName,userInfo.getNickname());
         }
         return "";
